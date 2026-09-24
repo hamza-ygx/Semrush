@@ -168,6 +168,7 @@ function ChartsCard() {
           items={["Organic", "Paid", "Backlinks"] as const}
           value={tab}
           onChange={setTab}
+          itemClassName="px-[8px]"
           render={(v) => (
             <>
               {v}
@@ -264,14 +265,14 @@ function BottomCard() {
           </div>
         </div>
         <Plot
-          className="mt-[17px]"
+          className="mt-[29px]"
           height={H}
           ticks={ticks.map((t) => t / 140)}
           right={ticks.map(String)}
           rightW={54}
           gap={15}
           xGap={9}
-          bottomH={30}
+          bottomH={20}
           x={growthPositions.map((g, i) => ({ at: 0.129 + i * 0.184, label: g.label }))}
           labelClass="text-[13px] leading-4 text-rk-muted"
           overlay={growthPositions.flatMap((g, i) => [

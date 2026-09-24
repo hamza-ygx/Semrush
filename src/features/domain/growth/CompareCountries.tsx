@@ -60,7 +60,7 @@ export function CompareCountries() {
   const [compared, setCompared] = useState<string[] | null>(null);
   return (
     <>
-      <div className="flex items-center gap-[9px]">
+      <div className="flex items-center gap-[8.7px]">
         {picked.map((c) => (
           <div key={c} className="flex h-7 w-[174px] overflow-hidden rounded-md border border-[#a3a8ea] bg-[#eef2fd] text-[14px]">
             <span className="flex flex-1 items-center gap-[10px] pl-[10px]">
@@ -80,7 +80,7 @@ export function CompareCountries() {
         {Array.from({ length: Math.max(0, 5 - picked.length) }, (_, i) => (
           <AddCountry key={i} taken={picked} onPick={(c) => setPicked([...picked, c])} />
         ))}
-        <button type="button" onClick={() => setCompared(picked.length ? picked : null)} className="ml-[1px] h-7 rounded-md bg-rk-btn-dark px-[10px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
+        <button type="button" onClick={() => setCompared(picked.length ? picked : null)} className="h-7 rounded-md bg-rk-btn-dark px-[8.5px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
           Compare
         </button>
         <button
@@ -89,7 +89,7 @@ export function CompareCountries() {
             setPicked(["Sweden"]);
             setCompared(null);
           }}
-          className="h-7 rounded-md border border-[#d3d5db] bg-[#eceef0] px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-hover"
+          className="h-7 rounded-md border border-[#d3d5db] bg-[#eceef0] px-[8px] text-[14px] text-rk-text-2 hover:bg-rk-hover"
         >
           Cancel
         </button>

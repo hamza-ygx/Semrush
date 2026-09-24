@@ -35,7 +35,7 @@ export function Panel({
       <div className={`flex items-center justify-between px-5 ${divider ? "border-b-2 border-[#eceef2]" : ""} ${headerClassName}`}>
         <h2 className="flex items-center gap-[6px] text-[16px] leading-6 font-semibold text-rk-text">
           {title}
-          {count && <span className="font-normal text-rk-muted">{count}</span>}
+          {count && <span className="-mr-[4px] -ml-[2px] font-normal text-rk-muted">{count}</span>}
           {info && <Info className="ml-[1px]" />}
         </h2>
         {right}
@@ -75,7 +75,7 @@ export function NothingFound({ title = "Nothing found", text = "Try changing you
   );
 }
 
-export function ExtLink({ href = "#", children, className = "" }: { href?: string; children: ReactNode; className?: string }) {
+export function ExtLink({ href, children, className = "" }: { href: string; children: ReactNode; className?: string }) {
   return (
     <a href={href} target="_blank" rel="noreferrer" className={`inline-flex items-center gap-[4px] text-rk-link hover:text-rk-link-hover ${className}`}>
       {children}

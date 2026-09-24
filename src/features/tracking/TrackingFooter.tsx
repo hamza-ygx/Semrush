@@ -8,7 +8,7 @@ export function TrackingFooter() {
       <div className="hidden pt-[34px] xl:block">
         <Footer />
       </div>
-    <footer className="flex flex-col items-center pt-[230px] pb-[41px] text-[16px] leading-6 text-rk-text-2 xl:hidden">
+    <footer className="flex flex-col items-center pt-[230px] pb-[39px] text-[16px] leading-6 text-rk-text-2 xl:hidden">
       <button type="button" className="flex items-center gap-[6px] hover:text-rk-text">
         <TranslateIcon width={16} height={16} />
         English

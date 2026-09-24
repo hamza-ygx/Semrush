@@ -13,11 +13,11 @@ function CompetitionMap() {
   const x = (v: number) => 102.5 + (v - 10) * 10.19;
   const y = (v: number) => 177.8 + v * 1.222;
   return (
-    <Panel title="Competition Map" className="relative h-[431px]" headerClassName="h-[42px]">
+    <Panel title="Competition Map" className="relative h-[433px]" headerClassName="h-[42px]">
       <div className="absolute top-[67px] left-5">
-        <Checkbox label={<span className="text-[14px] text-rk-text">Smart zoom</span>} className="!gap-[10px]" />
+        <Checkbox label={<span className="text-[14px] text-rk-text">Smart zoom</span>} className="!gap-[8px]" />
       </div>
-      <div className="absolute top-[62px] right-5 flex items-center gap-[13px]">
+      <div className="absolute top-[62px] right-[19px] flex items-center gap-[9px]">
         <Info />
         <Segmented items={["Competitors", "Winners & Losers"] as const} value="Competitors" className="[&>button]:h-[27px]" />
       </div>
@@ -49,7 +49,7 @@ function CompetitionMap() {
           <path key={c.domain} d={`M${x(c.x) - 4} ${y(c.y)}h8M${x(c.x)} ${y(c.y) - 4}v8`} stroke={c.color} strokeWidth={2} />
         ))}
       </svg>
-      <div className="absolute top-[117px] left-[671px] w-[367px]">
+      <div className="absolute top-[119px] left-[671px] w-[367px]">
         <div className="flex h-[27px] items-start border-b border-[#e0e1e9] pt-[3px] text-[12px] leading-4 text-rk-text">
           <span className="flex-1 pl-[8px]">Competitor</span>
           <span className="w-[137px] pl-[24px]">Visibility</span>
@@ -101,7 +101,7 @@ function CompetitorsTable() {
           <div key={c.domain} className="flex h-[75.5px] border-b border-[#eceef2] pt-[14px] text-[14px] leading-5 text-rk-text last:border-b-0">
             <span className="w-[44px] pr-[7px] text-right">{i + 1}.</span>
             <span className="flex-1 pl-[10px]">
-              <ExtLink>{c.domain}</ExtLink>
+              <ExtLink href={`https://${c.domain}`}>{c.domain}</ExtLink>
             </span>
             <span className="flex w-[169px] justify-end gap-[17.4px] pr-[7.4px]">
               {c.visibility}
@@ -137,9 +137,9 @@ function CompetitorsTable() {
         <input defaultValue="1" className="h-7 w-[68px] rounded-md border border-rk-border-strong px-[9px] outline-none focus:border-[#006dca]" />
         <span className="mr-[10px]">
           of{" "}
-          <a href="#" className="text-rk-link">
+          <button type="button" className="text-rk-link">
             291
-          </a>
+          </button>
         </span>
         <Select label="10" placeholder={false} options={["10", "20", "50", "100"]} className="w-[51px]" />
       </div>

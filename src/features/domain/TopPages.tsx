@@ -12,9 +12,9 @@ import { Check, ExportButton, ExtIcon, IntentBadge, Seg, SerpIcon, SortIcon } fr
 const MONTHS = ["Oct 2025", "Nov 2025", "Dec 2025", "Jan 2026", "Feb 2026", "Mar 2026", "Apr 2026", "May 2026", "Jun 2026", "Jul 2026", "Aug 2026", "Sep 2026"];
 const monthAt = [0, 0.0866, 0.171, 0.258, 0.345, 0.423, 0.51, 0.594, 0.681, 0.765, 0.852, 0.94];
 
-const ChevronsUp = () => (
+const Chevrons = ({ open }: { open: boolean }) => (
   <svg viewBox="0 0 16 16" width={16} height={16}>
-    <path d="m4.5 8 3.5-3.5L11.5 8M4.5 12.5 8 9l3.5 3.5" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
+    <path d={open ? "M5 3.5 8 6.5l3-3M5 12.5 8 9.5l3 3" : "M5 6.5 8 3.5l3 3M5 9.5 8 12.5l3-3"} fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
@@ -22,7 +22,7 @@ function Metric({ label, value, delta, tone = "danger", className = "" }: { labe
   return (
     <div className={className}>
       <div className="text-[14px] leading-5">{label}</div>
-      <div className="mt-[2px] flex items-baseline gap-[6px]">
+      <div className="mt-[4.5px] flex items-baseline gap-[6px]">
         <span className="text-[24px] leading-[30px] font-bold">{value}</span>
         <span className={`text-[12px] ${tone === "danger" ? "text-rk-danger" : "text-rk-muted"}`}>{delta}</span>
       </div>
@@ -42,11 +42,9 @@ function Summary() {
     <section className="rounded-lg bg-white shadow-card">
       <header className={`flex h-[42px] items-center justify-between px-5 ${open ? "border-b border-rk-border" : ""}`}>
         <h3 className="text-[16px] leading-6 font-bold">Summary</h3>
-        <button type="button" onClick={() => setOpen(!open)} className="-mr-[2px] flex items-center gap-[6px] text-[14px] text-rk-muted hover:text-rk-text">
+        <button type="button" onClick={() => setOpen(!open)} className="mr-[8px] flex items-center gap-[6px] text-[14px] text-rk-muted hover:text-rk-text">
           {open ? "Hide" : "Show"}
-          <span className={open ? "" : "rotate-180"}>
-            <ChevronsUp />
-          </span>
+          <Chevrons open={open} />
         </button>
       </header>
       {open && (
@@ -56,11 +54,11 @@ function Summary() {
             <Metric label="Organic Pages" value="45" delta="-18.18%" className="w-[146px] border-l border-rk-border pl-[25px]" />
             <Metric label="Cited Pages" value="1" delta="no changes" tone="muted" className="border-l border-rk-border pl-[25px]" />
           </div>
-          <div className="mt-[26px] flex items-center justify-between">
-            <div className="flex gap-[18px]">
-              <Check color="#6167e6" label="Organic Traffic" checked={on.traffic} onToggle={() => setOn({ ...on, traffic: !on.traffic })} />
-              <Check color="#3ed4a4" label="Organic Pages" checked={on.pages} onToggle={() => setOn({ ...on, pages: !on.pages })} />
-              <Check color="#c28bf5" label="Cited Pages" checked={on.cited} onToggle={() => setOn({ ...on, cited: !on.cited })} />
+          <div className="mt-[23.5px] flex items-center justify-between">
+            <div className="flex gap-[15px]">
+              <Check color="#6167e6" label={<span className="ml-[3.5px]">Organic Traffic</span>} checked={on.traffic} onToggle={() => setOn({ ...on, traffic: !on.traffic })} />
+              <Check color="#3ed4a4" label={<span className="ml-[3.5px]">Organic Pages</span>} checked={on.pages} onToggle={() => setOn({ ...on, pages: !on.pages })} />
+              <Check color="#c28bf5" label={<span className="ml-[3.5px]">Cited Pages</span>} checked={on.cited} onToggle={() => setOn({ ...on, cited: !on.cited })} />
             </div>
             <div className="flex gap-[17px]">
               {(["6M", "1Y", "2Y", "All time"] as const).map((r) => (
@@ -161,9 +159,9 @@ function Row({ p }: { p: TopPage }) {
           0
         )}
       </td>
-      <td className="pt-[12px] pr-6 pl-3 align-top">
+      <td className="pt-[12px] pr-[16px] pl-3 align-top">
         {p.keyword ? (
-          <Link href={routes.keywordOverview} className="text-rk-link hover:text-rk-link-hover">
+          <Link href={`${routes.keywordOverview}?q=${encodeURIComponent(p.keyword)}&db=se`} className="text-rk-link hover:text-rk-link-hover">
             {p.keyword}
             <SerpIcon width={14} height={14} className="ml-[5px] inline-block align-[-2px] text-[#a9abb6]" />
           </Link>
@@ -204,7 +202,7 @@ function AllPages() {
               <SearchIcon />
             </button>
           </div>
-          <Seg items={["All URLs", "New", "Lost"] as const} value={kind} onChange={setKind} itemClassName="px-[7px]" className="ml-[1px]" />
+          <Seg items={["All URLs", "New", "Lost"] as const} value={kind} onChange={setKind} itemClassName="px-[7.5px]" className="ml-[1px]" />
           <button type="button" className="ml-[4px] flex h-7 items-center gap-[6px] rounded-md border border-[#d3d5db] px-[9px] text-[14px] text-[#8a8e9b] hover:bg-rk-bg">
             Source
             <ChevronDown width={14} height={14} className="text-rk-text" />

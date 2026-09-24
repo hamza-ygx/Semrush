@@ -11,10 +11,10 @@ export function AdvertisingResearch() {
         <Widget title="Paid Position Distribution" className="h-[353px]" bodyClassName="flex items-center justify-center">
           <NothingFound />
         </Widget>
-        <Widget title="Main Paid Competitors" className="h-[353px]" bodyClassName="flex items-center justify-center pt-[72px]">
+        <Widget title="Main Paid Competitors" className="h-[353px]" bodyClassName="flex items-center justify-center pt-[91px]">
           <NothingFound kind="table" />
         </Widget>
-        <Widget title="Competitive Positioning Map" className="h-[353px]" bodyClassName="flex items-center justify-center pt-[72px]">
+        <Widget title="Competitive Positioning Map" className="h-[353px]" bodyClassName="flex items-center justify-center pt-[91px]">
           <NothingFound kind="chart" />
         </Widget>
       </div>

@@ -235,7 +235,7 @@ function PositioningMap() {
           </span>
         ))}
       </div>
-      <div className="relative mt-[21px] pl-[80px]">
+      <div className="relative mt-[23px] pl-[80px]">
         <span className="absolute top-[70px] left-[18px] origin-center -translate-x-1/2 -translate-y-1/2 -rotate-90 text-[12px] whitespace-nowrap text-rk-muted" style={{ left: 5 }}>
           Organic Search Traffic
         </span>
@@ -245,6 +245,7 @@ function PositioningMap() {
           left={["0", "141.5", "283.1", "424.6"]}
           gap={14}
           bottomH={52}
+          xGap={10}
           x={[0, 20, 40, 60, 80, 100, 120, 140, 160].map((v) => ({ at: v / maxX, label: String(v) }))}
           labelClass="text-[12px] leading-4 text-rk-muted"
           baseColor="#c4c7cf"
@@ -266,7 +267,7 @@ function PositioningMap() {
             </>
           }
         />
-        <div className="-mt-[19px] text-center text-[12px] leading-4 text-rk-muted">Organic Keywords</div>
+        <div className="-mt-[16px] text-center text-[12px] leading-4 text-rk-muted">Organic Keywords</div>
       </div>
     </Widget>
   );

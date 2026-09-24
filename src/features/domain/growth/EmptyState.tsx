@@ -7,9 +7,9 @@ export function EmptyState({ illustration, title, bullets, example, exampleHref 
       {illustration}
       <div className="pt-[-1px]">
         <h3 className="text-[16px] leading-6 font-bold">{title}</h3>
-        <ul className="mt-[11px] max-w-[590px] space-y-2 text-[14px] leading-5">
+        <ul className="mt-[11px] max-w-[600px] space-y-2 text-[14px] leading-5">
           {bullets.map((b) => (
-            <li key={b} className="relative pl-4 before:absolute before:top-[9px] before:left-[4px] before:h-[4px] before:w-[4px] before:rounded-full before:bg-rk-text">
+            <li key={b} className="relative pl-4 before:absolute before:top-[9px] before:left-[4px] before:h-[4px] before:w-[4px] before:rounded-full before:bg-rk-muted">
               {b}
             </li>
           ))}

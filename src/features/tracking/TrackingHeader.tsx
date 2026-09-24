@@ -5,9 +5,9 @@ import { useState } from "react";
 import { routes } from "@/config/routes";
 import { HeaderLink, SendFeedback } from "@/components/shell/PageHeader";
 import { MenuItem, Popover } from "@/components/ui/Popover";
-import { BookIcon, ChevronRight, DesktopIcon, ExportIcon, GearIcon, ShareIcon } from "@/components/ui/icons";
+import { ChevronRight, DesktopIcon, ExportIcon, GearIcon, ShareIcon } from "@/components/ui/icons";
 import { Checkbox, Toggle } from "./controls";
-import { BellIcon, ChevronBold, DiamondIcon, HotelIcon, JobIcon, LookerIcon, PinIcon } from "./icons";
+import { BellIcon, ChevronBold, DiamondIcon, HotelIcon, JobIcon, LookerIcon, ManualIcon, PinIcon } from "./icons";
 import { project, trackingTabs, type TrackingTab } from "./data";
 
 type Action = "looker" | "pdf" | "export" | "share";
@@ -170,7 +170,7 @@ function SerpFeatures() {
             <DiamondIcon width={17} height={17} />
             <JobIcon width={17} height={17} />
           </span>
-          <ChevronBold width={16} height={16} className="ml-[2px] text-rk-link" />
+          <ChevronBold width={16} height={16} className="ml-[5px] text-rk-link" />
         </button>
       )}
     >
@@ -204,8 +204,8 @@ export function TrackingHeader({ tab }: { tab: TrackingTab }) {
     <div className="border-b border-rk-border px-8 pt-4">
       <div className="flex items-center justify-between">
         <TrackingCrumbs />
-        <div className="flex items-center gap-6">
-          <HeaderLink icon={<BookIcon />}>User manual</HeaderLink>
+        <div className="flex items-center gap-5">
+          <HeaderLink icon={<ManualIcon />}>User manual</HeaderLink>
           <SendFeedback />
         </div>
       </div>
@@ -225,7 +225,7 @@ export function TrackingHeader({ tab }: { tab: TrackingTab }) {
           <SettingsMenu />
         </div>
       </div>
-      <div className="mt-[7px] flex items-center gap-[25px] text-[14px] leading-5">
+      <div className="mt-[7px] flex items-center gap-[24px] text-[14px] leading-5">
         <TargetDropdown />
         <span>Updated: 17 hours ago</span>
         <span>

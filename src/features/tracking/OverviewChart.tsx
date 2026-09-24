@@ -52,13 +52,13 @@ export function OverviewChartCard() {
         <Checkbox checked color="#5c5fd6" label={<span className="text-[14px] text-rk-text">{project.domain}</span>} className="!gap-[6px]" />
       </div>
       <div className="absolute top-[134px] right-5 flex items-center">
-        <Checkbox checked color="#191b23" label={<span className="text-[14px] text-rk-text">Smart zoom</span>} className="!gap-[10px]" />
+        <Checkbox checked color="#191b23" label={<span className="text-[14px] text-rk-text">Smart zoom</span>} className="!gap-[8px]" />
         <span className="mx-[16px] h-[22px] border-l border-[#e0e1e9]" />
         <Popover
           align="right"
           panelClassName="w-[180px]"
           trigger={({ toggle }) => (
-            <button type="button" onClick={toggle} className="flex items-center gap-[6px] text-[14px] text-rk-text">
+            <button type="button" onClick={toggle} className="flex items-center gap-[4px] text-[14px] text-rk-text">
               <NoteIcon width={17} height={17} />
               Notes
               <ChevronBold width={16} height={16} />

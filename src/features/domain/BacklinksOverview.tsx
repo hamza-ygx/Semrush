@@ -34,7 +34,7 @@ export function BacklinkTabs() {
         className="mb-[12px]"
         panelClassName="min-w-[200px]"
         trigger={({ toggle }) => (
-          <button type="button" aria-label="More reports" onClick={toggle} className="flex h-5 w-7 items-center justify-center text-rk-text hover:text-rk-link">
+          <button type="button" aria-label="More reports" onClick={toggle} className="-ml-[6px] flex h-5 w-7 items-center justify-center text-rk-text hover:text-rk-link">
             <DotsIcon width={18} height={18} />
           </button>
         )}
@@ -93,7 +93,7 @@ function CompareBar() {
         </div>
       ))}
       <div className="flex items-end gap-4 pl-[1px]">
-        <button type="button" className="h-7 rounded-md bg-rk-btn-dark px-[10px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
+        <button type="button" className="h-7 rounded-md bg-rk-btn-dark px-[8.5px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
           Compare
         </button>
         {extra < 3 && (

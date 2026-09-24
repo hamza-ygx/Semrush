@@ -9,10 +9,10 @@ const groups = [
   ],
   [
     { key: "New", w: 54.7 },
-    { key: "Lost", w: 53 },
-    { key: "New on SERP", w: 114.5 },
-    { key: "Lost from SERP", w: 126.7 },
-    { key: "URL changed", w: 113.7 },
+    { key: "Lost", w: 53.8 },
+    { key: "New on SERP", w: 115.6 },
+    { key: "Lost from SERP", w: 128.3 },
+    { key: "URL changed", w: 115.2 },
   ],
 ];
 

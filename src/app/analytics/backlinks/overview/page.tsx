@@ -20,11 +20,11 @@ export default function BacklinksOverviewPage() {
       <PageHeader
         crumbs={[{ label: "Home", href: routes.home }, { label: "SEO", href: routes.seoDashboard }, { label: "Backlink Analytics" }]}
         links={
-          <>
+          <div className="flex items-center gap-5">
             <HeaderLink icon={<MegaphoneIcon />}>Link building ideas</HeaderLink>
             <UserManual />
             <SendFeedback />
-          </>
+          </div>
         }
         title={<ReportTitle label="Backlinks" />}
         actions={<ExportPdf />}

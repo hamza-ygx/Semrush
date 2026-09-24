@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent, type ReactNode } from "react";
+import { routes } from "@/config/routes";
 import { ChevronRight, GearIcon, PlusIcon } from "@/components/ui/icons";
 import { Select, Segmented } from "./controls";
 import { SortAscIcon, SparkleIcon } from "./icons";
@@ -124,17 +126,17 @@ function Row({ k }: { k: TrackedKeyword }) {
   return (
     <div className="group flex hover:bg-[#f7f8f9]">
       <div className="relative flex w-[268px] shrink-0 pt-[14px] pr-[17px] pb-[13px]">
-        <button type="button" aria-label="Expand" onClick={() => setOpen(!open)} className="absolute top-[15px] left-[20px] text-rk-text-2">
+        <button type="button" aria-label="Expand" onClick={() => setOpen(!open)} className="absolute top-[15px] left-[20px] text-rk-muted">
           <ChevronRight width={16} height={16} strokeWidth={2} className={open ? "rotate-90" : ""} />
         </button>
-        <span className="absolute top-[15px] left-[44px] h-[16px] w-[16px] rounded-[3px] border border-rk-border-strong bg-white" />
+        <span className="absolute top-[15px] left-[44px] h-[16px] w-[16px] rounded-[3px] border border-[#d6d8dd] bg-white" />
         <div className="ml-[75.6px] min-w-0">
-          <a href="#" className="block text-[14px] leading-[16.5px] text-rk-link hover:text-rk-link-hover">
+          <Link href={`${routes.keywordOverview}?q=${encodeURIComponent(k.keyword)}&db=se`} className="block text-[14px] leading-[16.5px] text-rk-link decoration-[#b3c5f5] underline-offset-[3px] hover:underline">
             {k.keyword}
-          </a>
+          </Link>
           <button
             type="button"
-            className="invisible mt-[7px] flex h-[19px] items-center gap-[4px] rounded-full border border-rk-border-strong bg-white px-[9px] text-[12px] text-rk-text-2 group-hover:visible hover:bg-rk-bg"
+            className="invisible mt-[7px] flex h-[19px] items-center gap-[4px] rounded-full border border-rk-border-strong bg-white px-[10px] text-[12px] text-rk-text-2 group-hover:visible hover:bg-rk-bg"
           >
             <PlusIcon width={11} height={11} strokeWidth={2} />
             add tag
@@ -223,14 +225,14 @@ export function RankingsTable() {
           }
           options={["Pot. Traffic", "Pot. Growth"]}
           placeholder={false}
-          className="ml-[8px] w-[134px]"
+          className="ml-[6px] w-[134px]"
         />
-        <Segmented className="ml-[8px]" items={["Positions", "Est. Traffic", "Visibility", `All for ${project.domain}`] as const} value={`All for ${project.domain}`} />
+        <Segmented className="ml-[6px]" items={["Positions", "Est. Traffic", "Visibility", `All for ${project.domain}`] as const} value={`All for ${project.domain}`} />
       </div>
       <div style={{ "--sx": sx } as CSSProperties} onWheel={(e) => (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) && setSx(Math.max(0, Math.min(total - viewport, sx + (e.deltaX || e.deltaY))))}>
         <div className="sticky top-[81px] z-20 flex h-[56px] bg-[#f7f8f9] text-[12px] leading-[18px] text-rk-text">
           <div className="relative w-[268px] shrink-0">
-            <span className="absolute top-[18px] left-[44px] h-[16px] w-[16px] rounded-[3px] border border-rk-border-strong bg-white" />
+            <span className="absolute top-[18px] left-[44px] h-[16px] w-[16px] rounded-[3px] border border-[#d6d8dd] bg-white" />
             <div className="absolute inset-y-0 right-0 left-[68px] bg-[#e9ebeb] pt-[12px] pl-[8px]">Keyword</div>
           </div>
           <div ref={vpRef} className="relative min-w-0 flex-1 overflow-hidden">
@@ -250,7 +252,7 @@ export function RankingsTable() {
       </div>
       <div className="flex h-[66px] items-center gap-[8px] border-t border-[#eceef2] px-5 pb-[5px] text-[14px] text-rk-text">
         Page:
-        <input defaultValue="1" className="h-[27px] w-[67px] rounded-md border border-rk-border-strong px-[9px] text-[14px] outline-none focus:border-[#006dca]" />
+        <input defaultValue="1" className="-ml-[5px] h-[27px] w-[67px] rounded-md border border-rk-border-strong px-[9px] text-[14px] outline-none focus:border-[#006dca]" />
         <span className="mr-[10px]">of 1</span>
         <Select label="100" placeholder={false} options={["10", "20", "50", "100"]} className="w-[60px] !h-[27px]" />
       </div>

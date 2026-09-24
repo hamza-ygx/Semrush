@@ -13,7 +13,7 @@ export default function DomainOverviewPage() {
   return (
     <AppShell section="seo" search={{ kind: "analyze", value: domain, scope: true }} footer={false}>
       <DomainHeader tab="overview" />
-      <div className="px-8 pt-[17px]">
+      <div className="px-8 pt-[15.5px]">
         <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-4">
           <AiSearchCard />
           <SeoCard />
@@ -24,7 +24,7 @@ export default function DomainOverviewPage() {
         <AdvertisingResearch />
         <BacklinksSection />
       </div>
-      <AnalyticsFooter />
+      <AnalyticsFooter gap={136} bottom={44} />
     </AppShell>
   );
 }

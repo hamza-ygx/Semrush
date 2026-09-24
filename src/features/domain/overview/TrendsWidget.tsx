@@ -125,8 +125,8 @@ function KeywordsChart({ range }: { range: Range }) {
   return (
     <div>
       <h3 className="text-[16px] leading-6 font-bold">Keywords</h3>
-      <Seg items={["Organic", "Paid"] as const} value={kind} onChange={setKind} className="mt-[12px]" />
-      <div className="mt-[19px] flex flex-wrap items-center gap-x-4 gap-y-2">
+      <Seg items={["Organic", "Paid"] as const} value={kind} onChange={setKind} className="mt-[12px]" itemClassName="px-[8px]" />
+      <div className="mt-[19px] flex flex-wrap items-center gap-x-[15px] gap-y-2">
         {keywordLegend.map((l) => (
           <Check key={l.label} color={l.color} label={l.label} checked={on[l.label]} onToggle={() => setOn({ ...on, [l.label]: !on[l.label] })} />
         ))}
@@ -255,7 +255,7 @@ export function TrendsWidget() {
     <section className="mt-4 flex h-[631px] rounded-lg bg-white shadow-card">
       <div className="w-[344px] shrink-0 pt-5">
         <div className="px-5">
-          <Seg items={["AI Search", "Google Search"] as const} value={source} onChange={setSource} />
+          <Seg items={["AI Search", "Google Search"] as const} value={source} onChange={setSource} itemClassName="px-[8px]" />
         </div>
         <div className="mt-[20px]">{source === "AI Search" ? <AiDistribution /> : <GoogleDistribution />}</div>
         <h3 className="mt-[17px] px-5 text-[16px] leading-6 font-bold">Top Cited Sources</h3>
@@ -287,7 +287,7 @@ export function TrendsWidget() {
             ))}
           </div>
           <div className="flex gap-2">
-            <Seg items={["Days", "Months"] as const} value={gran} onChange={setGran} />
+            <Seg items={["Days", "Months"] as const} value={gran} onChange={setGran} itemClassName="px-[8px]" />
             <ExportButton />
           </div>
         </div>

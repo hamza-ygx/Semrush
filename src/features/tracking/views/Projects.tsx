@@ -29,17 +29,17 @@ export function ProjectsView() {
       </div>
       <div className="px-8 pt-[5px]">
         <section className="h-[259px] rounded-md border border-[#e4e5ea] bg-white shadow-[0_1px_2px_rgba(25,27,35,0.05)]">
-          <div className="flex h-[68.5px] items-start px-5 pt-[20px]">
+          <div className="flex h-[68.5px] items-start px-5 pt-[18.5px]">
             <label className="relative flex h-7 w-[299.4px] items-center rounded-md border border-rk-border-strong bg-white">
               <SearchIcon width={16} height={16} className="absolute left-[9px] text-[#8a8e9b]" />
               <input placeholder="Project name or domain" className="h-full w-full rounded-md pr-2 pl-[32px] text-[14px] outline-none placeholder:text-[#8a8e9b]" />
             </label>
             <Segmented items={["All targets", "AI Search", "SEO"] as const} value="All targets" className="ml-[24.3px]" />
-            <button type="button" className="ml-[24px] flex h-7 items-center gap-[9.5px] rounded-md border border-rk-border-strong bg-white px-[9px] text-[14px] whitespace-nowrap text-[#6c6e79]">
+            <button type="button" className="ml-[22.5px] flex h-7 items-center gap-[8.5px] rounded-md border border-rk-border-strong bg-white px-[8px] text-[14px] whitespace-nowrap text-[#6c6e79]">
               <CalendarIcon className="text-[#8a8e9b]" />
               {project.periodLong}
             </button>
-            <button type="button" className="ml-auto flex h-7 items-center gap-[9px] rounded-md bg-rk-btn-dark px-[9px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
+            <button type="button" className="ml-auto flex h-7 items-center gap-[9px] rounded-md bg-rk-btn-dark px-[8.5px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
               <PlusIcon width={14} height={14} strokeWidth={2.2} />
               Create SEO project
             </button>
@@ -56,7 +56,7 @@ export function ProjectsView() {
             ))}
             <div className="flex flex-1 items-center pl-[17.5px]">Updated</div>
           </div>
-          <div className="flex h-[86px] border-b border-[#eceef2] pt-[12.6px] text-[14px] leading-5 text-rk-text">
+          <div className="flex h-[86px] border-b border-[#eceef2] pt-[10.9px] text-[14px] leading-5 text-rk-text">
             <div className="w-[206.6px] pl-5">
               <Link href={routes.tracking.landscape} className="font-semibold text-rk-link hover:text-rk-link-hover">
                 {project.domain}
@@ -86,7 +86,7 @@ export function ProjectsView() {
             ))}
             <div className="flex-1 pl-[17.5px]">{project.updated}</div>
           </div>
-          <div className="flex h-[63px] items-center gap-[4px] px-5 pb-[5px] text-[14px] text-rk-text">
+          <div className="flex h-[63px] items-center gap-[4px] px-5 pb-[6px] text-[14px] text-rk-text">
             Page:
             <input defaultValue="" placeholder="1" className="h-7 w-[67px] rounded-md border border-rk-border-strong px-[9px] outline-none placeholder:text-[#a9abb6] focus:border-[#006dca]" />
             <span className="ml-[5px]">of 1</span>

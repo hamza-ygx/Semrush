@@ -120,7 +120,7 @@ export function SeoCard() {
                     ) : (
                       value
                     )}
-                    {m.badge && <span className="ml-[3px] flex h-[27px] items-center rounded-full bg-[#e7e5fb] px-[11px] text-[13px] text-[#5a50c8]">{m.badge}</span>}
+                    {m.badge && <span className="ml-[3px] flex h-[27px] items-center rounded-full bg-[#e7e5fb] px-[9px] text-[12px] text-[#5a50c8]">{m.badge}</span>}
                     {m.delta && <span className="mt-[5px] text-[12px] text-rk-danger">{m.delta}</span>}
                   </div>
                 </div>

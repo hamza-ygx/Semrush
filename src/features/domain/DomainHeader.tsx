@@ -2,7 +2,8 @@ import type { ReactNode } from "react";
 import { routes } from "@/config/routes";
 import { HeaderLink, PageHeader, SendFeedback } from "@/components/shell/PageHeader";
 import { LinkSelect } from "@/components/ui/Popover";
-import { BookIcon, DesktopIcon, ExportIcon } from "@/components/ui/icons";
+import { DesktopIcon, ExportIcon } from "@/components/ui/icons";
+import { ManualIcon } from "@/features/tracking/icons";
 import { Button, Tabs } from "@/components/ui/primitives";
 import { currencies, databases, dates, devices, domain, moreDatabases } from "./data";
 import { DatabaseSelector, ExtLink } from "./ui";
@@ -15,10 +16,10 @@ const tabs = [
   { key: "countries", label: "Compare by countries", href: routes.domainCompareCountries },
 ];
 
-export const UserManual = () => <HeaderLink icon={<BookIcon />}>User manual</HeaderLink>;
+export const UserManual = () => <HeaderLink icon={<ManualIcon />}>User manual</HeaderLink>;
 
 export const ExportPdf = () => (
-  <Button variant="tertiary" className="h-7 border-[#d3d5db] px-[9px]">
+  <Button variant="tertiary" className="h-7 border-[#d3d5db] !bg-[#eceeee] px-[9px] !text-rk-muted">
     <ExportIcon />
     Export to PDF
   </Button>
@@ -42,13 +43,15 @@ export function DomainHeader({ tab, crumbs, children }: { tab?: DomainTab; crumb
       crumbs={crumbs ?? [{ label: "Home", href: routes.home }, { label: "SEO", href: routes.seoDashboard }, { label: "Domain Overview" }]}
       links={
         <>
-          <UserManual />
+          <span className="-mr-[4px]">
+            <UserManual />
+          </span>
           <SendFeedback />
         </>
       }
       title={<ReportTitle label="Domain Overview" />}
       actions={tab === "overview" ? <ExportPdf /> : undefined}
-      tabs={tab ? <Tabs tabs={tabs} active={tab} className="-mb-px" /> : undefined}
+      tabs={tab ? <Tabs tabs={tabs} active={tab} className="-mb-px !gap-[17px]" /> : undefined}
     >
       <div className="mt-[7px] flex items-center">
         <DatabaseSelector items={databases} initial="SE" more={moreDatabases} />

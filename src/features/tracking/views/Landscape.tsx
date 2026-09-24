@@ -233,9 +233,9 @@ function TopKeywords() {
         </div>
         {trackedKeywords.slice(0, 5).map((k) => (
           <div key={k.keyword} className="flex border-b border-[#e0e1e9] py-[8px] text-[14px] leading-5">
-            <a href="#" className="w-[150px] pr-2 text-rk-link hover:text-rk-link-hover">
+            <Link href={`${routes.keywordOverview}?q=${encodeURIComponent(k.keyword)}&db=se`} className="w-[150px] pr-2 text-rk-link hover:text-rk-link-hover">
               {k.keyword}
-            </a>
+            </Link>
             <span className="w-[16px]" />
             <span className="self-center pt-[2px] text-rk-text">- &nbsp;-</span>
             <span className="flex-1" />
@@ -364,7 +364,7 @@ function PagesCard() {
   return (
     <Panel title="Pages" className="h-[396px]">
       <div className="px-5 pt-[21px]">
-        <Segmented items={["Top", "Improved", "Declined"] as const} value="Top" className="[&>button]:h-[27px] [&>button]:px-[7px] [&>button]:text-[14px]" />
+        <Segmented items={["Top", "Improved", "Declined"] as const} value="Top" className="[&>button]:h-[27px] [&>button]:px-[8px] [&>button]:text-[14px]" />
         <div className="pt-[159px] text-center">
           <div className="text-[16px] leading-6 font-semibold text-rk-text-2">We have no data to show</div>
           <p className="mx-auto mt-[2px] w-[360px] text-[14px] leading-[20px] text-rk-text-2">Try selecting a different date or changing your filter settings.</p>

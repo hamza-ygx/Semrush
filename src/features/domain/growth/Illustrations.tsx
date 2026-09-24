@@ -17,7 +17,7 @@ function Frame({ children }: { children: ReactNode }) {
 export function PeriodsIllustration() {
   return (
     <Frame>
-      <div className="flex h-[36px] items-center gap-4 border-b border-[#e6e7ec] px-3 text-[10px] text-rk-muted">
+      <div className="flex h-[40px] items-center gap-6 border-b border-[#e6e7ec] px-3 text-[10px] text-[#a0a2ad]">
         {[
           ["#b77af5", "Summer"],
           ["#7f84e8", "Autumn"],
@@ -29,28 +29,28 @@ export function PeriodsIllustration() {
           </span>
         ))}
       </div>
-      <div className="px-3 pt-[14px] text-[11px] text-rk-muted">Organic Traffic</div>
-      <svg viewBox="0 0 275 70" width={275} height={70} className="ml-3">
-        <path d="M0 45h275" stroke="#e6e7ec" />
-        <path d="M0 36C30 36 50 40 70 42 110 46 125 56 140 55 170 50 190 38 220 37 240 36 260 36 275 36V70H0z" fill="#fff1cc" />
-        <path d="M0 36C30 36 50 40 70 42 110 46 125 56 140 55 170 50 190 38 220 37 240 36 260 36 275 36" fill="none" stroke="#ffc02e" strokeWidth={2.5} />
-        <path d="M0 22C40 22 60 22 90 28 120 34 130 36 160 36 200 36 240 20 275 20" fill="none" stroke="#b77af5" strokeWidth={2.5} />
-        <path d="M0 16C50 16 80 16 110 26 140 36 170 40 200 43 230 46 250 46 275 46" fill="none" stroke="#7f84e8" strokeWidth={2.5} />
+      <div className="absolute top-[72px] left-3 text-[11px] leading-[14px] text-rk-muted">Organic Traffic</div>
+      <svg viewBox="0 -2 274 45" width={274} height={45} className="absolute top-[93px] left-3">
+        <path d="M0 15h274" stroke="#e6e7ec" />
+        <path d="M0 19C30 19 50 19 70 21 100 26 115 32 128 32 150 32 180 12 223 8 240 8 260 8 274 8V43H0z" fill="#fff1cc" />
+        <path d="M0 19C30 19 50 19 70 21 100 26 115 32 128 32 150 32 180 12 223 8 240 8 260 8 274 8" fill="none" stroke="#ffc02e" strokeWidth={2.2} />
+        <path d="M0 11C30 11 50 11 70 13 100 17 115 19.5 133 19.5 160 19.5 190 1 223 0.6 240 0.6 260 0.6 274 0.6" fill="none" stroke="#b77af5" strokeWidth={2.2} />
+        <path d="M0 2.6C30 2.6 50 2.6 70 4 100 10 120 21 150 24 180 28 210 32 233 32 250 32 262 32 274 32" fill="none" stroke="#7f84e8" strokeWidth={2.2} />
       </svg>
-      <div className="px-3 pt-[6px] text-[11px] text-rk-muted">Organic Keywords</div>
-      <svg viewBox="0 0 275 50" width={275} height={50} className="ml-3">
-        <path d="M0 22h275" stroke="#e6e7ec" />
-        <path d="M0 22C30 22 60 22 90 26 120 32 140 40 160 38 200 30 230 14 275 14V50H0z" fill="#fff1cc" />
-        <path d="M0 22C30 22 60 22 90 26 120 32 140 40 160 38 200 30 230 14 275 14" fill="none" stroke="#ffc02e" strokeWidth={2.5} />
+      <div className="absolute top-[158px] left-3 text-[11px] leading-[14px] text-rk-muted">Organic Keywords</div>
+      <svg viewBox="0 0 274 38" width={274} height={38} className="absolute top-[177px] left-3">
+        <path d="M0 11h274" stroke="#e6e7ec" />
+        <path d="M0 13.9C30 13.9 50 13.9 70 15 100 19 120 25.6 135 25.6 160 25.6 200 3 230 2 250 2 262 2 274 2V38H0z" fill="#fff1cc" />
+        <path d="M0 13.9C30 13.9 50 13.9 70 15 100 19 120 25.6 135 25.6 160 25.6 200 3 230 2 250 2 262 2 274 2" fill="none" stroke="#ffc02e" strokeWidth={2.2} />
         {[
-          [60, "#b77af5", 26],
-          [66, "#7f84e8", 26],
-          [153, "#b77af5", 20],
-          [160, "#7f84e8", 36],
-          [242, "#b77af5", 38],
-          [249, "#7f84e8", 24],
-        ].map(([x, c, h]) => (
-          <rect key={`${x}`} x={x as number} y={50 - (h as number)} width={5} height={h as number} fill={c as string} />
+          [51, "#b77af5", 13],
+          [57.6, "#7f84e8", 13],
+          [131, "#b77af5", 13],
+          [139, "#7f84e8", 5],
+          [229, "#b77af5", 5],
+          [237, "#7f84e8", 13],
+        ].map(([x, c, t]) => (
+          <rect key={`${x}`} x={x as number} y={t as number} width={5} height={38 - (t as number)} fill={c as string} />
         ))}
       </svg>
     </Frame>

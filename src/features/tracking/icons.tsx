@@ -119,3 +119,12 @@ export const RadioOn = (p: P) => (
     <circle cx="9" cy="9" r="2.5" fill="#fff" />
   </svg>
 );
+
+export function ManualIcon() {
+  return (
+    <svg viewBox="0 0 16 16" width={16} height={16}>
+      <path d="M1 2.5h5.2c.8 0 1.4.4 1.8 1 .4-.6 1-1 1.8-1H15v11H9.8c-.8 0-1.4.3-1.8.9-.4-.6-1-.9-1.8-.9H1z" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinejoin="round" />
+      <path d="M8 3.5v10.5M3.5 6H6M3.5 8.5H6M10 6h2.5M10 8.5h2.5" stroke="currentColor" strokeWidth={1.4} />
+    </svg>
+  );
+}

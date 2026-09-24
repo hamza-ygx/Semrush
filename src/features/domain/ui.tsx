@@ -231,52 +231,56 @@ export function Flag({ code, className = "", width = 16, height = 12 }: { code: 
   return <F className={`shrink-0 ${className}`} width={width} height={height} />;
 }
 
+const blob = "M35 0C44-1 50 4 52 8c12 0 24 6 25 22 4 8 4 20-1 30-6 12-20 17-34 17-16 0-30-5-36-15-6-4-7-14-4-22-1-10 4-22 14-26 8-4 12-12 19-14z";
+const front = "M9.5 18.6 62 10.2a3 3 0 0 1 3.4 2.5L73 51.4a2 2 0 0 1-1.6 2.3L21.3 66.3a2 2 0 0 1-2.4-1.6L7.2 22a3 3 0 0 1 2.3-3.4z";
+
+export function TiltedWindow({ children, extra }: { children?: ReactNode; extra?: ReactNode }) {
+  return (
+    <svg viewBox="-2 -2 84 82" width={84} height={82} className="block">
+      <path d={blob} fill="#e4e5ea" />
+      <path d={front} transform="translate(-2.6 3.6)" fill="#fff" stroke="#6c6e79" strokeWidth="1.3" strokeLinejoin="round" />
+      <path d={front} fill="#fff" stroke="#6c6e79" strokeWidth="1.6" strokeLinejoin="round" />
+      <path d="M9.5 18.6 62 10.2a3 3 0 0 1 3.4 2.5l1.1 6.3-56.3 11.2-3-8.2a3 3 0 0 1 2.3-3.4z" fill="#6c6e79" />
+      <circle cx="15.4" cy="24" r="1.8" fill="#fff" />
+      <circle cx="21.6" cy="22.6" r="1.8" fill="#fff" />
+      {children}
+      {extra}
+    </svg>
+  );
+}
+
 function IllustrationTable() {
   return (
-    <svg viewBox="0 0 80 80" width={80} height={80}>
-      <path d="M8 44c-4-16 6-34 26-37 18-3 38 4 42 20 4 17-4 40-24 45-19 5-40-9-44-28z" fill="#e4e5ea" />
-      <g transform="rotate(-8 40 40)">
-        <rect x="16" y="18" width="48" height="42" rx="4" fill="#fff" stroke="#484a54" strokeWidth="2" />
-        <path d="M16 22a4 4 0 0 1 4-4h40a4 4 0 0 1 4 4v6H16z" fill="#6c6e79" />
-        <circle cx="21" cy="23" r="1.4" fill="#fff" />
-        <circle cx="25.5" cy="23" r="1.4" fill="#fff" />
-        <path d="M24 42h32M40 32v24" stroke="#6c6e79" strokeWidth="1.6" />
-      </g>
-    </svg>
+    <TiltedWindow>
+      <path d="M30.4 30.4 38.3 57.9M48.5 26.4 55.7 53.5M20.2 47.4 65.1 36.4" stroke="#6c6e79" strokeWidth="1.2" />
+    </TiltedWindow>
   );
 }
 
 function IllustrationChart() {
   return (
-    <svg viewBox="0 0 80 80" width={80} height={80}>
-      <path d="M8 44c-4-16 6-34 26-37 18-3 38 4 42 20 4 17-4 40-24 45-19 5-40-9-44-28z" fill="#e4e5ea" />
-      <g transform="rotate(-8 40 40)">
-        <rect x="16" y="18" width="48" height="42" rx="4" fill="#fff" stroke="#484a54" strokeWidth="2" />
-        <path d="M16 22a4 4 0 0 1 4-4h40a4 4 0 0 1 4 4v6H16z" fill="#6c6e79" />
-        <circle cx="21" cy="23" r="1.4" fill="#fff" />
-        <circle cx="25.5" cy="23" r="1.4" fill="#fff" />
-        <circle cx="52" cy="36" r="6" fill="#c4c7cf" stroke="#484a54" strokeWidth="1.5" />
-        <circle cx="40" cy="49" r="5" fill="#a9abb6" stroke="#484a54" strokeWidth="1.5" />
-        <circle cx="26" cy="42" r="2" fill="#484a54" />
-      </g>
-    </svg>
+    <TiltedWindow>
+      <path d="M26 34.5 31.5 58.5 69 50.6" fill="none" stroke="#6c6e79" strokeWidth="1" />
+      <circle cx="57" cy="31" r="7.2" fill="#d9dae0" stroke="#6c6e79" strokeWidth="1.5" />
+      <circle cx="46" cy="47" r="5.6" fill="#d9dae0" stroke="#6c6e79" strokeWidth="1.5" />
+      <path d="m42.6 50.2 6.8-6.6" stroke="#6c6e79" strokeWidth="1.3" />
+      <circle cx="31.5" cy="42.5" r="2.1" fill="#6c6e79" />
+    </TiltedWindow>
   );
 }
 
 function IllustrationSearch() {
   return (
-    <svg viewBox="0 0 96 80" width={96} height={80}>
-      <path d="M14 42c-4-16 8-33 30-36 20-3 42 4 46 20 4 17-5 40-27 45-21 5-45-10-49-29z" fill="#e4e5ea" />
-      <g transform="rotate(-8 48 40)">
-        <rect x="18" y="20" width="56" height="40" rx="4" fill="#fff" stroke="#484a54" strokeWidth="2" />
-        <path d="M18 24a4 4 0 0 1 4-4h48a4 4 0 0 1 4 4v5H18z" fill="#6c6e79" />
-        <circle cx="23" cy="24.5" r="1.4" fill="#fff" />
-        <circle cx="27.5" cy="24.5" r="1.4" fill="#fff" />
-        <path d="M24 36h18M24 42h14M24 48h20M50 50h16M50 54h12" stroke="#c4c7cf" strokeWidth="2" />
-      </g>
-      <circle cx="54" cy="34" r="11" fill="#e4e5ea" fillOpacity=".7" stroke="#484a54" strokeWidth="2.4" />
-      <path d="m61 42 9 12" stroke="#484a54" strokeWidth="4" strokeLinecap="round" />
-    </svg>
+    <TiltedWindow
+      extra={
+        <>
+          <circle cx="44" cy="33" r="10" fill="#eef0f3" fillOpacity=".85" stroke="#6c6e79" strokeWidth="2.2" />
+          <path d="m50.5 41 6.5 9.5" stroke="#6c6e79" strokeWidth="3.4" strokeLinecap="round" />
+        </>
+      }
+    >
+      <path d="M17 38.5l14-2.8M18.5 44.5l20-4M20 50.5l12-2.4M44 50.5l20-4M45.5 56l12-2.4" stroke="#d3d5db" strokeWidth="2" />
+    </TiltedWindow>
   );
 }
 
@@ -286,7 +290,7 @@ export function NothingFound({ kind, className = "" }: { kind?: "table" | "chart
       {kind === "table" && <IllustrationTable />}
       {kind === "chart" && <IllustrationChart />}
       {kind === "search" && <IllustrationSearch />}
-      <div className={`${kind ? "mt-[14px]" : ""} text-[16px] leading-6 font-semibold text-rk-muted`}>Nothing found</div>
+      <div className={`${kind ? "mt-[13px]" : ""} text-[16px] leading-6 font-semibold text-rk-muted`}>Nothing found</div>
       <div className="mt-[2px] text-[14px] leading-5 text-rk-muted">Try changing your filters.</div>
     </div>
   );

@@ -32,7 +32,7 @@ export function MarketTrends() {
       <div className="flex gap-[17px] px-5 pt-[13px]">
         {marketChannels.map((c) => (
           <div key={c.label} className="w-[116px]">
-            <div className="flex items-center gap-[3px] text-[13px] leading-4">
+            <div className="flex items-center gap-[3px] text-[13px] leading-4 whitespace-nowrap">
               {c.label}
               {c.ai && <SparkleIcon width={16} height={16} className="text-[#a55ff2]" />}
             </div>

@@ -15,12 +15,18 @@ export default function TopPagesPage() {
         crumbs={[{ label: "Home", href: routes.home }, { label: "SEO", href: routes.seoDashboard }, { label: "Domain Overview", href: routes.domainOverview }, { label: "Top Pages" }]}
         links={
           <>
-            <UserManual />
+            <span className="-mr-[4px]">
+              <UserManual />
+            </span>
             <SendFeedback />
           </>
         }
         title={<ReportTitle label="Top Pages" />}
-        actions={<ExportPdf />}
+        actions={
+          <span className="mr-[9px]">
+            <ExportPdf />
+          </span>
+        }
         className="!pb-[20px]"
       >
         <div className="mt-[7px] flex items-center">

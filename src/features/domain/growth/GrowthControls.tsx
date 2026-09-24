@@ -23,7 +23,7 @@ export function GrowthControls({ active }: { active?: string }) {
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
   const go = (p: (typeof periods)[number]) => router.push(`${routes.domainGrowthReport}?periodType=${periodType[p]}`);
   return (
-    <div className="flex items-center gap-[9px]">
+    <div className="flex items-center gap-[8px]">
       <div ref={ref} className="relative">
         <button
           type="button"
@@ -54,13 +54,13 @@ export function GrowthControls({ active }: { active?: string }) {
           </div>
         )}
       </div>
-      <button type="button" onClick={() => go(value)} className="h-7 rounded-md bg-rk-btn-dark px-[10px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
+      <button type="button" onClick={() => go(value)} className="h-7 rounded-md bg-rk-btn-dark px-[9px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
         Compare
       </button>
       <button
         type="button"
         onClick={() => active && router.push(routes.domainGrowthReport)}
-        className={`h-7 rounded-md border border-[#d3d5db] bg-[#eceef0] px-[9px] text-[14px] ${active ? "text-rk-text-2 hover:bg-rk-hover" : "cursor-default text-rk-muted"}`}
+        className={`h-7 rounded-md border border-[#d3d5db] bg-[#eceef0] px-[7.5px] text-[14px] ${active ? "text-rk-text-2 hover:bg-rk-hover" : "cursor-default text-rk-muted"}`}
       >
         Cancel
       </button>

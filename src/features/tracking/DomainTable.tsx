@@ -22,7 +22,7 @@ export function DomainTable({ title, count, cols, domain = "www.rkjh.se", classN
       </div>
       <div className="flex h-[44px] text-[14px] leading-5 text-rk-text-2">
         <div className="flex flex-1 items-center pl-5">
-          <ExtLink>{domain}</ExtLink>
+          <ExtLink href={`https://${domain}`}>{domain}</ExtLink>
         </div>
         {cols.map((c, i) => (
           <div key={i} style={{ width: c.w }} className={`flex shrink-0 items-center justify-end gap-[16px] ${i === cols.length - 1 ? "pr-[19.5px]" : "pr-[7.5px]"}`}>

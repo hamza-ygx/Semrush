@@ -109,7 +109,7 @@ function TypesCard() {
 
 function AnchorsCard() {
   return (
-    <Widget title="Top Anchors" right={<ExportButton />} className="h-[350px]" bodyClassName="flex flex-col pt-[18px]">
+    <Widget title="Top Anchors" right={<ExportButton />} className="h-[350px]" bodyClassName="flex flex-col pt-[23px]">
       <table className="w-full table-fixed text-[14px] leading-5">
         <thead>
           <tr className={th}>
@@ -135,7 +135,7 @@ function AnchorsCard() {
           ))}
         </tbody>
       </table>
-      <div className="mt-[23px] px-5">
+      <div className="mt-[19px] px-5">
         <DarkButton href={routes.backlinks}>View details</DarkButton>
       </div>
     </Widget>
@@ -144,7 +144,7 @@ function AnchorsCard() {
 
 function RefDomainsCard() {
   return (
-    <Widget title="Referring Domains" right={<ExportButton />} className="h-[350px]" bodyClassName="flex flex-col pt-[18px]">
+    <Widget title="Referring Domains" right={<ExportButton />} className="h-[350px]" bodyClassName="flex flex-col pt-[23px]">
       <table className="w-full table-fixed text-[14px] leading-5">
         <thead>
           <tr className={th}>
@@ -175,7 +175,7 @@ function RefDomainsCard() {
           ))}
         </tbody>
       </table>
-      <div className="mt-[23px] px-5">
+      <div className="mt-[19px] px-5">
         <DarkButton href={routes.referringDomains}>View details</DarkButton>
       </div>
     </Widget>
@@ -184,7 +184,7 @@ function RefDomainsCard() {
 
 function IndexedPagesCard() {
   return (
-    <Widget title="Indexed Pages" right={<ExportButton />} className="mt-4 h-[469px]" bodyClassName="flex flex-col pt-[18px]">
+    <Widget title="Indexed Pages" right={<ExportButton />} className="mt-4 h-[469px]" bodyClassName="flex flex-col pt-[23px]">
       <table className="w-full table-fixed text-[14px] leading-5">
         <thead>
           <tr className={th}>
@@ -221,7 +221,7 @@ function IndexedPagesCard() {
           ))}
         </tbody>
       </table>
-      <div className="mt-[23px] px-5">
+      <div className="mt-[19px] px-5">
         <DarkButton href={routes.backlinks}>View details</DarkButton>
       </div>
     </Widget>

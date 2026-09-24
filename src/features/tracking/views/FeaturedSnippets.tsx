@@ -31,7 +31,7 @@ function SummaryCard() {
       ].map((r) => (
         <div key={r.label} className="absolute right-0 left-0 text-[14px] leading-5" style={{ top: r.top }}>
           <span className="absolute left-5 text-rk-text">{r.label}</span>
-          <span className={`absolute left-[200.6px] font-semibold ${r.count}`}>0</span>
+          <span className={`absolute left-[195.4px] font-semibold ${r.count}`}>0</span>
           <span className="absolute left-[221.4px] text-rk-muted">0%</span>
           <div className="absolute left-[271.7px] w-[132px]">
             <div className="flex justify-between">
