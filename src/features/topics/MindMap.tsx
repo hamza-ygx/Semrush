@@ -6,8 +6,8 @@ import { mindMapHeadlines, mindMapQuestions, mindMapTopics } from "./data";
 const CX = 382;
 const CY = 402;
 const R0 = 182;
-const LX = 394;
-const LY = 413;
+const LX = 385;
+const LY = 403;
 const STEP = 360 / mindMapTopics.length;
 
 const toneColor: Record<string, string> = { green: "#00b882", blue: "#2a6ed8", light: "#58b8f0" };

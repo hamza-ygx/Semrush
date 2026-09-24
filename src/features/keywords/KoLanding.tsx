@@ -21,25 +21,25 @@ export function KoLanding() {
 
   return (
     <div className="mx-auto max-w-[980px] pt-[25px]">
-      <div className="rounded-lg bg-white px-[135px] pt-10 pb-[38px] text-center shadow-card">
+      <div className="rounded-lg bg-white px-[135px] pt-10 pb-10 text-center shadow-card">
         <div className="text-[16px] leading-6 text-rk-muted">Free Keyword Checker</div>
-        <h1 className="-mx-[80px] mt-[18px] text-[36px] leading-10 font-semibold">Check Keyword Difficulty, Competition, Trends, and More with Keyword Overview</h1>
-        <p className="mx-auto mt-4 max-w-[540px] text-[16px] leading-6 text-rk-text">
+        <h1 className="-mx-[80px] mt-4 text-[36px] leading-10 font-semibold">Check Keyword Difficulty, Competition, Trends, and More with Keyword Overview</h1>
+        <p className="mx-auto mt-[15px] max-w-[540px] text-[16px] leading-6 text-rk-text">
           Instantly evaluate how hard it will be to rank in the top 10 results for a search term. Along with other critical keyword metrics.
         </p>
         <form
-          className="mt-[30px] text-left"
+          className="mt-[31px] text-left"
           onSubmit={(e) => {
             e.preventDefault();
             go(q);
           }}
         >
           <div className="flex h-6 items-center justify-between text-[14px]">
-            <span className="flex items-center gap-1">
+            <span className="ml-[2px] flex items-center gap-1">
               <span className="dotted-underline text-rk-text-2 [text-decoration-style:dotted] [text-underline-offset:5px]">Keywords</span>
               <span className="rounded-full border border-rk-border-strong px-[5px] text-[13px] leading-[18px] text-rk-text-2">{count}/100</span>
             </span>
-            <span className="flex items-center gap-[7px]">
+            <span className="mr-[3px] flex items-center gap-[7px]">
               <span className="mr-[13px] text-rk-muted">Examples:</span>
               {examples.map((ex) => (
                 <button key={ex} type="button" onClick={() => go(ex)} className="text-rk-link hover:text-rk-link-hover">
@@ -53,7 +53,7 @@ export function KoLanding() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Enter keywords separated by commas"
-            className="mt-2 h-[42px] w-full rounded-md border-2 border-[#7f86ee] bg-white px-3 text-[16px] outline-none ring-2 ring-[#dfe1fc] placeholder:text-rk-muted"
+            className="mt-[7px] h-[42px] w-full rounded-md border-2 border-[#8d95ec] bg-white px-3 text-[16px] outline-none ring-2 ring-[#8d95ec] placeholder:text-rk-muted"
           />
           <div className="mt-[15px] flex items-center gap-3">
             <label className="flex h-10 w-[320px] items-center gap-[10px] rounded-md border border-[#d7c5fb] px-3">

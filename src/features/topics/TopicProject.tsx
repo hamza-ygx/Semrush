@@ -148,7 +148,7 @@ const FireIco = () => (
 const views: { key: TopicView; label: string; href: string; icon: ReactNode }[] = [
   { key: "cards", label: "Cards", href: routes.topicResearchProject.cards, icon: <CardsIco /> },
   { key: "explorer", label: "Explorer", href: routes.topicResearchProject.explorer, icon: <TableIco /> },
-  { key: "overview", label: "Overview", href: `${routes.topicResearchProject.cards}/overview`, icon: <OverviewIco /> },
+  { key: "overview", label: "Overview", href: routes.topicResearchProject.overview, icon: <OverviewIco /> },
   { key: "mindmap", label: "Mind Map", href: routes.topicResearchProject.mindMap, icon: <MapIco /> },
 ];
 
@@ -285,9 +285,9 @@ function Controls({ view, loading }: { view: TopicView; loading: boolean }) {
 }
 
 const Megaphone = ({ color }: { color: string }) => (
-  <svg viewBox="0 0 16 16" width={13} height={16} className="mr-[1px] shrink-0">
-    <path d="M2 5.5h3.5L12 2v12L5.5 10.5H2z" fill={color} />
-    <path d="M4 10.5 5 14h2l-.8-3.5" fill={color} />
+  <svg viewBox="0 0 14 16" width={14} height={16} className="mr-[7px] shrink-0">
+    <path d="M1 5.2h3.6L11 1.5h1.6v13H11L4.6 10.8H1z" fill={color} />
+    <path d="M2.6 10.8 3.8 15h2.4l-1-4.2z" fill={color} />
   </svg>
 );
 
@@ -346,7 +346,7 @@ function Card({ card, loading }: { card: TopicCard; loading: boolean }) {
           ))}
         </div>
       ) : (
-        <div className="pt-[33px] pr-[25px] pl-[25px]">
+        <div className="pt-[33px] pr-[25px] pl-[18px]">
           <div className="flex flex-col gap-[11px]">
             {lines.map((h, i) => (
               <a key={h} href="#" className="flex items-center text-[13px] leading-5 text-rk-text hover:text-[#006dca]">
@@ -420,7 +420,7 @@ function ExplorerView() {
         </colgroup>
         <thead>
           <tr className="h-14 border-b border-[#e0e1e9] bg-[#f5f6f8] text-left align-top text-[12px] leading-4 text-[#484a54]">
-            <th className="bg-[#e6e7ec] pt-[14px] pl-[13px] font-normal">
+            <th className="bg-[#e6e7ec] pt-3 pl-[13px] font-normal">
               <span className="flex items-center gap-1">
                 Subtopic
                 <svg viewBox="0 0 16 16" width={14} height={14} className="text-[#6c6e79]">
@@ -428,14 +428,14 @@ function ExplorerView() {
                 </svg>
               </span>
             </th>
-            <th className="pt-[14px] pl-3 font-normal">Content Idea</th>
-            <th className="pt-[14px] pl-3 font-normal">
+            <th className="pt-3 pl-3 font-normal">Content Idea</th>
+            <th className="pt-3 pl-3 font-normal">
               Facebook
               <br />
               Engagements
             </th>
-            <th className="pt-[14px] pr-3 text-right font-normal">Backlinks</th>
-            <th className="pt-[14px] pr-3 text-right font-normal">Total Shares</th>
+            <th className="pt-3 pr-3 text-right font-normal">Backlinks</th>
+            <th className="pt-3 pr-3 text-right font-normal">Total Shares</th>
             <th />
           </tr>
         </thead>
@@ -443,7 +443,7 @@ function ExplorerView() {
           {explorerRows.map((r, i) => (
             <tr key={i} className="h-[61px] border-b border-[#e0e1e9] last:border-0 hover:bg-[#f7f8fa]">
               <td className="overflow-hidden pt-3 pl-[13px] align-top leading-[18px] whitespace-nowrap">{r.subtopic}</td>
-              <td className="pt-3 pl-3 align-top leading-[18px]">
+              <td className="pt-3 pl-3 align-top leading-4">
                 <a href="#" className="block truncate hover:text-[#006dca]">
                   {r.title}
                 </a>
@@ -475,7 +475,7 @@ function OverviewList({ title, items, ext, rowH }: { title: string; items: strin
       <div className="px-5 pt-[11px] pb-2">
         {items.map((t) => (
           <div key={t} className={`flex ${rowH} items-center justify-between border-b border-[#d7dbe0] text-[14px] last:border-0`}>
-            <a href="#" className="flex items-center gap-[6px] hover:text-[#006dca]">
+            <a href="#" className="relative -top-[2px] flex items-center gap-[6px] hover:text-[#006dca]">
               {t}
               {ext && <ExtIco />}
             </a>
@@ -494,7 +494,7 @@ function OverviewView() {
     <div className="mx-[29px] mt-4 flex rounded-md bg-white shadow-[0_1px_2px_rgba(25,27,35,0.15)]">
       <OverviewList title="Top 10 Headlines by backlinks" items={overviewHeadlines} ext rowH="h-[45.5px]" />
       <div className="w-px bg-[#e0e1e9]" />
-      <OverviewList title="10 Interesting Questions" items={overviewQuestions} rowH="h-[44px]" />
+      <OverviewList title="10 Interesting Questions" items={overviewQuestions} rowH="h-[43.7px]" />
     </div>
   );
 }

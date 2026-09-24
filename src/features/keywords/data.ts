@@ -74,8 +74,8 @@ const filler = (names: string[], volume: string) =>
   names.map((k) => {
     const h = hash(k);
     const has = h % 3 === 0;
-    const intents = has ? ["C", "I", "T"][h % 3 === 0 ? (h >> 3) % 3 : 0] : "";
-    return r(k, intents, volume, has ? 5 + (h % 30) : null, (((h >> 5) % 900) / 100).toFixed(2), has ? 1 + ((h >> 2) % 6) : null, has && h % 2 === 0);
+    const intents = has ? ["C", "I", "T"][h % 3 === 0 ? (h >>> 3) % 3 : 0] : "";
+    return r(k, intents, volume, has ? 5 + (h % 30) : null, (((h >>> 5) % 900) / 100).toFixed(2), has ? 1 + ((h >>> 2) % 6) : null, has && h % 2 === 0);
   });
 
 export const topicRows: KwRow[] = [

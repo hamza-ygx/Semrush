@@ -143,7 +143,7 @@ function Builder({
               Enter <span className="underline decoration-rk-faint decoration-dotted underline-offset-4">seed keywords</span>
               <span className="rounded-full border border-rk-border-strong px-[6px] text-[13px] leading-[20px]">{count}/5</span>
             </div>
-            <div className={`mt-2 flex h-[91px] rounded-md bg-white ${ring}`}>
+            <div className={`mt-2 flex h-[93px] rounded-md bg-white ${ring}`}>
               <div className="w-[27px] shrink-0 pt-[9px] pr-[5px] text-right text-[16px] leading-6 text-rk-faint">
                 {(seeds ? seedLines : ["", ""]).map((_, i) => (
                   <div key={i}>{i + 1}.</div>
@@ -157,7 +157,7 @@ function Builder({
                 className="flex-1 resize-none bg-transparent pt-[9px] pl-3 text-[16px] leading-6 outline-none placeholder:text-rk-faint"
               />
             </div>
-            <div className="mt-3 flex items-center gap-3">
+            <div className="mt-[14px] flex items-center gap-3">
               <button type="button" className="h-10 rounded-md px-[13px] text-[16px] text-rk-text-2 hover:bg-rk-bg">
                 View sample
               </button>
@@ -197,7 +197,7 @@ const Bar = ({ w, c = "#ececef", h = 8 }: { w: number; c?: string; h?: number })
 
 function PagesIllustration() {
   return (
-    <div className="mx-auto mt-[44px] w-[442px] rounded-xl bg-[#f7f7f8] px-6 pt-6 pb-[23px] text-left">
+    <div className="mx-auto mt-[48px] w-[442px] rounded-xl bg-[#f7f7f8] px-6 pt-6 pb-[23px] text-left">
       <div className="inline-flex h-6 text-[11px] leading-[22px]">
         <span className="rounded-l-md border border-[#b9bef6] bg-[#eef1fd] px-3 text-rk-text-2">Pages to improve</span>
         <span className="-ml-px rounded-r-md border border-[#b9bef6] bg-white px-3 text-rk-text-2">Topics to create content</span>
@@ -249,9 +249,9 @@ const Bubble = ({ x, y, r }: { x: number; y: number; r: number }) => (
 
 function TopicsIllustration() {
   return (
-    <div className="mx-auto mt-[50px] w-[442px] rounded-xl bg-[#f7f7f8] px-6 pt-6 pb-6 text-left">
+    <div className="mx-auto mt-[49px] w-[442px] rounded-xl bg-[#f7f7f8] px-6 pt-6 pb-6 text-left">
       <div className="relative h-[116px] overflow-hidden rounded-md bg-white shadow-[0_0_0_1px_#ececef]">
-        <div className="absolute top-[16px] left-[16px] text-[12px] font-semibold text-rk-text-2">Topical Overview</div>
+        <div className="absolute top-[14px] left-[16px] text-[12px] font-semibold text-rk-text-2">Topical Overview</div>
         <span className="absolute top-[16px] right-[16px] rounded-md border border-[#e0e1e5] bg-[#f4f4f6] px-3 py-[2px] text-[12px] text-[#8e9099]">Export</span>
         <svg width={394} height={116} className="absolute inset-0">
           <defs>
@@ -261,24 +261,24 @@ function TopicsIllustration() {
             </linearGradient>
           </defs>
           <g fill="none" stroke="#e4e6f6">
-            <circle cx="84" cy="95" r="26" />
-            <circle cx="186" cy="102" r="44" />
-            <circle cx="291" cy="56" r="23" />
+            <circle cx="84" cy="84" r="27" />
+            <circle cx="186" cy="77" r="45" />
+            <circle cx="291" cy="48" r="23.5" />
           </g>
           <Bubble x={84} y={90} r={9} />
-          <Bubble x={84} y={69} r={8} />
-          <Bubble x={106} y={80} r={5.5} />
-          <Bubble x={108} y={104} r={3.5} />
-          <Bubble x={186} y={101} r={27} />
-          <Bubble x={186} y={57} r={10.5} />
-          <Bubble x={221} y={75} r={8.5} />
-          <Bubble x={232} y={107} r={5} />
-          <Bubble x={291} y={52} r={9} />
-          <Bubble x={291} y={31} r={7.5} />
-          <Bubble x={311} y={41} r={4} />
+          <Bubble x={84} y={62} r={8} />
+          <Bubble x={106} y={78} r={5.5} />
+          <Bubble x={109} y={100} r={3.5} />
+          <Bubble x={186} y={76} r={27} />
+          <Bubble x={186} y={31} r={10.5} />
+          <Bubble x={221} y={49} r={8.5} />
+          <Bubble x={230} y={81} r={5} />
+          <Bubble x={291} y={50} r={9} />
+          <Bubble x={291} y={25} r={7.5} />
+          <Bubble x={310} y={36} r={4} />
         </svg>
       </div>
-      <div className="mt-[22px] pl-3 text-[12px] font-semibold text-rk-text-2">Topics</div>
+      <div className="mt-[17px] pl-3 text-[12px] font-semibold text-rk-text-2">Topics</div>
       <div className="mt-[9px] flex gap-2">
         {["Volume", "KD %", "Intent"].map((f) => (
           <span key={f} className="flex h-[25px] items-center gap-3 rounded-md border border-[#e0e1e5] bg-white px-3 text-[12px] text-[#8e9099]">
@@ -287,13 +287,16 @@ function TopicsIllustration() {
           </span>
         ))}
       </div>
-      <div className="mt-[11px] rounded-md bg-white shadow-[0_0_0_1px_#ececef]">
+      <div className="mt-[11px] flex flex-col gap-px">
         {[
-          { i: "C", cls: "bg-[#fcd96b] text-[#8a5a00]", bar: "#d9d9dc", btn: true },
-          { i: "T", cls: "bg-[#9ef2c9] text-[#00785f]", bar: "#f0f0f2" },
-          { i: "I", cls: "bg-[#c4d8fd] text-[#2b53b8]", bar: "#f0f0f2" },
+          { i: "C", cls: "bg-[#fcd96b] text-[#8a5a00]", bar: "#e0e0e2", btn: true },
+          { i: "T", cls: "bg-[#9ef2c9] text-[#00785f]", bar: "#e0e0e2" },
+          { i: "I", cls: "bg-[#c4d8fd] text-[#2b53b8]", bar: "#e0e0e2" },
         ].map((r, k) => (
-          <div key={r.i} className={`flex h-[44px] items-center px-4 ${k ? "border-t border-[#ececef]" : ""}`}>
+          <div
+            key={r.i}
+            className={`flex items-center rounded-md bg-white px-4 shadow-[0_0_0_1px_#efeff1,0_1px_3px_rgba(25,27,35,0.06)] ${k ? "h-[43px] [&>*]:opacity-50" : "h-12"}`}
+          >
             <Bar w={91} c={r.bar} />
             <span className="ml-[27px]">
               <Bar w={29} c={r.bar} />
@@ -306,7 +309,7 @@ function TopicsIllustration() {
             {r.btn ? (
               <span className="ml-auto rounded-md bg-[#616161] px-2 py-[5px] text-[11px] text-white">Generate content</span>
             ) : (
-              <span className="ml-auto h-[24px] w-[100px] rounded-md bg-[#c6c6c8]" />
+              <span className="ml-auto h-[24px] w-[100px] rounded-md bg-[#c6c6c8] !opacity-100" />
             )}
           </div>
         ))}
@@ -324,9 +327,11 @@ const bullets = {
   seed: ["Expands a single seed keyword into a wide set of related topics and keyword clusters", "Helps you find content that matches real user intent and demand", "Elevates your content ideation"],
 };
 
+const Hy = () => <span className="mx-[2px]">-</span>;
+
 function Bullets({ items }: { items: string[] }) {
   return (
-    <ul className="mt-5 flex flex-col gap-2 pl-[2px] text-[16px] leading-6">
+    <ul className="mt-[21px] flex flex-col gap-2 pl-[2px] text-[16px] leading-6">
       {items.map((b) => (
         <li key={b} className="flex gap-[11px]">
           <span className="mt-[10px] h-[5px] w-[5px] shrink-0 rounded-full bg-rk-muted" />
@@ -448,10 +453,10 @@ export function StrategyBuilder() {
       />
 
       <div className="mt-4 rounded-lg bg-white px-6 pt-[70px] pb-10 shadow-card">
-        <h3 className="text-[24px] leading-8 font-semibold">Domain-based strategy</h3>
+        <h3 className="text-[24px] leading-8 font-semibold">Domain<Hy />based strategy</h3>
         <Bullets items={bullets.domain} />
         <PagesIllustration />
-        <h3 className="mt-[78px] text-[24px] leading-8 font-semibold">Seed keyword-based strategy</h3>
+        <h3 className="mt-[78px] text-[24px] leading-8 font-semibold">Seed keyword<Hy />based strategy</h3>
         <Bullets items={bullets.seed} />
         <TopicsIllustration />
       </div>
@@ -472,7 +477,7 @@ export function StrategyBuilder() {
       </div>
 
       <div className="mt-10">
-        <Builder mode={mode} setMode={change} title="Drive more traffic with a ready-made keyword strategy" headingClass="text-[24px] leading-8 font-semibold" />
+        <Builder mode={mode} setMode={change} title={<>Drive more traffic with a ready<Hy />made keyword strategy</>} headingClass="text-[24px] leading-8 font-semibold" />
       </div>
     </div>
   );

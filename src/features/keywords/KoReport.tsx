@@ -101,15 +101,15 @@ function TopCards() {
           <FlagSE width={16} height={12} />
         </Big>
         <div className="mt-[19px] mb-[19px] border-t-2 border-[#eeeff1]" />
-        <div className="text-[16px] leading-6">Keyword Difficulty</div>
-        <div className="mt-1 flex items-center gap-3">
+        <Label>Keyword Difficulty</Label>
+        <div className="mt-[7px] flex items-center gap-3">
           <div>
             <Big>{s.kd}%</Big>
             <div className="text-[12px] leading-4 text-rk-text-2">{s.kdLabel}</div>
           </div>
           <KdRing value={s.kd} />
         </div>
-        <p className="mt-4 text-[12px] leading-4 text-rk-muted">{s.kdText}</p>
+        <p className="mt-3 text-[12px] leading-4 text-rk-muted">{s.kdText}</p>
       </Card>
       <Card className="rounded-xl px-5 pt-5 pb-5">
         <Label>Global Volume</Label>
@@ -173,15 +173,15 @@ function KeywordIdeas() {
       <div className="grid h-[341px] grid-cols-3 gap-x-[78px] px-5 pt-5">
         <div>
           <Label>Keyword Variations</Label>
-          <div className="mt-[2px] flex items-baseline gap-1">
+          <div className="mt-[5px] flex items-baseline gap-1">
             <span className="text-[24px] leading-8 font-bold text-rk-number">1</span>
             <span className="text-[14px]">
               Total Volume: <b>880</b>
             </span>
           </div>
-          <table className="-ml-5 mt-5 w-[calc(100%+38px)] text-[14px]">
+          <table className="-ml-5 mt-[15px] w-[calc(100%+38px)] text-[14px]">
             <thead>
-              <tr className="h-8 border-b border-[#eeeff1] text-[13px] text-rk-text-2">
+              <tr className="h-[33px] border-b border-[#eeeff1] text-[13px] text-rk-text-2">
                 <th className="pl-5 text-left font-normal">Keywords</th>
                 <th className="w-[80px] pr-5 text-right font-normal">Volume</th>
                 <th className="w-[62px] text-left font-normal">KD %</th>
@@ -189,9 +189,9 @@ function KeywordIdeas() {
             </thead>
             <tbody>
               {koVariations.map((v) => (
-                <tr key={v.keyword} className="h-[35px] border-b border-[#eeeff1]">
+                <tr key={v.keyword} className="h-9 border-b border-[#eeeff1]">
                   <td className="pl-5">
-                    <Link href={routes.keywordOverview} className="text-rk-link hover:text-rk-link-hover">
+                    <Link href={`${routes.keywordOverview}?q=${encodeURIComponent(v.keyword)}&db=se`} className="text-rk-link hover:text-rk-link-hover">
                       {v.keyword}
                     </Link>
                   </td>
@@ -206,18 +206,18 @@ function KeywordIdeas() {
               ))}
             </tbody>
           </table>
-          <Link href={routes.keywordMagic} className="mt-5 inline-flex h-7 items-center rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
+          <Link href={`${routes.keywordMagic}?db=se&q=${encodeURIComponent(koVariations[0].keyword)}`} className="mt-[18px] inline-flex h-7 items-center rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
             View all 1 keywords
           </Link>
         </div>
         <div>
           <Label>Questions</Label>
           <Big className="text-rk-faint">n/a</Big>
-          <NoData className="mt-[52px]" />
+          <NoData className="mt-[101px]" />
         </div>
         <div>
           <Label>Keyword Strategy</Label>
-          <NoData className="mt-[84px]" />
+          <NoData className="mt-[133px]" />
         </div>
       </div>
     </Card>
@@ -267,7 +267,7 @@ function SerpAnalysis() {
           ))}
         </div>
       </div>
-      <div className="px-5 pt-[18px]">
+      <div className="px-5 pt-5">
         <div className="flex">
           <div className="border-r border-rk-border pr-6">
             <Label>Results</Label>
@@ -275,10 +275,10 @@ function SerpAnalysis() {
           </div>
           <div className="pl-6">
             <Label>SERP Features</Label>
-            <PinIcon className="mt-[6px] text-rk-muted" />
+            <PinIcon className="mt-[8px] text-rk-muted" />
           </div>
         </div>
-        <div className="mt-[14px] inline-flex">
+        <div className="mt-[19px] inline-flex">
           {serpRanges.map((rg, i) => (
             <button
               key={rg}
@@ -293,7 +293,7 @@ function SerpAnalysis() {
           ))}
         </div>
       </div>
-      <table className="mt-5 w-full text-[14px]">
+      <table className="mt-[14px] w-full text-[14px]">
         <thead>
           <tr className="h-[42px] border-b border-[#eeeff1] text-[13px] text-rk-text-2">
             <th className="w-[56px]" />
@@ -329,7 +329,7 @@ function SerpAnalysis() {
                     {row.url}
                     <ExtIcon className="text-rk-muted" />
                   </a>
-                  <Link href={routes.domainOverview} className="font-semibold text-[#2359d6] hover:text-rk-link-hover">
+                  <Link href={`${routes.domainOverview}?q=${row.domain}`} className="font-semibold text-[#2359d6] hover:text-rk-link-hover">
                     {row.domain}
                   </Link>
                 </td>
@@ -351,7 +351,7 @@ function EmptyCard({ title }: { title: string }) {
   return (
     <Card className="rounded-xl">
       <div className="flex h-11 items-center border-b border-[#eeeff1] px-5 text-[16px] font-bold">{title}</div>
-      <div className="flex h-[263px] items-center justify-center pb-3">
+      <div className="flex h-[263px] justify-center pt-[143px]">
         <NoData />
       </div>
     </Card>

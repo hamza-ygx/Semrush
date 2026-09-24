@@ -29,7 +29,7 @@ export function KoBulk({ q }: { q: string }) {
               Clear all
             </button>
           </div>
-          <div className="mt-2 flex h-[137px] rounded-md border-2 border-[#7f86ee] bg-white ring-2 ring-[#e3e5fc]">
+          <div className="mt-[7px] flex h-[138px] rounded-md border-2 border-[#8d95ec] bg-white ring-2 ring-[#8d95ec]">
             <div className="w-[28px] shrink-0 pt-[7px] pr-[5px] text-right text-[14px] leading-5 text-rk-faint">
               {lines.map((_, i) => (
                 <div key={i}>{i + 1}.</div>
@@ -58,7 +58,7 @@ export function KoBulk({ q }: { q: string }) {
             <button
               type="button"
               onClick={() => router.push(`${routes.keywordOverview}?q=${encodeURIComponent(lines.find((l) => l.trim()) ?? q)}&db=se`)}
-              className="h-7 rounded-md bg-rk-btn-dark px-2 text-[14px] font-semibold text-white hover:bg-[#2b2e38]"
+              className="h-7 rounded-md bg-rk-btn-dark px-2 text-[14px] font-medium text-white hover:bg-[#2b2e38]"
             >
               Analyze
             </button>

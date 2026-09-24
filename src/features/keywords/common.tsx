@@ -18,26 +18,26 @@ export function CenteredFooter({ className = "pt-[136px] pb-[37px]" }: { classNa
       <div className="hidden pt-[34px] xl:block">
         <Footer />
       </div>
-    <footer className={`flex flex-col items-center gap-6 xl:hidden ${className}`}>
-      <button type="button" className={`${link} flex items-center gap-[6px]`}>
-        <TranslateGlyph />
-        English
-        <svg viewBox="0 0 16 16" width={14} height={14} className="text-rk-faint">
-          <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
-      <div className="flex gap-7">
-        <a href="#" className={link}>
-          Contact us
-        </a>
-        <a href="#" className={link}>
-          Cookie settings
-        </a>
-      </div>
-      <span className="text-[16px] leading-6 text-rk-muted">
-        © 2026 {brand.legalName}. All rights reserved.
-      </span>
-    </footer>
+      <footer className={`flex flex-col items-center gap-6 xl:hidden ${className}`}>
+        <button type="button" className={`${link} flex items-center gap-[6px]`}>
+          <TranslateGlyph />
+          English
+          <svg viewBox="0 0 16 16" width={14} height={14} className="text-rk-faint">
+            <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+        <div className="flex gap-7">
+          <a href="#" className={link}>
+            Contact us
+          </a>
+          <a href="#" className={link}>
+            Cookie settings
+          </a>
+        </div>
+        <span className="text-[16px] leading-6 text-rk-muted">
+          © 2026 {brand.legalName}. All rights reserved.
+        </span>
+      </footer>
     </>
   );
 }
@@ -130,8 +130,8 @@ export const Chevron = ({ className = "", size = 16 }: { className?: string; siz
 
 export const CirclePlus = (p: P) => (
   <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
-    <circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" strokeWidth={1.3} />
-    <path d="M8 4.8v6.4M4.8 8h6.4" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" />
+    <circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" strokeWidth={1.5} />
+    <path d="M8 4.8v6.4M4.8 8h6.4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
   </svg>
 );
 
@@ -143,8 +143,8 @@ export const ExtIcon = (p: P) => (
 
 export const SerpIcon = (p: P) => (
   <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
-    <rect x="2.5" y="3" width="11" height="10" rx="1" fill="none" stroke="currentColor" strokeWidth={1.3} />
-    <path d="M2.5 7.5h11M5 5.3h3M5 10h6" stroke="currentColor" strokeWidth={1.3} />
+    <rect x="2.5" y="2.5" width="11" height="11" rx="1" fill="none" stroke="currentColor" strokeWidth={1.5} />
+    <path d="M2.5 8h11M10 8v5.5" stroke="currentColor" strokeWidth={1.5} />
   </svg>
 );
 

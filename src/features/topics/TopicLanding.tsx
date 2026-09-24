@@ -97,7 +97,7 @@ export function TopicLanding() {
       >
         <h1 className="text-[36px] leading-[44px] font-semibold">Topic Research</h1>
         <p className="mx-auto mt-[18px] max-w-[645px] text-[16px] leading-6 text-[#333]">Win your readers’ hearts and minds with a topic finder that helps you generate ideas for engaging content.</p>
-        <div className="mt-[30px] flex">
+        <div className="mt-[31px] flex">
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -135,7 +135,7 @@ export function TopicLanding() {
           </Popover>
         </div>
         {domain && <input placeholder="Enter domain" className="mt-3 h-10 w-full rounded-md border border-[#c4c7cf] px-3 text-[16px] outline-none placeholder:text-[#8a8e9b]" />}
-        <div className="mt-3 flex items-start justify-between">
+        <div className="mt-[14px] flex items-start justify-between">
           <button type="button" onClick={() => setDomain((d) => !d)} className="mt-[3px] ml-[1px] flex items-center gap-[6px] text-[16px] text-[#006dca] hover:underline">
             <span className="text-[20px] leading-5">{domain ? "−" : "+"}</span>
             {domain ? "Remove domain" : "Enter domain to find content on"}

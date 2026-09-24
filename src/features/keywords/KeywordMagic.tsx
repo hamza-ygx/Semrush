@@ -191,7 +191,7 @@ function Filters() {
 function Toolbar({ type, setType }: { type: Type; setType: (t: Type) => void }) {
   const [match, setMatch] = useState("all");
   return (
-    <div className="px-8 pt-4">
+    <div className="px-8 pt-[15px]">
       <div className="flex items-center gap-2">
         <SegButtons
           items={[
@@ -214,11 +214,11 @@ function Toolbar({ type, setType }: { type: Type; setType: (t: Type) => void }) 
         />
         <LangSelect />
       </div>
-      <label className="mt-3 flex h-7 w-[274px] items-center gap-2 rounded-md border border-[#d7c5fb] bg-white px-2">
+      <label className="mt-[11px] flex h-7 w-[274px] items-center gap-2 rounded-md border border-[#d7c5fb] bg-white px-2">
         <SparkleIcon />
         <input placeholder="Enter domain for personalized data" className="min-w-0 flex-1 bg-transparent text-[14px] outline-none placeholder:text-rk-muted" />
       </label>
-      <div className="mt-3">
+      <div className="mt-[13px]">
         <Filters />
       </div>
     </div>
@@ -325,6 +325,9 @@ function Checkbox() {
 
 function Row({ row, relevance, plus }: { row: KwRow; relevance: boolean; plus: boolean }) {
   const noData = row.kd == null && row.sf == null;
+  const cut = row.keyword.lastIndexOf(" ") + 1;
+  const head = row.keyword.slice(0, cut);
+  const last = row.keyword.slice(cut);
   return (
     <tr className="border-b border-rk-border hover:bg-[#f7f8fa]">
       <td className="w-[44px] pl-5 align-top">
@@ -335,15 +338,16 @@ function Row({ row, relevance, plus }: { row: KwRow; relevance: boolean; plus: b
       <td className="pt-3 pb-[11px] pr-4 pl-2 align-top leading-5">
         <span className="flex items-start gap-1">
           {row.added || plus ? <CirclePlus className="mt-[2px] shrink-0 text-rk-faint" /> : <span className="mt-[2px] h-4 w-4 shrink-0 rounded-full bg-[#e8e9ed]" />}
-          <span>
-            <Link href={`${routes.keywordOverview}?q=${encodeURIComponent(row.keyword)}&db=se`} className="text-rk-link hover:underline">
-              {row.keyword}
-            </Link>
-            <SerpIcon className="ml-[6px] inline-block align-[-2px] text-rk-muted" width={14} height={14} />
-          </span>
+          <Link href={`${routes.keywordOverview}?q=${encodeURIComponent(row.keyword)}&db=se`} className="text-rk-link hover:underline">
+            {head}
+            <span className="whitespace-nowrap">
+              {last}
+              <SerpIcon className="ml-[6px] inline-block align-[-3px] text-[#a9abb6]" />
+            </span>
+          </Link>
         </span>
       </td>
-      <td className="pt-3 pb-[11px] text-center align-top leading-5">
+      <td className="pt-3 pb-[11px] pl-2 text-left align-top leading-5">
         <IntentBadges intents={row.intents} />
       </td>
       {relevance && <td className="pt-3 pb-[11px] pr-2 text-right align-top leading-5">{row.relevance}</td>}
@@ -536,7 +540,7 @@ export function KeywordMagic({ q, initialMode, initialType }: { q: string; initi
                   <Checkbox />
                 </Th>
                 <Th className="pl-2 text-left">Keyword</Th>
-                <Th className="w-[52px]">Intent</Th>
+                <Th className="w-[52px] pl-2 text-left">Intent</Th>
                 {relevance && (
                   <Th className="w-[95px] pr-2 pl-[9px] text-left" sorted>
                     Relevance
