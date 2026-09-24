@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Footer } from "@/components/Footer";
 import type { CSSProperties, ReactNode, SVGProps } from "react";
 import { brand } from "@/config/brand";
 import { routes } from "@/config/routes";
@@ -13,7 +14,11 @@ export function WidePage({ children, width = 1300 }: { children: ReactNode; widt
 export function CenteredFooter({ className = "pt-[136px] pb-[37px]" }: { className?: string }) {
   const link = "text-[16px] leading-6 text-rk-muted hover:text-rk-text";
   return (
-    <footer className={`flex flex-col items-center gap-6 ${className}`}>
+    <>
+      <div className="hidden pt-[34px] xl:block">
+        <Footer />
+      </div>
+    <footer className={`flex flex-col items-center gap-6 xl:hidden ${className}`}>
       <button type="button" className={`${link} flex items-center gap-[6px]`}>
         <TranslateGlyph />
         English
@@ -33,6 +38,7 @@ export function CenteredFooter({ className = "pt-[136px] pb-[37px]" }: { classNa
         © 2026 {brand.legalName}. All rights reserved.
       </span>
     </footer>
+    </>
   );
 }
 

@@ -54,9 +54,9 @@ export function Info({ className = "" }: { className?: string }) {
 
 export function Breadcrumbs({ items }: { items: { label: string; href?: string }[] }) {
   return (
-    <nav className="flex items-center gap-[6px] text-[14px] leading-5">
+    <nav className="flex items-center gap-[9px] text-[14px] leading-5">
       {items.map((it, i) => (
-        <span key={it.label} className="flex items-center gap-[6px]">
+        <span key={it.label} className="flex items-center gap-[9px]">
           {i > 0 && <ChevronRight className="text-rk-muted" width={14} height={14} />}
           {it.href ? (
             <Link href={it.href} className="text-rk-muted hover:text-rk-link">

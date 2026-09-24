@@ -85,6 +85,25 @@ export const routes = {
   organicTrafficInsights: "/oti",
 };
 
+export const unbuiltRoutes = [
+  "/ai",
+  "/traffic-market",
+  "/local",
+  "/content",
+  "/ad",
+  "/ai-pr",
+  "/social",
+  "/reports",
+  "/apps",
+  routes.referringDomains,
+  routes.backlinkAudit,
+  routes.sensor,
+  routes.seoquake,
+  routes.rank,
+  routes.onPageSeoChecker,
+  routes.organicTrafficInsights,
+];
+
 export type NavItem = { label: string; href: string; match?: string[] };
 export type NavGroup = { heading?: string; items: NavItem[] };
 

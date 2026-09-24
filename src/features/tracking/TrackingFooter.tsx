@@ -1,9 +1,14 @@
 import { brand } from "@/config/brand";
+import { Footer } from "@/components/Footer";
 import { ChevronDownIcon, TranslateIcon } from "@/components/icons";
 
 export function TrackingFooter() {
   return (
-    <footer className="flex flex-col items-center pt-[230px] pb-[41px] text-[16px] leading-6 text-rk-text-2">
+    <>
+      <div className="hidden pt-[34px] xl:block">
+        <Footer />
+      </div>
+    <footer className="flex flex-col items-center pt-[230px] pb-[41px] text-[16px] leading-6 text-rk-text-2 xl:hidden">
       <button type="button" className="flex items-center gap-[6px] hover:text-rk-text">
         <TranslateIcon width={16} height={16} />
         English
@@ -19,5 +24,6 @@ export function TrackingFooter() {
       </div>
       <p className="mt-[25px]">© 2026 {brand.legalName}. All rights reserved.</p>
     </footer>
+    </>
   );
 }

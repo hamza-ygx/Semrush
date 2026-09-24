@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { Footer } from "@/components/Footer";
 import { brand } from "@/config/brand";
 import { AppShell, type HeaderSearchConfig } from "@/components/shell/AppShell";
 import { ChevronDownIcon, TranslateIcon } from "@/components/icons";
@@ -14,7 +15,11 @@ export const PAGE_BG = "#f3f5f5";
 export function CenteredFooter() {
   const link = "text-[16px] leading-6 text-[#6c6e79] hover:text-rk-text";
   return (
-    <footer className="flex flex-col items-center pt-[136px] pb-[37px]">
+    <>
+      <div className="hidden pt-[34px] xl:block">
+        <Footer />
+      </div>
+    <footer className="flex flex-col items-center pt-[136px] pb-[37px] xl:hidden">
       <Popover
         align="left"
         panelClassName="min-w-[140px] bottom-[calc(100%+4px)] top-auto!"
@@ -44,6 +49,7 @@ export function CenteredFooter() {
       </div>
       <div className="mt-6 text-[16px] leading-6 text-[#6c6e79]">© 2026 {brand.legalName}. All rights reserved.</div>
     </footer>
+    </>
   );
 }
 
