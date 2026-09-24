@@ -1,6 +1,6 @@
 export const months = ["Mar 2026", "Apr 2026", "May 2026", "Jun 2026", "Jul 2026", "Aug 2026", "Sep 2026"];
 
-export type Triple = { zara: number[]; asos: number[]; hm: number[] };
+export type Triple = { zara: (number | null)[]; asos: (number | null)[]; hm: (number | null)[] };
 
 export type GrowingPage = { kind: "Spiked" | "Trending up"; pct: string; url: string; value: string };
 
@@ -117,9 +117,9 @@ export const channelReports: Record<"organicSocial" | "paidSocial" | "email" | "
     mobile: {
       ticks: [0, 20 * K, 40 * K, 60 * K, 80 * K],
       data: {
-        zara: [4, 5, 5, 5, 5, 5, 5].map((v) => v * K),
+        zara: [4, null, null, 5, null, null, null].map((v) => (v == null ? null : v * K)),
         asos: [38, 33, 38, 78, 37, 22, 20].map((v) => v * K),
-        hm: [7, 6.5, 7, 3, 20, 10, 9].map((v) => v * K),
+        hm: [null, 7, 7.2, 3, 20, 10, 9].map((v) => (v == null ? null : v * K)),
       },
     },
     growing: { "zara.com": [], "asos.com": [], "hm.com": [] },

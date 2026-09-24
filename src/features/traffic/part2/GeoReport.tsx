@@ -8,7 +8,7 @@ import { businessRows, businessShare, countryRows, countryShareByMap, geoTrend, 
 import { Flag } from "./flags";
 import { usStates, worldBusiness, worldCountries, worldOutline, worldSubregions } from "./geo";
 import { MetricTable, Pagination, ShareCell } from "./table";
-import { CardTitle } from "./ui";
+import { CardTitle, InfoMark } from "./ui";
 
 type Kind = "usa" | "countries" | "business" | "regions";
 
@@ -181,7 +181,7 @@ export function GeoReport({ kind }: { kind: Kind }) {
   const withFlags = kind === "countries";
   return (
     <TrafficFrame title={c.title} filters={["date", "granularity", "device"]} chips="select" domains={sampleDomains}>
-      <div className="flex flex-col gap-4">
+      <div className="-mt-[2px] flex flex-col gap-4">
         <MapCard kind={kind} />
         <TrendCard kind={kind} />
         <section className="overflow-clip rounded-lg bg-white shadow-card">
@@ -190,7 +190,7 @@ export function GeoReport({ kind }: { kind: Kind }) {
             <span className="-ml-[4px] text-[16px] leading-6 text-[#8b8d96]">
               1-{c.total <= 51 ? c.total : 50} ({c.total})
             </span>
-            <span className="font-serif text-[16px] leading-none text-rk-faint italic">i</span>
+            <InfoMark />
           </div>
           <MetricTable
             first={{ label: c.first, width: 200 }}

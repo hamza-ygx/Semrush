@@ -86,11 +86,11 @@ function TrendByGroup() {
 function GrowingGroupPages() {
   const [cur, setCur] = useState(domains[0].name);
   return (
-    <SampleCard title="Top Growing Pages" bodyClassName="px-5 pt-5 pb-[20px]">
+    <SampleCard title="Top Growing Pages" bodyClassName="px-5 pt-[21px] pb-[20px]">
       <DomainSwitch domains={domains} onChange={setCur} />
       <div className="mt-[21px] flex gap-4 overflow-hidden">
         {pageGroupGrowing[cur].map((p) => (
-          <div key={p.url} className="h-[112px] w-[250px] shrink-0 rounded-[6px] border border-[#d7d9de] bg-white px-[16px] pt-[15px]">
+          <div key={p.url} className="h-[113px] w-[250px] shrink-0 rounded-[6px] border border-[#d7d9de] bg-white px-[16px] pt-[15px]">
             <div className="text-[24px] leading-[30px] font-semibold text-rk-text">{p.pct}</div>
             <div className="mt-[1px] text-[14px] leading-5 text-rk-text-2">
               {p.a} <span className="text-[#8b8d96]">vs.</span> {p.b}
@@ -157,14 +157,14 @@ function ChannelsChart() {
           const cx = left + band * i + band / 2;
           const ai = n === "AI Traffic" || n === "Google AI Mode";
           return (
-            <div key={n} className="absolute flex w-[108px] items-center justify-center gap-[4px] text-[12px] leading-4 text-[#6c6e79]" style={{ left: cx - 54, top: top + H + 11 }}>
+            <div key={n} className="absolute flex w-[108px] items-center justify-center gap-[4px] text-[12px] leading-4 text-[#6c6e79]" style={{ left: cx - 54, top: top + H + 12 }}>
               <span className="max-w-[88px] truncate whitespace-nowrap">{n === "Google AI Mode" ? "Google AI Mo..." : n}</span>
               {ai && <Sparkle />}
             </div>
           );
         })}
       </div>
-      <DomainLegend domains={domains} className="mt-[17px]" onChange={setOn} />
+      <DomainLegend domains={domains} className="mt-[15px]" onChange={setOn} />
     </SampleCard>
   );
 }
@@ -340,6 +340,7 @@ export function PageGroups() {
         <Journey />
         <ByCountry />
       </div>
+      <div className="h-[38px]" />
     </TrafficFrame>
   );
 }

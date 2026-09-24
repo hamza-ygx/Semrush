@@ -17,7 +17,12 @@ const viewDetails =
   "mt-[21px] inline-flex h-7 items-center rounded-[6px] border border-[#d7d9de] bg-[#f9fafa] px-[8px] text-[14px] leading-5 whitespace-nowrap text-rk-text-2 hover:bg-rk-hover";
 
 export function InfoMark({ className = "" }: { className?: string }) {
-  return <span className={`font-serif text-[16px] leading-none text-rk-faint italic ${className}`}>i</span>;
+  return (
+    <svg viewBox="0 0 7 12" width={7} height={12} aria-hidden className={`-ml-[1px] shrink-0 translate-y-[1px] text-[#989aa4] ${className}`}>
+      <circle cx={3.4} cy={1.2} r={1.2} fill="currentColor" />
+      <path d="M1.2 4.6h2.3v4.6c0 .9.5 1.3 1.3 1.3h1.4" fill="none" stroke="currentColor" strokeWidth={1.4} />
+    </svg>
+  );
 }
 
 export function CardTitle({ children, info = false }: { children: ReactNode; info?: boolean }) {

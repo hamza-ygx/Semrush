@@ -94,8 +94,22 @@ export function TrendLines({
         if (cur) segs.push(cur);
         const a = pts[n - 2];
         const b = pts[n - 1];
+        const known = pts.map((p, i) => (p ? i : -1)).filter((i) => i >= 0);
+        const gaps: string[] = [];
+        if (known.length && known.length < n) {
+          const f = pts[known[0]]!;
+          const l = pts[known[known.length - 1]]!;
+          if (known[0] > 0) gaps.push(`M${x(0)} ${f[1]}H${f[0]}`);
+          known.slice(1).forEach((k, j) => {
+            if (k - known[j] > 1) gaps.push(`M${pts[known[j]]![0]} ${pts[known[j]]![1]}L${pts[k]![0]} ${pts[k]![1]}`);
+          });
+          if (known[known.length - 1] < n - 1) gaps.push(`M${l[0]} ${l[1]}H${x(n - 1)}`);
+        }
         return (
           <g key={s.name}>
+            {gaps.map((d) => (
+              <path key={d} d={d} fill="none" stroke="#cbd0d2" strokeWidth={2} strokeDasharray="3 3" />
+            ))}
             {segs.map((d) => (
               <path key={d} d={d} fill="none" stroke={s.color} strokeWidth={3} strokeLinejoin="round" strokeLinecap="round" />
             ))}
