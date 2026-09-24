@@ -1,0 +1,22 @@
+@import "tailwindcss";
+@import "../styles/intergalactic-tokens.css";
+
+@theme inline {
+  --font-sans: "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --shadow-card: var(--intergalactic-box-shadow-card);
+}
+
+html,
+body {
+  background: #f4f5f9;
+  color: #191b23;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
