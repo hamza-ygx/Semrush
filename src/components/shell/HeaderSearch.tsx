@@ -14,6 +14,8 @@ const recents = [
 ];
 
 const recommended = ["Domain Overview", "Keyword Strategy Builder", "Position Tracking"];
+const searchFirst = ["Keyword Overview", "Keyword Gap", "Keyword Magic Tool"];
+const rank = (n: string) => (searchFirst.includes(n) ? searchFirst.indexOf(n) : searchFirst.length);
 
 function ToolLine({ name, description, href, onClick }: { name: string; description: string; href: string; onClick?: () => void }) {
   return (
@@ -29,7 +31,7 @@ export function GoToTool() {
   const [q, setQ] = useState("");
   const router = useRouter();
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
-  const matches = q ? tools.filter((t) => t.name.toLowerCase().includes(q.toLowerCase())).slice(0, 3) : [];
+  const matches = q ? tools.filter((t) => t.name.toLowerCase().includes(q.toLowerCase())).sort((a, b) => rank(a.name) - rank(b.name)).slice(0, 3) : [];
   const h = "h-[39px] xl:h-8";
   const close = () => {
     setOpen(false);
@@ -39,7 +41,7 @@ export function GoToTool() {
   return (
     <div ref={ref} className="relative">
       {open && (
-        <div className="absolute -top-[10px] -right-[17px] -left-4 z-40 rounded-b-lg bg-white pt-[62px] pb-2 shadow-popover">
+        <div className="absolute -top-[10px] -right-[17px] -left-4 z-40 rounded-b-lg bg-white pt-[62px] pb-[3px] shadow-popover">
           {q ? (
             <>
               <div className="flex items-center justify-between px-4 pt-1 pb-3 text-[14px] leading-5">
@@ -54,20 +56,20 @@ export function GoToTool() {
               {matches.length === 0 && <div className="px-4 py-[6px] text-rk-muted">No results found</div>}
             </>
           ) : (
-            <>
+            <div className="pt-[2px]">
               {recents.map((r) => (
                 <Link key={r.label} href={r.href} onClick={close} className="flex items-center gap-2 px-4 py-[6px] text-[14px] leading-5 hover:bg-rk-bg">
                   <ClockIcon className="text-rk-muted" />
                   {r.label}
                 </Link>
               ))}
-              <div className="mx-4 my-[10px] border-t border-rk-border" />
-              <div className="px-4 pb-2 text-[14px] leading-5 text-rk-muted">Recommendations</div>
+              <div className="mx-4 mt-[16px] mb-[10px] border-t border-rk-border" />
+              <div className="px-4 pb-[9px] text-[14px] leading-5 text-rk-muted">Recommendations</div>
               {recommended.map((n) => {
                 const t = tools.find((x) => x.name === n)!;
                 return <ToolLine key={n} {...t} onClick={close} />;
               })}
-            </>
+            </div>
           )}
         </div>
       )}
@@ -141,7 +143,7 @@ export function AnalyzeSearch({ value, scope }: { value: string; scope?: boolean
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
-            className={`${h} flex w-[125px] items-center justify-between border border-l-0 border-rk-border-strong bg-white px-3 text-[16px] text-rk-text`}
+            className={`${h} flex w-[144px] items-center justify-between border border-l-0 border-rk-border-strong bg-white px-3 text-[16px] whitespace-nowrap text-rk-text`}
           >
             {sc}
             <ChevronDown className="text-rk-muted" />
@@ -165,7 +167,7 @@ export function AnalyzeSearch({ value, scope }: { value: string; scope?: boolean
           )}
         </div>
       )}
-      <button type="submit" className={`${h} rounded-r-md bg-rk-btn-dark px-[14px] text-[16px] font-semibold text-white hover:bg-[#2b2e38]`}>
+      <button type="submit" className={`${h} rounded-r-md bg-rk-btn-dark px-[13px] text-[16px] font-semibold text-white hover:bg-[#2b2e38]`}>
         Analyze
       </button>
     </form>

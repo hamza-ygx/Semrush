@@ -106,7 +106,7 @@ export function ToolCards() {
           </a>
         ))}
       </div>
-      <div className="pointer-events-none absolute top-0 right-0 h-full w-[42px] bg-gradient-to-r from-[#f4f5f9]/0 to-[#f4f5f9]" />
+      <div className="pointer-events-none absolute top-0 right-0 h-full w-[42px] bg-gradient-to-r from-[#f3f5f5]/0 to-[#f3f5f5]" />
       <button
         aria-label="Next"
         onClick={() => scroller.current?.scrollBy({ left: 256, behavior: "smooth" })}

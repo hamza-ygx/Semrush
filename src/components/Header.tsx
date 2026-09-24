@@ -1,9 +1,10 @@
+import { routes } from "@/config/routes";
 import { ChevronDownIcon, PlusIcon } from "./icons";
 
 export function Header() {
   return (
     <header className="flex h-[52px] shrink-0 items-center justify-between border-b border-[#e0e1e9] pl-8 pr-9">
-      <form className="flex h-8" action="#">
+      <form className="flex h-8" action={routes.domainOverview}>
         <input
           type="text"
           placeholder="Enter website or keyword"

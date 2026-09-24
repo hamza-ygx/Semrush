@@ -23,7 +23,7 @@ export function HelpButtonAndPanel() {
   return (
     <>
       {open && (
-        <aside className="fixed top-0 right-0 bottom-0 z-[60] flex w-[406px] flex-col bg-white shadow-popover">
+        <aside className="fixed top-0 right-0 bottom-0 z-[60] flex w-[403px] flex-col bg-white shadow-popover">
           <div className="flex h-[49px] shrink-0 items-center justify-between border-b border-rk-border px-6">
             <h2 className="text-[16px] font-semibold">Help &amp; Support</h2>
             <button type="button" aria-label="Close help" onClick={() => setOpen(false)} className="text-rk-muted hover:text-rk-text">

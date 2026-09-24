@@ -70,14 +70,14 @@ export function AppShell({
       )}
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex h-[52px] shrink-0 items-center justify-between border-b border-rk-border pr-[38px] pl-8">
-          <div className="flex items-center gap-[14px]">
-            <button type="button" aria-label="Menu" onClick={() => setDrawer(true)} className="-ml-[3px] flex h-9 w-9 items-center justify-center rounded text-rk-text-2 hover:bg-rk-hover xl:hidden">
+        <header className="flex h-[52px] shrink-0 items-center justify-between border-b border-rk-border pr-[33px] pl-8">
+          <div className="flex items-center gap-[12px] xl:gap-[14px]">
+            <button type="button" aria-label="Menu" onClick={() => setDrawer(true)} className="ml-[2px] flex h-9 w-9 items-center justify-center rounded text-rk-text-2 hover:bg-rk-hover xl:hidden">
               <HamburgerIcon width={22} height={22} />
             </button>
             {search.kind === "goto" ? <GoToTool /> : <AnalyzeSearch value={search.value} scope={search.scope} />}
           </div>
-          <nav className="flex items-center gap-10 text-[14px] text-rk-text xl:gap-[27px]">
+          <nav className="flex items-center gap-10 text-[14px] text-rk-text xl:gap-[29px]">
             <button type="button" onClick={() => setInvite(true)} className="flex items-center gap-[7px] hover:text-rk-link">
               <PlusIcon />
               Invite users
@@ -89,7 +89,9 @@ export function AppShell({
               Enterprise
             </a>
             <MoreMenu />
-            <ProfileMenu />
+            <div className="-ml-4">
+              <ProfileMenu />
+            </div>
           </nav>
         </header>
 

@@ -50,13 +50,13 @@ const moreEntries: Entry[] = [
 
 const languages = ["English", "Deutsch", "Español", "Français", "Italiano", "Nederlands", "Polski", "Português (Brasil)", "Svenska", "Tiếng Việt", "Türkçe", "中文", "日本語", "한국어"];
 
-function Row({ children, onEnter, active, hasSub }: { children: ReactNode; onEnter?: () => void; active?: boolean; hasSub?: boolean }) {
+function Row({ children, onEnter, active, hasSub, tall }: { children: ReactNode; onEnter?: () => void; active?: boolean; hasSub?: boolean; tall?: boolean }) {
   return (
     <a
       href="#"
       onMouseEnter={onEnter}
       onClick={(e) => e.preventDefault()}
-      className={`flex h-[31px] items-center gap-2 px-[9px] text-[14px] text-rk-text hover:bg-rk-bg ${active ? "bg-rk-bg" : ""}`}
+      className={`flex ${tall ? "h-[32.5px]" : "h-[31px]"} items-center gap-2 px-[9px] text-[14px] text-rk-text hover:bg-rk-bg ${active ? "bg-rk-bg" : ""}`}
     >
       <span className="flex flex-1 items-center gap-2 whitespace-nowrap">{children}</span>
       {hasSub && <ChevronRight className="text-rk-text" />}
@@ -72,9 +72,9 @@ function SubPanel({ items, top, width = 234, selected }: { items: string[]; top:
           key={s}
           href="#"
           onClick={(e) => e.preventDefault()}
-          className={`relative flex h-8 items-center px-[9px] text-[14px] whitespace-nowrap text-rk-text hover:bg-rk-bg ${s === selected ? "bg-[#e9f7ff]" : ""}`}
+          className={`relative flex h-8 items-center px-[9px] text-[14px] whitespace-nowrap text-rk-text hover:bg-rk-bg ${s === selected ? "bg-[#ebf0ff]" : ""}`}
         >
-          {s === selected && <span className="absolute top-0 bottom-0 left-0 w-[2px] bg-[#006dca]" />}
+          {s === selected && <span className="absolute top-0 bottom-0 left-0 w-[2px] bg-rk-text" />}
           {s}
         </a>
       ))}
@@ -94,7 +94,7 @@ export function MoreMenu() {
           setOpen((o) => !o);
           setSub(null);
         }}
-        className={`flex h-8 items-center gap-[6px] rounded-md px-3 text-[14px] xl:-mx-3 ${open ? "bg-rk-hover" : "hover:bg-rk-hover"}`}
+        className={`flex h-8 items-center gap-[6px] rounded-md px-3 text-[14px] -mx-3 ${open ? "bg-rk-hover" : "hover:bg-rk-hover"}`}
       >
         More
         <ChevronDown />
@@ -142,18 +142,19 @@ export function ProfileMenu() {
             My profile <span className="text-rk-muted">• ID:{account.id}</span>
             <div className="text-rk-muted">{account.email}</div>
           </a>
-          <Row onEnter={() => setLang(false)}>Subscription info</Row>
-          <Row onEnter={() => setLang(false)}>Manage users</Row>
-          <Row onEnter={() => setLang(false)}>Log out</Row>
-          <div className="my-1 border-t border-rk-border" />
+          <div className="h-[2px]" />
+          <Row tall onEnter={() => setLang(false)}>Subscription info</Row>
+          <Row tall onEnter={() => setLang(false)}>Manage users</Row>
+          <Row tall onEnter={() => setLang(false)}>Log out</Row>
+          <div className="my-[3px] border-t border-rk-border" />
           <div className="relative">
-            <Row hasSub active={lang} onEnter={() => setLang(true)}>
+            <Row tall hasSub active={lang} onEnter={() => setLang(true)}>
               <LanguageIcon className="text-rk-text-2" />
               <span>
                 Language: <b className="font-semibold">English</b>
               </span>
             </Row>
-            {lang && <SubPanel items={languages} top={-4} width={139} selected="English" />}
+            {lang && <SubPanel items={languages} top={-8} width={139} selected="English" />}
           </div>
         </div>
       )}

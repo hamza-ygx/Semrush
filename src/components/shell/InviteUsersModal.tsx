@@ -20,8 +20,9 @@ export function InviteUsersModal({ open, onClose }: { open: boolean; onClose: ()
   };
   const invalid = emails.some((e) => !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)) || emails.length > 1;
   return (
-    <Modal open={open} onClose={onClose} title="Invite users">
-      <div className="mb-2 flex items-center gap-[6px] text-[16px]">
+    <Modal open={open} onClose={onClose}>
+      <h2 className="mt-1 mb-6 text-[24px] leading-8 font-semibold">Invite users</h2>
+      <div className="mb-[10px] flex items-center gap-[6px] text-[16px]">
         Email addresses
         <span className="flex h-5 min-w-5 items-center justify-center rounded-full border border-rk-border-strong px-1 text-[12px] text-rk-text-2">{emails.length}</span>
         {emails.length > 0 && invalid && (
@@ -57,13 +58,13 @@ export function InviteUsersModal({ open, onClose }: { open: boolean; onClose: ()
           className="h-7 min-w-[120px] flex-1 text-[14px] outline-none"
         />
       </div>
-      <p className="mt-5 text-[14px] leading-5 text-rk-text-2">
+      <p className="mt-[14px] text-[14px] leading-5 text-rk-text-2">
         By clicking “Invite users”, you agree that {emails.length} additional user{emails.length === 1 ? "" : "s"} will be added to your subscription for <Spinner /> /month per user.
       </p>
-      <div className="mt-[6px] border-t-2 border-rk-text-2 pt-1 text-[14px] font-semibold">
+      <div className="mt-[14px] border-t-2 border-rk-text-2 pt-1 text-[14px] font-semibold">
         Today’s charge: <Spinner /> (incl. Tax) <InfoIcon className="inline text-rk-muted" />
       </div>
-      <div className="mt-8 flex gap-3">
+      <div className="mt-[21px] flex gap-3">
         <button type="button" onClick={onClose} className="h-10 rounded-md bg-[#009f81] px-3 text-[16px] font-medium text-white hover:bg-[#007c65]">
           Invite users
         </button>

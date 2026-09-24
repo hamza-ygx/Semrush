@@ -87,9 +87,8 @@ export const DotsIcon = (p: P) => (
 );
 export const InfoIcon = (p: P) => (
   <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
-    <text x="8" y="12.5" textAnchor="middle" fontSize="12" fontStyle="italic" fontFamily="Georgia, serif" fill="currentColor">
-      i
-    </text>
+    <circle cx="9.6" cy="3.6" r="1.15" fill="currentColor" />
+    <path d="M6.6 6.9h2.3l-1.3 5.6c-.1.5.2.8.7.8h1.6" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 export const WarningIcon = (p: P) => (

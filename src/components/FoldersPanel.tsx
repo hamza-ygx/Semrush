@@ -1,5 +1,17 @@
+import Link from "next/link";
+import { routes } from "@/config/routes";
 import { project, type Metric } from "@/data/home";
 import { KebabIcon, PlusIcon, RkjhFavicon, ShareUserIcon } from "./icons";
+
+const metricHref: Record<string, string> = {
+  "AI Visibility": "/ai",
+  Mentions: "/ai",
+  "Site Health": routes.siteAuditCampaign.overview,
+  Visibility: routes.tracking.landscape,
+  "Organic Traffic": routes.domainOverview,
+  "Organic Keywords": routes.organic.positions,
+  Backlinks: routes.backlinks,
+};
 
 const trendColor = {
   up: "text-[#007c65]",
@@ -21,9 +33,9 @@ function MetricCell({ label, value, sub, trend, gauge }: Metric) {
     <div className="px-3 pt-3 pb-[13px]">
       <div className="text-[14px] leading-5 text-[#191b23]">{label}</div>
       <div className="mt-2 mb-[2px] flex h-7 items-center">
-        <a href="#" className="text-[20px] leading-7 font-bold text-[#1f58d6] hover:text-[#123d9e]">
+        <Link href={metricHref[label] ?? routes.seoDashboard} className="text-[20px] leading-7 font-bold text-[#1f58d6] hover:text-[#123d9e]">
           {value}
-        </a>
+        </Link>
         {gauge && <Gauge />}
       </div>
       {sub && (
@@ -54,9 +66,9 @@ export function FoldersPanel() {
         <div className="rounded-lg bg-white shadow-card">
           <div className="flex h-11 items-center border-b border-[#e0e1e9] px-5">
             <RkjhFavicon />
-            <a href="#" className="ml-2 text-[16px] font-bold text-[#1f58d6] hover:text-[#123d9e]">
+            <Link href={routes.seoDashboard} className="ml-2 text-[16px] font-bold text-[#1f58d6] hover:text-[#123d9e]">
               {project.name}
-            </a>
+            </Link>
             <span className="ml-3 text-[14px] text-[#484a54]">{project.domain}</span>
             <button aria-label="Project actions" className="ml-auto mr-1 flex h-6 w-6 items-center justify-center rounded text-[#484a54] hover:bg-[#f4f5f9]">
               <KebabIcon />

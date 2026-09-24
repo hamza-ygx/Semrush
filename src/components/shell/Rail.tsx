@@ -44,19 +44,19 @@ export function Rail({
 }) {
   return (
     <aside className="flex h-full w-[76px] shrink-0 flex-col border-r border-rk-border bg-rk-bg">
-      <nav className="flex flex-1 flex-col gap-[6px] overflow-y-auto px-[6px] pt-2 no-scrollbar">
+      <nav className="flex flex-1 flex-col gap-[5px] overflow-y-auto px-[6px] pt-2 no-scrollbar">
         {items.map(({ key, label, href, icon: Icon }) => {
           const on = key === active;
           return (
             <Link
               key={key}
               href={href}
-              className={`flex w-16 flex-col items-center rounded-lg px-1 pt-[9px] pb-[11px] text-center text-[12px] leading-4 text-rk-text ${
-                on ? "bg-rk-hover font-medium" : "hover:bg-rk-hover"
+              className={`flex w-16 flex-col items-center rounded-lg px-1 pt-[9px] pb-[11px] text-center text-[12px] leading-4 ${
+                on ? "bg-rk-hover font-medium text-rk-text" : "text-rk-muted hover:bg-rk-hover"
               }`}
             >
-              {key === "home" ? <Icon width={22} height={18} /> : <Icon width={18} height={18} className="text-[#2b2e38]" />}
-              <span className="mt-[2px]">{label}</span>
+              {key === "home" ? <Icon width={22} height={18} /> : <Icon width={20} height={20} className={on ? "text-rk-text" : "text-rk-muted"} />}
+              <span className={key === "home" ? "mt-[2px]" : ""}>{label}</span>
             </Link>
           );
         })}
