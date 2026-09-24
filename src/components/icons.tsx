@@ -11,11 +11,10 @@ const stroke = {
 };
 
 export const LogoIcon = (p: P) => (
-  <svg viewBox="0 0 32 24" width={32} height={24} {...p}>
-    <path
-      fill="currentColor"
-      d="M2.5 14.2c2.8-4.9 8.4-7.9 15.6-7.9 3.3 0 6.4.7 9.1 1.9-2.4.2-4.2 1-5 2.1 3 .2 5.8 1.3 7.8 3.1-4.2-.5-8.3.4-11.4 2.6-3.2 2.3-7.4 3.4-11.2 2.6 2-.5 3.5-1.5 4.2-2.8-3.3.9-6.6.4-9.1-1.6z"
-    />
+  <svg viewBox="0 0 24 24" width={24} height={24} {...p}>
+    <rect x="1" y="1" width="22" height="22" rx="5" fill="#191b23" />
+    <path d="M6 1h12a5 5 0 0 1 5 5v2H1V6a5 5 0 0 1 5-5z" fill="#e8132b" />
+    <text x="12" y="19.5" textAnchor="middle" fontSize="9.5" fontWeight="700" fill="#fff" fontFamily="inherit">RK</text>
   </svg>
 );
 

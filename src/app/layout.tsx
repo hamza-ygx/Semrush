@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "@fontsource-variable/inter";
 import "./globals.css";
+import { brand } from "@/config/brand";
 
 export const metadata: Metadata = {
-  title: "Semrush",
-  description: "Semrush Home",
+  title: brand.name,
+  description: `${brand.name} Home`,
 };
 
 export default function RootLayout({

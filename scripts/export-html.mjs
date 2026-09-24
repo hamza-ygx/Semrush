@@ -3,7 +3,7 @@ import { dirname, join, resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
 const next = join(root, ".next");
-const out = join(root, "preview", "semrush-home.html");
+const out = join(root, "preview", "revisionskonsulterna-home.html");
 
 let html = readFileSync(join(next, "server", "app", "index.html"), "utf8");
 

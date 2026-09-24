@@ -1,3 +1,4 @@
+import { brand } from "@/config/brand";
 import { ChevronDownIcon, TranslateIcon } from "./icons";
 
 const link = "text-[14px] leading-5 text-[#484a54] hover:text-[#191b23]";
@@ -27,7 +28,7 @@ export function Footer() {
             href="#"
             className="flex h-[30px] items-center rounded-md bg-[#009f81] px-3 text-[14px] font-medium text-white hover:bg-[#007c65]"
           >
-            Get started with Semrush
+            Get started with {brand.name}
           </a>
         </div>
       </div>
@@ -39,7 +40,7 @@ export function Footer() {
           <a href="#" className={link}>Do not sell my personal info</a>
         </div>
         <span className="text-[14px] leading-5 text-[#484a54]">
-          © 2026 Semrush Holdings. All rights reserved.
+          © 2026 {brand.legalName}. All rights reserved.
         </span>
       </div>
     </footer>
