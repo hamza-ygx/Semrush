@@ -56,9 +56,9 @@ export function CompetitorsView() {
       </div>
       <div className="h-[324px] rounded-lg bg-white shadow-card">
         <CardTitle>Competitive Positioning Map</CardTitle>
-        <BubbleLegend className="px-5 pt-[19px]" />
+        <BubbleLegend className="px-5 pt-[19px]" gap={15} />
         <div className="mt-[10px]">
-          <BubbleMap items={bubbles.map((b) => ({ ...b, keywords: b.kx, r: b.cr }))} height={212} pad={{ top: 57, right: 20, bottom: 43, left: 99 }} xMax={144.3} yMax={400} />
+          <BubbleMap items={bubbles.map((b) => ({ ...b, keywords: b.kx, r: b.cr }))} height={212} pad={{ top: 57, right: 20, bottom: 43, left: 99 }} xMax={144.3} yMax={400} tickGap={16} labelGap={65} />
         </div>
       </div>
       <div className="rounded-lg bg-white shadow-card">
@@ -108,11 +108,11 @@ export function CompetitorsView() {
                   </span>
                 </td>
                 <td className="pl-2">
-                  <span className="flex items-center gap-[17px]">
+                  <span className="flex items-center gap-[10px]">
                     <span className="h-[7px] w-[107px] rounded-full bg-[#eceef2]">
                       <span className="block h-full rounded-full bg-[#6167e6]" style={{ width: `${c.level}%` }} />
                     </span>
-                    <span className="w-[20px] text-right text-[13px] text-rk-text-2">{c.level}%</span>
+                    <span className="w-[27px] text-right text-[13px] text-rk-text-2">{c.level}%</span>
                   </span>
                 </td>
                 <td className="text-right">

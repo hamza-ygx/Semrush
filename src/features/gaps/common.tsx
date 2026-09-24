@@ -131,9 +131,9 @@ export function DomainField({
       className={`relative flex h-8 items-center rounded-md border bg-white pr-2 pl-2 ${focus ? "border-[#7a86f2]" : "border-[#dfe2e2]"} ${className}`}
     >
       {you ? (
-        <YouTag className={`shrink-0 ${wide ? "mr-4 px-[9px]!" : "mr-2"}`} />
+        <YouTag className={`shrink-0 ${wide ? "mr-4 px-[9px]!" : "mr-[4px] px-[9px]!"}`} />
       ) : (
-        <Dot color={value ? color ?? "#c4c7cf" : "#c4c7cf"} size={12} className={wide ? "mr-[14px] ml-[3px]" : "mr-[9px] ml-[3px]"} />
+        <Dot color={value ? color ?? "#c4c7cf" : "#c4c7cf"} size={wide ? 12 : 10} className={wide ? "mr-[14px] ml-[3px]" : "mr-[8px]"} />
       )}
       <input
         value={shown}
@@ -141,7 +141,7 @@ export function DomainField({
         onBlur={() => setFocus(false)}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="min-w-0 flex-1 bg-transparent text-[14px] text-rk-text outline-none placeholder:text-[#8a8e9b]"
+        className={`min-w-0 flex-1 bg-transparent text-[14px] text-rk-text outline-none ${wide ? "placeholder:text-[#8a8e9b]" : "placeholder:text-[#a4a7b0]"}`}
       />
       {value && (
         <button type="button" aria-label="Clear" onClick={() => onChange("")} className="ml-1 shrink-0 text-[#6c6e79] hover:text-rk-text">

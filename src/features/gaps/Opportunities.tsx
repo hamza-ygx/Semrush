@@ -92,7 +92,7 @@ export function KeywordOverlap({
           </div>
         ))}
       </div>
-      <svg className="absolute top-0 left-0" width="100%" height={height}>
+      <svg className="pointer-events-none absolute top-0 left-0" width="100%" height={height}>
         <defs>
           <clipPath id={`vc-${height}`}>
             <circle cx={venn.cx} cy={venn.cy} r={r1} />

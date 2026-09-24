@@ -19,7 +19,7 @@ export function ScopeDrop({ label = "Root Domain", options = scopes, className =
       className={className}
       panelClassName="w-full"
       trigger={({ toggle }) => (
-        <button type="button" onClick={toggle} className="flex h-full w-full items-center justify-between pr-[14px] pl-3 text-[16px] text-rk-text">
+        <button type="button" onClick={toggle} className="flex h-full w-full items-center justify-between pr-[10px] pl-3 text-[16px] text-rk-text">
           {v}
           <ChevronDown width={16} height={16} strokeWidth={2.2} />
         </button>
@@ -127,7 +127,7 @@ export function DbSelect({ width = 88 }: { width?: number }) {
 
 export function AddCompetitors({ onClick, disabled }: { onClick: () => void; disabled?: boolean }) {
   return (
-    <button type="button" onClick={onClick} disabled={disabled} className="flex items-center gap-[10px] pl-[14px] text-[16px] text-rk-link hover:text-rk-link-hover disabled:opacity-50">
+    <button type="button" onClick={onClick} disabled={disabled} className="flex items-center gap-[7px] pl-[13px] text-[16px] text-rk-link hover:text-rk-link-hover disabled:opacity-50">
       <PlusIcon width={14} height={14} strokeWidth={2} />
       Add up to {3} competitors
     </button>

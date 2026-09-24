@@ -124,6 +124,8 @@ export function BubbleMap({
   yMax = 500,
   xTicks = [0, 50, 100],
   yTicks = [0, 200, 400],
+  tickGap = 18,
+  labelGap = 44,
 }: {
   items: { domain: string; color: string; keywords: number; traffic: number; r: number }[];
   height?: number;
@@ -132,6 +134,8 @@ export function BubbleMap({
   yMax?: number;
   xTicks?: number[];
   yTicks?: number[];
+  tickGap?: number;
+  labelGap?: number;
 }) {
   const [ref, width] = useWidth<HTMLDivElement>();
   const [hover, setHover] = useState<string | null>(null);
@@ -146,7 +150,7 @@ export function BubbleMap({
         {yTicks.map((t) => (
           <g key={t}>
             <line x1={pad.left} x2={pad.left + W} y1={y(t)} y2={y(t)} stroke={t === 0 ? "#c4c7cf" : "#e8e9ee"} />
-            <text x={pad.left - 18} y={y(t) + 4} textAnchor="end" fontSize="12" fill="#6c6e79">
+            <text x={pad.left - tickGap} y={y(t) + 4} textAnchor="end" fontSize="12" fill="#6c6e79">
               {t}
             </text>
           </g>
@@ -159,7 +163,7 @@ export function BubbleMap({
         <text x={pad.left + W / 2} y={height - 6} textAnchor="middle" fontSize="12" fill="#6c6e79">
           Number of Keywords
         </text>
-        <text transform={`translate(${pad.left - 44} ${pad.top + H / 2}) rotate(-90)`} textAnchor="middle" fontSize="12" fill="#6c6e79">
+        <text transform={`translate(${pad.left - labelGap} ${pad.top + H / 2}) rotate(-90)`} textAnchor="middle" fontSize="12" fill="#6c6e79">
           Organic Search Traffic (N)
         </text>
         {items.map((it) => (

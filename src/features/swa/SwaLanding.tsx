@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "@/components/ui/icons";
+import { ArrowRight, ChevronLeft, ChevronRight } from "@/components/ui/icons";
 import { Modal } from "@/components/ui/Modal";
 import { ClipboardIcon, EditorMock, FeatureArt, GoogleDocIcon, OfficeIcon, ScoreMock, WordPressIcon } from "./Art";
 import { addOns, bullets, captions, features, testimonials, type FeatureKey } from "./data";
@@ -58,7 +58,7 @@ function FeatureCarousel() {
               }`}
             >
               <FeatureArt kind={f.key} active={on} />
-              <span className="mt-[17px] text-[16px] leading-6 font-bold">
+              <span className="mt-[10px] text-[16px] leading-6 font-bold">
                 {f.title[0]}
                 <br />
                 {f.title[1]}
@@ -121,18 +121,17 @@ function AddOns() {
   return (
     <section className={`${card} px-10 pt-[37px] pb-[40px] text-center`}>
       <h2 className="text-[24px] leading-8 font-semibold">Available Add-Ons</h2>
-      <p className="mt-[6px] text-[16px] leading-6">Optimize your content where it’s most convenient.</p>
-      <div className="mt-[36px] flex justify-center gap-4">
+      <p className="mt-[9px] text-[16px] leading-6">Optimize your content where it’s most convenient.</p>
+      <div className="mt-[33px] flex justify-center gap-4">
         {addOns.map((a, i) => (
-          <a
+          <button
             key={a}
-            href="#"
-            onClick={(e) => e.preventDefault()}
+            type="button"
             className="flex h-10 items-center gap-[9px] rounded-md border border-[#d3d6d9] bg-[#f3f4f5] px-3 text-[16px] text-[#484a54] hover:bg-[#e7e9eb]"
           >
             {icons[i]}
             {a}
-          </a>
+          </button>
         ))}
       </div>
     </section>
@@ -161,6 +160,12 @@ function Avatar({ i }: { i: number }) {
   );
 }
 
+const LongArrow = ({ dir }: { dir: 1 | -1 }) => (
+  <svg viewBox="0 0 42 16" width={42} height={16} className={dir < 0 ? "-scale-x-100" : ""}>
+    <path d="M1 8h39M34 3l6 5-6 5" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
 function Trusted() {
   const [i, setI] = useState(0);
   const t = testimonials[i];
@@ -169,14 +174,14 @@ function Trusted() {
     <section className={`${card} flex h-[530px] flex-col items-center px-10 pt-[33px]`}>
       <h2 className="text-[24px] leading-8 font-semibold">Trusted By</h2>
       <div className="mt-[39px] flex items-center gap-[130px]">
-        <button type="button" aria-label="Previous testimonial" onClick={() => setI((i - 1 + n) % n)} className="text-[#a9abb6] hover:text-rk-text">
-          <ArrowLeft width={42} height={16} viewBox="2 4 12 8" preserveAspectRatio="none" strokeWidth={1} />
+        <button type="button" aria-label="Previous testimonial" onClick={() => setI((i - 1 + n) % n)} className="text-[#6c6e79] hover:text-rk-text">
+          <LongArrow dir={-1} />
         </button>
         <span className="text-[14px] font-bold">
           {i + 1} / {n}
         </span>
-        <button type="button" aria-label="Next testimonial" onClick={() => setI((i + 1) % n)} className="text-[#a9abb6] hover:text-rk-text">
-          <ArrowRight width={42} height={16} viewBox="2 4 12 8" preserveAspectRatio="none" strokeWidth={1} />
+        <button type="button" aria-label="Next testimonial" onClick={() => setI((i + 1) % n)} className="text-[#6c6e79] hover:text-rk-text">
+          <LongArrow dir={1} />
         </button>
       </div>
       <blockquote className="mt-[26px] w-[600px] text-center text-[20px] leading-6 font-medium">{t.quote}</blockquote>

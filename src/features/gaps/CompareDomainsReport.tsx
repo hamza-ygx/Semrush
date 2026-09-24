@@ -101,7 +101,7 @@ function CompareTable({ rows }: { rows: CdRow[] }) {
           <tr className="h-[33px] border-b border-[#e8e9ec] text-[12px] text-rk-text-2">
             <th className="pl-5 text-left font-normal">Domain</th>
             {cols.map((c, i) => (
-              <th key={c.key} title={c.label} className={`truncate text-right font-normal ${i === cols.length - 1 ? "pr-5" : "pr-2"}`}>
+              <th key={c.key} title={c.label} className={`truncate text-right font-normal ${i === cols.length - 1 ? "pr-5" : i === 0 ? "pr-[5px]" : "pr-2"}`}>
                 {c.label}
               </th>
             ))}
@@ -121,7 +121,7 @@ function CompareTable({ rows }: { rows: CdRow[] }) {
               {cols.map((c, i) => (
                 <td
                   key={c.key}
-                  className={`text-right whitespace-nowrap text-rk-text ${i === cols.length - 1 ? "pr-5" : "pr-2"} ${r.best.includes(c.key as never) ? "bg-[#dcfdf8]" : ""}`}
+                  className={`text-right whitespace-nowrap text-rk-text ${i === cols.length - 1 ? "pr-6" : i === 0 ? "pr-[5px]" : c.key === "paidKeywords" ? "pr-[24px]" : "pr-2"} ${r.best.includes(c.key as never) ? "bg-[#dcfdf8]" : ""}`}
                 >
                   {r[c.key] as ReactNode}
                   {c.delta && <Arrow dir={r[c.delta] as "up" | "down" | undefined} />}
@@ -157,7 +157,7 @@ function TrafficShare() {
         <circle cx={35} cy={35} r={r} fill="none" stroke={D1} strokeWidth={12} strokeDasharray={`${a} ${c}`} />
         <circle cx={35} cy={35} r={r} fill="none" stroke="#fff" strokeWidth={12} strokeDasharray={`1.5 ${a - 1.5} 1.5 ${c}`} strokeDashoffset={0.75} />
       </svg>
-      <div className="ml-[20px] flex flex-1 flex-col gap-2 pr-[73px] text-[13px]">
+      <div className="ml-[20px] flex flex-1 flex-col gap-2 pr-[73px] text-[12px]">
         {trafficShare.map((t, i) => (
           <div key={t.domain} className="flex h-5 items-center justify-between">
             <span className="flex items-center gap-[9px]">
@@ -172,14 +172,16 @@ function TrafficShare() {
   );
 }
 
-function SplitBars({ left, right, color }: { left: string[]; right: string[]; color: string }) {
+function SplitBars({ left, right, color, pctW = 36, barW = 125, gap = 12 }: { left: string[]; right: string[]; color: string; pctW?: number; barW?: number; gap?: number }) {
   return (
-    <div className="flex flex-col gap-2 pt-[18px] pr-5 pl-5 text-[13px]">
+    <div className="flex flex-col gap-2 pt-[18px] pr-5 pl-5 text-[12px]">
       {[you, rival].map((d, i) => (
         <div key={d} className="flex h-5 items-center">
-          <span className="w-[98px]">{d}</span>
-          <span className="w-[36px] text-right text-rk-muted">{left[i]}</span>
-          <span className="mx-[12px] h-4 w-[126px]" style={{ background: color }} />
+          <span className="w-[98px] shrink-0">{d}</span>
+          <span className="shrink-0 text-right text-rk-muted" style={{ width: pctW }}>
+            {left[i]}
+          </span>
+          <span className="h-4 shrink-0" style={{ background: color, width: barW, marginLeft: gap, marginRight: 12 }} />
           <span className="text-rk-muted">{right[i]}</span>
         </div>
       ))}
@@ -227,17 +229,17 @@ function TrafficChart() {
             <svg viewBox="0 0 16 16" width={16} height={16}>
               <path d="M2.5 3.5h11v10h-11zM2.5 6.5h11M5.5 2v3M10.5 2v3" fill="none" stroke="#484a54" strokeWidth={1.4} />
             </svg>
-            Sep 2025 <span className="mx-[5px]">–</span> Sep 2026
+            Sep 2025 <span className="mr-[2px] ml-[4px]">–</span> Sep 2026
           </button>
-          <button type="button" className="flex h-7 items-center gap-[6px] rounded-md border border-[#dfe2e2] bg-white px-2 text-[14px] text-rk-muted hover:bg-rk-bg">
+          <button type="button" className="flex h-7 items-center gap-[6px] rounded-md border border-[#dfe2e2] bg-white px-[9px] text-[14px] text-rk-muted hover:bg-rk-bg">
             <ExportIcon />
             Export
           </button>
         </div>
       </div>
-      <div className="px-5 pt-[18px] pb-[50px]">
+      <div className="px-5 pt-[19px] pb-[50px]">
         <h3 className="text-[16px] leading-6 font-bold">{title}</h3>
-        <div className="mt-[20px] flex gap-4">
+        <div className="mt-[21px] flex gap-4">
           <Checkbox color={D1} checked={on.a} onChange={() => setOn((o) => ({ ...o, a: !o.a }))} label={you} />
           <Checkbox color={D2} checked={on.b} onChange={() => setOn((o) => ({ ...o, b: !o.b }))} label={rival} />
         </div>
@@ -330,7 +332,7 @@ export function CompareDomainsReport({ competitors }: { competitors: string[] })
             <SplitBars left={["100%", "100%"]} right={["0%", "0%"]} color="#6167e6" />
           </SmallCard>
           <SmallCard title="Paid / Organic">
-            <SplitBars left={["0%", "0%"]} right={["100%", "100%"]} color="#8ef5dc" />
+            <SplitBars left={["0%", "0%"]} right={["100%", "100%"]} color="#8ef5dc" pctW={23} barW={127} gap={11} />
           </SmallCard>
         </div>
 
@@ -338,7 +340,7 @@ export function CompareDomainsReport({ competitors }: { competitors: string[] })
           <TrafficChart />
         </div>
 
-        <div className="mt-4 flex gap-4">
+        <div className="mt-[17px] flex gap-4">
           <div className="w-[401px] shrink-0">
             <TopOpportunities variant="cd" height={455} />
           </div>

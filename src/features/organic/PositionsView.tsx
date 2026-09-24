@@ -31,8 +31,8 @@ function SummaryCard() {
     labels: monthLabels,
     ticks: [0, 100, 200],
     max: 250,
-    height: 205,
-    pad: { top: 10, right: 21, bottom: 36, left: 72 },
+    height: 207,
+    pad: { top: 12, right: 21, bottom: 36, left: 72 },
     barRatio: 0.6,
     inset: 10,
   });
@@ -52,7 +52,7 @@ function SummaryCard() {
         <span className="absolute -bottom-[6px] left-[192px] h-[11px] w-[11px] rotate-45 border-t border-l border-rk-border bg-white" />
       </div>
       {open ? (
-        <div className="px-5 pt-[20px] pb-3">
+        <div className="px-5 pt-[20px] pb-[13px]">
           <div className="flex items-center justify-between">
             <h2 className="text-[16px] leading-6 font-semibold">Organic Keywords Trend</h2>
             <button type="button" aria-label="Close" onClick={() => setOpen(false)} className="-mr-[2px] text-rk-muted hover:text-rk-text">
@@ -125,7 +125,7 @@ const num = (v: string) => {
 function Th({ children, k, sort, onSort, className = "" }: { children: ReactNode; k?: SortKey; sort: { key: SortKey; dir: 1 | -1 }; onSort: (k: SortKey) => void; className?: string }) {
   const on = k && sort.key === k;
   return (
-    <th className={`text-[13px] font-normal whitespace-nowrap ${on ? "bg-[#ececf0]" : ""} ${className}`}>
+    <th className={`text-[12px] font-normal whitespace-nowrap ${on ? "bg-[#ececf0]" : ""} ${className}`}>
       {k ? (
         <button type="button" onClick={() => onSort(k)} className="inline-flex max-w-full items-center gap-[2px] hover:text-rk-link">
           {children}
@@ -169,6 +169,7 @@ export function IconBtn({ children, label, onClick }: { children: ReactNode; lab
 }
 
 function ColumnsMenu() {
+  const [shown, setShown] = useState(() => new Set(["Intent", "Position", "SERP Features", "Traffic", "Traffic %", "Volume", "KD %", "URL", "Updated"]));
   return (
     <Popover
       align="right"
@@ -179,10 +180,20 @@ function ColumnsMenu() {
         </IconBtn>
       )}
     >
-      {(close) =>
-        ["Intent", "Position", "SERP Features", "Traffic", "Traffic %", "Volume", "KD %", "URL", "Updated", "CPC", "Com.", "Results"].map((c, i) => (
-          <MenuItem key={c} onClick={close}>
-            <Checkbox checked={i < 9} />
+      {() =>
+        ["Intent", "Position", "SERP Features", "Traffic", "Traffic %", "Volume", "KD %", "URL", "Updated", "CPC", "Com.", "Results"].map((c) => (
+          <MenuItem
+            key={c}
+            onClick={() =>
+              setShown((prev) => {
+                const n = new Set(prev);
+                if (n.has(c)) n.delete(c);
+                else n.add(c);
+                return n;
+              })
+            }
+          >
+            <Checkbox checked={shown.has(c)} />
             {c}
           </MenuItem>
         ))
@@ -209,7 +220,7 @@ export function ExportMenu() {
 
 function Row({ r, checked, toggle }: { r: PositionRow; checked: boolean; toggle: () => void }) {
   const [open, setOpen] = useState(false);
-  const cell = "py-[14px] align-top";
+  const cell = "pt-[14px] pb-[13.5px] align-top";
   const line = "flex h-5 items-center";
   return (
     <>
@@ -254,9 +265,9 @@ function Row({ r, checked, toggle }: { r: PositionRow; checked: boolean; toggle:
             <Kd kd={r.kd} />
           </span>
         </td>
-        <td className="pt-4 pr-[12px] pb-3 pl-[17px] align-top">
+        <td className="pt-4 pr-[9.5px] pb-[9.5px] pl-[17px] align-top">
           <span className="flex items-start gap-[6px]">
-            <a href={ext(r.url)} target="_blank" rel="noreferrer" className="leading-4 tracking-[0.25px] break-all text-rk-link hover:text-rk-link-hover">
+            <a href={ext(r.url)} target="_blank" rel="noreferrer" className="leading-[16.5px] break-all text-rk-link tabular-nums hover:text-rk-link-hover">
               {r.url}
             </a>
             <ExtLink href={r.url} className="-mt-[1px]" />

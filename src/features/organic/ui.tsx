@@ -301,12 +301,12 @@ export function Checkbox({
   onChange?: () => void;
   className?: string;
 }) {
+  const Tag = onChange ? "button" : "span";
   return (
-    <button
-      type="button"
+    <Tag
+      {...(onChange ? { type: "button" as const, onClick: onChange } : {})}
       role="checkbox"
       aria-checked={!!checked}
-      onClick={onChange}
       className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border ${checked ? "border-[#2b6ee6] bg-[#2b6ee6]" : "border-[#c4c7cf] bg-white"} ${className}`}
     >
       {checked && (
@@ -321,7 +321,7 @@ export function Checkbox({
           />
         </svg>
       )}
-    </button>
+    </Tag>
   );
 }
 
@@ -380,7 +380,7 @@ export function FilterDropdown({
         <button
           type="button"
           onClick={toggle}
-          className={`flex h-7 items-center gap-[6px] rounded-md border pr-[6px] pl-[10px] text-[14px] whitespace-nowrap ${val ? "text-rk-text" : "text-rk-muted"} ${open ? "border-[#8f9cea] bg-[#eaeefc]" : "border-rk-border-strong bg-white hover:bg-rk-bg"}`}
+          className={`flex h-7 items-center gap-[6.5px] rounded-md border pr-[6px] pl-[11px] text-[14px] whitespace-nowrap ${val ? "text-rk-text" : "text-rk-muted"} ${open ? "border-[#8f9cea] bg-[#eaeefc]" : "border-rk-border-strong bg-white hover:bg-rk-bg"}`}
         >
           {val ? `${label}: ${val}` : label}
           <ChevronDown className={`text-rk-text ${open ? "rotate-180" : ""}`} />
@@ -501,7 +501,7 @@ export function Pagination({
       <input
         value={p}
         onChange={(e) => go(+e.target.value || 1)}
-        className="h-7 w-[67px] rounded-md border border-rk-border-strong px-2 text-[14px] outline-none"
+        className="-ml-1 h-7 w-[68px] rounded-md border border-rk-border-strong px-2 text-[14px] outline-none"
       />
       <span className="text-[14px] text-rk-text">
         of{" "}
@@ -570,7 +570,7 @@ export function TimeRange({
 }) {
   const [v, setV] = useState(value);
   return (
-    <div className="flex items-center gap-[16px] text-[14px]">
+    <div className="flex items-center gap-[17px] text-[14px]">
       {options.map((o) => (
         <button
           key={o}

@@ -208,7 +208,7 @@ function SummaryCard() {
   );
 }
 
-const th = "text-[13px] leading-4 font-normal text-rk-text";
+const th = "text-[12px] leading-4 font-normal text-rk-text";
 
 function TopKeywordsCard() {
   const [tab, setTab] = useState<"All Positions" | "Organic" | "SERP Features">("All Positions");
@@ -319,18 +319,18 @@ function NothingFound() {
   return (
     <div className="flex flex-col items-center pt-[53px]">
       <svg width="78" height="78" viewBox="0 0 78 78">
-        <path d="M39 3c12 0 20 6 28 14s9 22 5 33-14 23-30 24S13 66 8 55 3 30 12 19 27 3 39 3z" fill="#e0e1e9" />
-        <g transform="rotate(-12 39 40)">
-          <rect x="17" y="20" width="44" height="38" rx="4" fill="#fff" stroke="#6c6e79" strokeWidth="2.4" />
-          <path d="M17 29h44" stroke="#6c6e79" strokeWidth="2.4" />
-          <rect x="17" y="20" width="44" height="9" rx="4" fill="#6c6e79" />
-          <circle cx="23" cy="24.5" r="1.4" fill="#fff" />
-          <circle cx="28" cy="24.5" r="1.4" fill="#fff" />
-          <path d="M39 29v29M17 43h44" stroke="#6c6e79" strokeWidth="1.6" />
+        <path d="M37 1c5 0 7 3 11 3s7-1 10 2 2 6 5 9 7 5 8 9-2 7-1 11 5 7 3 11-6 5-8 8-1 8-5 10-7 0-11 2-6 6-11 6-7-3-11-4-8 1-11-2-2-6-5-9-8-4-9-8 2-7 1-11-4-8-2-12 6-4 8-8 1-8 5-10 7 0 11-2 5-5 10-5z" fill="#e0e1e9" />
+        <g transform="rotate(-13 39 40)">
+          <rect x="7.5" y="23" width="60" height="41" rx="3.5" fill="#fff" stroke="#6c6e79" strokeWidth="1.3" />
+          <rect x="10" y="19" width="60" height="41" rx="3.5" fill="#fff" stroke="#6c6e79" strokeWidth="1.5" />
+          <path d="M13.5 19h53a3.5 3.5 0 0 1 3.5 3.5V28H10v-5.5a3.5 3.5 0 0 1 3.5-3.5z" fill="#6c6e79" />
+          <circle cx="15" cy="23.5" r="1.6" fill="#fff" />
+          <circle cx="20" cy="23.5" r="1.6" fill="#fff" />
+          <path d="M31 28v32M50 28v32M13 44h54" stroke="#6c6e79" strokeWidth="1.2" />
         </g>
       </svg>
-      <div className="mt-[18px] text-[16px] leading-6 font-semibold text-rk-text-2">Nothing found</div>
-      <div className="mt-[4px] text-[14px] text-rk-text-2">Try changing your filters.</div>
+      <div className="mt-[13px] text-[16px] leading-6 font-semibold text-rk-muted">Nothing found</div>
+      <div className="mt-[4px] text-[14px] text-rk-muted">Try changing your filters.</div>
     </div>
   );
 }
@@ -374,7 +374,7 @@ function ChangesCard() {
                     <KeywordLink keyword={r.keyword} />
                   </td>
                   <td className="text-right text-[#a9abb6]">{r.previous ?? <span className="mr-6">·</span>}</td>
-                  <td className="text-right">{r.current ?? <span className="text-[#a9abb6]">·</span>}</td>
+                  <td className="pr-[13px] text-right">{r.current ?? <span className="text-[#a9abb6]">·</span>}</td>
                   <td className="text-right">{r.volume}</td>
                   <td className="pr-5 text-right">{r.traffic}</td>
                 </tr>
@@ -427,10 +427,10 @@ function BrandPresence() {
           <CloseIcon width={14} height={14} />
         </button>
       </div>
-      <div className="flex px-[17px] pt-[20px]">
+      <div className="flex px-[17px] pt-[22px]">
         <div className="w-[167px] whitespace-nowrap">
           <div className="text-[14px] leading-5 text-rk-text">Market Share in ChatGPT</div>
-          <button type="button" className="mt-[5px] flex h-7 items-center gap-2 rounded-md bg-rk-btn-dark px-[9px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
+          <button type="button" className="mt-[6px] flex h-7 items-center gap-2 rounded-md bg-rk-btn-dark px-[9px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
             Scan LLMs
             <svg viewBox="0 0 16 16" width={16} height={16}>
               <path d="M9.5 2.5h4v4M13.3 2.7 8 8M11.5 9.5v3.2c0 .5-.3.8-.8.8H3.3c-.5 0-.8-.3-.8-.8V5.3c0-.5.3-.8.8-.8h3.2" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
@@ -440,12 +440,12 @@ function BrandPresence() {
         <span className="mx-6 h-[55px] w-px bg-rk-border" />
         <div className="w-[152px] whitespace-nowrap">
           <div className="text-[14px] leading-5 text-rk-text">Areas for Improvement</div>
-          <div className="mt-[5px] text-[24px] leading-7 font-bold">5</div>
+          <div className="mt-[7px] text-[24px] leading-7 font-bold">5</div>
         </div>
         <span className="mx-6 h-[55px] w-px bg-rk-border" />
         <div>
           <div className="text-[14px] leading-5 text-rk-text">Top Query Intent</div>
-          <div className="mt-[4px] flex gap-[4px]">
+          <div className="mt-[6px] flex gap-[4px]">
             {["Research", "Comparison", "Purchase", "..."].map((p) => (
               <span key={p} className="flex h-[27px] items-center rounded-full bg-[#ececee] px-[9px] text-[14px] text-rk-muted">
                 {p}
@@ -472,7 +472,7 @@ function SerpTrendCard() {
           <Popover
             panelClassName="w-[220px]"
             trigger={({ toggle, open }) => (
-              <button type="button" onClick={toggle} className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-white px-[10px] text-[14px] text-rk-text-2 hover:bg-rk-bg">
+              <button type="button" onClick={toggle} className="flex h-7 items-center gap-[3px] rounded-md border border-rk-border-strong bg-white px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-bg">
                 Other: 1 selected
                 <ChevronDown className={`text-rk-text ${open ? "rotate-180" : ""}`} />
               </button>
@@ -500,7 +500,7 @@ function SerpTrendCard() {
           pad={{ top: 10, right: 21, bottom: 29, left: 74 }}
           barRatio={0.6}
           highlightLast
-          tickX={-20}
+          tickX={-16}
           inset={13}
         />
       </div>
@@ -513,7 +513,7 @@ function SerpTrendCard() {
 
 function FeatureGrid({ items, linked }: { items: SerpFeature[]; linked: boolean }) {
   return (
-    <div className="grid grid-cols-6 gap-y-[16px]">
+    <div className="grid grid-cols-6 gap-y-[17px]">
       {items.map((f) => {
         const on = f.count > 0;
         return (
@@ -521,7 +521,7 @@ function FeatureGrid({ items, linked }: { items: SerpFeature[]; linked: boolean 
             <span className={`flex h-[31px] w-[31px] shrink-0 items-center justify-center rounded-md bg-[#f4f5f9] ${linked ? "text-rk-link" : "text-[#6c6e79]"}`}>
               <SerpIcon name={f.icon} size={18} />
             </span>
-            <span className="min-w-0 text-[13px] leading-[17px]">
+            <span className="min-w-0 text-[12px] leading-[16.5px]">
               {on ? (
                 <Link href={routes.organic.positions + Q} className="block truncate text-rk-link hover:text-rk-link-hover">
                   {f.name}
@@ -529,7 +529,7 @@ function FeatureGrid({ items, linked }: { items: SerpFeature[]; linked: boolean 
               ) : (
                 <span className="block truncate text-rk-link">{f.name}</span>
               )}
-              <span className="block text-rk-text-2">
+              <span className={`block ${f.count === 1 ? "text-rk-text-2" : "text-rk-muted"}`}>
                 {f.count} keyword{f.count === 1 ? "" : "s"}
               </span>
             </span>
@@ -544,7 +544,7 @@ function SerpFeaturesCard() {
   return (
     <Card className="h-[892px]">
       <CardTitle>SERP Features</CardTitle>
-      <div className="pt-[18px] pl-5">
+      <div className="pt-[18px] pr-1 pl-5">
         <h3 className="text-[14px] leading-6 font-semibold">Linking to domain</h3>
         <div className="mt-[13px]">
           <FeatureGrid items={linkingFeatures} linked />
@@ -562,14 +562,14 @@ function TopPagesCard() {
   return (
     <Card className="h-[344px]">
       <CardTitle>Top Pages</CardTitle>
-      <table className="mt-[18px] w-full table-fixed text-[14px]">
+      <table className="mt-[21px] w-full table-fixed text-[14px]">
         <colgroup>
           <col />
           <col className="w-[108px]" />
-          <col className="w-[108px]" />
+          <col className="w-[128px]" />
         </colgroup>
         <thead>
-          <tr className="h-[35px] border-b border-rk-border">
+          <tr className="h-[31px] border-b border-rk-border">
             <th className={`${th} pl-5 text-left`}>URL</th>
             <th className={`${th} text-right`}>
               <span className="inline-flex items-center gap-1">
@@ -607,14 +607,14 @@ function TopSubdomainsCard() {
   return (
     <Card className="h-[344px]">
       <CardTitle>Top Subdomains</CardTitle>
-      <table className="mt-[18px] w-full table-fixed text-[14px]">
+      <table className="mt-[21px] w-full table-fixed text-[14px]">
         <colgroup>
           <col />
           <col className="w-[108px]" />
-          <col className="w-[108px]" />
+          <col className="w-[128px]" />
         </colgroup>
         <thead>
-          <tr className="h-[35px] border-b border-rk-border">
+          <tr className="h-[31px] border-b border-rk-border">
             <th className={`${th} pl-5 text-left`}>Subdomain</th>
             <th className={`${th} text-right`}>
               <span className="inline-flex items-center gap-1">
@@ -650,14 +650,14 @@ function CompetitorsCard() {
   return (
     <Card className="h-[351px]">
       <CardTitle>Main Organic Competitors</CardTitle>
-      <table className="mt-[18px] w-full table-fixed text-[14px]">
+      <table className="mt-[21px] w-full table-fixed text-[14px]">
         <colgroup>
           <col />
-          <col className="w-[103px]" />
+          <col className="w-[86px]" />
           <col className="w-[149px]" />
         </colgroup>
         <thead>
-          <tr className="h-[35px] border-b border-rk-border">
+          <tr className="h-[31px] border-b border-rk-border">
             <th className={`${th} pl-5 text-left`}>Domain</th>
             <th className={`${th} text-right`}>
               <span className="block truncate">Common Keywords</span>
@@ -680,7 +680,7 @@ function CompetitorsCard() {
                   <ExtLink href={c.domain} />
                 </span>
               </td>
-              <td className="pr-[3px] text-right">
+              <td className="pr-[1px] text-right">
                 <Link href={`${routes.keywordGap}?db=se&q=rkjh.se&compareWith=${c.domain}`} className="hover:text-rk-link">
                   {c.common}
                 </Link>
@@ -704,9 +704,9 @@ function CompetitorsCard() {
   );
 }
 
-export function BubbleLegend({ className = "" }: { className?: string }) {
+export function BubbleLegend({ className = "", gap = 18 }: { className?: string; gap?: number }) {
   return (
-    <div className={`flex flex-wrap gap-x-5 gap-y-[9px] text-[14px] ${className}`}>
+    <div className={`flex flex-wrap gap-y-[9px] text-[14px] ${className}`} style={{ columnGap: gap }}>
       {bubbles.map((b) => (
         <Link key={b.domain} href={domainHref(b.domain)} className="flex items-center gap-[6px] hover:text-rk-link">
           <span className="h-3 w-3 rounded-full" style={{ background: b.color }} />
@@ -723,7 +723,7 @@ function MapCard() {
       <CardTitle>Competitive Positioning Map</CardTitle>
       <BubbleLegend className="px-5 pt-[20px] pr-8" />
       <div className="mt-[22px]">
-        <BubbleMap items={bubbles} height={201} pad={{ top: 42, right: 18, bottom: 47, left: 99 }} xMax={145} yMax={400} />
+        <BubbleMap items={bubbles} height={201} pad={{ top: 42, right: 18, bottom: 47, left: 99 }} xMax={145} yMax={400} tickGap={14} labelGap={63} />
       </div>
     </Card>
   );

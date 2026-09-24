@@ -7,7 +7,7 @@ export function SubdomainsView() {
   return (
     <div className="px-8 pt-4">
       <div className="rounded-lg bg-white shadow-card">
-        <div className="flex h-[43px] items-center justify-between px-5">
+        <div className="flex h-[41px] items-center justify-between px-5">
           <h2 className="text-[16px] leading-6 font-semibold text-rk-text">
             Organic Subdomains <span className="font-normal text-rk-muted">1</span>
           </h2>
@@ -18,15 +18,15 @@ export function SubdomainsView() {
         </div>
         <table className="w-full text-[14px]">
           <thead>
-            <tr className="h-[41px] border-y border-rk-border bg-[#f7f7f9] text-left text-[13px] font-medium text-rk-text">
-              <th className="pl-5 font-medium">Subdomain</th>
-              <th className="w-[140px] bg-[#ececf0] pr-4 text-right font-medium">
+            <tr className="h-[41px] border-y border-rk-border bg-[#f7f7f9] text-left text-[12px] text-rk-text">
+              <th className="pl-5 font-normal">Subdomain</th>
+              <th className="w-[140px] bg-[#ececf0] pr-4 text-right font-normal">
                 <span className="inline-flex items-center gap-1">
                   Traffic <SortIcon className="text-rk-text-2" />
                 </span>
               </th>
-              <th className="w-[132px] pr-4 text-right font-medium">Traffic %</th>
-              <th className="w-[140px] pr-5 text-right font-medium">Keywords</th>
+              <th className="w-[148px] pr-4 text-right font-normal">Traffic %</th>
+              <th className="w-[132px] pr-5 text-right font-normal">Keywords</th>
             </tr>
           </thead>
           <tbody>

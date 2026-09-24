@@ -254,20 +254,20 @@ export function ScoreMock() {
         <div className="absolute top-[328px] left-[30px] h-[118px] w-[238px] rounded-lg bg-white px-5 pt-[14px] shadow-[0_1px_6px_rgba(25,27,35,0.08)]">
           <div className="text-[16px] font-bold">Readability</div>
           <svg viewBox="0 0 16 16" width={16} height={16} className="absolute top-[18px] right-[4px]"><path d="M3 13l1-4 7-7 3 3-7 7z" fill="#a9abb6" /></svg>
-          <div className="mt-[15px] flex items-center gap-[12px] text-[13px] whitespace-nowrap text-[#484a54]">
+          <div className="mt-[17px] flex items-center gap-[12px] text-[13px] whitespace-nowrap text-[#484a54]">
             <span className="h-[7px] w-[7px] shrink-0 rounded-full bg-[#e8173b]" />
             Rewrite hard to read sentences
           </div>
-          <div className="dotted-underline mt-[11px] ml-[19px] text-[13px] text-[#6c6e79] decoration-[#a9abb6]">5 more problems</div>
+          <div className="dotted-underline mt-[9px] ml-[19px] text-[13px] text-[#6c6e79] decoration-[#a9abb6]">5 more problems</div>
         </div>
         <div className="absolute top-[458px] left-[30px] h-[150px] w-[238px] rounded-lg bg-white px-5 pt-[14px] shadow-[0_1px_6px_rgba(25,27,35,0.08)]">
           <div className="text-[16px] font-bold">SEO</div>
           <svg viewBox="0 0 16 16" width={16} height={16} className="absolute top-[18px] right-[4px]"><path d="M3 13l1-4 7-7 3 3-7 7z" fill="#a9abb6" /></svg>
-          <div className="mt-[15px] flex items-start gap-[12px] text-[13px] leading-[17px] text-[#484a54]">
+          <div className="mt-[19px] flex items-start gap-[12px] text-[13px] leading-[17px] text-[#484a54]">
             <span className="mt-[5px] h-[7px] w-[7px] shrink-0 rounded-full bg-[#e8173b]" />
             <span className="w-[190px] shrink-0">Use at least one of your target keywords.</span>
           </div>
-          <div className="dotted-underline mt-[11px] ml-[19px] text-[13px] text-[#6c6e79] decoration-[#a9abb6]">5 more problems</div>
+          <div className="dotted-underline mt-[10px] ml-[19px] text-[13px] text-[#6c6e79] decoration-[#a9abb6]">5 more problems</div>
         </div>
       </div>
       <div className="absolute top-[165px] left-[632px] h-[600px] w-[304px] rounded-xl bg-white shadow-[0_6px_30px_rgba(25,27,35,0.12)]">
@@ -305,7 +305,7 @@ export function ScoreMock() {
             <span className="h-[7px] w-[7px] rounded-full bg-[#e8173b]" />
             Unoriginal text <span className="font-normal text-[#6c6e79]">(3)</span>
           </div>
-          <div className="mt-[14px] rounded-lg border border-[#e8eaed] px-4 pt-[11px] pb-4 text-[13px] leading-[17px]">
+          <div className="mt-[14px] rounded-lg border border-[#e8eaed] px-[14px] pt-[11px] pb-4 text-[13px] leading-[17px]">
             <div>
               <b className="text-[#e8173b]">120</b> copied words:
             </div>

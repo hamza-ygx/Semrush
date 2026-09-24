@@ -23,7 +23,7 @@ function TrendChart() {
   const n = changesTrend.traffic.length;
   const left = 80;
   const right = width - 33;
-  const x = (i: number) => left + 5 + ((right - left - 8) * i) / (n - 1);
+  const x = (i: number) => left + 2 + ((right - left - 2) * i) / (n - 1);
   const ya = (v: number) => 107 - (v / 75) * 67;
   const yb = (v: number) => 220 - (v / 3) * 82;
   const line = changesTrend.traffic.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${ya(v).toFixed(1)}`).join("");
@@ -45,8 +45,8 @@ function TrendChart() {
             </text>
           </g>
         ))}
-        {changesTrend.declined.map((v, i) => (v ? <rect key={`d${i}`} x={x(i) - 1.5} y={yb(v)} width={3} height={yb(0) - yb(v)} rx={1} fill="#ff6b70" /> : null))}
-        {changesTrend.improved.map((v, i) => (v ? <rect key={`i${i}`} x={x(i) - 1.5} y={yb(v)} width={3} height={yb(0) - yb(v)} rx={1} fill="#1dc99b" /> : null))}
+        {changesTrend.declined.map((v, i) => (v ? <rect key={`d${i}`} x={x(i) - 2} y={yb(v)} width={4} height={yb(0) - yb(v)} rx={1.5} fill="#ff6b70" /> : null))}
+        {changesTrend.improved.map((v, i) => (v ? <rect key={`i${i}`} x={x(i) - 2} y={yb(v)} width={4} height={yb(0) - yb(v)} rx={1.5} fill="#1dc99b" /> : null))}
         {changesTrend.labels.map((l, i) =>
           l ? (
             <text key={i} x={x(i)} y={yb(0) + 23} textAnchor="middle" fontSize="12" fill="#6c6e79">
@@ -73,9 +73,9 @@ function TrendChart() {
 function TrendCard() {
   const [mode, setMode] = useState("Daily");
   return (
-    <div className="h-[340px] rounded-lg bg-white shadow-card">
-      <CardTitle>Position Changes Trend</CardTitle>
-      <div className="flex items-center justify-between px-5 pt-[19px]">
+    <div className="h-[341px] rounded-lg bg-white shadow-card">
+      <CardTitle className="h-[38px] pb-[2px]">Position Changes Trend</CardTitle>
+      <div className="flex items-center justify-between px-5 pt-[21px]">
         <div className="flex items-center gap-4 text-[14px] leading-5">
           <span className="flex items-center gap-[6px]">
             <Dot color="#6167e6" /> Traffic
@@ -97,7 +97,7 @@ function TrendCard() {
           ))}
         </div>
       </div>
-      <div className="-mt-[9px]">
+      <div className="-mt-[7px]">
         <TrendChart />
       </div>
     </div>
@@ -106,9 +106,11 @@ function TrendCard() {
 
 function PageChangesCard() {
   return (
-    <div className="relative h-[340px] rounded-lg bg-white shadow-card">
-      <CardTitle right={<span className="text-[14px] text-rk-muted">Last 28 days</span>}>Top Page Changes</CardTitle>
-      <table className="mt-[11px] w-full table-fixed text-[14px]">
+    <div className="relative h-[341px] rounded-lg bg-white shadow-card">
+      <CardTitle className="h-[38px] pb-[2px]" right={<span className="text-[14px] text-rk-muted">Last 28 days</span>}>
+        Top Page Changes
+      </CardTitle>
+      <table className="mt-[14px] w-full table-fixed text-[14px]">
         <colgroup>
           <col />
           <col className="w-[70px]" />
@@ -116,7 +118,7 @@ function PageChangesCard() {
           <col className="w-[53px]" />
         </colgroup>
         <thead>
-          <tr className="h-[38px] border-b border-rk-border text-[12px]">
+          <tr className="h-[33px] border-b border-rk-border text-[12px]">
             <th className="pl-5 text-left font-normal">URL</th>
             <th className="text-right font-normal">Traffic</th>
             <th className="text-right font-normal">
@@ -159,18 +161,28 @@ function PageChangesCard() {
 }
 
 function Stopwatch() {
+  const ink = "#191b23";
+  const glove = "#c5d0fb";
   return (
     <svg width="120" height="134" viewBox="0 0 120 134" className="absolute -top-[18px] left-[18px]">
-      <path d="M20 40h84v40a42 42 0 0 1-84 0z" fill="#a9b4fb" />
-      <path d="M36 40h52v40a26 26 0 0 1-52 0z" fill="#eaf0ff" />
-      <circle cx="58" cy="10" r="8" fill="none" stroke="#191b23" strokeWidth="2.4" />
-      <path d="M55 18h6v7h-6z" fill="#fff" stroke="#191b23" strokeWidth="2" />
-      <circle cx="54" cy="62" r="34" fill="#fff" stroke="#191b23" strokeWidth="2.6" />
-      <circle cx="54" cy="62" r="27" fill="none" stroke="#191b23" strokeWidth="1.2" />
-      <path d="M54 40v5M54 79v5M32 62h5M71 62h5" stroke="#191b23" strokeWidth="1.6" />
-      <path d="m54 62 12-12M54 62l-5 9" stroke="#6167e6" strokeWidth="2.4" strokeLinecap="round" />
-      <circle cx="54" cy="62" r="3" fill="#191b23" />
-      <path d="M24 72c-8 4-12 12-8 20s16 10 24 6l18 18c4 4 12 2 12-6" fill="#fff" stroke="#191b23" strokeWidth="2.4" strokeLinejoin="round" />
+      <path d="M3 35h18v40a28 28 0 0 0 56 0V14h37v51a55.5 55.5 0 0 1-111 0z" fill="#b6c5fd" />
+      <path d="M4 76c3-3 5 3 8 0s4-7 7-4 3 4 5 2" fill="none" stroke={ink} strokeWidth="1.1" />
+      <path d="M60 76 81 64l26 42-19 13z" fill="#fff" stroke={ink} strokeWidth="1.8" strokeLinejoin="round" />
+      <path d="M95 99l12 7-19 13-8-11z" fill={ink} />
+      <circle cx="51" cy="57" r="31" fill={glove} stroke={ink} strokeWidth="1.8" />
+      <rect x="11" y="31" width="22" height="11" rx="5.5" transform="rotate(-20 22 36)" fill={glove} stroke={ink} strokeWidth="1.6" />
+      <rect x="9" y="43" width="20" height="11" rx="5.5" transform="rotate(-10 19 48)" fill={glove} stroke={ink} strokeWidth="1.6" />
+      <rect x="10" y="55" width="19" height="11" rx="5.5" fill={glove} stroke={ink} strokeWidth="1.6" />
+      <rect x="56.5" y="16" width="5" height="10" rx="1" fill={glove} stroke={ink} strokeWidth="1.4" />
+      <circle cx="59" cy="8" r="8.5" fill="none" stroke={ink} strokeWidth="2.4" />
+      <circle cx="59" cy="8" r="8.5" fill="none" stroke="#c1cdfa" strokeWidth="0.9" />
+      <circle cx="49" cy="56" r="26" fill="#c1cdfa" stroke={ink} strokeWidth="1.8" />
+      <circle cx="49" cy="56" r="20.5" fill="#fff" stroke={ink} strokeWidth="1.2" />
+      <path d="M49 38l4 14 14 4-14 4-4 14-4-14-14-4 14-4z" transform="rotate(20 49 56)" fill={glove} />
+      <circle cx="49" cy="56" r="3.4" fill="#fff" stroke={ink} strokeWidth="1.4" />
+      <circle cx="34" cy="68" r="2" fill="#fff" stroke={ink} strokeWidth="1.2" />
+      <path d="M34 68l-4 6" stroke={ink} strokeWidth="1.2" />
+      <path d="M59 31c5-7 20-8 28-1 4 4 1 10-5 9l-9-3" fill={glove} stroke={ink} strokeWidth="1.6" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -343,8 +355,8 @@ function ChangeRowView({ r, checked, toggle }: { r: ChangeRow; checked: boolean;
         <td className={td}>
           <span className={`${line} justify-end`}>{r.cpc}</span>
         </td>
-        <td className="pt-[14px] pr-[34px] pb-[15px] pl-[17px] align-top">
-          <a href={ext(r.url)} target="_blank" rel="noreferrer" className="block leading-4 tracking-[0.25px] break-all text-rk-link hover:text-rk-link-hover">
+        <td className="pt-[14px] pr-[34px] pb-[13px] pl-[17px] align-top">
+          <a href={ext(r.url)} target="_blank" rel="noreferrer" className="block leading-4 break-all text-rk-link tabular-nums hover:text-rk-link-hover">
             {r.url}
           </a>
         </td>
@@ -384,12 +396,12 @@ function ChangesTable({ tab, filter }: { tab: string; filter: string }) {
     const el = scroller.current;
     if (!el) return;
     const max = el.scrollWidth - el.clientWidth;
-    setPos({ left: max ? el.scrollLeft / max : 0, ratio: (el.clientWidth - fixedW) / (el.scrollWidth - fixedW) });
+    setPos({ left: max ? el.scrollLeft / max : 0, ratio: (el.clientWidth - fixedW) / (el.scrollWidth - fixedW + 32) });
   };
   useEffect(() => {
     const el = scroller.current;
     if (!el) return;
-    const ro = new ResizeObserver(() => setPos((p) => ({ ...p, ratio: (el.clientWidth - fixedW) / (el.scrollWidth - fixedW) })));
+    const ro = new ResizeObserver(() => setPos((p) => ({ ...p, ratio: (el.clientWidth - fixedW) / (el.scrollWidth - fixedW + 32) })));
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
@@ -420,7 +432,7 @@ function ChangesTable({ tab, filter }: { tab: string; filter: string }) {
           <ExportMenu />
         </div>
       </div>
-      <div className="relative pb-[21px]">
+      <div className="relative pb-[20px]">
         <div ref={scroller} onScroll={onScroll} className="no-scrollbar overflow-x-auto">
           <table className="table-fixed text-[14px]" style={{ width: totalW, minWidth: "100%" }}>
             <colgroup>
@@ -469,7 +481,7 @@ function ChangesTable({ tab, filter }: { tab: string; filter: string }) {
           {rows.length === 0 && <div className="py-10 text-center text-[14px] text-rk-muted">No changes found for the selected period</div>}
         </div>
         {pos.ratio < 1 && (
-          <div className="absolute right-[2px] bottom-[21px]" style={{ left: fixedW }}>
+          <div className="absolute right-[2px] bottom-[23.5px]" style={{ left: fixedW - 2 }}>
             <div
               className="h-[5px] cursor-pointer rounded-full bg-[#c4c7cf]"
               style={{ width: `${pos.ratio * 100}%`, marginLeft: `${pos.left * (1 - pos.ratio) * 100}%` }}

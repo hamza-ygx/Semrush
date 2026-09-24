@@ -6,7 +6,7 @@ import { Fragment, useState } from "react";
 import { routes } from "@/config/routes";
 import { Breadcrumbs } from "@/components/ui/primitives";
 import { MenuItem, Popover } from "@/components/ui/Popover";
-import { BookIcon, ChevronDown, ChevronRight, ChevronsLeft, ExportIcon, ExternalIcon } from "@/components/ui/icons";
+import { ChevronDown, ChevronRight, ChevronsLeft, ExportIcon, ExternalIcon } from "@/components/ui/icons";
 import { HeaderLink, SendFeedback } from "@/components/shell/PageHeader";
 import { Info } from "@/components/ui/primitives";
 import { Checkbox, D1, D2, Dot, DomainField, ScopeSelect, Segmented, SelectButton, YouTag } from "./common";
@@ -16,9 +16,16 @@ import { TrendChart } from "./TrendChart";
 
 const colors = [D1, D2, "#ff8e29", "#ff6b70", "#b58af2"];
 
+const ManualIcon = () => (
+  <svg viewBox="0 0 16 16" width={16} height={16}>
+    <path d="M1 2.5h5.2c.8 0 1.4.4 1.8 1 .4-.6 1-1 1.8-1H15v11H9.8c-.8 0-1.4.3-1.8.9-.4-.6-1-.9-1.8-.9H1z" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinejoin="round" />
+    <path d="M8 3.5v10.5M3.5 6H6M3.5 8.5H6M10 6h2.5M10 8.5h2.5" stroke="currentColor" strokeWidth={1.4} />
+  </svg>
+);
+
 const MegaphoneIcon = () => (
   <svg viewBox="0 0 16 16" width={16} height={16}>
-    <path d="M2.5 6.5v3h2l6 3.5v-10l-6 3.5zM4.5 9.5l1 4h2l-1-3.2M12.8 6.2c.6.5.6 3.1 0 3.6" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinejoin="round" strokeLinecap="round" />
+    <path d="M1.5 6v4h2.5l7.5 4V2L4 6zM4 10l1.2 4.2h2.3L6.4 10.5M13.3 5.3c1.1 1 1.1 4.4 0 5.4" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round" />
   </svg>
 );
 
@@ -204,7 +211,7 @@ function Prospects() {
           Next
         </button>
         <span className="ml-2 text-[14px]">Page:</span>
-        <input defaultValue="1" className="h-7 w-[68px] rounded-md border border-[#e3e5e5] px-2 text-[14px] text-[#a9abb6] outline-none" />
+        <input defaultValue="1" className="h-7 w-[64px] rounded-md border border-[#e3e5e5] px-2 text-[14px] text-[#a9abb6] outline-none" />
         <span className="text-[14px]">of 1</span>
       </div>
     </div>
@@ -218,7 +225,7 @@ export function BacklinkGap({ q, competitors, chartsOpen }: { q: string; competi
   const set = (i: number, v: string) => setDomains((d) => d.map((x, j) => (j === i ? v : x)));
   return (
     <div>
-      <div className="border-b border-[#dfe2e2] px-8 pt-[18px] pb-[21px]">
+      <div className="border-b border-[#dfe2e2] px-8 pt-[17px] pb-[22px]">
         <div className="flex items-center justify-between">
           <Breadcrumbs
             items={[
@@ -229,14 +236,14 @@ export function BacklinkGap({ q, competitors, chartsOpen }: { q: string; competi
           />
           <div className="flex items-center gap-5">
             <HeaderLink icon={<MegaphoneIcon />}>Link building ideas</HeaderLink>
-            <HeaderLink icon={<BookIcon />}>User manual</HeaderLink>
+            <HeaderLink icon={<ManualIcon />}>User manual</HeaderLink>
             <SendFeedback />
           </div>
         </div>
-        <h1 className="mt-[6px] text-[20px] leading-7 font-semibold">Backlink Gap</h1>
+        <h1 className="mt-[5px] text-[20px] leading-7 font-semibold">Backlink Gap</h1>
       </div>
 
-      <div className="px-8 pt-4">
+      <div className="px-8 pt-[17px]">
         <div className="flex gap-2">
           {domains.map((d, i) => (
             <div key={i} className="w-[165px]">

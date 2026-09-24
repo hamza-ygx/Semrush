@@ -6,7 +6,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { routes } from "@/config/routes";
 import { Breadcrumbs } from "@/components/ui/primitives";
 import { LinkSelect, MenuItem, Popover } from "@/components/ui/Popover";
-import { BookIcon, ChevronDown, DesktopIcon, ExportIcon, FlagSE, PlusIcon, SearchIcon } from "@/components/ui/icons";
+import { ChevronDown, DesktopIcon, ExportIcon, FlagSE, PlusIcon, SearchIcon } from "@/components/ui/icons";
 import { HeaderLink, SendFeedback } from "@/components/shell/PageHeader";
 import { D1, D2, Dot, DomainField, ScopeSelect, Segmented, SelectButton, YouTag } from "./common";
 import { kgOther, kgShared, kgTabs, rival, you, type KgRow, type KgTab } from "./data";
@@ -28,9 +28,16 @@ export function useStuck<T extends HTMLElement>() {
   return [ref, stuck] as const;
 }
 
+const ManualIcon = () => (
+  <svg viewBox="0 0 16 16" width={16} height={16}>
+    <path d="M1 2.5h5.2c.8 0 1.4.4 1.8 1 .4-.6 1-1 1.8-1H15v11H9.8c-.8 0-1.4.3-1.8.9-.4-.6-1-.9-1.8-.9H1z" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinejoin="round" />
+    <path d="M8 3.5v10.5M3.5 6H6M3.5 8.5H6M10 6h2.5M10 8.5h2.5" stroke="currentColor" strokeWidth={1.4} />
+  </svg>
+);
+
 export function Meta({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <span className="flex items-center gap-[5px] text-[14px] text-rk-text-2">
+    <span className="flex items-center gap-[4px] text-[14px] text-rk-text-2">
       {label}
       {children}
     </span>
@@ -201,11 +208,11 @@ function KeywordTable() {
                         <circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" strokeWidth={1.3} />
                         <path d="M8 5v6M5 8h6" stroke="currentColor" strokeWidth={1.3} />
                       </svg>
-                      <span className="break-all">
+                      <span className="max-w-[182px] break-all">
                         <Link href={routes.keywordOverview} className="text-rk-link hover:text-rk-link-hover">
                           {r.keyword}
                         </Link>{" "}
-                        <svg viewBox="0 0 16 16" width={16} height={16} className="inline-block align-[-3px] text-[#a9abb6]">
+                        <svg viewBox="0 0 16 16" width={16} height={16} className="-mr-4 inline-block align-[-3px] text-[#a9abb6]">
                           <path d="M2.5 3h11v10h-11zM2.5 7h11" fill="none" stroke="currentColor" strokeWidth={1.4} />
                         </svg>
                       </span>
@@ -259,7 +266,7 @@ export function KeywordGapReport({ q, competitors }: { q: string; competitors: s
             ]}
           />
           <div className="flex items-center gap-5">
-            <HeaderLink icon={<BookIcon />}>User manual</HeaderLink>
+            <HeaderLink icon={<ManualIcon />}>User manual</HeaderLink>
             <SendFeedback />
           </div>
         </div>
@@ -270,7 +277,7 @@ export function KeywordGapReport({ q, competitors }: { q: string; competitors: s
             Export to PDF
           </button>
         </div>
-        <div className="mt-[7px] flex items-center gap-[26px]">
+        <div className="mt-[7px] flex items-center gap-[24px]">
           <Meta label="Database:">
             <LinkSelect value="Sweden" options={["Sweden", "United States", "United Kingdom", "Norway", "Denmark"]} icon={<FlagSE />} />
           </Meta>
@@ -327,7 +334,7 @@ export function KeywordGapReport({ q, competitors }: { q: string; competitors: s
           </div>
         </div>
 
-        <div ref={barRef} className={`sticky top-0 z-30 bg-[#f3f5f5] py-4 ${stuck ? "border-b border-[#d4d6d9]" : "border-t border-[#dfe2e2]"}`}>
+        <div ref={barRef} className={`sticky top-0 z-30 bg-[#f3f5f5] ${stuck ? "border-b border-[#d4d6d9] py-4" : "border-t border-[#dfe2e2] pt-[18px] pb-[14px]"}`}>
           <FilterBar />
         </div>
 

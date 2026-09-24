@@ -27,8 +27,8 @@ const flags = { se: FlagSE, us: FlagUS, uk: FlagUK };
 function UserManualIcon() {
   return (
     <svg viewBox="0 0 16 16" width={16} height={16}>
-      <path d="M1.5 3h4.3c1 0 1.7.7 2.2 1.5.5-.8 1.2-1.5 2.2-1.5h4.3v10H10c-.9 0-1.6.4-2 1-.4-.6-1.1-1-2-1H1.5z" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinejoin="round" />
-      <path d="M8 4.5V14M3.8 6h2M3.8 8.5h2M10.2 6h2M10.2 8.5h2" stroke="currentColor" strokeWidth={1.3} />
+      <path d="M1 2.5h5.2c.8 0 1.4.4 1.8 1 .4-.6 1-1 1.8-1H15v11H9.8c-.8 0-1.4.3-1.8.9-.4-.6-1-.9-1.8-.9H1z" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinejoin="round" />
+      <path d="M8 3.5v10.5M3.5 6H6M3.5 8.5H6M10 6h2.5M10 8.5h2.5" stroke="currentColor" strokeWidth={1.4} />
     </svg>
   );
 }
@@ -94,7 +94,11 @@ export function OrganicHeader({ tab, manual = true, pdf = true, date = true, cur
       ]}
       links={
         <>
-          {manual && <HeaderLink icon={<UserManualIcon />}>User manual</HeaderLink>}
+          {manual && (
+            <span className="-mr-[7px] flex">
+              <HeaderLink icon={<UserManualIcon />}>User manual</HeaderLink>
+            </span>
+          )}
           <SendFeedback />
         </>
       }
@@ -111,7 +115,7 @@ export function OrganicHeader({ tab, manual = true, pdf = true, date = true, cur
       }
       actions={
         pdf ? (
-          <button type="button" className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
+          <button type="button" className="mr-[9px] flex h-7 items-center gap-[7px] rounded-md border border-[#d6d8d8] bg-[#e9ebeb] px-2 text-[14px] text-rk-text-2 hover:bg-[#dfe1e1]">
             <ExportIcon />
             Export to PDF
           </button>
@@ -147,7 +151,7 @@ export function OrganicHeader({ tab, manual = true, pdf = true, date = true, cur
           )}
         </div>
       }
-      tabs={<Tabs tabs={tabs} active={tab} />}
+      tabs={<Tabs tabs={tabs} active={tab} className="[&>a]:tracking-[0.1px]" />}
       className="bg-rk-bg"
     />
   );

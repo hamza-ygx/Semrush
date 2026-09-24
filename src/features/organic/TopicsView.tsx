@@ -46,7 +46,7 @@ function Loader() {
 
 function TileView({ tile, selected, onSelect }: { tile: Tile; selected: boolean; onSelect: () => void }) {
   const [x, y, w, h] = tile.r;
-  const showName = (w >= 100 && h >= 34) || (w >= 60 && h >= 40);
+  const showName = w >= 60 && h >= 34;
   const showStats = w >= 100 && h >= 60;
   return (
     <button
@@ -231,18 +231,18 @@ export function TopicsView({ initial = "redovisningsbyrå halmstad" }: { initial
             </h2>
             <div className="mt-[1px] flex items-center text-[14px] leading-5 text-rk-muted">
               rkjh.se
-              <span className="mx-[7px] h-4 w-px bg-rk-border" />
+              <span className="mx-[9px] h-4 w-px bg-rk-border" />
               {loading ? (
-                <span className="h-[11px] w-[125px] rounded-full bg-[#e0e1e9]" />
+                <span className="ml-[4px] h-[11px] w-[125px] rounded-full bg-[#e0e1e9]" />
               ) : (
                 <>
                   Aug 2026
-                  <span className="mx-[7px] h-4 w-px bg-rk-border" />9 topics, 54 pages
+                  <span className="mx-[9px] h-4 w-px bg-rk-border" />9 topics, 54 pages
                 </>
               )}
             </div>
           </div>
-          <div className="flex items-center gap-2 pt-[2px]">
+          <div className="flex items-center gap-[9px] pt-[2px]">
             <Popover
               align="right"
               panelClassName="w-[320px] p-4 text-[14px] leading-5"
@@ -259,7 +259,7 @@ export function TopicsView({ initial = "redovisningsbyrå halmstad" }: { initial
             >
               We group the pages that bring rkjh.se organic traffic into topics and subtopics. Tile size reflects the traffic and volume of each topic. Click a subtopic to see its top keywords.
             </Popover>
-            <button type="button" className="flex h-7 items-center gap-[6px] rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
+            <button type="button" className="flex h-7 items-center gap-[6px] rounded-md border border-rk-border-strong bg-[#f4f5f9] px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-hover">
               <svg viewBox="0 0 16 16" width={14} height={14}>
                 <path d="M9.4 7 14 1.8h-1.1l-4 4.5-3.2-4.5H2l4.8 6.9L2 14.2h1.1l4.2-4.8 3.4 4.8h3.7zm-1.5 1.7-.5-.7L3.5 2.6h1.7l3.1 4.4.5.7 4.1 5.8h-1.7z" fill="currentColor" />
               </svg>
@@ -268,7 +268,7 @@ export function TopicsView({ initial = "redovisningsbyrå halmstad" }: { initial
             <button
               type="button"
               disabled={loading}
-              className={`flex h-7 items-center gap-[6px] rounded-md border px-2 text-[14px] ${loading ? "border-rk-border bg-[#f7f7f9] text-[#b9bbc4]" : "border-rk-border-strong bg-[#f4f5f9] text-rk-text-2 hover:bg-rk-hover"}`}
+              className={`flex h-7 items-center gap-[6px] rounded-md border px-[9px] text-[14px] ${loading ? "border-rk-border bg-[#f7f7f9] text-[#b9bbc4]" : "border-rk-border-strong bg-[#f4f5f9] text-rk-text-2 hover:bg-rk-hover"}`}
             >
               <ExportIcon />
               Export to XLSX
