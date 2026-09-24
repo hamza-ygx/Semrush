@@ -460,9 +460,9 @@ export function CannibalizationHealthCard({
   );
 }
 
-export function LandscapeView() {
+export function LandscapeView({ begin, fresh }: { begin?: string; fresh?: boolean }) {
   return (
-    <TrackingPage tab="landscape">
+    <TrackingPage tab="landscape" begin={begin} fresh={fresh}>
       <div className="px-8 pt-[17px]">
         <FilterBar top={<DomainChip />} />
         <div className="mt-[15px] grid grid-cols-[425fr_621fr] gap-4">

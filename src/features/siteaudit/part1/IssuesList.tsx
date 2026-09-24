@@ -7,6 +7,7 @@ import { SearchIcon } from "@/components/ui/icons";
 import { Info } from "@/components/ui/primitives";
 import { categoryTabs, issues, moreCategories, severityTabs, type Issue, type Severity } from "./data";
 import { EyeIcon, HelpCircleIcon, SendIcon, SparkleIcon, useToggle, XIcon } from "./ui";
+import { Tip } from "@/features/tracking/Tip";
 
 const c = routes.siteAuditCampaign;
 
@@ -18,9 +19,19 @@ const sections: { sev: Severity; label: string; line: string }[] = [
 
 export const TrendBlob = () => (
   <svg viewBox="0 0 72 22" width={72} height={22} className="shrink-0">
-    <path d="M0 22V10.5C6 8 12 6.5 18 7.5 24 8.5 28 11.5 34 11.5 40 11.5 44 4 52 3.5 60 3 64 7.5 72 8.5V22z" fill="#e6e7ed" />
+    <path d="M0 21V11.5C5 11.5 9 4.5 17.5 4.5 26 4.5 29 11 37.5 11 46 11 48.5 4 54.5 4 63 4 66 10.5 72 11V21z" fill="#e6e7ed" />
   </svg>
 );
+
+export function TrendTip() {
+  return (
+    <Tip dark tip="You will see your progress after the next crawl." gap={5} focus={false} arrow={-1} boxClassName="w-[271px] !px-[7px]">
+      <span data-trend className="flex">
+        <TrendBlob />
+      </span>
+    </Tip>
+  );
+}
 
 function Seg({ on, onClick, children, className = "" }: { on?: boolean; onClick?: () => void; children: ReactNode; className?: string }) {
   return (
@@ -92,39 +103,39 @@ function HowToFix({ issue }: { issue: Issue }) {
 export function FixPanel({ issue, className = "top-[calc(100%+4px)] left-[1px]" }: { issue: Issue; className?: string }) {
   const hasLink = issue.about.endsWith("see ");
   return (
-        <div className={`absolute z-40 flex w-[587px] overflow-hidden rounded-md bg-white text-[14px] leading-5 shadow-popover ${className}`}>
-          <div className="w-[294px] shrink-0 px-4 pt-[16px] pb-[16px]">
-            <div className="text-[16px] leading-6 font-semibold">About the issue</div>
-            <p className="mt-[4px]">
-              {issue.about}
-              {hasLink && (
-                <>
-                  <a href="https://developers.google.com/speed/docs/insights/MinifyResources" target="_blank" rel="noreferrer" className="text-rk-link hover:text-rk-link-hover">
-                    this Google article
-                  </a>
-                  .
-                </>
-              )}
-            </p>
-            <p className="mt-[10px] text-[14px]">
-              <span className="text-[16px] font-semibold">Category:</span> {issue.category}
-            </p>
-          </div>
-          <div className="flex-1 bg-[#e4fffa] px-4 pt-[16px] pb-[16px]">
-            <div className="text-[16px] leading-6 font-semibold">How to fix</div>
-            <p className="mt-[4px] whitespace-pre-line">{issue.fix}</p>
-            <p className="mt-[20px]">Work on the project with co-workers and keep everything organized</p>
-            <button type="button" className="mt-[4px] flex h-[26px] items-center gap-[6px] rounded-md border border-[#b5dfd0] px-2 text-[14px] text-rk-text-2 hover:bg-[#c9f0e2]">
-              <svg viewBox="0 0 16 16" width={16} height={16}>
-                <g fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round">
-                  <circle cx="6" cy="5" r="2.5" />
-                  <path d="M1.5 13.5c.4-2.4 2.1-3.8 4.5-3.8s4.1 1.4 4.5 3.8M12.5 5v4M10.5 7h4" />
-                </g>
-              </svg>
-              Share
-            </button>
-          </div>
-        </div>
+    <div className={`absolute z-40 flex w-[587px] overflow-hidden rounded-md bg-white text-[14px] leading-5 shadow-popover ${className}`}>
+      <div className="w-[294px] shrink-0 px-4 pt-[16px] pb-[16px]">
+        <div className="text-[16px] leading-6 font-semibold">About the issue</div>
+        <p className="mt-[4px]">
+          {issue.about}
+          {hasLink && (
+            <>
+              <a href="https://developers.google.com/speed/docs/insights/MinifyResources" target="_blank" rel="noreferrer" className="text-rk-link hover:text-rk-link-hover">
+                this Google article
+              </a>
+              .
+            </>
+          )}
+        </p>
+        <p className="mt-[10px] text-[14px]">
+          <span className="text-[16px] font-semibold">Category:</span> {issue.category}
+        </p>
+      </div>
+      <div className="flex-1 bg-[#e4fffa] px-4 pt-[16px] pb-[16px]">
+        <div className="text-[16px] leading-6 font-semibold">How to fix</div>
+        <p className="mt-[4px] whitespace-pre-line">{issue.fix}</p>
+        <p className="mt-[20px]">Work on the project with co-workers and keep everything organized</p>
+        <button type="button" className="mt-[4px] flex h-[26px] items-center gap-[6px] rounded-md border border-[#b5dfd0] px-2 text-[14px] text-rk-text-2 hover:bg-[#c9f0e2]">
+          <svg viewBox="0 0 16 16" width={16} height={16}>
+            <g fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round">
+              <circle cx="6" cy="5" r="2.5" />
+              <path d="M1.5 13.5c.4-2.4 2.1-3.8 4.5-3.8s4.1 1.4 4.5 3.8M12.5 5v4M10.5 7h4" />
+            </g>
+          </svg>
+          Share
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -167,14 +178,16 @@ export function SendTo({ className = "", label = "Send to..." }: { className?: s
 export function EyeButton() {
   const [on, setOn] = useState(false);
   return (
-    <button
-      type="button"
-      aria-label="Hide issue"
-      onClick={() => setOn(!on)}
-      className={`flex h-[26px] w-[26px] items-center justify-center rounded-md border border-rk-border-strong text-rk-text-2 hover:bg-rk-hover ${on ? "bg-rk-hover" : "bg-[#f4f5f9]"}`}
-    >
-      <EyeIcon />
-    </button>
+    <Tip tip={on ? "Include check" : "Exclude check"} place="top-end" gap={13} shift={2} arrow={108} boxClassName="!py-[11px] whitespace-nowrap">
+      <button
+        type="button"
+        aria-label="Hide issue"
+        onClick={() => setOn(!on)}
+        className={`flex h-[26px] w-[26px] items-center justify-center rounded-md border border-rk-border-strong text-rk-text-2 outline-none hover:bg-rk-hover focus-visible:border-[#8e92ec] focus-visible:bg-rk-hover focus-visible:shadow-[0_0_0_1px_#8e92ec] ${on ? "bg-rk-hover" : "bg-[#f4f5f9]"}`}
+      >
+        <EyeIcon />
+      </button>
+    </Tip>
   );
 }
 
@@ -183,7 +196,9 @@ function IssueRow({ issue }: { issue: Issue }) {
   return (
     <div className="flex h-[52px] items-center border-b border-rk-border pr-5 pl-[23px] text-[14px] last:border-b-0 hover:bg-[#f9fafc]">
       <div className="flex min-w-0 flex-1 items-center">
-        {issue.isNew && <span className="mr-[7px] -ml-[3px] rounded-[4px] bg-gradient-to-r from-[#9a5cff] to-[#b18bff] px-[4px] text-[11px] leading-[14px] font-semibold text-white">new</span>}
+        {issue.isNew && (
+          <span className="mr-[7px] -ml-[3px] rounded-[4px] bg-gradient-to-r from-[#9a5cff] to-[#b18bff] px-[4px] text-[11px] leading-[14px] font-semibold text-white">new</span>
+        )}
         <Link href={href} className="text-rk-link hover:text-rk-link-hover">
           {issue.count} {issue.unit}
         </Link>
@@ -193,8 +208,8 @@ function IssueRow({ issue }: { issue: Issue }) {
       <Link href={href} className="text-rk-link hover:text-rk-link-hover">
         {issue.count} new {issue.count === 1 ? "issue" : "issues"}
       </Link>
-      <span className="mr-6 ml-[22px]">
-        <TrendBlob />
+      <span className="mr-6 ml-[22px] flex">
+        <TrendTip />
       </span>
       <SendTo />
       <span className="ml-[9px]">
@@ -216,39 +231,46 @@ export function IssuesList() {
 
   return (
     <div className="px-8 pb-[200px]">
-      <div className="sticky top-0 z-30 -mx-8 flex items-center bg-rk-bg px-8 pt-[15px] pb-[13px] after:absolute after:inset-x-0 after:top-full after:h-[4px] after:bg-rk-bg">
-        <label className="flex h-7 w-[196px] items-center gap-[6px] rounded-md border border-rk-border-strong bg-white px-2 focus-within:border-[#8e92ec]">
-          <SearchIcon width={15} height={15} className="text-[#8a8e9b]" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search" className="min-w-0 flex-1 text-[14px] outline-none placeholder:text-rk-muted" />
-        </label>
-        <div className="ml-[8px] flex">
-          {categoryTabs.map((t) => (
-            <Seg key={t.key} on={cat === t.key} onClick={() => setCat(t.key)}>
-              {t.ai && <SparkleIcon />}
-              {t.label} <N n={t.n} />
-            </Seg>
-          ))}
-          <MoreCats active={cat} onPick={setCat} />
-        </div>
-        <div className="ml-[9px] flex">
-          {severityTabs.map((t) => (
-            <Seg key={t.key} on={sev === t.key} onClick={() => setSev(t.key)}>
-              {t.label} <N n={t.n} />
-            </Seg>
-          ))}
-        </div>
-        {withIssues ? (
-          <div className="ml-[9px] flex h-7 shrink-0 overflow-hidden rounded-md border border-[#a3aae9] bg-[#e5e8f5] text-[14px] whitespace-nowrap">
-            <span className="flex items-center px-2">With issues</span>
-            <button type="button" aria-label="Remove filter" onClick={() => setWithIssues(false)} className="flex w-[26px] items-center justify-center border-l border-[#a3aae9] hover:bg-[#d7dcf0]">
-              <XIcon size={14} className="text-rk-text" />
-            </button>
+      <div className="sticky top-0 z-30 -mx-8 bg-rk-bg px-8 pt-[15px] pb-[13px] after:absolute after:inset-x-0 after:top-full after:h-[4px] after:bg-rk-bg">
+        <div className="-ml-[9px] flex flex-wrap items-center gap-y-[9px]">
+          <label className="ml-[9px] flex h-7 w-[196px] items-center max-xl:w-[200px] gap-[6px] rounded-md border border-rk-border-strong bg-white px-2 focus-within:border-[#8e92ec]">
+            <SearchIcon width={15} height={15} className="text-[#8a8e9b]" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search" className="min-w-0 flex-1 text-[14px] outline-none placeholder:text-rk-muted" />
+          </label>
+          <div className="ml-[8px] flex">
+            {categoryTabs.map((t) => (
+              <Seg key={t.key} on={cat === t.key} onClick={() => setCat(t.key)}>
+                {t.ai && <SparkleIcon />}
+                {t.label} <N n={t.n} />
+              </Seg>
+            ))}
+            <MoreCats active={cat} onPick={setCat} />
           </div>
-        ) : (
-          <button type="button" onClick={() => setWithIssues(true)} className="ml-[9px] h-7 rounded-md border border-rk-border-strong bg-white px-2 text-[14px] hover:bg-rk-bg">
-            With issues
-          </button>
-        )}
+          <div className="ml-[9px] flex">
+            {severityTabs.map((t) => (
+              <Seg key={t.key} on={sev === t.key} onClick={() => setSev(t.key)}>
+                {t.label} <N n={t.n} />
+              </Seg>
+            ))}
+          </div>
+          {withIssues ? (
+            <div className="ml-[9px] flex h-7 shrink-0 overflow-hidden rounded-md border border-[#a3aae9] bg-[#e5e8f5] text-[14px] whitespace-nowrap">
+              <span className="flex items-center px-2">With issues</span>
+              <button
+                type="button"
+                aria-label="Remove filter"
+                onClick={() => setWithIssues(false)}
+                className="flex w-[26px] items-center justify-center border-l border-[#a3aae9] hover:bg-[#d7dcf0]"
+              >
+                <XIcon size={14} className="text-rk-text" />
+              </button>
+            </div>
+          ) : (
+            <button type="button" onClick={() => setWithIssues(true)} className="ml-[9px] h-7 rounded-md border border-rk-border-strong bg-white px-2 text-[14px] hover:bg-rk-bg">
+              With issues
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="mt-[4px] rounded-lg bg-white pt-[3px] shadow-card">

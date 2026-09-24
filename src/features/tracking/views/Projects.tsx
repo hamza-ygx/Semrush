@@ -5,7 +5,8 @@ import { TrackingCrumbs } from "../TrackingHeader";
 import { routes } from "@/config/routes";
 import { DesktopIcon, PlusIcon, SearchIcon } from "@/components/ui/icons";
 import { Segmented } from "../controls";
-import { CalendarIcon, SortAscIcon } from "../icons";
+import { SortAscIcon } from "../icons";
+import { ProjectsDate } from "../ProjectsDate";
 import { TrackingFooter } from "../TrackingFooter";
 import { project } from "../data";
 
@@ -35,10 +36,7 @@ export function ProjectsView() {
               <input placeholder="Project name or domain" className="h-full w-full rounded-md pr-2 pl-[32px] text-[14px] outline-none placeholder:text-[#8a8e9b]" />
             </label>
             <Segmented items={["All targets", "AI Search", "SEO"] as const} value="All targets" className="ml-[24.3px]" />
-            <button type="button" className="ml-[22.5px] flex h-7 items-center gap-[8.5px] rounded-md border border-rk-border-strong bg-white px-[8px] text-[14px] whitespace-nowrap text-[#6c6e79]">
-              <CalendarIcon className="text-[#8a8e9b]" />
-              {project.periodLong}
-            </button>
+            <ProjectsDate />
             <button type="button" className="ml-auto flex h-7 items-center gap-[9px] rounded-md bg-rk-btn-dark px-[8.5px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
               <PlusIcon width={14} height={14} strokeWidth={2.2} />
               Create SEO project

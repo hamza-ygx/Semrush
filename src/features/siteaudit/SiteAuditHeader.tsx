@@ -1,10 +1,8 @@
-import Link from "next/link";
 import { routes } from "@/config/routes";
 import { HelpCenter, PageHeader, SendFeedback } from "@/components/shell/PageHeader";
-import { Button } from "@/components/ui/primitives";
-import { ChevronDown, DesktopIcon, ExportIcon, RefreshIcon, ShareIcon, WarningIcon } from "@/components/ui/icons";
+import { DesktopIcon, WarningIcon } from "@/components/ui/icons";
 import { Tabs } from "@/components/ui/primitives";
-import { CogIcon } from "./part1/ui";
+import { ProjectSwitcher, SiteAuditActions } from "./HeaderActions";
 
 const c = routes.siteAuditCampaign;
 
@@ -41,45 +39,10 @@ export function SiteAuditHeader({ tab, looker = true, pdf = true, exportBtn = tr
       title={
         <>
           Site Audit:
-          <Link href={routes.siteAudit} className="flex items-center gap-1 text-rk-link hover:text-rk-link-hover">
-            www.rkjh.se
-            <ChevronDown />
-          </Link>
+          <ProjectSwitcher />
         </>
       }
-      actions={
-        <>
-          <Button variant="primary" className="h-7 px-2">
-            <RefreshIcon />
-            Rerun campaign
-          </Button>
-          {looker && (
-            <Button variant="tertiary" className="hidden h-7 xl:inline-flex">
-              <LookerIcon />
-              Looker Studio
-            </Button>
-          )}
-          {pdf && (
-            <Button variant="tertiary" className="h-7">
-              <ExportIcon />
-              PDF
-            </Button>
-          )}
-          {exportBtn && (
-            <Button variant="tertiary" className="hidden h-7 xl:inline-flex">
-              <ExportIcon />
-              Export
-            </Button>
-          )}
-          <Button variant="tertiary" className="h-7">
-            <ShareIcon />
-            Share
-          </Button>
-          <Button variant="tertiary" className="h-7 w-7 px-0">
-            <CogIcon />
-          </Button>
-        </>
-      }
+      actions={<SiteAuditActions looker={looker} pdf={pdf} exportBtn={exportBtn} lookerIcon={<LookerIcon />} />}
       meta={
         <>
           <span>www.rkjh.se</span>

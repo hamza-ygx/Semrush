@@ -4,6 +4,9 @@ import { useState, type ReactNode } from "react";
 import { MenuItem, Popover } from "@/components/ui/Popover";
 import { CheckIcon, SearchIcon } from "@/components/ui/icons";
 import { CalendarIcon, ChevronBold, XBoldIcon } from "./icons";
+import { periodLabel, useTracking } from "./context";
+import { DatePickerPanel } from "./DatePicker";
+import { Tip } from "./Tip";
 
 export function Select({
   label,
@@ -12,7 +15,17 @@ export function Select({
   align = "left",
   panel,
   placeholder = true,
+  testid,
+  tip,
+  panelClassName = "min-w-[180px]",
+  offset = 4,
+  disabled,
 }: {
+  testid?: string;
+  tip?: ReactNode;
+  panelClassName?: string;
+  offset?: number;
+  disabled?: boolean;
   label: ReactNode;
   options?: readonly string[];
   className?: string;
@@ -24,19 +37,31 @@ export function Select({
   return (
     <Popover
       align={align}
-      panelClassName="min-w-[180px]"
-      trigger={({ toggle, open }) => (
-        <button
-          type="button"
-          onClick={toggle}
-          className={`flex h-7 items-center gap-[6px] rounded-md border border-rk-border-strong bg-white pr-[7px] pl-[9px] text-[14px] whitespace-nowrap hover:bg-rk-bg ${
-            placeholder && !value ? "text-[#8a8e9b]" : "text-rk-text"
-          } ${open ? "border-[#006dca]" : ""} ${className}`}
-        >
-          <span className="flex-1 text-left">{value ?? label}</span>
-          <ChevronBold className="shrink-0 text-rk-text" width={16} height={16} />
-        </button>
-      )}
+      offset={offset}
+      panelClassName={panelClassName}
+      trigger={({ toggle, open }) => {
+        const btn = (
+          <button
+            type="button"
+            onClick={disabled ? undefined : toggle}
+            disabled={disabled}
+            data-testid={testid}
+            className={`flex h-7 items-center gap-[6px] rounded-md border bg-white pr-[7px] pl-[9px] text-[14px] whitespace-nowrap ${
+              disabled ? "border-[#e6e7ec] text-[#c4c7cf]" : `hover:bg-rk-bg ${placeholder && !value ? "text-[#8a8e9b]" : "text-rk-text"} ${open ? "border-[#8e9ff0]" : "border-rk-border-strong"}`
+            } ${className}`}
+          >
+            <span className="flex-1 text-left">{value ?? label}</span>
+            <ChevronBold className={`shrink-0 ${disabled ? "text-[#c4c7cf]" : "text-rk-text"}`} width={16} height={16} />
+          </button>
+        );
+        return tip ? (
+          <Tip tip={tip} place="top-start" shift={-24} gap={7} arrow={110} focus={false} boxClassName="w-[226px]">
+            {btn}
+          </Tip>
+        ) : (
+          btn
+        );
+      }}
     >
       {(close) =>
         panel
@@ -128,36 +153,27 @@ export function DomainChip({ domain = "www.rkjh.se", size = "m" }: { domain?: st
   );
 }
 
-const periods = ["Last 7 days", "Last 30 days", "Last 3 months", "Last 12 months", "Custom range"] as const;
-
-export function DateRange({ label = "Sep 17-24, 2026", className = "" }: { label?: string; className?: string }) {
-  const [p, setP] = useState<string>("Last 7 days");
+export function DateRange({ label, className = "" }: { label?: string; className?: string }) {
+  const { begin } = useTracking();
   return (
     <Popover
       align="right"
+      offset={4}
       className={className}
-      panelClassName="min-w-[200px]"
-      trigger={({ toggle }) => (
-        <button type="button" onClick={toggle} className="flex h-7 items-center gap-[8px] rounded-md border border-rk-border-strong bg-white pr-[9px] pl-[10px] text-[14px] text-rk-text hover:bg-rk-bg">
+      panelClassName="!py-0 overflow-hidden"
+      trigger={({ toggle, open }) => (
+        <button
+          type="button"
+          onClick={toggle}
+          data-testid="pt-date"
+          className={`flex h-7 items-center gap-[8px] rounded-md border bg-white pr-[9px] pl-[10px] text-[14px] text-rk-text hover:bg-rk-bg ${open ? "border-[#8e9ff0]" : "border-rk-border-strong"}`}
+        >
           <CalendarIcon width={16} height={16} />
-          {label}
+          {label ?? periodLabel(begin)}
         </button>
       )}
     >
-      {(close) =>
-        periods.map((o) => (
-          <MenuItem
-            key={o}
-            active={o === p}
-            onClick={() => {
-              setP(o);
-              close();
-            }}
-          >
-            {o}
-          </MenuItem>
-        ))
-      }
+      {(close) => <DatePickerPanel close={close} />}
     </Popover>
   );
 }

@@ -33,46 +33,65 @@ function Thumb({ left, top, onDrag }: { left: number; top: number; onDrag: (dx: 
   );
 }
 
-function GearMenu() {
-  const { open, setOpen, ref, toggle } = useToggle();
+export function AuditSettingsPanel({
+  onClose,
+  className = "absolute top-[22px] left-0 z-50 w-[294px]",
+  roomy = false,
+}: {
+  onClose?: () => void;
+  className?: string;
+  roomy?: boolean;
+}) {
   const [email, setEmail] = useState(false);
   const [stuck, setStuck] = useState(false);
-  const dis = "flex h-[31px] w-full items-center gap-2 px-2 text-[14px] text-[#a9abb6]";
+  const h = roomy ? "h-[32px]" : "h-[31px]";
+  const dis = `flex ${h} w-full items-center gap-2 px-2 text-[14px] text-[#a9abb6]`;
+  return (
+    <div className={`rounded-md bg-white shadow-popover ${className}`}>
+      <div className="pt-[4px] pb-[5px]">
+        <button type="button" className={`flex ${h} w-full items-center gap-2 px-2 text-[14px] text-rk-text hover:bg-rk-bg`} onClick={onClose}>
+          <RefreshIcon strokeWidth={2} />
+          Rerun campaign
+        </button>
+        <div className={dis}>
+          <span className="mx-[2px] h-3 w-3 bg-[#a9abb6]" />
+          Stop and save results
+        </div>
+        <div className={dis}>
+          <XIcon size={16} className="text-[#a9abb6]" />
+          Cancel crawling
+        </div>
+      </div>
+      <div
+        onScroll={(e) => setStuck(e.currentTarget.scrollTop > 0)}
+        className={`relative h-[236px] overflow-y-auto border-t border-rk-border [&::-webkit-scrollbar-track]:mt-[40px] ${thinScroll}`}
+        data-settings
+      >
+        <div className={`sticky top-0 z-10 bg-white px-2 ${roomy ? "pt-[15px] pb-[8px]" : "pt-[13px] pb-[7px]"} text-[14px] font-semibold text-rk-text ${stuck ? "mb-[10px] border-b border-rk-border" : ""}`}>
+          Audit settings
+        </div>
+        {auditSettings.map((s) => (
+          <button key={s} type="button" className={`flex ${roomy ? "h-[32.5px]" : "h-[31.5px]"} w-full items-center px-2 text-left text-[14px] text-rk-text hover:bg-rk-bg`}>
+            {s}
+          </button>
+        ))}
+        <div className="mt-[3px] flex gap-2 border-t border-rk-border px-2 pt-[10px] pb-[20px]">
+          <Checkbox checked={email} onChange={() => setEmail(!email)} className="mt-[2px]" />
+          <span className="text-[14px] leading-5 text-rk-text">Send an email once an audit is complete</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function GearMenu() {
+  const { open, setOpen, ref, toggle } = useToggle();
   return (
     <div ref={ref} className="relative mt-[5px] inline-flex">
       <button type="button" aria-label="Project settings" onClick={toggle} className="text-[#8a8e9b] hover:text-rk-text-2" data-gear>
         <CogIcon />
       </button>
-      {open && (
-        <div className="absolute top-[22px] left-0 z-50 w-[294px] rounded-md bg-white shadow-popover">
-          <div className="pt-[4px] pb-[5px]">
-            <button type="button" className="flex h-[31px] w-full items-center gap-2 px-2 text-[14px] text-rk-text hover:bg-rk-bg" onClick={() => setOpen(false)}>
-              <RefreshIcon strokeWidth={2} />
-              Rerun campaign
-            </button>
-            <div className={dis}>
-              <span className="mx-[2px] h-3 w-3 bg-[#a9abb6]" />
-              Stop and save results
-            </div>
-            <div className={dis}>
-              <XIcon size={16} className="text-[#a9abb6]" />
-              Cancel crawling
-            </div>
-          </div>
-          <div onScroll={(e) => setStuck(e.currentTarget.scrollTop > 0)} className={`relative h-[236px] overflow-y-auto border-t border-rk-border [&::-webkit-scrollbar-track]:mt-[40px] ${thinScroll}`} data-settings>
-            <div className={`sticky top-0 z-10 bg-white px-2 pt-[13px] pb-[7px] text-[14px] font-semibold text-rk-text ${stuck ? "mb-[10px] border-b border-rk-border" : ""}`}>Audit settings</div>
-            {auditSettings.map((s) => (
-              <button key={s} type="button" className="flex h-[31.5px] w-full items-center px-2 text-left text-[14px] text-rk-text hover:bg-rk-bg">
-                {s}
-              </button>
-            ))}
-            <div className="mt-[3px] flex gap-2 border-t border-rk-border px-2 pt-[10px] pb-[20px]">
-              <Checkbox checked={email} onChange={() => setEmail(!email)} className="mt-[2px]" />
-              <span className="text-[14px] leading-5 text-rk-text">Send an email once an audit is complete</span>
-            </div>
-          </div>
-        </div>
-      )}
+      {open && <AuditSettingsPanel onClose={() => setOpen(false)} />}
     </div>
   );
 }
@@ -119,48 +138,48 @@ export function ProjectsList() {
           </div>
         </div>
         <div className="relative min-w-0 flex-1">
-        <div ref={ref} onScroll={(e) => setSl(e.currentTarget.scrollLeft)} className="no-scrollbar overflow-x-auto" data-hscroll>
-          <div style={{ width: CONTENT }} className="relative">
-            <div className="relative flex h-[43px] border-b border-rk-border bg-[#f7f7f8] text-[13px] text-rk-text-2">
-              {projectColumns.map((c) => (
-                <div
-                  key={c.key}
-                  style={{ width: c.w }}
-                  className={`flex shrink-0 items-center gap-1 px-3 whitespace-nowrap ${c.align === "left" ? "" : "justify-end"} ${c.key === "update" ? "bg-[#e9eaee]" : ""}`}
-                >
-                  {c.ai && <SparkleIcon className="mr-[2px]" />}
-                  {c.label}
-                  {c.key === "update" && <SortAscIcon className="text-rk-text-2" />}
-                </div>
-              ))}
-            </div>
-            <div className="relative flex h-[89px] border-b border-rk-border pt-[11px] text-[14px] leading-5">
-              {projectColumns.map((c) => (
-                <div key={c.key} style={{ width: c.w }} className={`shrink-0 px-3 whitespace-nowrap ${c.align === "left" ? "" : "text-right"}`}>
-                  {c.key === "update" ? (
-                    "9w ago"
-                  ) : c.key === "crawled" ? (
-                    <span className="flex items-center gap-[6px]">
-                      <WarningIcon width={17} height={17} />
-                      <span>
-                        100<span className="text-rk-muted">/100</span>
+          <div ref={ref} onScroll={(e) => setSl(e.currentTarget.scrollLeft)} className="no-scrollbar overflow-x-auto" data-hscroll>
+            <div style={{ width: CONTENT }} className="relative">
+              <div className="relative flex h-[43px] border-b border-rk-border bg-[#f7f7f8] text-[13px] text-rk-text-2">
+                {projectColumns.map((c) => (
+                  <div
+                    key={c.key}
+                    style={{ width: c.w }}
+                    className={`flex shrink-0 items-center gap-1 px-3 whitespace-nowrap ${c.align === "left" ? "" : "justify-end"} ${c.key === "update" ? "bg-[#e9eaee]" : ""}`}
+                  >
+                    {c.ai && <SparkleIcon className="mr-[2px]" />}
+                    {c.label}
+                    {c.key === "update" && <SortAscIcon className="text-rk-text-2" />}
+                  </div>
+                ))}
+              </div>
+              <div className="relative flex h-[89px] border-b border-rk-border pt-[11px] text-[14px] leading-5">
+                {projectColumns.map((c) => (
+                  <div key={c.key} style={{ width: c.w }} className={`shrink-0 px-3 whitespace-nowrap ${c.align === "left" ? "" : "text-right"}`}>
+                    {c.key === "update" ? (
+                      "9w ago"
+                    ) : c.key === "crawled" ? (
+                      <span className="flex items-center gap-[6px]">
+                        <WarningIcon width={17} height={17} />
+                        <span>
+                          100<span className="text-rk-muted">/100</span>
+                        </span>
                       </span>
-                    </span>
-                  ) : (
-                    <>
-                      <Link href={routes.siteAuditCampaign.overview} className="text-rk-link hover:text-rk-link-hover">
-                        {projectRow[c.key][0]}
-                      </Link>
-                      <div className="text-rk-muted">{projectRow[c.key][1]}</div>
-                    </>
-                  )}
-                </div>
-              ))}
+                    ) : (
+                      <>
+                        <Link href={routes.siteAuditCampaign.overview} className="text-rk-link hover:text-rk-link-hover">
+                          {projectRow[c.key][0]}
+                        </Link>
+                        <div className="text-rk-muted">{projectRow[c.key][1]}</div>
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-        <Thumb left={thumbLeft} top={34} onDrag={drag} />
-        <Thumb left={thumbLeft} top={124} onDrag={drag} />
+          <Thumb left={thumbLeft} top={34} onDrag={drag} />
+          <Thumb left={thumbLeft} top={124} onDrag={drag} />
         </div>
       </div>
 
