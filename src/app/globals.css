@@ -35,6 +35,15 @@
   --color-rk-btn-dark: #191b23;
 }
 
+:root {
+  --u: calc(100vh / 778);
+}
+@media (min-height: 800px) {
+  :root {
+    --u: 1px;
+  }
+}
+
 html,
 body {
   background: var(--color-rk-bg);

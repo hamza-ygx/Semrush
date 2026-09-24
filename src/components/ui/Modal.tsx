@@ -31,7 +31,7 @@ export function Modal({
       className="fixed top-0 left-0 z-[100] flex h-screen w-screen flex-col items-center overflow-y-auto bg-[rgba(25,27,35,0.37)] py-10"
       onMouseDown={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div style={{ width }} className={`relative my-auto shrink-0 rounded-xl bg-white px-10 pt-9 pb-10 shadow-popover ${className}`}>
+      <div role="dialog" aria-modal="true" style={{ width }} className={`relative my-auto shrink-0 rounded-xl bg-white px-10 pt-9 pb-10 shadow-popover ${className}`}>
         <button
           type="button"
           aria-label="Close"

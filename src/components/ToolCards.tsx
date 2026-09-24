@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, type ComponentType, type SVGProps } from "react";
 import {
   CardAdIcon,
@@ -18,12 +19,14 @@ type Card = {
   icon: ComponentType<SVGProps<SVGSVGElement>>;
   fg: string;
   bg: string;
+  href: string;
   featured?: boolean;
 };
 
 const cards: Card[] = [
   {
     title: "Traffic & Market",
+    href: "/traffic-market",
     description: "Track competitors, analyze markets, uncover growth opportunities.",
     icon: CardTrafficIcon,
     fg: "#5465ff",
@@ -32,6 +35,7 @@ const cards: Card[] = [
   },
   {
     title: "AI Visibility",
+    href: "/ai",
     description: "Get discovered in ChatGPT, Google AI, and other AI search engines.",
     icon: CardAiIcon,
     fg: "#a35cf6",
@@ -39,6 +43,7 @@ const cards: Card[] = [
   },
   {
     title: "Local",
+    href: "/local",
     description: "Manage reviews, boost local search visibility, track local competitors.",
     icon: CardLocalIcon,
     fg: "#ff7a00",
@@ -46,6 +51,7 @@ const cards: Card[] = [
   },
   {
     title: "Content",
+    href: "/content",
     description: "Create SEO-friendly content with AI and competitive data.",
     icon: CardContentIcon,
     fg: "#00b596",
@@ -53,6 +59,7 @@ const cards: Card[] = [
   },
   {
     title: "Advertising",
+    href: "/ad",
     description: "Research competitors, launch and optimize Google and Meta ads.",
     icon: CardAdIcon,
     fg: "#f2a900",
@@ -60,6 +67,7 @@ const cards: Card[] = [
   },
   {
     title: "AI PR",
+    href: "/ai-pr",
     description: "Get your brand featured in the media and cited by AI answers.",
     icon: CardAiPrIcon,
     fg: "#ff5a79",
@@ -67,6 +75,7 @@ const cards: Card[] = [
   },
   {
     title: "Social",
+    href: "/social",
     description: "Plan, publish and analyze posts across social networks.",
     icon: CardSocialIcon,
     fg: "#2bb3ff",
@@ -80,10 +89,10 @@ export function ToolCards() {
   return (
     <div className="relative mt-6">
       <div ref={scroller} className="no-scrollbar flex gap-2 overflow-x-auto scroll-smooth">
-        {cards.map(({ title, description, icon: Icon, fg, bg, featured }) => (
-          <a
+        {cards.map(({ title, description, icon: Icon, fg, bg, href, featured }) => (
+          <Link
             key={title}
-            href="#"
+            href={href}
             className={`relative h-[128px] shrink-0 rounded-lg bg-white pt-4 pr-4 pl-[13px] shadow-card transition-shadow hover:shadow-[var(--intergalactic-box-shadow-card-hover)] ${
               featured ? "w-[320px]" : "w-[248px]"
             }`}
@@ -103,7 +112,7 @@ export function ToolCards() {
               <span className="text-[14px] font-medium text-[#191b23]">{title}</span>
             </div>
             <p className="mt-2 text-[14px] leading-5 text-[#484a54]">{description}</p>
-          </a>
+          </Link>
         ))}
       </div>
       <div className="pointer-events-none absolute top-0 right-0 h-full w-[42px] bg-gradient-to-r from-[#f3f5f5]/0 to-[#f3f5f5]" />

@@ -27,7 +27,7 @@ export function Dashboard() {
   return (
     <>
       <DashboardHeader name={name} onOpen={setModal} />
-      <div className="flex flex-col gap-6 px-8 pt-4 pb-[164px]">
+      <div className="flex flex-col gap-6 px-8 pt-4 pb-[162px]">
         {(shown("ai") || shown("seo")) && (
           <div className="grid grid-cols-2 gap-6">
             {shown("ai") && <AiSearchWidget onClose={hide("ai")} />}
@@ -55,7 +55,7 @@ export function Dashboard() {
         )}
         <GscWidget />
         <HiddenWidgets hidden={hidden} onRestore={(id) => setHidden((h) => h.filter((x) => x !== id))} />
-        <a href="#" onClick={(e) => e.preventDefault()} className="-mt-[14px] flex w-fit items-center gap-1 text-[14px] leading-5 text-rk-link hover:text-rk-link-hover">
+        <a href="#" onClick={(e) => e.preventDefault()} className="-mt-[11px] flex w-fit items-center gap-1 text-[14px] leading-5 text-rk-link hover:text-rk-link-hover">
           <SuggestIcon />
           Suggest new widget
         </a>

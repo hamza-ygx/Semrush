@@ -22,7 +22,7 @@ export function InviteUsersModal({ open, onClose }: { open: boolean; onClose: ()
   return (
     <Modal open={open} onClose={onClose}>
       <h2 className="mt-1 mb-6 text-[24px] leading-8 font-semibold">Invite users</h2>
-      <div className="mb-[10px] flex items-center gap-[6px] text-[16px]">
+      <div className="mb-[9px] flex items-center gap-[6px] text-[16px]">
         Email addresses
         <span className="flex h-5 min-w-5 items-center justify-center rounded-full border border-rk-border-strong px-1 text-[12px] text-rk-text-2">{emails.length}</span>
         {emails.length > 0 && invalid && (
@@ -34,13 +34,13 @@ export function InviteUsersModal({ open, onClose }: { open: boolean; onClose: ()
         )}
       </div>
       <div
-        className="flex min-h-[108px] flex-wrap content-start gap-1 rounded-md border border-rk-border-strong p-3 focus-within:border-[#7a86f2]"
+        className="flex min-h-[108px] flex-wrap content-start gap-1 rounded-md border border-rk-border-strong px-3 pt-[4px] pb-3 focus-within:border-[#7a86f2]"
         onClick={(e) => (e.currentTarget.querySelector("input") as HTMLInputElement)?.focus()}
       >
         {emails.map((e, i) => (
-          <span key={i} className="flex h-7 items-center gap-1 rounded-md bg-[#e0e1e9] px-2 text-[14px] text-rk-text-2">
+          <span key={i} className="group flex h-7 items-center gap-1 rounded-full bg-[#e0e1e9] px-2 text-[14px] text-rk-text-2">
             {e}
-            <button type="button" aria-label={`Remove ${e}`} onClick={() => setEmails((x) => x.filter((_, j) => j !== i))}>
+            <button type="button" aria-label={`Remove ${e}`} className="hidden group-hover:block" onClick={() => setEmails((x) => x.filter((_, j) => j !== i))}>
               <CloseIcon width={12} height={12} />
             </button>
           </span>
@@ -58,7 +58,7 @@ export function InviteUsersModal({ open, onClose }: { open: boolean; onClose: ()
           className="h-7 min-w-[120px] flex-1 text-[14px] outline-none"
         />
       </div>
-      <p className="mt-[14px] text-[14px] leading-5 text-rk-text-2">
+      <p className="mt-[12px] text-[14px] leading-5 text-rk-text-2">
         By clicking “Invite users”, you agree that {emails.length} additional user{emails.length === 1 ? "" : "s"} will be added to your subscription for <Spinner /> /month per user.
       </p>
       <div className="mt-[14px] border-t-2 border-rk-text-2 pt-1 text-[14px] font-semibold">

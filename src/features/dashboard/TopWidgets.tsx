@@ -35,7 +35,7 @@ function CountryDropdown() {
         <Chevron />
       </button>
       {mOpen && (
-        <MenuPanel className="top-[calc(100%+4px)] -left-[6px] px-0 pt-0 pb-0">
+        <MenuPanel className="top-[calc(100%+1px)] left-[1px] px-0 pt-0 pb-0">
           <SearchList
             items={countries}
             render={(v) => (
@@ -134,7 +134,8 @@ function Spark({ data }: { data: number[] }) {
   const w = 120;
   const h = 20;
   const max = Math.max(...data);
-  const pts = data.map((v, i) => [(i / (data.length - 1)) * w, h - (v / max) * (h - 2)]);
+  const min = Math.min(...data);
+  const pts = data.map((v, i) => [(i / (data.length - 1)) * w, 1 + ((max - v) / (max - min || 1)) * (h - 3)]);
   const line = pts.map(([x, y], i) => `${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`).join("");
   return (
     <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} className="mt-[5px] block">
@@ -145,7 +146,7 @@ function Spark({ data }: { data: number[] }) {
 }
 
 function Cell({ children, sep, className = "" }: { children: ReactNode; sep?: boolean; className?: string }) {
-  return <div className={`h-[78px] ${sep ? "border-l border-rk-border pl-[21px]" : ""} ${className}`}>{children}</div>;
+  return <div className={`h-[78px] min-w-0 overflow-hidden ${sep ? "border-l border-rk-border pl-[21px]" : ""} ${className}`}>{children}</div>;
 }
 
 function CellLabel({ children }: { children: ReactNode }) {
@@ -177,7 +178,7 @@ export function SeoWidget({ onClose }: { onClose: () => void }) {
         <Tab tone="seo">SEO</Tab>
         <CloseX onClick={onClose} className="order-2 mt-[10px] ml-auto @min-[640px]:order-3 @min-[640px]:ml-[46px]" />
         <div className="order-3 flex h-[40px] basis-full items-center gap-2 pt-1 pl-5 @min-[640px]:order-2 @min-[640px]:ml-auto @min-[640px]:h-auto @min-[640px]:basis-auto @min-[640px]:pt-[14px]">
-          <LinkDropdown id="seo-scope" value="Root Domain" options={scopes} panelClassName="w-[104px]" panelTop={7} />
+          <LinkDropdown id="seo-scope" value="Root Domain" options={scopes} panelClassName="w-[104px]" panelTop={3} />
           <Sep />
           <LinkDropdown
             id="seo-country"
@@ -215,13 +216,13 @@ export function SeoWidget({ onClose }: { onClose: () => void }) {
               </>
             )}
             panelClassName="w-[94px]"
-            panelTop={7}
+            panelTop={3}
           />
           <Sep />
           <span className="text-[14px] text-rk-muted">{s.date}</span>
         </div>
       </div>
-      <div className="grid grid-cols-[180px_181px_1fr] gap-y-[22px] px-5 pt-[13px] @min-[640px]:grid-cols-[261px_217px_1fr]">
+      <div className="grid grid-cols-[minmax(0,180px)_minmax(0,181px)_minmax(0,1fr)] gap-y-[22px] px-5 pt-[13px] @min-[640px]:grid-cols-[minmax(0,207px)_minmax(0,215px)_minmax(0,1fr)]">
         <Cell>
           <CellLabel>Authority Score</CellLabel>
           <div className="mt-[6px] flex items-center gap-2">
@@ -232,7 +233,7 @@ export function SeoWidget({ onClose }: { onClose: () => void }) {
             </span>
           </div>
           <div className="mt-[6px] flex items-center gap-[6px] text-[13px] leading-4 whitespace-nowrap text-rk-muted">
-            <span className="max-w-[100px] truncate">{brand.name} Rank</span>
+            <span title={`${brand.name} Rank`} className="max-w-[100px] truncate">{brand.name} Rank</span>
             <span className="flex items-center gap-[3px]">
               <span className="text-rk-danger">↓</span>
               <Link href={routes.rank} className="text-rk-link hover:text-rk-link-hover">

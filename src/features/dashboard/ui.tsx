@@ -104,7 +104,7 @@ export function LinkDropdown<T extends string>({
   onChange,
   align = "left",
   panelClassName = "",
-  panelTop = 6,
+  panelTop = 2,
   id,
 }: {
   value: T;
@@ -151,14 +151,15 @@ export function SearchList({ items, render, onPick, first }: { items: string[]; 
   const list = items.filter((i) => i.toLowerCase().includes(q.toLowerCase()));
   return (
     <div className="w-[212px]">
-      <div className="px-0 pb-1">
+      <div className="px-0 pb-[1px]">
         <label className="mx-0 flex h-8 items-center gap-2 rounded-md border-2 border-[#7a86f2] bg-white px-2 text-rk-muted">
           <SearchIcon width={14} height={14} />
           <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search" className="w-full text-[14px] text-rk-text outline-none placeholder:text-rk-muted" />
         </label>
       </div>
-      {!q && first}
-      <div className="max-h-[206px] overflow-y-auto pt-1 [scrollbar-width:thin]">
+      <div className={`${first && !q ? "max-h-[245px]" : "max-h-[206px]"} overflow-y-auto [scrollbar-width:thin]`}>
+        {!q && first}
+        <div className="h-1" />
         {list.map((c) => (
           <button key={c} type="button" onClick={() => onPick(c)} className="flex h-8 w-full items-center gap-2 px-2 text-left text-[14px] text-rk-text hover:bg-rk-bg">
             {render(c)}

@@ -45,7 +45,7 @@ export function PositionTrackingWidget({ onClose }: { onClose: () => void }) {
             <span className="mx-2 h-4 w-px bg-rk-border" />
             <span>{ptWidget.range}</span>
             <span className="ml-3">
-              <LinkDropdown id="pt-period" value="last 7 days" options={periods} panelClassName="w-[98px]" panelTop={8} />
+              <LinkDropdown id="pt-period" value="last 7 days" options={periods} panelClassName="w-[98px]" panelTop={3} />
             </span>
             <CloseX onClick={onClose} className="ml-[18px]" />
           </div>
@@ -106,8 +106,8 @@ export function PositionTrackingWidget({ onClose }: { onClose: () => void }) {
             <tbody>
               {ptWidget.keywords.map((k) => (
                 <tr key={k} className="h-[37px] border-b border-rk-border">
-                  <td className="pl-2">
-                    <Link href={routes.keywordOverview} className="block max-w-[183px] truncate text-rk-link hover:text-rk-link-hover">
+                  <td className="pr-[15px] pl-2">
+                    <Link href={routes.keywordOverview} title={k} className="block truncate text-rk-link hover:text-rk-link-hover">
                       {k}
                     </Link>
                   </td>

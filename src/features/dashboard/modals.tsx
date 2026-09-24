@@ -105,14 +105,14 @@ export function ManageTagsModal({ open, onClose }: { open: boolean; onClose: () 
   const [v, setV] = useState("");
   const n = v.split(",").filter((t) => t.trim()).length;
   return (
-    <Modal open={open} onClose={onClose} width={459}>
-      <Title>Manage Tags</Title>
+    <Modal open={open} onClose={onClose} width={468}>
+      <Title className="mt-[5px]">Manage Tags</Title>
       <div className="mt-[14px] flex items-center justify-between text-[16px] leading-6">
         Enter tags separated by commas
         <span className="flex h-6 items-center rounded-full border border-rk-border-strong px-[6px] text-[12px] text-rk-text-2">{Math.min(n, 3)}/3</span>
       </div>
-      <textarea value={v} onChange={(e) => setV(e.target.value)} className="mt-2 block h-[70px] w-full resize-none rounded-md border border-rk-border-strong px-3 py-2 text-[16px] outline-none focus:border-[#7a86f2]" />
-      <Actions primary="Save" onPrimary={onClose} onCancel={onClose} className="mt-6 [&>button]:h-[38px]" />
+      <textarea value={v} onChange={(e) => setV(e.target.value)} className="mt-2 block h-[71px] w-full resize-none rounded-md border border-rk-border-strong px-3 py-2 text-[16px] outline-none focus:border-[#7a86f2]" />
+      <Actions primary="Save" onPrimary={onClose} onCancel={onClose} className="mt-6" />
     </Modal>
   );
 }
@@ -120,8 +120,8 @@ export function ManageTagsModal({ open, onClose }: { open: boolean; onClose: () 
 export function RenameProjectModal({ open, onClose, name, onRename }: { open: boolean; onClose: () => void; name: string; onRename: (v: string) => void }) {
   const [v, setV] = useState(name);
   return (
-    <Modal open={open} onClose={onClose} width={490}>
-      <Title size={20} className="leading-7">
+    <Modal open={open} onClose={onClose} width={500}>
+      <Title size={20} className="mt-[4px] leading-7">
         Rename project
       </Title>
       <div className="mt-[20px] text-[14px] leading-5">
@@ -143,7 +143,7 @@ export function RenameProjectModal({ open, onClose, name, onRename }: { open: bo
           onClose();
         }}
         onCancel={onClose}
-        className="mt-[26px] [&>button]:h-[38px]"
+        className="mt-[27px]"
       />
     </Modal>
   );
@@ -151,8 +151,8 @@ export function RenameProjectModal({ open, onClose, name, onRename }: { open: bo
 
 export function ShareModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   return (
-    <Modal open={open} onClose={onClose} width={705}>
-      <div className="flex items-center gap-3">
+    <Modal open={open} onClose={onClose} width={720}>
+      <div className="mt-[5px] flex items-center gap-3">
         <Title>Share {project.domain}</Title>
         <span className="-ml-[24px] flex h-5 items-center gap-1 rounded bg-[#dbfee8] px-[6px] text-[12px] text-[#007c65]">
           <CheckIcon width={12} height={12} strokeWidth={2} />
@@ -161,11 +161,11 @@ export function ShareModal({ open, onClose }: { open: boolean; onClose: () => vo
       </div>
       <div className="mt-[22px] text-[16px] leading-6">Email addresses</div>
       <div className="mt-[6px] flex items-start gap-2">
-        <textarea placeholder="mark@example.com, eve@example.com" className="h-[101px] w-[369px] resize-none rounded-md border border-rk-border-strong px-[9px] py-2 text-[16px] outline-none placeholder:text-rk-muted focus:border-[#7a86f2]" />
-        <div className="w-[121px]">
+        <textarea placeholder="mark@example.com, eve@example.com" className="h-[103px] w-[375px] resize-none rounded-md border border-rk-border-strong px-[9px] py-2 text-[16px] outline-none placeholder:text-rk-muted focus:border-[#7a86f2]" />
+        <div className="w-[122px]">
           <BoxSelect value="Editor" options={["Editor", "Viewer"] as const} render={(v) => v} />
         </div>
-        <button type="button" onClick={onClose} className="h-10 w-[121px] rounded-md bg-rk-btn-dark text-[16px] font-semibold text-white hover:bg-[#2b2e38]">
+        <button type="button" onClick={onClose} className="h-10 w-[123px] rounded-md bg-rk-btn-dark text-[16px] font-semibold text-white hover:bg-[#2b2e38]">
           Share
         </button>
       </div>
@@ -192,17 +192,17 @@ export function ShareModal({ open, onClose }: { open: boolean; onClose: () => vo
 export function CreateProjectModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [share, setShare] = useState(false);
   return (
-    <Modal open={open} onClose={onClose} width={459}>
-      <Title>Create SEO project</Title>
+    <Modal open={open} onClose={onClose} width={468}>
+      <Title className="mt-[5px]">Create SEO project</Title>
       <div className="mt-[24px] flex items-center gap-2 text-[16px] leading-6">
         Domain <I />
       </div>
       <div className="text-[14px] leading-5 text-rk-muted">Enter a domain or subdomain. Subfolders not supported.</div>
-      <input autoFocus placeholder="domain.com" className={`${input} mt-[8px]`} />
-      <div className="mt-[22px] flex items-center justify-between text-[16px] leading-6">
+      <input autoFocus placeholder="domain.com" className={`${input} mt-[9px]`} />
+      <div className="mt-[23px] flex items-center justify-between text-[16px] leading-6">
         Name <span className="text-rk-muted">(optional)</span>
       </div>
-      <input placeholder="Auto-generated if left blank" className={`${input} mt-2`} />
+      <input placeholder="Auto-generated if left blank" className={`${input} mt-[9px]`} />
       <label className="mt-[15px] flex cursor-pointer items-center gap-[10px] text-[16px] leading-6">
         <input type="checkbox" checked={share} onChange={() => setShare((s) => !s)} className="sr-only" />
         <span className={`flex h-[18px] w-[18px] items-center justify-center rounded-[3px] border ${share ? "border-rk-btn-dark bg-rk-btn-dark text-white" : "border-rk-border-strong bg-white"}`}>
@@ -210,7 +210,7 @@ export function CreateProjectModal({ open, onClose }: { open: boolean; onClose: 
         </span>
         Share once created
       </label>
-      <Actions primary="Create SEO project" onPrimary={onClose} onCancel={onClose} className="mt-[26px] [&>button]:h-[38px]" />
+      <Actions primary="Create SEO project" onPrimary={onClose} onCancel={onClose} className="mt-[27px]" />
     </Modal>
   );
 }

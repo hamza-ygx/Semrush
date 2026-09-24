@@ -56,15 +56,15 @@ export function GoToTool() {
               {matches.length === 0 && <div className="px-4 py-[6px] text-rk-muted">No results found</div>}
             </>
           ) : (
-            <div className="pt-[2px]">
+            <div className="-mt-[8px]">
               {recents.map((r) => (
                 <Link key={r.label} href={r.href} onClick={close} className="flex items-center gap-2 px-4 py-[6px] text-[14px] leading-5 hover:bg-rk-bg">
                   <ClockIcon className="text-rk-muted" />
                   {r.label}
                 </Link>
               ))}
-              <div className="mx-4 mt-[16px] mb-[10px] border-t border-rk-border" />
-              <div className="px-4 pb-[9px] text-[14px] leading-5 text-rk-muted">Recommendations</div>
+              <div className="mx-4 mt-[6px] mb-[10px] border-t border-rk-border" />
+              <div className="px-4 pb-[6px] text-[14px] leading-5 text-rk-muted">Recommendations</div>
               {recommended.map((n) => {
                 const t = tools.find((x) => x.name === n)!;
                 return <ToolLine key={n} {...t} onClick={close} />;

@@ -6,7 +6,7 @@ import { useOutsideClose } from "../ui/Popover";
 import { ChevronDown, ChevronRight, LanguageIcon } from "../ui/icons";
 
 const DemoIcon = () => (
-  <svg viewBox="0 0 16 16" width={16} height={16}>
+  <svg viewBox="0 0 16 16" width={16} height={16} className="shrink-0">
     <g fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" strokeLinejoin="round">
       <circle cx="5" cy="5" r="2" />
       <path d="M1.5 12.5c.3-2 1.6-3 3.5-3 1 0 1.8.3 2.4.8M7 2.5h7.5v7H10M10 9.5l1.5 3" />
@@ -14,7 +14,7 @@ const DemoIcon = () => (
   </svg>
 );
 const CourseIcon = () => (
-  <svg viewBox="0 0 16 16" width={16} height={16}>
+  <svg viewBox="0 0 16 16" width={16} height={16} className="shrink-0">
     <g fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" strokeLinejoin="round">
       <path d="M1 6 8 2.5 15 6 8 9.5z" />
       <path d="M4 7.5v3.5c1 .8 2.4 1.3 4 1.3s3-.5 4-1.3V7.5M15 6v4" />
@@ -22,14 +22,14 @@ const CourseIcon = () => (
   </svg>
 );
 const AgencyIcon = () => (
-  <svg viewBox="0 0 16 16" width={16} height={16}>
+  <svg viewBox="0 0 16 16" width={16} height={16} className="shrink-0">
     <g fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinejoin="round">
       <path d="M1.5 4.5h13v9h-13zM5.5 4.5v-2h5v2M1.5 8.5h13M7 8.5v1.5h2V8.5" />
     </g>
   </svg>
 );
 
-type Entry = { label: ReactNode; sub?: string[]; icon?: ReactNode } | "divider";
+type Entry = { label: string; sub?: string[]; icon?: ReactNode } | "divider";
 
 const moreEntries: Entry[] = [
   { label: "Solutions" },
@@ -56,9 +56,9 @@ function Row({ children, onEnter, active, hasSub, tall }: { children: ReactNode;
       href="#"
       onMouseEnter={onEnter}
       onClick={(e) => e.preventDefault()}
-      className={`flex ${tall ? "h-[32.5px]" : "h-[31px]"} items-center gap-2 px-[9px] text-[14px] text-rk-text hover:bg-rk-bg ${active ? "bg-rk-bg" : ""}`}
+      className={`flex ${tall ? "h-[32.5px]" : "h-8"} items-center gap-2 px-[9px] text-[14px] text-rk-text hover:bg-rk-bg ${active ? "bg-rk-bg" : ""}`}
     >
-      <span className="flex flex-1 items-center gap-2 whitespace-nowrap">{children}</span>
+      <span className="flex min-w-0 flex-1 items-center gap-2 whitespace-nowrap">{children}</span>
       {hasSub && <ChevronRight className="text-rk-text" />}
     </a>
   );
@@ -75,7 +75,9 @@ function SubPanel({ items, top, width = 234, selected }: { items: string[]; top:
           className={`relative flex h-8 items-center px-[9px] text-[14px] whitespace-nowrap text-rk-text hover:bg-rk-bg ${s === selected ? "bg-[#ebf0ff]" : ""}`}
         >
           {s === selected && <span className="absolute top-0 bottom-0 left-0 w-[2px] bg-rk-text" />}
-          {s}
+          <span title={s} className="truncate">
+            {s}
+          </span>
         </a>
       ))}
     </div>
@@ -100,16 +102,18 @@ export function MoreMenu() {
         <ChevronDown />
       </button>
       {open && (
-        <div className="absolute top-[calc(100%+7px)] right-[-3px] z-50 w-[234px] rounded-md bg-white py-1 shadow-popover">
+        <div className="absolute top-[calc(100%+5px)] right-[-10px] z-50 w-[238px] rounded-md bg-white py-1 shadow-popover">
           {moreEntries.map((e, i) => {
-            if (e === "divider") return <div key={i} className="my-1 border-t border-rk-border" />;
+            if (e === "divider") return <div key={i} className="my-[5px] border-t border-rk-border" />;
             return (
               <div key={i} className="relative">
                 <Row hasSub={!!e.sub} active={sub === i} onEnter={() => setSub(e.sub ? i : null)}>
                   {e.icon}
-                  {e.label}
+                  <span title={e.label} className="truncate">
+                    {e.label}
+                  </span>
                 </Row>
-                {sub === i && e.sub && <SubPanel items={e.sub} top={-4} />}
+                {sub === i && e.sub && <SubPanel items={e.sub} top={-4} width={238} />}
               </div>
             );
           })}
@@ -137,7 +141,7 @@ export function ProfileMenu() {
         <span className="flex h-6 w-6 items-center justify-center rounded-full bg-rk-avatar text-[13px] font-medium text-white">{account.initial}</span>
       </button>
       {open && (
-        <div className="absolute top-[calc(100%+8px)] right-[-2px] z-50 w-[263px] rounded-md bg-white py-1 shadow-popover">
+        <div className="absolute top-[calc(100%+6px)] right-[-2px] z-50 w-[263px] rounded-md bg-white py-1 shadow-popover">
           <a href="#" onMouseEnter={() => setLang(false)} onClick={(e) => e.preventDefault()} className="block px-[9px] py-[5px] text-[14px] leading-[18px] hover:bg-rk-bg">
             My profile <span className="text-rk-muted">• ID:{account.id}</span>
             <div className="text-rk-muted">{account.email}</div>
@@ -146,7 +150,7 @@ export function ProfileMenu() {
           <Row tall onEnter={() => setLang(false)}>Subscription info</Row>
           <Row tall onEnter={() => setLang(false)}>Manage users</Row>
           <Row tall onEnter={() => setLang(false)}>Log out</Row>
-          <div className="my-[3px] border-t border-rk-border" />
+          <div className="my-1 border-t border-rk-border" />
           <div className="relative">
             <Row tall hasSub active={lang} onEnter={() => setLang(true)}>
               <LanguageIcon className="text-rk-text-2" />
@@ -154,7 +158,7 @@ export function ProfileMenu() {
                 Language: <b className="font-semibold">English</b>
               </span>
             </Row>
-            {lang && <SubPanel items={languages} top={-8} width={139} selected="English" />}
+            {lang && <SubPanel items={languages} top={-3} width={139} selected="English" />}
           </div>
         </div>
       )}

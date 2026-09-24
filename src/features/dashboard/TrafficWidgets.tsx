@@ -101,8 +101,10 @@ export function TrafficAnalyticsWidget({ onClose }: { onClose: () => void }) {
                 onClick={() => setSrc("brand")}
                 className={`flex items-center gap-[7px] rounded-l-md border px-[9px] ${src === "brand" ? "z-10 border-[#8b95f5] bg-[#f5f7ff]" : "border-rk-border-strong bg-white hover:bg-rk-bg"}`}
               >
-                <LogoIcon width={16} height={16} />
-                {brand.name} Data
+                <LogoIcon width={16} height={16} className="shrink-0" />
+                <span title={`${brand.name} Data`} className="max-w-[220px] truncate">
+                  {brand.name} Data
+                </span>
               </button>
               <button
                 type="button"
@@ -128,7 +130,7 @@ export function TrafficAnalyticsWidget({ onClose }: { onClose: () => void }) {
               key={m.label}
               type="button"
               onClick={() => setMetric(i)}
-              className={`-m-px h-[96px] border px-4 pt-[11px] text-left ${
+              className={`-m-px flex h-[96px] flex-col border px-4 pt-[11px] text-left ${
                 metric === i ? "z-10 rounded-md border-[#8b95f5] bg-[#f5f7ff]" : "border-transparent border-l-rk-border first:border-l-transparent"
               }`}
             >

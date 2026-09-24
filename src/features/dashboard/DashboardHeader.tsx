@@ -32,7 +32,7 @@ function ProjectDropdown({ name, onCreate }: { name: string; onCreate: () => voi
       </button>
       {mOpen && (
         <MenuPanel className="top-[calc(100%+4px)] left-0 w-[280px] text-[14px] leading-5 font-normal">
-          <button type="button" onClick={mClose} className="relative flex w-full items-start gap-2 bg-[#ebf0ff] px-2 pt-[5px] pb-[6px] text-left">
+          <button type="button" onClick={mClose} className="relative mt-[6px] flex w-full items-start gap-2 bg-[#ebf0ff] px-2 pt-[5px] pb-[6px] text-left leading-[19px]">
             <span className="absolute top-0 bottom-0 left-0 w-[2px] bg-rk-text" />
             <RkjhFavicon className="mt-[2px] ml-[-1px]" />
             <span>
@@ -40,14 +40,14 @@ function ProjectDropdown({ name, onCreate }: { name: string; onCreate: () => voi
               <span className="block pl-[5px] text-rk-muted">{project.domain}</span>
             </span>
           </button>
-          <div className="my-[10px] border-t border-rk-border" />
+          <div className="mt-[8px] mb-[5px] border-t border-rk-border" />
           <button
             type="button"
             onClick={() => {
               mClose();
               onCreate();
             }}
-            className="flex w-full items-center justify-between px-2 py-[3px] pb-[7px] text-rk-link hover:text-rk-link-hover"
+            className="flex w-full items-center justify-between px-2 py-[3px] pb-[6px] text-rk-link hover:text-rk-link-hover"
           >
             Create new SEO project
             <PlusIcon width={14} height={14} />

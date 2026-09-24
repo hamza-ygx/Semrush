@@ -6,7 +6,7 @@ import { CloseIcon, SearchIcon } from "../ui/icons";
 const articles = ["Audit your website", "Conduct keyword research", "Track your rankings", "Create winning content", "Optimize backlinks", "Run competitive analysis"];
 
 const res = (d: string) => (
-  <svg viewBox="0 0 24 24" width={24} height={24} className="text-rk-text-2">
+  <svg viewBox="0 0 24 24" width={24} height={24} className="shrink-0 text-[#8a8e9b]">
     <path d={d} fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
@@ -26,7 +26,7 @@ export function HelpButtonAndPanel() {
         <aside className="fixed top-0 right-0 bottom-0 z-[60] flex w-[403px] flex-col bg-white shadow-popover">
           <div className="flex h-[49px] shrink-0 items-center justify-between border-b border-rk-border px-6">
             <h2 className="text-[16px] font-semibold">Help &amp; Support</h2>
-            <button type="button" aria-label="Close help" onClick={() => setOpen(false)} className="text-rk-muted hover:text-rk-text">
+            <button type="button" aria-label="Close help" onClick={() => setOpen(false)} className="text-[#a9abb6] hover:text-rk-text">
               <CloseIcon width={22} height={22} />
             </button>
           </div>
@@ -43,9 +43,9 @@ export function HelpButtonAndPanel() {
                 </a>
               ))}
             </div>
-            <h3 className="mt-[25px] mb-[10px] text-[14px] font-semibold">Resources</h3>
+            <h3 className="mt-[21px] mb-[8px] text-[14px] font-semibold">Resources</h3>
             {resources.map((r) => (
-              <a key={r.label} href="#" className="flex h-10 items-center gap-4 text-[14px] text-rk-text hover:text-rk-link">
+              <a key={r.label} href="#" className="flex h-10 items-center gap-[19px] text-[14px] text-rk-text hover:text-rk-link">
                 {r.icon}
                 {r.label}
               </a>
@@ -61,7 +61,7 @@ export function HelpButtonAndPanel() {
         type="button"
         aria-label={open ? "Close help" : "Help"}
         onClick={() => setOpen((o) => !o)}
-        className="fixed right-[21px] bottom-[21px] z-[70] flex h-[52px] w-[52px] items-center justify-center rounded-full bg-rk-help text-[28px] font-bold text-rk-text shadow-card hover:brightness-95"
+        className="fixed right-[21px] bottom-[21px] z-[110] flex h-[52px] w-[52px] items-center justify-center rounded-full bg-rk-help text-[28px] font-bold text-rk-text shadow-card hover:brightness-95"
       >
         {open ? <CloseIcon width={26} height={26} strokeWidth={2.4} /> : "?"}
       </button>

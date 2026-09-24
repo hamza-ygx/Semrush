@@ -25,7 +25,7 @@ const devOpt = (v: string) => (
 
 export function OrganicRankingsWidget({ onClose }: { onClose: () => void }) {
   return (
-    <WidgetCard className="h-[599px]">
+    <WidgetCard className="h-[596px]">
       <div className="h-[68px] border-b border-rk-border px-5 pt-2">
         <div className="flex items-center justify-between">
           <WTitle href={routes.organic.overview}>Organic Rankings</WTitle>
@@ -44,7 +44,7 @@ export function OrganicRankingsWidget({ onClose }: { onClose: () => void }) {
       </div>
       <div className="flex flex-1 flex-col items-center pt-[186px] text-center">
         <NothingFoundArt />
-        <div className="mt-[14px] text-[16px] leading-6 font-semibold text-rk-text-2">Nothing found</div>
+        <div className="mt-[10px] text-[16px] leading-6 font-semibold text-rk-text-2">Nothing found</div>
         <div className="mt-[3px] text-[14px] leading-[21px] text-rk-muted">
           We haven&apos;t found any data
           <br />
@@ -80,7 +80,7 @@ function RefDomainsChart() {
       <path d={line} fill="none" stroke="#6167e6" strokeWidth={2} strokeLinejoin="round" />
       {refDomainsTrend.labels.map((l, i) =>
         l ? (
-          <text key={i} x={x(i) + 19} y={bottom + 22} textAnchor="middle" fontSize="12" fill="#6c6e79">
+          <text key={i} x={x(i) + 19} y={bottom + 21} textAnchor="middle" fontSize="12" fill="#6c6e79">
             {l}
           </text>
         ) : null,
@@ -92,8 +92,8 @@ function RefDomainsChart() {
 export function BacklinksWidget({ onClose }: { onClose: () => void }) {
   const max = Math.max(...refDomainsByAS.map((r) => r.value));
   return (
-    <WidgetCard className="h-[599px]">
-      <div className="flex h-[43px] items-center justify-between border-b border-rk-border px-5">
+    <WidgetCard className="h-[596px]">
+      <div className="flex h-[41px] items-center justify-between border-b border-rk-border px-5">
         <WTitle href={routes.backlinks}>Backlinks</WTitle>
         <div className="flex items-center gap-[13px] text-[14px] text-rk-muted">
           Scope: Root Domain
@@ -105,10 +105,10 @@ export function BacklinksWidget({ onClose }: { onClose: () => void }) {
           <Label>Referring Domains</Label>
           <span className="text-[14px] text-rk-muted">Last 12 months</span>
         </div>
-        <Link href={routes.referringDomains} className="mt-[20px] block" aria-label="Referring domains trend">
+        <Link href={routes.referringDomains} className="mt-[19px] block" aria-label="Referring domains trend">
           <RefDomainsChart />
         </Link>
-        <div className="mt-[34px] flex items-center justify-between">
+        <div className="mt-[31px] flex items-center justify-between">
           <Label>Referring Domains by Authority Score</Label>
           <span className="text-[14px] text-rk-muted">Sep 2026</span>
         </div>
@@ -138,7 +138,7 @@ export function BacklinksWidget({ onClose }: { onClose: () => void }) {
 
 export function GscWidget() {
   return (
-    <WidgetCard className="h-[294px]">
+    <WidgetCard className="h-[292px]">
       <div className="flex h-full items-start pt-[41px] pl-[41px]">
         <ConnectGscArt />
         <div className="flex flex-1 flex-col items-center pt-[42px] text-center">

@@ -49,7 +49,7 @@ export function SiteAuditWidget({ onClose }: { onClose: () => void }) {
         <div className="grid grid-cols-[285px_1fr]">
           <div>
             <Label>Site Health</Label>
-            <Link href={SA.overview} className="mt-[12px] ml-2 block w-fit">
+            <Link href={SA.overview} className="mt-[9px] ml-2 block w-fit">
               <HealthGauge value={siteAudit.health} />
             </Link>
           </div>
@@ -70,11 +70,11 @@ export function SiteAuditWidget({ onClose }: { onClose: () => void }) {
             </div>
           </div>
         </div>
-        <Label className="mt-[53px]">Crawled Pages</Label>
-        <Link href={SA.crawledPages} className="mt-[1px] text-[22px] leading-7 font-semibold text-rk-number hover:opacity-80">
+        <Label className="mt-[46px]">Crawled Pages</Label>
+        <Link href={SA.crawledPages} className="mt-[3px] text-[22px] leading-7 font-semibold text-rk-number hover:opacity-80">
           {siteAudit.crawled}
         </Link>
-        <Link href={SA.crawledPages} className="mt-[13px] block">
+        <Link href={SA.crawledPages} className="mt-[14px] block">
           <StackBar segments={siteAudit.crawledBar} height={38} className="gap-[2px] rounded-none" />
         </Link>
         <div className="mt-auto mb-[21px]">
