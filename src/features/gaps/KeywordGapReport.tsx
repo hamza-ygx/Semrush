@@ -5,10 +5,10 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { routes } from "@/config/routes";
 import { Breadcrumbs } from "@/components/ui/primitives";
-import { LinkSelect, MenuItem, Popover } from "@/components/ui/Popover";
-import { ChevronDown, DesktopIcon, ExportIcon, FlagSE, PlusIcon, SearchIcon } from "@/components/ui/icons";
+import { LinkSelect } from "@/components/ui/Popover";
+import { DesktopIcon, ExportIcon, FlagSE, PlusIcon, SearchIcon } from "@/components/ui/icons";
 import { HeaderLink, SendFeedback } from "@/components/shell/PageHeader";
-import { D1, D2, Dot, DomainField, ScopeSelect, Segmented, SelectButton, YouTag } from "./common";
+import { D1, D2, Dot, DomainField, DomainPicker, ScopeSelect, Segmented, SelectButton, YouTag } from "./common";
 import { kgOther, kgShared, kgTabs, rival, you, type KgRow, type KgTab } from "./data";
 import { KeywordOverlap, TopOpportunities } from "./Opportunities";
 
@@ -30,7 +30,13 @@ export function useStuck<T extends HTMLElement>() {
 
 const ManualIcon = () => (
   <svg viewBox="0 0 16 16" width={16} height={16}>
-    <path d="M1 2.5h5.2c.8 0 1.4.4 1.8 1 .4-.6 1-1 1.8-1H15v11H9.8c-.8 0-1.4.3-1.8.9-.4-.6-1-.9-1.8-.9H1z" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinejoin="round" />
+    <path
+      d="M1 2.5h5.2c.8 0 1.4.4 1.8 1 .4-.6 1-1 1.8-1H15v11H9.8c-.8 0-1.4.3-1.8.9-.4-.6-1-.9-1.8-.9H1z"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.6}
+      strokeLinejoin="round"
+    />
     <path d="M8 3.5v10.5M3.5 6H6M3.5 8.5H6M10 6h2.5M10 8.5h2.5" stroke="currentColor" strokeWidth={1.4} />
   </svg>
 );
@@ -55,7 +61,11 @@ function FilterBar() {
           placeholder="Filter by keyword"
           className="h-7 w-[178px] rounded-l-md border border-[#dfe2e2] bg-white px-2 text-[14px] outline-none placeholder:text-[#8a8e9b] focus:border-[#7a86f2]"
         />
-        <button type="button" aria-label="Search" className="-ml-px flex h-7 w-[33px] items-center justify-center rounded-r-md border border-[#dfe2e2] bg-[#e9ebeb] text-rk-text-2 hover:bg-rk-hover">
+        <button
+          type="button"
+          aria-label="Search"
+          className="-ml-px flex h-7 w-[33px] items-center justify-center rounded-r-md border border-[#dfe2e2] bg-[#e9ebeb] text-rk-text-2 hover:bg-rk-hover"
+        >
           <SearchIcon width={15} height={15} />
         </button>
       </div>
@@ -63,7 +73,11 @@ function FilterBar() {
       <SelectButton value="Volume" options={["Volume", "10,001+", "1,001-10,000", "101-1,000", "11-100", "1-10"]} className="w-[91px]" />
       <SelectButton value="KD" options={["KD", "Very hard", "Hard", "Difficult", "Possible", "Easy", "Very easy"]} className="w-[61px]" />
       <SelectButton value="Intent" options={["Intent", "Informational", "Navigational", "Commercial", "Transactional"]} className="w-[79px]" />
-      <SelectButton value="Advanced filters" options={["Advanced filters", "Include keywords", "Exclude keywords", "CPC", "Competition"]} className="w-[151px]" />
+      <SelectButton
+        value="Advanced filters"
+        options={["Advanced filters", "Include keywords", "Exclude keywords", "CPC", "Competition"]}
+        className="w-[151px]"
+      />
     </div>
   );
 }
@@ -73,6 +87,16 @@ const intentTone: Record<string, string> = {
   I: "bg-[#c4e5fe] text-[#0a5ac2]",
   N: "bg-[#e2dcff] text-[#5a50c8]",
   T: "bg-[#9ef2c9] text-[#006c52]",
+};
+
+const kgTips: Record<KgTab, string> = {
+  shared: "Keywords that all the entered domains rank for.",
+  missing: "Keywords for which the You-domain doesn't have rankings but all of the other entered competitors do.",
+  weak: "Keywords for which the You-domain ranks lower than all of the other entered competitors.",
+  strong: "Keywords for which the You-domain ranks higher than all of the other entered competitors.",
+  untapped: "Keywords for which the You-domain has no rankings but at least one of the other entered competitors do.",
+  unique: "Keywords that only one of the entered domains ranks for.",
+  all: "All keywords that the entered domains rank for.",
 };
 
 const kdColor = (kd: number) => (kd < 15 ? "#009f81" : kd < 30 ? "#3fe0b0" : kd < 50 ? "#fdc23c" : "#ff8e29");
@@ -107,23 +131,7 @@ function KeywordTable() {
     <div className="rounded-lg bg-white pb-5 shadow-card">
       <div className="flex h-[44px] items-center gap-2 border-b border-[#e8e9ec] px-5">
         <h3 className="text-[16px] leading-6 font-bold">All keyword details for:</h3>
-        <Popover
-          panelClassName="min-w-[140px]"
-          trigger={({ toggle: t }) => (
-            <button type="button" onClick={t} className="flex h-7 items-center gap-[6px] rounded-md border border-[#dfe2e2] bg-white px-2 text-[14px]">
-              {you}
-              <ChevronDown width={14} height={14} strokeWidth={2.4} />
-            </button>
-          )}
-        >
-          {(close) =>
-            [you, rival].map((d) => (
-              <MenuItem key={d} active={d === you} onClick={close}>
-                {d}
-              </MenuItem>
-            ))
-          }
-        </Popover>
+        <DomainPicker domains={[you, rival]} testId="kg-details-for" />
         <YouTag />
       </div>
       <div className="flex h-[68px] items-center justify-between px-5">
@@ -136,16 +144,23 @@ function KeywordTable() {
                 <span className="ml-[2px] text-rk-muted">{t.count}</span>
               </>
             ),
+            tip: kgTips[t.key],
           }))}
           value={tab}
           onChange={setTab}
+          testId="kg-tab"
+          tipClassName="w-[228px] py-[10px]"
         />
         <div className="flex items-center gap-2">
           <button type="button" className="flex h-7 items-center gap-2 rounded-md bg-[#191b1c] px-[10px] text-[14px] font-medium text-white hover:bg-[#2b2e38]">
             <PlusIcon width={14} height={14} strokeWidth={2} />
             Add to list
           </button>
-          <button type="button" aria-label="Export" className="flex h-7 w-7 items-center justify-center rounded-md border border-[#dfe2e2] bg-white text-rk-text-2 hover:bg-rk-bg">
+          <button
+            type="button"
+            aria-label="Export"
+            className="flex h-7 w-7 items-center justify-center rounded-md border border-[#dfe2e2] bg-white text-rk-text-2 hover:bg-rk-bg"
+          >
             <ExportIcon />
           </button>
         </div>
@@ -220,13 +235,16 @@ function KeywordTable() {
                   </td>
                   <td className="pt-[12px] pr-[25px] text-right">
                     {r.intent.map((i) => (
-                      <span key={i} className={`inline-flex h-[18px] w-[17px] items-center justify-center rounded-[4px] text-[11px] font-semibold ${intentTone[i]}`}>
+                      <span
+                        key={i}
+                        className={`inline-flex h-[18px] w-[17px] items-center justify-center rounded-[4px] text-[11px] font-semibold ${intentTone[i]}`}
+                      >
                         {i}
                       </span>
                     ))}
                   </td>
-                  <td className={`py-[12px] pr-3 text-right ${aBest ? "bg-[#dcfdf8]" : ""}`}>{r.a || "–"}</td>
-                  <td className={`py-[12px] pr-2 text-right ${bBest ? "bg-[#dcfdf8]" : ""}`}>{r.b || "–"}</td>
+                  <td className={`py-[12px] pr-3 text-right ${aBest ? "bg-[#dcfdf8]" : ""}`}>{r.a}</td>
+                  <td className={`py-[12px] pr-2 text-right ${bBest ? "bg-[#dcfdf8]" : ""}`}>{r.b}</td>
                   <td className="py-[12px] pr-2 text-right">{r.volume}</td>
                   <td className="py-[12px] pr-[11px] text-right">
                     <span className="inline-flex items-center gap-[6px]">
@@ -272,7 +290,10 @@ export function KeywordGapReport({ q, competitors }: { q: string; competitors: s
         </div>
         <div className="mt-[9px] flex items-start justify-between">
           <h1 className="text-[20px] leading-7 font-semibold">Keyword Gap</h1>
-          <button type="button" className="flex h-7 items-center gap-[6px] rounded-md border border-[#d6d8d8] bg-[#e9ebeb] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
+          <button
+            type="button"
+            className="flex h-7 items-center gap-[6px] rounded-md border border-[#d6d8d8] bg-[#e9ebeb] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover"
+          >
             <ExportIcon />
             Export to PDF
           </button>
@@ -307,13 +328,18 @@ export function KeywordGapReport({ q, competitors }: { q: string; competitors: s
                 type="button"
                 onClick={() => {
                   const c = domains.slice(1).filter(Boolean);
-                  router.push(`${routes.keywordGap}?q=${encodeURIComponent(domains[0] || you)}&compareWith=${encodeURIComponent((c.length ? c : [rival]).join(","))}`);
+                  router.push(
+                    `${routes.keywordGap}?q=${encodeURIComponent(domains[0] || you)}&compareWith=${encodeURIComponent((c.length ? c : [rival]).join(","))}`,
+                  );
                 }}
                 className="h-7 rounded-md bg-[#191b1c] px-[13px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]"
               >
                 Compare
               </button>
-              <Link href={routes.keywordGap} className="flex h-7 items-center rounded-md border border-[#d6d8d8] bg-[#e9ebeb] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
+              <Link
+                href={routes.keywordGap}
+                className="flex h-7 items-center rounded-md border border-[#d6d8d8] bg-[#e9ebeb] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover"
+              >
                 Cancel
               </Link>
             </div>
@@ -334,7 +360,10 @@ export function KeywordGapReport({ q, competitors }: { q: string; competitors: s
           </div>
         </div>
 
-        <div ref={barRef} className={`sticky top-0 z-30 bg-[#f3f5f5] ${stuck ? "border-b border-[#d4d6d9] py-4" : "border-t border-[#dfe2e2] pt-[18px] pb-[14px]"}`}>
+        <div
+          ref={barRef}
+          className={`sticky top-0 z-30 bg-[#f3f5f5] ${stuck ? "border-b border-[#d4d6d9] py-4" : "border-t border-[#dfe2e2] pt-[18px] pb-[14px]"}`}
+        >
           <FilterBar />
         </div>
 

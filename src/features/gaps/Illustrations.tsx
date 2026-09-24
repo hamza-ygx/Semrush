@@ -10,14 +10,37 @@ const shadow = "shadow-[0_6px_30px_rgba(25,27,35,0.10),0_0_1px_rgba(25,27,35,0.1
 
 function MiniPill({ children, className = "", style }: { children: ReactNode; className?: string; style?: CSSProperties }) {
   return (
-    <div style={style} className={`flex h-6 items-center rounded-[7px] border border-[#dcdde2] bg-white text-[10.5px] whitespace-nowrap text-[#484a54] ${className}`}>
+    <div
+      style={style}
+      className={`flex h-6 items-center rounded-[7px] border border-[#dcdde2] bg-white text-[10.5px] whitespace-nowrap text-[#484a54] ${className}`}
+    >
       {children}
     </div>
   );
 }
 
 export function FormMock({ big = false }: { big?: boolean }) {
-  const g = big ? { card: 384, p1: 242, scope: 84, p2: 109, px: 12, pt: 11, gap: 8, you: 38 } : { card: 378, p1: 215, scope: 97, p2: 124, px: 16, pt: 16, gap: 9, you: 46 };
+  const g = big
+    ? {
+        card: 384,
+        p1: 242,
+        scope: 84,
+        p2: 109,
+        px: 12,
+        pt: 11,
+        gap: 8,
+        you: 38,
+      }
+    : {
+        card: 378,
+        p1: 215,
+        scope: 97,
+        p2: 124,
+        px: 16,
+        pt: 16,
+        gap: 9,
+        you: 46,
+      };
   const row = (first: boolean) => (
     <div className="flex" style={{ gap: g.gap }}>
       <MiniPill className="shrink-0" style={{ width: g.p1 }}>
@@ -41,7 +64,13 @@ export function FormMock({ big = false }: { big?: boolean }) {
     </div>
   );
   return (
-    <div className={`rounded-lg bg-white ${shadow}`} style={{ width: g.card, padding: `${g.pt}px ${g.px}px ${big ? 10 : 16}px` }}>
+    <div
+      className={`rounded-lg bg-white ${shadow}`}
+      style={{
+        width: g.card,
+        padding: `${g.pt}px ${g.px}px ${big ? 10 : 16}px`,
+      }}
+    >
       {row(true)}
       <div style={{ marginTop: big ? 12 : 13 }}>{row(false)}</div>
       <div className="flex justify-end" style={{ marginTop: big ? 14 : 17 }}>
@@ -56,9 +85,15 @@ export function IllusCompareForm({ variant = "cd" }: { variant?: "cd" | "kg" }) 
     <div className="relative h-[280px] w-[423px]">
       <svg className="absolute top-0 left-0" width={423} height={280} viewBox="0 0 423 280">
         {variant === "cd" ? (
-          <path d="M48 18 L190 2 Q200 1 206 9 L240 62 Q244 70 243 80 L240 200 Q239 210 230 216 L118 276 Q108 281 100 274 L4 188 Q-2 182 0 172 L34 30 Q37 20 48 18 Z" fill="#fdeef1" />
+          <path
+            d="M48 18 L190 2 Q200 1 206 9 L240 62 Q244 70 243 80 L240 200 Q239 210 230 216 L118 276 Q108 281 100 274 L4 188 Q-2 182 0 172 L34 30 Q37 20 48 18 Z"
+            fill="#fdeef1"
+          />
         ) : (
-          <path d="M60 30 L150 5 Q160 2 168 8 L236 44 Q244 50 244 60 L244 210 Q244 220 236 226 L180 276 Q172 282 162 278 L40 246 Q30 243 28 233 L0 150 Q-2 140 4 132 L50 38 Q54 32 60 30 Z" fill="#fdeef1" />
+          <path
+            d="M60 30 L150 5 Q160 2 168 8 L236 44 Q244 50 244 60 L244 210 Q244 220 236 226 L180 276 Q172 282 162 278 L40 246 Q30 243 28 233 L0 150 Q-2 140 4 132 L50 38 Q54 32 60 30 Z"
+            fill="#fdeef1"
+          />
         )}
       </svg>
       <div className={`absolute ${variant === "cd" ? "top-[70px] left-[23px]" : "top-[68px] left-[20px]"}`}>
@@ -176,5 +211,9 @@ export function FeatureRow({ illus, title, text, reverse = false }: { illus: Rea
       <p className="mt-[10px] text-[16px] leading-6 text-rk-text">{text}</p>
     </div>
   );
-  return <div className="flex justify-between">{reverse ? [<div key="t">{t}</div>, <div key="i">{illus}</div>] : [<div key="i">{illus}</div>, <div key="t">{t}</div>]}</div>;
+  return (
+    <div className="flex justify-between">
+      {reverse ? [<div key="t">{t}</div>, <div key="i">{illus}</div>] : [<div key="i">{illus}</div>, <div key="t">{t}</div>]}
+    </div>
+  );
 }

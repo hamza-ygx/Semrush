@@ -17,7 +17,12 @@ import { TrendChart } from "./TrendChart";
 const WorldIcon = () => (
   <svg viewBox="0 0 16 16" width={16} height={16}>
     <circle cx="8" cy="8" r="6.3" fill="none" stroke="#6c6e79" strokeWidth={1.4} />
-    <path d="M4.2 4.5c1.4.4 2.2 1.4 2 2.6-.2 1 .9 1.4.9 2.4M9.5 2.2c-.4 1.1.2 2 1.3 2.2 1 .2 1.5 1 1 2.1M10.5 10c.7.2 1.5.6 2.1 1.2" fill="none" stroke="#6c6e79" strokeWidth={1.2} />
+    <path
+      d="M4.2 4.5c1.4.4 2.2 1.4 2 2.6-.2 1 .9 1.4.9 2.4M9.5 2.2c-.4 1.1.2 2 1.3 2.2 1 .2 1.5 1 1 2.1M10.5 10c.7.2 1.5.6 2.1 1.2"
+      fill="none"
+      stroke="#6c6e79"
+      strokeWidth={1.2}
+    />
   </svg>
 );
 
@@ -51,7 +56,11 @@ function DbTabs() {
         className="-ml-px"
         panelClassName="min-w-[160px]"
         trigger={({ toggle }) => (
-          <button type="button" onClick={toggle} className="flex h-8 w-8 items-center justify-center rounded-r-md border border-[#dfe2e2] bg-white text-rk-text hover:bg-rk-bg">
+          <button
+            type="button"
+            onClick={toggle}
+            className="flex h-8 w-8 items-center justify-center rounded-r-md border border-[#dfe2e2] bg-white text-rk-text hover:bg-rk-bg"
+          >
             <DotsIcon />
           </button>
         )}
@@ -71,11 +80,23 @@ function DbTabs() {
 const Arrow = ({ dir }: { dir?: "up" | "down" }) =>
   dir ? (
     <svg viewBox="0 0 12 12" width={12} height={12} className={`ml-[3px] inline-block ${dir === "down" ? "rotate-180" : ""}`}>
-      <path d="M6 10.5V2M2.8 5.2 6 2l3.2 3.2" fill="none" stroke={dir === "up" ? "#00a37a" : "#e0253f"} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M6 10.5V2M2.8 5.2 6 2l3.2 3.2"
+        fill="none"
+        stroke={dir === "up" ? "#00a37a" : "#e0253f"}
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   ) : null;
 
-const cols: { key: keyof CdRow; label: string; w: number; delta?: keyof CdRow }[] = [
+const cols: {
+  key: keyof CdRow;
+  label: string;
+  w: number;
+  delta?: keyof CdRow;
+}[] = [
   { key: "as", label: "Authority score", w: 112 },
   { key: "rank", label: `${brand.name} Rank`, w: 112, delta: "rankDelta" },
   { key: "traffic", label: "Org. Traffic", w: 112, delta: "trafficDelta" },
@@ -172,7 +193,21 @@ function TrafficShare() {
   );
 }
 
-function SplitBars({ left, right, color, pctW = 36, barW = 125, gap = 12 }: { left: string[]; right: string[]; color: string; pctW?: number; barW?: number; gap?: number }) {
+function SplitBars({
+  left,
+  right,
+  color,
+  pctW = 36,
+  barW = 125,
+  gap = 12,
+}: {
+  left: string[];
+  right: string[];
+  color: string;
+  pctW?: number;
+  barW?: number;
+  gap?: number;
+}) {
   return (
     <div className="flex flex-col gap-2 pt-[18px] pr-5 pl-5 text-[12px]">
       {[you, rival].map((d, i) => (
@@ -181,7 +216,15 @@ function SplitBars({ left, right, color, pctW = 36, barW = 125, gap = 12 }: { le
           <span className="shrink-0 text-right text-rk-muted" style={{ width: pctW }}>
             {left[i]}
           </span>
-          <span className="h-4 shrink-0" style={{ background: color, width: barW, marginLeft: gap, marginRight: 12 }} />
+          <span
+            className="h-4 shrink-0"
+            style={{
+              background: color,
+              width: barW,
+              marginLeft: gap,
+              marginRight: 12,
+            }}
+          />
           <span className="text-rk-muted">{right[i]}</span>
         </div>
       ))}
@@ -196,7 +239,10 @@ function TrafficChart() {
   const data = tab === "organic" ? organicTraffic : tab === "paid" ? paidTraffic : backlinksTrend;
   const ticks = tab === "organic" ? [0, 115, 230, 345, 460] : tab === "paid" ? [0, 1, 2, 3, 4] : [0, 75, 150, 225, 300];
   const title = tab === "organic" ? "Organic Traffic" : tab === "paid" ? "Paid Traffic" : "Backlinks";
-  const series = [on.a && { color: D1, data: data[you] }, on.b && { color: "#3ee0b5", data: data[rival] }].filter(Boolean) as { color: string; data: number[] }[];
+  const series = [on.a && { color: D1, data: data[you] }, on.b && { color: "#3ee0b5", data: data[rival] }].filter(Boolean) as {
+    color: string;
+    data: number[];
+  }[];
   return (
     <div className="rounded-lg bg-white shadow-card">
       <div className="flex h-[44px] items-center justify-between border-b border-[#e8e9ec] px-5">
@@ -231,7 +277,10 @@ function TrafficChart() {
             </svg>
             Sep 2025 <span className="mr-[2px] ml-[4px]">–</span> Sep 2026
           </button>
-          <button type="button" className="flex h-7 items-center gap-[6px] rounded-md border border-[#dfe2e2] bg-white px-[9px] text-[14px] text-rk-muted hover:bg-rk-bg">
+          <button
+            type="button"
+            className="flex h-7 items-center gap-[6px] rounded-md border border-[#dfe2e2] bg-white px-[9px] text-[14px] text-rk-muted hover:bg-rk-bg"
+          >
             <ExportIcon />
             Export
           </button>
@@ -314,7 +363,10 @@ export function CompareDomainsReport({ competitors }: { competitors: string[] })
             >
               Compare
             </button>
-            <Link href={routes.compareDomains} className="flex h-7 items-center rounded-md border border-[#d6d8d8] bg-[#e9ebeb] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
+            <Link
+              href={routes.compareDomains}
+              className="flex h-7 items-center rounded-md border border-[#d6d8d8] bg-[#e9ebeb] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover"
+            >
               Cancel
             </Link>
           </div>
@@ -368,7 +420,11 @@ function SuggestWidget() {
       className="mt-[17px]"
       panelClassName="min-w-[200px] text-left"
       trigger={({ toggle }) => (
-        <button type="button" onClick={toggle} className="flex h-7 items-center gap-[10px] rounded-md border border-[#dfe2e2] bg-[#f4f5f5] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
+        <button
+          type="button"
+          onClick={toggle}
+          className="flex h-7 items-center gap-[10px] rounded-md border border-[#dfe2e2] bg-[#f4f5f5] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover"
+        >
           {sent ? "Thanks for your feedback!" : "Suggest widget"}
           <ChevronDown width={14} height={14} strokeWidth={2.2} className="text-rk-text" />
         </button>

@@ -117,7 +117,17 @@ export const kgShared: KgRow[] = [
   { keyword: "revision halmstad", intent: ["I"], a: 2, b: 43, volume: "30", kd: 13, cpc: "2.34", com: "0.73", results: "110" },
 ];
 
-const other = (keyword: string, intent: KgRow["intent"], a: number, b: number, volume: string, kd: number, cpc: string, com: string, results: string): KgRow => ({
+const other = (
+  keyword: string,
+  intent: KgRow["intent"],
+  a: number,
+  b: number,
+  volume: string,
+  kd: number,
+  cpc: string,
+  com: string,
+  results: string,
+): KgRow => ({
   keyword,
   intent,
   a,
@@ -129,14 +139,27 @@ const other = (keyword: string, intent: KgRow["intent"], a: number, b: number, v
   results,
 });
 
+const kgMissing: KgRow[] = [
+  other("vad kostar bokföring", ["I"], 0, 43, "390", 8, "3.60", "0.89", "114"),
+  other("jwk redovisning", ["N"], 0, 24, "140", 33, "2.98", "0.21", "107"),
+  other("bokföring kostnad", ["I"], 0, 52, "50", 17, "4.04", "0.68", "115"),
+  other("kostnad för bokföring", ["I"], 0, 38, "50", 16, "4.04", "0.68", "112"),
+  other("redovisning pris", ["T"], 0, 51, "50", 12, "5.39", "0.5", "110"),
+  other("bokföring prislista", ["I"], 0, 35, "40", 14, "0.00", "0.33", "115"),
+  other("bokföring timpris", ["I"], 0, 49, "40", 8, "2.39", "0.87", "106"),
+  other("kostnad för kapitalbindning", ["I"], 0, 59, "40", 10, "0.00", "0.33", "104"),
+  other("löpande bokföring pris", ["I"], 0, 32, "40", 5, "5.44", "0.71", "108"),
+  other("vad kostar bokföring per månad", ["I"], 0, 27, "40", 8, "4.17", "0.76", "110"),
+  other("aspia halmstad", ["I", "T"], 0, 40, "30", 28, "1.57", "0.14", "107"),
+  other("bokföringsbyrå pris", ["C"], 0, 46, "30", 11, "4.62", "0.58", "112"),
+  other("redovisningsbyrå pris", ["C"], 0, 55, "30", 13, "5.10", "0.61", "109"),
+  other("ekonomitjänster halmstad", ["C"], 0, 21, "20", 6, "0.00", "0.22", "103"),
+  other("bokslut pris", ["I"], 0, 61, "20", 9, "3.25", "0.47", "111"),
+  other("revisor pris", ["I"], 0, 48, "20", 15, "4.80", "0.52", "108"),
+];
+
 export const kgOther: Record<Exclude<KgTab, "shared">, KgRow[]> = {
-  missing: [
-    other("vad kostar bokföring", ["I"], 0, 11, "390", 14, "4.12", "0.52", "6.1M"),
-    other("jwk redovisning", ["N"], 0, 4, "140", 3, "0.00", "0.08", "1.2K"),
-    other("bokföring kostnad", ["C"], 0, 9, "50", 11, "3.80", "0.61", "2.3M"),
-    other("kostnad för bokföring", ["I"], 0, 12, "50", 9, "3.45", "0.55", "2.1M"),
-    other("redovisning pris", ["C"], 0, 17, "50", 15, "4.02", "0.64", "1.9M"),
-  ],
+  missing: kgMissing,
   weak: [other("redovisningsbyrå halmstad", ["C"], 3, 27, "720", 22, "5.89", "0.76", "106")],
   strong: [
     other("redovisningskonsult halmstad", ["C"], 8, 16, "1K", 12, "10.00", "0.76", "107"),
@@ -146,11 +169,7 @@ export const kgOther: Record<Exclude<KgTab, "shared">, KgRow[]> = {
     other("redovisning halmstad", ["C"], 6, 29, "30", 19, "9.45", "0.59", "262K"),
     other("revision halmstad", ["I"], 2, 43, "30", 13, "2.34", "0.73", "110"),
   ],
-  untapped: [
-    other("vad kostar bokföring", ["I"], 0, 11, "390", 14, "4.12", "0.52", "6.1M"),
-    other("jwk redovisning", ["N"], 0, 4, "140", 3, "0.00", "0.08", "1.2K"),
-    other("bokföring kostnad", ["C"], 0, 9, "50", 11, "3.80", "0.61", "2.3M"),
-  ],
+  untapped: kgMissing,
   unique: [
     other("rkjh", ["N"], 1, 0, "30", 0, "0.00", "0.00", "1.4K"),
     other("revisionskonsulterna", ["N"], 1, 0, "20", 2, "0.00", "0.02", "3.8K"),
@@ -246,3 +265,59 @@ export const bgRefDomains = {
   [you]: [157, 151, 160, 168, 145, 154, 158, 161, 165, 167, 196, 260],
   [rival]: [84, 84, 100, 110, 89, 96, 100, 101, 100, 106, 130, 213],
 };
+
+export const countries: { name: string; code?: string }[] = [
+  { name: "Worldwide" },
+  { name: "United States", code: "us" },
+  { name: "United Kingdom", code: "uk" },
+  { name: "Germany", code: "de" },
+  { name: "France", code: "fr" },
+  { name: "Afghanistan", code: "af" },
+  { name: "Albania", code: "al" },
+  { name: "Algeria", code: "dz" },
+  { name: "Andorra", code: "ad" },
+  { name: "Angola", code: "ao" },
+  { name: "Argentina", code: "ar" },
+  { name: "Armenia", code: "am" },
+  { name: "Australia", code: "au" },
+  { name: "Austria", code: "at" },
+  { name: "Belgium", code: "be" },
+  { name: "Denmark", code: "dk" },
+  { name: "Finland", code: "fi" },
+  { name: "Italy", code: "it" },
+  { name: "Netherlands", code: "nl" },
+  { name: "Norway", code: "no" },
+  { name: "Spain", code: "es" },
+  { name: "Sweden", code: "se" },
+];
+
+export type BgBacklink = { pageAs: number; title: string; url: string; tags: string[]; ext: number; int: number; anchor: string; target: string; first: string; last: string };
+
+const bgBacklinks: Record<string, BgBacklink> = {
+  "vainu.com": {
+    pageAs: 9,
+    title: "JB Ekonomipartner AB omsättning och företagsinfo | Vainu",
+    url: "search.vainu.com/company/jb-ekonomipartner-ab-omsattning-och-nyckeltal/SE5590601794/foretagsinfo",
+    tags: ["SV", "Mobile friendly"],
+    ext: 9,
+    int: 5,
+    anchor: "jbekonomi.com",
+    target: "jbekonomi.com/",
+    first: "Sep 19, 2025",
+    last: "Aug 31, 2026",
+  },
+};
+
+export const bgBacklinkFor = (domain: string): BgBacklink =>
+  bgBacklinks[domain] ?? {
+    pageAs: 3,
+    title: `JB Ekonomipartner AB – ${domain}`,
+    url: `${domain}/company/jb-ekonomipartner-ab`,
+    tags: ["Mobile friendly"],
+    ext: 12,
+    int: 4,
+    anchor: "jbekonomi.com",
+    target: "jbekonomi.com/",
+    first: "Mar 4, 2026",
+    last: "Sep 12, 2026",
+  };

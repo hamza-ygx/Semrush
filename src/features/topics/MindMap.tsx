@@ -64,7 +64,7 @@ export function MindMap() {
         <div className="text-[16px] leading-5 font-bold">Headlines</div>
         <div className="mt-[9px]">
           {mindMapHeadlines.map((h) => (
-            <a key={h.text} href="#" className="flex gap-[6px] border-b border-[#d7dbe0] py-[5px] text-[14px] leading-[19px] last:border-0 hover:text-[#006dca]">
+            <a key={h.text} href={`https://www.google.com/search?q=${encodeURIComponent(h.text)}`} target="_blank" rel="noreferrer" className="flex gap-[6px] border-b border-[#d7dbe0] py-[5px] text-[14px] leading-[19px] last:border-0 hover:text-[#006dca]">
               <svg viewBox="0 0 16 16" width={14} height={14} className="mt-[2px] shrink-0">
                 <path d="M2 5.5h3.5L12 2v12L5.5 10.5H2z" fill={toneColor[h.tone]} />
                 <path d="M4 10.5 5 14h2l-.8-3.5" fill={toneColor[h.tone]} />

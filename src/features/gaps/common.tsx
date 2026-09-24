@@ -19,36 +19,36 @@ export function CenteredFooter() {
       <div className="hidden pt-[34px] xl:block">
         <Footer />
       </div>
-    <footer className="flex flex-col items-center pt-[136px] pb-[37px] xl:hidden">
-      <Popover
-        align="left"
-        panelClassName="min-w-[140px] bottom-[calc(100%+4px)] top-auto!"
-        trigger={({ toggle }) => (
-          <button type="button" onClick={toggle} className={`${link} flex items-center gap-[7px]`}>
-            <TranslateIcon className="text-[#484a54]" />
-            English
-            <ChevronDownIcon width={14} height={14} className="text-[#a9abb6]" />
-          </button>
-        )}
-      >
-        {(close) =>
-          ["English", "Español", "Deutsch", "Français", "Italiano", "Português", "Svenska"].map((l) => (
-            <MenuItem key={l} active={l === "English"} onClick={close}>
-              {l}
-            </MenuItem>
-          ))
-        }
-      </Popover>
-      <div className="mt-6 flex gap-7">
-        <a href="#" className={link}>
+      <footer className="flex flex-col items-center pt-[136px] pb-[37px] xl:hidden">
+        <Popover
+          align="left"
+          panelClassName="min-w-[140px] bottom-[calc(100%+4px)] top-auto!"
+          trigger={({ toggle }) => (
+            <button type="button" onClick={toggle} className={`${link} flex items-center gap-[7px]`}>
+              <TranslateIcon className="text-[#484a54]" />
+              English
+              <ChevronDownIcon width={14} height={14} className="text-[#a9abb6]" />
+            </button>
+          )}
+        >
+          {(close) =>
+            ["English", "Español", "Deutsch", "Français", "Italiano", "Português", "Svenska"].map((l) => (
+              <MenuItem key={l} active={l === "English"} onClick={close}>
+                {l}
+              </MenuItem>
+            ))
+          }
+        </Popover>
+        <div className="mt-6 flex gap-7">
+          <button type="button" className={link}>
           Contact us
-        </a>
-        <a href="#" className={link}>
+        </button>
+          <button type="button" className={link}>
           Cookie settings
-        </a>
-      </div>
-      <div className="mt-6 text-[16px] leading-6 text-[#6c6e79]">© 2026 {brand.legalName}. All rights reserved.</div>
-    </footer>
+        </button>
+        </div>
+        <div className="mt-6 text-[16px] leading-6 text-[#6c6e79]">© 2026 {brand.legalName}. All rights reserved.</div>
+      </footer>
     </>
   );
 }
@@ -73,23 +73,113 @@ export const YouTag = ({ className = "" }: { className?: string }) => (
 
 const scopes = ["Root Domain", "Subdomain", "Subfolder", "Exact URL"] as const;
 
-export function ScopeSelect({ label = "Root Domain", lower = false, className = "" }: { label?: string; lower?: boolean; className?: string }) {
+export const OPEN_BORDER = "border-[#b7b9e4]";
+
+export function Opt({
+  active,
+  onClick,
+  size = "m",
+  className = "",
+  children,
+}: {
+  active?: boolean;
+  onClick?: () => void;
+  size?: "m" | "l";
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex w-full items-center gap-2 text-left whitespace-nowrap text-rk-text ${size === "l" ? "h-10 px-3 text-[16px]" : "h-8 px-2 text-[14px]"} ${
+        active ? "bg-[#e9effb] shadow-[inset_2px_0_0_#191b23]" : "hover:bg-[#f2f4f8]"
+      } ${className}`}
+    >
+      {children}
+    </button>
+  );
+}
+
+export function Tip({ children, className = "" }: { children: ReactNode; className?: string }) {
+  return (
+    <span
+      role="tooltip"
+      className={`pointer-events-none absolute bottom-[calc(100%+11px)] left-1/2 z-50 hidden -translate-x-1/2 rounded-md bg-white px-3 text-left text-[14px] leading-5 font-normal whitespace-normal text-rk-text shadow-popover ${className}`}
+    >
+      {children}
+      <span className="absolute top-full left-1/2 -mt-[5px] h-[10px] w-[10px] -translate-x-1/2 rotate-45 bg-white shadow-[2px_2px_2px_rgba(25,27,35,0.08)]" />
+    </span>
+  );
+}
+
+export function DomainPicker({ domains, testId, offset = 7 }: { domains: string[]; testId?: string; offset?: number }) {
+  const [v, setV] = useState(domains[0]);
+  const dotColors = [D1, D2, "#ff8e29", "#ff6b70", "#b58af2"];
+  return (
+    <Popover
+      offset={offset}
+      trigger={({ toggle, open }) => (
+        <button
+          type="button"
+          data-testid={testId}
+          onClick={toggle}
+          className={`flex h-7 items-center gap-[6px] rounded-md border bg-white px-2 text-[14px] ${open ? OPEN_BORDER : "border-[#dfe2e2]"}`}
+        >
+          {v}
+          <ChevronDown width={14} height={14} strokeWidth={2.4} />
+        </button>
+      )}
+    >
+      {(close) =>
+        domains.map((d, i) => (
+          <Opt
+            key={d}
+            active={d === v}
+            onClick={() => {
+              setV(d);
+              close();
+            }}
+          >
+            <Dot color={dotColors[i]} size={10} />
+            {d}
+          </Opt>
+        ))
+      }
+    </Popover>
+  );
+}
+
+export function ScopeSelect({
+  label = "Root Domain",
+  lower = false,
+  options,
+  className = "",
+  testId,
+}: {
+  label?: string;
+  lower?: boolean;
+  options?: string[];
+  className?: string;
+  testId?: string;
+}) {
   const [v, setV] = useState(label);
-  const opts = scopes.map((s) => (lower ? s.charAt(0) + s.slice(1).toLowerCase() : s));
+  const opts = options ?? scopes.map((s) => (lower ? s.charAt(0) + s.slice(1).toLowerCase() : s));
   return (
     <Popover
       className={className}
-      panelClassName="min-w-[150px]"
-      trigger={({ toggle }) => (
-        <button type="button" onClick={toggle} className="flex items-center gap-[6px] text-[14px] leading-5 text-rk-text">
-          {v}
+      offset={7}
+      panelClassName="left-px! min-w-[102px]"
+      trigger={({ toggle, open }) => (
+        <button type="button" data-testid={testId} onClick={toggle} className="flex items-center gap-[6px] text-[14px] leading-5 text-rk-text">
+          <span className={open ? "underline decoration-[#8a8e9b] underline-offset-[5px]" : ""}>{v}</span>
           <ChevronDownIcon width={14} height={14} />
         </button>
       )}
     >
       {(close) =>
         opts.map((o) => (
-          <MenuItem
+          <Opt
             key={o}
             active={o === v}
             onClick={() => {
@@ -98,7 +188,7 @@ export function ScopeSelect({ label = "Root Domain", lower = false, className = 
             }}
           >
             {o}
-          </MenuItem>
+          </Opt>
         ))
       }
     </Popover>
@@ -127,13 +217,11 @@ export function DomainField({
   const [focus, setFocus] = useState(false);
   const shown = !focus && truncate && value.length > truncate ? value.slice(0, truncate) + "...." : value;
   return (
-    <div
-      className={`relative flex h-8 items-center rounded-md border bg-white pr-2 pl-2 ${focus ? "border-[#7a86f2]" : "border-[#dfe2e2]"} ${className}`}
-    >
+    <div className={`relative flex h-8 items-center rounded-md border bg-white pr-2 pl-2 ${focus ? "border-[#7a86f2]" : "border-[#dfe2e2]"} ${className}`}>
       {you ? (
         <YouTag className={`shrink-0 ${wide ? "mr-4 px-[9px]!" : "mr-[4px] px-[9px]!"}`} />
       ) : (
-        <Dot color={value ? color ?? "#c4c7cf" : "#c4c7cf"} size={wide ? 12 : 10} className={wide ? "mr-[14px] ml-[3px]" : "mr-[8px]"} />
+        <Dot color={value ? (color ?? "#c4c7cf") : "#c4c7cf"} size={wide ? 12 : 10} className={wide ? "mr-[14px] ml-[3px]" : "mr-[8px]"} />
       )}
       <input
         value={shown}
@@ -170,11 +258,11 @@ export function SelectButton({
     <Popover
       className={className}
       panelClassName="min-w-full"
-      trigger={({ toggle }) => (
+      trigger={({ toggle, open }) => (
         <button
           type="button"
           onClick={toggle}
-          className={`flex w-full items-center justify-between gap-2 rounded-md border border-[#dfe2e2] bg-white ${
+          className={`flex w-full items-center justify-between gap-2 rounded-md border bg-white ${open ? OPEN_BORDER : "border-[#dfe2e2]"} ${
             size === "l" ? "h-10 px-3 text-[16px]" : "h-7 px-2 text-[14px]"
           } ${muted && v === value ? "text-[#8a8e9b]" : "text-rk-text"}`}
         >
@@ -207,12 +295,16 @@ export function Segmented<T extends string>({
   onChange,
   size = "m",
   className = "",
+  testId,
+  tipClassName = "",
 }: {
-  items: { key: T; label: ReactNode }[];
+  items: { key: T; label: ReactNode; tip?: ReactNode }[];
   value: T;
   onChange: (v: T) => void;
   size?: "s" | "m";
   className?: string;
+  testId?: string;
+  tipClassName?: string;
 }) {
   return (
     <div className={`inline-flex ${className}`}>
@@ -222,14 +314,16 @@ export function Segmented<T extends string>({
           <button
             key={it.key}
             type="button"
+            data-testid={testId ? `${testId}-${it.key}` : undefined}
             onClick={() => onChange(it.key)}
-            className={`relative flex items-center gap-[6px] border px-2 whitespace-nowrap ${size === "s" ? "h-7 text-[14px]" : "h-7 text-[14px]"} ${
+            className={`group/seg relative flex items-center gap-[6px] border px-2 whitespace-nowrap ${size === "s" ? "h-7 text-[14px]" : "h-7 text-[14px]"} ${
               i === 0 ? "rounded-l-md" : "-ml-px"
             } ${i === items.length - 1 ? "rounded-r-md" : ""} ${
               on ? "z-10 border-[#8ea4f5] bg-[#eef3ff] text-rk-text" : "border-[#dfe2e2] bg-white text-rk-text hover:bg-rk-bg"
             }`}
           >
             {it.label}
+            {it.tip && <Tip className={`group-hover/seg:block ${tipClassName}`}>{it.tip}</Tip>}
           </button>
         );
       })}
@@ -240,7 +334,10 @@ export function Segmented<T extends string>({
 export function Checkbox({ color, checked, onChange, label }: { color: string; checked: boolean; onChange: () => void; label: ReactNode }) {
   return (
     <button type="button" onClick={onChange} className="flex items-center gap-2 text-[14px] leading-5 text-rk-text">
-      <span className="flex h-4 w-4 items-center justify-center rounded-[4px] border" style={checked ? { background: color, borderColor: color } : { borderColor: "#c4c7cf", background: "#fff" }}>
+      <span
+        className="flex h-4 w-4 items-center justify-center rounded-[4px] border"
+        style={checked ? { background: color, borderColor: color } : { borderColor: "#c4c7cf", background: "#fff" }}
+      >
         {checked && (
           <svg viewBox="0 0 16 16" width={12} height={12}>
             <path d="m3.5 8.5 3 3 6-6.5" fill="none" stroke="#fff" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />

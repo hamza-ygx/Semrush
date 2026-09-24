@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { routes } from "@/config/routes";
 import { D2, YouTag } from "./common";
 import { AddCompetitors, DbSelect, DomainRow, ScopeDrop } from "./CompareDomainsLanding";
@@ -14,7 +14,13 @@ const colors = ["#6167e6", D2, "#ff8e29", "#ff6b70", "#b58af2"];
 export function KeywordGapLanding() {
   const router = useRouter();
   const [domains, setDomains] = useState(["", ""]);
+  const formRef = useRef<HTMLFormElement>(null);
   const set = (i: number, v: string) => setDomains((d) => d.map((x, j) => (j === i ? v : x)));
+  const add = () => {
+    if (domains.length >= 5) return;
+    setDomains((d) => [...d, ""]);
+    if (domains.length === 4) requestAnimationFrame(() => formRef.current?.querySelector<HTMLInputElement>("input:placeholder-shown")?.focus());
+  };
   return (
     <div className="px-[36px] pt-6">
       <div className="mx-auto max-w-[980px]">
@@ -22,6 +28,7 @@ export function KeywordGapLanding() {
           <h1 className="text-[36px] leading-[44px] font-bold">Keyword Gap</h1>
           <p className="mt-[11px] text-[16px] leading-6 text-rk-text">A tool that helps you compare your keyword profile with your competitors.</p>
           <form
+            ref={formRef}
             className="mx-auto mt-[32px] w-[731px] text-left"
             onSubmit={(e) => {
               e.preventDefault();
@@ -35,21 +42,31 @@ export function KeywordGapLanding() {
                 <div key={i} className="flex gap-3">
                   <div className="flex-1">
                     <DomainRow
+                      testId={`kg-domain-${i}`}
+                      emptyDot="#dcdcdc"
                       value={d}
                       onChange={(v) => set(i, v)}
                       color={colors[i]}
                       lead={i === 0 ? <YouTag className="mr-2 h-[22px]! px-[9px]!" /> : undefined}
-                      selects={<ScopeDrop label="Root domain" options={["Root domain", "Subdomain", "Subfolder", "Exact URL"]} className="w-[142px] border-l border-[#dcdfdf]" />}
+                      selects={
+                        <ScopeDrop
+                          testId={`kg-scope-${i}`}
+                          label="Root domain"
+                          options={["Root domain", "Exact URL", "Subdomain", "Subfolder"]}
+                          className="w-[142px] border-l border-[#dcdfdf]"
+                          panelClassName="-left-px! w-[calc(100%+1px)]"
+                        />
+                      }
                     />
                   </div>
                   <div className="h-10 w-[184px] rounded-md border border-[#dcdfdf] bg-white">
-                    <ScopeDrop label="Organic keywords" options={kwTypes} className="h-full w-full" />
+                    <ScopeDrop testId={`kg-kwtype-${i}`} label="Organic keywords" options={kwTypes} className="h-full w-full" />
                   </div>
                 </div>
               ))}
             </div>
             <div className="mt-8 flex items-center justify-between">
-              <AddCompetitors onClick={() => setDomains((d) => (d.length < 5 ? [...d, ""] : d))} disabled={domains.length >= 5} />
+              <AddCompetitors testId="kg-add" onClick={add} left={5 - domains.length} />
               <div className="flex items-center gap-3">
                 <DbSelect width={100} />
                 <button type="submit" className="h-10 rounded-md bg-[#191b1c] px-[13px] text-[16px] font-medium text-white hover:bg-[#2b2e38]">
