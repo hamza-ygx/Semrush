@@ -8,9 +8,9 @@ import { behaviorSummary, deviceDesktop, doms, interestRows, socialRows } from "
 import { SocialIcon, SortIcon } from "./ui";
 
 const how = (
-  <a href="#" className="text-[14px] text-rk-link hover:underline">
+  <button type="button" className="text-[14px] text-rk-link hover:underline">
     How to use it
-  </a>
+  </button>
 );
 
 function Count({ title, n }: { title: string; n: number }) {
@@ -31,7 +31,7 @@ function ValueTable({ head, rows, tight = false }: { head: string; rows: { key: 
         <tr className="h-[32px] border-b border-[#e0e1e9] text-[12px] text-rk-text-2">
           <th className="pl-[8px] text-left font-normal">{head}</th>
           {doms.map((d, i) => (
-            <th key={d.name} className="w-[140px] pr-[8px] text-right font-normal">
+            <th key={d.name} className={`w-[140px] text-right font-normal ${tight ? "pr-[24px]" : "pr-[8px]"}`}>
               <button type="button" onClick={() => setSort(i)} className="inline-flex items-center gap-[6px] hover:text-rk-text">
                 <DomainDot color={d.color} size={12} className="mr-[2px]" />
                 {d.name}

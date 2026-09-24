@@ -46,7 +46,8 @@ function Legend({ items, vertical = false }: { items: { label: string; color: st
 }
 
 const pair = "w-[170px] pr-0 text-right";
-const share = "w-[84px] pl-[16px] text-left";
+const share = "w-[84px] pl-[13px] text-left";
+const share1 = "w-[76px] pl-[13px] text-left";
 
 export function Socioeconomics() {
   return (
@@ -58,7 +59,7 @@ export function Socioeconomics() {
               <tr className="h-[34px] border-b border-[#e0e1e9] text-[12px] text-rk-text-2">
                 <th className="w-[172px] text-left font-normal">Target</th>
                 <th className={`${pair} font-normal`}>Household Size</th>
-                <th className={`${share} font-normal`}>Share</th>
+                <th className={`${share1} font-normal`}>Share</th>
                 <th className={`${pair} font-normal`}>Income Level</th>
                 <th className={`${share} font-normal`}>Share</th>
                 <th className={`${pair} font-normal`}>Employment Status</th>
@@ -71,13 +72,13 @@ export function Socioeconomics() {
               {socioSummary.map((r, i) => (
                 <tr key={doms[i].name} className={`h-[37px] ${i < 2 ? "border-b border-[#e0e1e9]" : ""}`}>
                   <td>
-                    <span className="flex items-center gap-[12px] pl-[4px]">
+                    <span className="flex items-center gap-[8px] pl-[4px]">
                       <DomainDot color={doms[i].color} size={12} />
                       {doms[i].name}
                     </span>
                   </td>
                   <td className={pair}>{r.hh}</td>
-                  <td className={`${share} text-rk-muted`}>{r.hhShare}</td>
+                  <td className={`${share1} text-rk-muted`}>{r.hhShare}</td>
                   <td className={pair}>{r.income}</td>
                   <td className={`${share} text-rk-muted`}>{r.incomeShare}</td>
                   <td className={pair}>

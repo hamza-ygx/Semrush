@@ -105,9 +105,9 @@ export function AudienceOverlap() {
         <SampleCard
           title="Audience Overlap"
           link={
-            <a href="#" className="text-[14px] text-rk-link hover:underline">
+            <button type="button" className="text-[14px] text-rk-link hover:underline">
               How to use it
-            </a>
+            </button>
           }
           bodyClassName="pt-[21px] pb-[20px]"
         >
@@ -256,7 +256,7 @@ export function AudienceOverlap() {
               {rows.map((r) => (
                 <tr key={r.domain} className="h-[45px] border-b border-[#e0e1e9]">
                   <td className="pl-[12px]">
-                    <a href="#" className="inline-flex items-center gap-[4px] hover:text-rk-link">
+                    <a href={`https://${r.domain}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-[4px] hover:text-rk-link">
                       {r.domain}
                       <LinkOut className="text-rk-faint" />
                     </a>

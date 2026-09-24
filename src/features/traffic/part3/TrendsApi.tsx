@@ -99,7 +99,7 @@ export function TrendsApi() {
             <h3 className="text-[32px] leading-[40px] font-semibold tracking-[-0.2px]">
               <span className="bg-gradient-to-r from-[#b36ef7] to-[#8b5cf6] bg-clip-text text-transparent">Power your AI</span> with Traffic &amp; Market&nbsp; data
             </h3>
-            <p className="mt-[16px] w-[500px] text-[17px] leading-6 text-rk-muted">
+            <p className="mt-[16px] w-[506px] text-[17px] leading-6 text-rk-muted">
               Connect Trends API via MCP to Claude, Cursor or VS Code for on-demand charts, summaries, and insights. No code required — set up in minutes.
             </p>
             <button type="button" className="mt-[32px] flex h-[40px] items-center gap-[8px] rounded-md bg-gradient-to-r from-[#a95ff7] to-[#6f6fdd] px-[12px] text-[16px] font-medium text-white hover:opacity-90">
@@ -135,23 +135,23 @@ export function TrendsApi() {
           <div className="relative mt-[33px] flex justify-center gap-[20px]">
             <div className="w-[309px] overflow-hidden rounded-lg bg-white shadow-[0_8px_24px_rgba(25,27,35,0.2)]">
               <div className="flex h-[35px] items-center justify-center bg-[#d3fef6] text-[14px] font-semibold text-[#007c65]">Start right away</div>
-              <div className="px-[20px] pt-[22px] pb-[31px]">
+              <div className="px-[20px] pt-[24px] pb-[28px]">
                 <div className="text-[20px] leading-7 font-semibold">Basic</div>
-                <ul className="mt-[11px] flex flex-col gap-[8px]">
+                <ul className="mt-[12px] flex flex-col gap-[8px]">
                   {bullet("Access to Traffic Summary")}
                   {bullet("10K monthly API units")}
-                  {bullet(<><a href="#" className="text-rk-link hover:underline">API documentation</a> and setup guide</>)}
+                  {bullet(<><button type="button" className="text-rk-link hover:underline">API documentation</button> and setup guide</>)}
                 </ul>
-                <div className="mt-[11px] flex items-baseline">
+                <div className="mt-[12px] flex items-baseline">
                   <span className="text-[36px] leading-[48px] font-semibold tracking-[-0.5px]">$1000</span>
                   <span className="text-[14px] text-rk-text-2">/mo</span>
                 </div>
-                <button type="button" className="mt-[12px] h-[40px] w-full rounded-md bg-[#00a87b] text-[16px] font-medium text-white hover:bg-[#008a65]">
+                <button type="button" className="mt-[11px] h-[40px] w-full rounded-md bg-[#00a87b] text-[16px] font-medium text-white hover:bg-[#008a65]">
                   Buy API access
                 </button>
               </div>
             </div>
-            <div className="mt-[32px] h-[287px] w-[310px] rounded-lg bg-white px-[20px] pt-[21px] shadow-[0_8px_24px_rgba(25,27,35,0.2)]">
+            <div className="mt-[32px] h-[289px] w-[310px] rounded-lg bg-white px-[20px] pt-[22px] shadow-[0_8px_24px_rgba(25,27,35,0.2)]">
               <div className="text-[20px] leading-7 font-semibold">Premium</div>
               <ul className="mt-[15px] flex flex-col gap-[8px]">
                 {bullet("Custom packages and pricing")}
@@ -173,7 +173,7 @@ export function TrendsApi() {
             { bg: "#656adb", logo: <span className="font-serif text-[46px] leading-none font-bold tracking-[-0.5px] text-white">Flippa.</span>, title: "Flippa Generates +$200K in Annual Revenue Growth" },
             { bg: "#6920c5", logo: <SynapticMark />, title: "Synaptic Expands Domain Coverage by 300K" },
           ].map((c) => (
-            <a key={c.title} href="#" className="group block">
+            <div key={c.title} className="group block cursor-pointer">
               <div className="flex h-[120px] items-center justify-center rounded-sm" style={{ background: c.bg }}>
                 {c.logo}
               </div>
@@ -181,7 +181,7 @@ export function TrendsApi() {
               <div className="mt-[12px] flex items-center gap-1 text-[14px] text-rk-link">
                 Read case study <ChevronRight width={14} height={14} />
               </div>
-            </a>
+            </div>
           ))}
         </div>
 
@@ -197,13 +197,13 @@ export function TrendsApi() {
                     {f.q}
                   </button>
                   {on && (
-                    <div className="max-w-[800px] bg-white px-[32px] pt-[8px] pb-[21px] text-[14px] leading-5 text-rk-text">
+                    <div className="max-w-[800px] bg-white px-[32px] pt-[8px] pb-[24px] text-[14px] leading-5 text-rk-text">
                       {f.a}{" "}
                       {f.link && (
                         <>
-                          <a href="#" className="text-rk-link hover:underline">
+                          <button type="button" className="text-rk-link hover:underline">
                             {f.link}
-                          </a>
+                          </button>
                           .
                         </>
                       )}
@@ -213,7 +213,7 @@ export function TrendsApi() {
               );
             })}
           </div>
-          <div className="mt-[34px] flex items-center justify-center gap-[6px] text-[16px]">
+          <div className="mt-[35px] flex items-center justify-center gap-[6px] text-[16px]">
             An <EsomarMark /> partner
           </div>
         </section>

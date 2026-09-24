@@ -78,7 +78,10 @@ function DailyChart({
   );
 }
 
-type Card = { key: string; title: string; ticks: number[]; href?: string; lines: S[]; labelW: number };
+type Card = { key: string; title: string; ticks: number[]; href?: string; lines: S[]; labelW: number; labels?: number[] };
+
+const lblA = [0, 16, 30, 43, 57, 71, 85];
+const lblB = [0, 15, 29, 43, 56, 69, 85];
 
 const mk = (seed: number, levels: [number, number, number], noise: [number, number, number], o: { spikes?: number; amp?: number; fore?: number[] } = {}) =>
   levels.map((b, j) => {
@@ -89,20 +92,21 @@ const mk = (seed: number, levels: [number, number, number], noise: [number, numb
 
 const cards: Card[] = [
   { key: "direct", title: "Direct", ticks: [0, 1e6, 2e6, 3e6], labelW: 22, lines: mk(11, [1.6e6, 0.95e6, 1.7e6], [0.12e6, 0.07e6, 0.18e6], { fore: [1.15, 1.1, 1.3] }) },
-  { key: "referral", title: "Referral", href: routes.traffic.referral, ticks: [0, 5e5, 1e6], labelW: 34, lines: mk(21, [1.6e5, 2.6e5, 2.8e5], [0.5e5, 0.8e5, 0.9e5], { spikes: 0.12, amp: 3.5e5, fore: [1.1, 1.0, 1.1] }) },
-  { key: "ai", title: "AI Traffic", href: routes.traffic.aiTraffic, ticks: [0, 1e4, 2e4, 3e4], labelW: 26, lines: mk(31, [2.5e3, 4e3, 5e3], [1.5e3, 2.5e3, 3e3], { spikes: 0.1, amp: 1.4e4 }) },
-  { key: "aimode", title: "Google AI Mode", href: routes.traffic.aiTraffic, ticks: [0, 5e3, 1e4, 1.5e4], labelW: 26, lines: mk(41, [600, 900, 1200], [400, 600, 800], { spikes: 0.05, amp: 7e3 }) },
-  { key: "organic", title: "Organic Search", href: routes.traffic.organicSearch, ticks: [0, 5e5, 1e6], labelW: 38, lines: mk(51, [3.6e5, 2.2e5, 6.2e5], [0.4e5, 0.3e5, 0.7e5], { fore: [1.05, 1.1, 1.18] }) },
-  { key: "social", title: "Organic Social", href: routes.traffic.organicSocial, ticks: [0, 5e4, 1e5, 1.5e5, 2e5], labelW: 34, lines: mk(61, [2e4, 5e4, 6e4], [1e4, 2.5e4, 3e4], { spikes: 0.14, amp: 8e4, fore: [0.9, 0.9, 1.3] }) },
+  { key: "referral", title: "Referral", href: routes.traffic.referral, ticks: [0, 5e5, 1e6], labelW: 34, labels: lblA, lines: mk(21, [1.6e5, 2.6e5, 2.8e5], [0.5e5, 0.8e5, 0.9e5], { spikes: 0.12, amp: 3.5e5, fore: [1.1, 1.0, 1.1] }) },
+  { key: "ai", title: "AI Traffic", href: routes.traffic.aiTraffic, ticks: [0, 1e4, 2e4, 3e4], labelW: 26, labels: lblB, lines: mk(31, [2.5e3, 4e3, 5e3], [1.5e3, 2.5e3, 3e3], { spikes: 0.1, amp: 1.4e4 }) },
+  { key: "aimode", title: "Google AI Mode", href: routes.traffic.aiTraffic, ticks: [0, 5e3, 1e4, 1.5e4], labelW: 26, labels: [0, 15, 29, 42, 55, 68, 85], lines: mk(41, [600, 900, 1200], [400, 600, 800], { spikes: 0.05, amp: 7e3 }) },
+  { key: "organic", title: "Organic Search", href: routes.traffic.organicSearch, ticks: [0, 5e5, 1e6], labelW: 38, labels: [0, 16, 30, 43, 57, 85], lines: mk(51, [3.6e5, 2.2e5, 6.2e5], [0.4e5, 0.3e5, 0.7e5], { fore: [1.05, 1.1, 1.18] }) },
+  { key: "social", title: "Organic Social", href: routes.traffic.organicSocial, ticks: [0, 5e4, 1e5, 1.5e5, 2e5], labelW: 34, labels: lblA, lines: mk(61, [2e4, 5e4, 6e4], [1e4, 2.5e4, 3e4], { spikes: 0.14, amp: 8e4, fore: [0.9, 0.9, 1.3] }) },
   { key: "paid", title: "Paid Search", href: routes.traffic.paidSearch, ticks: [0, 1e5, 2e5, 3e5], labelW: 34, lines: mk(71, [2e4, 1.6e5, 1.2e4], [1e4, 4e4, 8e3], { spikes: 0.08, amp: 6e4 }) },
   { key: "paidsocial", title: "Paid Social", href: routes.traffic.paidSocial, ticks: [0, 5e3, 1e4, 1.5e4], labelW: 26, lines: mk(81, [300, 1500, 500], [200, 1200, 300], { spikes: 0.06, amp: 7e3 }) },
-  { key: "email", title: "Email", href: routes.traffic.email, ticks: [0, 2e4, 4e4, 6e4, 8e4], labelW: 26, lines: mk(91, [1.8e4, 3.2e4, 2.9e4], [1e4, 1.8e4, 1.3e4], { spikes: 0.08, amp: 2.5e4 }) },
+  { key: "email", title: "Email", href: routes.traffic.email, ticks: [0, 2e4, 4e4, 6e4, 8e4], labelW: 26, labels: lblB, lines: mk(91, [1.8e4, 3.2e4, 2.9e4], [1e4, 1.8e4, 1.3e4], { spikes: 0.08, amp: 2.5e4 }) },
   {
     key: "display",
     title: "Display Ads",
     href: routes.traffic.displayAds,
     ticks: [0, 2e4, 4e4, 6e4],
     labelW: 26,
+    labels: lblB,
     lines: mk(101, [6e3, 2.6e4, 2.2e4], [5e3, 1.4e4, 1.3e4], { spikes: 0.08, amp: 2e4 }).map((l, j) => (j === 0 ? { ...l, sparse: true } : l)),
   },
 ];
@@ -135,7 +139,7 @@ function SmallCard({ c }: { c: Card }) {
   return (
     <SampleCard title={c.title} extra={<ExportButton />} bodyClassName="flex h-[329px] flex-col px-5 pt-[18px] pb-[21px]" className="h-full">
       <div data-testid={`dt-${c.key}`}>
-        <DailyChart width={570} plotH={176} ticks={c.ticks} lines={c.lines} labelIdx={small} visible={vis} labelW={c.labelW} right={10} />
+        <DailyChart width={570} plotH={176} ticks={c.ticks} lines={c.lines} labelIdx={c.labels ?? small} visible={vis} labelW={c.labelW} right={10} />
       </div>
       <DomainLegend className="mt-[15px]" onChange={setVis} />
       {c.href && (

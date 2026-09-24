@@ -353,8 +353,16 @@ export function TrendingWebsites() {
 
       <footer className="bg-white">
         <div className="flex h-[150px] items-end gap-[18px] pb-[14px] pl-[24px]">
-          {["in", "ig", "tt", "yt", "fb"].map((s) => (
-            <a key={s} href="#" aria-label={s} className="flex h-[22px] w-[22px] items-center justify-center text-[#191b23] hover:text-[#ff642d]">
+          {(
+            [
+              ["in", "https://www.linkedin.com"],
+              ["ig", "https://www.instagram.com"],
+              ["tt", "https://www.tiktok.com"],
+              ["yt", "https://www.youtube.com"],
+              ["fb", "https://www.facebook.com"],
+            ] as const
+          ).map(([s, url]) => (
+            <a key={s} href={url} target="_blank" rel="noreferrer" aria-label={s} className="flex h-[22px] w-[22px] items-center justify-center text-[#191b23] hover:text-[#ff642d]">
               <SocialGlyph k={s} />
             </a>
           ))}

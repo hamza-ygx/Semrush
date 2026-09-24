@@ -65,7 +65,7 @@ function Form({ locked }: { locked: boolean }) {
       <button
         type="button"
         disabled={locked || !lines.length}
-        className="mt-[14px] h-10 rounded-md bg-rk-btn-dark px-[13px] text-[16px] font-semibold text-white hover:bg-[#2b2e38] disabled:bg-[#c4c7cf]"
+        className={`mt-[14px] h-10 rounded-md bg-rk-btn-dark px-[13px] text-[16px] font-semibold text-white hover:bg-[#2b2e38] ${locked ? "disabled:bg-[#767979]" : "disabled:bg-[#c4c7cf]"}`}
       >
         Analyze
       </button>
@@ -107,7 +107,7 @@ function Results() {
           {rows.map((r) => (
             <tr key={r.domain} className="h-[60px] border-b border-[#e0e1e9] last:border-0">
               <td className="pl-[12px]">
-                <a href="#" className="inline-flex items-center gap-[4px] leading-5 hover:text-rk-link">
+                <a href={`https://${r.domain}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-[4px] leading-5 hover:text-rk-link">
                   {r.domain}
                   <LinkOut className="text-rk-faint" />
                 </a>
@@ -130,7 +130,7 @@ function Promo() {
   return (
     <SampleCard header={false} bodyClassName="relative flex h-[360px] overflow-hidden px-8 pt-[30px]">
       <div>
-        <h2 className="text-[28px] leading-9 font-semibold text-rk-text">Uncover trends across the market</h2>
+        <h2 className="text-[24px] leading-8 font-semibold text-rk-text">Uncover trends across the market</h2>
         <ul className="mt-[18px] flex flex-col gap-[10px] text-[16px] text-rk-text-2">
           {["View traffic and engagement for all key players in one table", "Compare up to 100 competitors at once", "Discover top websites by business category"].map((b) => (
             <li key={b} className="flex items-center gap-[10px]">
@@ -140,22 +140,26 @@ function Promo() {
           ))}
         </ul>
       </div>
-      <div className="absolute top-0 right-0 h-full w-[380px] bg-[#fdf1c7]">
-        <div className="absolute top-[30px] left-[20px] w-[300px] rounded-lg bg-white p-4 shadow-card">
-          <div className="text-[16px] font-semibold">Bulk Analysis</div>
-          <div className="mt-2 flex justify-between text-[10px] text-rk-muted">
-            <span>Page</span>
-            <span>Visits</span>
-          </div>
-          {["amazon.com", "ebay.com", "walmart.com"].map((d, i) => (
-            <div key={d} className="flex justify-between border-b border-[#f0f0f0] py-[6px] text-[11px]">
-              <span>{d}</span>
-              <span className="text-rk-muted">{[45, 22, 13][i]}%</span>
-            </div>
-          ))}
+      <div className="absolute top-0 right-0 left-[1015px] h-full bg-[#fdf1c7]" />
+      <div className="absolute top-[14px] left-[841px] w-[202px] rounded-lg bg-white px-[18px] pt-[34px] pb-4 shadow-card">
+        <div className="text-[16px] font-semibold">Bulk Analysis</div>
+        <div className="mt-[10px] flex justify-between text-[10px] text-rk-muted">
+          <span>Page</span>
+          <span>Visits</span>
         </div>
-        <div className="absolute top-[10px] right-[24px] text-[60px] font-bold text-[#191b23]">a</div>
+        {["amazon.com", "ebay.com", "walmart.com"].map((d, i) => (
+          <div key={d} className="flex items-center justify-between py-[6px] text-[11px]">
+            <span className="flex items-center gap-[6px]">
+              <b className="text-[12px]">{d[0]}</b>
+              {d}
+            </span>
+            <span className="text-rk-muted">{[45, 22, 13][i]}%</span>
+          </div>
+        ))}
       </div>
+      <div className="absolute top-[25px] left-[1040px] flex h-[34px] w-[34px] items-center justify-center rounded-md bg-white text-[28px] leading-none font-bold text-[#191b23]">a</div>
+      <div className="absolute top-[36px] left-[1091px] text-[20px] font-semibold text-rk-muted">a</div>
+      <div className="absolute top-[88px] left-[1038px] text-[44px] leading-none font-medium text-rk-muted">750</div>
     </SampleCard>
   );
 }
