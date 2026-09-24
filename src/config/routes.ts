@@ -57,6 +57,7 @@ export const routes = {
   },
 
   topPages: "/analytics/toppages",
+  serp: "/analytics/serp",
   compareDomains: "/analytics/comparedomains",
   keywordGap: "/analytics/keywordgap",
   backlinkGap: "/analytics/gap/backlinks/report",
