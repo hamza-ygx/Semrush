@@ -10,7 +10,7 @@ import { aiSearch, countries, seoWidget } from "./data";
 import { Flag } from "./flags";
 import { Chevron, CloseX, Delta, I, LinkDropdown, MenuPanel, SearchList, WidgetCard, useMenu } from "./ui";
 
-const AI = "/ai";
+const AI = routes.ai.overview;
 
 function Tab({ children, tone }: { children: ReactNode; tone: "ai" | "seo" }) {
   return (

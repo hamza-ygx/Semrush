@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@fontsource-variable/inter";
 import "./globals.css";
 import { brand } from "@/config/brand";
+import { DeadLinkGuard } from "@/components/DeadLinkGuard";
 
 export const metadata: Metadata = {
   title: brand.name,
@@ -15,7 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <DeadLinkGuard />
+      </body>
     </html>
   );
 }

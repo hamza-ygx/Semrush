@@ -4,8 +4,8 @@ import { project, type Metric } from "@/data/home";
 import { KebabIcon, PlusIcon, RkjhFavicon, ShareUserIcon } from "./icons";
 
 const metricHref: Record<string, string> = {
-  "AI Visibility": "/ai",
-  Mentions: "/ai",
+  "AI Visibility": routes.ai.overview,
+  Mentions: routes.ai.overview,
   "Site Health": routes.siteAuditCampaign.overview,
   Visibility: routes.tracking.landscape,
   "Organic Traffic": routes.domainOverview,
