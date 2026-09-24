@@ -1,0 +1,64 @@
+import type { ReactNode } from "react";
+import { routes } from "@/config/routes";
+import { HeaderLink, PageHeader, SendFeedback } from "@/components/shell/PageHeader";
+import { LinkSelect } from "@/components/ui/Popover";
+import { BookIcon, DesktopIcon, ExportIcon } from "@/components/ui/icons";
+import { Button, Tabs } from "@/components/ui/primitives";
+import { currencies, databases, dates, devices, domain, moreDatabases } from "./data";
+import { DatabaseSelector, ExtLink } from "./ui";
+
+export type DomainTab = "overview" | "growth" | "countries";
+
+const tabs = [
+  { key: "overview", label: "Overview", href: routes.domainOverview },
+  { key: "growth", label: "Growth report", href: routes.domainGrowthReport },
+  { key: "countries", label: "Compare by countries", href: routes.domainCompareCountries },
+];
+
+export const UserManual = () => <HeaderLink icon={<BookIcon />}>User manual</HeaderLink>;
+
+export const ExportPdf = () => (
+  <Button variant="tertiary" className="h-7 border-[#d3d5db] px-[9px]">
+    <ExportIcon />
+    Export to PDF
+  </Button>
+);
+
+export function ReportTitle({ label }: { label: string }) {
+  return (
+    <>
+      {label}:
+      <span className="-ml-[2px] flex items-center gap-[3px] text-rk-muted">
+        {domain}
+        <ExtLink href={`https://${domain}`} className="text-[#a9abb6]" />
+      </span>
+    </>
+  );
+}
+
+export function DomainHeader({ tab, crumbs, children }: { tab?: DomainTab; crumbs?: { label: string; href?: string }[]; children?: ReactNode }) {
+  return (
+    <PageHeader
+      crumbs={crumbs ?? [{ label: "Home", href: routes.home }, { label: "SEO", href: routes.seoDashboard }, { label: "Domain Overview" }]}
+      links={
+        <>
+          <UserManual />
+          <SendFeedback />
+        </>
+      }
+      title={<ReportTitle label="Domain Overview" />}
+      actions={tab === "overview" ? <ExportPdf /> : undefined}
+      tabs={tab ? <Tabs tabs={tabs} active={tab} className="-mb-px" /> : undefined}
+    >
+      <div className="mt-[7px] flex items-center">
+        <DatabaseSelector items={databases} initial="SE" more={moreDatabases} />
+        <div className="ml-[25px] flex items-center gap-[23px]">
+          <LinkSelect value={devices[0]} options={devices} icon={<DesktopIcon />} panelClassName="min-w-[140px]" />
+          <LinkSelect value={dates[0]} options={dates} />
+          <LinkSelect value={currencies[0]} options={currencies} panelClassName="min-w-[100px]" />
+        </div>
+      </div>
+      {children}
+    </PageHeader>
+  );
+}
