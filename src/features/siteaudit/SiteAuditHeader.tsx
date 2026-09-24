@@ -1,0 +1,98 @@
+import Link from "next/link";
+import { routes } from "@/config/routes";
+import { HelpCenter, PageHeader, SendFeedback } from "@/components/shell/PageHeader";
+import { Button } from "@/components/ui/primitives";
+import { ChevronDown, DesktopIcon, ExportIcon, GearIcon, RefreshIcon, ShareIcon, WarningIcon } from "@/components/ui/icons";
+import { Tabs } from "@/components/ui/primitives";
+
+const c = routes.siteAuditCampaign;
+
+export type SiteAuditTab = "overview" | "issues" | "pages" | "statistics" | "compare" | "progress" | "js";
+
+const tabs = [
+  { key: "overview", label: "Overview", href: c.overview },
+  { key: "issues", label: "Issues", href: c.issues },
+  { key: "pages", label: "Crawled Pages", href: c.crawledPages },
+  { key: "statistics", label: "Statistics", href: c.statisticsTile },
+  { key: "compare", label: "Compare Crawls", href: c.compare },
+  { key: "progress", label: "Progress", href: c.progress },
+  { key: "js", label: "JS Impact", href: c.jsImpact },
+];
+
+const LookerIcon = () => (
+  <svg viewBox="0 0 16 16" width={16} height={16}>
+    <circle cx="8" cy="9.5" r="4" fill="none" stroke="#4285f4" strokeWidth={1.8} />
+    <circle cx="5" cy="3.5" r="1.8" fill="#fbbc04" />
+  </svg>
+);
+
+export function SiteAuditHeader({ tab, looker = true, pdf = true, exportBtn = true }: { tab: SiteAuditTab; looker?: boolean; pdf?: boolean; exportBtn?: boolean }) {
+  return (
+    <PageHeader
+      crumbs={[{ label: "Home", href: routes.home }, { label: "SEO", href: routes.seoDashboard }, { label: "Site Audit", href: routes.siteAudit }]}
+      links={
+        <>
+          <HelpCenter />
+          <SendFeedback />
+        </>
+      }
+      title={
+        <>
+          Site Audit:
+          <Link href={routes.siteAudit} className="ml-2 flex items-center gap-1 text-rk-link hover:text-rk-link-hover">
+            www.rkjh.se
+            <ChevronDown />
+          </Link>
+        </>
+      }
+      actions={
+        <>
+          <Button variant="primary" className="h-8 px-3">
+            <RefreshIcon />
+            Rerun campaign
+          </Button>
+          {looker && (
+            <Button variant="tertiary" className="hidden h-8 xl:inline-flex">
+              <LookerIcon />
+              Looker Studio
+            </Button>
+          )}
+          {pdf && (
+            <Button variant="tertiary" className="h-8">
+              <ExportIcon />
+              PDF
+            </Button>
+          )}
+          {exportBtn && (
+            <Button variant="tertiary" className="hidden h-8 xl:inline-flex">
+              <ExportIcon />
+              Export
+            </Button>
+          )}
+          <Button variant="tertiary" className="h-8">
+            <ShareIcon />
+            Share
+          </Button>
+          <Button variant="tertiary" className="h-8 w-8 px-0">
+            <GearIcon />
+          </Button>
+        </>
+      }
+      meta={
+        <>
+          <span>www.rkjh.se</span>
+          <span>Updated: Wed, Jul 22, 2026</span>
+          <span className="flex items-center gap-1">
+            <DesktopIcon />
+            Desktop
+          </span>
+          <span>JS rendering: Disabled</span>
+          <span className="flex items-center gap-1">
+            Pages crawled: <WarningIcon /> 100/100
+          </span>
+        </>
+      }
+      tabs={<Tabs tabs={tabs} active={tab} />}
+    />
+  );
+}

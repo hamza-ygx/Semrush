@@ -4,14 +4,48 @@
 @theme inline {
   --font-sans: "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   --shadow-card: var(--intergalactic-box-shadow-card);
+  --shadow-popover: 0 1px 12px rgba(25, 27, 35, 0.15), 0 0 1px rgba(25, 27, 35, 0.2);
+
+  --color-rk-bg: #f4f5f9;
+  --color-rk-surface: #ffffff;
+  --color-rk-hover: #e4e5ea;
+  --color-rk-border: #e0e1e9;
+  --color-rk-border-strong: #c4c7cf;
+  --color-rk-text: #191b23;
+  --color-rk-text-2: #484a54;
+  --color-rk-muted: #6c6e79;
+  --color-rk-faint: #a9abb6;
+  --color-rk-link: #2359d6;
+  --color-rk-link-hover: #123d9e;
+  --color-rk-number: #5652cc;
+  --color-rk-accent: #6167e6;
+  --color-rk-tab: #8e92ec;
+  --color-rk-success: #007c65;
+  --color-rk-danger: #d1002f;
+  --color-rk-warning: #e35c00;
+  --color-rk-green: #00c78f;
+  --color-rk-red: #ff6b70;
+  --color-rk-yellow: #ffb400;
+  --color-rk-help: #b58af2;
+  --color-rk-avatar: #6660f0;
+  --color-rk-ai-bg: #f3d4ff;
+  --color-rk-ai-text: #8a3fcf;
+  --color-rk-seo-bg: #e2dcff;
+  --color-rk-seo-text: #5a50c8;
+  --color-rk-btn-dark: #191b23;
 }
 
 html,
 body {
-  background: #f4f5f9;
-  color: #191b23;
+  background: var(--color-rk-bg);
+  color: var(--color-rk-text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-size: 14px;
+  line-height: 20px;
 }
 
 .no-scrollbar {
@@ -19,4 +53,10 @@ body {
 }
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+.dotted-underline {
+  text-decoration: underline dashed;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
 }
