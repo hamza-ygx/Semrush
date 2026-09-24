@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { ExternalIcon } from "@/components/ui/icons";
 import { Delta } from "./ui";
 
@@ -32,6 +32,8 @@ export function TrafficLineChart({
   rightInset = 10,
   labelGap = 16,
   plotLeft,
+  tooltip,
+  hoverId = "chart-hover",
 }: {
   series: TrafficSeries[];
   ticks: number[];
@@ -45,7 +47,10 @@ export function TrafficLineChart({
   rightInset?: number;
   labelGap?: number;
   plotLeft?: number;
+  tooltip?: (i: number) => ReactNode;
+  hoverId?: string;
 }) {
+  const [hi, setHi] = useState<number | null>(null);
   const labels = ticks.map(fmt);
   const lw = Math.max(...labels.map((l) => textW(l)));
   const x0 = plotLeft ?? Math.round(lw * 0.7 + labelGap + 10);
@@ -56,7 +61,8 @@ export function TrafficLineChart({
   const X = (i: number) => x0 + ((x1 - x0) * i) / (n - 1);
   const Y = (v: number) => top + plotHeight - (v / max) * plotHeight;
   const h = top + plotHeight + 30;
-  return (
+  const vis = series.filter((s) => !hidden[s.name]);
+  const svg = (
     <svg width={width} height={h} viewBox={`0 0 ${width} ${h}`} className="block overflow-visible">
       {ticks.map((t, i) => (
         <g key={t}>
@@ -89,7 +95,43 @@ export function TrafficLineChart({
             </g>
           );
         })}
+      {tooltip && hi !== null && (
+        <g pointerEvents="none">
+          <line x1={X(hi) + 0.5} x2={X(hi) + 0.5} y1={top} y2={top + plotHeight} stroke="#c4c7cf" strokeWidth={1} />
+          {vis.map((s) => (
+            <circle key={s.name} cx={X(hi)} cy={Y(s.data[hi])} r={4.5} fill={s.color} stroke="#fff" strokeWidth={1.5} />
+          ))}
+        </g>
+      )}
+      {tooltip &&
+        months.map((m, i) => {
+          const a = i === 0 ? x0 : (X(i - 1) + X(i)) / 2;
+          const w = (i === n - 1 ? x1 : (X(i) + X(i + 1)) / 2) - a;
+          const cut = Math.round(plotHeight * 0.55);
+          return (
+            <g key={m} onMouseEnter={() => setHi(i)} fill="transparent">
+              <rect data-testid={`${hoverId}-${i}`} x={a} width={w} y={top} height={cut} />
+              <rect x={a} width={w} y={top + cut} height={plotHeight - cut} />
+            </g>
+          );
+        })}
     </svg>
+  );
+  if (!tooltip) return svg;
+  const left = hi !== null && X(hi) > 240;
+  return (
+    <div className="relative" style={{ width }} onMouseLeave={() => setHi(null)}>
+      {svg}
+      {hi !== null && (
+        <div
+          role="tooltip"
+          className="pointer-events-none absolute z-20 rounded-[6px] bg-white px-3 pt-[12px] pb-[8px] whitespace-nowrap shadow-popover"
+          style={left ? { right: width - X(hi) + 9, top: 1 } : { left: X(hi) + 12, top: 1 }}
+        >
+          {tooltip(hi)}
+        </div>
+      )}
+    </div>
   );
 }
 

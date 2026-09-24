@@ -85,3 +85,31 @@ export const CheckSmall = (p: P) => (
     <path d="m4.5 8.3 2.3 2.3 4.7-4.9" {...s} strokeWidth={1.8} />
   </svg>
 );
+
+export const WorldFilledIcon = (p: P) => (
+  <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
+    <circle cx="8" cy="8" r="7.2" fill="currentColor" />
+    <path d="M2.6 5.6c1.8-.5 3.4.3 3.7 1.7.3 1.3-.7 1.9-.3 3.1.3 1 1.3 1.3 1.4 3.2A5.8 5.8 0 0 1 2.6 5.6ZM9.1 2.3c-.6 1.3-.1 2.5 1.1 2.8 1.3.3 1.4 1.5.8 2.4-.7 1-.1 2.2 1.1 2.3l1.8.7A5.8 5.8 0 0 0 9.1 2.3Z" fill="#fff" />
+  </svg>
+);
+
+export const PhoneIcon = (p: P) => (
+  <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
+    <rect x="3.5" y="1.5" width="9" height="13" rx="1" {...s} />
+    <path d="M7 12h2" {...s} />
+  </svg>
+);
+
+export const MonitorIcon = (p: P) => (
+  <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
+    <rect x="1.5" y="2.5" width="13" height="8.5" rx="1" {...s} />
+    <path d="M5 14h6M8 11v3" {...s} />
+  </svg>
+);
+
+export const ClockSmall = (p: P) => (
+  <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
+    <circle cx="8" cy="8" r="6.4" {...s} strokeWidth={1.4} />
+    <path d="M8 4.5V8l2.3 2.3" {...s} strokeWidth={1.4} />
+  </svg>
+);

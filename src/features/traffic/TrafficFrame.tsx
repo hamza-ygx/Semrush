@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AppShell } from "@/components/shell/AppShell";
-import { Popover, MenuItem } from "@/components/ui/Popover";
+import { Popover, MenuItem, useOutsideClose } from "@/components/ui/Popover";
 import { CloseIcon, PlusIcon } from "@/components/ui/icons";
+import { DevicePanel, GeoPanel, GranularityPanel, MonthRangePanel } from "./part1/filterPanels";
 import { BellOffIcon, CalendarIcon, DevicesIcon, DownloadIcon, GeoIcon, ManualIcon, SmallChevron, TrendIcon } from "./icons";
 
 export type TrafficDomain = { name: string; color: string };
@@ -39,6 +40,9 @@ const builtin: Record<TrafficFilterKey, { icon: ReactNode; value: string; option
   device: { icon: <DevicesIcon />, value: "All devices", options: ["All devices", "Desktop", "Mobile"] },
 };
 
+const granularityOptions = ["Daily", "Weekly", "Monthly", "Quarterly"];
+const deviceOptions = ["All devices", "Mobile", "Desktop"];
+
 function resolve(f: TrafficFilter) {
   if (typeof f === "string") return { key: f, ...builtin[f], suffix: undefined as ReactNode };
   const b = builtin[f.key as TrafficFilterKey];
@@ -48,33 +52,53 @@ function resolve(f: TrafficFilter) {
 function FilterSelect({ f }: { f: TrafficFilter }) {
   const r = resolve(f);
   const [value, setValue] = useState(r.value);
+  const [open, setOpen] = useState(false);
+  const [ring, setRing] = useState(false);
+  const btn = useRef<HTMLButtonElement>(null);
+  const close = () => {
+    setOpen(false);
+    setRing(true);
+    btn.current?.focus();
+  };
+  const ref = useOutsideClose<HTMLDivElement>(open, close);
+  const builtinKey = typeof f === "string" ? f : null;
+  const pick = (v: string) => {
+    setValue(v);
+    close();
+  };
+  let body: ReactNode;
+  if (r.key === "geo") body = <GeoPanel value={value} onApply={pick} />;
+  else if (builtinKey === "date") body = <MonthRangePanel value={value} onApply={pick} />;
+  else if (r.key === "granularity") body = <GranularityPanel options={builtinKey ? granularityOptions : r.options} value={value} onPick={pick} />;
+  else if (r.key === "device") body = <DevicePanel options={deviceOptions} value={value} onPick={pick} />;
+  else
+    body = (
+      <div className="absolute top-[36px] left-0 z-50 min-w-[180px] rounded-md bg-white py-1 shadow-popover">
+        {r.options.map((o) => (
+          <MenuItem key={o} active={o === value} onClick={() => pick(o)}>
+            {o}
+          </MenuItem>
+        ))}
+      </div>
+    );
   return (
     <div className="flex items-center gap-[6px]">
-      <Popover
-        panelClassName="min-w-[180px]"
-        trigger={({ toggle, open }) => (
-          <button type="button" data-testid={`traffic-filter-${r.key}`} onClick={toggle} className="flex h-8 items-center text-[14px] leading-5 whitespace-nowrap text-rk-link hover:text-rk-link-hover">
-            {r.icon && <span className="mr-1 flex">{r.icon}</span>}
-            <span>{value}</span>
-            <SmallChevron width={14} height={14} className={`ml-[5px] ${open ? "rotate-180" : ""}`} />
-          </button>
-        )}
-      >
-        {(close) =>
-          r.options.map((o) => (
-            <MenuItem
-              key={o}
-              active={o === value}
-              onClick={() => {
-                setValue(o);
-                close();
-              }}
-            >
-              {o}
-            </MenuItem>
-          ))
-        }
-      </Popover>
+      <div ref={ref} className="relative flex h-8 items-center">
+        <button
+          type="button"
+          data-testid={`traffic-filter-${r.key}`}
+          ref={btn}
+          aria-expanded={open}
+          onClick={() => (open ? close() : setOpen(true))}
+          onBlur={() => setRing(false)}
+          className={`group flex h-5 items-center text-[14px] leading-5 whitespace-nowrap text-rk-link outline-[#8b8fdd] hover:text-rk-link-hover focus-visible:outline-2 ${ring ? "outline-2" : "outline-none"}`}
+        >
+          {r.icon && <span className="mr-[7px] flex">{r.icon}</span>}
+          <span className="decoration-1 underline-offset-[3px] group-hover:underline">{value}</span>
+          <SmallChevron width={14} height={14} className="ml-px" />
+        </button>
+        {open && body}
+      </div>
       {r.suffix}
     </div>
   );
@@ -82,7 +106,7 @@ function FilterSelect({ f }: { f: TrafficFilter }) {
 
 function FilterRow({ filters }: { filters: TrafficFilter[] }) {
   return (
-    <div className="flex items-center gap-[23px]">
+    <div className="flex items-center gap-[25px]">
       {filters.map((f) => (
         <FilterSelect key={typeof f === "string" ? f : f.key} f={f} />
       ))}

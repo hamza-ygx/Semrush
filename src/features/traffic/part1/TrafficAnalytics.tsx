@@ -6,7 +6,7 @@ import { ChatGptIcon, ExternalIcon, GeminiIcon, GoogleIcon } from "@/components/
 import { Popover, MenuItem } from "@/components/ui/Popover";
 import { routes } from "@/config/routes";
 import { WorldMap } from "@/features/domain/WorldMap";
-import { GroupedBars, TrafficLineChart } from "../charts";
+import { GroupedBars, TrafficLineChart, shortMonths } from "../charts";
 import { LockedArea, Skel } from "../Paywall";
 import { DomainDot, TrafficFrame } from "../TrafficFrame";
 import { Delta, DomainLegend, DomainSwitch, OutlineButton, SampleCard, SegTabs } from "../ui";
@@ -24,6 +24,7 @@ import {
   topPagesData,
   topPagesTabs,
   trendTabs,
+  visitsTip,
   visitsTrend,
 } from "./taData";
 
@@ -82,6 +83,33 @@ function SummarySample() {
   );
 }
 
+function TrendTip({ i, hidden, scale }: { i: number; hidden: Record<string, boolean>; scale: number }) {
+  return (
+    <div className="text-[12px] leading-4">
+      <div className="text-[#8a8e9b]">{shortMonths[i]}</div>
+      <div className="mt-[4px] grid grid-cols-[auto_auto_auto] items-center gap-x-[10px]">
+        {visitsTrend.map((s, k) =>
+          hidden[s.name] ? null : (
+            <div key={s.name} className="contents">
+              <span className="flex h-6 items-center gap-[7px] text-rk-text">
+                <DomainDot color={s.color} size={8} />
+                {s.name}
+              </span>
+              <span className="text-right font-bold text-rk-text">
+                {scale === 1 ? visitsTip[i][k].value : `${+(parseFloat(visitsTip[i][k].value) * scale).toFixed(1)}M`}
+              </span>
+              <span className={`${visitsTip[i][k].delta >= 0 ? "text-[#007c65]" : "text-[#e0304a]"}`}>
+                {visitsTip[i][k].delta >= 0 ? "\u2191" : "\u2193"}
+                {Math.abs(visitsTip[i][k].delta).toFixed(2)}%
+              </span>
+            </div>
+          ),
+        )}
+      </div>
+    </div>
+  );
+}
+
 function TrendCard() {
   const [tab, setTab] = useState<(typeof trendTabs)[number]>("Visits");
   const [hidden, setHidden] = useState<Record<string, boolean>>({});
@@ -91,7 +119,16 @@ function TrendCard() {
     <SampleCard title="Traffic Trend" bodyClassName="px-5 pt-[22px] pb-[21px]">
       <SegTabs items={trendTabs} onChange={setTab} />
       <div className="mt-[16px]">
-        <TrafficLineChart width={1196} plotLeft={50} plotHeight={208} ticks={tab === "Unique Visitors" ? [0, 25 * M, 50 * M] : [0, 50 * M, 100 * M]} series={series} hidden={hidden} />
+        <TrafficLineChart
+          width={1196}
+          plotLeft={50}
+          plotHeight={208}
+          ticks={tab === "Unique Visitors" ? [0, 25 * M, 50 * M] : [0, 50 * M, 100 * M]}
+          series={series}
+          hidden={hidden}
+          hoverId="trend-hover"
+          tooltip={(i) => <TrendTip i={i} hidden={hidden} scale={f[tab]} />}
+        />
       </div>
       <DomainLegend className="mt-[10px]" onChange={(v) => setHidden(Object.fromEntries(Object.entries(v).map(([k, x]) => [k, !x])))} />
     </SampleCard>

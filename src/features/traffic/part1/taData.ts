@@ -132,3 +132,41 @@ export const geoRows = [
   { flag: "FR", country: "France", share: "5.49%", value: "3.5M", desktop: "34.16%", mobile: "65.84%" },
   { flag: "DE", country: "Germany", share: "5.47%", value: "3.5M", desktop: "45.97%", mobile: "54.03%" },
 ];
+
+export const visitsTip: { value: string; delta: number }[][] = [
+  [
+    { value: "78.4M", delta: -2.12 },
+    { value: "51M", delta: 2.62 },
+    { value: "92.3M", delta: 2.33 },
+  ],
+  [
+    { value: "64M", delta: -18.37 },
+    { value: "40.9M", delta: -19.8 },
+    { value: "72.6M", delta: -21.34 },
+  ],
+  [
+    { value: "76.8M", delta: 20 },
+    { value: "41.8M", delta: 2.2 },
+    { value: "78.3M", delta: 7.85 },
+  ],
+  [
+    { value: "77.4M", delta: 0.81 },
+    { value: "44.5M", delta: 6.33 },
+    { value: "85.4M", delta: 9.08 },
+  ],
+  [
+    { value: "73.1M", delta: -5.56 },
+    { value: "48.6M", delta: 9.21 },
+    { value: "84.6M", delta: -0.94 },
+  ],
+  [
+    { value: "64.3M", delta: -12.04 },
+    { value: "52.1M", delta: 7.2 },
+    { value: "85.6M", delta: 1.18 },
+  ],
+  [
+    { value: "70M", delta: 8.86 },
+    { value: "54.8M", delta: 5.18 },
+    { value: "93.7M", delta: 9.46 },
+  ],
+];
