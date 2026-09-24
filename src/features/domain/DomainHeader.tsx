@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
 import { routes } from "@/config/routes";
 import { HeaderLink, PageHeader, SendFeedback } from "@/components/shell/PageHeader";
-import { LinkSelect } from "@/components/ui/Popover";
-import { DesktopIcon, ExportIcon } from "@/components/ui/icons";
+import { ExportPdf } from "./ExportPdf";
 import { ManualIcon } from "@/features/tracking/icons";
-import { Button, Tabs } from "@/components/ui/primitives";
-import { currencies, databases, dates, devices, domain, moreDatabases } from "./data";
+import { Tabs } from "@/components/ui/primitives";
+import { databases, domain, moreDatabases } from "./data";
+import { CurrencySelect, DateSelect, DeviceSelect } from "./HeaderSelects";
 import { DatabaseSelector, ExtLink } from "./ui";
 
 export type DomainTab = "overview" | "growth" | "countries";
@@ -18,12 +18,7 @@ const tabs = [
 
 export const UserManual = () => <HeaderLink icon={<ManualIcon />}>User manual</HeaderLink>;
 
-export const ExportPdf = () => (
-  <Button variant="tertiary" className="h-7 border-[#d3d5db] !bg-[#eceeee] px-[9px] !text-rk-muted">
-    <ExportIcon />
-    Export to PDF
-  </Button>
-);
+export { ExportPdf };
 
 export function ReportTitle({ label }: { label: string }) {
   return (
@@ -56,9 +51,9 @@ export function DomainHeader({ tab, crumbs, children }: { tab?: DomainTab; crumb
       <div className="mt-[7px] flex items-center">
         <DatabaseSelector items={databases} initial="SE" more={moreDatabases} />
         <div className="ml-[25px] flex items-center gap-[23px]">
-          <LinkSelect value={devices[0]} options={devices} icon={<DesktopIcon />} panelClassName="min-w-[140px]" />
-          <LinkSelect value={dates[0]} options={dates} />
-          <LinkSelect value={currencies[0]} options={currencies} panelClassName="min-w-[100px]" />
+          <DeviceSelect />
+          <DateSelect />
+          <CurrencySelect />
         </div>
       </div>
       {children}

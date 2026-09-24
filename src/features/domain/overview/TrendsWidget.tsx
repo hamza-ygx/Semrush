@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { routes } from "@/config/routes";
 import { aiCountries, googleMarkers, keywordLegend, serpDistribution } from "../data";
 import { kwLow, kwMid, kwTop, trafficDaily } from "../series";
 import { Plot, VBW, areaUnder, linePath, pts, smoothPath, stepPath, Stroke } from "../charts";
-import { Check, Dot, ExportButton, Flag, GoogleG, Seg } from "../ui";
+import { Check, Dot, Flag, GoogleG, Seg } from "../ui";
+import { ExportDropdown, NotesMenu } from "./menus";
 
 const SPAN_DAYS = 730;
 const END = Date.UTC(2026, 8, 23);
@@ -54,6 +55,56 @@ function xLabels(days: number) {
   return out.filter((l) => l.at > 0.06 && l.at < 0.97);
 }
 
+function dateAt(f: number, days: number) {
+  const d = new Date(END - Math.round((1 - f) * days) * DAY);
+  return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+}
+
+const at = (data: number[], f: number) => data[Math.round(f * (data.length - 1))] ?? 0;
+
+type HoverProps = { hover: number | null; onHover: (f: number | null) => void };
+
+function HoverArea({ testId, rightW, onHover, children }: { testId: string; rightW: number; onHover: (f: number | null) => void; children: ReactNode }) {
+  return (
+    <div
+      data-testid={testId}
+      onMouseMove={(e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        const f = (e.clientX - r.left) / (r.width - rightW);
+        onHover(f >= 0 && f <= 1 ? f : null);
+      }}
+      onMouseLeave={() => onHover(null)}
+    >
+      {children}
+    </div>
+  );
+}
+
+function TipRow({ color, label, value }: { color: string; label: string; value: ReactNode }) {
+  return (
+    <div className="flex h-5 items-center text-[12px]">
+      <Dot color={color} size={8} />
+      <span className="ml-2 flex-1 text-rk-text-2">{label}</span>
+      <b className="ml-3 font-semibold">{value}</b>
+    </div>
+  );
+}
+
+function Crosshair({ f, dots }: { f: number; dots: { y: number; color: string }[] }) {
+  return (
+    <>
+      <div className="pointer-events-none absolute top-0 bottom-0 w-px bg-[#d5d7de]" style={{ left: `${f * 100}%` }} />
+      {dots.map((d, i) => (
+        <span
+          key={i}
+          className="pointer-events-none absolute h-[11px] w-[11px] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white"
+          style={{ left: `${f * 100}%`, top: d.y, background: d.color }}
+        />
+      ))}
+    </>
+  );
+}
+
 function IncompleteBand({ h }: { h: number }) {
   return (
     <g>
@@ -63,7 +114,7 @@ function IncompleteBand({ h }: { h: number }) {
   );
 }
 
-function TrafficChart({ range, gran }: { range: Range; gran: "Days" | "Months" }) {
+function TrafficChart({ range, gran, hover, onHover }: { range: Range; gran: "Days" | "Months" } & HoverProps) {
   const [on, setOn] = useState({ organic: true, paid: true, branded: true });
   const H = 85;
   const days = rangeDays[range];
@@ -79,7 +130,12 @@ function TrafficChart({ range, gran }: { range: Range; gran: "Days" | "Months" }
         <Check color="#6167e6" label="Organic Traffic" checked={on.organic} onToggle={() => setOn({ ...on, organic: !on.organic })} />
         <Check color="#3ed4a4" label="Paid Traffic" checked={on.paid} onToggle={() => setOn({ ...on, paid: !on.paid })} />
         <Check color="#c28bf5" label="Branded Traffic" checked={on.branded} onToggle={() => setOn({ ...on, branded: !on.branded })} />
+        <span className="-ml-[3px] h-7 w-px bg-rk-border" />
+        <span className="-ml-[2px] flex h-5 items-center">
+          <NotesMenu />
+        </span>
       </div>
+      <HoverArea testId="traffic-chart" rightW={70} onHover={onHover}>
       <Plot
         className="mt-[27px]"
         height={H}
@@ -89,17 +145,38 @@ function TrafficChart({ range, gran }: { range: Range; gran: "Days" | "Months" }
         gap={14}
         bottomH={27}
         x={xLabels(days)}
+        overlay={
+          hover != null && (
+            <>
+              <Crosshair
+                f={hover}
+                dots={[
+                  ...(on.paid ? [{ y: H, color: "#3ed4a4" }] : []),
+                  ...(on.branded ? [{ y: H, color: "#c28bf5" }] : []),
+                  ...(on.organic ? [{ y: H - (at(data, hover) / max) * H, color: "#6167e6" }] : []),
+                ]}
+              />
+              <div className="pointer-events-none absolute -top-[27px] z-20 w-[170px] rounded-md bg-white pt-[9px] pr-3 pb-[9px] pl-[11px] shadow-popover" style={{ left: `calc(${hover * 100}% + 10px)` }}>
+                <div className="mb-[3px] text-[12px] leading-5 text-rk-muted">{dateAt(hover, days)}</div>
+                <TipRow color="#6167e6" label="Organic Traffic" value={Math.round(at(data, hover))} />
+                <TipRow color="#3ed4a4" label="Paid Traffic" value={0} />
+                <TipRow color="#c28bf5" label="Branded Traffic" value={0} />
+              </div>
+            </>
+          )
+        }
       >
         <IncompleteBand h={H} />
         {on.paid && <Stroke d={linePath(zero)} color="#3ed4a4" width={3} />}
         {on.organic && <Stroke d={gran === "Months" && days > 300 ? smoothPath(p) : stepPath(p)} color="#6167e6" width={2.5} />}
         {on.branded && <Stroke d={linePath(zero)} color="#c28bf5" width={3} />}
       </Plot>
+      </HoverArea>
     </div>
   );
 }
 
-function KeywordsChart({ range }: { range: Range }) {
+function KeywordsChart({ range, hover, onHover }: { range: Range } & HoverProps) {
   const [kind, setKind] = useState<"Organic" | "Paid">("Organic");
   const [on, setOn] = useState<Record<string, boolean>>(Object.fromEntries(keywordLegend.map((l) => [l.label, true])));
   const H = 165;
@@ -131,6 +208,7 @@ function KeywordsChart({ range }: { range: Range }) {
           <Check key={l.label} color={l.color} label={l.label} checked={on[l.label]} onToggle={() => setOn({ ...on, [l.label]: !on[l.label] })} />
         ))}
       </div>
+      <HoverArea testId="keywords-chart" rightW={70} onHover={onHover}>
       <Plot
         className="mt-[27px]"
         height={H}
@@ -141,9 +219,12 @@ function KeywordsChart({ range }: { range: Range }) {
         bottomH={27}
         x={xLabels(days)}
         overlay={
-          range === "2Y" || range === "All time"
-            ? googleMarkers.map((m) => <GoogleG key={m} className="absolute -bottom-[6px] -translate-x-1/2" width={12} height={12} style={{ left: `${m * 100}%` }} />)
-            : null
+          <>
+            {range === "2Y" || range === "All time"
+              ? googleMarkers.map((m) => <GoogleG key={m} className="absolute -bottom-[6px] -translate-x-1/2" width={12} height={12} style={{ left: `${m * 100}%` }} />)
+              : null}
+            {hover != null && <KeywordsTip f={hover} days={days} series={series} on={on} H={H} max={max} />}
+          </>
         }
       >
         <path d={areaUnder(topP, linePath(topP), H)} fill="#e9edfd" opacity={0.85} />
@@ -156,7 +237,39 @@ function KeywordsChart({ range }: { range: Range }) {
         {on["AI Overviews"] && <Stroke d={linePath(P(series["AI Overviews"]))} color="#f06ae6" width={2} />}
         {on["Other SERP Features"] && <Stroke d={linePath(P(serp))} color="#5dd66a" width={2.5} />}
       </Plot>
+      </HoverArea>
     </div>
+  );
+}
+
+function KeywordsTip({ f, days, series, on, H, max }: { f: number; days: number; series: Record<string, number[]>; on: Record<string, boolean>; H: number; max: number }) {
+  const v = (k: string) => at(series[k], f);
+  const bands: Record<string, number> = {
+    "Top 3": v("Top 3") - v("4-10"),
+    "4-10": v("4-10") - v("11-20"),
+    "11-20": v("11-20") - v("21-50"),
+    "21-50": v("21-50") - v("51-100"),
+    "51-100": v("51-100"),
+    "AI Overviews": v("AI Overviews"),
+    "Other SERP Features": v("Other SERP Features"),
+  };
+  const vals = Object.fromEntries(Object.entries(bands).map(([k, n]) => [k, Math.max(0, Math.round(n))]));
+  const total = Object.values(vals).reduce((a, b) => a + b, 0);
+  const lines = ["Top 3", "4-10", "11-20", "21-50", "51-100"].filter((k) => on[k]);
+  return (
+    <>
+      <Crosshair f={f} dots={lines.map((k) => ({ y: H - (v(k) / max) * H, color: keywordLegend.find((l) => l.label === k)!.color }))} />
+      <div className="pointer-events-none absolute -top-[56px] z-20 w-[218px] rounded-md bg-white pt-[10px] pr-[12px] pb-[8px] pl-[12px] shadow-popover" style={{ left: `calc(${f * 100}% - 226px)` }}>
+        <div className="mb-[4px] text-[12px] leading-5 text-rk-muted">{dateAt(f, days)}</div>
+        {keywordLegend.map((l) => (
+          <TipRow key={l.label} color={l.color} label={l.label} value={vals[l.label]} />
+        ))}
+        <div className="mt-[6px] flex h-[31px] items-center border-t border-rk-border pt-[2px] text-[12px]">
+          <span className="flex-1 text-rk-text-2">Total</span>
+          <b className="font-semibold">{total}</b>
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -251,6 +364,7 @@ export function TrendsWidget() {
   const [source, setSource] = useState<"AI Search" | "Google Search">("AI Search");
   const [range, setRange] = useState<Range>("2Y");
   const [gran, setGran] = useState<"Days" | "Months">("Days");
+  const [hover, setHover] = useState<number | null>(null);
   return (
     <section className="mt-4 flex h-[631px] rounded-lg bg-white shadow-card">
       <div className="w-[344px] shrink-0 pt-5">
@@ -288,14 +402,14 @@ export function TrendsWidget() {
           </div>
           <div className="flex gap-2">
             <Seg items={["Days", "Months"] as const} value={gran} onChange={setGran} itemClassName="px-[8px]" />
-            <ExportButton />
+            <ExportDropdown />
           </div>
         </div>
         <div className="mt-[21px]">
-          <TrafficChart range={range} gran={gran} />
+          <TrafficChart range={range} gran={gran} hover={hover} onHover={setHover} />
         </div>
         <div className="mt-[21px]">
-          <KeywordsChart range={range} />
+          <KeywordsChart range={range} hover={hover} onHover={setHover} />
         </div>
       </div>
     </section>

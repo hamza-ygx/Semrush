@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { routes } from "@/config/routes";
-import { ChevronDown, GoogleIcon, SearchIcon } from "@/components/ui/icons";
+import { ChatGptIcon, ExportIcon, GeminiIcon, GoogleIcon, SearchIcon } from "@/components/ui/icons";
+import { AdvancedFilters, CheckFilter, ExportPopover } from "@/features/organic/filters";
 import { topPages, type TopPage } from "./data";
 import { tpCited, tpPages, tpTraffic } from "./series";
 import { Plot, linePath, pts, smoothPath, Stroke, VBW } from "./charts";
-import { Check, ExportButton, ExtIcon, IntentBadge, Seg, SerpIcon, SortIcon } from "./ui";
+import { Check, ExtIcon, IntentBadge, Seg, SerpIcon, SortIcon } from "./ui";
 
 const MONTHS = ["Oct 2025", "Nov 2025", "Dec 2025", "Jan 2026", "Feb 2026", "Mar 2026", "Apr 2026", "May 2026", "Jun 2026", "Jul 2026", "Aug 2026", "Sep 2026"];
 const monthAt = [0, 0.0866, 0.171, 0.258, 0.345, 0.423, 0.51, 0.594, 0.681, 0.765, 0.852, 0.94];
@@ -174,11 +175,34 @@ function Row({ p }: { p: TopPage }) {
   );
 }
 
+const sources = ["Google Search", "ChatGPT", "AI Overview", "AI Mode", "Gemini"];
+const sourceIcons: Record<string, ReactNode> = {
+  "Google Search": <GoogleIcon width={16} height={16} />,
+  ChatGPT: <ChatGptIcon width={16} height={16} />,
+  "AI Overview": <GoogleIcon width={16} height={16} />,
+  "AI Mode": <GoogleIcon width={16} height={16} />,
+  Gemini: <GeminiIcon width={16} height={16} />,
+};
+
 function AllPages() {
   const [filter, setFilter] = useState("");
   const [kind, setKind] = useState<"All URLs" | "New" | "Lost">("All URLs");
   const head = useRef<HTMLDivElement>(null);
-  const rows = kind === "All URLs" ? topPages.filter((p) => p.url.includes(filter.trim())) : [];
+  const [src, setSrc] = useState<string[]>([]);
+  const [adv, setAdv] = useState<{ mode: string; field: string; op: string; text: string }[]>([]);
+  const rows =
+    kind === "All URLs"
+      ? topPages.filter(
+          (p) =>
+            p.url.includes(filter.trim()) &&
+            (!src.length || src.includes("Google Search")) &&
+            adv.every((c) => {
+              const hay = ((c.field === "URL" ? p.url : p.keyword) ?? "").toLowerCase();
+              const hit = c.op === "Not containing" ? !hay.includes(c.text.toLowerCase()) : c.op === "Begins with" ? hay.startsWith(c.text.toLowerCase()) : c.op === "Ends with" ? hay.endsWith(c.text.toLowerCase()) : c.op === "Exact match" ? hay === c.text.toLowerCase() : hay.includes(c.text.toLowerCase());
+              return c.mode === "Include" ? hit : !hit;
+            }),
+        )
+      : [];
   const th = "h-10 text-[12px] font-normal text-rk-text-2";
   const thr = `${th} pr-3 text-right`;
   return (
@@ -187,7 +211,20 @@ function AllPages() {
         <h3 className="flex items-center gap-[10px] text-[16px] leading-6 font-bold">
           All Pages <span className="font-normal text-rk-muted">66</span>
         </h3>
-        <ExportButton />
+        <ExportPopover
+          total={66}
+          trigger={(open, toggle) => (
+            <button
+              type="button"
+              aria-label="Export pages"
+              onClick={toggle}
+              className={`inline-flex h-7 items-center gap-[7px] rounded-md border border-[#d3d5db] px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-hover ${open ? "bg-rk-hover" : "bg-[#f7f8f9]"}`}
+            >
+              <ExportIcon width={16} height={16} />
+              Export
+            </button>
+          )}
+        />
       </header>
       <div className="sticky top-0 z-20 rounded-t-lg bg-white">
         <div className="flex h-[69px] items-center gap-[9px] px-5">
@@ -203,14 +240,10 @@ function AllPages() {
             </button>
           </div>
           <Seg items={["All URLs", "New", "Lost"] as const} value={kind} onChange={setKind} itemClassName="px-[7.5px]" className="ml-[1px]" />
-          <button type="button" className="ml-[4px] flex h-7 items-center gap-[6px] rounded-md border border-[#d3d5db] px-[9px] text-[14px] text-[#8a8e9b] hover:bg-rk-bg">
-            Source
-            <ChevronDown width={14} height={14} className="text-rk-text" />
-          </button>
-          <button type="button" className="flex h-7 items-center gap-[6px] rounded-md border border-[#d3d5db] px-[9px] text-[14px] text-[#8a8e9b] hover:bg-rk-bg">
-            Advanced filters
-            <ChevronDown width={14} height={14} className="text-rk-text" />
-          </button>
+          <span className="inline-flex">
+            <CheckFilter label="Source" compact width={222} options={sources} icons={sourceIcons} value={src} onChange={setSrc} />
+          </span>
+          <AdvancedFilters compact clearAll={false} fields={["Top Keyword", "URL"]} onApply={setAdv} />
         </div>
         <div ref={head} className="overflow-hidden border-b border-rk-border">
           <table className="table-fixed bg-[#f9f9f9]" style={{ width: tableW }}>

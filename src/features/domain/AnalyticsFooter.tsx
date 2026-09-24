@@ -17,12 +17,12 @@ export function AnalyticsFooter({ gap = 138, bottom = 39 }: { gap?: number; bott
           <ChevronDownIcon className="text-[#a9abb6]" />
         </button>
         <div className="mt-7 flex gap-7">
-          <a href="#" className={link}>
+          <button type="button" className={link}>
             Contact us
-          </a>
-          <a href="#" className={link}>
+          </button>
+          <button type="button" className={link}>
             Cookie settings
-          </a>
+          </button>
         </div>
         <div className="mt-7 text-[16px] leading-5 text-[#6c6e79]">© 2026 {brand.legalName}. All rights reserved.</div>
       </footer>

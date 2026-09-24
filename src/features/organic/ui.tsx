@@ -215,10 +215,24 @@ export function Kd({ kd }: { kd: number }) {
   );
 }
 
-export function SerpCell({ count }: { count?: number }) {
+export function HoverTip({ label, children, className = "" }: { label: ReactNode; children: ReactNode; className?: string }) {
   return (
-    <span className="inline-flex items-center">
-      <svg
+    <span className={`group/tip relative inline-flex ${className}`}>
+      {children}
+      <span
+        role="tooltip"
+        className="pointer-events-none invisible absolute bottom-[calc(100%+11px)] left-1/2 z-50 -translate-x-1/2 rounded-md bg-white px-3 py-[11px] text-[14px] leading-5 font-normal whitespace-nowrap text-rk-text opacity-0 shadow-popover transition-opacity delay-150 group-hover/tip:visible group-hover/tip:opacity-100"
+      >
+        {label}
+        <span className="absolute -bottom-[4px] left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 bg-white shadow-[1px_1px_1px_rgba(25,27,35,0.08)]" />
+      </span>
+    </span>
+  );
+}
+
+function SerpGlyph() {
+  return (
+    <svg
         viewBox="0 0 16 16"
         width={18}
         height={18}
@@ -245,6 +259,21 @@ export function SerpCell({ count }: { count?: number }) {
           strokeLinecap="round"
         />
       </svg>
+  );
+}
+
+export function SerpCell({ count, href }: { count?: number; href?: string }) {
+  return (
+    <span className="inline-flex items-center">
+      {href ? (
+        <HoverTip label="Open SERP">
+          <Link href={href} aria-label="Open SERP" className="inline-flex hover:opacity-70">
+            <SerpGlyph />
+          </Link>
+        </HoverTip>
+      ) : (
+        <SerpGlyph />
+      )}
       <span className="mx-2 h-5 w-px bg-rk-border" />
       {count == null ? (
         <span className="text-[#c4c7cf]">·</span>
@@ -715,12 +744,12 @@ export function SimpleFooter() {
         }
       </Popover>
       <div className="mt-[25px] flex gap-7">
-        <a href="#" className="hover:text-rk-text">
+        <button type="button" className="hover:text-rk-text">
           Contact us
-        </a>
-        <a href="#" className="hover:text-rk-text">
+        </button>
+        <button type="button" className="hover:text-rk-text">
           Cookie settings
-        </a>
+        </button>
       </div>
       <p className="mt-6">© 2026 {brand.legalName}. All rights reserved.</p>
     </footer>

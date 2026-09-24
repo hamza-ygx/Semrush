@@ -107,7 +107,7 @@ export function GoToTool({ compact = false }: { compact?: boolean }) {
   );
 }
 
-const scopes = ["Root Domain", "Subdomain", "Subfolder", "Exact URL"] as const;
+const scopes = ["Root Domain", "Exact URL", "Subdomain", "Subfolder"] as const;
 
 export function AnalyzeSearch({
   value,
@@ -131,18 +131,18 @@ export function AnalyzeSearch({
   const h = "h-10 xl:h-8";
   return (
     <form
-      className="flex"
+      className="relative z-50 flex"
       onSubmit={(e) => {
         e.preventDefault();
         router.push(action ?? path);
       }}
     >
-      <div className="relative">
+      <div className={`relative ${open ? "ml-9" : ""}`}>
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder={placeholder}
-          className={`${h} ${inputClassName ?? (scope ? "w-[197px]" : "w-[463px]")} rounded-l-md border border-rk-border-strong bg-white pr-9 pl-3 text-[16px] outline-none focus:border-[#7a86f2]`}
+          className={`${h} ${inputClassName ?? (scope ? (open ? "w-[161px]" : "w-[197px]") : "w-[463px]")} rounded-l-md border border-rk-border-strong bg-white pr-9 pl-3 text-[16px] outline-none focus:border-[#7a86f2]`}
         />
         {q && (
           <button type="button" aria-label="Clear" onClick={() => setQ("")} className="absolute top-1/2 right-3 -translate-y-1/2 text-rk-text-2">
@@ -151,9 +151,10 @@ export function AnalyzeSearch({
         )}
       </div>
       {scope && (
-        <div ref={ref} className="relative">
+        <div ref={ref}>
           <button
             type="button"
+            aria-label="Search type"
             onClick={() => setOpen((o) => !o)}
             className={`${h} flex w-[144px] items-center justify-between border border-l-0 border-rk-border-strong bg-white px-3 text-[16px] whitespace-nowrap text-rk-text`}
           >
@@ -161,7 +162,12 @@ export function AnalyzeSearch({
             <ChevronDown className="text-rk-muted" />
           </button>
           {open && (
-            <div className="absolute top-full left-0 z-50 mt-1 w-[160px] rounded-md bg-white py-1 shadow-popover">
+            <div className="absolute -top-[6px] -right-4 -left-4 -z-10 rounded-b-lg bg-white pt-[58px] pb-1 shadow-popover">
+              <button type="button" aria-label="Back" onClick={() => setOpen(false)} className="absolute top-[14px] left-5 flex h-6 w-6 items-center justify-center text-rk-muted hover:text-rk-text">
+                <svg viewBox="0 0 16 16" width={16} height={16}>
+                  <path d="M13 8H3m4-4L3 8l4 4" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
               {scopes.map((s) => (
                 <button
                   key={s}
@@ -170,9 +176,10 @@ export function AnalyzeSearch({
                     setSc(s);
                     setOpen(false);
                   }}
-                  className={`block w-full px-3 py-[6px] text-left text-[14px] hover:bg-rk-bg ${s === sc ? "bg-[#e9f7ff]" : ""}`}
+                  className={`flex h-10 w-full items-center justify-between border-l-2 pr-4 pl-[14px] text-left text-[16px] ${s === sc ? "border-rk-text bg-[#ebf1ff]" : "border-transparent hover:bg-rk-bg"}`}
                 >
-                  {s}
+                  <span className="text-rk-text">{q || value}</span>
+                  <span className="text-[#6468b5]">{s}</span>
                 </button>
               ))}
             </div>

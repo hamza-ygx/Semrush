@@ -7,8 +7,10 @@ import { ChevronDown, ChevronRight, CloseIcon, ExportIcon, GearIcon, PlusIcon } 
 import { MenuItem, Popover } from "@/components/ui/Popover";
 import { monthLabels, positionRows, positionsTrend, summary, type PositionRow } from "./data";
 import { Delta, KwSpark, TrafficSpark, useTrendChart } from "./OverviewView";
-import { Checkbox, ExtLink, IntentBadge, Kd, KeywordLink, NotesMenu, Pagination, PinIcon, Segmented, SerpCell, SortIcon, TimeRange, ext } from "./ui";
+import { Checkbox, ExtLink, HoverTip, IntentBadge, Kd, KeywordLink, NotesMenu, Pagination, PinIcon, Segmented, SerpCell, SortIcon, TimeRange, ext } from "./ui";
 import { FilterBar, useStuck } from "./FilterBar";
+import { AdvancedFilters, CheckFilter, ExportPopover, RangeFilter, SerpFeaturesFilter } from "./filters";
+import { RankedUrls } from "./RankedUrls";
 
 function Metric({ label, value, delta, children, className = "" }: { label: string; value: string; delta: string; children?: ReactNode; className?: string }) {
   return (
@@ -101,7 +103,7 @@ export function TrackingBanner({ text = "Create a new project to see your positi
         <path d="M100 18 112 30l-6 1 4 7-3 2-4-7-4 4z" fill="#fff" stroke="#191b23" strokeWidth="1.6" strokeLinejoin="round" />
       </svg>
       <div className="ml-[30px] pt-[7px]">
-        <div className="text-[16px] leading-6 font-semibold">Track your rankings every day</div>
+        <div className="text-[16px] leading-6 font-semibold">Where do you rank on ChatGPT?</div>
         <div className="mt-[3px] text-[16px] leading-6">{text}</div>
         <Link href={routes.positionTracking} className="mt-[10px] inline-flex h-7 items-center rounded-md bg-[#009f81] px-[9px] text-[14px] font-semibold text-white hover:bg-[#007c65]">
           {cta}
@@ -168,36 +170,81 @@ export function IconBtn({ children, label, onClick }: { children: ReactNode; lab
   );
 }
 
-function ColumnsMenu() {
-  const [shown, setShown] = useState(() => new Set(["Intent", "Position", "SERP Features", "Traffic", "Traffic %", "Volume", "KD %", "URL", "Updated"]));
+const allColumns = ["Keyword", "Intent", "Prev. position", "Position", "SERP Features", "Traffic", "Traffic %", "Volume", "KD %", "CPC", "URL", "Costs", "Competitive Density", "Results", "Last Update"];
+const lockedColumns = ["Keyword", "Position"];
+const defaultColumns = ["Keyword", "Intent", "Position", "SERP Features", "Traffic", "Traffic %", "Volume", "KD %", "URL", "Last Update"];
+
+function DarkCheck({ checked, disabled }: { checked: boolean; disabled?: boolean }) {
+  return (
+    <span
+      className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border ${
+        checked ? (disabled ? "border-[#b4b6bd] bg-[#b4b6bd]" : "border-rk-btn-dark bg-rk-btn-dark") : "border-rk-border-strong bg-white"
+      }`}
+    >
+      {checked && (
+        <svg viewBox="0 0 16 16" width={12} height={12}>
+          <path d="m3.5 8.5 3 3 6-6.5" fill="none" stroke="#fff" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )}
+    </span>
+  );
+}
+
+function ColumnsMenu({ shown, onChange }: { shown: Set<string>; onChange: (s: Set<string>) => void }) {
+  const isDefault = defaultColumns.length === shown.size && defaultColumns.every((c) => shown.has(c));
   return (
     <Popover
       align="right"
-      panelClassName="w-[200px]"
-      trigger={({ toggle }) => (
-        <IconBtn label="Table settings" onClick={toggle}>
-          <GearIcon width={18} height={18} />
-        </IconBtn>
+      offset={7}
+      panelClassName="w-[178px] !pb-0 !pt-0"
+      trigger={({ toggle, open }) => (
+        <HoverTip label="Manage columns">
+          <button
+            type="button"
+            aria-label="Manage columns"
+            onClick={toggle}
+            className={`flex h-7 w-7 items-center justify-center rounded-md border text-rk-text-2 ${open ? "border-[#9aa2ea] bg-[#eef0fb]" : "border-rk-border-strong bg-[#f4f5f9] hover:bg-rk-hover"}`}
+          >
+            <GearIcon width={18} height={18} />
+          </button>
+        </HoverTip>
       )}
     >
-      {() =>
-        ["Intent", "Position", "SERP Features", "Traffic", "Traffic %", "Volume", "KD %", "URL", "Updated", "CPC", "Com.", "Results"].map((c) => (
-          <MenuItem
-            key={c}
-            onClick={() =>
-              setShown((prev) => {
-                const n = new Set(prev);
-                if (n.has(c)) n.delete(c);
-                else n.add(c);
-                return n;
-              })
-            }
+      {() => (
+        <div>
+          <div className="px-2 pt-[7px] text-[14px] leading-5 font-medium">Show table columns</div>
+          <button
+            type="button"
+            disabled={isDefault}
+            onClick={() => onChange(new Set(defaultColumns))}
+            className={`mt-[7px] px-2 text-[14px] leading-5 ${isDefault ? "text-[#a8c1f5]" : "text-rk-link hover:text-rk-link-hover"}`}
           >
-            <Checkbox checked={shown.has(c)} />
-            {c}
-          </MenuItem>
-        ))
-      }
+            Reset to default
+          </button>
+          <div className="mt-[6px]">
+            {allColumns.map((c) => {
+              const locked = lockedColumns.includes(c);
+              return (
+                <button
+                  key={c}
+                  type="button"
+                  disabled={locked}
+                  onClick={() => {
+                    const n = new Set(shown);
+                    if (n.has(c)) n.delete(c);
+                    else n.add(c);
+                    onChange(n);
+                  }}
+                  className={`flex h-8 w-full items-center gap-[10px] px-2 text-left text-[14px] leading-5 whitespace-nowrap ${locked ? "text-[#a9abb6]" : "text-rk-text hover:bg-rk-bg"}`}
+                >
+                  <DarkCheck checked={shown.has(c)} disabled={locked} />
+                  {c}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </Popover>
   );
 }
@@ -218,15 +265,21 @@ export function ExportMenu() {
   );
 }
 
-function Row({ r, checked, toggle }: { r: PositionRow; checked: boolean; toggle: () => void }) {
+const serpHref = (r: PositionRow) =>
+  `${routes.serp}?phrase=${encodeURIComponent(r.keyword).replace(/%20/g, "+")}&domain=rkjh.se&db=se&position=${r.local ? 1 : r.position}&type=${r.local ? "local" : "organic"}`;
+
+type Vis = (c: string) => boolean;
+
+function Row({ r, checked, toggle, vis }: { r: PositionRow; checked: boolean; toggle: () => void; vis: Vis }) {
   const [open, setOpen] = useState(false);
   const cell = "pt-[14px] pb-[13.5px] align-top";
   const line = "flex h-5 items-center";
+  const span = 2 + allColumns.filter((c) => vis(c) && colDefs[c]).length;
   return (
     <>
-      <tr className="border-b border-rk-border hover:bg-[#fafafb]">
+      <tr className={`border-b border-rk-border ${open ? "bg-rk-bg" : "hover:bg-[#fafafb]"}`}>
         <td className={`${cell} pl-[19px]`}>
-          <button type="button" aria-label="Expand" onClick={() => setOpen((o) => !o)} className={`${line} text-rk-text-2 hover:text-rk-text`}>
+          <button type="button" aria-label="Expand" aria-expanded={open} onClick={() => setOpen((o) => !o)} className={`${line} text-rk-text-2 hover:text-rk-text`}>
             <ChevronRight className={open ? "rotate-90" : ""} />
           </button>
         </td>
@@ -238,59 +291,65 @@ function Row({ r, checked, toggle }: { r: PositionRow; checked: boolean; toggle:
         <td className={`${cell} pr-4 leading-[18px]`}>
           <KeywordLink keyword={r.keyword} plus />
         </td>
-        <td className={cell}>
-          <span className={`${line} justify-center`}>
-            <IntentBadge intent={r.intent} />
-          </span>
-        </td>
+        {vis("Intent") && (
+          <td className={cell}>
+            <span className={`${line} justify-center`}>
+              <IntentBadge intent={r.intent} />
+            </span>
+          </td>
+        )}
         <td className={cell}>
           <span className={`${line} justify-end`}>{r.local ? <PinIcon className="text-rk-link" /> : r.position}</span>
         </td>
-        <td className={`${cell} pl-4`}>
-          <span className={line}>
-            <SerpCell count={r.sf} />
-          </span>
-        </td>
-        <td className={`${cell} pr-2`}>
-          <span className={`${line} justify-end`}>{r.traffic}</span>
-        </td>
-        <td className={`${cell} pr-2`}>
-          <span className={`${line} justify-end`}>{r.pct}</span>
-        </td>
-        <td className={cell}>
-          <span className={`${line} justify-end`}>{r.volume}</span>
-        </td>
-        <td className={cell}>
-          <span className={`${line} justify-end`}>
-            <Kd kd={r.kd} />
-          </span>
-        </td>
-        <td className="pt-4 pr-[9.5px] pb-[9.5px] pl-[17px] align-top">
-          <span className="flex items-start gap-[6px]">
-            <a href={ext(r.url)} target="_blank" rel="noreferrer" className="leading-[16.5px] break-all text-rk-link tabular-nums hover:text-rk-link-hover">
-              {r.url}
-            </a>
-            <ExtLink href={r.url} className="-mt-[1px]" />
-          </span>
-        </td>
-        <td className={`${cell} pr-5`}>
-          <span className={`${line} justify-end whitespace-nowrap`}>{r.updated}</span>
-        </td>
+        {vis("SERP Features") && (
+          <td className={`${cell} pl-4`}>
+            <span className={line}>
+              <SerpCell count={r.sf} href={serpHref(r)} />
+            </span>
+          </td>
+        )}
+        {vis("Traffic") && (
+          <td className={`${cell} pr-2`}>
+            <span className={`${line} justify-end`}>{r.traffic}</span>
+          </td>
+        )}
+        {vis("Traffic %") && (
+          <td className={`${cell} pr-2`}>
+            <span className={`${line} justify-end`}>{r.pct}</span>
+          </td>
+        )}
+        {vis("Volume") && (
+          <td className={cell}>
+            <span className={`${line} justify-end`}>{r.volume}</span>
+          </td>
+        )}
+        {vis("KD %") && (
+          <td className={cell}>
+            <span className={`${line} justify-end`}>
+              <Kd kd={r.kd} />
+            </span>
+          </td>
+        )}
+        {vis("URL") && (
+          <td className="pt-4 pr-[9.5px] pb-[9.5px] pl-[17px] align-top">
+            <span className="flex items-start gap-[6px]">
+              <a href={ext(r.url)} target="_blank" rel="noreferrer" className="leading-[16.5px] break-all text-rk-link tabular-nums hover:text-rk-link-hover">
+                {r.url}
+              </a>
+              <ExtLink href={r.url} className="-mt-[1px]" />
+            </span>
+          </td>
+        )}
+        {vis("Last Update") && (
+          <td className={`${cell} pr-5`}>
+            <span className={`${line} justify-end whitespace-nowrap`}>{r.updated}</span>
+          </td>
+        )}
       </tr>
       {open && (
-        <tr className="border-b border-rk-border bg-[#f7f7f9]">
-          <td colSpan={12} className="py-4 pr-5 pl-[93px] text-[14px] text-rk-text-2">
-            <div className="flex gap-10">
-              <span>
-                Position history: <b className="text-rk-text">{r.local ? "Local pack" : `#${r.position}`}</b>
-              </span>
-              <span>
-                SERP Features: <b className="text-rk-text">{r.sf}</b>
-              </span>
-              <Link href={`${routes.keywordOverview}?q=${encodeURIComponent(r.keyword)}&db=se`} className="text-rk-link">
-                Open in Keyword Overview
-              </Link>
-            </div>
+        <tr className="border-b border-rk-border bg-rk-bg">
+          <td colSpan={span} className="px-5 pt-5 pb-5">
+            <RankedUrls r={r} />
           </td>
         </tr>
       )}
@@ -298,50 +357,129 @@ function Row({ r, checked, toggle }: { r: PositionRow; checked: boolean; toggle:
   );
 }
 
-function PositionsTable({ tab, filter }: { tab: string; filter: string }) {
+const colDefs: Record<string, { w?: string }> = {
+  Keyword: {},
+  Intent: { w: "w-[48px]" },
+  Position: { w: "w-[46px]" },
+  "SERP Features": { w: "w-[64px]" },
+  Traffic: { w: "w-[55px]" },
+  "Traffic %": { w: "w-[68px]" },
+  Volume: { w: "w-[50px]" },
+  "KD %": { w: "w-[53px]" },
+  URL: { w: "w-[271px]" },
+  "Last Update": { w: "w-[73px]" },
+};
+
+export type PositionFilters = {
+  pos: string | null;
+  vol: string | null;
+  kd: string | null;
+  intent: string[];
+  serp: string | null;
+  adv: { mode: string; field: string; op: string; text: string }[];
+};
+
+const kdRanges: Record<string, string> = {
+  "Very hard": "85-100%",
+  Hard: "70-84%",
+  Difficult: "50-69%",
+  Possible: "30-49%",
+  Easy: "15-29%",
+  "Very easy": "0-14%",
+};
+
+function range(v: string): [number, number] {
+  if (kdRanges[v]) return range(kdRanges[v]);
+  const t = v.replace(/[#,%\s]/g, "").replace("–", "-");
+  if (t.startsWith("Top")) return [1, +t.slice(3)];
+  if (t.endsWith("+")) return [+t.slice(0, -1), Infinity];
+  const [a, b] = t.split("-");
+  return [+a || 0, b == null ? +a : b === "∞" ? Infinity : +b];
+}
+
+const inRange = (n: number, v: string | null) => {
+  if (!v) return true;
+  const [a, b] = range(v);
+  return n >= a && n <= b;
+};
+
+const intentCode: Record<string, string> = { Informational: "I", Navigational: "N", Commercial: "C", Transactional: "T" };
+
+function matches(r: PositionRow, f: PositionFilters) {
+  if (!inRange(r.local ? 1 : r.position, f.pos)) return false;
+  if (!inRange(num(r.volume), f.vol)) return false;
+  if (!inRange(r.kd, f.kd)) return false;
+  if (f.intent.length && !f.intent.some((i) => intentCode[i] === r.intent)) return false;
+  for (const c of f.adv) {
+    const hay = (c.field === "URL" ? r.url : r.keyword).toLowerCase();
+    const needle = c.text.toLowerCase();
+    const hit = c.op === "Begins with" ? hay.startsWith(needle) : c.op === "Ends with" ? hay.endsWith(needle) : c.op === "Exact match" ? hay === needle : hay.includes(needle);
+    const want = c.op === "Not containing" ? !hit : hit;
+    if (c.mode === "Include" ? !want : want) return false;
+  }
+  return true;
+}
+
+export const noFilters: PositionFilters = { pos: null, vol: null, kd: null, intent: [], serp: null, adv: [] };
+
+function PositionsTable({ tab, filter, filters }: { tab: string; filter: string; filters: PositionFilters }) {
   const [sort, setSort] = useState<{ key: SortKey; dir: 1 | -1 }>({ key: "pct", dir: -1 });
   const [sel, setSel] = useState<Set<number>>(new Set());
   const [page, setPage] = useState(1);
+  const [shown, setShown] = useState(() => new Set(defaultColumns));
+  const vis: Vis = (c) => shown.has(c);
   const rows = useMemo(() => {
     let list = positionRows.map((r, i) => ({ r, i }));
     if (tab === "SERP Features") list = list.filter(({ r }) => r.local);
     if (tab === "Organic") list = list.filter(({ r }) => !r.local);
     if (filter) list = list.filter(({ r }) => r.keyword.includes(filter.toLowerCase()));
+    list = list.filter(({ r }) => matches(r, filters));
     if (sort.key !== "pct" || sort.dir !== -1) {
       const val = (r: PositionRow) => (sort.key === "position" ? r.position : sort.key === "traffic" ? r.traffic : sort.key === "pct" ? num(r.pct) : sort.key === "volume" ? num(r.volume) : r.kd);
       list = [...list].sort((a, b) => (val(a.r) - val(b.r)) * sort.dir);
     }
     return list;
-  }, [tab, filter, sort]);
+  }, [tab, filter, filters, sort]);
+  const filtered = filters !== noFilters || !!filter;
+  const total = tab === "SERP Features" ? 1 : filtered ? rows.length : 134;
   const onSort = (k: SortKey) => setSort((s) => (s.key === k ? { key: k, dir: s.dir === 1 ? -1 : 1 } : { key: k, dir: -1 }));
   const all = rows.length > 0 && rows.every(({ i }) => sel.has(i));
   const { ref: stuckRef, stuck } = useStuck(60);
   return (
     <div className="rounded-lg bg-white shadow-card">
-      <div ref={stuckRef} className={`sticky top-[60px] z-20 flex h-[43px] items-center justify-between rounded-t-lg bg-white px-5 ${stuck ? "border-b border-rk-border" : ""}`}>
+      <div ref={stuckRef} className={`sticky top-[60px] z-20 flex h-[43px] focus-within:z-[31] hover:z-[31] items-center justify-between rounded-t-lg bg-white px-5 ${stuck ? "border-b border-rk-border" : ""}`}>
         <div className="text-[14px]">
-          Organic Search Positions: <b>{tab === "SERP Features" ? 1 : 134}</b>
+          Organic Search Positions: <b>{total}</b>
         </div>
         <div className="flex items-center gap-2">
           <AddToList />
-          <ColumnsMenu />
-          <ExportMenu />
+          <ColumnsMenu shown={shown} onChange={setShown} />
+          <ExportPopover
+            total={total}
+            selected={sel.size}
+            first={Math.min(100, total)}
+            trigger={(open, toggle) => (
+              <button
+                type="button"
+                aria-label="Export"
+                onClick={toggle}
+                className={`flex h-7 w-7 items-center justify-center rounded-md border text-rk-text-2 ${open ? "border-[#9aa2ea] bg-[#eef0fb]" : "border-rk-border-strong bg-[#f4f5f9] hover:bg-rk-hover"}`}
+              >
+                <ExportIcon width={18} height={18} />
+              </button>
+            )}
+          />
         </div>
       </div>
       <table className="w-full table-fixed text-[14px]">
         <colgroup>
           <col className="w-[42px]" />
           <col className="w-[31px]" />
-          <col />
-          <col className="w-[48px]" />
-          <col className="w-[46px]" />
-          <col className="w-[64px]" />
-          <col className="w-[55px]" />
-          <col className="w-[68px]" />
-          <col className="w-[50px]" />
-          <col className="w-[53px]" />
-          <col className="w-[271px]" />
-          <col className="w-[73px]" />
+          {allColumns
+            .filter((c) => vis(c) && colDefs[c])
+            .map((c) => (
+              <col key={c} className={colDefs[c].w} />
+            ))}
         </colgroup>
         <thead>
           <tr className="h-[41px] border-y border-rk-border bg-[#f8f8fa] text-left">
@@ -352,61 +490,88 @@ function PositionsTable({ tab, filter }: { tab: string; filter: string }) {
             <Th sort={sort} onSort={onSort} className="text-left">
               Keyword
             </Th>
-            <Th sort={sort} onSort={onSort} className="text-left">
-              Intent
-            </Th>
+            {vis("Intent") && (
+              <Th sort={sort} onSort={onSort} className="text-left">
+                Intent
+              </Th>
+            )}
             <Th k="position" sort={sort} onSort={onSort} className="text-right">
               Position
             </Th>
-            <Th sort={sort} onSort={onSort} className="pl-4 text-left">
-              SF
-            </Th>
-            <Th k="traffic" sort={sort} onSort={onSort} className="pr-2 text-right">
-              Traffic
-            </Th>
-            <Th k="pct" sort={sort} onSort={onSort} className="pl-2 text-left">
-              <span className="w-[37px] truncate">Traffic %</span>
-            </Th>
-            <Th k="volume" sort={sort} onSort={onSort} className="text-right">
-              Volume
-            </Th>
-            <Th k="kd" sort={sort} onSort={onSort} className="text-right">
-              KD %
-            </Th>
-            <Th sort={sort} onSort={onSort} className="pl-[17px] text-left">
-              URL
-            </Th>
-            <Th sort={sort} onSort={onSort} className="pr-5 text-right">
-              Updated
-            </Th>
+            {vis("SERP Features") && (
+              <Th sort={sort} onSort={onSort} className="pl-4 text-left">
+                SF
+              </Th>
+            )}
+            {vis("Traffic") && (
+              <Th k="traffic" sort={sort} onSort={onSort} className="pr-2 text-right">
+                Traffic
+              </Th>
+            )}
+            {vis("Traffic %") && (
+              <Th k="pct" sort={sort} onSort={onSort} className="pl-2 text-left">
+                <span className="w-[37px] truncate">Traffic %</span>
+              </Th>
+            )}
+            {vis("Volume") && (
+              <Th k="volume" sort={sort} onSort={onSort} className="text-right">
+                Volume
+              </Th>
+            )}
+            {vis("KD %") && (
+              <Th k="kd" sort={sort} onSort={onSort} className="text-right">
+                KD %
+              </Th>
+            )}
+            {vis("URL") && (
+              <Th sort={sort} onSort={onSort} className="pl-[17px] text-left">
+                URL
+              </Th>
+            )}
+            {vis("Last Update") && (
+              <Th sort={sort} onSort={onSort} className="pr-5 text-right">
+                Updated
+              </Th>
+            )}
           </tr>
         </thead>
         <tbody>
           {rows.slice((page - 1) * 100, page * 100).map(({ r, i }) => (
-            <Row key={i} r={r} checked={sel.has(i)} toggle={() => setSel((s) => { const n = new Set(s); if (n.has(i)) n.delete(i); else n.add(i); return n; })} />
+            <Row key={i} r={r} vis={vis} checked={sel.has(i)} toggle={() => setSel((s) => { const n = new Set(s); if (n.has(i)) n.delete(i); else n.add(i); return n; })} />
           ))}
         </tbody>
       </table>
       <div className="px-5 pt-[21px] pb-5">
-        <Pagination pages={2} onPage={setPage} />
+        <Pagination pages={Math.max(1, Math.ceil(total / 100))} onPage={setPage} />
       </div>
     </div>
   );
 }
 
+const intentOptions = ["Informational", "Navigational", "Commercial", "Transactional"];
+
 export function PositionsView() {
   const [tab, setTab] = useState<"All Positions" | "Organic" | "SERP Features">("All Positions");
   const [filter, setFilter] = useState("");
+  const [filters, setFilters] = useState<PositionFilters>(noFilters);
+  const set = (p: Partial<PositionFilters>) => setFilters((f) => ({ ...f, ...p }));
   return (
     <div>
       <div className="px-8 pt-[14px]">
         <Segmented options={["All Positions", "Organic", "SERP Features"] as const} value={tab} onChange={setTab} size="s" />
       </div>
-      <FilterBar onFilter={setFilter} />
+      <FilterBar onFilter={setFilter}>
+        <RangeFilter label="Positions" compact value={filters.pos} onChange={(v) => set({ pos: v })} groups={[["Top 50", "Top 20", "Top 10", "Top 3"], ["#1", "#4-10", "#11-20", "#21-50", "#51-100"]]} />
+        <RangeFilter label="Volume" value={filters.vol} onChange={(v) => set({ vol: v })} groups={[["100,001+", "10,001–100,000", "1,001–10,000", "101–1,000", "11–100", "1–10"]]} />
+        <RangeFilter label="KD" value={filters.kd} onChange={(v) => set({ kd: v })} groups={[Object.keys(kdRanges)]} right={kdRanges} />
+        <CheckFilter label="Intent" options={intentOptions} value={filters.intent} onChange={(v) => set({ intent: v })} info />
+        <SerpFeaturesFilter value={filters.serp} onChange={(v) => set({ serp: v })} />
+        <AdvancedFilters fields={["Keyword", "URL"]} onApply={(adv) => set({ adv })} />
+      </FilterBar>
       <div className="flex flex-col gap-4 px-8">
         <SummaryCard />
         <TrackingBanner />
-        <PositionsTable tab={tab} filter={filter} />
+        <PositionsTable tab={tab} filter={filter} filters={filters} />
       </div>
     </div>
   );

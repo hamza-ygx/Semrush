@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { FilterDropdown, SearchInput } from "./ui";
 
 export function useStuck(offset = 0) {
@@ -28,14 +28,12 @@ export const positionFilters = [
   { label: "Advanced filters", options: ["Include keywords", "Exclude keywords", "CPC", "Competition", "Results", "Traffic", "URL"] },
 ];
 
-export function FilterBar({ onFilter, filters = positionFilters }: { onFilter?: (v: string) => void; filters?: { label: string; options: string[] }[] }) {
+export function FilterBar({ onFilter, filters = positionFilters, children }: { onFilter?: (v: string) => void; filters?: { label: string; options: string[] }[]; children?: ReactNode }) {
   const { ref, stuck } = useStuck(0);
   return (
     <div ref={ref} className={`sticky top-0 z-30 flex h-[59px] items-center gap-[8px] bg-[#f9f9fa] px-8 ${stuck ? "h-[60px] border-b border-rk-border shadow-[0_1px_2px_rgba(25,27,35,0.06)]" : ""}`}>
       <SearchInput placeholder="Filter by keyword" width="w-[196px]" onChange={onFilter} />
-      {filters.map((f) => (
-        <FilterDropdown key={f.label} label={f.label} options={f.options} />
-      ))}
+      {children ?? filters.map((f) => <FilterDropdown key={f.label} label={f.label} options={f.options} />)}
     </div>
   );
 }

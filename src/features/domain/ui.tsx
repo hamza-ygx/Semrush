@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useState, type ReactNode, type SVGProps } from "react";
-import { MenuItem, useOutsideClose } from "@/components/ui/Popover";
-import { DotsIcon, ExportIcon, GlobeIcon, FlagSE, FlagUK, FlagUS } from "@/components/ui/icons";
+import { useOutsideClose } from "@/components/ui/Popover";
+import { DotsIcon, ExportIcon, GlobeIcon, FlagSE, FlagUK, FlagUS, SearchIcon } from "@/components/ui/icons";
+import { CountryFlag, allCountries, topCountries } from "./countries";
 import type { Intent } from "./data";
 
 export function Seg<T extends string>({
@@ -316,19 +317,36 @@ export const WorldIcon = (p: SVGProps<SVGSVGElement>) => (
 export function DatabaseSelector<T extends string>({
   items,
   initial,
-  more,
 }: {
   items: readonly T[];
   initial: T;
-  more: string[];
+  more?: string[];
 }) {
   const [value, setValue] = useState<string>(initial);
   const [open, setOpen] = useState(false);
+  const [q, setQ] = useState("");
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
   const extra = !items.includes(value as T);
   const cell = "relative -ml-px flex h-7 items-center gap-2 border px-[8px] text-[14px] leading-5 text-rk-text first:ml-0 first:rounded-l-md";
   const on = "z-10 border-[#a3a8ea] bg-[#eef2fd]";
   const off = "border-[#d9dae0] bg-white hover:bg-rk-bg";
+  const match = (c: { name: string }) => c.name.toLowerCase().includes(q.trim().toLowerCase());
+  const pick = (code: string) => {
+    setValue(code);
+    setOpen(false);
+    setQ("");
+  };
+  const row = (c: { code: string; name: string }) => (
+    <button
+      key={c.code}
+      type="button"
+      onClick={() => pick(c.code)}
+      className={`flex h-8 w-full items-center gap-[6px] border-l-2 pl-[7px] text-left text-[14px] leading-5 text-rk-text ${c.code === value ? "border-rk-text bg-[#eef0fb]" : "border-transparent hover:bg-rk-bg"}`}
+    >
+      <CountryFlag code={c.code} />
+      {c.name}
+    </button>
+  );
   return (
     <div ref={ref} className="relative inline-flex">
       {items.map((it) => (
@@ -337,30 +355,82 @@ export function DatabaseSelector<T extends string>({
           {it}
         </button>
       ))}
-      {extra && <span className={`${cell} ${on}`}>{value}</span>}
-      <button type="button" aria-label="More databases" onClick={() => setOpen((o) => !o)} className={`${cell} rounded-r-md !px-[7px] ${open ? "bg-rk-hover" : ""} border-[#d9dae0] bg-white hover:bg-rk-bg`}>
-        <DotsIcon width={18} height={18} />
+      {extra && (
+        <span className={`${cell} ${on}`}>
+          <CountryFlag code={value} />
+          {value}
+        </span>
+      )}
+      <span className="relative -ml-px inline-flex">
+        <button type="button" aria-label="More databases" onClick={() => setOpen((o) => !o)} className={`${cell} !ml-0 rounded-r-md !px-[7px] ${open ? "bg-rk-hover" : ""} border-[#d9dae0] bg-white hover:bg-rk-bg`}>
+          <DotsIcon width={18} height={18} />
+        </button>
+        {open && (
+          <div className="absolute top-[calc(100%+4px)] left-0 z-50 w-[259px] rounded-md bg-white shadow-popover">
+            <div className="relative">
+              <SearchIcon className="pointer-events-none absolute top-1/2 left-[10px] -translate-y-1/2 text-[#a9abb6]" />
+              <input
+                autoFocus
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder="Search by country"
+                className="h-[36px] w-full rounded-md border-2 border-[#8f9cea] pr-2 pl-[32px] text-[14px] outline-none placeholder:text-[#a9abb6]"
+              />
+            </div>
+            <div className="mt-[2px] max-h-[284px] overflow-y-auto pb-1 [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#c4c7cf]">
+              {topCountries.filter(match).map((c) => row({ ...c, code: c.code }))}
+              <div className="border-t border-rk-border" />
+              {allCountries.filter(match).map(row)}
+            </div>
+          </div>
+        )}
+      </span>
+    </div>
+  );
+}
+
+export function HeaderSelect({
+  id,
+  label,
+  icon,
+  width,
+  children,
+}: {
+  id: string;
+  label: ReactNode;
+  icon?: ReactNode;
+  width: number;
+  children: (close: () => void) => ReactNode;
+}) {
+  const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
+  const ref = useOutsideClose<HTMLDivElement>(open, close);
+  return (
+    <div ref={ref} className="relative inline-flex">
+      <button type="button" data-select={id} onClick={() => setOpen((o) => !o)} className="group flex items-center gap-1 text-[14px] text-rk-link hover:text-rk-link-hover">
+        {icon}
+        <span className="underline-offset-[3px] group-hover:underline">{label}</span>
+        <svg viewBox="0 0 16 16" width={16} height={16}>
+          <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       </button>
       {open && (
-        <div className="absolute top-[calc(100%+4px)] left-0 z-50 max-h-[320px] w-[240px] overflow-auto rounded-md bg-white py-1 shadow-popover">
-          <div className="px-3 pt-1 pb-2">
-            <input autoFocus placeholder="Search database" className="h-7 w-full rounded-md border border-rk-border-strong px-2 text-[14px] outline-none focus:border-[#7a86f2]" />
-          </div>
-          {more.map((m) => (
-            <MenuItem
-              key={m}
-              active={m === value}
-              className="px-3"
-              onClick={() => {
-                setValue(m);
-                setOpen(false);
-              }}
-            >
-              {m}
-            </MenuItem>
-          ))}
+        <div style={{ width }} className="absolute top-[calc(100%+6px)] left-0 z-50 rounded-md bg-white py-1 shadow-popover">
+          {children(close)}
         </div>
       )}
     </div>
+  );
+}
+
+export function HeaderOption({ active, onClick, children, className = "" }: { active?: boolean; onClick: () => void; children: ReactNode; className?: string }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex min-h-8 w-full items-center gap-[6px] border-l-2 pr-2 pl-[6px] text-left text-[14px] leading-5 text-rk-text ${active ? "border-rk-text bg-[#eef0fb]" : "border-transparent hover:bg-rk-bg"} ${className}`}
+    >
+      {children}
+    </button>
   );
 }
