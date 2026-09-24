@@ -126,7 +126,7 @@ export function LaunchAssistant() {
   const router = useRouter();
   const [modal, setModal] = useState(false);
   return (
-    <AppShell section="ad" project search={{ kind: "goto" }} footer={false} enterprise={false}>
+    <AppShell section="ad" project projectWidth={146} search={{ kind: "goto" }} footer={false} enterprise={false}>
       <div className="relative">
         <div className="absolute inset-x-0 top-0 h-[673px]" style={{ background: NAVY }} />
         <div className="relative flex px-[102px] pt-[81px]">

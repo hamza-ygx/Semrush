@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { NavBadge, navHeading } from "./navExtras";
 import { useEffect, useState } from "react";
 import { sectionNavs } from "@/config/routes";
 import { ArrowLeft, ExternalIcon } from "../ui/icons";
@@ -41,7 +42,7 @@ export function NavDrawer({ section, onClose }: { section: Section; onClose: () 
             <div className="mt-[29px] mb-[10px] px-3 text-[16px] leading-5 font-semibold">{nav.title}</div>
             {nav.groups.map((g, gi) => (
               <div key={gi} className={g.heading ? (gi === 0 ? "mt-[19px]" : "mt-5") : gi > 0 ? "mt-3" : ""}>
-                {g.heading && <div className="mb-2 px-3 text-[14px] leading-5 text-rk-muted">{g.heading}</div>}
+                {g.heading && <div className="mb-2 px-3 text-[14px] leading-5 text-rk-muted">{navHeading(g.heading)}</div>}
                 {g.items.map((it) => (
                   <Link
                     key={it.href}
@@ -49,7 +50,10 @@ export function NavDrawer({ section, onClose }: { section: Section; onClose: () 
                     onClick={onClose}
                     className={`flex h-10 items-center justify-between rounded-md px-3 text-[16px] text-rk-text ${isActive(it, path) ? "bg-[#e3e4e5]" : "hover:bg-[#e3e4e5]"}`}
                   >
-                    <span className="truncate">{it.label}</span>
+                    <span className="flex min-w-0 items-center">
+                      <span className="truncate">{it.label}</span>
+                      <NavBadge href={it.href} />
+                    </span>
                     {it.external && <ExternalIcon width={16} height={16} className="mr-[1px] shrink-0 text-rk-muted" />}
                   </Link>
                 ))}

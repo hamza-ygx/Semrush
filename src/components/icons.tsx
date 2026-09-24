@@ -234,6 +234,20 @@ export const CardSocialIcon = (p: P) => (
   </svg>
 );
 
+export const RkjhFaviconSquare = (p: P) => (
+  <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
+    <defs>
+      <linearGradient id="rkjh-sq-b" x1="0" y1="8" x2="0" y2="16" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stopColor="#3a1216" />
+        <stop offset="0.35" stopColor="#120304" />
+        <stop offset="1" stopColor="#03100a" />
+      </linearGradient>
+    </defs>
+    <rect x="0" y="0" width="16" height="16" rx="3" fill="url(#rkjh-sq-b)" />
+    <path d="M3 0h10a3 3 0 0 1 3 3v5H0V3a3 3 0 0 1 3-3z" fill="#f02940" />
+  </svg>
+);
+
 export const RkjhFavicon = (p: P) => (
   <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
     <rect x="0.5" y="1.5" width="15" height="13" rx="3" fill="#191b23" />

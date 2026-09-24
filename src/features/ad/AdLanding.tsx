@@ -168,7 +168,7 @@ export function AdHome() {
   const [modal, setModal] = useState(false);
   const cta = (i: number) => (i === 0 ? router.push(routes.ad.aiAgent) : i === 2 || i === 3 || i === 4 ? router.push(routes.ad.launchAssistant) : i === 1 ? router.push(routes.ad.research) : setModal(true));
   return (
-    <AppShell section="ad" project search={{ kind: "goto" }} footer={false} enterprise={false}>
+    <AppShell section="ad" project projectWidth={146} search={{ kind: "goto" }} footer={false} enterprise={false} help="none">
       <div className="relative">
         <div className="absolute inset-x-0 top-0 h-[600px] overflow-hidden" style={{ background: NAVY }}>
           <HeroPattern />

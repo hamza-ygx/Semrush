@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { NavBadge, navHeading } from "./navExtras";
 import { brand } from "@/config/brand";
 import { sectionNavs, type NavItem } from "@/config/routes";
 import { ExternalIcon } from "../ui/icons";
@@ -20,7 +21,7 @@ export function SectionNav({ section = "seo" }: { section?: string }) {
       <div className="px-[19px] pt-[calc(16*var(--u))] pb-[calc(9*var(--u))] text-[14px] leading-5 font-semibold">{nav.title}</div>
       {nav.groups.map((g, gi) => (
         <div key={gi} className={g.heading ? "mt-[calc(18*var(--u))]" : gi > 0 ? "mt-[calc(12*var(--u))]" : ""}>
-          {g.heading && <div className="mb-[calc(8*var(--u))] px-[19px] text-[13px] leading-[18px] text-rk-muted">{g.heading}</div>}
+          {g.heading && <div className="mb-[calc(8*var(--u))] px-[19px] text-[13px] leading-[18px] text-rk-muted">{navHeading(g.heading)}</div>}
           {g.items.map((it) => (
             <Link
               key={it.href}
@@ -36,7 +37,10 @@ export function SectionNav({ section = "seo" }: { section?: string }) {
                   <ExternalIcon className="text-rk-muted" />
                 </span>
               ) : (
-                it.label
+                <>
+                  {it.label}
+                  <NavBadge href={it.href} className="align-[1px]" />
+                </>
               )}
             </Link>
           ))}

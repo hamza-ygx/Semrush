@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { RkjhFavicon } from "../icons";
+import { RkjhFavicon, RkjhFaviconSquare } from "../icons";
 import { CheckIcon, ChevronDown, PlusIcon } from "../ui/icons";
 import { useOutsideClose } from "../ui/Popover";
 
 const folders = ["www.rkjh.se"];
 
-export function ProjectSelect() {
+export function ProjectSelect({ width = 162 }: { width?: number }) {
   const [open, setOpen] = useState(false);
   const [current, setCurrent] = useState(folders[0]);
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
@@ -17,11 +17,12 @@ export function ProjectSelect() {
         type="button"
         aria-label="Select folder"
         onClick={() => setOpen((o) => !o)}
-        className="flex h-10 w-[162px] items-center gap-2 rounded-md border border-rk-border bg-white pr-[10px] pl-[12px] text-[16px] text-rk-text hover:bg-rk-bg xl:h-8 xl:text-[14px]"
+        style={{ width }}
+        className="flex h-10 items-center gap-2 rounded-md border border-rk-border bg-white pr-[9px] pl-[11px] text-[16px] text-rk-text hover:bg-rk-bg xl:h-8 xl:text-[14px]"
       >
-        <RkjhFavicon className="shrink-0" />
+        <RkjhFaviconSquare className="shrink-0" />
         <span className="min-w-0 truncate">{current}</span>
-        <ChevronDown width={16} height={16} className={`-ml-px shrink-0 ${open ? "rotate-180" : ""}`} />
+        <ChevronDown width={16} height={16} className={`-ml-[2px] shrink-0 ${open ? "rotate-180" : ""}`} />
       </button>
       {open && (
         <div className="absolute top-[calc(100%+4px)] left-0 z-50 w-[240px] rounded-md bg-white py-1 shadow-popover">

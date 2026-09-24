@@ -26,7 +26,7 @@ export function AdsAiAgent() {
   const [modal, setModal] = useState(false);
   const [msg, setMsg] = useState("");
   return (
-    <AppShell section="ad" project search={{ kind: "goto" }} footer={false} enterprise={false}>
+    <AppShell section="ad" project projectWidth={146} search={{ kind: "goto" }} footer={false} enterprise={false} help="none">
       <style>{`html,body{background:#f3f5f8}`}</style>
       <div className="px-8 pt-4">
         <nav className="flex items-center gap-[9px] text-[14px] leading-5">

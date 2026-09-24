@@ -48,6 +48,7 @@ export function AppShell({
   enterprise = true,
   help = "question",
   project = false,
+  projectWidth,
   minWidth,
 }: {
   section?: Section;
@@ -57,6 +58,7 @@ export function AppShell({
   enterprise?: boolean;
   help?: "question" | "chat" | "chat-dark" | "none";
   project?: boolean;
+  projectWidth?: number;
   minWidth?: number;
 }) {
   const collapsed = useSyncExternalStore(subscribe, readCollapsed, () => false);
@@ -80,7 +82,7 @@ export function AppShell({
             <button type="button" aria-label="Menu" onClick={() => setDrawer(true)} className="ml-[2px] flex h-9 w-9 items-center justify-center rounded text-rk-text-2 hover:bg-rk-hover xl:hidden">
               <HamburgerIcon width={22} height={22} />
             </button>
-            {project && <ProjectSelect />}
+            {project && <ProjectSelect width={projectWidth} />}
             {search.kind === "goto" ? (
               <GoToTool compact={project} />
             ) : search.kind === "analyze" ? (

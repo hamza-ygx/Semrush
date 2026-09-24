@@ -102,7 +102,7 @@ export function AdClarity() {
   const [tried, setTried] = useState(false);
   const [playing, setPlaying] = useState(false);
   return (
-    <AppShell section="apps" search={{ kind: "analyze", value: "", placeholder: "Enter website or keyword", inputClassName: "w-[342px]" }} footer={false}>
+    <AppShell section="apps" search={{ kind: "analyze", value: "", placeholder: "Enter website or keyword", inputClassName: "w-[342px]" }} footer={false} help="none">
       <style>{`html,body{background:#fff}`}</style>
       <div className="px-[15px] pt-[49px] pr-[14px]">
         <div className="ml-[5px]">

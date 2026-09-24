@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { NavBadge, navHeading } from "./navExtras";
 import {
   useLayoutEffect,
   useRef,
@@ -78,8 +79,8 @@ export const railItems: {
   { key: "apps", label: "Apps", href: routes.apps, icon: AppsIcon },
 ];
 
-const FLY_TOP = 56;
-const FLY_BOTTOM = 8;
+const FLY_TOP = 54;
+const FLY_BOTTOM = 3;
 
 function RailFlyout({
   section,
@@ -106,7 +107,7 @@ function RailFlyout({
       ref={ref}
       data-testid="rail-flyout"
       style={{ top, maxHeight: `calc(100vh - ${FLY_TOP + FLY_BOTTOM}px)` }}
-      className="fixed left-[74px] z-[70] w-[256px] overflow-y-auto rounded-lg bg-white pt-[14px] pb-[6px] shadow-[0_2px_16px_rgba(25,27,35,0.18)]"
+      className="fixed left-[74px] z-[70] w-[256px] overflow-y-auto rounded-lg bg-white pt-[17px] pb-[10px] shadow-[0_2px_16px_rgba(25,27,35,0.18)]"
     >
       <div className="px-[17px] text-[14px] leading-5 font-semibold text-rk-text">
         {nav.title}
@@ -115,12 +116,12 @@ function RailFlyout({
         <div
           key={gi}
           className={
-            g.heading ? (gi === 0 ? "mt-[15px]" : "mt-5") : gi > 0 ? "mt-[10px]" : "mt-2"
+            g.heading ? (gi === 0 ? "mt-[15px]" : "mt-5") : gi > 0 ? "mt-[12px]" : "mt-2"
           }
         >
           {g.heading && (
             <div className="mb-2 px-[17px] text-[12px] leading-4 text-rk-muted">
-              {g.heading}
+              {navHeading(g.heading)}
             </div>
           )}
           {g.items.map((it) => (
@@ -130,7 +131,10 @@ function RailFlyout({
               onClick={onClose}
               className={`mx-[5px] flex h-7 items-center justify-between rounded-md px-3 text-[14px] leading-5 text-rk-text ${isActive(it, path) ? "bg-rk-hover" : "hover:bg-rk-hover"}`}
             >
-              <span className="truncate">{it.label}</span>
+              <span className="flex min-w-0 items-center">
+                <span className="truncate">{it.label}</span>
+                <NavBadge href={it.href} />
+              </span>
               {it.external && (
                 <ExternalIcon className="shrink-0 text-rk-muted" />
               )}
@@ -165,7 +169,7 @@ export function Rail({
                 flyable &&
                 setFly({
                   key,
-                  top: e.currentTarget.getBoundingClientRect().top - 7,
+                  top: e.currentTarget.getBoundingClientRect().top - 14,
                 })
               }
               onMouseLeave={() => setFly(null)}
