@@ -71,6 +71,7 @@ export const routes = {
   topicResearchProject: {
     cards: "/topic-research/6ab52896550d8001abe4c526",
     explorer: "/topic-research/6ab52896550d8001abe4c526/explorer",
+    overview: "/topic-research/6ab52896550d8001abe4c526/overview",
     mindMap: "/topic-research/6ab52896550d8001abe4c526/mind-map",
   },
 
