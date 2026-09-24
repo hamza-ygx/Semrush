@@ -61,9 +61,9 @@ export function HelpButtonAndPanel({ variant = "question" }: { variant?: "questi
         type="button"
         aria-label={open ? "Close help" : "Help"}
         onClick={() => setOpen((o) => !o)}
-        className={`fixed right-[21px] bottom-[21px] z-[110] flex h-[52px] w-[52px] items-center justify-center rounded-full text-[28px] font-bold shadow-card hover:brightness-95 ${
-          variant === "chat-dark" ? "bg-[#191b23] text-white" : "bg-rk-help text-rk-text"
-        }`}
+        className={`fixed z-[110] flex items-center justify-center rounded-full font-bold hover:brightness-95 ${
+          variant === "question" ? "right-[21px] bottom-[21px] h-[52px] w-[52px] text-[28px] shadow-card" : "right-5 bottom-5 h-12 w-12 shadow-[0_1px_6px_rgba(0,0,0,0.06),0_2px_32px_rgba(0,0,0,0.16)]"
+        } ${variant === "chat-dark" ? "bg-[#0a0a0b] text-white" : "bg-rk-help text-rk-text"}`}
       >
         {open ? (
           <CloseIcon width={26} height={26} strokeWidth={2.4} />
@@ -71,17 +71,17 @@ export function HelpButtonAndPanel({ variant = "question" }: { variant?: "questi
           "?"
         ) : (
           <>
-            <svg viewBox="0 0 24 24" width={26} height={26}>
+            <svg viewBox="0 0 22 24" width={22} height={24} className="mt-[3px] ml-[2px]">
+              <path d="M4 0h14a4 4 0 0 1 4 4v20l-5.2-4H4a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="#fff" />
               <path
-                d="M5 4h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-6l-5 4v-4H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"
+                d="M5 12.6c3.4 2.5 8.6 2.5 12 0"
                 fill="none"
-                stroke="currentColor"
-                strokeWidth={1.8}
-                strokeLinejoin="round"
+                stroke={variant === "chat-dark" ? "#0a0a0b" : "var(--color-rk-help)"}
+                strokeWidth={1.6}
+                strokeLinecap="round"
               />
-              <path d="M8 12c2.2 1.6 5.8 1.6 8 0" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" />
             </svg>
-            <span className="absolute -top-[3px] -right-[3px] flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#e5173f] px-1 text-[11px] leading-none font-semibold text-white">
+            <span className="absolute -top-[2px] -right-[9px] flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#e5173f] px-1 text-[11px] leading-none font-semibold text-white">
               1
             </span>
           </>

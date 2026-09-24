@@ -3,7 +3,7 @@ import { MonitoringLanding } from "@/features/social/MonitoringLanding";
 
 export default function Page() {
   return (
-    <AppShell section="social" search={{ kind: "goto" }}>
+    <AppShell section="social" search={{ kind: "goto" }} help="none">
       <MonitoringLanding />
     </AppShell>
   );

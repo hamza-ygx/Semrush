@@ -1,7 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { account, brand } from "@/config/brand";
+import { routes } from "@/config/routes";
 import { useOutsideClose } from "../ui/Popover";
 import { ChevronDown, ChevronRight, LanguageIcon } from "../ui/icons";
 
@@ -142,12 +144,14 @@ export function ProfileMenu() {
       </button>
       {open && (
         <div className="absolute top-[calc(100%+6px)] right-[-2px] z-50 w-[263px] rounded-md bg-white py-1 shadow-popover">
-          <a href="#" onMouseEnter={() => setLang(false)} onClick={(e) => e.preventDefault()} className="block px-[9px] py-[5px] text-[14px] leading-[18px] hover:bg-rk-bg">
+          <Link href={routes.account.profile} onMouseEnter={() => setLang(false)} onClick={() => setOpen(false)} className="block px-[9px] py-[5px] text-[14px] leading-[18px] hover:bg-rk-bg">
             My profile <span className="text-rk-muted">• ID:{account.id}</span>
             <div className="text-rk-muted">{account.email}</div>
-          </a>
+          </Link>
           <div className="h-[2px]" />
-          <Row tall onEnter={() => setLang(false)}>Subscription info</Row>
+          <Link href={routes.account.subscription} onMouseEnter={() => setLang(false)} onClick={() => setOpen(false)} className="flex h-[32.5px] items-center gap-2 px-[9px] text-[14px] text-rk-text hover:bg-rk-bg">
+            Subscription info
+          </Link>
           <Row tall onEnter={() => setLang(false)}>Manage users</Row>
           <Row tall onEnter={() => setLang(false)}>Log out</Row>
           <div className="my-1 border-t border-rk-border" />

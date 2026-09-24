@@ -9,8 +9,7 @@ import { examples, type Example } from "./data";
 
 export function LocalShell({ children, help = true, search = { kind: "none" }, enterprise = true }: { children: ReactNode; help?: boolean; search?: { kind: "none" } | { kind: "goto" }; enterprise?: boolean }) {
   return (
-    <AppShell section="local" search={search} enterprise={enterprise} help="chat">
-      {!help && <style>{'button[aria-label="Help"]{display:none}'}</style>}
+    <AppShell section="local" search={search} enterprise={enterprise} help={help ? "chat" : "none"}>
       {children}
     </AppShell>
   );

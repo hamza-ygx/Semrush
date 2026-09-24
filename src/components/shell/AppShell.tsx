@@ -8,10 +8,14 @@ import { HelpButtonAndPanel } from "./HelpPanel";
 import { MoreMenu, ProfileMenu } from "./HeaderMenus";
 import { InviteUsersModal } from "./InviteUsersModal";
 import { NavDrawer } from "./NavDrawer";
+import { ProjectSelect } from "./ProjectSelect";
 import { Rail, type Section } from "./Rail";
 import { SectionNav } from "./SectionNav";
 
-export type HeaderSearchConfig = { kind: "goto" } | { kind: "none" } | { kind: "analyze"; value: string; scope?: boolean };
+export type HeaderSearchConfig =
+  | { kind: "goto" }
+  | { kind: "none" }
+  | { kind: "analyze"; value: string; scope?: boolean; placeholder?: string; inputClassName?: string; action?: string };
 
 const STORAGE_KEY = "rk.sidebar.collapsed";
 const listeners = new Set<() => void>();
@@ -43,13 +47,17 @@ export function AppShell({
   footer = true,
   enterprise = true,
   help = "question",
+  project = false,
+  minWidth,
 }: {
   section?: Section;
   search?: HeaderSearchConfig;
   children: ReactNode;
   footer?: boolean;
   enterprise?: boolean;
-  help?: "question" | "chat" | "chat-dark";
+  help?: "question" | "chat" | "chat-dark" | "none";
+  project?: boolean;
+  minWidth?: number;
 }) {
   const collapsed = useSyncExternalStore(subscribe, readCollapsed, () => false);
   const [drawer, setDrawer] = useState(false);
@@ -58,8 +66,8 @@ export function AppShell({
   const toggle = () => writeCollapsed(!collapsed);
 
   return (
-    <div className="flex min-h-screen">
-      <div className="sticky top-0 hidden h-screen shrink-0 xl:flex">
+    <div className="flex min-h-screen" style={minWidth ? { minWidth } : undefined}>
+      <div className="sticky top-0 z-[65] hidden h-screen shrink-0 xl:flex">
         <Rail active={section} collapsed={collapsed} onToggle={toggle} />
         {!collapsed && <SectionNav section={section} />}
       </div>
@@ -72,7 +80,12 @@ export function AppShell({
             <button type="button" aria-label="Menu" onClick={() => setDrawer(true)} className="ml-[2px] flex h-9 w-9 items-center justify-center rounded text-rk-text-2 hover:bg-rk-hover xl:hidden">
               <HamburgerIcon width={22} height={22} />
             </button>
-            {search.kind === "goto" ? <GoToTool /> : search.kind === "analyze" ? <AnalyzeSearch value={search.value} scope={search.scope} /> : null}
+            {project && <ProjectSelect />}
+            {search.kind === "goto" ? (
+              <GoToTool compact={project} />
+            ) : search.kind === "analyze" ? (
+              <AnalyzeSearch value={search.value} scope={search.scope} placeholder={search.placeholder} inputClassName={search.inputClassName} action={search.action} />
+            ) : null}
           </div>
           <nav className="flex items-center gap-10 text-[14px] text-rk-text xl:gap-[29px]">
             <button type="button" onClick={() => setInvite(true)} className="flex items-center gap-[7px] hover:text-rk-link">
@@ -102,7 +115,7 @@ export function AppShell({
         )}
       </div>
 
-      <HelpButtonAndPanel variant={help} />
+      {help !== "none" && <HelpButtonAndPanel variant={help} />}
       <InviteUsersModal open={invite} onClose={() => setInvite(false)} />
     </div>
   );

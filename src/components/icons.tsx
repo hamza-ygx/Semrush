@@ -179,8 +179,8 @@ export const CardTrafficIcon = (p: P) => (
 export const CardAiIcon = (p: P) => (
   <svg viewBox="0 0 24 24" width={20} height={20} {...p}>
     <g {...stroke} strokeWidth={1.8}>
-      <path d="M12 3.5c.5 3.2 2.1 4.8 5.3 5.3-3.2.5-4.8 2.1-5.3 5.3-.5-3.2-2.1-4.8-5.3-5.3 3.2-.5 4.8-2.1 5.3-5.3z" />
-      <path d="m5 15.5 3.5 2.5M19 15.5 15.5 18M7 20.5h10" />
+      <path d="M12 3.2 16 7.2 12 11.2 8 7.2z" />
+      <path d="m3.5 16.5 5-2.5 3 2.8 5.5-2.8M6 20.5l5.5-2.4 3.2 1.4 5.8-2.3" />
     </g>
   </svg>
 );

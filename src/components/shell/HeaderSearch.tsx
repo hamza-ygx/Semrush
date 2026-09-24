@@ -26,7 +26,7 @@ function ToolLine({ name, description, href, onClick }: { name: string; descript
   );
 }
 
-export function GoToTool() {
+export function GoToTool({ compact = false }: { compact?: boolean }) {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
   const router = useRouter();
@@ -89,7 +89,7 @@ export function GoToTool() {
             onChange={(e) => setQ(e.target.value)}
             onFocus={() => setOpen(true)}
             placeholder="Go to tool..."
-            className={`${h} w-[388px] xl:w-[402px] rounded-l-md border bg-white pr-8 pl-3 text-[14px] outline-none placeholder:text-rk-muted ${
+            className={`${h} ${compact ? "w-[316px] xl:w-[402px]" : "w-[388px] xl:w-[402px]"} rounded-l-md border bg-white pr-8 pl-3 text-[16px] xl:text-[14px] outline-none placeholder:text-rk-muted ${
               open ? "border-[#7a86f2] ring-2 ring-[#b7c0fa]" : "border-rk-border-strong"
             }`}
           />
@@ -109,7 +109,19 @@ export function GoToTool() {
 
 const scopes = ["Root Domain", "Subdomain", "Subfolder", "Exact URL"] as const;
 
-export function AnalyzeSearch({ value, scope }: { value: string; scope?: boolean }) {
+export function AnalyzeSearch({
+  value,
+  scope,
+  placeholder = "Enter domain, subfolder or URL",
+  inputClassName,
+  action,
+}: {
+  value: string;
+  scope?: boolean;
+  placeholder?: string;
+  inputClassName?: string;
+  action?: string;
+}) {
   const [q, setQ] = useState(value);
   const [sc, setSc] = useState<(typeof scopes)[number]>("Root Domain");
   const [open, setOpen] = useState(false);
@@ -122,15 +134,15 @@ export function AnalyzeSearch({ value, scope }: { value: string; scope?: boolean
       className="flex"
       onSubmit={(e) => {
         e.preventDefault();
-        router.push(path);
+        router.push(action ?? path);
       }}
     >
       <div className="relative">
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Enter domain, subfolder or URL"
-          className={`${h} ${scope ? "w-[197px]" : "w-[463px]"} rounded-l-md border border-rk-border-strong bg-white pr-9 pl-3 text-[16px] outline-none focus:border-[#7a86f2]`}
+          placeholder={placeholder}
+          className={`${h} ${inputClassName ?? (scope ? "w-[197px]" : "w-[463px]")} rounded-l-md border border-rk-border-strong bg-white pr-9 pl-3 text-[16px] outline-none focus:border-[#7a86f2]`}
         />
         {q && (
           <button type="button" aria-label="Clear" onClick={() => setQ("")} className="absolute top-1/2 right-3 -translate-y-1/2 text-rk-text-2">
