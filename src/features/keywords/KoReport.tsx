@@ -6,8 +6,9 @@ import { routes } from "@/config/routes";
 import { Card } from "@/components/ui/primitives";
 import { LinkSelect } from "@/components/ui/Popover";
 import { ChevronRight, DesktopIcon, FeedbackIcon, FlagSE, RefreshIcon } from "@/components/ui/icons";
-import { CirclePlus, ExtIcon, KdDot, KwHeader, PinIcon, SparkleIcon, Chevron } from "./common";
+import { ExtIcon, KdDot, KwHeader, PinIcon, SparkleIcon } from "./common";
 import { koSummary, koVariations, serpRanges, serpRows } from "./data";
+import { AddToList, LocationSelect } from "./kmt/KoPopovers";
 import { CountryFlag } from "./flags";
 
 export function KoTabs({ active, q }: { active: "overview" | "bulk"; q: string }) {
@@ -35,7 +36,7 @@ export function KoHeader({ q, active }: { q: string; active: "overview" | "bulk"
       subject={
         <span className="flex items-center gap-2">
           {q}
-          <CirclePlus className="text-rk-faint" />
+          <AddToList />
         </span>
       }
       right={
@@ -365,11 +366,7 @@ export function KoReport({ q }: { q: string }) {
       <div className="px-8 pt-4">
         <div className="flex w-[1093px] items-center gap-2">
           <DomainInput />
-          <button type="button" className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-white px-2 text-[14px] text-rk-muted">
-            <PinIcon className="text-rk-text" />
-            Select location
-            <Chevron className="ml-[6px] text-rk-text" size={14} />
-          </button>
+          <LocationSelect />
           <button type="button" className="ml-auto flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
             <RefreshIcon />
             Update

@@ -253,7 +253,7 @@ export const seoNav: NavGroup[] = [
     heading: "Keyword Research",
     items: [
       { label: "Keyword Overview", href: routes.keywordOverview, match: ["/analytics/keywordoverview"] },
-      { label: "Keyword Magic Tool", href: routes.keywordMagic },
+      { label: "Keyword Magic Tool", href: routes.keywordMagic, match: [routes.keywordMagic] },
       { label: "Keyword Strategy Builder", href: routes.keywordStrategyBuilder },
     ],
   },
