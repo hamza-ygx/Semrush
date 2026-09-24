@@ -419,23 +419,27 @@ export const ipRows: IpRow[] = (() => {
   return rows;
 })();
 
-export type RdRow = { as: number; d: string; c?: string; tag?: { label: string; tone: Tone }; bl: number; flag?: string; ip: string; first: string; last: string; firstNew?: boolean };
+export type RdRow = { as: number; d: string; c?: string; tags?: { label: string; tone: Tone }[]; bl: number; flag?: string; ip: string; first: string; last: string; firstNew?: boolean };
 
 const rdHead: RdRow[] = [
   { as: 6, d: "egetbolag.se", c: "Computer Software & Development", bl: 16, flag: "NO", ip: "91.189.123.141", first: "Sep 7, 2023", last: "2d ago" },
   { as: 30, d: "selling.com", c: "Automotive", bl: 9, flag: "US", ip: "18.67.76.80", first: "Jul 26, 2025", last: "Yesterday" },
 ];
 
+const rdFixed: RdRow[] = [
+  { as: 2, d: "seolinkbooster.com", tags: [T("Nofollow", "orange")], bl: 6, flag: "US", ip: "203.161.54.114", first: "Feb 19, 2026", last: "10d ago" },
+  { as: 2, d: "toprankbacklinks.com", tags: [T("Nofollow", "orange")], bl: 4, flag: "US", ip: "203.161.54.114", first: "Apr 15, 2026", last: "8d ago" },
+  { as: 2, d: "portailorange.net", bl: 4, ip: "172.67.167.49", first: "Jul 1, 2026", last: "Yesterday" },
+  { as: 28, d: "revenuebase.ai", c: "Information Technology", tags: [T("New", "green"), T("Nofollow", "orange")], bl: 4, flag: "US", ip: "3.167.112.80", first: "Sep 4, 2026", last: "Yesterday", firstNew: true },
+  { as: 2, d: "allwebsitesdirectory.com", bl: 3, flag: "SG", ip: "184.168.115.60", first: "Jan 8, 2026", last: "11d ago" },
+  { as: 2, d: "bestwebstats.com", bl: 3, flag: "SG", ip: "184.168.115.60", first: "Mar 4, 2026", last: "Sep 5, 2026" },
+  { as: 2, d: "bolag.info", c: "Construction & Maintenance", bl: 3, flag: "SE", ip: "213.164.219.24", first: "Oct 29, 2025", last: "Sep 9, 2026" },
+];
+
 const rdMulti: [number, string, string | undefined, number][] = [
-  [23, "tek.se", "Education", 8],
-  [15, "domaineye.com", "Online Services", 7],
-  [6, "articlement.com", "Information Technology", 6],
-  [6, "kingranks.com", "Information Technology", 6],
-  [6, "wayranks.com", "Information Technology", 5],
-  [6, "webscountry.com", "Healthcare", 5],
-  [25, "urlumbrella.com", "Information Technology", 4],
-  [34, "nyforetagarcentrum.se", "Government", 4],
-  [5, "siteprice.org", "Online Services", 4],
+  ...rdFixed.map((f): [number, string, string | undefined, number] => [f.as, f.d, f.c, f.bl]),
+  [34, "nyforetagarcentrum.se", "Government", 3],
+  [5, "siteprice.org", "Online Services", 3],
   [5, "statsnode.com", "Online Services", 3],
   [4, "websiteoutlook.com", "Online Services", 3],
   [4, "hypestat.com", "Online Services", 3],
@@ -464,7 +468,7 @@ const rdSingles = [
 const rdTail: RdRow[] = [
   { as: 2, d: "bortkopplad.se", c: "Adult", bl: 1, ip: "172.67.212.123", first: "Apr 8, 2026", last: "Sep 5, 2026" },
   { as: 62, d: "brandfetch.com", c: "Retail", bl: 1, ip: "104.26.1.96", first: "Aug 22, 2026", last: "Aug 22, 2026" },
-  { as: 2, d: "breachviews.com", tag: T("New", "green"), bl: 1, ip: "172.67.216.74", first: "10d ago", last: "10d ago", firstNew: true },
+  { as: 2, d: "breachviews.com", tags: [T("New", "green")], bl: 1, ip: "172.67.216.74", first: "10d ago", last: "10d ago", firstNew: true },
 ];
 
 export const rdRows: RdRow[] = (() => {
@@ -473,10 +477,11 @@ export const rdRows: RdRow[] = (() => {
   const ip = (f: string) => (f === "" ? `172.67.${Math.floor(r() * 255)}.${Math.floor(r() * 255)}` : `${[104, 118, 184, 203, 67, 195][Math.floor(r() * 6)]}.${Math.floor(r() * 255)}.${Math.floor(r() * 255)}.${Math.floor(r() * 255)}`);
   const cats = ["Online Services", "Information Technology", "Education", "Government", undefined, undefined];
   const rows: RdRow[] = [...rdHead];
-  for (const [as, d, c, bl] of rdMulti) {
+  rdMulti.forEach(([as, d, c, bl], i) => {
     const f = flags[Math.floor(r() * flags.length)];
-    rows.push({ as, d, c, bl, flag: f || undefined, ip: ip(f), first: dateOf(r, 2300, 2700), last: relTimes[Math.floor(r() * relTimes.length)] });
-  }
+    const row: RdRow = { as, d, c, bl, flag: f || undefined, ip: ip(f), first: dateOf(r, 2300, 2700), last: relTimes[Math.floor(r() * relTimes.length)] };
+    rows.push(rdFixed[i] ?? row);
+  });
   rdSingles.forEach((d, i) => {
     const f = d.startsWith("booast") ? "US" : flags[Math.floor(r() * flags.length)];
     const c = cats[Math.floor(r() * cats.length)];
@@ -485,7 +490,7 @@ export const rdRows: RdRow[] = (() => {
       as: d.startsWith("booast") ? 2 : Math.floor(r() * 12),
       d,
       c: nf ? undefined : c,
-      tag: nf ? T("Nofollow", "orange") : undefined,
+      tags: nf ? [T("Nofollow", "orange")] : undefined,
       bl: 1,
       flag: f || undefined,
       ip: d.startsWith("booast") ? "203.161.54.114" : ip(f),
@@ -495,3 +500,71 @@ export const rdRows: RdRow[] = (() => {
   });
   return [...rows, ...rdTail];
 })();
+
+const weekStart = Date.UTC(2026, 2, 23);
+
+export const weekRanges = weeks.map((_, i) => {
+  const a = new Date(weekStart + i * 7 * 864e5);
+  const b = new Date(weekStart + (i * 7 + 6) * 864e5);
+  const m = (d: Date) => months[d.getUTCMonth()];
+  const end = a.getUTCMonth() === b.getUTCMonth() ? `${b.getUTCDate()}` : `${m(b)} ${b.getUTCDate()}`;
+  return `${m(a)} ${a.getUTCDate()} - ${end}, ${b.getUTCFullYear()}`;
+});
+
+const fmtK = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, "")}K` : `${n}`);
+
+export function asMetrics(d: string, as: number) {
+  if (d === "egetbolag.se") return { backlinks: "3.9K", refDomains: "213", visits: "n/a", organic: "11", outbound: "112" };
+  const r = rng([...d].reduce((a, c) => a * 31 + c.charCodeAt(0), 7) % 2147483646 || 1);
+  const k = 1 + as / 4;
+  return {
+    backlinks: fmtK(Math.floor((40 + r() * 900) * k * k)),
+    refDomains: fmtK(Math.floor((8 + r() * 120) * k)),
+    visits: as > 20 ? fmtK(Math.floor(r() * 90000)) : "n/a",
+    organic: fmtK(Math.floor(r() * 80 * k)),
+    outbound: fmtK(Math.floor((5 + r() * 150) * k)),
+  };
+}
+
+export type RdLink = { target: string; lost?: boolean; broken?: boolean; first: string; last: string; lastLost?: boolean; code?: string };
+export type RdPage = { as: number; url: string; ext: number; int: number; tag?: string; links: RdLink[] };
+
+const egetPages: RdPage[] = [
+  {
+    as: 0,
+    url: "www.egetbolag.se/?adID=168&isBig=0&pageID=1",
+    ext: 0,
+    int: 0,
+    tag: "Redirect",
+    links: [
+      { code: "302", target: "www.rkjh.se/", lost: true, broken: true, first: "Jan 30, 2026", last: "Jul 25, 2026", lastLost: true },
+      { code: "302", target: "rkjh.se/", first: "Jan 16, 2026", last: "Sep 4, 2026" },
+    ],
+  },
+  { as: 0, url: "egetbolag.se/?adID=317&isBig=1&pageID=1", ext: 0, int: 0, tag: "Redirect", links: [{ code: "302", target: "rkjh.se/blog/events/starta-eget/", first: "Oct 11, 2025", last: "Sep 9, 2026" }] },
+  { as: 0, url: "egetbolag.se/?adID=317&isBig=0&pageID=1", ext: 0, int: 0, tag: "Redirect", links: [{ code: "302", target: "rkjh.se/blog/events/starta-eget/", first: "Sep 30, 2025", last: "Sep 6, 2026" }] },
+  { as: 0, url: "egetbolag.se/?adID=169&isBig=1&pageID=1", ext: 0, int: 0, tag: "Redirect", links: [{ code: "302", target: "www.rkjh.se/", lost: true, first: "Mar 14, 2026", last: "Apr 4, 2026", lastLost: true }] },
+];
+
+const rdTargets = ["rkjh.se/", "www.rkjh.se/", "rkjh.se/tjanster/", "rkjh.se/blog/events/starta-eget/", "rkjh.se/kontakt/", "rkjh.se/om-oss/"];
+const rdPaths = ["", "sv/", "site/", "info/", "domain/", "page/", "profile/", "company/"];
+
+export function rdPages(d: string, bl: number): RdPage[] {
+  const r = rng([...d].reduce((a, c) => a * 17 + c.charCodeAt(0), 3) % 2147483646 || 1);
+  const pages: RdPage[] = d === "egetbolag.se" ? [...egetPages] : [];
+  let n = pages.reduce((a, p) => a + p.links.length, 0);
+  while (n < bl) {
+    const lost = r() < 0.2;
+    const ids = Math.floor(r() * 900) + 100;
+    pages.push({
+      as: Math.floor(r() * 4),
+      url: d === "egetbolag.se" ? `egetbolag.se/?adID=${ids}&isBig=${ids % 2}&pageID=1` : `${d}/${rdPaths[Math.floor(r() * rdPaths.length)]}rkjh.se`,
+      ext: Math.floor(r() * 40),
+      int: Math.floor(r() * 60),
+      tag: d === "egetbolag.se" ? "Redirect" : undefined,
+      links: [{ code: d === "egetbolag.se" ? "302" : undefined, target: rdTargets[Math.floor(r() * rdTargets.length)], lost, first: dateOf(r, 2450, 2700), last: dateOf(r, 2700, 2790), lastLost: lost }],
+    });
+    n++;
+  }
+  return pages;
+}

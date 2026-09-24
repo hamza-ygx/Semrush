@@ -181,7 +181,7 @@ export function Seg<T extends string>({ options, initial }: { options: readonly 
             key={o}
             type="button"
             onClick={() => setV(o)}
-            className={`relative h-7 border px-[7px] text-[14px] whitespace-nowrap ${i === 0 ? "rounded-l-md" : "-ml-px"} ${i === options.length - 1 ? "rounded-r-md" : ""} ${
+            className={`relative h-7 border px-[8px] text-[14px] whitespace-nowrap ${i === 0 ? "rounded-l-md" : "-ml-px"} ${i === options.length - 1 ? "rounded-r-md" : ""} ${
               on ? "z-10 border-[#8f9cea] bg-[#eef2fd] text-rk-text" : "border-[#c4c7cf] bg-white text-rk-text hover:bg-rk-bg"
             }`}
           >
@@ -229,7 +229,7 @@ export function SelectBtn({ label, options, width = 200 }: { label: string; opti
 
 export const filterOptions = ["Links per ref. domain", "Lost issues", "Link placement", "Ref. page platform", "Ref. page language", "Mobile optimization", "Referring domain", "Authority Score", "Country", "Anchor", "Link type", "Target URL", "Zone"];
 
-export function AddFilter({ onPick, options = filterOptions }: { onPick?: (o: string) => void; options?: string[] }) {
+export function AddFilter({ onPick, options = filterOptions, width = 168 }: { onPick?: (o: string) => void; options?: string[]; width?: number }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -243,7 +243,7 @@ export function AddFilter({ onPick, options = filterOptions }: { onPick?: (o: st
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className={`flex h-7 items-center gap-[8px] rounded-md px-[9px] text-[14px] font-semibold text-rk-link hover:text-rk-link-hover ${open ? "bg-[#e6ecfb]" : ""}`}
+        className={`flex h-7 items-center gap-[8px] rounded-md px-[9px] text-[14px] font-medium text-rk-link hover:text-rk-link-hover ${open ? "bg-[#e6ecfb]" : ""}`}
       >
         <svg viewBox="0 0 16 16" width={16} height={16}>
           <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" />
@@ -251,7 +251,7 @@ export function AddFilter({ onPick, options = filterOptions }: { onPick?: (o: st
         Add filter
       </button>
       {open && (
-        <div className="absolute top-[33px] left-0 z-40 w-[168px] rounded-md bg-white py-[4px] shadow-popover">
+        <div className="absolute top-[33px] left-0 z-40 rounded-md bg-white py-[4px] shadow-popover" style={{ width }}>
           <div className="max-h-[237px] overflow-y-auto [scrollbar-color:#c4c7cf_transparent] [scrollbar-width:thin]">
             {options.map((o) => (
               <button

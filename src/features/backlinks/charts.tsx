@@ -60,6 +60,7 @@ export function NewLostChart({
   right,
   zero,
   unit,
+  tips,
 }: {
   newV: number[];
   lostV: number[];
@@ -71,7 +72,9 @@ export function NewLostChart({
   right: number;
   zero: number;
   unit: number;
+  tips?: string[];
 }) {
+  const [hover, setHover] = useState<number | null>(null);
   const [showNew, setShowNew] = useState(true);
   const [showLost, setShowLost] = useState(true);
   const n = newV.length;
@@ -85,6 +88,7 @@ export function NewLostChart({
         <span className="ml-auto text-[14px] text-rk-muted">Last 6 months</span>
       </div>
       <div className="absolute inset-x-0 top-0">
+        {hover !== null && <div className="absolute bg-[#f8f8f8]" style={{ left: `calc(${left}px + ${slot} * ${hover})`, width: `calc(${slot})`, top: Math.round(zero - 3 * step), height: Math.round(4 * step) }} />}
         {ticks.map((t, i) => {
           const y = zero - (3 - i) * step;
           return (
@@ -112,6 +116,31 @@ export function NewLostChart({
               {l}
             </span>
           ) : null,
+        )}
+        {tips && (
+          <div className="absolute" style={{ left, right, top: Math.round(zero - 3 * step), height: Math.round(4 * step) }} onMouseLeave={() => setHover(null)}>
+            {tips.map((t, i) => (
+              <div key={t} data-testid={`chart-slot-${i}`} className="absolute inset-y-0" style={{ left: `calc(100% / ${n} * ${i})`, width: `calc(100% / ${n})` }} onMouseEnter={() => setHover(i)} />
+            ))}
+          </div>
+        )}
+        {tips && hover !== null && (
+          <div
+            className="pointer-events-none absolute z-20 min-w-[116px] rounded-md bg-white px-[12px] pt-[12px] pb-[10px] whitespace-nowrap shadow-popover"
+            style={hover >= n / 2 ? { right: `calc(100% - ${left}px - ${slot} * ${hover} + 8px)`, top: 65 } : { left: `calc(${left}px + ${slot} * ${hover + 1} + 8px)`, top: 65 }}
+          >
+            <div className="text-[12px] leading-4 text-rk-muted">{tips[hover]}</div>
+            {[
+              { l: "New", c: "#6167e6", v: newV[hover] },
+              { l: "Lost", c: "#ff6b70", v: lostV[hover] },
+            ].map((x, k) => (
+              <div key={x.l} className={`flex h-5 items-center text-[13px] text-rk-text ${k ? "" : "mt-[6px]"}`}>
+                <span className="h-2 w-2 rounded-full" style={{ background: x.c }} />
+                <span className="ml-[7px]">{x.l}</span>
+                <span className="ml-auto pl-4 font-semibold">{x.v}</span>
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </>
