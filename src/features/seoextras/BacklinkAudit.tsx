@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { account, brand } from "@/config/brand";
+import { GearIcon } from "@/components/ui/icons";
 import { Bullets, DomainForm, Faq, LandingCard, LandingPage } from "./landing";
 import { baFaq, baFeatures, baKeyFeatures } from "./data";
 
@@ -46,10 +47,10 @@ function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <div className="text-[15px] font-medium text-[#2b2e38]">{label}</div>
-      <div className="mt-[14px] text-[22px] leading-6 font-semibold" style={{ color: SKY }}>
+      <div className="mt-[11px] text-[22px] leading-6 font-semibold" style={{ color: SKY }}>
         {value}
       </div>
-      <div className="mt-[20px] flex gap-[18px] text-[12px] text-[#a0a3ac]">
+      <div className="mt-[16px] flex gap-[18px] text-[12px] text-[#a0a3ac]">
         <span>New</span>
         <span>Broken</span>
         <span>Lost</span>
@@ -131,10 +132,10 @@ function Hero() {
         <div className="absolute top-[88px] left-[26px] flex h-[127px] w-[814px] rounded-md bg-white shadow-[0_2px_6px_rgba(25,27,35,0.05)]">
           <div className="w-[405px] border-r border-[#f0f1f4] pt-[18px] pl-5">
             <div className="text-[15px] font-medium text-[#2b2e38]">Toxicity score</div>
-            <div className="mt-[14px] text-[22px] leading-6 font-semibold" style={{ color: PINK }}>
+            <div className="mt-[11px] text-[22px] leading-6 font-semibold" style={{ color: PINK }}>
               High
             </div>
-            <ToxBar className="mt-[16px] w-[365px]" />
+            <ToxBar className="mt-[14px] w-[365px]" />
           </div>
           <div className="w-[204px] pt-[18px] pl-5">
             <Stat label="Referring Domains" value="1,589" />
@@ -368,38 +369,36 @@ function ImportArt() {
 
 function MonitorArt() {
   const bars = [
-    [8, 6],
-    [58, 24],
-    [0, 30],
-    [0, 50],
+    [7, 0, 0],
+    [54, 20, 0],
+    [0, 46, 8],
+    [0, 50, 0],
   ];
   return (
     <Frame>
       <div className="absolute top-[34px] left-[30px] h-[260px] w-[400px] rounded-l-md bg-white">
         <span className="absolute top-[13px] right-[12px] flex h-[26px] items-center gap-[6px] rounded-[3px] border border-[#c4c7cf] bg-[#eef0f3] px-[9px] text-[12px] font-medium text-[#484a54]">
-          <svg viewBox="0 0 16 16" width={13} height={13}>
-            <circle cx="8" cy="8" r="2.2" fill="none" stroke="currentColor" strokeWidth={1.5} />
-            <path d="M8 1.8v2M8 12.2v2M1.8 8h2M12.2 8h2M3.6 3.6l1.4 1.4M11 11l1.4 1.4M3.6 12.4 5 11M11 5l1.4-1.4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
-          </svg>
+          <GearIcon width={14} height={14} />
           Setting
         </span>
         <div className="absolute top-[58px] left-[30px] h-[1px] w-[110px] bg-[#e0e1e9]" />
-        <div className="absolute top-[140px] left-[30px] h-[1px] w-[110px] bg-[#e0e1e9]" />
-        {bars.map(([up, down], i) => (
-          <div key={i} className="absolute" style={{ left: 40 + i * 32, top: 140 - up }}>
-            <div className="w-[12px] bg-[#48b9f7]" style={{ height: up }} />
-            <div className="w-[12px] bg-[#ff9b56]" style={{ height: down }} />
+        <div className="absolute top-[117px] left-[30px] h-[1px] w-[110px] bg-[#e0e1e9]" />
+        {bars.map(([up, down, red], i) => (
+          <div key={i} className="absolute" style={{ left: 40 + i * 32, top: 117 - up }}>
+            {up > 0 && <div className="w-[12px] rounded-t-[2px] bg-[#48b9f7]" style={{ height: up }} />}
+            {red > 0 && <div className="w-[12px] rounded-t-[2px] bg-[#ff4d6a]" style={{ height: red }} />}
+            <div className="w-[12px] rounded-b-[2px] bg-[#ff9b56]" style={{ height: down }} />
           </div>
         ))}
-        <div className="absolute top-[196px] left-[30px] h-[1px] w-[110px] bg-[#e0e1e9]" />
-        <div className="absolute top-[217px] left-[30px] flex gap-[30px] text-[11px] text-[#a9abb6]">
+        <div className="absolute top-[179px] left-[30px] h-[1px] w-[110px] bg-[#e0e1e9]" />
+        <div className="absolute top-[191px] left-[30px] flex gap-[30px] text-[11px] text-[#a9abb6]">
           <span>Jan 17</span>
           <span>Jan 19</span>
         </div>
       </div>
       <div className="absolute top-[78px] left-[160px] h-[230px] w-[258px] rounded-md bg-white px-4 pt-[14px] shadow-[0_2px_12px_rgba(25,27,35,0.14)]">
         <div className="text-[14px] font-medium text-[#2b2e38]">Recrawl schedule</div>
-        <span className="mt-[14px] inline-flex h-[28px] items-center gap-[6px] rounded-md border border-[#c4c7cf] px-[9px] text-[12px] text-[#2b2e38]">
+        <span className="mt-[17px] inline-flex h-[28px] items-center gap-[6px] rounded-md border border-[#c4c7cf] px-[9px] text-[12px] text-[#2b2e38]">
           Once a week
           <svg viewBox="0 0 12 12" width={10} height={10}>
             <path d="m2.5 4.5 3.5 3.5 3.5-3.5" fill="none" stroke="currentColor" strokeWidth={1.6} />
@@ -413,7 +412,7 @@ function MonitorArt() {
           </span>
           Send an email every time an audit is complete
         </div>
-        <span className="mt-[16px] flex h-[24px] w-[64px] items-center justify-center rounded-[3px] bg-[#0fc28b] text-[12px] font-medium text-white">Update</span>
+        <span className="mt-[21px] flex h-[24px] w-[64px] items-center justify-center rounded-[3px] bg-[#0fc28b] text-[12px] font-medium text-white">Update</span>
       </div>
     </Frame>
   );

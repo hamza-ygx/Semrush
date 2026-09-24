@@ -61,7 +61,7 @@ function IdeasSummary() {
           <div className="text-[36px] leading-[44px] font-bold text-[#086dc6]">243</div>
           <div className="mt-[3px] text-[13px] leading-4 text-[#484a54]">for 24 pages</div>
         </div>
-        <div className="absolute top-[33px] left-[260px] flex gap-[29px]">
+        <div className="absolute top-[27px] left-[260px] flex gap-[29px]">
           {cols.map((col, ci) => (
             <div key={ci} className="w-[188px]">
               {col.map((code) => (
@@ -109,14 +109,16 @@ function PagesArt() {
           <span>All ideas</span>
         </div>
         {opscPages.map((p, i) => (
-          <div key={i} className={`flex items-center border-b border-[#e6e7ec] pl-3 ${p.url.includes("\n") ? "h-[52px]" : "h-[37px]"}`}>
-            <span className="flex w-[76px] gap-[2px]">
+          <div key={i} className={`flex items-start border-b border-[#e6e7ec] pl-3 ${p.url.includes("\n") ? "h-[52px]" : "h-[37px]"}`}>
+            <span className="flex h-[36px] w-[76px] items-center gap-[2px]">
               {[0, 1, 2].map((k) => (
                 <span key={k} className="h-[7px] w-[16px] rounded-[2px]" style={{ background: k < p.prio ? "#ffc400" : "#fdf1b8" }} />
               ))}
             </span>
-            <span className="w-[235px] leading-4 whitespace-pre">{p.url}</span>
-            <span className="rounded-[3px] bg-[#009f81] px-[6px] text-[12px] leading-[18px] text-white">{p.ideas} ideas</span>
+            <span className="w-[235px] pt-[10px] leading-4 whitespace-pre">{p.url}</span>
+            <span className="flex h-[36px] items-center">
+              <span className="rounded-[3px] bg-[#009f81] px-[9px] text-[12px] leading-[20px] text-white">{p.ideas} ideas</span>
+            </span>
           </div>
         ))}
       </div>
