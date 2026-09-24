@@ -2,8 +2,9 @@ import Link from "next/link";
 import { routes } from "@/config/routes";
 import { HelpCenter, PageHeader, SendFeedback } from "@/components/shell/PageHeader";
 import { Button } from "@/components/ui/primitives";
-import { ChevronDown, DesktopIcon, ExportIcon, GearIcon, RefreshIcon, ShareIcon, WarningIcon } from "@/components/ui/icons";
+import { ChevronDown, DesktopIcon, ExportIcon, RefreshIcon, ShareIcon, WarningIcon } from "@/components/ui/icons";
 import { Tabs } from "@/components/ui/primitives";
+import { CogIcon } from "./part1/ui";
 
 const c = routes.siteAuditCampaign;
 
@@ -29,7 +30,8 @@ const LookerIcon = () => (
 export function SiteAuditHeader({ tab, looker = true, pdf = true, exportBtn = true }: { tab: SiteAuditTab; looker?: boolean; pdf?: boolean; exportBtn?: boolean }) {
   return (
     <PageHeader
-      crumbs={[{ label: "Home", href: routes.home }, { label: "SEO", href: routes.seoDashboard }, { label: "Site Audit", href: routes.siteAudit }]}
+      crumbs={[{ label: "Home", href: routes.home }, { label: "SEO", href: routes.seoDashboard }, { label: "Site Audit" }]}
+      className="[&>div:nth-child(2)]:mt-[8px] [&>div:nth-child(3)]:mt-[8px] [&>div:last-child]:mt-[33px] xl:[&>div:nth-child(2)]:mt-[6px] xl:[&>div:nth-child(3)]:mt-[7px] xl:[&>div:last-child]:mt-[30px]"
       links={
         <>
           <HelpCenter />
@@ -47,34 +49,34 @@ export function SiteAuditHeader({ tab, looker = true, pdf = true, exportBtn = tr
       }
       actions={
         <>
-          <Button variant="primary" className="h-8 px-3">
+          <Button variant="primary" className="h-7 px-2">
             <RefreshIcon />
             Rerun campaign
           </Button>
           {looker && (
-            <Button variant="tertiary" className="hidden h-8 xl:inline-flex">
+            <Button variant="tertiary" className="hidden h-7 xl:inline-flex">
               <LookerIcon />
               Looker Studio
             </Button>
           )}
           {pdf && (
-            <Button variant="tertiary" className="h-8">
+            <Button variant="tertiary" className="h-7">
               <ExportIcon />
               PDF
             </Button>
           )}
           {exportBtn && (
-            <Button variant="tertiary" className="hidden h-8 xl:inline-flex">
+            <Button variant="tertiary" className="hidden h-7 xl:inline-flex">
               <ExportIcon />
               Export
             </Button>
           )}
-          <Button variant="tertiary" className="h-8">
+          <Button variant="tertiary" className="h-7">
             <ShareIcon />
             Share
           </Button>
-          <Button variant="tertiary" className="h-8 w-8 px-0">
-            <GearIcon />
+          <Button variant="tertiary" className="h-7 w-7 px-0">
+            <CogIcon />
           </Button>
         </>
       }
