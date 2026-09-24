@@ -16,21 +16,22 @@ import {
   TrafficIcon,
 } from "../icons";
 import { ChevronsLeft, ChevronsRight } from "../ui/icons";
+import { routes } from "@/config/routes";
 
 export type Section = "home" | "seo" | "ai" | "traffic" | "local" | "content" | "ad" | "aipr" | "social" | "reports" | "apps";
 
-const items: { key: Section; label: string; href: string; icon: ComponentType<SVGProps<SVGSVGElement>> }[] = [
-  { key: "home", label: "Home", href: "/", icon: LogoIcon },
-  { key: "seo", label: "SEO", href: "/seo", icon: SeoIcon },
-  { key: "ai", label: "AI", href: "/ai", icon: AiIcon },
-  { key: "traffic", label: "Traffic & Market", href: "/traffic-market", icon: TrafficIcon },
-  { key: "local", label: "Local", href: "/local", icon: LocalIcon },
-  { key: "content", label: "Content", href: "/content", icon: ContentIcon },
-  { key: "ad", label: "Ad", href: "/ad", icon: AdIcon },
-  { key: "aipr", label: "AI PR", href: "/ai-pr", icon: AiPrIcon },
-  { key: "social", label: "Social", href: "/social", icon: SocialIcon },
-  { key: "reports", label: "Reports", href: "/reports", icon: ReportsIcon },
-  { key: "apps", label: "Apps", href: "/apps", icon: AppsIcon },
+export const railItems: { key: Section; label: string; href: string; icon: ComponentType<SVGProps<SVGSVGElement>> }[] = [
+  { key: "home", label: "Home", href: routes.home, icon: LogoIcon },
+  { key: "seo", label: "SEO", href: routes.seoDashboard, icon: SeoIcon },
+  { key: "ai", label: "AI", href: routes.ai.overview, icon: AiIcon },
+  { key: "traffic", label: "Traffic & Market", href: routes.traffic.home, icon: TrafficIcon },
+  { key: "local", label: "Local", href: routes.local.start, icon: LocalIcon },
+  { key: "content", label: "Content", href: routes.content.dashboard, icon: ContentIcon },
+  { key: "ad", label: "Ad", href: routes.ad.home, icon: AdIcon },
+  { key: "aipr", label: "AI PR", href: routes.aipr.dashboard, icon: AiPrIcon },
+  { key: "social", label: "Social", href: routes.social.dashboard, icon: SocialIcon },
+  { key: "reports", label: "Reports", href: routes.reports.myReports, icon: ReportsIcon },
+  { key: "apps", label: "Apps", href: routes.apps, icon: AppsIcon },
 ];
 
 export function Rail({
@@ -45,7 +46,7 @@ export function Rail({
   return (
     <aside className="flex h-full w-[76px] shrink-0 flex-col border-r border-rk-border bg-rk-bg">
       <nav className="flex flex-1 flex-col gap-[calc(61*var(--u)_-_56px)] overflow-y-auto px-[6px] pt-[calc(8*var(--u))] no-scrollbar">
-        {items.map(({ key, label, href, icon: Icon }) => {
+        {railItems.map(({ key, label, href, icon: Icon }) => {
           const on = key === active;
           return (
             <Link

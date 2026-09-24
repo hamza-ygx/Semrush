@@ -18,7 +18,7 @@ const resources = [
   { label: "Academy", icon: res("M2 9l10-5 10 5-10 5zM6 11v5c1.5 1.3 3.6 2 6 2s4.5-.7 6-2v-5M22 9v6") },
 ];
 
-export function HelpButtonAndPanel() {
+export function HelpButtonAndPanel({ variant = "question" }: { variant?: "question" | "chat" | "chat-dark" }) {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -61,9 +61,31 @@ export function HelpButtonAndPanel() {
         type="button"
         aria-label={open ? "Close help" : "Help"}
         onClick={() => setOpen((o) => !o)}
-        className="fixed right-[21px] bottom-[21px] z-[110] flex h-[52px] w-[52px] items-center justify-center rounded-full bg-rk-help text-[28px] font-bold text-rk-text shadow-card hover:brightness-95"
+        className={`fixed right-[21px] bottom-[21px] z-[110] flex h-[52px] w-[52px] items-center justify-center rounded-full text-[28px] font-bold shadow-card hover:brightness-95 ${
+          variant === "chat-dark" ? "bg-[#191b23] text-white" : "bg-rk-help text-rk-text"
+        }`}
       >
-        {open ? <CloseIcon width={26} height={26} strokeWidth={2.4} /> : "?"}
+        {open ? (
+          <CloseIcon width={26} height={26} strokeWidth={2.4} />
+        ) : variant === "question" ? (
+          "?"
+        ) : (
+          <>
+            <svg viewBox="0 0 24 24" width={26} height={26}>
+              <path
+                d="M5 4h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-6l-5 4v-4H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.8}
+                strokeLinejoin="round"
+              />
+              <path d="M8 12c2.2 1.6 5.8 1.6 8 0" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" />
+            </svg>
+            <span className="absolute -top-[3px] -right-[3px] flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#e5173f] px-1 text-[11px] leading-none font-semibold text-white">
+              1
+            </span>
+          </>
+        )}
       </button>
     </>
   );

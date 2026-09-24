@@ -3,20 +3,23 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { brand } from "@/config/brand";
-import { seoNav, type NavItem } from "@/config/routes";
+import { sectionNavs, type NavItem } from "@/config/routes";
+import { ExternalIcon } from "../ui/icons";
 
-function isActive(item: NavItem, path: string) {
+export function isActive(item: NavItem, path: string) {
   if (item.href === path) return true;
   return (item.match ?? []).some((m) => path === m || path.startsWith(m + "/"));
 }
 
-export function SectionNav({ title = "SEO" }: { title?: string }) {
+export function SectionNav({ section = "seo" }: { section?: string }) {
   const path = usePathname();
+  const nav = sectionNavs[section];
+  if (!nav) return null;
   return (
     <aside data-testid="section-nav" className="h-full w-[212px] shrink-0 overflow-y-auto [scrollbar-gutter:stable] border-r border-rk-border bg-rk-bg pb-[calc(20*var(--u))]">
-      <div className="px-[19px] pt-[calc(16*var(--u))] pb-[calc(9*var(--u))] text-[14px] leading-5 font-semibold">{title}</div>
-      {seoNav.map((g, gi) => (
-        <div key={gi} className={g.heading ? "mt-[calc(18*var(--u))]" : ""}>
+      <div className="px-[19px] pt-[calc(16*var(--u))] pb-[calc(9*var(--u))] text-[14px] leading-5 font-semibold">{nav.title}</div>
+      {nav.groups.map((g, gi) => (
+        <div key={gi} className={g.heading ? "mt-[calc(18*var(--u))]" : gi > 0 ? "mt-[calc(12*var(--u))]" : ""}>
           {g.heading && <div className="mb-[calc(8*var(--u))] px-[19px] text-[13px] leading-[18px] text-rk-muted">{g.heading}</div>}
           {g.items.map((it) => (
             <Link
@@ -27,7 +30,14 @@ export function SectionNav({ title = "SEO" }: { title?: string }) {
                 isActive(it, path) ? "bg-rk-hover" : "hover:bg-rk-hover"
               }`}
             >
-              {it.label}
+              {it.external ? (
+                <span className="flex items-center justify-between gap-2">
+                  {it.label}
+                  <ExternalIcon className="text-rk-muted" />
+                </span>
+              ) : (
+                it.label
+              )}
             </Link>
           ))}
         </div>
