@@ -69,7 +69,7 @@ function StatsPage({
   return (
     <AppShell section="seo">
       <SiteAuditHeader tab="statistics" looker={false} />
-      <div className="px-8 pt-3 pb-[152px]">
+      <div className="px-8 pt-[14px] pb-[147px]">
         <ViewToggle view={view} />
         {children}
       </div>
@@ -87,10 +87,10 @@ export function StatisticsTile() {
             className="rounded-md bg-white shadow-card px-5 pt-5 pb-[18px]"
           >
             <h3 className="text-[16px] leading-6 font-semibold">{t.title}</h3>
-            <div className="mt-2 text-[24px] leading-7 font-semibold text-rk-number">
+            <div className="mt-[9px] text-[24px] leading-7 font-semibold text-rk-number">
               {t.value}
             </div>
-            <div className="text-[14px] leading-5">{t.caption}</div>
+            <div className="mt-[1px] text-[14px] leading-5">{t.caption}</div>
             <div className="mt-[10px]">
               {t.rows.map(([k, v]) => (
                 <div key={k} className="text-[14px] leading-6 text-rk-muted">
@@ -135,7 +135,7 @@ function GraphCard({
 }) {
   return (
     <div className={`rounded-md bg-white shadow-card ${className}`}>
-      <div className="flex h-10 items-center gap-2 border-b border-rk-border px-5">
+      <div className="flex h-10 items-center gap-1 border-b border-rk-border px-5">
         <h3 className="text-[16px] leading-6 font-semibold">{title}</h3>
         <InfoI />
       </div>
@@ -163,7 +163,7 @@ function DonutLegend({ items }: { items: { label: string; value: number; color: 
 export function StatisticsGraph() {
   return (
     <StatsPage view="graph">
-      <div className="mt-4 grid grid-cols-2 items-start gap-4">
+      <div className="mt-[17px] grid grid-cols-2 items-start gap-4">
         <div className="flex flex-col gap-4">
           <GraphCard title="HTTP Status Code">
             <div className="flex h-[221px] items-center gap-6 px-5">
@@ -260,13 +260,13 @@ export function StatisticsGraph() {
             </div>
           </GraphCard>
           <GraphCard title="Canonicalization">
-            <div className="flex h-[235px] items-center gap-6 px-5">
+            <div className="flex h-[235px] items-center gap-6 px-5 pb-[14px]">
               <Ring segments={canonicalization} size={180} thickness={28} />
               <DonutLegend items={canonicalization} />
             </div>
           </GraphCard>
           <GraphCard title="Hreflang Usage">
-            <div className="flex h-[235px] items-center gap-6 px-5">
+            <div className="flex h-[235px] items-center gap-6 px-5 pb-[14px]">
               <Ring segments={hreflangUsage} size={180} thickness={28} />
               <DonutLegend items={hreflangUsage} />
             </div>

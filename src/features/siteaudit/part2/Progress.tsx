@@ -59,14 +59,14 @@ function Check({ label }: { label: string }) {
 
 function Chart({ show }: { show: boolean }) {
   const W = 1128;
-  const top = 34;
+  const top = 35;
   const H = 355;
   const left = 30;
   const plotW = 1007;
   const y = (v: number) => top + H - (v / 100) * H;
   const cx = left + plotW / 2;
   return (
-    <svg width="100%" height={440} viewBox={`0 0 ${W} 440`} className="block">
+    <svg width="100%" height={437} viewBox={`0 0 ${W} 437`} className="block">
       {[0, 20, 40, 60, 80, 100].map((t) => (
         <g key={t}>
           <line x1={left} x2={left + plotW} y1={y(t)} y2={y(t)} stroke={t ? "#f0f0f2" : "#cecece"} />
@@ -94,8 +94,8 @@ export function Progress() {
   return (
     <AppShell section="seo">
       <SiteAuditHeader tab="progress" looker={false} pdf={false} exportBtn={false} />
-      <div className="px-8 pt-[13px] pb-[125px]">
-        <div className="rounded-md bg-white px-5 pt-[18px] pb-[25px] shadow-card">
+      <div className="px-8 pt-[16px] pb-[147px]">
+        <div className="rounded-md bg-white px-5 pt-[16px] pb-[25px] shadow-card">
           <div className="flex items-center">
             <span className="text-[14px] font-semibold tracking-[0.01em] uppercase">Historical chart for audits</span>
             <span className="mr-[9px] ml-[6px] text-[14px] text-rk-muted uppercase">From:</span>
@@ -120,8 +120,8 @@ export function Progress() {
               </button>
               <Popover
                 align="right"
-                offset={9}
-                panelClassName="min-w-[186px] whitespace-nowrap px-4 pt-[14px] pb-[12px]"
+                offset={6}
+                panelClassName="min-w-[186px] whitespace-nowrap px-4 pt-[14px] pb-[19px]"
                 trigger={({ toggle: t, open }) => (
                   <button type="button" aria-label="Notes settings" onClick={t} className={`${btn} w-[34px] justify-center px-0 text-rk-text-2 ${open ? "bg-rk-hover" : ""}`}>
                     <GearIcon width={18} height={18} />
@@ -129,7 +129,7 @@ export function Progress() {
                 )}
               >
                 <div className="text-[16px] leading-6 font-semibold">Notes management</div>
-                <div className="mt-[10px] space-y-4">
+                <div className="mt-[17px] space-y-4">
                   <Check label="My notes" />
                   <Check label={brand.name} />
                 </div>
@@ -157,7 +157,7 @@ export function Progress() {
               <div key={g.title}>
                 <h3 className="text-[20px] leading-7 font-medium">{g.title}</h3>
                 <div className="mt-[10px] h-1" style={{ background: g.color }} />
-                <div className="mt-[20px] flex flex-wrap gap-x-[6px] gap-y-[5px]">
+                <div className="mt-[20px] flex flex-wrap gap-x-[9px] gap-y-[5px]">
                   {g.items.map((k) => {
                     const on = sel.includes(k);
                     return (
@@ -165,12 +165,12 @@ export function Progress() {
                         key={k}
                         type="button"
                         onClick={() => toggle(k)}
-                        className={`flex max-w-full items-center gap-[6px] rounded-[14px] border px-[9px] py-[2px] text-left text-[14px] leading-[17px] ${
+                        className={`flex max-w-[263px] items-center gap-[6px] rounded-[14px] border py-[2px] pr-[16px] pl-[9px] text-left text-[14px] leading-[16.5px] ${
                           on ? "border-[#c8c7e5] bg-[#e3e2fd] text-[#5a58ad]" : "border-rk-border-strong bg-white text-rk-text-2 hover:bg-rk-bg"
                         }`}
                       >
                         <span className={`h-[11px] w-[11px] shrink-0 rounded-full border ${on ? "border-[#5a5d66] bg-[#5a5d66]" : "border-[#737373] border-[1.5px]"}`} />
-                        <span className="py-[2px]">{k}</span>
+                        <span className="py-[2.25px]">{k}</span>
                       </button>
                     );
                   })}

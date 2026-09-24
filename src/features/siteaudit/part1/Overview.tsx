@@ -54,7 +54,7 @@ function SegGauge({ value, marker, color, children }: { value: number; marker: n
 
 function CardTitle({ children, extra }: { children: ReactNode; extra?: ReactNode }) {
   return (
-    <div className="flex items-center gap-2 text-[16px] leading-6 font-semibold text-rk-text">
+    <div className="flex items-center gap-[6px] text-[16px] leading-6 font-semibold text-rk-text">
       {children}
       <Info className="text-[#a9abb6]" />
       {extra}
@@ -62,11 +62,17 @@ function CardTitle({ children, extra }: { children: ReactNode; extra?: ReactNode
   );
 }
 
-const Dashed = ({ children, href = "#" }: { children: ReactNode; href?: string }) => (
-  <Link href={href} className="text-[14px] text-rk-muted underline decoration-[#a9abb6] decoration-dashed decoration-1 underline-offset-[5px] hover:text-rk-text">
-    {children}
-  </Link>
-);
+const dashedCls = "text-[14px] text-rk-muted underline decoration-[#a9abb6] decoration-dashed decoration-1 underline-offset-[5px] hover:text-rk-text";
+const Dashed = ({ children, href }: { children: ReactNode; href?: string }) =>
+  href ? (
+    <Link href={href} className={dashedCls}>
+      {children}
+    </Link>
+  ) : (
+    <button type="button" className={dashedCls}>
+      {children}
+    </button>
+  );
 
 function TopBenchmark() {
   const { open, setOpen, ref, toggle } = useToggle();
@@ -104,16 +110,16 @@ function TopBenchmark() {
 function HealthCard() {
   const total = crawledStatus.reduce((a, s) => a + s.n, 0);
   return (
-    <div className="flex h-[274px] rounded-lg bg-white shadow-card">
+    <div className="flex h-[277px] rounded-lg bg-white shadow-card">
       <div className="w-[280px] border-r border-rk-border px-5 pt-[11px]">
         <CardTitle>Site Health</CardTitle>
-        <div className="mt-[27px]">
+        <div className="mt-[30px]">
           <SegGauge value={82} marker={92} color="#6167e6">
             <span className="text-[24px] leading-7 font-bold text-rk-text">82%</span>
             <span className="text-[12px] leading-4 text-rk-muted">no changes</span>
           </SegGauge>
         </div>
-        <div className="mt-[23px] flex items-center justify-between text-[14px]">
+        <div className="mt-[24px] flex items-center justify-between text-[14px]">
           <span className="flex items-center gap-[6px]">
             <span className="h-3 w-3 rounded-full bg-rk-accent" />
             Your site
@@ -127,9 +133,9 @@ function HealthCard() {
       </div>
       <div className="flex-1 px-5 pt-[11px]">
         <CardTitle>Crawled Pages</CardTitle>
-        <div className="mt-[8px] flex items-center justify-between">
+        <div className="mt-[11px] flex items-center justify-between">
           <span className="flex items-baseline gap-[6px]">
-            <Link href={c.crawledPages} className="text-[24px] leading-8 font-bold text-rk-number">
+            <Link href={c.crawledPages} className="text-[20px] leading-8 font-bold text-rk-number">
               100
             </Link>
             <span className="text-[13px] whitespace-nowrap text-rk-muted">no changes</span>
@@ -140,7 +146,7 @@ function HealthCard() {
         </div>
         <div className="mt-[6px] w-[155px]">
           {crawledStatus.map((s) => (
-            <div key={s.label} className="flex h-[27.2px] items-center justify-between text-[14px]">
+            <div key={s.label} className="flex h-[27.75px] items-center justify-between text-[14px]">
               <span className="flex items-center gap-[10px]">
                 <span className="h-3 w-3 rounded-full" style={{ background: s.color }} />
                 {s.label}
@@ -171,10 +177,10 @@ function AiCard() {
   const [more, setMore] = useState(false);
   const list = more ? bots : bots.slice(0, 4);
   return (
-    <div className="flex min-h-[274px] rounded-lg bg-white shadow-card">
+    <div className="flex min-h-[277px] rounded-lg bg-white shadow-card">
       <div className="flex w-[280px] flex-col border-r border-rk-border px-5 pt-[11px] pb-[20px]">
         <CardTitle extra={<span className="rounded-full bg-[#f26b1d] px-[5px] text-[11px] leading-[15px] font-semibold text-white">beta</span>}>AI Search Health</CardTitle>
-        <div className="mt-[27px]">
+        <div className="mt-[30px]">
           <SegGauge value={91} marker={80} color="#3ae0b2">
             <span className="text-[24px] leading-7 font-bold text-[#009f81]">91%</span>
             <span className="text-[12px] leading-4 text-rk-muted">no changes</span>
@@ -190,10 +196,10 @@ function AiCard() {
       </div>
       <div className="flex flex-1 flex-col px-5 pt-[11px] pb-[20px]">
         <CardTitle>Blocked from AI Search</CardTitle>
-        <div className="mt-[9px] text-[14px] text-rk-muted">Pages crawled: 100</div>
-        <div className="mt-[16px]">
+        <div className="mt-[12px] text-[14px] text-rk-muted">Pages crawled: 100</div>
+        <div className="mt-[15px]">
           {list.map((b) => (
-            <div key={b} className="flex h-[27.3px] items-center justify-between text-[14px]">
+            <div key={b} className="flex h-[28.4px] items-center justify-between text-[14px]">
               <span className="flex items-center gap-[4px]">
                 {botIcon(b)}
                 {b}
@@ -229,16 +235,16 @@ function MiniChart() {
 
 function CountsCard() {
   return (
-    <div className="h-[304px] w-[374px] shrink-0 rounded-lg bg-white px-5 pt-[18px] shadow-card">
+    <div className="h-[310px] w-[374px] shrink-0 rounded-lg bg-white px-5 pt-[20px] shadow-card">
       <CardTitle>Errors</CardTitle>
-      <Link href={c.issues} className="mt-[5px] block text-[24px] leading-8 font-bold text-rk-danger">
+      <Link href={c.issues} className="mt-[7px] block text-[24px] leading-8 font-bold text-rk-danger">
         16
       </Link>
       <MiniChart />
-      <div className="mt-[26px]">
+      <div className="mt-[27px]">
         <CardTitle>Warnings</CardTitle>
       </div>
-      <Link href={c.issues} className="mt-[5px] block text-[24px] leading-8 font-bold text-rk-warning">
+      <Link href={c.issues} className="mt-[7px] block text-[24px] leading-8 font-bold text-rk-warning">
         1,099
       </Link>
       <MiniChart />
@@ -251,7 +257,7 @@ function IssuesCard() {
     <div className="flex min-w-0 flex-1 flex-col">
       <div className="rounded-lg bg-white shadow-card">
         {overviewIssues.map((i, k) => (
-          <div key={i.text} className={`flex h-[52px] items-center pr-[31px] pl-5 text-[14px] ${k ? "border-t border-rk-border" : ""}`}>
+          <div key={i.text} className={`flex h-[53px] items-center pr-[31px] pl-5 text-[14px] ${k ? "border-t border-rk-border" : ""}`}>
             <span className="w-[23px] shrink-0">{i.sev === "error" ? <ErrorBolt /> : <NoticeIcon />}</span>
             <span className="text-rk-text">{i.text}</span>
             {i.ai && <AiTag className="ml-2" />}
@@ -287,11 +293,11 @@ const tileBtn = "inline-flex h-7 items-center gap-2 rounded-md border border-rk-
 
 function Thematic() {
   return (
-    <div className="mt-4 rounded-lg bg-white px-5 pt-[8px] pb-[19px] shadow-card">
+    <div className="mt-4 rounded-lg bg-white px-5 pt-[7px] pb-[20px] shadow-card">
       <h2 className="text-[16px] leading-[24px] font-semibold">Thematic Reports</h2>
-      <div className="mt-[15px] grid grid-cols-4 gap-x-4 gap-y-[17px]">
+      <div className="mt-[16px] grid grid-cols-4 gap-x-4 gap-y-[17px]">
         {thematic.map((t) => (
-          <div key={t.key} className="h-[134px] rounded-lg border border-rk-border px-5 pt-[18px]">
+          <div key={t.key} className="h-[137px] rounded-lg border border-rk-border px-5 pt-[19px]">
             <div className="flex items-center gap-2 text-[14px] leading-5">
               {t.label}
               {t.key === "robots" && <Info className="text-[#a9abb6]" />}
@@ -343,7 +349,7 @@ function BrandPresence() {
           <CloseIcon width={14} height={14} strokeWidth={2} />
         </button>
       </div>
-      <div className="flex h-[90px] items-start pt-[20px] pl-4 text-[14px]">
+      <div className="flex h-[92px] items-start pt-[20px] pl-4 text-[14px]">
         <div className="pr-6">
           <div>Market Share in ChatGPT</div>
           <button type="button" className="mt-[7px] flex h-[26px] items-center gap-[6px] rounded-md bg-rk-btn-dark px-2 text-[14px] font-semibold text-white">
@@ -374,12 +380,12 @@ function BrandPresence() {
 
 export function Overview() {
   return (
-    <div className="px-8 pt-4 pb-[146px]">
+    <div className="px-8 pt-4 pb-[149px]">
       <div className="grid grid-cols-2 gap-4">
         <HealthCard />
         <AiCard />
       </div>
-      <div className="mt-4 flex gap-4">
+      <div className="mt-[17px] flex gap-4">
         <CountsCard />
         <IssuesCard />
       </div>

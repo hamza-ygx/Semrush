@@ -337,10 +337,10 @@ export function IssuesCard({ title, groups, info = false, className = "" }: { ti
             {g.items.map((name, i) => {
               const n = issueCounts[name] ?? 0;
               return (
-                <div key={name} className={`col-span-3 grid min-h-[45px] grid-cols-subgrid items-center px-5 py-[6px] ${i < g.items.length - 1 ? "border-b border-rk-border" : ""}`}>
+                <div key={name} className={`col-span-3 grid min-h-[45px] grid-cols-subgrid items-center px-5 py-[12px] ${i < g.items.length - 1 ? "border-b border-rk-border" : ""}`}>
                   <span className="min-w-0 pr-6 text-[14px] leading-5">{name}</span>
                   <LearnMore className="justify-self-start">{n ? "How to fix" : "Learn more"}</LearnMore>
-                  <span className="flex justify-end">
+                  <span className="-my-1 flex justify-end">
                     {n ? (
                       <Link
                         href={routes.siteAuditCampaign.issueDetail(issueId(name))}

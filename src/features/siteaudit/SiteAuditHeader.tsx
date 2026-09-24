@@ -31,7 +31,7 @@ export function SiteAuditHeader({ tab, looker = true, pdf = true, exportBtn = tr
   return (
     <PageHeader
       crumbs={[{ label: "Home", href: routes.home }, { label: "SEO", href: routes.seoDashboard }, { label: "Site Audit" }]}
-      className="[&>div:nth-child(2)]:mt-[8px] [&>div:nth-child(3)]:mt-[8px] [&>div:last-child]:mt-[33px] xl:[&>div:nth-child(2)]:mt-[6px] xl:[&>div:nth-child(3)]:mt-[7px] xl:[&>div:last-child]:mt-[30px]"
+      className="[&>div:nth-child(2)]:mt-[8px] [&>div:nth-child(3)]:mt-[8px] [&>div:last-child]:mt-[33px] xl:[&>div:last-child]:mt-[32px]"
       links={
         <>
           <HelpCenter />
@@ -41,7 +41,7 @@ export function SiteAuditHeader({ tab, looker = true, pdf = true, exportBtn = tr
       title={
         <>
           Site Audit:
-          <Link href={routes.siteAudit} className="ml-2 flex items-center gap-1 text-rk-link hover:text-rk-link-hover">
+          <Link href={routes.siteAudit} className="flex items-center gap-1 text-rk-link hover:text-rk-link-hover">
             www.rkjh.se
             <ChevronDown />
           </Link>

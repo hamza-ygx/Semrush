@@ -254,3 +254,6 @@ export function BotIcon({ kind }: { kind: "perplexity" | "claude" }) {
     </svg>
   );
 }
+
+export const thinScroll =
+  "[&::-webkit-scrollbar]:w-[8px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-[#c4c7cf] [&::-webkit-scrollbar-thumb]:bg-clip-padding";

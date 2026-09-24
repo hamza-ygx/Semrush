@@ -12,6 +12,7 @@ export function ThematicPage({
   ringFirst = true,
   info = false,
   pdf = false,
+  pb = 166,
   children,
 }: {
   title: string;
@@ -19,17 +20,18 @@ export function ThematicPage({
   ringFirst?: boolean;
   info?: boolean;
   pdf?: boolean;
+  pb?: number;
   children: ReactNode;
 }) {
   return (
     <AppShell section="seo">
       <SiteAuditHeader tab="overview" looker={false} exportBtn={false} pdf={pdf} />
-      <div className="px-8 pt-4 pb-[100px]">
+      <div className="px-8 pt-[14px]" style={{ paddingBottom: pb }}>
         <Button variant="tertiary" href={routes.siteAuditCampaign.overview} className="h-7 gap-[7px] pr-[9px] pl-[7px] text-rk-text-2">
           <ArrowLeft width={16} height={16} />
           Go to Overview
         </Button>
-        <h1 className="mt-[14px] mb-4 flex h-7 items-center gap-2 text-[20px] leading-7 font-semibold">
+        <h1 className="mt-[14px] mb-[14px] flex h-7 items-center gap-2 text-[20px] leading-7 font-semibold">
           <span>{title}</span>
           <span className="-ml-[3px] text-rk-muted">/ Score:</span>
           {ringFirst ? (

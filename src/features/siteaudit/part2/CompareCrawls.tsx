@@ -16,8 +16,8 @@ const cell = "flex h-[52px] items-center justify-center border-l border-rk-borde
 
 function Row({ label, href, a, b, fixed, learn }: { label: string; href: string; a: string; b: string; fixed: string | null; learn?: boolean }) {
   return (
-    <div className="grid grid-cols-[553px_213px_214px_95px_94px] border-b border-rk-border">
-      <div className="flex h-[52px] items-center gap-2 px-5">
+    <div className="grid grid-cols-[1fr_212px_213px_93px_94px] border-b border-rk-border">
+      <div className="flex h-[52px] items-center gap-2 pr-3 pl-5">
         <Link href={href} className="text-[14px] text-rk-link hover:text-rk-link-hover">
           {label}
         </Link>
@@ -43,7 +43,7 @@ function Row({ label, href, a, b, fixed, learn }: { label: string; href: string;
 function Section({ title, color, items }: { title: string; color: string; items: string[] }) {
   return (
     <>
-      <div className="flex h-[50px] items-end gap-2 px-5 pb-[9px]">
+      <div className="flex h-[47px] items-end gap-2 px-5 pb-[10px]">
         <h2 className="text-[20px] leading-7 font-semibold">{title}</h2>
         <InfoI className="mb-1" />
       </div>
@@ -60,9 +60,9 @@ export function CompareCrawls() {
   return (
     <AppShell section="seo">
       <SiteAuditHeader tab="compare" looker={false} exportBtn={false} />
-      <div className="px-8 pt-[13px] pb-[60px]">
+      <div className="px-8 pt-[15px] pb-[60px]">
         <div className="overflow-hidden rounded-md bg-white shadow-card">
-          <div className="grid h-[71px] grid-cols-[553px_213px_214px_95px_94px] items-center pt-[18px] text-[16px]">
+          <div className="grid h-[72px] grid-cols-[1fr_212px_213px_93px_94px] items-center pt-[15px] text-[16px]">
             <div className="flex items-center gap-2 px-5">
               <h2 className="text-[20px] leading-7 font-semibold">General</h2>
               <InfoI />

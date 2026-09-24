@@ -62,8 +62,8 @@ export function Linking() {
             </div>
           </Panel>
           <Panel title="Internal Links" info head={<LinksToggle value={dir} onChange={setDir} />}>
-            <div className="px-5 pt-[15px] pb-[12px]">
-              <BarChart data={dir === "in" ? incomingLinks : outgoingLinks} width={440} height={140} max={dir === "in" ? 50 : 75} ticks={dir === "in" ? [0, 25, 50] : [0, 25, 50, 75]} left={55} top={8} bottom={50} barGap={2} tickGap={15} titleGap={43} xTitle="Links" />
+            <div className="px-5 pt-[20px] pb-[19px]">
+              <BarChart data={dir === "in" ? incomingLinks : outgoingLinks} width={440} height={134} max={dir === "in" ? 50 : 75} ticks={dir === "in" ? [0, 25, 50] : [0, 25, 50, 75]} left={55} top={8} bottom={44} barGap={2} tickGap={15} titleGap={43} xTitle="Links" />
             </div>
           </Panel>
           <Panel title="Internal Link Distribution" info>
@@ -99,7 +99,7 @@ export function Linking() {
         <div className="flex flex-col gap-4">
           <IssuesCard title="Internal Link Issues" groups={linkingIssues} info />
           <Panel title="Pages passing most Internal LinkRank" info>
-            <div className="grid h-[48px] grid-cols-[27px_1fr_101px_65px] items-start border-b border-rk-border px-5 pt-[8px] text-[12px] leading-4 text-rk-text-2">
+            <div className="grid h-[69px] grid-cols-[27px_1fr_101px_65px] items-start border-b border-rk-border px-5 pt-[29px] text-[12px] leading-4 text-rk-text-2">
               <span className="text-right">ILR</span>
               <span className="pl-4">URL</span>
               <span>

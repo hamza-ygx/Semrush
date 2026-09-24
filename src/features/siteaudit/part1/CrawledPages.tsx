@@ -7,7 +7,7 @@ import { CheckIcon } from "@/components/ui/icons";
 import { Info } from "@/components/ui/primitives";
 import { botIcon } from "./Overview";
 import { bots, crawledRows, pageColumns, pageFilterFields, structure, type CrawledRow, type Dir } from "./data";
-import { AddCondition, AdvancedFilterPanel, Checkbox, CogIcon, ExtIcon, PageSize, ReauditIcon, SearchBox, SelectButton, SortIcon, useToggle, XIcon } from "./ui";
+import { AddCondition, AdvancedFilterPanel, Checkbox, CogIcon, ExtIcon, PageSize, ReauditIcon, SearchBox, SelectButton, SortIcon, thinScroll, useToggle, XIcon } from "./ui";
 
 const c = routes.siteAuditCampaign;
 
@@ -66,7 +66,7 @@ function Scope() {
         {v}
       </SelectButton>
       {open && (
-        <div className="absolute top-[calc(100%+9px)] left-0 z-50 w-[117px] overflow-hidden rounded-md bg-white py-1 shadow-popover">
+        <div className="absolute top-[calc(100%+6px)] left-0 z-50 w-[117px] overflow-hidden rounded-md bg-white py-1 shadow-popover">
           {["Everywhere", "URL", "Title", "Description"].map((o) => (
             <DropItem
               key={o}
@@ -117,7 +117,7 @@ function FieldSelect() {
         {v}
       </SelectButton>
       {open && (
-        <div className="absolute top-[calc(100%+9px)] left-0 z-50 h-[245px] w-full overflow-y-auto rounded-md bg-white py-1 shadow-popover [scrollbar-width:thin]" data-field-list>
+        <div className={`absolute top-[calc(100%+9px)] left-0 z-50 h-[245px] w-full overflow-y-auto rounded-md bg-white py-1 shadow-popover ${thinScroll}`} data-field-list>
           {pageFilterFields.map((o) => (
             <DropItem
               key={o}
@@ -186,12 +186,12 @@ function AdvancedFilters({ active }: { active: boolean }) {
       )}
       {open && (
         <AdvancedFilterPanel className="left-0 w-[583px]" onApply={() => setOpen(false)}>
-          <div className="-mt-px flex items-center">
+          <div className="mt-[2px] flex items-center">
             <FieldSelect />
             <span className="mx-[17px] text-[14px]">is</span>
             <ValueSelect />
           </div>
-          <div className="pt-[6px] pb-[5px]">
+          <div className="pt-[6px] pb-[7px]">
             <AddCondition />
           </div>
         </AdvancedFilterPanel>
@@ -283,8 +283,8 @@ function ManageColumns({ on, setOn }: { on: string[]; setOn: (v: string[]) => vo
         </span>
       </button>
       {open && (
-        <div className="absolute top-[calc(100%+7px)] right-0 z-50 w-[239px] rounded-md bg-white shadow-popover">
-          <div className="px-2 pt-[9px] pb-[3px]">
+        <div className="absolute top-[calc(100%+7px)] right-0 z-50 w-[241px] rounded-md bg-white shadow-popover">
+          <div className="px-2 pt-[6px] pb-[4px]">
             <div className="text-[14px] font-semibold">Columns</div>
             <button type="button" onClick={() => setOn(pageColumns.filter((p) => p.on).map((p) => p.key))} className="mt-3 block text-[14px] text-rk-link hover:text-rk-link-hover">
               Reset to default
@@ -293,7 +293,7 @@ function ManageColumns({ on, setOn }: { on: string[]; setOn: (v: string[]) => vo
               Select all
             </button>
           </div>
-          <div className="h-[400px] overflow-y-auto pt-[6px] pb-2 [scrollbar-width:thin]" data-columns-list>
+          <div className={`h-[400px] overflow-y-auto pt-[6px] pb-2 ${thinScroll}`} data-columns-list>
             {pageColumns.map((p) => {
               const checked = on.includes(p.key);
               return (
@@ -316,7 +316,7 @@ function PagesTable() {
   const total = cols.reduce((a, p) => a + p.w, 0);
   const wide = total > 1169;
   const head = (
-    <div className="flex h-[41px] border-b border-rk-border bg-[#f7f7f8] text-[13px] text-rk-text-2" style={wide ? { width: total } : undefined}>
+    <div className="flex h-[42px] border-y border-rk-border bg-[#f7f7f8] text-[13px] text-rk-text-2" style={wide ? { width: total } : undefined}>
       {cols.map((p) => (
         <div
           key={p.key}
@@ -335,7 +335,7 @@ function PagesTable() {
         <div
           key={p.key}
           style={{ width: p.w, flexGrow: wide ? 0 : p.w }}
-          className={`shrink-0 px-3 ${r.title ? "min-h-[84px] pt-[12px] pb-[11px]" : "pt-[12px] pb-[13px]"} ${
+          className={`shrink-0 px-3 ${r.title ? "min-h-[83.4px] pt-[12px] pb-[11px]" : "pt-[12px] pb-[12px]"} ${
             p.key === "ilr" ? "pl-5 text-right" : rightAligned.has(p.key) ? "text-right" : centered.has(p.key) ? "text-center" : ""
           } ${p.key === "status" ? "!pt-[10px]" : ""} ${p.key === "blocked" || p.key === "pageviews" ? "!pt-[9px]" : ""}`}
         >
@@ -347,7 +347,7 @@ function PagesTable() {
   return (
     <div className="rounded-lg bg-white shadow-card">
       <div className={`${wide ? "" : "sticky top-[61px]"} z-20 rounded-t-lg bg-white`}>
-        <div className="flex h-[43px] items-center justify-between pr-5 pl-5">
+        <div className="flex h-[44px] items-center justify-between pr-5 pl-5">
           <h2 className="text-[16px] leading-6 font-semibold">Crawled Pages</h2>
           <ManageColumns on={on} setOn={setOn} />
         </div>
@@ -361,7 +361,7 @@ function PagesTable() {
       ) : (
         body
       )}
-      <div className="flex h-[65px] items-center gap-2 border-t border-rk-border px-5 text-[14px]">
+      <div className="flex h-[63px] items-center gap-2 border-t border-rk-border px-5 pb-[3px] text-[14px]">
         <span>Page:</span>
         <input placeholder="1" className="h-7 w-[70px] rounded-md border border-rk-border px-2 outline-none placeholder:text-[#a9abb6]" />
         <span className="ml-[2px]">of 1</span>
@@ -445,9 +445,9 @@ function SiteStructure() {
 
 export function CrawledPages({ view }: { view: "pages" | "structure" }) {
   return (
-    <div className={`px-8 pt-4 ${view === "pages" ? "pb-[152px]" : "pb-[140px]"}`}>
+    <div className={`px-8 pt-[14px] ${view === "pages" ? "pb-[148px]" : "pb-[140px]"}`}>
       <ViewSwitch view={view} />
-      <div className="sticky top-0 z-30 -mx-8 bg-rk-bg px-8 pt-4 pb-[17px]">
+      <div className="sticky top-0 z-30 -mx-8 bg-rk-bg px-8 pt-4 pb-[16px]">
         <FilterRow structureView={view === "structure"} />
       </div>
       {view === "pages" ? <PagesTable /> : <SiteStructure />}

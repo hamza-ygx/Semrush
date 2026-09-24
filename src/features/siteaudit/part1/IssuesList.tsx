@@ -92,14 +92,14 @@ function HowToFix({ issue }: { issue: Issue }) {
 export function FixPanel({ issue, className = "top-[calc(100%+4px)] left-[1px]" }: { issue: Issue; className?: string }) {
   const hasLink = issue.about.endsWith("see ");
   return (
-        <div className={`absolute z-40 flex w-[587px] overflow-hidden rounded-md bg-white text-[14px] leading-[19.5px] shadow-popover ${className}`}>
+        <div className={`absolute z-40 flex w-[587px] overflow-hidden rounded-md bg-white text-[14px] leading-5 shadow-popover ${className}`}>
           <div className="w-[294px] shrink-0 px-4 pt-[16px] pb-[16px]">
             <div className="text-[16px] leading-6 font-semibold">About the issue</div>
-            <p className="mt-[1px]">
+            <p className="mt-[4px]">
               {issue.about}
               {hasLink && (
                 <>
-                  <a href="#" className="text-rk-link hover:text-rk-link-hover">
+                  <a href="https://developers.google.com/speed/docs/insights/MinifyResources" target="_blank" rel="noreferrer" className="text-rk-link hover:text-rk-link-hover">
                     this Google article
                   </a>
                   .
@@ -110,10 +110,10 @@ export function FixPanel({ issue, className = "top-[calc(100%+4px)] left-[1px]" 
               <span className="text-[16px] font-semibold">Category:</span> {issue.category}
             </p>
           </div>
-          <div className="flex-1 bg-[#dcf8ef] px-4 pt-[16px] pb-[16px]">
+          <div className="flex-1 bg-[#e4fffa] px-4 pt-[16px] pb-[16px]">
             <div className="text-[16px] leading-6 font-semibold">How to fix</div>
-            <p className="mt-[1px] whitespace-pre-line">{issue.fix}</p>
-            <p className="mt-[19.5px]">Work on the project with co-workers and keep everything organized</p>
+            <p className="mt-[4px] whitespace-pre-line">{issue.fix}</p>
+            <p className="mt-[20px]">Work on the project with co-workers and keep everything organized</p>
             <button type="button" className="mt-[4px] flex h-[26px] items-center gap-[6px] rounded-md border border-[#b5dfd0] px-2 text-[14px] text-rk-text-2 hover:bg-[#c9f0e2]">
               <svg viewBox="0 0 16 16" width={16} height={16}>
                 <g fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round">
@@ -153,7 +153,7 @@ export function SendTo({ className = "", label = "Send to..." }: { className?: s
             </button>
           ))}
           <div className="border-t border-rk-border py-[10px] pl-2">
-            <a href="#" className="flex items-center gap-1 text-[14px] text-rk-link hover:text-rk-link-hover">
+            <a href="https://zapier.com/apps" target="_blank" rel="noreferrer" className="flex items-center gap-1 text-[14px] text-rk-link hover:text-rk-link-hover">
               <HelpCircleIcon />
               How to connect Zapier
             </a>
@@ -181,7 +181,7 @@ export function EyeButton() {
 function IssueRow({ issue }: { issue: Issue }) {
   const href = c.issueDetail(issue.id);
   return (
-    <div className="flex h-[51px] items-center border-b border-rk-border pr-5 pl-[23px] text-[14px] last:border-b-0 hover:bg-[#f9fafc]">
+    <div className="flex h-[52px] items-center border-b border-rk-border pr-5 pl-[23px] text-[14px] last:border-b-0 hover:bg-[#f9fafc]">
       <div className="flex min-w-0 flex-1 items-center">
         {issue.isNew && <span className="mr-[7px] -ml-[3px] rounded-[4px] bg-gradient-to-r from-[#9a5cff] to-[#b18bff] px-[4px] text-[11px] leading-[14px] font-semibold text-white">new</span>}
         <Link href={href} className="text-rk-link hover:text-rk-link-hover">
@@ -216,7 +216,7 @@ export function IssuesList() {
 
   return (
     <div className="px-8 pb-[200px]">
-      <div className="sticky top-0 z-30 -mx-8 flex items-center bg-rk-bg px-8 pt-[15px] pb-[13px]">
+      <div className="sticky top-0 z-30 -mx-8 flex items-center bg-rk-bg px-8 pt-[15px] pb-[13px] after:absolute after:inset-x-0 after:top-full after:h-[4px] after:bg-rk-bg">
         <label className="flex h-7 w-[196px] items-center gap-[6px] rounded-md border border-rk-border-strong bg-white px-2 focus-within:border-[#8e92ec]">
           <SearchIcon width={15} height={15} className="text-[#8a8e9b]" />
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search" className="min-w-0 flex-1 text-[14px] outline-none placeholder:text-rk-muted" />
@@ -257,7 +257,7 @@ export function IssuesList() {
           if (!rows.length) return null;
           return (
             <section key={s.sev} className="border-b border-rk-border last:border-b-0">
-              <div className="sticky top-[56px] z-20 bg-white">
+              <div className="sticky top-[57px] z-20 bg-white">
                 <div className="flex h-[44px] items-center pr-5 pl-5">
                   <span className="text-[16px] font-semibold">{s.label}</span>
                   <span className="ml-[5px] text-[16px] text-rk-muted">({rows.length})</span>

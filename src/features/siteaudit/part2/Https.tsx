@@ -15,7 +15,7 @@ export function Https() {
   return (
     <ThematicPage title="HTTPS Implementation" score={98}>
       {httpsSections.map((sec, si) => (
-        <section key={sec.title} className={si ? "mt-4" : "-mt-[3px]"}>
+        <section key={sec.title} className={si ? "mt-4" : ""}>
           <h2 className="text-[16px] leading-6 font-semibold">{sec.title}</h2>
           <div className="mt-2 grid grid-cols-[repeat(3,318px)] gap-4">
             {sec.checks.map((c) => (

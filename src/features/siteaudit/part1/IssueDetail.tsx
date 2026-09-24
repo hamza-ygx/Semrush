@@ -104,13 +104,13 @@ export function IssueDetail({ id }: { id: number }) {
   };
 
   return (
-    <div className="px-8 pt-4">
+    <div className="px-8 pt-[14px]">
       <Link href={c.issues} className="inline-flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#e9eaee] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
         <ArrowLeft />
         All issues
       </Link>
 
-      <div className="mt-4 rounded-lg bg-white shadow-card">
+      <div className="mt-[17px] rounded-lg bg-white shadow-card">
         <div className="flex h-[42px] items-center border-b border-rk-border pr-5 pl-5">
           <h2 className="text-[16px] leading-6 font-semibold">{title}</h2>
           <span className={`ml-[9px] rounded-full px-2 text-[12px] leading-5 ${sevTag[issue.severity].cls}`}>{sevTag[issue.severity].label}</span>
@@ -141,7 +141,7 @@ export function IssueDetail({ id }: { id: number }) {
         </div>
 
         <div className="sticky top-0 z-20 rounded-t-lg bg-white">
-          <div className="flex items-center px-5 pt-4 pb-4">
+          <div className="flex items-center px-5 pt-[17px] pb-4">
             <div className="flex">
               {(["issues", "hidden"] as const).map((k) => (
                 <button
@@ -162,7 +162,7 @@ export function IssueDetail({ id }: { id: number }) {
               <AdvancedFilters />
             </div>
           </div>
-          <div className="flex h-10 border-y border-rk-border text-[13px] text-rk-text-2">
+          <div className="flex h-[42px] border-y border-rk-border text-[13px] text-rk-text-2">
             <div className="flex w-12 shrink-0 items-center justify-end pr-[4px]">
               <Checkbox checked={all} onChange={() => setSel(all ? new Set() : new Set(rows.map((_, i) => i)))} />
             </div>
@@ -220,7 +220,7 @@ export function IssueDetail({ id }: { id: number }) {
           </div>
         </div>
       </div>
-      <div className="h-[153px]" />
+      <div className="h-[152px]" />
     </div>
   );
 }

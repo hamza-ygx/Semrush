@@ -56,7 +56,7 @@ export function Crawlability() {
         <div className="grid grid-cols-2 gap-5">
           <SubCard className="h-[310px] px-4 pt-[18px]">
             <h3 className="text-[16px] leading-5 font-semibold">Site Indexability</h3>
-            <div className="mt-[20px] flex items-center gap-11 pl-[20px]">
+            <div className="mt-[30px] flex items-center gap-11 pl-[20px]">
               <Ring segments={[{ value: 12, color: "#e89a12" }, { value: 88, color: C.green }]} size={190} thickness={24} sep={false}>
                 <span className="text-[24px] leading-7 font-semibold">100</span>
                 <span className="text-[12px] leading-4 text-rk-muted">pages</span>
@@ -66,7 +66,7 @@ export function Crawlability() {
                   12
                 </Link>
                 <div className="text-[14px] leading-5">Non-indexable pages</div>
-                <Link href={routes.siteAuditCampaign.crawledPages} className="mt-4 block text-[24px] leading-7 font-semibold text-[#10c791]">
+                <Link href={routes.siteAuditCampaign.crawledPages} className="mt-[13px] block text-[24px] leading-7 font-semibold text-[#10c791]">
                   88
                 </Link>
                 <div className="text-[14px] leading-5">Indexable pages</div>

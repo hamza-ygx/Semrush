@@ -74,7 +74,7 @@ export function JsImpact() {
   return (
     <AppShell section="seo">
       <SiteAuditHeader tab="js" looker={false} pdf={false} exportBtn={false} />
-      <div className="flex gap-[39px] px-8 pt-[28px] pb-[150px]">
+      <div className="flex gap-[39px] px-8 pt-[24px] pb-[166px]">
         <Illustration />
         <div className="pt-[2px]">
           <h2 className="text-[16px] leading-6 font-semibold">Find out how JavaScript might affect your rankings</h2>

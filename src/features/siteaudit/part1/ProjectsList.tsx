@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { routes } from "@/config/routes";
 import { PlusIcon, RefreshIcon, SearchIcon, WarningIcon } from "@/components/ui/icons";
 import { auditSettings, projectColumns, projectRow } from "./data";
-import { Checkbox, CogIcon, PageSize, SortAscIcon, SparkleIcon, useToggle, XIcon } from "./ui";
+import { Checkbox, CogIcon, PageSize, SortAscIcon, SparkleIcon, thinScroll, useToggle, XIcon } from "./ui";
 
 const TRACK = 851;
 const THUMB = 481;
@@ -59,7 +59,7 @@ function GearMenu() {
               Cancel crawling
             </div>
           </div>
-          <div onScroll={(e) => setStuck(e.currentTarget.scrollTop > 0)} className="relative h-[236px] overflow-y-auto border-t border-rk-border [scrollbar-width:thin]" data-settings>
+          <div onScroll={(e) => setStuck(e.currentTarget.scrollTop > 0)} className={`relative h-[236px] overflow-y-auto border-t border-rk-border [&::-webkit-scrollbar-track]:mt-[40px] ${thinScroll}`} data-settings>
             <div className={`sticky top-0 z-10 bg-white px-2 pt-[13px] pb-[7px] text-[14px] font-semibold text-rk-text ${stuck ? "mb-[10px] border-b border-rk-border" : ""}`}>Audit settings</div>
             {auditSettings.map((s) => (
               <button key={s} type="button" className="flex h-[31.5px] w-full items-center px-2 text-left text-[14px] text-rk-text hover:bg-rk-bg">
@@ -80,15 +80,23 @@ function GearMenu() {
 export function ProjectsList() {
   const ref = useRef<HTMLDivElement>(null);
   const [sl, setSl] = useState(0);
-  const max = CONTENT - TRACK - 7;
-  const thumbLeft = max > 0 ? (sl / max) * (TRACK - THUMB) : 0;
+  const [track, setTrack] = useState(TRACK);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => setTrack(el.clientWidth - 7));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const max = CONTENT - track - 7;
+  const thumbLeft = max > 0 ? (sl / max) * (track - THUMB) : 0;
   const drag = (dx: number) => {
-    if (ref.current) ref.current.scrollLeft += (dx * max) / (TRACK - THUMB);
+    if (ref.current) ref.current.scrollLeft += (dx * max) / (track - THUMB);
   };
 
   return (
     <div className="rounded-lg bg-white shadow-card">
-      <div className="flex items-center justify-between px-5 pt-5 pb-5">
+      <div className="flex items-center justify-between px-5 pt-5 pb-[19px]">
         <label className="flex h-7 w-[294px] items-center gap-[6px] rounded-md border border-rk-border-strong px-2 focus-within:border-[#8e92ec]">
           <SearchIcon width={15} height={15} className="text-[#8a8e9b]" />
           <input placeholder="Project name or domain" className="flex-1 text-[14px] outline-none placeholder:text-rk-muted" />
@@ -101,8 +109,8 @@ export function ProjectsList() {
 
       <div className="flex">
         <div className={`relative z-10 w-[295px] shrink-0 bg-white ${sl > 0 ? "shadow-[3px_0_4px_-2px_rgba(25,27,35,0.18)]" : ""}`}>
-          <div className="flex h-10 items-center border-b border-rk-border bg-[#f7f7f8] pl-5 text-[13px] text-rk-text-2">Project</div>
-          <div className="h-[86px] border-b border-rk-border pt-[11px] pl-5">
+          <div className="flex h-[43px] items-center border-b border-rk-border bg-[#f7f7f8] pl-5 text-[13px] text-rk-text-2">Project</div>
+          <div className="h-[89px] border-b border-rk-border pt-[11px] pl-5">
             <Link href={routes.siteAuditCampaign.overview} className="block text-[14px] leading-5 font-semibold text-rk-link hover:text-rk-link-hover">
               www.rkjh.se
             </Link>
@@ -113,7 +121,7 @@ export function ProjectsList() {
         <div className="relative min-w-0 flex-1">
         <div ref={ref} onScroll={(e) => setSl(e.currentTarget.scrollLeft)} className="no-scrollbar overflow-x-auto" data-hscroll>
           <div style={{ width: CONTENT }} className="relative">
-            <div className="relative flex h-10 border-b border-rk-border bg-[#f7f7f8] text-[13px] text-rk-text-2">
+            <div className="relative flex h-[43px] border-b border-rk-border bg-[#f7f7f8] text-[13px] text-rk-text-2">
               {projectColumns.map((c) => (
                 <div
                   key={c.key}
@@ -126,7 +134,7 @@ export function ProjectsList() {
                 </div>
               ))}
             </div>
-            <div className="relative flex h-[86px] border-b border-rk-border pt-[11px] text-[14px] leading-5">
+            <div className="relative flex h-[89px] border-b border-rk-border pt-[11px] text-[14px] leading-5">
               {projectColumns.map((c) => (
                 <div key={c.key} style={{ width: c.w }} className={`shrink-0 px-3 whitespace-nowrap ${c.align === "left" ? "" : "text-right"}`}>
                   {c.key === "update" ? (
@@ -151,8 +159,8 @@ export function ProjectsList() {
             </div>
           </div>
         </div>
-        <Thumb left={thumbLeft} top={32} onDrag={drag} />
-        <Thumb left={thumbLeft} top={118} onDrag={drag} />
+        <Thumb left={thumbLeft} top={34} onDrag={drag} />
+        <Thumb left={thumbLeft} top={124} onDrag={drag} />
         </div>
       </div>
 

@@ -48,7 +48,7 @@ export function Markup() {
                 <span className="text-[24px] leading-7 font-semibold">83</span>
               </Ring>
             </div>
-            <div className="mt-[22px] w-[192px]">
+            <div className="mt-[18px] w-[192px]">
               <Legend
                 rows={[
                   { label: "with markup", pct: "100%", value: 83, color: C.blue, link: true },
@@ -66,7 +66,7 @@ export function Markup() {
             </h3>
             <div className="mt-[25px]">
               {markupTypes.map((m) => (
-                <div key={m.label} className="mb-[17px]">
+                <div key={m.label} className="mb-[15.5px]">
                   <div className="flex text-[14px] leading-5">
                     <span className="flex-1">{m.label}</span>
                     <span className="text-rk-muted">{m.pct}%</span>
@@ -89,7 +89,7 @@ export function Markup() {
                 <span className="text-[24px] leading-7 font-semibold">83</span>
               </Ring>
             </div>
-            <div className="mt-[22px] w-[258px]">
+            <div className="mt-[18px] w-[258px]">
               <Legend
                 rows={[
                   { label: "Invalid structured data", pct: "0%", value: 0, color: C.red },

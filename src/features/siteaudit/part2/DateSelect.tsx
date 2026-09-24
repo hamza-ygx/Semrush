@@ -14,7 +14,7 @@ export function DateSelect({ className = "" }: { className?: string }) {
           type="button"
           onClick={toggle}
           className={`flex h-[30px] items-center gap-2 rounded-md border pr-[7px] pl-2 text-[14px] text-rk-text ${
-            open ? "border-[#8fa6f2] bg-white" : "border-rk-border-strong bg-[#f4f5f9] hover:bg-rk-hover"
+            open ? "border-[#8fa6f2] bg-white" : "border-rk-border-strong bg-white hover:bg-rk-bg"
           } ${className}`}
         >
           {crawlDate}
