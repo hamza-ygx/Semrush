@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, type CSSProperties } from "react";
+import type { Tool } from "@/config/routes";
 import { routes, tools } from "@/config/routes";
 import { useOutsideClose } from "../ui/Popover";
 import { ChevronDown, ClockIcon, CloseIcon, SearchIcon } from "../ui/icons";
@@ -13,13 +14,35 @@ const recents = [
   { label: "rkjh.se", href: routes.domainOverview },
 ];
 
-const recommended = ["Domain Overview", "Keyword Strategy Builder", "Position Tracking"];
+const socialRecents = [
+  { label: "rkjh.se", href: routes.domainOverview },
+  { label: "redovisning", href: routes.keywordOverview },
+  { label: "redovisningsbyrå halmstad", href: routes.keywordOverview },
+];
+
+const socialRecommended: Tool[] = [
+  { name: "Social Poster", description: "Create and share engaging content across all your social networks", href: routes.social.poster },
+  { name: "Social Tracker", description: "Track and analyze any brand’s social media performance", href: routes.social.tracker },
+  { name: "Social Content AI", description: "Transform your social media content with AI", href: routes.social.contentInsights },
+];
+
+const recommended = ["Domain Overview", "Keyword Strategy Builder", "Position Tracking"].map((n) => tools.find((t) => t.name === n)!);
 const searchFirst = ["Keyword Overview", "Keyword Gap", "Keyword Magic Tool"];
 const rank = (n: string) => (searchFirst.includes(n) ? searchFirst.indexOf(n) : searchFirst.length);
+const searchHref = (q: string) => `${routes.appsSearch}?q=${encodeURIComponent(q.trim())}`;
+
+function findTools(q: string) {
+  const needle = q.trim().toLowerCase();
+  if (!needle) return [];
+  const hits = tools.filter((t) => t.name.toLowerCase().includes(needle));
+  const whole = new RegExp(`\\b${needle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i");
+  const byWord = hits.every((t) => whole.test(t.name));
+  return hits.sort((a, b) => (byWord ? a.name.length - b.name.length : rank(a.name) - rank(b.name))).slice(0, 3);
+}
 
 function ToolLine({ name, description, href, onClick }: { name: string; description: string; href: string; onClick?: () => void }) {
   return (
-    <Link href={href} onClick={onClick} className="block truncate px-4 py-[6px] text-[14px] leading-5 hover:bg-rk-bg">
+    <Link href={href} onClick={onClick} className="block truncate px-4 py-[10px] text-[16px] leading-5 hover:bg-rk-bg xl:py-[6px] xl:text-[14px]">
       <span className="text-rk-link">{name}</span>
       <span className="text-rk-muted"> — {description}</span>
     </Link>
@@ -29,9 +52,14 @@ function ToolLine({ name, description, href, onClick }: { name: string; descript
 export function GoToTool({ compact = false, extra = 0 }: { compact?: boolean; extra?: number }) {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
+  const [focusW, setFocusW] = useState(0);
   const router = useRouter();
+  const path = usePathname();
+  const social = path.startsWith(routes.social.dashboard);
+  const history = social ? socialRecents : recents;
+  const recs = social ? socialRecommended : recommended;
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
-  const matches = q ? tools.filter((t) => t.name.toLowerCase().includes(q.toLowerCase())).sort((a, b) => rank(a.name) - rank(b.name)).slice(0, 3) : [];
+  const matches = findTools(q);
   const h = "h-[39px] xl:h-8";
   const close = () => {
     setOpen(false);
@@ -41,12 +69,12 @@ export function GoToTool({ compact = false, extra = 0 }: { compact?: boolean; ex
   return (
     <div ref={ref} className="relative">
       {open && (
-        <div className="absolute -top-[10px] -right-[17px] -left-4 z-40 rounded-b-lg bg-white pt-[62px] pb-[3px] shadow-popover">
+        <div className="absolute -top-[10px] -right-[17px] -left-4 z-40 rounded-b-lg bg-white pt-[62px] pb-[6px] shadow-popover xl:pb-[3px]">
           {q ? (
             <>
-              <div className="flex items-center justify-between px-4 pt-1 pb-3 text-[14px] leading-5">
+              <div className="flex items-center justify-between pt-[17px] pr-[28px] pb-[18px] pl-4 text-[16px] xl:pr-4 leading-5 xl:pt-1 xl:pb-3 xl:text-[14px]">
                 <span className="text-rk-muted">Toolkits and apps</span>
-                <Link href={matches[0]?.href ?? routes.seoDashboard} onClick={close} className="text-rk-link hover:text-rk-link-hover">
+                <Link href={searchHref(q)} onClick={close} className="text-rk-link hover:text-rk-link-hover">
                   See all results
                 </Link>
               </div>
@@ -56,19 +84,18 @@ export function GoToTool({ compact = false, extra = 0 }: { compact?: boolean; ex
               {matches.length === 0 && <div className="px-4 py-[6px] text-rk-muted">No results found</div>}
             </>
           ) : (
-            <div className="-mt-[8px]">
-              {recents.map((r) => (
-                <Link key={r.label} href={r.href} onClick={close} className="flex items-center gap-2 px-4 py-[6px] text-[14px] leading-5 hover:bg-rk-bg">
+            <div className="-mt-[2px] xl:-mt-[8px]">
+              {history.map((r) => (
+                <Link key={r.label} href={r.href} onClick={close} className="flex items-center gap-2 px-4 py-[10px] text-[16px] leading-5 hover:bg-rk-bg xl:py-[6px] xl:text-[14px]">
                   <ClockIcon className="text-rk-muted" />
                   {r.label}
                 </Link>
               ))}
-              <div className="mx-4 mt-[6px] mb-[10px] border-t border-rk-border" />
-              <div className="px-4 pb-[6px] text-[14px] leading-5 text-rk-muted">Recommendations</div>
-              {recommended.map((n) => {
-                const t = tools.find((x) => x.name === n)!;
-                return <ToolLine key={n} {...t} onClick={close} />;
-              })}
+              <div className="mx-4 mt-[6px] mb-[13px] border-t border-rk-border xl:mb-[10px]" />
+              <div className="px-4 pb-[10px] text-[16px] leading-5 text-rk-muted xl:pb-[6px] xl:text-[14px]">Recommendations</div>
+              {recs.map((t) => (
+                <ToolLine key={t.name} {...t} onClick={close} />
+              ))}
             </div>
           )}
         </div>
@@ -77,25 +104,36 @@ export function GoToTool({ compact = false, extra = 0 }: { compact?: boolean; ex
         className="relative z-50 flex"
         onSubmit={(e) => {
           e.preventDefault();
-          if (matches[0]) {
-            router.push(matches[0].href);
+          if (q.trim()) {
+            router.push(searchHref(q));
             close();
           }
         }}
       >
+        {open && (
+          <button type="button" aria-label="Back" onClick={close} className="absolute top-[8px] left-[5px] z-10 flex h-6 w-6 items-center justify-center text-rk-text-2 hover:text-rk-text xl:hidden">
+            <svg viewBox="0 0 16 16" width={16} height={16}>
+              <path d="M13 8H3m4-4L3 8l4 4" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        )}
         <div className="relative">
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            onFocus={() => setOpen(true)}
+            onFocus={(e) => {
+              if (!open) setFocusW(e.currentTarget.offsetWidth);
+              setOpen(true);
+            }}
             placeholder="Go to tool..."
-            style={compact ? ({ "--gw": `${316 + extra}px` } as CSSProperties) : undefined}
-            className={`${h} ${compact ? "w-[var(--gw)] xl:w-[402px]" : "w-[388px] xl:w-[402px]"} rounded-l-md border bg-white pr-8 pl-3 text-[16px] xl:text-[14px] outline-none placeholder:text-rk-muted ${
+            data-focus={open && focusW > 0}
+            style={{ ...(compact ? { "--gw": `${316 + extra}px` } : {}), "--gf": `${focusW - 35}px` } as CSSProperties}
+            className={`${h} ${compact ? "w-[var(--gw)] xl:w-[402px]" : "w-[388px] xl:w-[402px]"} rounded-l-md border bg-white pr-8 pl-3 text-[16px] xl:text-[14px] outline-none placeholder:text-rk-muted max-xl:data-[focus=true]:ml-[35px]! max-xl:data-[focus=true]:w-[var(--gf)]! ${
               open ? "border-[#7a86f2] ring-2 ring-[#b7c0fa]" : "border-rk-border-strong"
             }`}
           />
           {q && (
-            <button type="button" aria-label="Clear" onClick={() => setQ("")} className="absolute top-1/2 right-2 -translate-y-1/2 text-rk-text-2">
+            <button type="button" aria-label="Clear" onClick={() => setQ("")} className="absolute top-1/2 right-[13px] -translate-y-1/2 text-rk-text-2 xl:right-2">
               <CloseIcon />
             </button>
           )}

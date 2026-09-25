@@ -8,7 +8,8 @@ import { routes } from "@/config/routes";
 import { AppLogo } from "./AppLogo";
 import { apps, filters, sections, type App, type Filter, type Section } from "./data";
 
-function AppCard({ app }: { app: App }) {
+export function AppCard({ app }: { app: App }) {
+  const badge = app.toolkit ? null : app.badge === undefined ? "Free trial" : app.badge;
   const body = (
     <>
       <div className="flex items-center gap-[14px]">
@@ -16,9 +17,9 @@ function AppCard({ app }: { app: App }) {
         <span className="truncate text-[14px] leading-5 font-medium text-rk-text">{app.name}</span>
       </div>
       <p className="mt-[7px] line-clamp-3 h-[60px] text-[14px] leading-5 text-rk-text-2">{app.description}</p>
-      <div className="mt-5 flex items-center justify-between">
-        <span className="flex h-[27px] items-center rounded-full bg-[#c7f3e6] px-[9px] text-[14px] text-[#007c65]">Free trial</span>
-        <span className="text-[14px] leading-5 text-rk-text-2">{app.price}</span>
+      <div className="mt-5 flex h-[27px] items-center justify-between">
+        {badge ? <span className="flex h-[27px] items-center rounded-full bg-[#c7f3e6] px-[9px] text-[14px] text-[#007c65]">{badge}</span> : <span />}
+        <span className={`text-[14px] leading-5 ${app.toolkit ? "font-medium text-rk-text-2" : "text-rk-text-2"}`}>{app.toolkit ? "Learn more" : app.price}</span>
       </div>
     </>
   );

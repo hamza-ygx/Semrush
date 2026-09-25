@@ -1,3 +1,4 @@
+import { brand } from "@/config/brand";
 import { routes } from "@/config/routes";
 
 export type AppLogo =
@@ -16,9 +17,18 @@ export type AppLogo =
   | "mobileinsights"
   | "socialcontent"
   | "brandmonitoring"
-  | "adcreative";
+  | "adcreative"
+  | "ppclead"
+  | "audience"
+  | "mobiletester"
+  | "localkit"
+  | "reddittrend"
+  | "trendfeed"
+  | "seokit"
+  | "aikit"
+  | "keywordcluster";
 
-export type App = { name: string; description: string; price: string; logo: AppLogo; tags: string[]; href?: string };
+export type App = { name: string; description: string; price: string; logo: AppLogo; tags: string[]; href?: string; badge?: "Free trial" | "Free plan" | null; toolkit?: boolean };
 
 const a = (name: string, description: string, price: string, logo: AppLogo, tags: string[], href?: string): App => ({ name, description, price, logo, tags, href });
 
@@ -95,3 +105,27 @@ export const filters = [
 ] as const;
 
 export type Filter = (typeof filters)[number];
+
+const plan = (app: App, price: string, badge: App["badge"] = "Free trial"): App => ({ ...app, price, badge });
+const kit = (name: string, description: string, logo: AppLogo, tags: string[], href: string): App => ({ name, description, price: "", logo, tags, href, toolkit: true });
+
+export const searchResults: App[] = [
+  kit(`${brand.name} SEO Toolkit`, "Do keyword research, track rankings, audit your site, and grow organic traffic", "seokit", ["SEO", "Toolkits"], routes.seoDashboard),
+  kit(`${brand.name} AI Visibility Toolkit`, "Track how your brand shows up in AI search and win more AI mentions", "aikit", ["SEO", "AI Apps", "Toolkits"], routes.ai.overview),
+  apps.exploding,
+  plan(apps.serpGap, "$99/mo"),
+  a("AI Keyword Cluster", "Group thousands of keywords into topic clusters in minutes", "$29/mo", "keywordcluster", ["SEO", "AI Apps", "Content"]),
+  kit(`${brand.name} Local`, "Manage listings and reviews, and track local rankings on Google Maps", "localkit", ["SMB", "Toolkits"], routes.local.start),
+  apps.callrail,
+  a("PPC Lead Intelligence", "Discover active Google Ads advertisers and turn them into new clients", "$97/mo", "ppclead", ["Advertising", "LeadGen"]),
+  apps.aiVideo,
+  plan(a("Audience Intelligence", "Discover in-depth consumer segmentation and cultural insights from social data", "$150/mo", "audience", ["Social Media", "Brand"]), "$150/mo", "Free plan"),
+  a("Mobile App Tester", "Test your native mobile app on physical iOS and Android devices", "$29/mo", "mobiletester", ["Mobile"]),
+  plan(apps.websiteTesting, "$69/mo"),
+  apps.llmGap,
+  apps.brandMonitoring,
+  plan(a(`${brand.name} Local`, "Be found in local search and AI results and win more customers", "$60/mo", "localkit", ["SMB"], routes.local.start), "$60/mo", null),
+  a("Trend Analytics for Reddit", "Explore the most influential communities to connect your business to 500M+ Reddit users", "$10/mo", "reddittrend", ["Social Media", "Content"]),
+  a("TrendFeed", "Discover, create and curate trending content for hundreds of industries", "$25/mo", "trendfeed", ["Content", "Social Media"]),
+  plan(apps.backlinkBuilder, "$169/mo"),
+];

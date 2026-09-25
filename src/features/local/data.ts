@@ -148,3 +148,5 @@ export const directoryGroups = [
 ];
 
 export const mapRankExamples = [`${brand.name} Barcelona`, "Slate Cafe NoMade", "King Key Locksmith San Francisco"];
+
+export const mapRankBusinesses = [{ name: brand.legalName, address: "Brogatan 9, 302 42 Halmstad, Sweden", rating: 4.5, reviews: 11 }];

@@ -4,11 +4,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { routes } from "@/config/routes";
-import { mapRankExamples, mapRankFaq } from "./data";
+import { mapRankBusinesses, mapRankExamples, mapRankFaq } from "./data";
 import { MapMini } from "./StartMockups";
 import { ChevronR, MagnifierIcon } from "./ui";
 
-function SearchBox({ value, onChange, className = "" }: { value: string; onChange: (v: string) => void; className?: string }) {
+function SearchBox({ value, onChange, className = "", onFocus, active }: { value: string; onChange: (v: string) => void; className?: string; onFocus?: () => void; active?: boolean }) {
   const router = useRouter();
   return (
     <form
@@ -22,11 +22,56 @@ function SearchBox({ value, onChange, className = "" }: { value: string; onChang
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onFocus={onFocus}
         aria-label="Company name"
         placeholder="Enter company name (and location if necessary)"
-        className="h-full w-full rounded-[6px] border border-[#d4d5da] bg-white pr-3 pl-[44px] text-[16px] text-[#1f1f24] outline-none placeholder:text-[#8a8b90] focus:border-[#a35eff]"
+        className={`h-full w-full rounded-[6px] border bg-white pr-3 pl-[44px] text-[16px] text-[#1f1f24] outline-none placeholder:text-[#8a8b90] ${
+          active ? "border-[#7f83d4] ring-1 ring-[#7f83d4]" : "border-[#d4d5da] focus:border-[#a35eff]"
+        }`}
       />
     </form>
+  );
+}
+
+const Star = ({ fill }: { fill: boolean }) => (
+  <svg viewBox="0 0 16 16" width={17} height={17} className="text-[#9a9ba0]">
+    <path d="M8 1.6l1.9 4.1 4.5.5-3.4 3 1 4.4L8 11.3l-3.9 2.3 1-4.4-3.4-3 4.5-.5z" fill={fill ? "currentColor" : "none"} stroke="currentColor" strokeWidth={1.2} strokeLinejoin="round" />
+  </svg>
+);
+
+function BusinessSuggestions({ q }: { q: string }) {
+  const words = q.toLowerCase().split(/\s+/).filter((w) => w.length > 2);
+  const hits = mapRankBusinesses.filter((b) => words.some((w) => `${b.name} ${b.address}`.toLowerCase().includes(w)));
+  return (
+    <div className="absolute top-[52px] left-[1px] w-[483px] text-left">
+      {hits.map((b) => (
+        <Link key={b.name} href={routes.local.scan} className="block h-[81px] rounded-[6px] bg-white pt-[10px] pl-[13px] shadow-[0_1px_4px_rgba(24,27,40,0.12)] hover:bg-[#f7f7fb]">
+          <div className="flex items-center gap-[8px] text-[13px] leading-5 font-medium text-[#1f1f24]">
+            <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#9a9ba0]">
+              <path d="M9.5 2.5h4v4M13.5 2.5 8 8M11.5 9.5v4h-9v-9h4" fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            {b.name}
+          </div>
+          <div className="text-[13px] leading-5 text-[#6c6e79]">{b.address}</div>
+          <div className="flex items-center gap-[3px] text-[13px] leading-5 text-[#6c6e79]">
+            {b.rating}
+            {[0, 1, 2, 3, 4].map((i) => (
+              <Star key={i} fill={i < Math.floor(b.rating)} />
+            ))}
+            <span className="ml-[2px]">({b.reviews})</span>
+          </div>
+        </Link>
+      ))}
+      <div className="mt-[9px] h-[86px] rounded-[8px] border border-[#d6dcf5] bg-[#ecf0ff] pt-[18px] pl-[15px] text-[#1f1f24]">
+        <div className="flex items-center gap-[8px] text-[16px] leading-6 font-bold">
+          <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#6c6e79]">
+            <path d="M5.8 11.5h4.4M6.3 13.8h3.4M8 1.8a4.4 4.4 0 0 0-2.6 8c.4.3.5.7.5 1.2h4.2c0-.5.1-.9.5-1.2A4.4 4.4 0 0 0 8 1.8z" fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          Can&apos;t find your business?
+        </div>
+        <p className="mt-[2px] pl-[24px] text-[14px] leading-6 text-[#3a3b40]">Try adding country, state or street name to your search.</p>
+      </div>
+    </div>
   );
 }
 
@@ -165,6 +210,7 @@ const Curve = ({ d, className }: { d: string; className: string }) => (
 export function MapRankTrackerPage() {
   const [q, setQ] = useState("");
   const [sticky, setSticky] = useState(false);
+  const [active, setActive] = useState(false);
   const heroSearch = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const io = new IntersectionObserver(([e]) => setSticky(!e.isIntersecting && e.boundingClientRect.top < 0));
@@ -173,6 +219,7 @@ export function MapRankTrackerPage() {
   }, []);
   return (
     <div className="pb-[199px]">
+      {active && <div aria-hidden data-testid="search-overlay" onClick={() => setActive(false)} className="fixed inset-0 z-[115] bg-white/85" />}
       {sticky && (
         <div className="fixed top-0 right-0 left-0 z-40 flex h-[71px] items-center justify-center bg-[#f9f9f9] shadow-[0_4px_16px_rgba(24,27,40,0.1)]" data-testid="sticky-search">
           <SearchBox value={q} onChange={setQ} className="-ml-[15px]" />
@@ -186,7 +233,10 @@ export function MapRankTrackerPage() {
           with pinpoint accuracy
         </h1>
         <div ref={heroSearch} className="mt-[39px] flex justify-center">
-          <SearchBox value={q} onChange={setQ} />
+          <div className={`relative ${active ? "z-[120]" : ""}`}>
+            <SearchBox value={q} onChange={setQ} onFocus={() => setActive(true)} active={active} />
+            {active && q.trim() && <BusinessSuggestions q={q} />}
+          </div>
         </div>
         <div className="mt-[46px] flex items-center justify-center gap-[7px] text-[14px] text-white">
           <span className="mr-[1px]">Examples:</span>

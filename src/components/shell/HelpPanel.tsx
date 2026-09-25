@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import { helpArticleSlugs, kbHref } from "@/features/kb/data";
-import { CloseIcon, SearchIcon } from "../ui/icons";
+import { ChevronDown, CloseIcon, SearchIcon } from "../ui/icons";
+import { SupportChat } from "./SupportChat";
 
 const articles = ["Audit your website", "Conduct keyword research", "Track your rankings", "Create winning content", "Optimize backlinks", "Run competitive analysis"];
 
@@ -24,7 +25,8 @@ export function HelpButtonAndPanel({ variant = "question" }: { variant?: "questi
   const [open, setOpen] = useState(false);
   return (
     <>
-      {open && (
+      {open && variant !== "question" && <SupportChat onClose={() => setOpen(false)} />}
+      {open && variant === "question" && (
         <aside className="fixed top-0 right-0 bottom-0 z-[60] flex w-[400px] flex-col xl:w-[403px] bg-white shadow-popover">
           <div className="flex h-[49px] shrink-0 items-center justify-between border-b border-rk-border px-6">
             <h2 className="text-[16px] font-semibold">Help &amp; Support</h2>
@@ -68,7 +70,9 @@ export function HelpButtonAndPanel({ variant = "question" }: { variant?: "questi
           variant === "question" ? "right-[21px] bottom-[21px] h-[52px] w-[52px] text-[28px] shadow-card transition-transform hover:scale-110" : "right-5 bottom-5 h-12 w-12 shadow-[0_1px_6px_rgba(0,0,0,0.06),0_2px_32px_rgba(0,0,0,0.16)]"
         } ${variant === "chat-dark" ? "bg-[#0a0a0b] text-white" : "bg-rk-help text-rk-text"}`}
       >
-        {open ? (
+        {open && variant !== "question" ? (
+          <ChevronDown width={24} height={24} strokeWidth={1.8} className="text-white" />
+        ) : open ? (
           <CloseIcon width={26} height={26} strokeWidth={2.4} />
         ) : variant === "question" ? (
           "?"

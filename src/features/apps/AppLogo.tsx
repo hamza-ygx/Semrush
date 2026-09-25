@@ -123,6 +123,77 @@ const logos: Record<Logo, ReactNode> = {
       <path d="M18 17v14" stroke="#9c0f6c" strokeWidth={1} />
     </>
   ),
+  ppclead: tile(
+    "#1fb5c9",
+    <>
+      <path d="M15.5 11h5M16.5 11v5l-4.5 8a1.6 1.6 0 0 0 1.4 2.4h9.2A1.6 1.6 0 0 0 24 24l-4.5-8v-5" fill="#fff" />
+      <path d="M13.8 22.5c2.5-1.2 5.8 1.2 8.4 0" stroke="#1fb5c9" strokeWidth={1.3} fill="none" />
+      <circle cx="19.5" cy="7.5" r="1" fill="#fff" />
+      <circle cx="17" cy="5.5" r=".7" fill="#fff" />
+    </>,
+  ),
+  audience: tile(
+    "#1e2c63",
+    <>
+      <circle cx="18" cy="8.5" r="1.4" fill="#fff" />
+      <path d="M13.5 13h6a2.5 2.5 0 0 1 2.5 2.5V22" fill="none" stroke="#fff" strokeWidth={2} />
+      <circle cx="17.5" cy="18.5" r="3.2" fill="none" stroke="#fff" strokeWidth={2} />
+      <path d="M8.5 25.5h19" stroke="#fff" strokeWidth={1.2} />
+      <circle cx="8.5" cy="25.5" r="1.4" fill="#fff" />
+      <circle cx="27.5" cy="25.5" r="1.4" fill="#fff" />
+    </>,
+  ),
+  mobiletester: tile(
+    "#1f8ff0",
+    <>
+      <rect x="12.5" y="8" width="11" height="19" rx="2" transform="rotate(15 18 17.5)" fill="#fff" />
+      <rect x="14.2" y="10" width="7.6" height="14" rx="1" transform="rotate(15 18 17.5)" fill="#1553b8" />
+      <circle cx="16.3" cy="24.5" r=".9" fill="#fff" />
+    </>,
+  ),
+  localkit: tile(
+    "#6b3fd6",
+    <>
+      <path d="M17 9a7 7 0 0 1 7 7c0 5-7 12-7 12s-7-7-7-12a7 7 0 0 1 7-7z" fill="#5ec8f5" />
+      <path d="M17 9a7 7 0 0 1 7 7c0 2-1 4.4-2.6 6.6L13 11a7 7 0 0 1 4-2z" fill="#a8e6ff" />
+      <circle cx="24" cy="10" r="3.2" fill="#8fe03c" />
+    </>,
+  ),
+  reddittrend: tile(
+    "#2f7de1",
+    <>
+      <ellipse cx="18" cy="21" rx="9" ry="6.5" fill="#ff9b2e" />
+      <circle cx="24.5" cy="11" r="2" fill="#ff9b2e" />
+      <path d="M18 14.5l1.5-4 5 .5" fill="none" stroke="#ff9b2e" strokeWidth={1.2} />
+      <path d="M13 23l3.5-3 2.5 2 4-4" fill="none" stroke="#fff" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
+    </>,
+  ),
+  trendfeed: (
+    <>
+      <circle cx="18" cy="18" r="8" fill="none" stroke="#e8313a" strokeWidth={1.2} />
+      <circle cx="18" cy="18" r="5" fill="#fbd3d5" />
+      <circle cx="18" cy="18" r="3.4" fill="#e8313a" />
+      <circle cx="18" cy="10" r="1" fill="#e8313a" />
+      <circle cx="18" cy="26" r="1" fill="#e8313a" />
+    </>
+  ),
+  seokit: tile(
+    "#6167e6",
+    <>
+      <circle cx="16.5" cy="16.5" r="5.5" fill="none" stroke="#fff" strokeWidth={2} />
+      <path d="M20.5 20.5l5 5" stroke="#fff" strokeWidth={2.2} strokeLinecap="round" />
+    </>,
+  ),
+  aikit: tile("#a063fe", <path d="M18 8l2.4 7.6L28 18l-7.6 2.4L18 28l-2.4-7.6L8 18l7.6-2.4z" fill="#fff" />),
+  keywordcluster: tile(
+    "#12a37f",
+    <>
+      <circle cx="12" cy="13" r="3" fill="#fff" />
+      <circle cx="24" cy="12" r="2.4" fill="#fff" />
+      <circle cx="18" cy="23" r="3.4" fill="#fff" />
+      <path d="M12 13l12-1-6 11z" fill="none" stroke="#fff" strokeWidth={1.2} />
+    </>,
+  ),
 };
 
 export function AppLogo({ logo }: { logo: Logo }) {
