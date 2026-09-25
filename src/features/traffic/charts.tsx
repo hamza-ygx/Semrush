@@ -7,11 +7,11 @@ import { Delta } from "./ui";
 export type TrafficSeries = { name: string; color: string; data: number[] };
 
 const CH: Record<string, number> = { M: 10.4, K: 8, B: 8, ".": 3.3, "%": 10, " ": 3.3, "-": 4.5 };
-export const textW = (s: string, size = 12) => [...s].reduce((a, c) => a + (CH[c] ?? (/[0-9]/.test(c) ? 7.1 : 7)), 0) * (size / 12);
+const textW = (s: string, size = 12) => [...s].reduce((a, c) => a + (CH[c] ?? (/[0-9]/.test(c) ? 7.1 : 7)), 0) * (size / 12);
 
 export const shortMonths = ["Mar 2026", "Apr 2026", "May 2026", "Jun 2026", "Jul 2026", "Aug 2026", "Sep 2026"];
 
-export function fmtNum(v: number) {
+function fmtNum(v: number) {
   if (v === 0) return "0";
   if (v >= 1e9) return `${+(v / 1e9).toFixed(1)}B`;
   if (v >= 1e6) return `${+(v / 1e6).toFixed(1)}M`;
@@ -207,7 +207,7 @@ export function GroupedBars({
 
 export type TrendingPage = { kind: "Spiked" | "Trending up"; pct: string; url: string; value: string };
 
-export function TrendIconSpike() {
+function TrendIconSpike() {
   return (
     <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#007c65]">
       <path d="m1.5 12 4.5-5 3 3 5.5-6M10 4h4.5v4.5" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
@@ -215,7 +215,7 @@ export function TrendIconSpike() {
   );
 }
 
-export function TrendIconUp() {
+function TrendIconUp() {
   return (
     <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#007c65]">
       <path d="M8 14V2.5M3.5 7 8 2.5 12.5 7" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />

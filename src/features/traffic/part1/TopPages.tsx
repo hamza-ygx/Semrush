@@ -72,14 +72,14 @@ const tail: Row[] = [
 
 const k = (v: number) => (v >= 1000 ? `${+(v / 1000).toFixed(1)}M` : `${+v.toFixed(1)}K`);
 
-const rows: Row[] = [
+const rows: (Row & { idx: number })[] = [
   ...head,
   ...mid.map((p, i) => {
     const visits = 248 - i * 5.5;
     return { page: p, share: +(0.38 - i * 0.0078).toFixed(2), views: k(visits * 1.35), visitors: k(visits * 0.72), visits: k(visits), dur: `0${2 + (i % 4)}:${String(10 + ((i * 7) % 49)).padStart(2, "0")}` };
   }),
   ...tail,
-];
+].map((r, idx) => ({ ...r, idx }));
 
 function Spark({ seed }: { seed: number }) {
   const pts = Array.from({ length: 12 }, (_, i) => {
@@ -149,7 +149,7 @@ function TopPagesTable() {
             </tr>
           </thead>
           <tbody>
-            {list.map((r, i) => (
+            {list.map((r) => (
               <tr key={r.page} className="h-[45px] border-b border-[#eef0f2]">
                 <td className="pl-3">
                   <span className="flex items-center gap-[10px] text-rk-text">
@@ -169,13 +169,13 @@ function TopPagesTable() {
                   </span>
                 </td>
                 <td className="pl-3">
-                  <Spark seed={i * 1.37} />
+                  <Spark seed={r.idx * 1.37} />
                 </td>
                 <td className="text-right text-rk-text">{r.views}</td>
                 <td className="text-right text-rk-text">{r.visitors}</td>
                 <td className="text-right text-rk-text">{r.visits}</td>
                 <td className="text-right text-rk-text">{r.dur}</td>
-                <td className="pl-8 text-rk-text">{(38 + ((i * 13) % 20)).toFixed(2)}%</td>
+                <td className="pl-8 text-rk-text">{(38 + ((r.idx * 13) % 20)).toFixed(2)}%</td>
               </tr>
             ))}
           </tbody>

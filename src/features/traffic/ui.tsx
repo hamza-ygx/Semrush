@@ -41,7 +41,7 @@ export function SampleCard({
   );
 }
 
-export function LegendCheck({ color, label, checked = true, onClick }: { color: string; label: ReactNode; checked?: boolean; onClick?: () => void }) {
+function LegendCheck({ color, label, checked = true, onClick }: { color: string; label: ReactNode; checked?: boolean; onClick?: () => void }) {
   return (
     <button type="button" onClick={onClick} className="flex items-center gap-[8px] text-[14px] leading-5 text-rk-text">
       <span

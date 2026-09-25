@@ -21,7 +21,7 @@ export const sampleDomains: TrafficDomain[] = [
   { name: "hm.com", color: domainColors.hm },
 ];
 
-export const lockedDomains: TrafficDomain[] = [{ name: "rkjh.se", color: domainColors.zara }];
+const lockedDomains: TrafficDomain[] = [{ name: "rkjh.se", color: domainColors.zara }];
 
 export type TrafficFilterKey = "geo" | "date" | "granularity" | "device";
 
@@ -35,7 +35,7 @@ export type TrafficFilterSpec = {
 
 export type TrafficFilter = TrafficFilterKey | TrafficFilterSpec;
 
-export type ChipsVariant = "dots" | "plain" | "select";
+type ChipsVariant = "dots" | "plain" | "select";
 
 const builtin: Record<TrafficFilterKey, { icon: ReactNode; value: string; options: string[] }> = {
   geo: { icon: <GeoIcon />, value: "Worldwide", options: ["Worldwide", "United States", "United Kingdom", "Germany", "France", "Spain", "Sweden"] },
@@ -243,7 +243,7 @@ function ListHeader() {
   );
 }
 
-export function SampleBanner() {
+function SampleBanner() {
   return (
     <div className="sticky top-0 z-30 flex h-[48px] items-center gap-[12px] border-b border-[#aedbd0] bg-[#c5fdf1] pl-8">
       <button type="button" className="flex h-7 items-center rounded-[6px] bg-[#00a47e] px-[9px] text-[14px] leading-5 font-semibold text-white hover:bg-[#008f6d]">

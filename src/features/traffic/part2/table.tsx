@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import { ExternalIcon } from "@/components/ui/icons";
+import { useOutsideClose } from "@/components/ui/Popover";
 
 const st = { fill: "none", stroke: "currentColor", strokeWidth: 1.4, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
 
@@ -82,7 +83,7 @@ export function DomainLink({ name, extra }: { name: string; extra?: ReactNode })
   );
 }
 
-export function SortIcon() {
+function SortIcon() {
   return (
     <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#6a6c6a]">
       <path d="M2.5 4h11M2.5 8h7M2.5 12h3.5" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
@@ -148,8 +149,9 @@ export function CardTabs<T extends string>({ items, value, onChange }: { items: 
 export function SelectBox({ label, options, className = "" }: { label: string; options: string[]; className?: string }) {
   const [open, setOpen] = useState(false);
   const [val, setVal] = useState<string | null>(null);
+  const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
   return (
-    <div className={`relative ${className}`}>
+    <div ref={ref} className={`relative ${className}`}>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
@@ -181,9 +183,9 @@ export function SelectBox({ label, options, className = "" }: { label: string; o
   );
 }
 
-export type MetricCol = { label: string; width: number; sorted?: boolean; pl?: number; pr?: number };
+type MetricCol = { label: string; width: number; sorted?: boolean; pl?: number; pr?: number };
 
-export type MetricRow = { key: string; first: ReactNode; cells: ReactNode[]; children?: MetricRow[] };
+type MetricRow = { key: string; first: ReactNode; cells: ReactNode[]; children?: MetricRow[] };
 
 function Chevron({ open }: { open: boolean }) {
   return (

@@ -179,10 +179,6 @@ export function GeoMap({ className = "" }: { className?: string }) {
   );
 }
 
-export function Th({ children, className = "" }: { children?: ReactNode; className?: string }) {
-  return <th className={`h-[37px] px-[8px] text-[13px] leading-4 font-normal whitespace-nowrap text-rk-text-2 ${className}`}>{children}</th>;
-}
-
 export function Toggle({ on, onClick, dark = false }: { on: boolean; onClick: () => void; dark?: boolean }) {
   return (
     <button

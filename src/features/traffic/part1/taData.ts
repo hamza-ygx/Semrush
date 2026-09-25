@@ -5,7 +5,7 @@ const M = 1e6;
 
 export const summaryCols = ["Visits", "Unique Visitors", "Purchase Conversion", "Pages / Visit", "Avg. Visit Duration", "Bounce Rate"];
 
-export type Cell = { v: string; up: boolean; bold?: boolean };
+type Cell = { v: string; up: boolean; bold?: boolean };
 
 export const summaryRows: { name: string; color: string; cells: Cell[] }[] = [
   {

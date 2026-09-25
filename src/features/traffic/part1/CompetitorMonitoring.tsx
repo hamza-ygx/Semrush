@@ -27,7 +27,7 @@ const posts: { group: string; items: Post[] }[] = [
   {
     group: "Sep 1 – 23",
     items: [
-      { date: "Sep 23", text: "TRF collection Thank you mathilda.gvarliani #zara #zarawoman", likes: "2.1K", comments: "39" },
+      { date: "Sep 23", text: "TRF collection Thank you to our models #zara #zarawoman", likes: "2.1K", comments: "39" },
       { date: "Sep 18", text: "Autumn/Winter Collection #zara #zaraman", likes: "6.4K", comments: "88" },
       { date: "Sep 12", text: "Studio Collection. Discover it now in selected stores and at zara.com #zara", likes: "12.7K", comments: "204" },
       { date: "Sep 5", text: "Back to basics. The essential knitwear edit #zara #zarawoman", likes: "8.2K", comments: "117" },
@@ -39,9 +39,9 @@ const posts: { group: string; items: Post[] }[] = [
       { date: "Aug 31", text: "Zara Home new arrivals #zarahome", likes: "3.9K", comments: "61" },
       { date: "Aug 31", text: "Leather jackets and more #zara #zaraman #zaranewin", likes: "7.3K", comments: "95" },
       { date: "Aug 30", text: "Kids Collection. The new season starts now #zarakids", likes: "4.6K", comments: "52" },
-      { date: "Aug 30", text: "TRF Collection Thank you mathilda.gvarliani #zara #zarawoman #zaranewin", likes: "9.8K", comments: "145" },
+      { date: "Aug 30", text: "TRF Collection Thank you to our models #zara #zarawoman #zaranewin", likes: "9.8K", comments: "145" },
       { date: "Aug 30", text: "The air heeled ballet flats isopresso_balloon #zara", likes: "11.1K", comments: "83" },
-      { date: "Aug 29", text: "ZW Collection Thank you anaclarafalconii #zara #zarawoman #zaranewin", likes: "9.4K", comments: "163" },
+      { date: "Aug 29", text: "ZW Collection Thank you to our models #zara #zarawoman #zaranewin", likes: "9.4K", comments: "163" },
     ],
   },
 ];

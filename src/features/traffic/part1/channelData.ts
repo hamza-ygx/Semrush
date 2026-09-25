@@ -12,7 +12,7 @@ export const ser = (z: number[], a: number[], h: number[], mul = M): TrafficSeri
 
 export type ChannelChart = { series: TrafficSeries[]; ticks: number[]; plotHeight?: number };
 
-export type ChannelConfig = {
+type ChannelConfig = {
   title: string;
   tabs?: string[];
   trend: ChannelChart;

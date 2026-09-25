@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useOutsideClose } from "@/components/ui/Popover";
 import { TrafficFrame, sampleDomains } from "../TrafficFrame";
 import { ExportButton, SampleCard, SegTabs } from "../ui";
 import { TrendLines } from "./charts";
@@ -127,13 +128,14 @@ function TrendCard({ kind }: { kind: Kind }) {
   const t = geoTrend[cfg[kind].trend];
   const [off, setOff] = useState<Record<string, boolean>>({});
   const [open, setOpen] = useState(false);
+  const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
   const [metric, setMetric] = useState<"Visits" | "Unique Visitors">("Visits");
   const scale = metric === "Visits" ? 1 : 0.46;
   const series = t.series.filter((s) => !off[s.name]).map((s) => ({ ...s, data: s.data.map((v) => v * scale) }));
   return (
     <SampleCard title="Traffic Trend" bodyClassName="px-5 pt-5 pb-[31px]">
       <div className="flex items-center gap-4">
-        <div className="relative">
+        <div ref={ref} className="relative">
           <button type="button" onClick={() => setOpen((o) => !o)} className="flex h-7 items-center gap-[14px] rounded-[6px] border border-[#d8dad9] bg-white pr-[7px] pl-[8px] text-[14px] leading-5 text-rk-text">
             {t.series.map((s) => (
               <span key={s.name} className={`flex items-center gap-[8px] ${off[s.name] ? "opacity-40" : ""}`}>

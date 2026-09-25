@@ -10,7 +10,7 @@ export const rkjhList: SavedList = {
   href: `${routes.traffic.overview}?q=rkjh.se&searchType=domain&lid=1304085`,
 };
 
-export const peersList: SavedList = {
+const peersList: SavedList = {
   id: "1298817",
   name: "Untitled list",
   domains: ["bdo.se", "ludvig.se", "aspia.se", "grantthornton.se", "kpmg.se"],
@@ -22,7 +22,7 @@ export const listsFor = (withRkjh: boolean) => (withRkjh ? [rkjhList, peersList]
 
 export const competitorColors = ["#6168ea", "#27e8b3", "#c28bfd", "#ffa726", "#ff6f71"];
 
-export function Favicon({ domain, size = 29 }: { domain: string; size?: number }) {
+function Favicon({ domain, size = 29 }: { domain: string; size?: number }) {
   return (
     <span className="flex shrink-0 items-center justify-center rounded-[6px] border border-[#e6e7ea] bg-white" style={{ width: size, height: size }}>
       {domain === "rkjh.se" && (

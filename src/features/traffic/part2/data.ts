@@ -6,7 +6,7 @@ export type GrowingPage = { kind: "Spiked" | "Trending up"; pct: string; url: st
 
 export type SourceRow = { label: string; change: string; up: boolean; share: string; h: number };
 
-export type ChannelReportData = {
+type ChannelReportData = {
   title: string;
   total: { ticks: number[]; data: Triple };
   desktop: { ticks: number[]; data: Triple };
@@ -328,7 +328,7 @@ export const moreChannels: [string, string][] = [
 
 export const categories = ["Shopping", "Fashion & Apparel", "Computers & Electronics", "News & Media", "Business & Industrial", "Finance", "Travel", "Arts & Entertainment", "Food & Drink"];
 
-export type SubfolderRow = { path: string; share: number; pv: string; uv: string; visits: string; ppv: string; dur: string; bounce: string };
+type SubfolderRow = { path: string; share: number; pv: string; uv: string; visits: string; ppv: string; dur: string; bounce: string };
 
 const sf = (path: string, share: number, pv: string, uv: string, visits: string, ppv: string, dur = "05:12", bounce = "38.4%"): SubfolderRow => ({ path, share, pv, uv, visits, ppv, dur, bounce });
 

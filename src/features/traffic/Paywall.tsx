@@ -22,7 +22,7 @@ export function BulbArt() {
   );
 }
 
-export function Paywall({ charge, sampleHref, top = 40 }: { charge: string; sampleHref: string; top?: number }) {
+function Paywall({ charge, sampleHref, top = 40 }: { charge: string; sampleHref: string; top?: number }) {
   const bullets = ["Traffic by channel (search, display, email, etc.)", "Market share by industry", "Daily trends and 7 years of historical data", "Top pages driving conversions", "Demographics breakdown", "190+ countries and regions"];
   return (
     <div className="absolute left-[308px] z-20 w-[620px] rounded-[12px] bg-white px-12 pt-[46px] pb-[47px] shadow-[0_2px_16px_rgba(25,27,35,0.12)]" style={{ top }} data-testid="traffic-paywall">

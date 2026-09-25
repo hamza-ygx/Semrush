@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { InfoIcon } from "@/components/ui/icons";
 
-export function BuyProButton({ className = "" }: { className?: string }) {
+function BuyProButton({ className = "" }: { className?: string }) {
   return (
     <button type="button" className={`h-7 shrink-0 rounded-[6px] bg-[#00a47e] px-[9px] text-[14px] leading-5 font-semibold whitespace-nowrap text-white hover:bg-[#008f6d] ${className}`}>
       Buy Traffic &amp; Market Pro
@@ -9,7 +9,7 @@ export function BuyProButton({ className = "" }: { className?: string }) {
   );
 }
 
-export function Charge({ className = "" }: { className?: string }) {
+function Charge({ className = "" }: { className?: string }) {
   return (
     <div className={`text-[14px] leading-5 font-medium text-rk-text ${className}`}>
       Today&apos;s charge: $328.1 (incl. Tax)
@@ -18,7 +18,7 @@ export function Charge({ className = "" }: { className?: string }) {
   );
 }
 
-export function Disclaimer({ className = "" }: { className?: string }) {
+function Disclaimer({ className = "" }: { className?: string }) {
   return (
     <p className={`text-rk-muted ${className}`}>
       By clicking &ldquo;Buy Traffic&nbsp;&amp;&nbsp;Market&nbsp;Pro&rdquo;, you agree to add the full Traffic &amp; Market toolkit to your current subscription for an{" "}

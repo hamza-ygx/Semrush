@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useOutsideClose } from "@/components/ui/Popover";
 import { TrafficFrame, sampleDomains } from "../TrafficFrame";
 import { categories, destinationRows, moreChannels, sourceChannels, sourceRows, type FlowRow } from "./data";
 import { CardTabs, CatIcons, DomainLink, Pagination, SelectBox, SplitBar } from "./table";
@@ -9,9 +10,10 @@ const colors = sampleDomains.map((d) => d.color);
 
 function ChannelFilter({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   const [more, setMore] = useState(false);
+  const ref = useOutsideClose<HTMLDivElement>(more, () => setMore(false));
   const all = [...sourceChannels, ...(moreChannels.some(([n]) => n === value) ? moreChannels.filter(([n]) => n === value) : [])];
   return (
-    <div className="relative inline-flex h-7 items-stretch">
+    <div ref={ref} className="relative inline-flex h-7 items-stretch">
       {all.map(([n, c], i) => {
         const active = n === value;
         return (
@@ -72,8 +74,8 @@ function FlowTable({ rows, sources, pages }: { rows: FlowRow[]; sources: boolean
         {sources && <div className="w-[170px] shrink-0 pl-[12px]">Channel</div>}
         <div className="w-[202px] shrink-0 pr-[12px] text-right">Group Traffic Split</div>
       </div>
-      {rows.map((r, i) => (
-        <div key={`${r.domain}${i}`} className="flex h-[45px] items-center border-b border-[#f0f0f0] hover:bg-[#f9f9f9]">
+      {rows.map((r) => (
+        <div key={`${r.domain}|${r.channel}`} className="flex h-[45px] items-center border-b border-[#f0f0f0] hover:bg-[#f9f9f9]">
           <div className={`${first} shrink-0 pl-[12px]`}>
             <DomainLink name={r.domain} extra={r.note} />
           </div>
@@ -105,7 +107,11 @@ export function SourcesDestinations() {
           <SelectBox label="Category" options={categories} />
           {tab === "Sources" && <ChannelFilter value={channel} onChange={setChannel} />}
         </div>
-        {tab === "Sources" ? <FlowTable rows={rows} sources pages={channel === "Total" ? 95 : Math.max(1, Math.ceil(rows.length / 50))} /> : <FlowTable rows={destinationRows} sources={false} pages={41} />}
+        {tab === "Sources" ? (
+          <FlowTable key={`sources-${channel}`} rows={rows} sources pages={channel === "Total" ? 95 : Math.max(1, Math.ceil(rows.length / 50))} />
+        ) : (
+          <FlowTable key="destinations" rows={destinationRows} sources={false} pages={41} />
+        )}
       </section>
     </TrafficFrame>
   );

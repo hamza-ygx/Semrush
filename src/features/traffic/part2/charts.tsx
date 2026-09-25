@@ -2,11 +2,11 @@
 
 import { Fragment, type ReactNode } from "react";
 
-export type LineSeries = { name: string; color: string; data: (number | null)[] };
+type LineSeries = { name: string; color: string; data: (number | null)[] };
 
 const charW: Record<string, number> = { M: 10.4, K: 8, ".": 3.3, "%": 9, " ": 3.4, "<": 7 };
 
-export function labelWidth(s: string) {
+function labelWidth(s: string) {
   let w = 0;
   for (const c of s) w += charW[c] ?? 7.1;
   return w;
@@ -125,7 +125,7 @@ export function TrendLines({
   );
 }
 
-export type SankeySource = { label: string; change: string; up: boolean; share: ReactNode; h: number };
+type SankeySource = { label: string; change: string; up: boolean; share: ReactNode; h: number };
 
 export function Sankey({
   sources,

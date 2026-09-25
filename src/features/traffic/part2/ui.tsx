@@ -9,7 +9,7 @@ import { DomainLegend, DomainSwitch, ExportButton, SampleCard } from "../ui";
 import { Sankey, TrendLines } from "./charts";
 import { months, type GrowingPage, type SourceRow, type Triple } from "./data";
 
-export function extUrl(u: string) {
+function extUrl(u: string) {
   return `https://${u.includes("...") ? u.split("/")[0] : u}`;
 }
 
@@ -103,7 +103,7 @@ function PageCard({ p, color }: { p: GrowingPage; color: string }) {
   );
 }
 
-export function EmptyFound({ className = "" }: { className?: string }) {
+function EmptyFound({ className = "" }: { className?: string }) {
   return (
     <div className={`flex flex-col items-center ${className}`}>
       <svg viewBox="0 0 24 24" width={24} height={24} className="text-[#6a6c6a]">

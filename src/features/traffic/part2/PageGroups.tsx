@@ -2,6 +2,7 @@
 
 import { Fragment, useState } from "react";
 import { ExternalIcon } from "@/components/ui/icons";
+import { useOutsideClose } from "@/components/ui/Popover";
 import { DomainDot, TrafficFrame } from "../TrafficFrame";
 import { Delta, DomainLegend, DomainSwitch, SampleCard, SegTabs } from "../ui";
 import { TrendLines, fmtAxis } from "./charts";
@@ -173,6 +174,7 @@ function Journey() {
   const [cur, setCur] = useState(domains[0].name);
   const [channel, setChannel] = useState("All Traffic Channels");
   const [open, setOpen] = useState(false);
+  const menuRef = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
   const rows0 = journeySources[cur];
   const gap = 8;
   const total = rows0.reduce((a, r) => a + r.h, 0) + gap * (rows0.length - 1);
@@ -216,7 +218,7 @@ function Journey() {
           <div className="text-[14px] leading-5 font-semibold text-rk-text">Top Sources</div>
           <div className="text-[12px] leading-4 text-[#6a6c6a]">Out of 38</div>
         </div>
-        <div className="absolute left-[156px]">
+        <div ref={menuRef} className="absolute left-[156px]">
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}

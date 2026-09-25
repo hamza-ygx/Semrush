@@ -53,8 +53,8 @@ function Form({ locked }: { locked: boolean }) {
           </span>
           <span>CSV or TXT less than 5MB</span>
           <span className="mt-auto mb-[18px]">The file must contain one URL per row</span>
-          <input ref={file} type="file" accept=".csv,.txt" className="hidden" />
         </button>
+        <input ref={file} type="file" accept=".csv,.txt" className="hidden" />
       </div>
       <div className="flex w-[581px] justify-end">
         <button type="button" onClick={() => setText("")} className="mt-[11px] flex items-center gap-[6px] text-[14px] text-rk-faint hover:text-rk-text">

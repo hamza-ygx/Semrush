@@ -365,14 +365,14 @@ export function TrendingWebsites() {
         <div className="flex h-[150px] items-end gap-[18px] pb-[14px] pl-[24px]">
           {(
             [
-              ["in", "https://www.linkedin.com"],
-              ["ig", "https://www.instagram.com"],
-              ["tt", "https://www.tiktok.com"],
-              ["yt", "https://www.youtube.com"],
-              ["fb", "https://www.facebook.com"],
+              ["in", "https://www.linkedin.com", "LinkedIn"],
+              ["ig", "https://www.instagram.com", "Instagram"],
+              ["tt", "https://www.tiktok.com", "TikTok"],
+              ["yt", "https://www.youtube.com", "YouTube"],
+              ["fb", "https://www.facebook.com", "Facebook"],
             ] as const
-          ).map(([s, url]) => (
-            <a key={s} href={url} target="_blank" rel="noreferrer" aria-label={s} className="flex h-[22px] w-[22px] items-center justify-center text-[#1b1e1a] hover:text-[#ff642d]">
+          ).map(([s, url, label]) => (
+            <a key={s} href={url} target="_blank" rel="noreferrer" aria-label={label} className="flex h-[22px] w-[22px] items-center justify-center text-[#1b1e1a] hover:text-[#ff642d]">
               <SocialGlyph k={s} />
             </a>
           ))}
