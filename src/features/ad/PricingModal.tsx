@@ -27,7 +27,7 @@ export function PricingModal({ open, onClose }: { open: boolean; onClose: () => 
   useScrollLock(open);
   if (!open) return null;
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-[rgba(25,27,35,0.33)] pt-10 pb-6" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-[rgba(0,4,4,0.333)] pt-10 pb-6" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
       <div role="dialog" aria-modal="true" aria-label="Get full access to the Advertising Toolkit" className="relative w-[850px] shrink-0 rounded-xl bg-white px-10 pt-[37px] pb-[43px]">
         <button
           type="button"
@@ -41,8 +41,8 @@ export function PricingModal({ open, onClose }: { open: boolean; onClose: () => 
           </svg>
         </button>
         <h2 className="text-center text-[24px] leading-8 font-semibold">Get full access to the Advertising Toolkit</h2>
-        <p className="mt-[10px] text-center text-[16px] leading-6">Choose the plan that best suits your needs and enjoy a 7-day free trial</p>
-        <div className="mt-[25px] grid grid-cols-2 gap-4">
+        <p className="mt-[13px] text-center text-[16px] leading-6">Choose the plan that best suits your needs and enjoy a 7-day free trial</p>
+        <div className="mt-[22px] grid grid-cols-2 gap-4">
           <div className="flex h-[492px] flex-col rounded-xl border border-[#d6d8e1] px-6 pt-[23px] pb-[24px]">
             <div className="text-[20px] leading-7 font-semibold text-rk-text-2">{basePlan.name}</div>
             <div className="mt-[9px] flex items-baseline">

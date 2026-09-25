@@ -4,65 +4,20 @@ import { useState } from "react";
 import { brand } from "@/config/brand";
 import { AppShell } from "@/components/shell/AppShell";
 import { CenteredFooter } from "@/features/gaps/common";
-import { ChevronDown, FlagSE, FlagUK, FlagUS } from "@/components/ui/icons";
-import { useOutsideClose } from "@/components/ui/Popover";
 import { PricingModal } from "./PricingModal";
 import { ResearchArt } from "./ResearchArt";
-import { databases, researchConfig } from "./data";
+import { DbSelect } from "./DbSelect";
+import { researchConfig } from "./data";
 
-const flags = { SE: FlagSE, US: FlagUS, UK: FlagUK } as const;
-
-function DbSelect() {
-  const [open, setOpen] = useState(false);
-  const [db, setDb] = useState("SE");
-  const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
-  const Flag = flags[db as keyof typeof flags];
-  return (
-    <div ref={ref} className="relative">
-      <button
-        type="button"
-        aria-label="Database"
-        onClick={() => setOpen((o) => !o)}
-        className="flex h-10 w-[89px] items-center gap-2 rounded-md border border-rk-border-strong bg-white pl-3 text-[16px] hover:bg-rk-bg"
-      >
-        <Flag width={16} height={12} />
-        {db}
-        <ChevronDown strokeWidth={2.2} className="-ml-[2px]" />
-      </button>
-      {open && (
-        <div className="absolute top-[calc(100%+4px)] left-0 z-40 w-[200px] rounded-md bg-white py-1 text-left shadow-popover">
-          {databases.map((d) => {
-            const F = flags[d.code as keyof typeof flags];
-            return (
-              <button
-                key={d.code}
-                type="button"
-                onClick={() => {
-                  setDb(d.code);
-                  setOpen(false);
-                }}
-                className={`flex w-full items-center gap-2 px-3 py-[6px] text-[14px] hover:bg-rk-bg ${d.code === db ? "bg-[#e9f7ff]" : ""}`}
-              >
-                <F width={16} height={12} />
-                {d.name}
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-}
-
-export function ResearchLanding({ kind }: { kind: "research" | "pla" }) {
+export function ResearchLanding({ kind, domain, db }: { kind: "research" | "pla"; domain: string; db: string }) {
   const c = researchConfig[kind];
-  const [q, setQ] = useState("ikea.se");
+  const [q, setQ] = useState(domain);
   const [modal, setModal] = useState(false);
   const pad = kind === "pla" ? 24 : 40;
   return (
     <AppShell
       section="ad"
-      search={{ kind: "analyze", value: "ikea.se", scope: kind === "research", inputClassName: kind === "pla" ? "w-[342px]" : undefined }}
+      search={{ kind: "analyze", value: domain, scope: kind === "research", inputClassName: kind === "pla" ? "w-[342px]" : undefined }}
       footer={false}
     >
       <div className="mx-auto w-[980px] pt-6">
@@ -88,7 +43,7 @@ export function ResearchLanding({ kind }: { kind: "research" | "pla" }) {
               className="h-10 w-[515px] rounded-md border border-rk-border-strong bg-white px-3 text-[16px] outline-none focus:border-[#7a86f2]"
             />
             <span className="ml-3">
-              <DbSelect />
+              <DbSelect initial={db} />
             </span>
             <button type="submit" className="ml-[13px] h-10 w-[102px] rounded-md bg-rk-btn-dark text-[16px] font-semibold text-white hover:bg-[#2b2e38]">
               Search
@@ -118,7 +73,7 @@ export function ResearchLanding({ kind }: { kind: "research" | "pla" }) {
               <div key={f.title} className={`flex h-[328px] ${flip ? "flex-row-reverse" : ""}`}>
                 <div className={flip ? (kind === "pla" ? "ml-auto w-[453px] pt-[1px]" : "-mr-[9px] ml-auto w-[430px] pt-[1px]") : "w-[440px]"}>
                   <h2 className="text-[24px] leading-7 font-bold">{f.title}</h2>
-                  <ul className={`mt-3 flex ${kind === "pla" ? "w-[440px]" : "w-[410px]"} flex-col gap-2`}>
+                  <ul className={`mt-3 flex ${kind === "pla" ? "w-[440px]" : "w-[420px]"} flex-col gap-2`}>
                     {f.bullets.map((b) => (
                       <li key={b} className="flex text-[16px] leading-6">
                         <span className="mr-[7px] ml-[2px] text-[#6a6c6a]">•</span>
@@ -127,7 +82,7 @@ export function ResearchLanding({ kind }: { kind: "research" | "pla" }) {
                     ))}
                   </ul>
                 </div>
-                <div className={flip ? "-mt-[10px]" : `-mt-[10px] ml-auto ${kind === "pla" ? "-mr-[9px]" : "-mr-[30px]"}`}>
+                <div className={flip ? "-mt-[10px]" : `-mt-[10px] ml-auto ${kind === "pla" ? "-mr-[9px]" : "-mr-[17px]"}`}>
                   <ResearchArt kind={f.art} />
                 </div>
               </div>
