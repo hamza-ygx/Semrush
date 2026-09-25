@@ -7,110 +7,139 @@ import { AppShell } from "@/components/shell/AppShell";
 import { GearIcon, PlusIcon } from "@/components/ui/icons";
 import { routes } from "@/config/routes";
 import { BellOffIcon } from "../icons";
+import { DomainDot } from "../TrafficFrame";
+import { ListSettings } from "../part8/ListSettings";
+import { competitorColors, ListDomains, listsFor, type SavedList } from "../part8/lists";
 
-function Hero({ tag, title, subtitle, subtitleClass = "" }: { tag: string; title: ReactNode; subtitle: ReactNode; subtitleClass?: string }) {
+const inputCls = "h-10 w-[500px] rounded-[6px] border border-[#d7d9de] bg-white text-[16px] text-rk-text outline-none placeholder:text-[#a0a2ab]";
+
+function Hero({ tag, title, subtitle, subtitleClass = "", withList = false }: { tag: string; title: ReactNode; subtitle: ReactNode; subtitleClass?: string; withList?: boolean }) {
   const router = useRouter();
   const [value, setValue] = useState("");
-  const [competitors, setCompetitors] = useState<string[]>([]);
-  const go = () => router.push(`${routes.traffic.overview}?q=${encodeURIComponent(value.trim() || "rkjh.se")}&searchType=domain&lid=1304085`);
+  const [competitors, setCompetitors] = useState<string[] | null>(null);
+  const [suggest, setSuggest] = useState(false);
+  const go = () => {
+    const qs = [value, ...(competitors ?? [])].map((v) => v.trim()).filter(Boolean);
+    router.push(`${routes.traffic.overview}?q=${encodeURIComponent(qs.join(",") || "rkjh.se")}&searchType=domain&lid=1304085`);
+  };
+  const suggestions = withList ? listsFor(true).filter((l) => l.domains.length === 1) : [];
+  const analyze = (
+    <button type="submit" className="h-10 shrink-0 rounded-[6px] bg-rk-btn-dark px-[13px] text-[16px] font-semibold text-white hover:bg-[#2b2e38]">
+      Analyze
+    </button>
+  );
+  const main = (
+    <div className="relative">
+      {competitors && <DomainDot color={competitorColors[0]} className="absolute top-[15px] left-[11px]" />}
+      <input
+        value={value}
+        data-testid="traffic-home-domain"
+        onChange={(e) => setValue(e.target.value)}
+        onFocus={() => setSuggest(true)}
+        onBlur={() => setSuggest(false)}
+        placeholder="Enter domain, subdomain or subfolder"
+        className={`${inputCls} ${competitors ? "pl-[29px] focus:border-[#8b8fdd] focus:shadow-[0_0_0_1px_#8b8fdd]" : "px-[17px] focus:border-rk-link"}`}
+      />
+      {suggest && !value && suggestions.length > 0 && (
+        <div data-testid="traffic-list-suggest" className="absolute top-[45px] left-px z-30 w-[490px] overflow-hidden rounded-[6px] bg-white shadow-popover">
+          {suggestions.map((l) => (
+            <Link key={l.id} href={l.href} onMouseDown={(e) => e.preventDefault()} className="block h-[80px] px-[16px] pt-[11px] hover:bg-[#f9f9f9]">
+              <div className="text-[14px] leading-5 font-medium text-rk-muted">{l.name}</div>
+              <div className="mt-[7px]">
+                <ListDomains list={l} />
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
   return (
-    <section className="rounded-lg bg-white pt-5 pb-10 shadow-card">
+    <section className={`rounded-lg bg-white pt-5 shadow-card ${competitors ? "pb-8" : "pb-10"}`}>
       <span className="inline-flex h-[26px] items-center rounded-r-[6px] bg-[#f5eefb] pr-[11px] pl-[25px] text-[14px] leading-5 text-[#8a3fcf]">{tag}</span>
       <div className="px-[25px]">
         <h1 className="mt-[9px] max-w-[660px] text-[36px] leading-[39px] font-semibold tracking-[-0.1px] text-rk-text">{title}</h1>
         <p className={`mt-[13px] text-[16px] leading-6 text-rk-text ${subtitleClass}`}>{subtitle}</p>
         <form
-          className="mt-[32px] flex items-center gap-[13px]"
+          className="mt-[32px] flex flex-col gap-[12px]"
           onSubmit={(e) => {
             e.preventDefault();
             go();
           }}
         >
-          <input
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            placeholder="Enter domain, subdomain or subfolder"
-            className="h-10 w-[500px] rounded-[6px] border border-[#d7d9de] bg-white px-[17px] text-[16px] text-rk-text outline-none placeholder:text-[#a0a2ab] focus:border-rk-link"
-          />
-          <button type="submit" className="h-10 rounded-[6px] bg-rk-btn-dark px-[13px] text-[16px] font-semibold text-white hover:bg-[#2b2e38]">
-            Analyze
-          </button>
+          {competitors ? (
+            <>
+              {main}
+              {competitors.map((c, i) => (
+                <div key={i} className="flex items-center gap-[12px]">
+                  <div className="relative">
+                    <DomainDot color={competitorColors[i + 1]} className="absolute top-[15px] left-[11px]" />
+                    <input
+                      value={c}
+                      onChange={(e) => setCompetitors(competitors.map((x, j) => (j === i ? e.target.value : x)))}
+                      placeholder="Enter competitor domain, subdomain or subfolder"
+                      className={`${inputCls} pl-[29px] focus:border-[#8b8fdd] focus:shadow-[0_0_0_1px_#8b8fdd]`}
+                    />
+                  </div>
+                  {i === competitors.length - 1 && analyze}
+                </div>
+              ))}
+            </>
+          ) : (
+            <div className="flex items-center gap-[13px]">
+              {main}
+              {analyze}
+            </div>
+          )}
         </form>
-        {competitors.map((c, i) => (
-          <input
-            key={i}
-            value={c}
-            onChange={(e) => setCompetitors(competitors.map((x, j) => (j === i ? e.target.value : x)))}
-            placeholder="Enter competitor domain"
-            className="mt-3 block h-10 w-[500px] rounded-[6px] border border-[#d7d9de] bg-white px-[17px] text-[16px] text-rk-text outline-none placeholder:text-[#a0a2ab] focus:border-rk-link"
-          />
-        ))}
-        <button
-          type="button"
-          onClick={() => competitors.length < 4 && setCompetitors([...competitors, ""])}
-          className="mt-[16px] ml-[14px] text-[16px] leading-6 font-medium text-rk-link hover:text-rk-link-hover"
-        >
-          + Add competitors
-        </button>
+        {!competitors && (
+          <button
+            type="button"
+            data-testid="traffic-add-competitors"
+            onClick={() => setCompetitors(["", "", "", ""])}
+            className="mt-[16px] ml-[14px] text-[16px] leading-6 font-medium text-rk-link hover:text-rk-link-hover"
+          >
+            + Add competitors
+          </button>
+        )}
       </div>
     </section>
   );
 }
 
-function Favicon({ kind }: { kind: "bdo" | "ludvig" | "aspia" }) {
-  return (
-    <span className="flex h-[29px] w-[29px] items-center justify-center rounded-[6px] border border-[#e6e7ea] bg-white">
-      {kind === "bdo" && <span className="text-[6.5px] font-bold tracking-[-0.2px] text-[#7a4dd8]">BDO</span>}
-      {kind === "ludvig" && (
-        <span className="flex h-[16px] w-[16px] flex-col items-center justify-center rounded-[3px] bg-[#1d2536] text-[5.5px] leading-[6px] font-bold text-white">
-          <span>LE</span>
-          <span>CO</span>
-        </span>
-      )}
-      {kind === "aspia" && (
-        <svg viewBox="0 0 16 16" width={15} height={15}>
-          <path d="M9 1.5 3 6.5v5l6 3 4-2.5V6Z" fill="#8a4fe0" />
-          <path d="M9 1.5 13 6v6.5l-4 2.5Z" fill="#ff4d6d" />
-          <path d="M6.5 6.5h3v4h-3Z" fill="#fff" />
-        </svg>
-      )}
-    </span>
-  );
-}
-
-function SavedLists() {
-  const items: { kind: "bdo" | "ludvig" | "aspia"; name: string }[] = [
-    { kind: "bdo", name: "bdo.se" },
-    { kind: "ludvig", name: "ludvig.se" },
-    { kind: "aspia", name: "aspia.se" },
-  ];
+function SavedLists({ withList = false }: { withList?: boolean }) {
+  const [settings, setSettings] = useState<SavedList | null>(null);
   return (
     <>
       <div className="mt-[38px] flex items-center justify-between">
         <h2 className="text-[20px] leading-7 font-semibold text-rk-text">Saved lists</h2>
-        <button type="button" className="mr-[9px] flex items-center gap-[10px] text-[14px] leading-5 text-rk-muted hover:text-rk-text">
+        <Link href={`${routes.traffic.home}?lid=1304085`} className="mr-[9px] flex items-center gap-[10px] text-[14px] leading-5 text-rk-muted hover:text-rk-text">
           <PlusIcon width={14} height={14} />
           Create new list
-        </button>
+        </Link>
       </div>
-      <Link href={`${routes.traffic.overview}?q=rkjh.se&searchType=domain&lid=1304085`} className="mt-[18px] flex h-[92px] items-start justify-between rounded-lg bg-white px-5 pt-[21px] shadow-card hover:shadow-[0_1px_8px_rgba(0,0,0,0.12)]">
-        <div>
-          <div className="text-[14px] leading-5 font-semibold text-rk-text">Untitled list</div>
-          <div className="mt-[6px] flex items-center">
-            {items.map((it) => (
-              <span key={it.name} className="mr-[9px] flex items-center gap-[8px] text-[15px] leading-5 text-rk-text-2">
-                <Favicon kind={it.kind} />
-                {it.name}
-              </span>
-            ))}
-            <span className="-ml-[1px] text-[14px] text-rk-muted">+ 2 more</span>
+      <div className="mt-[18px] flex flex-col gap-[8px]">
+        {listsFor(withList).map((l) => (
+          <div key={l.id} data-testid={`traffic-saved-list-${l.id}`} className="relative flex h-[92px] items-start justify-between rounded-lg bg-white px-5 pt-[21px] shadow-card hover:shadow-[0_1px_8px_rgba(0,0,0,0.12)]">
+            <Link href={l.href} aria-label={`Open ${l.name} (${l.domains[0]})`} className="absolute inset-0 rounded-lg" />
+            <div className="pointer-events-none relative">
+              <div className="text-[14px] leading-5 font-semibold text-rk-text">{l.name}</div>
+              <div className="mt-[6px]">
+                <ListDomains list={l} />
+              </div>
+            </div>
+            <div className="relative mt-[3px] flex items-center gap-[20px] pr-[7px] text-rk-muted">
+              <button type="button" aria-label="Notifications off" className="hover:text-rk-text">
+                <BellOffIcon width={18} height={18} />
+              </button>
+              <button type="button" aria-label="List settings" onClick={() => setSettings(l)} className="hover:text-rk-text">
+                <GearIcon width={18} height={18} />
+              </button>
+            </div>
           </div>
-        </div>
-        <div className="mt-[3px] flex items-center gap-[20px] pr-[7px] text-rk-muted">
-          <BellOffIcon width={18} height={18} />
-          <GearIcon width={18} height={18} />
-        </div>
-      </Link>
+        ))}
+      </div>
+      {settings && <ListSettings list={settings} onClose={() => setSettings(null)} />}
     </>
   );
 }
@@ -250,12 +279,12 @@ function ApiCard() {
   );
 }
 
-export function TrafficHome() {
+export function TrafficHome({ withList = false }: { withList?: boolean }) {
   return (
     <AppShell section="traffic" search={{ kind: "none" }} footerPb={37}>
       <div className="mx-auto w-[922px] pt-[25px] pb-[102px]">
-        <Hero tag="Get Started" title="Traffic & Market insights that deliver results" subtitle="Instantly reveal what’s working for your competitors and how to grow faster." />
-        <SavedLists />
+        <Hero tag="Get Started" title="Traffic & Market insights that deliver results" subtitle="Instantly reveal what’s working for your competitors and how to grow faster." withList={withList} />
+        <SavedLists withList={withList} />
         <h2 className="mt-[46px] text-center text-[24px] leading-8 font-semibold text-[#2b2e38]">Explore in One Click</h2>
         <div className="mt-[22px] grid grid-cols-2 gap-[20px]">
           {explore.map((e) => (

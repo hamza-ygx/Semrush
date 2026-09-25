@@ -3,8 +3,12 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AppShell } from "@/components/shell/AppShell";
 import { Popover, MenuItem, useOutsideClose } from "@/components/ui/Popover";
-import { CloseIcon, PlusIcon } from "@/components/ui/icons";
+import Link from "next/link";
+import { CloseIcon, GearIcon, PlusIcon } from "@/components/ui/icons";
+import { routes } from "@/config/routes";
 import { DevicePanel, GeoPanel, GranularityPanel, MonthRangePanel } from "./part1/filterPanels";
+import { ListDomains, listsFor, rkjhList, type SavedList } from "./part8/lists";
+import { ListSettings } from "./part8/ListSettings";
 import { BellOffIcon, CalendarIcon, DevicesIcon, DownloadIcon, GeoIcon, ManualIcon, SmallChevron, TrendIcon } from "./icons";
 
 export type TrafficDomain = { name: string; color: string };
@@ -49,7 +53,7 @@ function resolve(f: TrafficFilter) {
   return { key: f.key, icon: f.icon ?? b?.icon, value: f.value, options: f.options ?? b?.options ?? [f.value], suffix: f.suffix };
 }
 
-function FilterSelect({ f }: { f: TrafficFilter }) {
+function FilterSelect({ f, locked }: { f: TrafficFilter; locked: boolean }) {
   const r = resolve(f);
   const [value, setValue] = useState(r.value);
   const [open, setOpen] = useState(false);
@@ -67,10 +71,10 @@ function FilterSelect({ f }: { f: TrafficFilter }) {
     close();
   };
   let body: ReactNode;
-  if (r.key === "geo") body = <GeoPanel value={value} onApply={pick} />;
-  else if (builtinKey === "date") body = <MonthRangePanel value={value} onApply={pick} />;
-  else if (r.key === "granularity") body = <GranularityPanel options={builtinKey ? granularityOptions : r.options} value={value} onPick={pick} />;
-  else if (r.key === "device") body = <DevicePanel options={deviceOptions} value={value} onPick={pick} />;
+  if (r.key === "geo") body = <GeoPanel value={value} onApply={pick} locked={locked} />;
+  else if (builtinKey === "date") body = <MonthRangePanel value={value} onApply={pick} locked={locked} />;
+  else if (r.key === "granularity") body = <GranularityPanel options={builtinKey ? granularityOptions : r.options} value={value} onPick={pick} locked={locked} />;
+  else if (r.key === "device") body = <DevicePanel options={deviceOptions} value={value} onPick={pick} locked={locked} />;
   else
     body = (
       <div className="absolute top-[36px] left-0 z-50 min-w-[180px] rounded-md bg-white py-1 shadow-popover">
@@ -104,11 +108,11 @@ function FilterSelect({ f }: { f: TrafficFilter }) {
   );
 }
 
-function FilterRow({ filters }: { filters: TrafficFilter[] }) {
+function FilterRow({ filters, locked }: { filters: TrafficFilter[]; locked: boolean }) {
   return (
     <div className="flex items-center gap-[26px]">
       {filters.map((f) => (
-        <FilterSelect key={typeof f === "string" ? f : f.key} f={f} />
+        <FilterSelect key={typeof f === "string" ? f : f.key} f={f} locked={locked} />
       ))}
     </div>
   );
@@ -178,29 +182,63 @@ function Chips({ domains, variant, locked }: { domains: TrafficDomain[]; variant
 }
 
 function ListHeader() {
+  const [open, setOpen] = useState(false);
+  const [settings, setSettings] = useState<SavedList | null>(null);
+  const close = () => setOpen(false);
+  const ref = useOutsideClose<HTMLDivElement>(open, close);
   return (
     <div className="flex items-center gap-[14px] pl-[30px]">
-      <Popover
-        trigger={({ toggle }) => (
-          <button type="button" onClick={toggle} className="flex items-center gap-[4px] text-[16px] leading-6 text-rk-text">
-            Untitled list
-            <SmallChevron width={16} height={16} />
-          </button>
+      <div ref={ref} className="relative">
+        <button
+          type="button"
+          data-testid="traffic-list-switcher"
+          aria-expanded={open}
+          onClick={() => setOpen((o) => !o)}
+          className="group flex items-center gap-[4px] text-[16px] leading-6 text-rk-text"
+        >
+          <span className={`decoration-1 underline-offset-[4px] ${open ? "underline" : "group-hover:underline"}`}>Untitled list</span>
+          <SmallChevron width={16} height={16} />
+        </button>
+        {open && (
+          <div data-testid="traffic-list-menu" className="absolute top-[28px] left-0 z-50 w-[601px] overflow-hidden rounded-[6px] bg-white pt-[8px] shadow-popover">
+            {listsFor(true).map((l) => (
+              <div key={l.id} className={`relative h-[80px] px-[17px] pt-[11px] ${l === rkjhList ? "bg-[#e9eefc] shadow-[inset_3px_0_0_#191b23]" : "hover:bg-rk-bg"}`}>
+                <Link href={l.href} onClick={close} aria-label={`Open ${l.name} (${l.domains[0]})`} className="absolute inset-0" />
+                <div className="text-[14px] leading-5 font-semibold text-rk-text">{l.name}</div>
+                <div className="pointer-events-none relative mt-[7px]">
+                  <ListDomains list={l} />
+                </div>
+                <div className="absolute top-[12px] right-[21px] flex items-center gap-[19px] text-rk-muted">
+                  <button type="button" aria-label="Notifications off" onClick={close} className="relative hover:text-rk-text">
+                    <BellOffIcon width={18} height={18} />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="List settings"
+                    onClick={() => {
+                      close();
+                      setSettings(l);
+                    }}
+                    className="relative hover:text-rk-text"
+                  >
+                    <GearIcon width={18} height={18} />
+                  </button>
+                </div>
+              </div>
+            ))}
+            <div className="mt-[8px] border-t border-[#e6e7ea] px-[19px] pt-[17px] pb-[19px]">
+              <Link href={`${routes.traffic.home}?lid=${rkjhList.id}`} onClick={close} className="flex items-center gap-[7px] text-[14px] leading-5 text-rk-link hover:text-rk-link-hover">
+                <PlusIcon width={12} height={12} strokeWidth={2.4} />
+                Create new list
+              </Link>
+            </div>
+          </div>
         )}
-        panelClassName="min-w-[180px]"
-      >
-        {(close) => (
-          <>
-            <MenuItem onClick={close} active>
-              Untitled list
-            </MenuItem>
-            <MenuItem onClick={close}>+ Create new list</MenuItem>
-          </>
-        )}
-      </Popover>
+      </div>
       <button type="button" aria-label="Notifications off" className="text-rk-muted hover:text-rk-text">
         <BellOffIcon />
       </button>
+      {settings && <ListSettings list={settings} onClose={() => setSettings(null)} />}
     </div>
   );
 }
@@ -228,7 +266,7 @@ function StickyLockedBar({ filters }: { filters: TrafficFilter[] }) {
   return (
     <div className="fixed top-0 right-0 left-0 z-30 flex h-[45px] items-center gap-[30px] border-b border-[#e6e8e8] bg-rk-bg pl-[37px]">
       <BellOffIcon className="text-rk-muted" />
-      <FilterRow filters={filters} />
+      <FilterRow filters={filters} locked />
     </div>
   );
 }
@@ -280,7 +318,7 @@ export function TrafficFrame({
             </>
           )}
           <div className="flex h-[52px] items-center border-b border-[#e6e8e8] pl-8">
-            <FilterRow filters={filters} />
+            <FilterRow filters={filters} locked={locked} />
           </div>
           <div className="px-8" style={{ paddingBottom: bottomGap }}>
             <div className="flex max-w-[calc(100vw-51px)] items-center justify-between pt-[23px] pb-[14px]">

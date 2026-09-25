@@ -4,6 +4,7 @@ import { useState, type ReactNode } from "react";
 import { ChevronLeft, ChevronRight, SearchIcon } from "@/components/ui/icons";
 import { ClockSmall, DevicesIcon, MonitorIcon, PhoneIcon, WorldFilledIcon } from "../icons";
 import { Flag } from "./flags";
+import { PickerUpsell } from "../part8/Upsell";
 
 const countries: [string, string][] = [
   ["US", "United States"],
@@ -48,31 +49,80 @@ const countries: [string, string][] = [
   ["UA", "Ukraine"],
 ];
 
-const regions = ["Africa", "Asia", "Europe", "Latin America", "Middle East", "North America", "Oceania", "European Union", "Nordics", "DACH"];
+const regionGroups: [string, string[]][] = [
+  ["Business", ["EMEA", "APAC", "LATAM", "NA"]],
+  [
+    "Geographical",
+    [
+      "Central Asia",
+      "Eastern Asia",
+      "Eastern Europe",
+      "Latin America and the Caribbean",
+      "Northern Africa",
+      "Northern America",
+      "Northern Europe",
+      "Oceania",
+      "South-eastern Asia",
+      "Southern Asia",
+      "Southern Europe",
+      "Sub-Saharan Africa",
+      "Western Asia",
+      "Western Europe",
+    ],
+  ],
+];
+
+const dimItem = "text-[#b7b8bd]";
 
 const panel = "absolute z-50 rounded-[6px] bg-white shadow-popover";
-const itemBase = "flex h-8 w-full items-center text-left text-[14px] leading-5 text-rk-text";
-const activeItem = "bg-[#ecf0ff] shadow-[inset_2px_0_0_#191b23]";
+const itemBase = "flex h-8 w-full items-center text-left text-[14px] leading-5";
+const activeItem = "bg-[#ecf0ff] text-rk-text shadow-[inset_2px_0_0_#191b23]";
 
-export function GeoPanel({ value, onApply }: { value: string; onApply: (v: string) => void }) {
+export function GeoPanel({ value, onApply, locked = false }: { value: string; onApply: (v: string) => void; locked?: boolean }) {
   const [tab, setTab] = useState<"Countries" | "Regions">("Countries");
   const [q, setQ] = useState("");
-  const [multi, setMulti] = useState(true);
+  const [multi, setMulti] = useState(!locked);
   const [picked, setPicked] = useState<string[]>([]);
   const [single, setSingle] = useState(value);
-  const names = tab === "Countries" ? countries : regions.map((r) => ["", r] as [string, string]);
-  const shown = names.filter(([, n]) => n.toLowerCase().includes(q.trim().toLowerCase()));
+  const match = (n: string) => n.toLowerCase().includes(q.trim().toLowerCase());
+  const shown = tab === "Countries" ? countries.filter(([, n]) => match(n)) : [];
+  const groups = tab === "Regions" ? regionGroups.map(([g, rs]) => [g, rs.filter(match)] as [string, string[]]).filter(([, rs]) => rs.length) : [];
   const toggle = (n: string) => setPicked((p) => (p.includes(n) ? p.filter((x) => x !== n) : [...p, n]));
   const apply = () => onApply(multi && picked.length ? (picked.length === 1 ? picked[0] : `${picked.length} locations`) : single);
+  const item = (key: string, n: string, flag: ReactNode) => {
+    const on = multi ? picked.includes(n) : single === n;
+    if (locked)
+      return (
+        <div key={key} aria-disabled className={`${itemBase} gap-[12px] pl-[8px] ${dimItem}`}>
+          {flag && <span className="opacity-50">{flag}</span>}
+          <span className={`truncate ${flag ? "-ml-[4px]" : ""}`}>{n}</span>
+        </div>
+      );
+    return (
+      <button key={key} type="button" onClick={() => (multi ? toggle(n) : setSingle(n))} className={`${itemBase} gap-[12px] pl-[8px] ${!multi && on ? activeItem : "text-rk-text hover:bg-rk-bg"}`}>
+        {multi && (
+          <span className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[4px] border ${on ? "border-[#2359d6] bg-[#2359d6]" : "border-[#dcdede] bg-white"}`}>
+            {on && (
+              <svg viewBox="0 0 16 16" width={12} height={12}>
+                <path d="m3.5 8.3 3 3 6-6.3" fill="none" stroke="#fff" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            )}
+          </span>
+        )}
+        {flag}
+        <span className={`truncate ${flag ? "-ml-[4px]" : ""}`}>{n}</span>
+      </button>
+    );
+  };
   return (
-    <div data-testid="traffic-geo-panel" className={`${panel} top-[28px] left-0 w-[320px]`}>
-      <label className="flex h-9 items-center gap-[8px] rounded-[6px] border-2 border-[#8b8fdd] bg-white pr-2 pl-[8px]">
+    <div data-testid="traffic-geo-panel" className={`${panel} top-[28px] left-0 w-[320px] overflow-hidden`}>
+      <label className="flex h-9 items-center gap-[8px] rounded-[6px] border border-[#d7d9de] bg-white pr-2 pl-[9px] focus-within:border-2 focus-within:border-[#8b8fdd] focus-within:pl-[8px]">
         <SearchIcon width={16} height={16} className="shrink-0 text-[#a1a3aa]" />
         <input
           autoFocus
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder={tab === "Countries" ? "Enter country" : "Enter region"}
+          placeholder={tab === "Countries" || locked ? "Enter country" : "Enter region"}
           className="w-full bg-transparent text-[14px] leading-5 text-rk-text outline-none placeholder:text-[#a1a3aa]"
         />
       </label>
@@ -88,7 +138,9 @@ export function GeoPanel({ value, onApply }: { value: string; onApply: (v: strin
           </button>
         ))}
       </div>
-      <div className="mt-[4px] mb-[8px] ml-px h-[258px] overflow-y-auto [&::-webkit-scrollbar]:w-[9px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-2 [&::-webkit-scrollbar-thumb]:border-y-0 [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-[#c5cbd5] [&::-webkit-scrollbar-thumb]:bg-clip-padding">
+      <div
+        className={`ml-px h-[258px] overflow-y-auto [&::-webkit-scrollbar]:w-[9px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-2 [&::-webkit-scrollbar-thumb]:border-y-0 [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-[#c5cbd5] [&::-webkit-scrollbar-thumb]:bg-clip-padding ${locked && tab === "Regions" ? "mt-0 mb-[4px]" : "mt-[4px] mb-[8px]"}`}
+      >
         {!q && (
           <button
             type="button"
@@ -96,50 +148,43 @@ export function GeoPanel({ value, onApply }: { value: string; onApply: (v: strin
               setSingle("Worldwide");
               setPicked([]);
             }}
-            className={`${itemBase} gap-[7px] border-b border-[#e3e8ef] pl-[9px] ${single === "Worldwide" && !picked.length ? activeItem : "hover:bg-rk-bg"}`}
+            className={`${itemBase} gap-[7px] border-b border-[#e3e8ef] pl-[9px] ${single === "Worldwide" && !picked.length ? activeItem : "text-rk-text hover:bg-rk-bg"}`}
           >
             <WorldFilledIcon className="text-[#191b23]" />
             Worldwide
           </button>
         )}
         {tab === "Countries" && !q && (
-          <button type="button" onClick={() => setMulti((m) => !m)} className="flex h-8 w-full items-center gap-[8px] pl-[8px] text-[12px] leading-4 text-rk-text">
-            <span className={`relative h-3 w-5 rounded-full ${multi ? "bg-[#00a47e]" : "bg-[#c4c7cf]"}`}>
+          <button
+            type="button"
+            disabled={locked}
+            onClick={() => setMulti((m) => !m)}
+            className={`flex h-8 w-full items-center gap-[8px] pl-[8px] text-[12px] leading-4 ${locked ? "text-[#b7b8bd]" : "text-rk-text"}`}
+          >
+            <span className={`relative h-3 w-5 rounded-full ${multi ? "bg-[#00a47e]" : locked ? "bg-[#e6e7ea]" : "bg-[#c4c7cf]"}`}>
               <span className={`absolute top-[2px] h-2 w-2 rounded-full bg-white ${multi ? "left-[10px]" : "left-[2px]"}`} />
             </span>
             Select multiple
           </button>
         )}
-        {shown.map(([code, n]) => {
-          const on = multi ? picked.includes(n) : single === n;
-          return (
-            <button
-              key={n}
-              type="button"
-              onClick={() => (multi ? toggle(n) : setSingle(n))}
-              className={`${itemBase} gap-[12px] pl-[8px] ${!multi && on ? activeItem : "hover:bg-rk-bg"}`}
-            >
-              {multi && (
-                <span className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[4px] border ${on ? "border-[#2359d6] bg-[#2359d6]" : "border-[#dcdede] bg-white"}`}>
-                  {on && (
-                    <svg viewBox="0 0 16 16" width={12} height={12}>
-                      <path d="m3.5 8.3 3 3 6-6.3" fill="none" stroke="#fff" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  )}
-                </span>
-              )}
-              {code && <Flag code={code} />}
-              <span className="-ml-[4px] truncate">{n}</span>
-            </button>
-          );
-        })}
-        {!shown.length && <div className="px-[8px] py-[6px] text-[14px] leading-5 text-rk-muted">Nothing found</div>}
+        {shown.map(([code, n]) => item(n, n, <Flag code={code} />))}
+        {groups.map(([g, rs]) => (
+          <div key={g}>
+            <div className="flex h-8 items-center pl-[8px] text-[14px] leading-5 font-semibold text-rk-text">{g}</div>
+            {rs.map((r) => item(r, r, null))}
+          </div>
+        ))}
+        {!shown.length && !groups.length && <div className="px-[8px] py-[6px] text-[14px] leading-5 text-rk-muted">Nothing found</div>}
       </div>
-      <div className="border-t-2 border-[#f0f0f0] px-[8px] pt-[12px] pb-[11px]">
-        <button type="button" onClick={apply} className="h-7 w-full rounded-[6px] bg-rk-btn-dark text-[14px] leading-5 font-semibold text-white hover:bg-black">
-          Apply
-        </button>
-      </div>
+      {locked ? (
+        <PickerUpsell />
+      ) : (
+        <div className="border-t-2 border-[#f0f0f0] px-[8px] pt-[12px] pb-[11px]">
+          <button type="button" onClick={apply} className="h-7 w-full rounded-[6px] bg-rk-btn-dark text-[14px] leading-5 font-semibold text-white hover:bg-black">
+            Apply
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -148,7 +193,7 @@ const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep
 const presets = ["Last 1 month", "Last 3 months", "Last 6 months", "Current year", "Last 1 year", "Last 2 years"];
 const LAST = { y: 2026, m: 7 };
 
-function MonthGrid({ year, sel, onPick }: { year: number; sel: { y: number; m: number }; onPick: (m: number) => void }) {
+function MonthGrid({ year, sel, onPick, locked }: { year: number; sel: { y: number; m: number }; onPick: (m: number) => void; locked: boolean }) {
   return (
     <div className="grid w-[180px] grid-cols-3 gap-y-[12px]">
       {monthNames.map((n, m) => {
@@ -166,9 +211,9 @@ function MonthGrid({ year, sel, onPick }: { year: number; sel: { y: number; m: n
           <button
             key={n}
             type="button"
-            disabled={after}
+            disabled={after || locked}
             onClick={() => onPick(m)}
-            className={`flex h-8 items-center justify-center rounded-[6px] text-[14px] leading-5 ${active ? "bg-[#767fe8] text-white" : after ? "text-[#b7b8bd]" : "text-rk-text hover:bg-rk-bg"}`}
+            className={`flex h-8 items-center justify-center rounded-[6px] text-[14px] leading-5 ${active ? "bg-[#767fe8] text-white" : after || locked ? "text-[#b7b8bd]" : "text-rk-text hover:bg-rk-bg"}`}
           >
             {n}
           </button>
@@ -178,7 +223,7 @@ function MonthGrid({ year, sel, onPick }: { year: number; sel: { y: number; m: n
   );
 }
 
-export function MonthRangePanel({ value, onApply }: { value: string; onApply: (v: string) => void }) {
+export function MonthRangePanel({ value, onApply, locked = false }: { value: string; onApply: (v: string) => void; locked?: boolean }) {
   const init = (() => {
     const [mn, yr] = value.split(" ");
     const m = monthNames.indexOf(mn);
@@ -188,85 +233,98 @@ export function MonthRangePanel({ value, onApply }: { value: string; onApply: (v
   const [preset, setPreset] = useState<string | null>("Last 1 month");
   const [base, setBase] = useState(LAST.y - 1);
   return (
-    <div data-testid="traffic-date-panel" className={`${panel} top-[30px] left-px flex w-[560px]`}>
-      <div className="w-[408px] px-4 pt-[20px] pb-[27px]">
-        <div className="flex h-8 items-center">
-          <button type="button" aria-label="Previous year" onClick={() => setBase((b) => b - 1)} className="flex w-[40px] justify-center text-[#6c6e79] hover:text-rk-text">
-            <ChevronLeft width={16} height={16} />
-          </button>
-          <span className="w-[140px] text-center text-[14px] leading-5 text-rk-text">{base}</span>
-          <span className="ml-[16px] w-[140px] text-center text-[14px] leading-5 text-rk-text">{base + 1}</span>
-          <button
-            type="button"
-            aria-label="Next year"
-            disabled={base + 1 >= LAST.y}
-            onClick={() => setBase((b) => b + 1)}
-            className="flex w-[40px] justify-center text-[#6c6e79] hover:text-rk-text"
-          >
-            <ChevronRight width={16} height={16} />
-          </button>
+    <div data-testid="traffic-date-panel" className={`${panel} top-[30px] left-px w-[560px] overflow-hidden`}>
+      <div className="flex">
+        <div className="w-[408px] px-4 pt-[20px] pb-[27px]">
+          <div className="flex h-8 items-center">
+            <button
+              type="button"
+              aria-label="Previous year"
+              disabled={locked}
+              onClick={() => setBase((b) => b - 1)}
+              className={`flex w-[40px] justify-center ${locked ? "text-[#b7b8bd]" : "text-[#6c6e79] hover:text-rk-text"}`}
+            >
+              <ChevronLeft width={16} height={16} />
+            </button>
+            <span className={`w-[140px] text-center text-[14px] leading-5 ${locked ? "text-[#b7b8bd]" : "text-rk-text"}`}>{base}</span>
+            <span className={`ml-[16px] w-[140px] text-center text-[14px] leading-5 ${locked ? "text-[#b7b8bd]" : "text-rk-text"}`}>{base + 1}</span>
+            <button
+              type="button"
+              aria-label="Next year"
+              disabled={base + 1 >= LAST.y || locked}
+              onClick={() => setBase((b) => b + 1)}
+              className={`flex w-[40px] justify-center ${locked ? "text-[#b7b8bd]" : "text-[#6c6e79] hover:text-rk-text"}`}
+            >
+              <ChevronRight width={16} height={16} />
+            </button>
+          </div>
+          <div className="mt-[8px] flex gap-[16px]">
+            {[base, base + 1].map((y) => (
+              <MonthGrid
+                key={y}
+                year={y}
+                sel={sel}
+                locked={locked}
+                onPick={(m) => {
+                  setSel({ y, m });
+                  setPreset(null);
+                }}
+              />
+            ))}
+          </div>
         </div>
-        <div className="mt-[8px] flex gap-[16px]">
-          {[base, base + 1].map((y) => (
-            <MonthGrid
-              key={y}
-              year={y}
-              sel={sel}
-              onPick={(m) => {
-                setSel({ y, m });
-                setPreset(null);
+        <div className="flex w-[152px] flex-col border-l border-[#e0e0e0] px-4 pt-[17px] pb-4">
+          {presets.map((p) => (
+            <button
+              key={p}
+              type="button"
+              disabled={locked}
+              onClick={() => {
+                setPreset(p);
+                setSel(LAST);
               }}
-            />
+              className={`flex h-7 items-center rounded-[6px] px-[9px] text-left text-[14px] leading-5 ${p === preset ? "bg-[#e9ebeb] font-semibold text-rk-text" : locked ? "text-[#b7b8bd]" : "text-[#6c6e79] hover:bg-rk-bg"}`}
+            >
+              {p}
+            </button>
           ))}
+          <div className="mt-auto flex items-center gap-[18px]">
+            <button
+              type="button"
+              disabled={locked}
+              onClick={() => onApply(preset && preset !== "Last 1 month" ? preset : `${monthNames[sel.m]} ${sel.y}`)}
+              className={`h-7 rounded-[6px] px-[9px] text-[14px] leading-5 font-semibold text-white ${locked ? "bg-[#a4a5a8]" : "bg-rk-btn-dark hover:bg-black"}`}
+            >
+              Apply
+            </button>
+            <button
+              type="button"
+              disabled={locked}
+              onClick={() => {
+                setSel(LAST);
+                setPreset("Last 1 month");
+              }}
+              className={`text-[14px] leading-5 ${locked ? "text-[#c4c5ca]" : "text-[#6c6e79] hover:text-rk-text"}`}
+            >
+              Reset
+            </button>
+          </div>
         </div>
       </div>
-      <div className="flex w-[152px] flex-col border-l border-[#e0e0e0] px-4 pt-[17px] pb-4">
-        {presets.map((p) => (
-          <button
-            key={p}
-            type="button"
-            onClick={() => {
-              setPreset(p);
-              setSel(LAST);
-            }}
-            className={`flex h-7 items-center rounded-[6px] px-[9px] text-left text-[14px] leading-5 ${p === preset ? "bg-[#e9ebeb] font-semibold text-rk-text" : "text-[#6c6e79] hover:bg-rk-bg"}`}
-          >
-            {p}
-          </button>
-        ))}
-        <div className="mt-auto flex items-center gap-[18px]">
-          <button
-            type="button"
-            onClick={() => onApply(preset && preset !== "Last 1 month" ? preset : `${monthNames[sel.m]} ${sel.y}`)}
-            className="h-7 rounded-[6px] bg-rk-btn-dark px-[9px] text-[14px] leading-5 font-semibold text-white hover:bg-black"
-          >
-            Apply
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setSel(LAST);
-              setPreset("Last 1 month");
-            }}
-            className="text-[14px] leading-5 text-[#6c6e79] hover:text-rk-text"
-          >
-            Reset
-          </button>
-        </div>
-      </div>
+      {locked && <PickerUpsell wide />}
     </div>
   );
 }
 
-export function GranularityPanel({ options, value, onPick }: { options: string[]; value: string; onPick: (v: string) => void }) {
+export function GranularityPanel({ options, value, onPick, locked = false }: { options: string[]; value: string; onPick: (v: string) => void; locked?: boolean }) {
   return (
-    <div data-testid="traffic-granularity-panel" className={`${panel} top-[30px] left-px w-[130px] overflow-hidden`}>
+    <div data-testid="traffic-granularity-panel" className={`${panel} top-[30px] left-px overflow-hidden ${locked ? "w-[218px]" : "w-[130px]"}`}>
       {options.map((o) => (
-        <button key={o} type="button" onClick={() => onPick(o)} className={`${itemBase} px-[8px] ${o === value ? activeItem : "hover:bg-rk-bg"}`}>
+        <button key={o} type="button" disabled={locked && o !== value} onClick={() => onPick(o)} className={`${itemBase} px-[8px] ${o === value ? activeItem : locked ? dimItem : "text-rk-text hover:bg-rk-bg"}`}>
           {o}
         </button>
       ))}
-      <div className="border-t border-[#f0f0f0] bg-[#fafafa] px-4 py-4 text-[14px] leading-5 text-rk-text">Applies to line charts only.</div>
+      {locked ? <PickerUpsell /> : <div className="border-t border-[#f0f0f0] bg-[#fafafa] px-4 py-4 text-[14px] leading-5 text-rk-text">Applies to line charts only.</div>}
     </div>
   );
 }
@@ -277,15 +335,22 @@ const deviceIcons: Record<string, ReactNode> = {
   Desktop: <MonitorIcon width={16} height={16} />,
 };
 
-export function DevicePanel({ options, value, onPick }: { options: string[]; value: string; onPick: (v: string) => void }) {
+export function DevicePanel({ options, value, onPick, locked = false }: { options: string[]; value: string; onPick: (v: string) => void; locked?: boolean }) {
   return (
-    <div data-testid="traffic-device-panel" className={`${panel} top-[30px] left-px w-[110px] overflow-hidden`}>
+    <div data-testid="traffic-device-panel" className={`${panel} top-[30px] left-px overflow-hidden ${locked ? "w-[219px]" : "w-[110px]"}`}>
       {options.map((o) => (
-        <button key={o} type="button" onClick={() => onPick(o)} className={`${itemBase} gap-[4px] px-[8px] ${o === value ? activeItem : "hover:bg-rk-bg"}`}>
+        <button
+          key={o}
+          type="button"
+          disabled={locked && o !== value}
+          onClick={() => onPick(o)}
+          className={`${itemBase} gap-[4px] px-[8px] ${o === value ? activeItem : locked ? dimItem : "text-rk-text hover:bg-rk-bg"}`}
+        >
           {deviceIcons[o]}
           {o}
         </button>
       ))}
+      {locked && <PickerUpsell />}
     </div>
   );
 }
