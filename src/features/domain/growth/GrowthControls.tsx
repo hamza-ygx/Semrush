@@ -21,7 +21,14 @@ export function GrowthControls({ active }: { active?: string }) {
   const [value, setValue] = useState<(typeof periods)[number]>(initial);
   const [open, setOpen] = useState(false);
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
-  const go = (p: (typeof periods)[number]) => router.push(`${routes.domainGrowthReport}?periodType=${periodType[p]}`);
+  const withParams = (periodValue?: string) => {
+    const params = new URLSearchParams(window.location.search);
+    if (periodValue) params.set("periodType", periodValue);
+    else params.delete("periodType");
+    const qs = params.toString();
+    return qs ? `${routes.domainGrowthReport}?${qs}` : routes.domainGrowthReport;
+  };
+  const go = (p: (typeof periods)[number]) => router.push(withParams(periodType[p]));
   return (
     <div className="flex items-center gap-[8px]">
       <div ref={ref} className="relative">
@@ -62,7 +69,7 @@ export function GrowthControls({ active }: { active?: string }) {
       </button>
       <button
         type="button"
-        onClick={() => active && router.push(routes.domainGrowthReport)}
+        onClick={() => active && router.push(withParams())}
         className={`h-7 rounded-md border border-[#d3d5db] bg-[#eceef0] px-[7.5px] text-[14px] ${active ? "text-rk-text-2 hover:bg-rk-hover" : "cursor-default text-rk-muted"}`}
       >
         Cancel
