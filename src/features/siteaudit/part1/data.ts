@@ -528,7 +528,7 @@ const baseRows: Omit<CrawledRow, "id">[] = [
 ];
 export const crawledRows: CrawledRow[] = baseRows.map((r, i) => ({ ...r, id: i ? `6a60cf96c96be8027779${(0x3d7 + i * 0x2b).toString(16).padStart(4, "0")}` : "6a60cf96c96be802777903d7" }));
 
-export const pageDetailHref = (id: string) => `${routes.siteAuditCampaign.issues.replace(/\/issues$/, "/page")}/${id}`;
+export const pageDetailHref = routes.siteAuditCampaign.pageDetail;
 
 
 export const pageColumns = [

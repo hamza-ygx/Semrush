@@ -13,6 +13,7 @@ export const routes = {
     overview: `${SA}/overview`,
     issues: `${SA}/issues`,
     issueDetail: (id: number | string) => `${SA}/issue/detail/${id}`,
+    pageDetail: (id: string) => `${SA}/page/${id}`,
     crawledPages: `${SA}/pagereport/pages`,
     siteStructure: `${SA}/pagereport/structure`,
     statisticsTile: `${SA}/statistics/tile`,
