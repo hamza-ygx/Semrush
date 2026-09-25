@@ -73,6 +73,8 @@ export const routes = {
   keywordStrategyBuilder: "/analytics/keywordmanager",
 
   seoWritingAssistant: "/swa",
+  seoContentTemplate: "/seo-content-template",
+  logFileAnalyzer: "/log-file-analyzer",
   topicResearch: "/topic-research",
   topicResearchProject: {
     cards: "/topic-research/6ab52896550d8001abe4c526",
@@ -501,6 +503,8 @@ export const tools: Tool[] = [
   { name: "Backlink Gap", description: "Find backlink opportunities your competitors already have", href: routes.backlinkGap },
   { name: "Backlinks", description: "Analyze any domain's backlink profile", href: routes.backlinks },
   { name: "SEO Writing Assistant", description: "Write SEO-friendly content with real-time recommendations", href: routes.seoWritingAssistant },
+  { name: "SEO Content Template", description: "Get SEO recommendations for new content", href: routes.seoContentTemplate },
+  { name: "Log File Analyzer", description: "See how search bots crawl your website", href: routes.logFileAnalyzer },
   { name: "Topic Research", description: "Find content ideas your audience is searching for", href: routes.topicResearch },
   { name: "SEO Dashboard", description: "See all your SEO metrics in one place", href: routes.seoDashboard },
 ];
