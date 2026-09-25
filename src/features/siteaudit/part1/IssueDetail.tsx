@@ -202,7 +202,7 @@ export function IssueDetail({ id }: { id: number }) {
         {!rows.length && <div className="border-b border-rk-border py-10 text-center text-[14px] text-rk-muted">{tab === "hidden" ? "No hidden issues" : "No issues found"}</div>}
 
         <div className="flex h-[64px] items-center px-5 pb-[2px] text-[14px]">
-          <button type="button" disabled className="flex h-7 w-7 items-center justify-center rounded-md border border-rk-border text-[#d6d8d7]">
+          <button type="button" aria-label="First page" disabled className="flex h-7 w-7 items-center justify-center rounded-md border border-rk-border text-[#d6d8d7]">
             <ChevronsLeft />
           </button>
           <button type="button" disabled className="ml-2 h-7 rounded-md border border-rk-border px-2 text-[#d6d8d7]">

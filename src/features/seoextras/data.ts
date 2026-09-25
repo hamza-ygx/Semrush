@@ -236,7 +236,7 @@ export const losersRows: SiteRow[] = [
   { url: "https://www.walmart.com", rise: -6, keywords: 11, fresh: 0 },
 ];
 
-export type RankRow = { rank: number; domain: string; kw: string; traffic: string; cost: string; paidKw: string; paidTraffic: string; paidCost: string };
+type RankRow = { rank: number; domain: string; kw: string; traffic: string; cost: string; paidKw: string; paidTraffic: string; paidCost: string };
 
 const rankTop: string[][] = [
   ["youtube.com", "42M", "67M", "15M", "15", "224", "25"],
@@ -298,7 +298,7 @@ export const rankRows: RankRow[] = [
 ].map((r, i) => ({ rank: i + 1, domain: r[0], kw: r[1], traffic: r[2], cost: r[3], paidKw: r[4], paidTraffic: r[5], paidCost: r[6] }));
 
 export type WlCell = { d: string; v: string } | null;
-export type WlRow = { pos: number; domain: string; rank: number; cells: WlCell[] };
+type WlRow = { pos: number; domain: string; rank: number; cells: WlCell[] };
 
 const wlTop: [string, number, (string | null)[]][] = [
   ["youtube.com", 1, ["+61.8K 42M", "-38.4K 67M", "-12.4M 15M", "-2 15", "-28 224", "-3 25"]],

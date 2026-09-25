@@ -35,7 +35,7 @@ function PageRow({ r }: { r: VitalsRow }) {
     <>
       <div className="grid h-[45px] grid-cols-[1fr_113px_84px_96px_108px] items-center border-b border-rk-border text-[14px]">
         <div className="flex items-center gap-[10px] pl-[20px]">
-          <button type="button" aria-label="Expand" onClick={() => setOpen(!open)} className="text-rk-text-2">
+          <button type="button" aria-label={open ? "Collapse" : "Expand"} aria-expanded={open} onClick={() => setOpen(!open)} className="text-rk-text-2">
             <ChevronRight width={16} height={16} className={open ? "rotate-90" : ""} />
           </button>
           <a href={r.url} target="_blank" rel="noreferrer" className="flex items-center gap-[6px] text-rk-link hover:text-rk-link-hover">

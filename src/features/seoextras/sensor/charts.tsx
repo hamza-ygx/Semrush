@@ -129,7 +129,7 @@ export function VolatilityChart({ data, top = 145, bottom = 373 }: { data: (numb
   );
 }
 
-export const devColor = (v: number) => (v >= 5.7 ? VERY_HIGH : v >= 4.2 ? HIGH : NORMAL);
+const devColor = (v: number) => (v >= 5.7 ? VERY_HIGH : v >= 4.2 ? HIGH : NORMAL);
 
 export function DeviationChart({ data, avg = 1.7, top = 138, bottom = 370 }: { data: (number | null)[]; avg?: number; top?: number; bottom?: number }) {
   const [hover, setHover] = useState<number | null>(null);

@@ -298,7 +298,7 @@ export const crawlBudget = [
   { label: "Redirect chains and loops", value: 0 },
 ];
 
-export type Check = {
+type Check = {
   ok: boolean;
   text: string;
   link?: string;

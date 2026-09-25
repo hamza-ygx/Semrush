@@ -12,7 +12,7 @@ import { ExtIcon } from "@/features/organic/ui";
 import { NoHelpButton } from "../landing";
 import { rankRows, wlRows, type WlCell } from "../data";
 
-export type RankTab = "rank" | "winners";
+type RankTab = "rank" | "winners";
 
 const flags: Record<string, ReactNode> = {
   Sweden: <FlagSE width={16} height={12} />,
@@ -148,7 +148,7 @@ const rankCols = [
   { label: "Paid Traffic Price (USD)", w: 196 },
 ];
 
-export function RankTable() {
+function RankTable() {
   return (
     <div className="mx-8 mt-[15px] rounded-md bg-white shadow-[0_1px_2px_rgba(25,27,35,0.12)]">
       <CardTitle title={`${brand.name} Rank`} />
@@ -201,7 +201,7 @@ function Delta({ c, i }: { c: WlCell; i: number }) {
   );
 }
 
-export function WinnersTable() {
+function WinnersTable() {
   const ref = useRef<HTMLDivElement>(null);
   const [sx, setSx] = useState(0);
   const inner = 1180;

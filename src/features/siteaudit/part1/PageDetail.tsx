@@ -49,7 +49,7 @@ function Incoming({ n }: { n: number }) {
       </button>
       {open && (
         <div className="absolute top-[calc(100%+7px)] left-0 z-40 w-[425px] rounded-md bg-white px-4 pt-[13px] pb-[17px] text-[14px] leading-5 font-normal shadow-popover">
-          {incomingLinks.map((u) => (
+          {incomingLinks.slice(0, n).map((u) => (
             <div key={u} className="flex h-[28px] items-center gap-[6px]">
               <Link href={c.crawledPages} className="truncate text-rk-link hover:text-rk-link-hover">
                 {u}
@@ -59,7 +59,7 @@ function Incoming({ n }: { n: number }) {
               </a>
             </div>
           ))}
-          <div className="flex h-[28px] items-center text-rk-muted">and {n - incomingLinks.length} more</div>
+          {n > incomingLinks.length && <div className="flex h-[28px] items-center text-rk-muted">and {n - incomingLinks.length} more</div>}
         </div>
       )}
     </div>

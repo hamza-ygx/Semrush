@@ -10,7 +10,7 @@ import { DesktopIcon, MobileIcon } from "@/components/ui/icons";
 import { CountryFlag } from "@/features/organic/flags";
 import { NoHelpButton } from "../landing";
 
-export type SensorTab = "overview" | "personal" | "deviations" | "winners";
+type SensorTab = "overview" | "personal" | "deviations" | "winners";
 
 const tabs: { key: SensorTab; label: string; href: string }[] = [
   { key: "overview", label: "Overview", href: routes.sensor },

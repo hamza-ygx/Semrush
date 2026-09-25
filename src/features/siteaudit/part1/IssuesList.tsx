@@ -17,13 +17,13 @@ const sections: { sev: Severity; label: string; line: string }[] = [
   { sev: "notice", label: "Notices", line: "#b4bffc" },
 ];
 
-export const TrendBlob = () => (
+const TrendBlob = () => (
   <svg viewBox="0 0 72 22" width={72} height={22} className="shrink-0">
     <path d="M0 21V11.5C5 11.5 9 4.5 17.5 4.5 26 4.5 29 11 37.5 11 46 11 48.5 4 54.5 4 63 4 66 10.5 72 11V21z" fill="#e6e7ed" />
   </svg>
 );
 
-export function TrendTip() {
+function TrendTip() {
   return (
     <Tip dark tip="You will see your progress after the next crawl." gap={5} focus={false} arrow={-1} boxClassName="w-[271px] !px-[7px]">
       <span data-trend className="flex">
@@ -33,10 +33,11 @@ export function TrendTip() {
   );
 }
 
-function Seg({ on, onClick, children, className = "" }: { on?: boolean; onClick?: () => void; children: ReactNode; className?: string }) {
+function Seg({ on, onClick, children, className = "", label }: { on?: boolean; onClick?: () => void; children: ReactNode; className?: string; label?: string }) {
   return (
     <button
       type="button"
+      aria-label={label}
       onClick={onClick}
       className={`relative -ml-px flex h-7 items-center gap-[6px] border px-2 text-[14px] whitespace-nowrap first:ml-0 first:rounded-l-md last:rounded-r-md ${
         on ? "z-10 border-[#a3aae9] bg-[#e5e8f5] text-rk-text" : "border-rk-border-strong bg-white text-rk-text hover:bg-rk-bg"
@@ -54,7 +55,7 @@ function MoreCats({ active, onPick }: { active: string; onPick: (k: string) => v
   const on = moreCategories.some((m) => m.key === active);
   return (
     <div ref={ref} className="relative -ml-px flex last:rounded-r-md" data-morecats-btn>
-      <Seg on={on} onClick={toggle} className="!ml-0 rounded-r-md px-[9px]">
+      <Seg on={on} onClick={toggle} label="More categories" className="!ml-0 rounded-r-md px-[9px]">
         <svg viewBox="0 0 16 16" width={16} height={16}>
           <circle cx="3" cy="8" r="1.4" fill="currentColor" />
           <circle cx="8" cy="8" r="1.4" fill="currentColor" />

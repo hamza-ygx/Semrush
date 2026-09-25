@@ -110,7 +110,7 @@ export function ProjectsList() {
   const max = CONTENT - track - 7;
   const thumbLeft = max > 0 ? (sl / max) * (track - THUMB) : 0;
   const drag = (dx: number) => {
-    if (ref.current) ref.current.scrollLeft += (dx * max) / (track - THUMB);
+    if (ref.current && track > THUMB) ref.current.scrollLeft += (dx * max) / (track - THUMB);
   };
 
   return (

@@ -6,7 +6,7 @@ import { ProjectSwitcher, SiteAuditActions } from "./HeaderActions";
 
 const c = routes.siteAuditCampaign;
 
-export type SiteAuditTab = "overview" | "issues" | "pages" | "statistics" | "compare" | "progress" | "js";
+type SiteAuditTab = "overview" | "issues" | "pages" | "statistics" | "compare" | "progress" | "js";
 
 const tabs = [
   { key: "overview", label: "Overview", href: c.overview },

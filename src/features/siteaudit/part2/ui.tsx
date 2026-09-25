@@ -362,29 +362,6 @@ export function IssuesCard({ title, groups, info = false, className = "" }: { ti
   );
 }
 
-export function LegendRow({
-  color,
-  label,
-  value,
-  extra,
-  className = "",
-}: {
-  color: string;
-  label: ReactNode;
-  value: ReactNode;
-  extra?: ReactNode;
-  className?: string;
-}) {
-  return (
-    <div className={`flex items-center text-[14px] leading-5 ${className}`}>
-      <Dot color={color} className="mr-2" />
-      <span className="flex-1">{label}</span>
-      {extra}
-      <span className="text-right">{value}</span>
-    </div>
-  );
-}
-
 export const InfoI = ({ className = "" }: { className?: string }) => (
   <svg viewBox="0 0 16 16" width={16} height={16} className={`inline-block shrink-0 text-[#8b8d8c] ${className}`}>
     <circle cx="9.9" cy="3.4" r="1.25" fill="currentColor" />
