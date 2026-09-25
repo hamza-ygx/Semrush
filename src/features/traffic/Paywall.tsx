@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { InfoIcon } from "@/components/ui/icons";
 
-function BulbArt() {
+export function BulbArt() {
   return (
     <svg viewBox="0 0 140 140" width={140} height={140} className="absolute -top-[23px] left-[549px]">
       <path d="M72 6c20 1 38 10 50 26 12 17 15 36 10 55-5 20-19 37-40 45-19 7-42 4-58-8C18 112 7 92 7 70 8 46 20 25 40 13c9-5 21-7 32-7Z" fill="#f9e690" />

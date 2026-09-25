@@ -99,7 +99,7 @@ export function TrendsApi() {
             <h3 className="text-[32px] leading-[40px] font-semibold tracking-[-0.2px]">
               <span className="bg-gradient-to-r from-[#b36ef7] to-[#8b5cf6] bg-clip-text text-transparent">Power your AI</span> with Traffic &amp; Market&nbsp; data
             </h3>
-            <p className="mt-[16px] w-[506px] text-[17px] leading-6 text-rk-muted">
+            <p className="mt-[16px] w-[530px] text-[17px] leading-6 text-rk-muted">
               Connect Trends API via MCP to Claude, Cursor or VS Code for on-demand charts, summaries, and insights. No code required — set up in minutes.
             </p>
             <button type="button" className="mt-[32px] flex h-[40px] items-center gap-[8px] rounded-md bg-gradient-to-r from-[#a95ff7] to-[#6f6fdd] px-[12px] text-[16px] font-medium text-white hover:opacity-90">

@@ -26,8 +26,8 @@ const cfg: Record<Kind, { title: string; rows: GeoRow[]; first: string; card: st
 };
 
 const W_S = 0.8796;
-const W_TX = 551 - 500 * W_S - 32;
-const W_TY = 643 - 500 * W_S - 280;
+const W_TX = 532.7 - 500 * W_S - 32;
+const W_TY = 641 - 500 * W_S - 280;
 
 function WorldPaths({ kind }: { kind: Kind }) {
   if (kind === "countries") {

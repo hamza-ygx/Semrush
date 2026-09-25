@@ -37,7 +37,7 @@ export function SignupArt() {
           <clipPath id="signup-map-clip">
             <path d={worldOutline} />
           </clipPath>
-          <g transform="translate(-36.6 -43.6) scale(0.272)" clipPath="url(#signup-map-clip)">
+          <g transform="translate(-35 -40.5) scale(0.272)" clipPath="url(#signup-map-clip)">
             {worldCountries.map((c) => (
               <path key={c.name} d={c.d} fill={blue.includes(c.name) ? "#b9e9fe" : "#d3d5dc"} stroke="#fff" strokeWidth={2} />
             ))}

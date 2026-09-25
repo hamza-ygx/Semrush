@@ -110,7 +110,7 @@ export function Socioeconomics() {
             </div>
           </SampleCard>
 
-          <SampleCard title="Employment Status" extra={<ExportButton />} bodyClassName="px-5 pt-[22px] pb-[20px]">
+          <SampleCard title="Employment Status" extra={<ExportButton />} bodyClassName="px-5 pt-[19px] pb-[20px]">
             <div className="flex flex-col gap-[20px]">
               {employment.map((e) => (
                 <div key={e.label} className="flex h-4 items-center text-[14px]">
@@ -126,7 +126,7 @@ export function Socioeconomics() {
               <Legend items={doms.map((d) => ({ label: d.name, color: d.color }))} />
             </div>
           </SampleCard>
-          <SampleCard title="Education" extra={<ExportButton />} bodyClassName="px-5 pt-[31px] pb-[20px]">
+          <SampleCard title="Education" extra={<ExportButton />} bodyClassName="px-5 pt-[28px] pb-[20px]">
             <DomainRows data={education} colors={educationLabels.map((l) => l.color)} barLeft={99} />
             <div className="mt-[30px]">
               <Legend items={educationLabels} vertical />

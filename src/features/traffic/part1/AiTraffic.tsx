@@ -173,12 +173,12 @@ export function AiTrafficSample() {
       <div className="flex w-[1236px] flex-col gap-4">
         <DistributionCard />
         <TrendCard />
-        <SampleCard title="Top Growing Pages" info bodyClassName="px-5 pt-[21px] pb-[21px]">
+        <SampleCard title="Top Growing Pages" info bodyClassName="px-5 pt-[20px] pb-[20px]">
           <div className="flex items-center gap-[20px]">
             <SegTabs items={aiSources} onChange={setSrc} />
             <DomainSwitch />
           </div>
-          <div className="mt-[21px]" data-source={src}>
+          <div className="mt-[20px]" data-source={src}>
             <TrendingCards pages={growing} />
           </div>
         </SampleCard>
