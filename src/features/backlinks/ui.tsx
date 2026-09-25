@@ -23,6 +23,13 @@ export function ExtLink({ href, className = "" }: { href: string; className?: st
   );
 }
 
+export const ItalicInfo = () => (
+  <svg viewBox="0 0 10 16" width={10} height={16} className="ml-[6px] shrink-0 text-[#a9abb6]">
+    <circle cx="6.5" cy="4.6" r="1.1" fill="currentColor" />
+    <path d="M4 7.5h2l-1.3 5.2c-.1.5.3.8.7.5l.8-.6" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
 export const BrokenIcon = (p: P) => (
   <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
     <circle cx="8" cy="8" r="5.6" fill="none" stroke="currentColor" strokeWidth={1.3} />
@@ -456,6 +463,57 @@ const flagPaths: Record<string, ReactNode> = {
       <rect width="5.4" height="12" fill="#002395" />
       <rect x="5.3" width="5.4" height="12" fill="#fff" />
       <rect x="10.6" width="5.4" height="12" fill="#ed2939" />
+    </>
+  ),
+  IN: (
+    <>
+      <rect width="16" height="4" fill="#ff9933" />
+      <rect y="4" width="16" height="4" fill="#fff" />
+      <rect y="8" width="16" height="4" fill="#138808" />
+      <circle cx="8" cy="6" r="1.3" fill="none" stroke="#000080" strokeWidth="0.5" />
+    </>
+  ),
+  AE: (
+    <>
+      <rect width="16" height="4" fill="#00732f" />
+      <rect y="4" width="16" height="4" fill="#fff" />
+      <rect y="8" width="16" height="4" fill="#000" />
+      <rect width="4.5" height="12" fill="#ff0000" />
+    </>
+  ),
+  AF: (
+    <>
+      <rect width="5.4" height="12" fill="#000" />
+      <rect x="5.3" width="5.4" height="12" fill="#d32011" />
+      <rect x="10.6" width="5.4" height="12" fill="#007a36" />
+      <circle cx="8" cy="6" r="1.8" fill="none" stroke="#fff" strokeWidth="0.6" />
+    </>
+  ),
+  AU: (
+    <>
+      <rect width="16" height="12" fill="#012169" />
+      <path d="M0 0l7 5M7 0 0 5" stroke="#fff" strokeWidth="1.2" />
+      <path d="M3.5 0v5M0 2.5h7" stroke="#fff" strokeWidth="1.4" />
+      <path d="M3.5 0v5M0 2.5h7" stroke="#c8102e" strokeWidth="0.7" />
+      <circle cx="3.5" cy="9" r="1.1" fill="#fff" />
+      <circle cx="12" cy="3" r=".6" fill="#fff" />
+      <circle cx="10.5" cy="6" r=".6" fill="#fff" />
+      <circle cx="13.5" cy="6.5" r=".6" fill="#fff" />
+      <circle cx="12" cy="10" r=".7" fill="#fff" />
+    </>
+  ),
+  CA: (
+    <>
+      <rect width="16" height="12" fill="#fff" />
+      <rect width="4" height="12" fill="#d52b1e" />
+      <rect x="12" width="4" height="12" fill="#d52b1e" />
+      <path d="M8 3l.7 1.5 1-.4-.3 2 1-.3-.3 1H8.5v1.4h-1V7.8H5.9l-.3-1 1 .3-.3-2 1 .4z" fill="#d52b1e" />
+    </>
+  ),
+  ES: (
+    <>
+      <rect width="16" height="12" fill="#aa151b" />
+      <rect y="3" width="16" height="6" fill="#f1bf00" />
     </>
   ),
   GB: (

@@ -1,7 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { backlinkRows } from "./data";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { tabHref } from "./BacklinksPage";
+import { backlinkRows, newBacklinkRows } from "./data";
+import { DateChip } from "./DateRange";
 import { AddFilter, BrokenIcon, FilterSelect, Card, CardHead, Checkbox, Chip, ExportBtn, ExtLink, Pager, SearchBox, Seg, Th, ext } from "./ui";
 
 const tiles = [
@@ -24,7 +27,18 @@ const placementOptions: Record<string, string[]> = {
   "Ref. page platform": ["Blog", "CMS", "Forum", "Wiki", "Message board"],
 };
 
-export function BacklinksTable() {
+const cols = [40, 95, 0, 80, 80, 212, 118, 118];
+const newCols = [40, 95, 328, 80, 80, 220, 110, 110];
+
+export function BacklinksTable({ mode }: { mode?: "new" }) {
+  const isNew = mode === "new";
+  const pt = isNew ? "pt-[12px]" : "pt-[10px]";
+  const rows = isNew ? newBacklinkRows : backlinkRows;
+  const cardRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!isNew || !cardRef.current) return;
+    window.scrollTo(0, cardRef.current.getBoundingClientRect().top + window.scrollY - 14);
+  }, [isNew]);
   const [tile, setTile] = useState("all");
   const [sel, setSel] = useState<Set<number>>(new Set());
   const [filters, setFilters] = useState<string[]>([]);
@@ -57,61 +71,73 @@ export function BacklinksTable() {
           );
         })}
       </div>
-      <Card className="mt-4">
-        <CardHead title="Backlinks" count="1 - 100 (375)" right={<ExportBtn />} />
-        <div className={`flex flex-wrap items-center gap-x-[8px] gap-y-[13px] px-5 pt-[21px] ${filters.length ? "pb-[20px]" : "pb-[21px]"}`}>
+      <div ref={cardRef} className="mt-4">
+      <Card>
+        <CardHead title="Backlinks" count={isNew ? "1 - 2 (2)" : "1 - 100 (375)"} right={<ExportBtn />} />
+        <div className={`flex flex-wrap items-center gap-x-[8px] ${isNew ? "gap-y-[12px] pt-[19px] pb-[20px]" : `gap-y-[13px] pt-[21px] ${filters.length ? "pb-[20px]" : "pb-[21px]"}`} px-5`}>
           <SearchBox placeholder="Filter by title or URL" width={260} />
-          <Seg options={["All", "Active", "New", "Lost"]} />
+          <Seg options={["All", "Active", "New", "Lost"]} initial={isNew ? "New" : undefined} />
+          {isNew && <DateChip />}
           <Seg options={["All", "Follow", "Nofollow", "Sponsored", "UGC"]} />
           {filters.map((f) => (
             <FilterSelect key={f} label={f} options={placementOptions[f] ?? ["Yes", "No"]} defaultOpen />
           ))}
-          <div className={`-ml-[1px] ${filters.length ? "basis-full" : ""}`}>
+          <div className={`-ml-[1px] ${filters.length || isNew ? "flex basis-full items-center justify-between" : ""}`}>
             <div className="inline-block">
               <AddFilter onPick={addFilter} />
             </div>
+            {isNew && (
+              <Link href={tabHref("backlinks")} className="flex items-center gap-[8px] text-[14px] text-[#6c6e79] hover:text-rk-text">
+                <svg viewBox="0 0 16 16" width={14} height={14}>
+                  <path d="m4 4 8 8M12 4l-8 8" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" />
+                </svg>
+                Clear filters
+              </Link>
+            )}
           </div>
         </div>
         <table className="w-full table-fixed text-[14px] leading-5 text-rk-text">
           <colgroup>
-            <col style={{ width: 40 }} />
-            <col style={{ width: 95 }} />
-            <col />
-            <col style={{ width: 80 }} />
-            <col style={{ width: 80 }} />
-            <col style={{ width: 212 }} />
-            <col style={{ width: 118 }} />
-            <col style={{ width: 118 }} />
+            {(isNew ? newCols : cols).map((w, i) => (
+              <col key={i} style={w ? { width: w } : undefined} />
+            ))}
           </colgroup>
           <thead>
             <tr>
               <Th className="!pr-0">
-                <Checkbox checked={sel.size === backlinkRows.length} onChange={() => setSel(sel.size === backlinkRows.length ? new Set() : new Set(backlinkRows.map((_, i) => i)))} />
+                <Checkbox checked={sel.size === rows.length} onChange={() => setSel(sel.size === rows.length ? new Set() : new Set(rows.map((_, i) => i)))} />
               </Th>
-              <Th align="right" sorted>
+              <Th align="right" sorted={!isNew}>
                 Page AS
               </Th>
               <Th>Source page Title and URL</Th>
               <Th>Ext. Links</Th>
               <Th>Int. Links</Th>
               <Th>Anchor and Target URL</Th>
-              <Th>First Seen</Th>
+              <Th sorted={isNew}>First Seen</Th>
               <Th>Last Seen</Th>
             </tr>
           </thead>
           <tbody>
-            {backlinkRows.map((r, i) => (
+            {rows.map((r, i) => (
               <tr key={i} className="border-b border-[#f0f0f2] align-top hover:bg-[#fafafb]">
-                <td className="pt-[12px] pl-3">
+                <td className={`${isNew ? "pt-[14px]" : "pt-[12px]"} pl-3`}>
                   <Checkbox checked={sel.has(i)} onChange={() => toggle(i)} />
                 </td>
-                <td className="px-3 pt-[10px] text-right">{r.as}</td>
-                <td className="px-3 pt-[10px] pb-[12px]">
+                <td className={`px-3 ${pt} text-right`}>{r.as}</td>
+                <td className={`${isNew ? "pr-[10px] pl-3" : "px-3"} ${pt} pb-[12px]`}>
                   <div className="truncate">{r.title}</div>
                   <div className="break-all">
                     {r.broken && <BrokenIcon className="mr-[4px] inline-block align-[-3px] text-[#a9abb6]" />}
-                    <a href={ext(r.url)} target="_blank" rel="noreferrer" className="tracking-[0.2px] text-rk-link hover:text-rk-link-hover">
-                      {r.url}
+                    <a href={ext(r.url)} target="_blank" rel="noreferrer" className={`${isNew ? "" : "tracking-[0.2px]"} text-rk-link hover:text-rk-link-hover`}>
+                      {isNew
+                        ? r.url.split("-").map((part, k) => (
+                            <span key={k}>
+                              {k > 0 && <span className="px-[1px]">-</span>}
+                              {part}
+                            </span>
+                          ))
+                        : r.url}
                     </a>
                     <ExtLink href={r.url} className="ml-[4px]" />
                   </div>
@@ -121,9 +147,9 @@ export function BacklinksTable() {
                     ))}
                   </div>
                 </td>
-                <td className="px-3 pt-[10px]">{r.ext}</td>
-                <td className="px-3 pt-[10px]">{r.int}</td>
-                <td className="px-3 pt-[10px] pb-[12px]">
+                <td className={`px-3 ${pt}`}>{r.ext}</td>
+                <td className={`px-3 ${pt}`}>{r.int}</td>
+                <td className={`px-3 ${pt} pb-[12px]`}>
                   <div className="truncate">{r.anchor}</div>
                   <div>
                     {r.targetBroken && <BrokenIcon className="mr-[4px] inline-block align-[-3px] text-[#a9abb6]" />}
@@ -140,14 +166,15 @@ export function BacklinksTable() {
                     ))}
                   </div>
                 </td>
-                <td className="px-3 pt-[10px] whitespace-nowrap">{r.first}</td>
-                <td className="px-3 pt-[10px] whitespace-nowrap">{r.last}</td>
+                <td className={`px-3 ${pt} whitespace-nowrap ${isNew ? "text-[#00875a]" : ""}`}>{r.first}</td>
+                <td className={`px-3 ${pt} whitespace-nowrap`}>{r.last}</td>
               </tr>
             ))}
           </tbody>
         </table>
-        <Pager pages={4} />
+        <Pager pages={isNew ? 1 : 4} />
       </Card>
+      </div>
     </>
   );
 }

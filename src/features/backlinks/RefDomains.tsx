@@ -9,16 +9,9 @@ import { AnalyticsFooter } from "@/features/domain/AnalyticsFooter";
 import { ExportPdf, ReportTitle, UserManual } from "@/features/domain/DomainHeader";
 import { NewLostChart } from "./charts";
 import { asMetrics, domain, newLostRd, rdPages, rdRows, weekRanges, weeks, type RdRow } from "./data";
-import { AddFilter, BrokenIcon, Card, CardHead, Chevron, ChevronRightSm, Chip, ExportBtn, ExtIcon, ExtLink, Flag, MegaphoneIcon, Pager, SearchBox, Seg, SortIcon, Th, ext } from "./ui";
+import { AddFilter, BrokenIcon, ItalicInfo, Card, CardHead, Chevron, ChevronRightSm, Chip, ExportBtn, ExtIcon, ExtLink, Flag, MegaphoneIcon, Pager, SearchBox, Seg, SortIcon, Th, ext } from "./ui";
 
 const rdFilters = ["Authority Score", "Category", "IP address", "Zones (by TLD)", "Countries"];
-
-const ItalicInfo = () => (
-  <svg viewBox="0 0 10 16" width={10} height={16} className="ml-[6px] shrink-0 text-[#a9abb6]">
-    <circle cx="6.5" cy="4.6" r="1.1" fill="currentColor" />
-    <path d="M4 7.5h2l-1.3 5.2c-.1.5.3.8.7.5l.8-.6" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
 
 const RedirectIcon = () => (
   <svg viewBox="0 0 16 16" width={16} height={16} className="mr-[4px] inline-block shrink-0 align-[-3px] text-[#9e9e9e]">

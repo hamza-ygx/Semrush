@@ -2,17 +2,14 @@
 
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
-import { MenuItem, Popover } from "@/components/ui/Popover";
 import { ChevronDown, PlusIcon } from "@/components/ui/icons";
 import { Info } from "@/components/ui/primitives";
 import { routes } from "@/config/routes";
-import { Plot, Stroke, VBW, linePath, pts } from "@/features/domain/charts";
 import { tabHref } from "./BacklinksPage";
 import { AreaChart, NewLostChart } from "./charts";
 import {
   allTimeLabels,
   authorityBuckets,
-  authorityTrend,
   backlinkTypes,
   blAllTime,
   blTrend,
@@ -32,46 +29,15 @@ import {
   weeks,
 } from "./data";
 import { GraphSvg } from "./Graph";
+import { AuthorityTrend, OrganicDbSelect, ScopeSelect, SuspiciousBadge } from "./OverviewPopups";
 import { DarkBtn, ExtLink, Flag } from "./ui";
-
-const scopes = ["Root Domain", "Subdomain", "Subfolder", "Exact URL"] as const;
-
-function ScopeSelect() {
-  const [v, setV] = useState<string>("Root Domain");
-  return (
-    <Popover
-      panelClassName="min-w-[150px]"
-      trigger={({ toggle }) => (
-        <button type="button" onClick={toggle} className="flex items-center gap-1 text-[14px] leading-5 text-rk-text">
-          {v}
-          <ChevronDown width={14} height={14} className="text-rk-text" />
-        </button>
-      )}
-    >
-      {(close) =>
-        scopes.map((s) => (
-          <MenuItem
-            key={s}
-            onClick={() => {
-              setV(s);
-              close();
-            }}
-            active={s === v}
-          >
-            {s}
-          </MenuItem>
-        ))
-      }
-    </Popover>
-  );
-}
 
 function CompareBar() {
   const [extra, setExtra] = useState(0);
   return (
     <div className="flex gap-2">
       <div>
-        <ScopeSelect />
+        <ScopeSelect testid="scope-0" />
         <div className="mt-[8px] flex h-7 w-[174px] items-center gap-[8px] rounded-md border border-[#d3d5db] bg-[#f4f5f9] px-2 text-[14px]">
           <span className="rounded-full bg-[#e2e3fb] px-[8px] text-[12px] leading-[18px] text-[#5a50c8]">You</span>
           {domain}
@@ -79,7 +45,7 @@ function CompareBar() {
       </div>
       {Array.from({ length: 1 + extra }, (_, i) => (
         <div key={i}>
-          <ScopeSelect />
+          <ScopeSelect testid={`scope-${i + 1}`} />
           <div className="mt-[8px] flex h-7 w-[174px] items-center gap-[8px] rounded-md border border-[#d3d5db] bg-white px-[9px] text-[14px]">
             <span className={`h-[12px] w-[12px] shrink-0 rounded-full ${["bg-[#c4c7cf]", "bg-[#3ed4a4]", "bg-[#ffb200]", "bg-[#ff6b70]"][i]}`} />
             <input placeholder="Add competitor" className="w-full bg-transparent outline-none placeholder:text-[#8a8e9b]" />
@@ -104,7 +70,6 @@ function CompareBar() {
 const summaryHref: Record<string, string> = {
   "Referring Domains": routes.referringDomains,
   Backlinks: tabHref("backlinks"),
-  "Organic Traffic": routes.organic.overview,
   "Outbound Domains": tabHref("outboundDomains"),
 };
 
@@ -114,7 +79,7 @@ function SummaryBar() {
       {summary.map((m, i) => {
         const value = (
           <span className="flex items-center gap-[2px] text-[24px] leading-[30px] font-semibold text-rk-number">
-            {m.value}
+            <span className={m.chevron ? "group-hover:underline" : ""}>{m.value}</span>
             {m.chevron && <ChevronDown width={16} height={16} />}
           </span>
         );
@@ -126,7 +91,9 @@ function SummaryBar() {
               <Info />
             </div>
             <div className="mt-[2px] flex items-baseline gap-1">
-              {href ? (
+              {m.chevron ? (
+                <OrganicDbSelect value={value} />
+              ) : href ? (
                 <Link href={href} className="hover:opacity-80">
                   {value}
                 </Link>
@@ -194,42 +161,6 @@ function Radar() {
         Traffic
       </span>
       <span className="absolute top-[227px] left-[131px] text-[12px] leading-4 text-rk-text-2">Natural Profile</span>
-    </div>
-  );
-}
-
-function AuthorityTrend() {
-  const H = 209;
-  const p = pts(authorityTrend, 100, H, 0.02, 0.9);
-  return (
-    <div className="px-5 pt-[16px]">
-      <div className="text-right text-[14px] text-rk-text-2">Last 12 months</div>
-      <Plot
-        className="mt-[31px]"
-        height={H}
-        ticks={[0, 0.25, 0.5, 0.75, 1]}
-        left={["0", "25", "50", "75", "100"]}
-        leftW={40}
-        rightW={20}
-        gap={16}
-        xGap={9}
-        bottomH={26}
-        baseColor="#e6e7ec"
-        x={[
-          { at: 0.02, label: "Oct 2025" },
-          { at: 0.375, label: "Feb 2026" },
-          { at: 0.725, label: "May 2026" },
-        ]}
-        labelClass="text-[12px] leading-4 text-rk-text-2"
-        overlay={
-          <svg viewBox="0 0 12 12" width={12} height={12} className="absolute -bottom-[9px]" style={{ left: "82%" }}>
-            <path d="M1 1h10v7H4l-3 3z" fill="#ff4953" />
-          </svg>
-        }
-      >
-        <Stroke d={linePath(p)} color="#6167e6" width={2.5} />
-        <Stroke d={linePath([p[p.length - 1], [VBW * 0.98, p[p.length - 1][1]]])} color="#6167e6" width={2.5} dash="4 4" />
-      </Plot>
     </div>
   );
 }
@@ -622,7 +553,7 @@ export function OverviewBody() {
           <AuthorityTrend />
         </W>
         <W title="Network Graph" className="h-[369px]" body="px-5 pt-[19px]">
-          <span className="relative z-10 inline-flex h-[21px] items-center rounded-full bg-[#fde6cf] px-[9px] text-[12px] text-[#b04a00]">Suspicious</span>
+          <SuspiciousBadge />
           <GraphSvg scale={0.407} x={60} y={31} label={13} />
           <div className="absolute top-[280px] left-5">
             <DarkBtn href={tabHref("networkGraph")}>View full report</DarkBtn>

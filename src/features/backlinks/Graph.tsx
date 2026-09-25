@@ -1,7 +1,23 @@
-import { domain } from "./data";
+import { domain, nodeInfo } from "./data";
 import { graphCenter, graphEdges, graphH, graphNodes, graphW } from "./graphData";
 
-export function GraphSvg({ scale = 1, x, y, label = 13, className = "" }: { scale?: number; x: number; y: number; label?: number; className?: string }) {
+export function GraphSvg({
+  scale = 1,
+  x,
+  y,
+  label = 13,
+  className = "",
+  hover,
+  onHover,
+}: {
+  scale?: number;
+  x: number;
+  y: number;
+  label?: number;
+  className?: string;
+  hover?: number | null;
+  onHover?: (i: number | null) => void;
+}) {
   const c = graphNodes[graphCenter];
   return (
     <svg width={graphW * scale} height={graphH * scale} viewBox={`0 0 ${graphW} ${graphH}`} className={`absolute ${className}`} style={{ left: x, top: y }}>
@@ -14,7 +30,21 @@ export function GraphSvg({ scale = 1, x, y, label = 13, className = "" }: { scal
       {graphEdges.map(([a, b], i) => (
         <line key={i} x1={graphNodes[a][0]} y1={graphNodes[a][1]} x2={graphNodes[b][0]} y2={graphNodes[b][1]} stroke="#dcdcdc" strokeWidth={1 / Math.max(scale, 0.6)} />
       ))}
-      {graphNodes.map((n, i) => (i === graphCenter ? null : <circle key={i} cx={n[0]} cy={n[1]} r={n[2]} fill="#c4c4c4" />))}
+      {graphNodes.map((n, i) =>
+        i === graphCenter ? null : (
+          <circle
+            key={i}
+            cx={n[0]}
+            cy={n[1]}
+            r={n[2]}
+            fill={hover === i ? "#9e9e9e" : "#c4c4c4"}
+            data-testid={onHover ? `node-${nodeInfo(i).named ? nodeInfo(i).d : i}` : undefined}
+            onMouseEnter={onHover && (() => onHover(i))}
+            onMouseLeave={onHover && (() => onHover(null))}
+            className={onHover ? "cursor-pointer" : undefined}
+          />
+        ),
+      )}
       <circle cx={c[0]} cy={c[1]} r={9} fill={`url(#glow${scale})`} />
       <circle cx={c[0]} cy={c[1]} r={3.2} fill="#8591ff" />
       <text x={c[0]} y={c[1] - 11} textAnchor="middle" fontSize={label / scale} fontWeight={700} fill="#6167e6" stroke="#fff" strokeWidth={3 / scale} paintOrder="stroke" fontFamily="inherit">

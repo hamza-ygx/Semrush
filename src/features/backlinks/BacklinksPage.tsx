@@ -33,6 +33,8 @@ const extra: { key: BacklinksTab; label: string }[] = [
 
 export const tabHref = (k: BacklinksTab) => `${bt[k]}?q=${domain}&searchType=domain`;
 
+const liveHref = `${tabHref("backlinks")}&ba_mt=new&ba_date=${encodeURIComponent('["2026-9-25","2026-9-25"]')}&sort_field=firsttime&sort_type=desc`;
+
 function MoreMenu({ items }: { items: { key: BacklinksTab; label: string }[] }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -124,8 +126,8 @@ export function BacklinksPage({ tab, children, bodyClassName = "px-8 pt-4" }: { 
           <>
             <span className="flex items-center gap-1">
               Live Update:
-              <Link href={tabHref("backlinks")} className="text-rk-link hover:text-rk-link-hover">
-                3 backlinks
+              <Link href={liveHref} data-testid="live-update-link" className="text-rk-link hover:text-rk-link-hover">
+                2 backlinks
               </Link>
               found today
               <LiveInfo />

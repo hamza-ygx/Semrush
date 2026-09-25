@@ -21,14 +21,36 @@ function dateOf(r: () => number, from: number, to: number) {
 }
 
 export const summary = [
-  { label: "Referring Domains", value: "263", delta: "+33%", w: 158 },
-  { label: "Backlinks", value: "375", delta: "+19%", w: 116 },
+  { label: "Referring Domains", value: "265", delta: "+34%", w: 158 },
+  { label: "Backlinks", value: "377", delta: "+20%", w: 116 },
   { label: "Monthly Visits", value: "n/a", w: 145 },
   { label: "Organic Traffic", value: "60", chevron: true, w: 150 },
   { label: "Outbound Domains", value: "34", w: 180 },
 ];
 
-export const authorityTrend = [7, 6, 7, 7, 7, 7, 7, 8, 8, 9, 8, 8];
+export const authorityTrend = [7, 6, 7, 7, 7, 7, 7, 8, 8, 9, 8];
+
+export const trendMonths = ["Oct 2025", "Nov 2025", "Dec 2025", "Jan 2026", "Feb 2026", "Mar 2026", "Apr 2026", "May 2026", "Jun 2026", "Jul 2026", "Aug 2026"];
+
+export const organicDbs = [
+  { name: "Sweden", flag: "SE", v: 59 },
+  { name: "India", flag: "IN", v: 1 },
+  { name: "United Arab Emirates", flag: "AE", v: 0 },
+  { name: "Afghanistan", flag: "AF", v: 0 },
+  { name: "Australia", flag: "AU", v: 0 },
+  { name: "Canada", flag: "CA", v: 0 },
+  { name: "Germany", flag: "DE", v: 0 },
+  { name: "Denmark", flag: "DK", v: 0 },
+  { name: "Spain", flag: "ES", v: 0 },
+  { name: "France", flag: "FR", v: 0 },
+  { name: "United Kingdom", flag: "GB", v: 0 },
+  { name: "Netherlands", flag: "NL", v: 0 },
+  { name: "Norway", flag: "NO", v: 0 },
+  { name: "United States", flag: "US", v: 0 },
+  { name: "Singapore", flag: "SG", v: 0 },
+  { name: "Moldova", flag: "MD", v: 0 },
+  ...["Austria", "Belgium", "Brazil", "Switzerland", "Finland", "Italy", "Japan", "Poland", "Portugal", "Turkey"].map((name) => ({ name, flag: name.slice(0, 2).toUpperCase(), v: 0 })),
+];
 
 export const rdTrend = {
   data: [158, 151, 161, 168, 146, 154, 158, 161, 165, 167, 196, 263],
@@ -273,15 +295,15 @@ export const graphDomains = [
 ];
 
 export const anchorsRows = [
-  { a: "rkjh.se", bl: 221, d: 152, first: "Jun 21, 2025", last: "11h ago" },
-  { a: "high quality dofollow backlinks da 50 pa 40 premium pbn network services online cheap", bl: 67, d: 59, first: "Jul 1, 2026", last: "1h ago" },
-  { a: "Empty Anchor", empty: true, bl: 26, d: 8, first: "Sep 7, 2023", last: "Yesterday" },
-  { a: "trusted dofollow link building for rkjh.se for higher da and dr scores. independent accounting firm offering audit services and management reporting.", bl: 25, d: 25, first: "12d ago", last: "2h ago" },
-  { a: "https://rkjh.se/", bl: 5, d: 3, first: "Feb 2, 2026", last: "8d ago" },
-  { a: "revisionskonsulterna j hägglund", bl: 4, d: 2, first: "Dec 21, 2025", last: "Yesterday" },
-  { a: "visit website", bl: 4, d: 1, first: "Jul 26, 2025", last: "Yesterday" },
-  { a: "rkjh", bl: 2, d: 2, first: "Oct 13, 2025", last: "4d ago" },
-  { a: "visit rkjh.se for latest info", bl: 2, d: 2, first: "Sep 7, 2025", last: "13d ago" },
+  { a: "rkjh.se", bl: 221, d: 152, first: "Jun 21, 2025", last: "13h ago" },
+  { a: "high quality dofollow backlinks da 50 pa 40 premium pbn network services online cheap", bl: 68, d: 60, first: "Jul 1, 2026", last: "7h ago" },
+  { a: "Empty Anchor", empty: true, bl: 26, d: 8, first: "Sep 7, 2023", last: "10h ago" },
+  { a: "trusted dofollow link building for rkjh.se for higher da and dr scores. independent accounting firm offering audit services and management reporting.", bl: 26, d: 26, first: "13d ago", last: "4h ago" },
+  { a: "https://rkjh.se/", bl: 5, d: 3, first: "Feb 2, 2026", last: "9d ago" },
+  { a: "revisionskonsulterna j hägglund", bl: 4, d: 2, first: "Dec 21, 2025", last: "2d ago" },
+  { a: "visit website", bl: 4, d: 1, first: "Jul 26, 2025", last: "2d ago" },
+  { a: "rkjh", bl: 2, d: 2, first: "Oct 13, 2025", last: "5d ago" },
+  { a: "visit rkjh.se for latest info", bl: 2, d: 2, first: "Sep 7, 2025", last: "14d ago" },
   { a: "website", bl: 2, d: 1, first: "Mar 2, 2026", last: "6d ago" },
   { a: "redovisningsbyrå halmstad", bl: 1, d: 1, first: "Apr 11, 2026", last: "3d ago" },
   { a: "revisionskonsulterna", bl: 1, d: 1, first: "Nov 18, 2025", last: "Aug 30, 2026" },
@@ -515,6 +537,7 @@ const fmtK = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/
 
 export function asMetrics(d: string, as: number) {
   if (d === "egetbolag.se") return { backlinks: "3.9K", refDomains: "213", visits: "n/a", organic: "11", outbound: "112" };
+  if (d === "brandfetch.com") return { backlinks: "899K", refDomains: "12.4K", visits: "1.3M", organic: "1.4M", outbound: "118K" };
   const r = rng([...d].reduce((a, c) => a * 31 + c.charCodeAt(0), 7) % 2147483646 || 1);
   const k = 1 + as / 4;
   return {
@@ -568,3 +591,58 @@ export function rdPages(d: string, bl: number): RdPage[] {
   }
   return pages;
 }
+
+export const newBacklinkRows: SrcRow[] = [
+  {
+    as: 0,
+    title: "Trusted Niche Edit Links for Higher DA and DR Scores",
+    url: "onlinegamblingbonus.online/link-profile-hub/trusted-niche-edit-links-for-higher-da-and-dr-scores-outrank-your-competitors-for-long-term-seo-results-85dcce.html",
+    tags: ["EN", "Mobile friendly"],
+    ext: 5000,
+    int: 2,
+    anchor: "Trusted Dofollow Link Building for rkjh.se",
+    target: "rkjh.se/",
+    ltags: [T("Text"), T("Content"), T("New", "green")],
+    first: "4h ago",
+    last: "4h ago",
+  },
+  {
+    as: 0,
+    title: "Premium Dofollow Link Building to Boost Domain Authority",
+    url: "bazerdaily.com/link-equity-archive/premium-dofollow-link-building-to-boost-domain-authority-outrank-your-competitors-with-full-placement-reporting-89985e.html",
+    tags: ["EN", "Mobile friendly"],
+    ext: 3000,
+    int: 2,
+    anchor: "High Quality Dofollow Backlinks DA 50 PA 40",
+    target: "rkjh.se/",
+    ltags: [T("Text"), T("Content"), T("New", "green")],
+    first: "7h ago",
+    last: "7h ago",
+  },
+];
+
+export const categoryAll = [
+  ...categoryRows,
+  { label: "Business & Industrial", pct: "4.7%", w: 4.7 },
+  { label: "Retail", pct: "3.5%", w: 3.5 },
+  { label: "News & Media", pct: "3.5%", w: 3.5 },
+  { label: "Finance", pct: "2.3%", w: 2.3 },
+  { label: "Healthcare", pct: "2.3%", w: 2.3 },
+  { label: "Automotive", pct: "1.2%", w: 1.2 },
+  { label: "Travel", pct: "1.2%", w: 1.2 },
+  ...["Law & Government", "Real Estate", "Marketing & Advertising", "Jobs & Education", "Science", "Arts & Entertainment", "Home & Garden", "Sports", "Food & Drink", "Hobbies & Leisure", "Telecommunications", "Energy & Utilities", "Transportation & Logistics", "Construction", "Insurance", "Beauty & Fitness", "Pets & Animals", "Games"].map((label) => ({ label, pct: "1.2%", w: 1.2 })),
+];
+
+const namedNodes: Record<number, { d: string; c: string; as: number }> = {
+  59: { d: "google.com", c: "Online Services", as: 100 },
+  17: { d: "linkedin.com", c: "Online Services", as: 98 },
+  19: { d: "facebook.com", c: "Online Services", as: 100 },
+};
+
+export function nodeInfo(i: number) {
+  const n = namedNodes[i];
+  if (n) return { ...n, named: true };
+  const g = graphDomains[i % graphDomains.length];
+  return { d: g.d, c: g.c, as: g.as, named: false };
+}
+
