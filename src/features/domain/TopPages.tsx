@@ -121,7 +121,7 @@ function Row({ p }: { p: TopPage }) {
         </span>
       </td>
       <td className="pt-[12px] pb-[45px] pl-4 align-top">
-        <span className="block max-w-[146.5px] break-all tabular-nums">
+        <span className="block max-w-[146.5px] leading-[19.4px] break-all tabular-nums">
           <Link href={routes.organic.pages} className="text-rk-link hover:text-rk-link-hover">
             {p.url}
           </Link>

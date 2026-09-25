@@ -235,7 +235,7 @@ export function SerpFeaturesFilter({ value, onChange }: { value: string | null; 
               {sub === g && (
                 <div className="absolute top-[5px] left-[calc(100%-4px)] z-10 w-[240px] rounded-md bg-white shadow-popover">
                   <div className="relative">
-                    <SearchIcon className="pointer-events-none absolute top-1/2 left-[10px] -translate-y-1/2 text-rk-text-2" />
+                    <SearchIcon className="pointer-events-none absolute top-1/2 left-[10px] -translate-y-1/2 text-[#8a8d99]" />
                     <input
                       autoFocus
                       value={q}
