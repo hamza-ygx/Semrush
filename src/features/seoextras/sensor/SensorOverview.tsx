@@ -275,7 +275,7 @@ export function SensorOverview() {
                 <div key={ci} className={ci === 0 ? "w-[406px]" : "w-[373px]"}>
                   {col.map(([icon, label, pct, delta]) => (
                     <div key={label} className="flex h-[41px] items-center pl-[27px] text-[13px]">
-                      <span className="flex w-[25px] text-[#484a54]">
+                      <span className="flex w-[25px] text-[#484a49]">
                         <FeatureIcon name={icon} />
                       </span>
                       <span className="w-[187px] text-rk-text">{label}</span>

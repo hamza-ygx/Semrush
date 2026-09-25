@@ -105,7 +105,7 @@ function Scheduling() {
           <div className="mt-4 text-[14px] leading-5 text-rk-text-2">Format</div>
           <div className="mt-2 flex gap-4 text-[14px] text-rk-text">
             <span className="flex items-center gap-2">
-              <span className="h-4 w-4 rounded-full border-[5px] border-[#2359d6]" />
+              <span className="h-4 w-4 rounded-full border-[5px] border-[#235fe2]" />
               PDF
             </span>
             <span className="flex items-center gap-2">

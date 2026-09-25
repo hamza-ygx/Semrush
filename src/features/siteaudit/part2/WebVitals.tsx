@@ -76,19 +76,19 @@ function StackedChart() {
     <svg width={700} height={295} className="block">
       {[0, 5, 10].map((t) => (
         <g key={t}>
-          <line x1={left} x2={left + W} y1={y(t)} y2={y(t)} stroke="#e0e1e9" />
-          <text x={left - 16} y={y(t) + 4} textAnchor="end" fontSize={12} fill="#6c6e79">
+          <line x1={left} x2={left + W} y1={y(t)} y2={y(t)} stroke="#e0e2e1" />
+          <text x={left - 16} y={y(t) + 4} textAnchor="end" fontSize={12} fill="#6a6c6a">
             {t}
           </text>
         </g>
       ))}
-      <text transform={`translate(${left - 40} ${top + H / 2}) rotate(-90)`} textAnchor="middle" fontSize={12} fill="#6c6e79">
+      <text transform={`translate(${left - 40} ${top + H / 2}) rotate(-90)`} textAnchor="middle" fontSize={12} fill="#6a6c6a">
         Pages
       </text>
       <rect x={x} y={y(1)} width={80} height={y(0) - y(1)} fill={C.green} />
       <rect x={x} y={y(8)} width={80} height={y(1) - y(8)} fill={C.orange} />
       <rect x={x} y={y(10)} width={80} height={y(8) - y(10)} fill={C.red} />
-      <text x={x + 40} y={y(0) + 29} textAnchor="middle" fontSize={12} fill="#6c6e79">
+      <text x={x + 40} y={y(0) + 29} textAnchor="middle" fontSize={12} fill="#6a6c6a">
         Jul 22
       </text>
     </svg>
@@ -192,7 +192,7 @@ export function WebVitals() {
         <div className="mt-[41px] flex items-center gap-2 px-5">
           <h3 className="text-[20px] leading-7 font-medium">Analyzed Pages</h3>
           <InfoI />
-          <button type="button" className="ml-[6px] flex h-[28px] items-center rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
+          <button type="button" className="ml-[6px] flex h-[28px] items-center rounded-md border border-rk-border-strong bg-[#f5f6f6] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
             Edit list
           </button>
         </div>

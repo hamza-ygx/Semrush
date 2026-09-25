@@ -20,11 +20,11 @@ function ChannelFilter({ value, onChange }: { value: string; onChange: (v: strin
             type="button"
             onClick={() => onChange(n)}
             className={`relative -ml-px flex items-center gap-[8px] border px-[8px] text-[14px] leading-5 whitespace-nowrap first:ml-0 ${i === 0 ? "rounded-l-[6px]" : ""} ${
-              active ? "z-10 border-[#a3aabb] bg-[#f0f5ff]" : "border-[#d7d9de] bg-white hover:bg-rk-bg"
+              active ? "z-10 border-[#a3aabb] bg-[#f0f5ff]" : "border-[#d8dad9] bg-white hover:bg-rk-bg"
             }`}
           >
             <span className="text-rk-text">{n}</span>
-            <span className="text-[#6c6e79]">{c}</span>
+            <span className="text-[#6a6c6a]">{c}</span>
           </button>
         );
       })}
@@ -32,12 +32,12 @@ function ChannelFilter({ value, onChange }: { value: string; onChange: (v: strin
         type="button"
         aria-label="More channels"
         onClick={() => setMore((m) => !m)}
-        className="relative -ml-px flex w-[33px] items-center justify-center rounded-r-[6px] border border-[#d7d9de] bg-white hover:bg-rk-bg"
+        className="relative -ml-px flex w-[33px] items-center justify-center rounded-r-[6px] border border-[#d8dad9] bg-white hover:bg-rk-bg"
       >
         <svg viewBox="0 0 16 16" width={16} height={16}>
-          <circle cx="3" cy="8" r="1.6" fill="#191b23" />
-          <circle cx="8" cy="8" r="1.6" fill="#191b23" />
-          <circle cx="13" cy="8" r="1.6" fill="#191b23" />
+          <circle cx="3" cy="8" r="1.6" fill="#1b1e1a" />
+          <circle cx="8" cy="8" r="1.6" fill="#1b1e1a" />
+          <circle cx="13" cy="8" r="1.6" fill="#1b1e1a" />
         </svg>
       </button>
       {more && (
@@ -53,7 +53,7 @@ function ChannelFilter({ value, onChange }: { value: string; onChange: (v: strin
               className="flex w-full items-center justify-between gap-4 px-2 py-[6px] text-left text-[14px] hover:bg-rk-bg"
             >
               {n}
-              <span className="text-[#6c6e79]">{c}</span>
+              <span className="text-[#6a6c6a]">{c}</span>
             </button>
           ))}
         </div>

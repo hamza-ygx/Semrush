@@ -67,14 +67,14 @@ export function StackedBars({
       <svg width={width} height={height} className="block">
         {ticks.map((t) => (
           <g key={t}>
-            <line x1={pad.left} x2={pad.left + W} y1={y(t)} y2={y(t)} stroke={t === 0 ? "#c4c7cf" : "#e8e9ee"} />
-            <text x={pad.left + tickX} y={y(t) + 4} textAnchor="end" fontSize="12" fill="#6c6e79">
+            <line x1={pad.left} x2={pad.left + W} y1={y(t)} y2={y(t)} stroke={t === 0 ? "#d6d8d7" : "#e9eaea"} />
+            <text x={pad.left + tickX} y={y(t) + 4} textAnchor="end" fontSize="12" fill="#6a6c6a">
               {formatTick(t)}
             </text>
           </g>
         ))}
-        {highlightLast && <rect x={x(n - 1) - Math.min(step, 11) / 2} y={pad.top} width={Math.min(step, 11)} height={H} fill="#e0e1e9" opacity={0.8} />}
-        {hover != null && !tip && <rect x={x(hover) - step / 2} y={pad.top - 12} width={step} height={H + 12} fill="#e0e1e9" opacity={0.6} />}
+        {highlightLast && <rect x={x(n - 1) - Math.min(step, 11) / 2} y={pad.top} width={Math.min(step, 11)} height={H} fill="#e0e2e1" opacity={0.8} />}
+        {hover != null && !tip && <rect x={x(hover) - step / 2} y={pad.top - 12} width={step} height={H + 12} fill="#e0e2e1" opacity={0.6} />}
         {hover != null && tip && <line x1={x(hover) + 0.5} x2={x(hover) + 0.5} y1={0} y2={y(0)} stroke="#e0e0e0" />}
         {data.map((d, i) => {
           let acc = 0;
@@ -93,7 +93,7 @@ export function StackedBars({
         })}
         {labels.map((l, i) =>
           l ? (
-            <text key={i} x={x(i)} y={height - pad.bottom + labelY} textAnchor="middle" fontSize="12" fill="#6c6e79">
+            <text key={i} x={x(i)} y={height - pad.bottom + labelY} textAnchor="middle" fontSize="12" fill="#6a6c6a">
               {l}
             </text>
           ) : null,
@@ -162,21 +162,21 @@ export function BubbleMap({
       <svg width={width} height={height} className="block overflow-visible">
         {yTicks.map((t) => (
           <g key={t}>
-            <line x1={pad.left} x2={pad.left + W} y1={y(t)} y2={y(t)} stroke={t === 0 ? "#c4c7cf" : "#e8e9ee"} />
-            <text x={pad.left - tickGap} y={y(t) + 4} textAnchor="end" fontSize="12" fill="#6c6e79">
+            <line x1={pad.left} x2={pad.left + W} y1={y(t)} y2={y(t)} stroke={t === 0 ? "#d6d8d7" : "#e9eaea"} />
+            <text x={pad.left - tickGap} y={y(t) + 4} textAnchor="end" fontSize="12" fill="#6a6c6a">
               {t}
             </text>
           </g>
         ))}
         {xTicks.map((t) => (
-          <text key={t} x={x(t)} y={pad.top + H + 22} textAnchor="middle" fontSize="12" fill="#6c6e79">
+          <text key={t} x={x(t)} y={pad.top + H + 22} textAnchor="middle" fontSize="12" fill="#6a6c6a">
             {t}
           </text>
         ))}
-        <text x={pad.left + W / 2} y={height - 6} textAnchor="middle" fontSize="12" fill="#6c6e79">
+        <text x={pad.left + W / 2} y={height - 6} textAnchor="middle" fontSize="12" fill="#6a6c6a">
           Number of Keywords
         </text>
-        <text transform={`translate(${pad.left - labelGap} ${pad.top + H / 2}) rotate(-90)`} textAnchor="middle" fontSize="12" fill="#6c6e79">
+        <text transform={`translate(${pad.left - labelGap} ${pad.top + H / 2}) rotate(-90)`} textAnchor="middle" fontSize="12" fill="#6a6c6a">
           Organic Search Traffic (N)
         </text>
         {items.map((it) => (

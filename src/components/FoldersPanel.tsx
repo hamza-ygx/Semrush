@@ -16,13 +16,13 @@ const metricHref: Record<string, string> = {
 const trendColor = {
   up: "text-[#007c65]",
   down: "text-[#d1002f]",
-  neutral: "text-[#6c6e79]",
+  neutral: "text-[#6a6c6a]",
 };
 
 function Gauge() {
   return (
     <svg viewBox="0 0 34 20" width={34} height={20} className="ml-[10px]">
-      <path d="M4 17a13 13 0 0 1 26 0" fill="none" stroke="#e0e1e9" strokeWidth={4} strokeLinecap="round" />
+      <path d="M4 17a13 13 0 0 1 26 0" fill="none" stroke="#e0e2e1" strokeWidth={4} strokeLinecap="round" />
       <circle cx="4" cy="17" r="2.6" fill="#fdc23c" />
     </svg>
   );
@@ -31,7 +31,7 @@ function Gauge() {
 function MetricCell({ label, value, sub, trend, gauge }: Metric) {
   return (
     <div className="px-3 pt-3 pb-[13px]">
-      <div className="text-[14px] leading-5 text-[#191b23]">{label}</div>
+      <div className="text-[14px] leading-5 text-[#1b1e1a]">{label}</div>
       <div className="mt-2 mb-[2px] flex h-7 items-center">
         <Link href={metricHref[label] ?? routes.seoDashboard} className="text-[20px] leading-7 font-bold text-[#1f58d6] hover:text-[#123d9e]">
           {value}
@@ -48,14 +48,14 @@ function MetricCell({ label, value, sub, trend, gauge }: Metric) {
 export function FoldersPanel() {
   return (
     <section className="mt-6 overflow-hidden rounded-lg bg-white shadow-card">
-      <div className="flex h-[56px] items-center justify-between border-b border-[#e0e1e9] px-5">
+      <div className="flex h-[56px] items-center justify-between border-b border-[#e0e2e1] px-5">
         <h2 className="text-[16px] font-bold">Folders</h2>
         <div className="flex gap-2">
-          <button className="flex h-7 items-center gap-2 rounded-md border border-[#c4c7cf] bg-white px-2 text-[14px] text-[#484a54] hover:bg-[#f4f5f9]">
+          <button className="flex h-7 items-center gap-2 rounded-md border border-[#d6d8d7] bg-white px-2 text-[14px] text-[#484a49] hover:bg-[#f5f6f6]">
             <ShareUserIcon />
             Share
           </button>
-          <button className="flex h-7 items-center gap-2 rounded-md border border-[#c4c7cf] bg-white px-2 pr-[10px] text-[14px] text-[#484a54] hover:bg-[#f4f5f9]">
+          <button className="flex h-7 items-center gap-2 rounded-md border border-[#d6d8d7] bg-white px-2 pr-[10px] text-[14px] text-[#484a49] hover:bg-[#f5f6f6]">
             <PlusIcon />
             Create Folder
           </button>
@@ -64,13 +64,13 @@ export function FoldersPanel() {
 
       <div className="bg-[#f9f9fb] p-5">
         <div className="rounded-lg bg-white shadow-card">
-          <div className="flex h-11 items-center border-b border-[#e0e1e9] px-5">
+          <div className="flex h-11 items-center border-b border-[#e0e2e1] px-5">
             <RkjhFavicon />
             <Link href={routes.seoDashboard} className="ml-2 text-[16px] font-bold text-[#1f58d6] hover:text-[#123d9e]">
               {project.name}
             </Link>
-            <span className="ml-3 text-[14px] text-[#484a54]">{project.domain}</span>
-            <button aria-label="Project actions" className="ml-auto mr-1 flex h-6 w-6 items-center justify-center rounded text-[#484a54] hover:bg-[#f4f5f9]">
+            <span className="ml-3 text-[14px] text-[#484a49]">{project.domain}</span>
+            <button aria-label="Project actions" className="ml-auto mr-1 flex h-6 w-6 items-center justify-center rounded text-[#484a49] hover:bg-[#f5f6f6]">
               <KebabIcon />
             </button>
           </div>

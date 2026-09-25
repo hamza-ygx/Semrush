@@ -25,7 +25,7 @@ export function ScrollTable({ header, children, width, stickyTop = 73 }: { heade
 export function SortIcon() {
   return (
     <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden className="shrink-0">
-      <path d="M2.5 4h11M2.5 8h7.5M2.5 12h4" stroke="#484a54" strokeWidth={1.5} strokeLinecap="round" />
+      <path d="M2.5 4h11M2.5 8h7.5M2.5 12h4" stroke="#484a49" strokeWidth={1.5} strokeLinecap="round" />
     </svg>
   );
 }

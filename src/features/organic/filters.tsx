@@ -7,7 +7,7 @@ import { SerpIcon } from "./serpIcons";
 import { Checkbox } from "./ui";
 
 export const InfoI = ({ className = "" }: { className?: string }) => (
-  <span className={`font-serif text-[16px] leading-none text-[#a9abb6] italic ${className}`}>i</span>
+  <span className={`font-serif text-[16px] leading-none text-[#a9abaa] italic ${className}`}>i</span>
 );
 
 export function FilterPopover({
@@ -44,8 +44,8 @@ export function FilterPopover({
         type="button"
         data-filter={label}
         onClick={toggle}
-        className={`flex h-7 items-center rounded-md border text-[14px] whitespace-nowrap ${compact ? "gap-[6px] px-[9px]" : "gap-[6.5px] pr-[6px] pl-[11px]"} ${value ? "text-rk-text" : "text-[#a0a2aa]"} ${
-          open ? "border-[#9aa2ea] bg-[#fbfcff]" : `${compact ? "border-[#d3d5db]" : "border-rk-border-strong"} bg-white hover:bg-rk-bg`
+        className={`flex h-7 items-center rounded-md border text-[14px] whitespace-nowrap ${compact ? "gap-[6px] px-[9px]" : "gap-[6.5px] pr-[6px] pl-[11px]"} ${value ? "text-rk-text" : "text-[#a1a3a2]"} ${
+          open ? "border-[#9aa2ea] bg-[#fbfcff]" : `${compact ? "border-[#d4d6d5]" : "border-rk-border-strong"} bg-white hover:bg-rk-bg`
         }`}
       >
         {value ? `${label}: ${value}` : label}
@@ -71,7 +71,7 @@ export function ApplyButton({ onClick, className = "" }: { onClick?: () => void;
 function CustomRange({ onApply, compact }: { onApply: (v: string) => void; compact?: boolean }) {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
-  const input = "h-7 w-1/2 min-w-0 border border-rk-border-strong px-2 text-[14px] outline-none placeholder:text-[#a9abb6] focus:relative focus:border-[#7a86f2]";
+  const input = "h-7 w-1/2 min-w-0 border border-rk-border-strong px-2 text-[14px] outline-none placeholder:text-[#a9abaa] focus:relative focus:border-[#7a86f2]";
   return (
     <div className={`border-t border-rk-border px-[9px] ${compact ? "pt-[6px] pb-3" : "pt-[10px] pb-[11px]"}`}>
       <div className="text-[14px] leading-5 font-semibold">Custom range</div>
@@ -235,7 +235,7 @@ export function SerpFeaturesFilter({ value, onChange }: { value: string | null; 
         <div className="py-1" onMouseLeave={() => setSub(null)}>
           {serpGroups.map((g) => (
             <div key={g} className="relative" onMouseEnter={() => setSub(g)}>
-              <button type="button" onClick={() => setSub(g)} className={`flex h-8 w-full items-center pr-[7px] pl-2 text-left text-[14px] leading-5 ${sub === g ? "bg-[#f4f5f9]" : ""}`}>
+              <button type="button" onClick={() => setSub(g)} className={`flex h-8 w-full items-center pr-[7px] pl-2 text-left text-[14px] leading-5 ${sub === g ? "bg-[#f5f6f6]" : ""}`}>
                 {g}
                 <InfoI className="ml-[9px]" />
                 <ChevronRight className="ml-auto text-rk-text-2" />
@@ -252,7 +252,7 @@ export function SerpFeaturesFilter({ value, onChange }: { value: string | null; 
                       className="h-[35px] w-full rounded-md border-2 border-[#8f9cea] pr-2 pl-8 text-[14px] outline-none placeholder:text-rk-muted"
                     />
                   </div>
-                  <div className="mt-[2px] max-h-[196px] overflow-y-auto [&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#c4c7cf]">
+                  <div className="mt-[2px] max-h-[196px] overflow-y-auto [&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#d6d8d7]">
                     {list.map((f) => (
                       <button
                         key={f.name}
@@ -262,9 +262,9 @@ export function SerpFeaturesFilter({ value, onChange }: { value: string | null; 
                           onChange(f.name);
                           close();
                         }}
-                        className={`flex h-8 w-full items-center gap-2 pr-[4px] pl-[9px] text-left text-[14px] leading-5 ${f.count ? "text-rk-text hover:bg-rk-bg" : "text-[#c4c7cf]"}`}
+                        className={`flex h-8 w-full items-center gap-2 pr-[4px] pl-[9px] text-left text-[14px] leading-5 ${f.count ? "text-rk-text hover:bg-rk-bg" : "text-[#d6d8d7]"}`}
                       >
-                        <span className={`-mx-[2px] ${f.count ? "text-[#a0a2aa]" : "text-[#d3d5db]"}`}>
+                        <span className={`-mx-[2px] ${f.count ? "text-[#a1a3a2]" : "text-[#d4d6d5]"}`}>
                           <SerpIcon name={f.icon} size={20} />
                         </span>
                         {f.name}
@@ -297,7 +297,7 @@ function SelectBox({ value, options, onChange, width = "w-[160px]", testId }: { 
         <ChevronDown />
       </button>
       {open && (
-        <div className="absolute top-[calc(100%+4px)] left-0 z-10 max-h-[246px] w-full overflow-y-auto rounded-md bg-white py-1 shadow-popover [&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#c4c7cf]">
+        <div className="absolute top-[calc(100%+4px)] left-0 z-10 max-h-[246px] w-full overflow-y-auto rounded-md bg-white py-1 shadow-popover [&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#d6d8d7]">
           {options.map((o) => (
             <button
               key={o}
@@ -421,7 +421,7 @@ export function ExportPopover({
                   type="button"
                   disabled={o.disabled}
                   onClick={() => setPick(o.key)}
-                  className={`flex h-5 items-center gap-2 text-[14px] leading-5 ${o.disabled ? "text-[#c4c7cf]" : "text-rk-text"}`}
+                  className={`flex h-5 items-center gap-2 text-[14px] leading-5 ${o.disabled ? "text-[#d6d8d7]" : "text-rk-text"}`}
                 >
                   <span
                     className={`flex h-4 w-4 items-center justify-center rounded-full border ${pick === o.key ? "border-rk-text bg-rk-text" : o.disabled ? "border-[#ebecf0]" : "border-rk-border-strong"}`}
@@ -439,7 +439,7 @@ export function ExportPopover({
                   key={f}
                   type="button"
                   onClick={() => setOpen(false)}
-                  className={`h-7 rounded-md border px-[8px] text-[14px] ${i === 0 ? "border-rk-btn-dark bg-rk-btn-dark font-semibold text-white" : "border-[#d3d5db] bg-[#f4f5f9] text-rk-text-2 hover:bg-rk-hover"}`}
+                  className={`h-7 rounded-md border px-[8px] text-[14px] ${i === 0 ? "border-rk-btn-dark bg-rk-btn-dark font-semibold text-white" : "border-[#d4d6d5] bg-[#f5f6f6] text-rk-text-2 hover:bg-rk-hover"}`}
                 >
                   {f}
                 </button>

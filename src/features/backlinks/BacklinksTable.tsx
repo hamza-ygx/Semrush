@@ -87,7 +87,7 @@ export function BacklinksTable({ mode }: { mode?: "new" }) {
               <AddFilter onPick={addFilter} />
             </div>
             {isNew && (
-              <Link href={tabHref("backlinks")} className="flex items-center gap-[8px] text-[14px] text-[#6c6e79] hover:text-rk-text">
+              <Link href={tabHref("backlinks")} className="flex items-center gap-[8px] text-[14px] text-[#6a6c6a] hover:text-rk-text">
                 <svg viewBox="0 0 16 16" width={14} height={14}>
                   <path d="m4 4 8 8M12 4l-8 8" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" />
                 </svg>
@@ -128,7 +128,7 @@ export function BacklinksTable({ mode }: { mode?: "new" }) {
                 <td className={`${isNew ? "pr-[10px] pl-3" : "px-3"} ${pt} pb-[12px]`}>
                   <div className="truncate">{r.title}</div>
                   <div className="break-all">
-                    {r.broken && <BrokenIcon className="mr-[4px] inline-block align-[-3px] text-[#a9abb6]" />}
+                    {r.broken && <BrokenIcon className="mr-[4px] inline-block align-[-3px] text-[#a9abaa]" />}
                     <a href={ext(r.url)} target="_blank" rel="noreferrer" className={`${isNew ? "" : "tracking-[0.2px]"} text-rk-link hover:text-rk-link-hover`}>
                       {isNew
                         ? r.url.split("-").map((part, k) => (
@@ -152,7 +152,7 @@ export function BacklinksTable({ mode }: { mode?: "new" }) {
                 <td className={`px-3 ${pt} pb-[12px]`}>
                   <div className="truncate">{r.anchor}</div>
                   <div>
-                    {r.targetBroken && <BrokenIcon className="mr-[4px] inline-block align-[-3px] text-[#a9abb6]" />}
+                    {r.targetBroken && <BrokenIcon className="mr-[4px] inline-block align-[-3px] text-[#a9abaa]" />}
                     <a href={ext(r.target)} target="_blank" rel="noreferrer" className="text-rk-link hover:text-rk-link-hover">
                       {r.target}
                     </a>

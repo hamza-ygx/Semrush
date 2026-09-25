@@ -16,11 +16,11 @@ import { TrendChart } from "./TrendChart";
 
 const WorldIcon = () => (
   <svg viewBox="0 0 16 16" width={16} height={16}>
-    <circle cx="8" cy="8" r="6.3" fill="none" stroke="#6c6e79" strokeWidth={1.4} />
+    <circle cx="8" cy="8" r="6.3" fill="none" stroke="#6a6c6a" strokeWidth={1.4} />
     <path
       d="M4.2 4.5c1.4.4 2.2 1.4 2 2.6-.2 1 .9 1.4.9 2.4M9.5 2.2c-.4 1.1.2 2 1.3 2.2 1 .2 1.5 1 1 2.1M10.5 10c.7.2 1.5.6 2.1 1.2"
       fill="none"
-      stroke="#6c6e79"
+      stroke="#6a6c6a"
       strokeWidth={1.2}
     />
   </svg>
@@ -273,7 +273,7 @@ function TrafficChart() {
           />
           <button type="button" className="flex h-7 items-center gap-2 rounded-md border border-[#dfe2e2] bg-white px-[10px] text-[14px] hover:bg-rk-bg">
             <svg viewBox="0 0 16 16" width={16} height={16}>
-              <path d="M2.5 3.5h11v10h-11zM2.5 6.5h11M5.5 2v3M10.5 2v3" fill="none" stroke="#484a54" strokeWidth={1.4} />
+              <path d="M2.5 3.5h11v10h-11zM2.5 6.5h11M5.5 2v3M10.5 2v3" fill="none" stroke="#484a49" strokeWidth={1.4} />
             </svg>
             Sep 2025 <span className="mr-[2px] ml-[4px]">–</span> Sep 2026
           </button>
@@ -331,8 +331,8 @@ export function CompareDomainsReport({ competitors }: { competitors: string[] })
           <SendFeedback />
         </div>
         <h1 className="mt-[10px] flex items-center gap-[7px] text-[20px] leading-7 font-semibold">
-          Compare Domains: <span className="text-[#6c6e79]">{you}</span>
-          <a href={`https://${you}`} target="_blank" rel="noreferrer" className="text-[#a9abb6] hover:text-rk-link">
+          Compare Domains: <span className="text-[#6a6c6a]">{you}</span>
+          <a href={`https://${you}`} target="_blank" rel="noreferrer" className="text-[#a9abaa] hover:text-rk-link">
             <ExternalIcon />
           </a>
         </h1>

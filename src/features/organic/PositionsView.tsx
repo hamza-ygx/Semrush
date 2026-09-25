@@ -69,25 +69,25 @@ function TrafficArea() {
       <svg width={width} height={height} className="block">
         {[0, 50, 100].map((t) => (
           <g key={t}>
-            <line x1={pad.left - 8} x2={width - 20} y1={y(t)} y2={y(t)} stroke={t === 0 ? "#c4c7cf" : "#e8e9ee"} />
-            <text x={pad.left - 16} y={y(t) + 4} textAnchor="end" fontSize="12" fill="#6c6e79">
+            <line x1={pad.left - 8} x2={width - 20} y1={y(t)} y2={y(t)} stroke={t === 0 ? "#d6d8d7" : "#e9eaea"} />
+            <text x={pad.left - 16} y={y(t) + 4} textAnchor="end" fontSize="12" fill="#6a6c6a">
               {t}
             </text>
           </g>
         ))}
-        <rect x={x(n - 1) - 6} y={pad.top} width={10} height={H} fill="#e0e1e9" opacity={0.8} />
+        <rect x={x(n - 1) - 6} y={pad.top} width={10} height={H} fill="#e0e2e1" opacity={0.8} />
         <path d={`${line}L${x(n - 1)} ${y(0)}L${x(0)} ${y(0)}Z`} fill="#e0e0f8" />
         <path d={line} fill="none" stroke="#6167e6" strokeWidth={2.5} strokeLinejoin="round" />
         {dayLabels.map((l, i) =>
           l ? (
-            <text key={i} x={x(i)} y={height - pad.bottom + 22} textAnchor="middle" fontSize="12" fill="#6c6e79">
+            <text key={i} x={x(i)} y={height - pad.bottom + 22} textAnchor="middle" fontSize="12" fill="#6a6c6a">
               {l}
             </text>
           ) : null,
         )}
         {hover != null && (
           <>
-            <line x1={x(hover)} x2={x(hover)} y1={pad.top} y2={y(0)} stroke="#a9abb6" />
+            <line x1={x(hover)} x2={x(hover)} y1={pad.top} y2={y(0)} stroke="#a9abaa" />
             <circle cx={x(hover)} cy={y(positionsTraffic[hover])} r={4} fill="#6167e6" stroke="#fff" strokeWidth={2} />
           </>
         )}
@@ -190,13 +190,13 @@ export function TrackingBanner({ text = "Create a new project to see your positi
         <svg width="118" height="106" viewBox="0 0 118 106" className="absolute inset-0 overflow-visible [@media(min-resolution:1.1dppx)]:scale-[1.155]">
           <path d="M62 1c14 0 22 5 32 12s19 18 20 32c2 13-2 24-9 36-8 12-22 24-43 24-15 0-27-7-37-18S10 63 10 51s5-25 15-35S47 1 62 1z" fill="#45dba7" />
           <g transform="rotate(-17 63.5 49)">
-            <rect x="18.5" y="15.5" width="84" height="73" rx="3" fill="#191b23" />
-            <rect x="21.5" y="12.5" width="84" height="73" rx="3" fill="#45dba7" stroke="#191b23" strokeWidth="1.4" />
-            <path d="M21.5 23.5v-8a3 3 0 0 1 3-3h78a3 3 0 0 1 3 3v8z" fill="#191b23" />
+            <rect x="18.5" y="15.5" width="84" height="73" rx="3" fill="#1b1e1a" />
+            <rect x="21.5" y="12.5" width="84" height="73" rx="3" fill="#45dba7" stroke="#1b1e1a" strokeWidth="1.4" />
+            <path d="M21.5 23.5v-8a3 3 0 0 1 3-3h78a3 3 0 0 1 3 3v8z" fill="#1b1e1a" />
             <circle cx="27.5" cy="18" r="2.1" fill="#fff" />
             <circle cx="33.5" cy="18" r="2.1" fill="#fff" />
             <circle cx="39.5" cy="18" r="2.1" fill="#fff" />
-            <g transform="translate(63.5 37)" fill="none" stroke="#191b23" strokeWidth="1.5">
+            <g transform="translate(63.5 37)" fill="none" stroke="#1b1e1a" strokeWidth="1.5">
               {[0, 60, 120, 180, 240, 300].map((r) => (
                 <ellipse key={r} cx="0" cy="-3.2" rx="3.4" ry="5.6" transform={`rotate(${r})`} />
               ))}
@@ -212,7 +212,7 @@ export function TrackingBanner({ text = "Create a new project to see your positi
             <path d="M64.5 69.5h7M64.5 72.5h7" stroke="#c6ede0" strokeWidth="1.2" />
             <path d="m86 67-4 7h4l-2 5 5-7h-4z" fill="#45dba7" />
           </g>
-          <path d="M98 44v17l4-3.6 3.2 6.2 3-1.5-3.2-6h5.4z" fill="#fff" stroke="#191b23" strokeWidth="1.3" strokeLinejoin="round" />
+          <path d="M98 44v17l4-3.6 3.2 6.2 3-1.5-3.2-6h5.4z" fill="#fff" stroke="#1b1e1a" strokeWidth="1.3" strokeLinejoin="round" />
         </svg>
       </div>
       <div className="ml-[30px]">
@@ -277,7 +277,7 @@ function AddToList() {
 
 export function IconBtn({ children, label, onClick }: { children: ReactNode; label: string; onClick?: () => void }) {
   return (
-    <button type="button" aria-label={label} onClick={onClick} className="flex h-7 w-7 items-center justify-center rounded-md border border-rk-border-strong bg-[#f4f5f9] text-rk-text-2 hover:bg-rk-hover">
+    <button type="button" aria-label={label} onClick={onClick} className="flex h-7 w-7 items-center justify-center rounded-md border border-rk-border-strong bg-[#f5f6f6] text-rk-text-2 hover:bg-rk-hover">
       {children}
     </button>
   );
@@ -316,7 +316,7 @@ function ColumnsMenu({ shown, onChange }: { shown: Set<string>; onChange: (s: Se
             type="button"
             aria-label="Manage columns"
             onClick={toggle}
-            className={`flex h-7 w-7 items-center justify-center rounded-md border text-rk-text-2 ${open ? "border-[#9aa2ea] bg-[#eef0fb]" : "border-rk-border-strong bg-[#f4f5f9] hover:bg-rk-hover"}`}
+            className={`flex h-7 w-7 items-center justify-center rounded-md border text-rk-text-2 ${open ? "border-[#9aa2ea] bg-[#eef0fb]" : "border-rk-border-strong bg-[#f5f6f6] hover:bg-rk-hover"}`}
           >
             <GearIcon width={18} height={18} />
           </button>
@@ -348,7 +348,7 @@ function ColumnsMenu({ shown, onChange }: { shown: Set<string>; onChange: (s: Se
                     else n.add(c);
                     onChange(n);
                   }}
-                  className={`flex h-8 w-full items-center gap-[10px] px-2 text-left text-[14px] leading-5 whitespace-nowrap ${locked ? "text-[#a9abb6]" : "text-rk-text hover:bg-rk-bg"}`}
+                  className={`flex h-8 w-full items-center gap-[10px] px-2 text-left text-[14px] leading-5 whitespace-nowrap ${locked ? "text-[#a9abaa]" : "text-rk-text hover:bg-rk-bg"}`}
                 >
                   <DarkCheck checked={shown.has(c)} disabled={locked} />
                   {c}
@@ -587,7 +587,7 @@ function PositionsTable({ tab, filter, filters }: { tab: string; filter: string;
                 type="button"
                 aria-label="Export"
                 onClick={toggle}
-                className={`flex h-7 w-7 items-center justify-center rounded-md border text-rk-text-2 ${open ? "border-[#9aa2ea] bg-[#eef0fb]" : "border-rk-border-strong bg-[#f4f5f9] hover:bg-rk-hover"}`}
+                className={`flex h-7 w-7 items-center justify-center rounded-md border text-rk-text-2 ${open ? "border-[#9aa2ea] bg-[#eef0fb]" : "border-rk-border-strong bg-[#f5f6f6] hover:bg-rk-hover"}`}
               >
                 <ExportIcon width={18} height={18} />
               </button>

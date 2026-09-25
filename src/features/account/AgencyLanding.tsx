@@ -23,7 +23,7 @@ function Stars() {
 
 function Ico({ d }: { d: string }) {
   return (
-    <svg viewBox="0 0 16 16" width={14} height={14} className="shrink-0 text-[#8a8e9b]">
+    <svg viewBox="0 0 16 16" width={14} height={14} className="shrink-0 text-[#8b8d8c]">
       <path d={d} fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
@@ -37,7 +37,7 @@ function AgencyArt() {
     { t: "Messages", y: 88, d: "M2 4h12v8H2zM2 4l6 5 6-5" },
   ];
   return (
-    <div className="mx-auto h-[276px] w-[672px] overflow-hidden rounded-xl border border-[#e6e7ec] bg-[#ededf1] text-left">
+    <div className="mx-auto h-[276px] w-[672px] overflow-hidden rounded-xl border border-[#e7e8e8] bg-[#ededf1] text-left">
       <div className="relative h-[317px] w-[774px]" style={{ zoom: 1 / 1.1524 }}>
         {nav.map((n) => (
           <div key={n.t} style={{ top: n.y }} className={`${ghost} left-0 flex h-[40px] w-[133px] items-center gap-[10px] rounded-l-none pl-[2px] text-[11px] font-semibold text-[#b7b9c4]`}>
@@ -63,7 +63,7 @@ function AgencyArt() {
             <span className="-ml-[18px] h-[26px] w-[20px] -rotate-12 rounded-tl-full rounded-br-full bg-[#2fc28c]" />
           </div>
           <div className="absolute top-[18px] left-[92px] text-[21px] leading-[30px] font-semibold tracking-[-0.01em]">Your Agency</div>
-          <div className="absolute top-[48px] left-[92px] text-[12px] text-[#8a8e9b]">Let’s Grow Together</div>
+          <div className="absolute top-[48px] left-[92px] text-[12px] text-[#8b8d8c]">Let’s Grow Together</div>
           <div className="absolute top-[18px] left-[363px] flex h-[56px] w-[56px] items-center justify-center rounded-full border-[5px] border-[#c9a4f7] text-[18px] font-bold">4.9</div>
           <span className="absolute top-[81px] left-[92px] flex h-[24px] items-center gap-1 rounded-full bg-[#a7ecd4] px-[8px] text-[10.5px] font-semibold text-[#1d4d3c]">
             <svg viewBox="0 0 12 12" width={11} height={11}>
@@ -74,22 +74,22 @@ function AgencyArt() {
           <span className="absolute top-[86px] left-[236px]">
             <Stars />
           </span>
-          <span className="absolute top-[85px] left-[326px] text-[11px] text-[#484a54]">10 reviews</span>
+          <span className="absolute top-[85px] left-[326px] text-[11px] text-[#484a49]">10 reviews</span>
           <div className="absolute top-[124px] left-[92px] h-[6px] w-[309px] rounded bg-[#ebebef]" />
           <div className="absolute top-[142px] left-[92px] h-[6px] w-[309px] rounded bg-[#ebebef]" />
           <div className="absolute top-[159px] left-[92px] h-[6px] w-[178px] rounded bg-[#ebebef]" />
-          <div className="absolute top-[175px] left-[92px] grid grid-cols-[170px_1fr] gap-y-[5px] text-[12px] leading-[18px] whitespace-nowrap text-[#484a54]">
+          <div className="absolute top-[175px] left-[92px] grid grid-cols-[170px_1fr] gap-y-[5px] text-[12px] leading-[18px] whitespace-nowrap text-[#484a49]">
             <span className="flex items-center gap-[6px]">
               <Ico d="M8 14s-4.5-4-4.5-7.5a4.5 4.5 0 0 1 9 0C12.5 10 8 14 8 14zM8 8a1.5 1.5 0 1 0 0-3" />
               New York, United States
             </span>
             <span className="flex items-center gap-[6px]">
               <Ico d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2" />
-              Advertising, SEO <span className="text-[#a9abb6]">+10</span>
+              Advertising, SEO <span className="text-[#a9abaa]">+10</span>
             </span>
             <span className="flex items-center gap-[6px]">
               <Ico d="M2 5h12v8H2zM6 5V3h4v2M2 9h12" />
-              B2B Services, Ecommerce <span className="text-[#a9abb6]">+5</span>
+              B2B Services, Ecommerce <span className="text-[#a9abaa]">+5</span>
             </span>
             <span className="flex items-center gap-[6px]">
               <Ico d="M5 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM9 8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
@@ -144,7 +144,7 @@ function Faq() {
   return (
     <div className="mt-8 flex flex-col gap-2">
       {faq.map((f, i) => (
-        <div key={f.q} className="rounded-lg bg-[#f4f5f9]">
+        <div key={f.q} className="rounded-lg bg-[#f5f6f6]">
           <button type="button" onClick={() => setOpen(open === i ? null : i)} className="flex w-full items-center justify-between px-5 py-4 text-left text-[16px] font-semibold">
             {f.q}
             <ChevronDown className={open === i ? "rotate-180" : ""} />
@@ -162,7 +162,7 @@ export function AgencyLanding() {
   return (
     <AppShell section="home" search={{ kind: "goto" }} footer={false}>
       <div className="mx-auto w-[722px] pt-6">
-        <section className="rounded-lg border border-[#e6e7ec] bg-white px-4 pt-[35px] pb-[40px] text-center">
+        <section className="rounded-lg border border-[#e7e8e8] bg-white px-4 pt-[35px] pb-[40px] text-center">
           <h1 className="text-[33px] leading-[40px] font-semibold tracking-[-0.025em]">
             Expand Your Brand Reach and Get Inbound Leads
             <br />
@@ -190,11 +190,11 @@ export function AgencyLanding() {
             <AgencyArt />
           </div>
         </section>
-        <section id="how" className="mt-6 rounded-lg border border-[#e6e7ec] bg-white px-10 py-12">
+        <section id="how" className="mt-6 rounded-lg border border-[#e7e8e8] bg-white px-10 py-12">
           <h2 className="text-center text-[28px] leading-9 font-semibold">How Agency Partners works</h2>
           <div className="mt-8 grid grid-cols-3 gap-6">
             {steps.map((s, i) => (
-              <div key={s.title} className="rounded-lg bg-[#f4f5f9] p-5">
+              <div key={s.title} className="rounded-lg bg-[#f5f6f6] p-5">
                 <span className="flex h-8 w-8 items-center justify-center rounded-full text-[14px] font-bold text-white" style={{ background: O }}>
                   {i + 1}
                 </span>
@@ -204,7 +204,7 @@ export function AgencyLanding() {
             ))}
           </div>
         </section>
-        <section className="mt-6 rounded-lg border border-[#e6e7ec] bg-white px-10 py-12">
+        <section className="mt-6 rounded-lg border border-[#e7e8e8] bg-white px-10 py-12">
           <h2 className="text-center text-[28px] leading-9 font-semibold">Frequently asked questions</h2>
           <Faq />
         </section>

@@ -29,7 +29,7 @@ const actionsByTab: Record<TrackingTab, Action[]> = {
   featuredSnippets: ["looker", "export", "share"],
 };
 
-const btn = "flex h-7 items-center gap-[7px] rounded-md border border-rk-border-strong bg-[#f0f0f3] px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-hover";
+const btn = "flex h-7 items-center gap-[7px] rounded-md border border-rk-border-strong bg-[#f0f1f1] px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-hover";
 
 function ActionButton({ kind }: { kind: Action }) {
   if (kind === "looker")
@@ -140,7 +140,7 @@ function SettingsMenu() {
         <Checkbox checked size={18} label={<span className="text-[14px]">Get weekly updates by email</span>} />
       </div>
       {["Location: Sweden", "Device: Desktop", "Search engine: Google"].map((t) => (
-        <div key={t} className={`${row} text-[#a9abb6]`}>
+        <div key={t} className={`${row} text-[#a9abaa]`}>
           {t}
         </div>
       ))}
@@ -192,7 +192,7 @@ function TargetDropdown() {
       {(close) => (
         <div className="text-[14px] leading-5">
           <div className="px-[10px] font-semibold text-rk-text">Targets (1/10)</div>
-          <button type="button" onClick={close} className="mt-[6px] flex h-[31px] w-full items-center gap-[5px] border-l-2 border-[#484a54] bg-[#ebf0ff] pl-[8px] text-rk-text">
+          <button type="button" onClick={close} className="mt-[6px] flex h-[31px] w-full items-center gap-[5px] border-l-2 border-[#484a49] bg-[#ebf0ff] pl-[8px] text-rk-text">
             <DesktopIcon width={16} height={16} />
             Sweden (Google) • Swedish
           </button>
@@ -245,7 +245,7 @@ function SerpFeatures() {
         )}
       >
         {serpFeatureList.map(({ label, Icon }, i) => (
-          <label key={label} className={`flex h-8 cursor-pointer items-center border-l-2 pl-[5px] text-[14px] text-rk-text ${on[i] ? "border-[#484a54] bg-[#ebf0ff]" : "border-transparent hover:bg-rk-bg"}`}>
+          <label key={label} className={`flex h-8 cursor-pointer items-center border-l-2 pl-[5px] text-[14px] text-rk-text ${on[i] ? "border-[#484a49] bg-[#ebf0ff]" : "border-transparent hover:bg-rk-bg"}`}>
             <input type="checkbox" className="sr-only" checked={on[i]} onChange={() => setOn(on.map((v, j) => (j === i ? !v : v)))} />
             <span className={`flex h-4 w-4 items-center justify-center rounded-[3px] border ${on[i] ? "border-rk-text bg-rk-text" : "border-rk-border-strong bg-white"}`}>
               {on[i] && <CheckIcon width={12} height={12} strokeWidth={2.4} className="text-white" />}
@@ -281,7 +281,7 @@ function AlertsModal({ open, onClose }: { open: boolean; onClose: () => void }) 
         <button type="button" onClick={onClose} className="h-10 rounded-md bg-[#03a979] px-3 text-[16px] font-semibold text-white hover:bg-[#008c65]">
           Set up alert
         </button>
-        <button type="button" onClick={onClose} className="h-10 rounded-md border border-rk-border-strong bg-[#f4f5f9] px-3 text-[16px] text-rk-text-2 hover:bg-rk-hover">
+        <button type="button" onClick={onClose} className="h-10 rounded-md border border-rk-border-strong bg-[#f5f6f6] px-3 text-[16px] text-rk-text-2 hover:bg-rk-hover">
           Cancel
         </button>
       </div>
@@ -295,7 +295,7 @@ function AlertBell() {
       <path d="M44 14c14-8 30 6 44 2s28-6 32 8 12 22 10 36-14 16-18 30-14 28-30 22-26-4-38-10S12 76 8 62s6-24 12-32 10-10 24-16z" fill="#b97fff" />
       <g transform="rotate(40 66 60)">
         <path d="M48 34c0-11 8-18 18-18s18 7 18 18v22c0 8 4 12 10 18H38c6-6 10-10 10-18z" fill="#b97fff" stroke="#fff" strokeWidth="3" strokeLinejoin="round" />
-        <ellipse cx="66" cy="76" rx="30" ry="9" fill="#191b23" stroke="#fff" strokeWidth="3" />
+        <ellipse cx="66" cy="76" rx="30" ry="9" fill="#1b1e1a" stroke="#fff" strokeWidth="3" />
         <path d="M58 86a8 8 0 0 0 16 0" fill="#fff" />
         <circle cx="66" cy="13" r="4" fill="none" stroke="#fff" strokeWidth="3" />
         <path d="M56 32c1-6 4-9 9-10" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />

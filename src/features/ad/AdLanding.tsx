@@ -107,7 +107,7 @@ export function TryItCard({ title, children }: { title: string; children?: React
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Enter any domain or URL"
-          className="h-[55px] w-[417px] rounded-md border border-[#dcdde3] bg-white px-3 text-[16px] outline-none placeholder:text-[#8a8e9b] focus:border-[#a25eff]"
+          className="h-[55px] w-[417px] rounded-md border border-[#dcdde3] bg-white px-3 text-[16px] outline-none placeholder:text-[#8b8d8c] focus:border-[#a25eff]"
         />
         <button type="submit" className="h-[55px] w-[230px] rounded-md bg-[#191d1a] text-[16px] font-semibold text-white hover:bg-[#2b2e38]">
           Get insights

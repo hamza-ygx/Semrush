@@ -89,7 +89,7 @@ function SfCount({ row }: { row: KwRow }) {
       {() =>
         feats.map((f) => (
           <div key={f} className="flex h-8 items-center gap-2 px-[9px] text-[14px] text-rk-text">
-            <svg viewBox="0 0 16 16" width={18} height={18} className="-mx-px shrink-0 text-[#9a9ca5]">
+            <svg viewBox="0 0 16 16" width={18} height={18} className="-mx-px shrink-0 text-[#9c9e9d]">
               {sfGlyph[f]}
             </svg>
             {sfLabels[f]}
@@ -162,7 +162,7 @@ function Row({
               <Link href={`${routes.keywordOverview}?q=${encodeURIComponent(row.keyword)}&db=se`} className="text-rk-link group-hover/kw:underline group-has-[button:hover]/kw:no-underline">
                 {row.keyword.slice(cut)}
               </Link>
-              <button type="button" aria-label="Keyword quick view" onClick={() => onQuick?.(row)} className="ml-[6px] inline-block align-[-3px] text-[#9a9ca5] hover:text-rk-text-2">
+              <button type="button" aria-label="Keyword quick view" onClick={() => onQuick?.(row)} className="ml-[6px] inline-block align-[-3px] text-[#9c9e9d] hover:text-rk-text-2">
                 <SerpIcon />
               </button>
             </span>
@@ -237,7 +237,7 @@ function Row({
 
 function Th({ children, className = "", sorted }: { children?: ReactNode; className?: string; sorted?: boolean }) {
   return (
-    <th className={`h-[42px] text-[13px] font-normal text-rk-text-2 ${sorted ? "bg-[#f0f0f3]" : ""} ${className}`}>
+    <th className={`h-[42px] text-[12px] font-normal text-rk-text ${sorted ? "bg-[#eaebeb]" : ""} ${className}`}>
       {sorted ? (
         <span className="inline-flex items-center gap-1">
           {children}
@@ -310,7 +310,7 @@ function SendKeywords({ count }: { count: number }) {
           )}
           <div className="px-4 pt-[11px] pb-4">
             <div className="text-[16px] leading-6 font-semibold">Send:</div>
-            <div className={`mt-[10px] text-[14px] leading-5 ${off ? "text-[#c4c7cf]" : "text-rk-text"}`}>{off ? "Keywords" : `${count} keyword${count > 1 ? "s" : ""}`}</div>
+            <div className={`mt-[10px] text-[14px] leading-5 ${off ? "text-[#d6d8d7]" : "text-rk-text"}`}>{off ? "Keywords" : `${count} keyword${count > 1 ? "s" : ""}`}</div>
             <div className="mt-[14px] text-[16px] leading-6 font-semibold">To:</div>
             <div className={off ? "opacity-[0.32]" : ""}>
               {options.map((o) => (
@@ -397,7 +397,7 @@ function ExportDrop({
             <ExportIcon />
           </button>
         ) : (
-          <button type="button" onClick={toggle} className="flex h-7 items-center gap-[6px] rounded-md border border-rk-border-strong bg-[#f4f5f9] px-[14px] font-normal text-rk-text-2 hover:bg-rk-hover">
+          <button type="button" onClick={toggle} className="flex h-7 items-center gap-[6px] rounded-md border border-rk-border-strong bg-[#f5f6f6] px-[14px] font-normal text-rk-text-2 hover:bg-rk-hover">
             <ExportIcon />
             Export
           </button>
@@ -416,7 +416,7 @@ function ExportDrop({
                 aria-checked={scope === o.key}
                 disabled={o.disabled}
                 onClick={() => setScope(o.key)}
-                className={`flex h-7 w-full items-center gap-2 text-[14px] ${o.disabled ? "text-[#c4c7cf]" : "text-rk-text"}`}
+                className={`flex h-7 w-full items-center gap-2 text-[14px] ${o.disabled ? "text-[#d6d8d7]" : "text-rk-text"}`}
               >
                 <span className={o.disabled ? "opacity-40" : ""}>
                   <Radio on={scope === o.key && !o.disabled} />

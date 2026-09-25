@@ -30,7 +30,7 @@ const Globe = () => (
 
 function Glyph({ kind, className = "" }: { kind: SfKind; className?: string }) {
   return (
-    <svg viewBox="0 0 16 16" width={16} height={16} aria-label={sfLabels[kind]} className={`shrink-0 text-[#9a9ca5] ${className}`}>
+    <svg viewBox="0 0 16 16" width={16} height={16} aria-label={sfLabels[kind]} className={`shrink-0 text-[#9c9e9d] ${className}`}>
       {sfGlyph[kind]}
     </svg>
   );

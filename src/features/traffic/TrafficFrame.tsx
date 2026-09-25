@@ -202,7 +202,7 @@ function ListHeader() {
         {open && (
           <div data-testid="traffic-list-menu" className="absolute top-[28px] left-0 z-50 w-[601px] overflow-hidden rounded-[6px] bg-white pt-[8px] shadow-popover">
             {listsFor(true).map((l) => (
-              <div key={l.id} className={`relative h-[80px] px-[17px] pt-[11px] ${l === rkjhList ? "bg-[#e9eefc] shadow-[inset_3px_0_0_#191b23]" : "hover:bg-rk-bg"}`}>
+              <div key={l.id} className={`relative h-[80px] px-[17px] pt-[11px] ${l === rkjhList ? "bg-[#e9eefc] shadow-[inset_3px_0_0_#1b1e1a]" : "hover:bg-rk-bg"}`}>
                 <Link href={l.href} onClick={close} aria-label={`Open ${l.name} (${l.domains[0]})`} className="absolute inset-0" />
                 <div className="text-[14px] leading-5 font-semibold text-rk-text">{l.name}</div>
                 <div className="pointer-events-none relative mt-[7px]">

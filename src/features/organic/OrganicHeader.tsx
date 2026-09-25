@@ -48,7 +48,7 @@ function useOutside(open: boolean, close: () => void) {
   return ref;
 }
 
-const scroll = "[&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#c4c7cf]";
+const scroll = "[&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#d6d8d7]";
 
 function DbSwitcher({ prev }: { prev?: boolean }) {
   const [db, setDb] = useState("SE");
@@ -96,7 +96,7 @@ function DbSwitcher({ prev }: { prev?: boolean }) {
       {open && (
         <div data-testid="db-picker" className="absolute top-[calc(100%+5px)] right-[-225px] z-50 w-[260px] rounded-md bg-white shadow-popover">
           <div className="relative">
-            <SearchIcon width={16} height={16} className="pointer-events-none absolute top-1/2 left-[10px] -translate-y-1/2 text-[#a9abb6]" />
+            <SearchIcon width={16} height={16} className="pointer-events-none absolute top-1/2 left-[10px] -translate-y-1/2 text-[#a9abaa]" />
             <input
               autoFocus
               aria-label="Search database"
@@ -119,7 +119,7 @@ function DbSwitcher({ prev }: { prev?: boolean }) {
                 >
                   <CountryFlag code={c.code} />
                   {c.name}
-                  {c.count != null && <span className="text-[#a9abb6]">{c.code === "SE" && !prev ? latest.se : c.count}</span>}
+                  {c.count != null && <span className="text-[#a9abaa]">{c.code === "SE" && !prev ? latest.se : c.count}</span>}
                 </button>
               </div>
             ))}
@@ -241,7 +241,7 @@ export function OrganicHeader({ tab, manual = true, pdf = true, date = true, cur
           Organic Rankings:
           <span className="-ml-[3px] flex items-center gap-1 text-rk-muted">
             {domain}
-            <a href={`https://${domain}`} target="_blank" rel="noreferrer" aria-label="Open rkjh.se" className="text-[#a9abb6] hover:text-rk-link">
+            <a href={`https://${domain}`} target="_blank" rel="noreferrer" aria-label="Open rkjh.se" className="text-[#a9abaa] hover:text-rk-link">
               <ExtIcon />
             </a>
           </span>

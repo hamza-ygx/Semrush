@@ -23,7 +23,7 @@ function TrialButton({ onClick, children = "Try it now for free", className = ""
 }
 
 function TrialNote({ className = "" }: { className?: string }) {
-  return <p className={`text-[16px] leading-6 text-[#6c6e79] ${className}`}>7-day free trial, then $60/month</p>;
+  return <p className={`text-[16px] leading-6 text-[#6a6c6a] ${className}`}>7-day free trial, then $60/month</p>;
 }
 
 function TrialModal({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -106,7 +106,7 @@ function JoinCard({ onTrial }: { onTrial: () => void }) {
 function Avatar({ hue }: { hue: string }) {
   return (
     <svg viewBox="0 0 72 72" width={72} height={72} className="shrink-0" aria-hidden>
-      <circle cx="36" cy="36" r="36" fill="#e6e7ec" />
+      <circle cx="36" cy="36" r="36" fill="#e7e8e8" />
       <circle cx="36" cy="29" r="13" fill={hue} />
       <path d="M12 64c4-13 13-19 24-19s20 6 24 19a36 36 0 0 1-48 0z" fill={hue} opacity={0.8} />
     </svg>
@@ -128,7 +128,7 @@ function Testimonials() {
                   <Avatar hue={t.hue} />
                   <span>
                     <span className="block text-[16px] leading-6 font-semibold">{t.role}</span>
-                    <span className="block text-[14px] leading-5 text-[#8a8e9b]">{t.company}</span>
+                    <span className="block text-[14px] leading-5 text-[#8b8d8c]">{t.company}</span>
                   </span>
                 </figcaption>
               </figure>
@@ -165,7 +165,7 @@ function Faq() {
       <div className="mt-[33px] flex flex-col gap-1">
         {faq(brand.name).map((f, i) => (
           <div key={f.q} className="rounded-sm bg-[#f3f5f5]">
-            <button type="button" aria-expanded={open === i} onClick={() => setOpen(open === i ? null : i)} className="flex h-[56px] w-full items-center gap-[7px] pl-[19px] text-left text-[16px] font-semibold text-[#484a54]">
+            <button type="button" aria-expanded={open === i} onClick={() => setOpen(open === i ? null : i)} className="flex h-[56px] w-full items-center gap-[7px] pl-[19px] text-left text-[16px] font-semibold text-[#484a49]">
               <ChevronRight width={14} height={14} strokeWidth={2} className={`transition-transform ${open === i ? "rotate-90" : ""}`} />
               {f.q}
             </button>
@@ -204,7 +204,7 @@ export function ContentDashboard() {
       <div className="pt-[17px]">
         <section className={`${card} w-[959px] px-12 pt-[45px]`}>
           <div className="text-center">
-            <div className="text-[20px] leading-7 text-[#6c6e79]">The {brand.name} Content Toolkit</div>
+            <div className="text-[20px] leading-7 text-[#6a6c6a]">The {brand.name} Content Toolkit</div>
             <h1 className="mt-[10px] text-[40px] leading-[48px] font-semibold tracking-[-0.02em] whitespace-nowrap">Your content, anywhere your audience searches</h1>
             <p className="mt-[12px] text-[16px] leading-6">
               Create, optimize, and repurpose content that performs—across SEO, AI search, social, and even email.

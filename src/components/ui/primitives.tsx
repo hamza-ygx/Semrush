@@ -10,8 +10,8 @@ type BtnVariant = "primary" | "secondary" | "tertiary" | "success" | "ghost";
 
 const btn: Record<BtnVariant, string> = {
   primary: "bg-rk-btn-dark text-white hover:bg-[#2b2e38] font-semibold",
-  secondary: "border border-rk-border-strong bg-white text-rk-text-2 hover:bg-rk-bg",
-  tertiary: "border border-rk-border-strong bg-[#f4f5f9] text-rk-text-2 hover:bg-rk-hover",
+  secondary: "border border-rk-border-strong bg-[#f8f9f9] font-medium text-rk-muted hover:bg-rk-bg",
+  tertiary: "border border-rk-border-strong bg-[#f5f6f6] text-rk-text-2 hover:bg-rk-hover",
   success: "bg-[#009f81] text-white hover:bg-[#007c65] font-medium",
   ghost: "text-rk-text-2 hover:bg-rk-bg",
 };
@@ -112,7 +112,7 @@ export function Tag({
   className?: string;
 }) {
   const tones = {
-    gray: "bg-[#e0e1e9] text-rk-text-2",
+    gray: "bg-[#e0e2e1] text-rk-text-2",
     ai: "bg-rk-ai-bg text-rk-ai-text",
     seo: "bg-rk-seo-bg text-rk-seo-text",
     blue: "bg-[#e9f7ff] text-[#006dca]",

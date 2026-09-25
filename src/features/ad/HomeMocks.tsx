@@ -1,7 +1,7 @@
 import { ChatGptIcon, GoogleIcon } from "@/components/ui/icons";
 import type { Block } from "./homeData";
 
-const line = "rounded-full bg-[#e8e9ee]";
+const line = "rounded-full bg-[#e9eaea]";
 
 function Chat() {
   return (
@@ -24,14 +24,14 @@ function Chat() {
       <div className="w-[187px] border-l border-[#ececf0]">
         <div className="px-4 pt-[9px] pb-[11px]">
           <div className="font-semibold">Recent chats</div>
-          <div className="mt-2 inline-flex h-6 items-center rounded-md bg-[#191b23] px-2 text-[13px] text-white">Start new chat</div>
+          <div className="mt-2 inline-flex h-6 items-center rounded-md bg-[#1b1e1a] px-2 text-[13px] text-white">Start new chat</div>
         </div>
         <div className="bg-[#f4f5f7] px-4 pt-[10px] pb-3">
-          <div className="text-[13px] text-[#8a8e9b]">active now</div>
+          <div className="text-[13px] text-[#8b8d8c]">active now</div>
           <div className="text-[14px]">How do my CPA compare to industry...</div>
         </div>
         {["Top keywords last week", "Budget pacing check"].map((c) => (
-          <div key={c} className="border-t border-[#ececf0] px-4 py-3 text-[13px] text-[#484a54]">
+          <div key={c} className="border-t border-[#ececf0] px-4 py-3 text-[13px] text-[#484a49]">
             {c}
           </div>
         ))}
@@ -45,7 +45,7 @@ function Research() {
     <div className="flex h-full flex-col gap-3 rounded-xl bg-white p-4">
       {["competitor-one.com", "competitor-two.com", "competitor-three.com"].map((d, i) => (
         <div key={d} className="rounded-lg border border-[#ececf0] p-3">
-          <div className="text-[12px] text-[#6c6e79]">Sponsored · {d}</div>
+          <div className="text-[12px] text-[#6a6c6a]">Sponsored · {d}</div>
           <div className="mt-1 text-[15px] font-semibold text-[#1a0dab]">{["Modern furniture sale – up to 40% off", "Design your dream kitchen", "Free delivery on all orders"][i]}</div>
           <div className={`${line} mt-2 h-[6px] w-[80%]`} />
           <div className={`${line} mt-[6px] h-[6px] w-[60%]`} />
@@ -68,12 +68,12 @@ function Keywords() {
   return (
     <div className="h-full">
       <div className="flex items-center">
-        <span className="flex h-[43px] items-center rounded-lg border border-[#c9cdf5] bg-[#eef0fe] px-[15px] text-[16px] text-[#484a54]">Keywords</span>
-        <span className="px-[15px] text-[16px] text-[#8a8e9b]">Negatives</span>
+        <span className="flex h-[43px] items-center rounded-lg border border-[#c9cdf5] bg-[#eef0fe] px-[15px] text-[16px] text-[#484a49]">Keywords</span>
+        <span className="px-[15px] text-[16px] text-[#8b8d8c]">Negatives</span>
         <span className="ml-auto flex h-[43px] items-center rounded-lg bg-[#8f8f8f] px-[18px] text-[16px] font-medium text-white">+ Keywords</span>
       </div>
       <div className="mt-[14px] overflow-hidden rounded-lg border border-[#ececf0] bg-white text-[14px]">
-        <div className="grid h-[45px] grid-cols-[150px_70px_55px_65px_1fr] items-center px-[15px] text-[#8a8e9b]">
+        <div className="grid h-[45px] grid-cols-[150px_70px_55px_65px_1fr] items-center px-[15px] text-[#8b8d8c]">
           <span>Keywords</span>
           <span className="text-right">Volume</span>
           <span className="text-right">CPC</span>
@@ -81,7 +81,7 @@ function Keywords() {
           <span className="text-right">Match type</span>
         </div>
         {rows.map((r) => (
-          <div key={r[0]} className="grid h-[45px] grid-cols-[150px_70px_55px_65px_1fr] items-center border-t border-[#f0f0f3] px-[15px] text-[#484a54]">
+          <div key={r[0]} className="grid h-[45px] grid-cols-[150px_70px_55px_65px_1fr] items-center border-t border-[#f0f1f1] px-[15px] text-[#484a49]">
             <span className="font-medium">{r[0]}</span>
             <span className="text-right">{r[1]}</span>
             <span className="text-right">{r[2]}</span>
@@ -116,15 +116,15 @@ function Launch() {
       <div className="font-semibold">New campaign</div>
       {["Campaign name", "Daily budget", "Locations", "Audience"].map((l, i) => (
         <div key={l}>
-          <div className="text-[12px] text-[#6c6e79]">{l}</div>
-          <div className="mt-1 flex h-9 items-center rounded-md border border-[#e0e1e9] px-3">{["Spring sale 2026", "$50.00", "Sweden, Norway", "Home decor lovers"][i]}</div>
+          <div className="text-[12px] text-[#6a6c6a]">{l}</div>
+          <div className="mt-1 flex h-9 items-center rounded-md border border-[#e0e2e1] px-3">{["Spring sale 2026", "$50.00", "Sweden, Norway", "Home decor lovers"][i]}</div>
         </div>
       ))}
       <div className="mt-auto flex gap-2">
-        <span className="flex h-9 flex-1 items-center justify-center gap-2 rounded-md border border-[#e0e1e9]">
+        <span className="flex h-9 flex-1 items-center justify-center gap-2 rounded-md border border-[#e0e2e1]">
           <GoogleIcon /> Google Ads
         </span>
-        <span className="flex h-9 flex-1 items-center justify-center rounded-md border border-[#e0e1e9]">Meta Ads</span>
+        <span className="flex h-9 flex-1 items-center justify-center rounded-md border border-[#e0e2e1]">Meta Ads</span>
       </div>
     </div>
   );
@@ -136,7 +136,7 @@ function Optimize() {
       <div className="font-semibold">Cost per conversion</div>
       <svg viewBox="0 0 440 200" className="mt-4 w-full" aria-hidden>
         {[40, 80, 120, 160].map((y) => (
-          <path key={y} d={`M0 ${y}h440`} stroke="#f0f0f3" />
+          <path key={y} d={`M0 ${y}h440`} stroke="#f0f1f1" />
         ))}
         <path d="M0 50 60 60 120 45 180 90 240 110 300 120 360 150 440 160" fill="none" stroke="#a25eff" strokeWidth={3} />
       </svg>
@@ -158,7 +158,7 @@ function Report() {
         ["ROAS", "4.2x"],
       ].map(([k, v]) => (
         <div key={k} className="rounded-lg border border-[#ececf0] p-4">
-          <div className="text-[#6c6e79]">{k}</div>
+          <div className="text-[#6a6c6a]">{k}</div>
           <div className="mt-2 text-[28px] font-semibold">{v}</div>
           <div className={`${line} mt-4 h-[6px] w-full`} />
         </div>

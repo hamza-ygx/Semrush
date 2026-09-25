@@ -4,13 +4,13 @@ import { hreflangIssues, hreflangUsage } from "./data";
 
 const Confetti = () => (
   <svg viewBox="0 0 84 84" width={84} height={84}>
-    <path d="M42 6c8 3 15 0 22 6s4 14 10 20-2 14-4 22-10 10-16 16-14 2-22 4-14-4-18-10-4-14-8-20 2-14 6-20 6-12 14-14 12-6 16-4z" fill="#e0e1e9" />
-    <path d="M14 76 30 30l26 26z" fill="#fff" stroke="#6c6e79" strokeWidth={2.2} strokeLinejoin="round" />
-    <path d="M18 64l7 5M22 52l14 12M26 41l18 16" stroke="#6c6e79" strokeWidth={4} strokeLinecap="round" />
-    <path d="M40 34c-2-8 2-16 6-18 3-2 6 2 3 5s-6 1-4-6M52 38c4-8 12-10 16-6M58 44c6-2 12 0 14 6" fill="none" stroke="#6c6e79" strokeWidth={2} strokeLinecap="round" />
-    <path d="M60 12l3-6M70 20l6-3M50 8l1-5" stroke="#6c6e79" strokeWidth={1.6} strokeLinecap="round" />
-    <circle cx="66" cy="30" r="2" fill="#6c6e79" />
-    <circle cx="44" cy="12" r="1.6" fill="#6c6e79" />
+    <path d="M42 6c8 3 15 0 22 6s4 14 10 20-2 14-4 22-10 10-16 16-14 2-22 4-14-4-18-10-4-14-8-20 2-14 6-20 6-12 14-14 12-6 16-4z" fill="#e0e2e1" />
+    <path d="M14 76 30 30l26 26z" fill="#fff" stroke="#6a6c6a" strokeWidth={2.2} strokeLinejoin="round" />
+    <path d="M18 64l7 5M22 52l14 12M26 41l18 16" stroke="#6a6c6a" strokeWidth={4} strokeLinecap="round" />
+    <path d="M40 34c-2-8 2-16 6-18 3-2 6 2 3 5s-6 1-4-6M52 38c4-8 12-10 16-6M58 44c6-2 12 0 14 6" fill="none" stroke="#6a6c6a" strokeWidth={2} strokeLinecap="round" />
+    <path d="M60 12l3-6M70 20l6-3M50 8l1-5" stroke="#6a6c6a" strokeWidth={1.6} strokeLinecap="round" />
+    <circle cx="66" cy="30" r="2" fill="#6a6c6a" />
+    <circle cx="44" cy="12" r="1.6" fill="#6a6c6a" />
   </svg>
 );
 

@@ -80,7 +80,7 @@ function FixToggle({ id }: { id: number }) {
     <div ref={ref} className="relative">
       <button type="button" onClick={toggle} className="flex items-center gap-[6px] text-[14px] text-rk-muted">
         <HelpCircleIcon className="text-rk-text-2" />
-        <span className="underline decoration-[#a9abb6] decoration-dashed decoration-1 underline-offset-[5px] hover:text-rk-text">How to fix</span>
+        <span className="underline decoration-[#a9abaa] decoration-dashed decoration-1 underline-offset-[5px] hover:text-rk-text">How to fix</span>
       </button>
       {open && <FixPanel issue={issueById(id)} className="top-[calc(100%+6px)] left-0" />}
     </div>
@@ -116,11 +116,11 @@ export function IssueDetail({ id }: { id: number }) {
           <span className={`ml-[9px] rounded-full px-2 text-[12px] leading-5 ${sevTag[issue.severity].cls}`}>{sevTag[issue.severity].label}</span>
           <div className="ml-auto flex gap-[9px]">
             <SendTo />
-            <Link href={`${c.siteStructure}?restrictions=${encodeURIComponent(btoa(JSON.stringify({ triggeredIssue: issue.id })))}`} className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
+            <Link href={`${c.siteStructure}?restrictions=${encodeURIComponent(btoa(JSON.stringify({ triggeredIssue: issue.id })))}`} className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f5f6f6] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
               <StructureIcon />
               Site Structure
             </Link>
-            <button type="button" className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
+            <button type="button" className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f5f6f6] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
               <EyeIcon />
               Exclude check
             </button>
@@ -186,7 +186,7 @@ export function IssueDetail({ id }: { id: number }) {
               <div className="truncate text-rk-text">{r.title}</div>
               <a href={r.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-[6px] text-rk-link hover:text-rk-link-hover">
                 {r.url}
-                <ExtIcon className="text-[#8a8e9b]" />
+                <ExtIcon className="text-[#8b8d8c]" />
               </a>
             </div>
             <div className="flex w-[312px] shrink-0 items-start pt-[12px]">
@@ -202,10 +202,10 @@ export function IssueDetail({ id }: { id: number }) {
         {!rows.length && <div className="border-b border-rk-border py-10 text-center text-[14px] text-rk-muted">{tab === "hidden" ? "No hidden issues" : "No issues found"}</div>}
 
         <div className="flex h-[64px] items-center px-5 pb-[2px] text-[14px]">
-          <button type="button" disabled className="flex h-7 w-7 items-center justify-center rounded-md border border-rk-border text-[#c4c7cf]">
+          <button type="button" disabled className="flex h-7 w-7 items-center justify-center rounded-md border border-rk-border text-[#d6d8d7]">
             <ChevronsLeft />
           </button>
-          <button type="button" disabled className="ml-2 h-7 rounded-md border border-rk-border px-2 text-[#c4c7cf]">
+          <button type="button" disabled className="ml-2 h-7 rounded-md border border-rk-border px-2 text-[#d6d8d7]">
             Prev
           </button>
           <button type="button" className="ml-2 h-7 rounded-md bg-rk-btn-dark px-2 font-semibold text-white hover:bg-[#2b2e38]">

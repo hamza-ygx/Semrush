@@ -13,11 +13,11 @@ import { Checkbox, CogIcon, useToggle } from "./part1/ui";
 const c = routes.siteAuditCampaign;
 
 const tb =
-  "inline-flex h-7 shrink-0 items-center justify-center gap-[6px] rounded-md border border-rk-border-strong px-2 text-[14px] whitespace-nowrap text-rk-text-2 hover:bg-rk-hover";
+  "inline-flex h-7 shrink-0 items-center justify-center gap-[6px] rounded-md border border-rk-border-strong px-2 text-[14px] font-medium whitespace-nowrap text-rk-muted hover:bg-rk-hover";
 
 function Tb({ children, onClick, testid, on, className = "" }: { children: ReactNode; onClick?: () => void; testid?: string; on?: boolean; className?: string }) {
   return (
-    <button type="button" onClick={onClick} data-testid={testid} className={`${tb} ${on ? "bg-rk-hover" : "bg-[#f4f5f9]"} ${className}`}>
+    <button type="button" onClick={onClick} data-testid={testid} className={`${tb} ${on ? "bg-rk-hover" : "bg-[#f5f6f6]"} ${className}`}>
       {children}
     </button>
   );
@@ -25,7 +25,7 @@ function Tb({ children, onClick, testid, on, className = "" }: { children: React
 
 const Favicon = () => (
   <svg viewBox="0 0 16 16" width={16} height={16} className="shrink-0">
-    <rect x="0.5" y="0.5" width="15" height="15" rx="3" fill="#191b23" />
+    <rect x="0.5" y="0.5" width="15" height="15" rx="3" fill="#1b1e1a" />
     <path d="M0.5 3.5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3V8h-15z" fill="#ec2d3a" />
   </svg>
 );
@@ -84,7 +84,7 @@ function ExportPopover({ report }: { report?: string }) {
           <div className="mt-4 text-rk-text">Report</div>
           <button
             type="button"
-            className="mt-[9px] flex h-7 w-full items-center justify-between rounded-md border border-rk-border-strong bg-white pr-[6px] pl-2 text-rk-text hover:border-[#a9abb6]"
+            className="mt-[9px] flex h-7 w-full items-center justify-between rounded-md border border-rk-border-strong bg-white pr-[6px] pl-2 text-rk-text hover:border-[#a9abaa]"
           >
             {report ?? "Issues"}
             <ChevronDown strokeWidth={2.2} />
@@ -95,8 +95,8 @@ function ExportPopover({ report }: { report?: string }) {
               Relative URLs instead of absolute
             </label>
           ) : (
-            <div className="mt-[15px] flex items-center gap-2 text-[#a9abb6]">
-              <Checkbox disabled className="!border-[#e0e1e9]" />
+            <div className="mt-[15px] flex items-center gap-2 text-[#a9abaa]">
+              <Checkbox disabled className="!border-[#e0e2e1]" />
               Relative URLs instead of absolute
             </div>
           )}
@@ -123,7 +123,7 @@ function SettingsMenu() {
         aria-label="Audit settings"
         data-testid="sa-settings"
         onClick={toggle}
-        className={`inline-flex h-7 w-7 items-center justify-center rounded-md border border-rk-border-strong text-rk-text-2 hover:bg-rk-hover ${open ? "bg-rk-hover" : "bg-[#f4f5f9]"}`}
+        className={`inline-flex h-7 w-7 items-center justify-center rounded-md border border-rk-border-strong text-rk-text-2 hover:bg-rk-hover ${open ? "bg-rk-hover" : "bg-[#f5f6f6]"}`}
       >
         <CogIcon />
       </button>
@@ -148,11 +148,11 @@ function ShareModal({ open, onClose }: { open: boolean; onClose: () => void }) {
       <div className="mt-[4px] flex items-start gap-2">
         <textarea
           placeholder="mark@example.com, eve@example.com"
-          className="h-[104px] w-[376px] resize-none rounded-md border border-rk-border-strong px-[9px] pt-[9px] text-[16px] leading-6 text-rk-text outline-none placeholder:text-[#a9abb6] focus:border-[#8e92ec]"
+          className="h-[104px] w-[376px] resize-none rounded-md border border-rk-border-strong px-[9px] pt-[9px] text-[16px] leading-6 text-rk-text outline-none placeholder:text-[#a9abaa] focus:border-[#8e92ec]"
         />
         <button
           type="button"
-          className="flex h-10 w-[124px] items-center justify-between rounded-md border border-rk-border-strong bg-white pr-[14px] pl-3 text-[16px] text-rk-text hover:border-[#a9abb6]"
+          className="flex h-10 w-[124px] items-center justify-between rounded-md border border-rk-border-strong bg-white pr-[14px] pl-3 text-[16px] text-rk-text hover:border-[#a9abaa]"
         >
           Editor
           <ChevronDown strokeWidth={2.2} />
@@ -194,7 +194,7 @@ function Switch() {
       role="switch"
       aria-checked={on}
       onClick={() => setOn(!on)}
-      className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${on ? "bg-[#009f81]" : "bg-[#e0e1e9]"}`}
+      className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${on ? "bg-[#009f81]" : "bg-[#e0e2e1]"}`}
     >
       <span className={`absolute top-[2px] h-5 w-5 rounded-full bg-white shadow-[0_1px_2px_rgba(25,27,35,0.2)] transition-all ${on ? "left-[22px]" : "left-[2px]"}`} />
     </button>
@@ -231,7 +231,7 @@ function PdfModal({ open, onClose }: { open: boolean; onClose: () => void }) {
           Report template
           <button
             type="button"
-            className="flex h-7 w-[176px] items-center justify-between rounded-md border border-rk-border-strong bg-white pr-[6px] pl-2 text-[14px] hover:border-[#a9abb6]"
+            className="flex h-7 w-[176px] items-center justify-between rounded-md border border-rk-border-strong bg-white pr-[6px] pl-2 text-[14px] hover:border-[#a9abaa]"
           >
             Site Audit: Issues
             <ChevronDown strokeWidth={2.2} />
@@ -335,7 +335,7 @@ function PdfModal({ open, onClose }: { open: boolean; onClose: () => void }) {
         <div className="mt-[31px] text-center">
           <button
             type="button"
-            className="text-[14px] leading-5 text-rk-muted underline decoration-[#a9abb6] decoration-dashed decoration-1 underline-offset-[5px] hover:text-rk-text"
+            className="text-[14px] leading-5 text-rk-muted underline decoration-[#a9abaa] decoration-dashed decoration-1 underline-offset-[5px] hover:text-rk-text"
           >
             View report balance
           </button>

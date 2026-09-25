@@ -34,13 +34,13 @@ export function Flag({ country }: { country: string }) {
   if (country === "Worldwide")
     return (
       <svg viewBox="0 0 16 16" width={16} height={16} className="shrink-0">
-        <circle cx="8" cy="8" r="7" fill="#191b23" />
+        <circle cx="8" cy="8" r="7" fill="#1b1e1a" />
         <path d="M4.2 3.6c1.4.6 2.2 1.6 2 2.9-.2 1 .9 1.4.8 2.6-.1.9-.9 1.3-.6 2.6M10 1.4c-.6 1.2 0 2.2 1.3 2.5 1.1.3 1.6 1.2 1 2.4M10.2 9.8c.9.1 2 .7 2.9 1.6M1.4 7.2c1 .1 1.6.7 1.6 1.6" stroke="#fff" strokeWidth="1.5" fill="none" strokeLinecap="round" />
       </svg>
     );
   if (country === "Sweden") return <FlagSE width={14} height={10} />;
   if (country === "United States" || country === "USA") return <FlagUS width={14} height={10} />;
-  const f = flags[country] ?? { dir: "h", colors: ["#c4c7cf", "#e0e1e9"] };
+  const f = flags[country] ?? { dir: "h", colors: ["#d6d8d7", "#e0e2e1"] };
   const n = f.colors.length;
   return (
     <svg viewBox="0 0 16 12" width={14} height={10} className="shrink-0">

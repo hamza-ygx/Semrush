@@ -78,7 +78,7 @@ function CompareBar() {
     <div className="flex gap-2">
       <div>
         <ScopeSelect />
-        <div className="mt-[8px] flex h-7 w-[174px] items-center gap-[8px] rounded-md border border-[#d3d5db] bg-[#f4f5f9] px-2 text-[14px]">
+        <div className="mt-[8px] flex h-7 w-[174px] items-center gap-[8px] rounded-md border border-[#d4d6d5] bg-[#f5f6f6] px-2 text-[14px]">
           <span className="rounded-full bg-[#e2e3fb] px-[8px] text-[12px] leading-[18px] text-[#5a50c8]">You</span>
           {domain}
         </div>
@@ -86,9 +86,9 @@ function CompareBar() {
       {Array.from({ length: 1 + extra }, (_, i) => (
         <div key={i}>
           <ScopeSelect />
-          <div className="mt-[8px] flex h-7 w-[174px] items-center gap-[8px] rounded-md border border-[#d3d5db] bg-white px-[9px] text-[14px]">
-            <span className={`h-[12px] w-[12px] rounded-full ${["bg-[#c4c7cf]", "bg-[#3ed4a4]", "bg-[#ffb200]", "bg-[#ff6b70]"][i]}`} />
-            <input placeholder="Add competitor" className="w-full bg-transparent outline-none placeholder:text-[#8a8e9b]" />
+          <div className="mt-[8px] flex h-7 w-[174px] items-center gap-[8px] rounded-md border border-[#d4d6d5] bg-white px-[9px] text-[14px]">
+            <span className={`h-[12px] w-[12px] rounded-full ${["bg-[#d6d8d7]", "bg-[#3ed4a4]", "bg-[#ffb200]", "bg-[#ff6b70]"][i]}`} />
+            <input placeholder="Add competitor" className="w-full bg-transparent outline-none placeholder:text-[#8b8d8c]" />
           </div>
         </div>
       ))}
@@ -213,7 +213,7 @@ function AuthorityTrend() {
         gap={16}
         xGap={9}
         bottomH={26}
-        baseColor="#e6e7ec"
+        baseColor="#e7e8e8"
         x={[
           { at: 0.02, label: "Oct 2025" },
           { at: 0.375, label: "Feb 2026" },
@@ -275,7 +275,7 @@ function NetworkGraph() {
         {graph.nodes.map((n, i) => (
           <circle key={i} cx={n.x} cy={n.y} r={n.s} fill="#c4c5c9" />
         ))}
-        <text x={158} y={142} textAnchor="middle" fontSize={13} fontWeight={600} fill="#5652cc" stroke="#fff" strokeWidth={3} paintOrder="stroke">
+        <text x={158} y={142} textAnchor="middle" fontSize={13} fontWeight={600} fill="#5c5cc4" stroke="#fff" strokeWidth={3} paintOrder="stroke">
           {domain}
         </text>
       </svg>

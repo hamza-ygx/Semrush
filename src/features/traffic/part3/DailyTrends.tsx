@@ -49,13 +49,13 @@ function DailyChart({
       {ticks.map((t) => (
         <g key={t}>
           <line x1={x0} x2={width - right} y1={y(t)} y2={y(t)} stroke={t ? "#eceef0" : "#d9dbe0"} />
-          <text x={labelW} y={y(t) + 4} textAnchor="end" fontSize={12} fill="#6c6e79">
+          <text x={labelW} y={y(t) + 4} textAnchor="end" fontSize={12} fill="#6a6c6a">
             {fmtM(t)}
           </text>
         </g>
       ))}
       {labelIdx.map((i, k) => (
-        <text key={i} x={x(i)} y={top + plotH + 22} textAnchor={k === 0 ? "start" : i >= DAYS - 2 ? "end" : "middle"} fontSize={12} fill="#6c6e79">
+        <text key={i} x={x(i)} y={top + plotH + 22} textAnchor={k === 0 ? "start" : i >= DAYS - 2 ? "end" : "middle"} fontSize={12} fill="#6a6c6a">
           {dayLabel(i)}
         </text>
       ))}
@@ -145,7 +145,7 @@ function SmallCard({ c }: { c: Card }) {
       {c.href && (
         <Link
           href={c.href}
-          className="mt-auto inline-flex h-7 items-center self-start rounded-[6px] border border-[#d7d9de] bg-[#f9fafa] px-[8px] text-[14px] leading-5 whitespace-nowrap text-rk-text-2 hover:bg-rk-hover"
+          className="mt-auto inline-flex h-7 items-center self-start rounded-[6px] border border-[#d8dad9] bg-[#f9fafa] px-[8px] text-[14px] leading-5 whitespace-nowrap text-rk-text-2 hover:bg-rk-hover"
         >
           View dashboard
         </Link>

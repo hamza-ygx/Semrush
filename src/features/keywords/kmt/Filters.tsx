@@ -22,7 +22,7 @@ function FilterButton({ label, open, toggle }: { label: string; open: boolean; t
       type="button"
       onClick={toggle}
       aria-expanded={open}
-      className={`flex h-7 items-center gap-[7.5px] rounded-md border bg-white px-2 text-[14px] text-[#a0a2aa] ${open ? "border-[#9ea6f5]" : "border-rk-border hover:border-rk-border-strong"}`}
+      className={`flex h-7 items-center gap-[7.5px] rounded-md border bg-white px-2 text-[14px] text-[#a1a3a2] ${open ? "border-[#9ea6f5]" : "border-rk-border hover:border-rk-border-strong"}`}
     >
       {label}
       <ChevronDownSm />
@@ -141,13 +141,13 @@ function KeywordsFilter({ label, include }: { label: string; include?: boolean }
             </div>
           )}
           <div className={`relative ${include ? "mt-[14px]" : "mt-3"}`}>
-            {!text && <span className="pointer-events-none absolute top-[7px] left-[10px] text-[14px] leading-5 text-[#c4c7cf]">1.</span>}
+            {!text && <span className="pointer-events-none absolute top-[7px] left-[10px] text-[14px] leading-5 text-[#d6d8d7]">1.</span>}
             <textarea
               autoFocus
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder={"Keyword - Broad match\n[Keyword] - Exact match"}
-              className="block h-[104px] w-full resize-none rounded-md border border-rk-border-strong py-[7px] pr-2 pl-[25px] text-[14px] leading-5 outline-none placeholder:text-[#c4c7cf] focus:border-[#8e97de] focus:shadow-[inset_0_0_0_2px_rgba(142,151,222,0.7)]"
+              className="block h-[104px] w-full resize-none rounded-md border border-rk-border-strong py-[7px] pr-2 pl-[25px] text-[14px] leading-5 outline-none placeholder:text-[#d6d8d7] focus:border-[#8e97de] focus:shadow-[inset_0_0_0_2px_rgba(142,151,222,0.7)]"
             />
           </div>
           <div className="mt-5 flex gap-2">
@@ -200,7 +200,7 @@ function AdvancedFilters() {
             <button type="button" onClick={close} className="h-7 rounded-md bg-rk-btn-dark px-2 text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
               Apply
             </button>
-            <button type="button" onClick={close} className="h-7 rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
+            <button type="button" onClick={close} className="h-7 rounded-md border border-rk-border-strong bg-[#f5f6f6] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
               Clear all fields
             </button>
           </div>

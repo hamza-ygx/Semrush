@@ -74,16 +74,16 @@ function FeatureCarousel() {
             type="button"
             aria-label={f.title.join(" ")}
             onClick={() => setActive(f.key)}
-            className={`h-[10px] w-[10px] rounded-full ${f.key === active ? "bg-[#aba8bc]" : "bg-[#e3e3e3] hover:bg-[#c4c7cf]"}`}
+            className={`h-[10px] w-[10px] rounded-full ${f.key === active ? "bg-[#aba8bc]" : "bg-[#e3e3e3] hover:bg-[#d6d8d7]"}`}
           />
         ))}
       </div>
       <div className="relative mt-[33px] flex justify-center">
-        <button type="button" aria-label="Previous" onClick={() => go(-1)} className="absolute top-[231px] left-[7px] text-[#484a54] hover:text-rk-text">
+        <button type="button" aria-label="Previous" onClick={() => go(-1)} className="absolute top-[231px] left-[7px] text-[#484a49] hover:text-rk-text">
           <ChevronLeft width={24} height={24} strokeWidth={1.6} />
         </button>
         <EditorMock kind={active} />
-        <button type="button" aria-label="Next" onClick={() => go(1)} className="absolute top-[231px] right-[9px] text-[#484a54] hover:text-rk-text">
+        <button type="button" aria-label="Next" onClick={() => go(1)} className="absolute top-[231px] right-[9px] text-[#484a49] hover:text-rk-text">
           <ChevronRight width={24} height={24} strokeWidth={1.6} />
         </button>
       </div>
@@ -127,7 +127,7 @@ function AddOns() {
           <button
             key={a}
             type="button"
-            className="flex h-10 items-center gap-[9px] rounded-md border border-[#d3d6d9] bg-[#f3f4f5] px-3 text-[16px] text-[#484a54] hover:bg-[#e7e9eb]"
+            className="flex h-10 items-center gap-[9px] rounded-md border border-[#d3d6d9] bg-[#f3f4f5] px-3 text-[16px] text-[#484a49] hover:bg-[#e7e9eb]"
           >
             {icons[i]}
             {a}
@@ -152,8 +152,8 @@ function Avatar({ i }: { i: number }) {
         </>
       ) : (
         <>
-          <circle cx={37} cy={30} r={12} fill="#a9abb6" />
-          <path d="M14 70c3-14 12-20 23-20s20 6 23 20z" fill="#a9abb6" />
+          <circle cx={37} cy={30} r={12} fill="#a9abaa" />
+          <path d="M14 70c3-14 12-20 23-20s20 6 23 20z" fill="#a9abaa" />
         </>
       )}
     </svg>
@@ -174,13 +174,13 @@ function Trusted() {
     <section className={`${card} flex h-[530px] flex-col items-center px-10 pt-[33px]`}>
       <h2 className="text-[24px] leading-8 font-semibold">Trusted By</h2>
       <div className="mt-[39px] flex items-center gap-[130px]">
-        <button type="button" aria-label="Previous testimonial" onClick={() => setI((i - 1 + n) % n)} className="text-[#6c6e79] hover:text-rk-text">
+        <button type="button" aria-label="Previous testimonial" onClick={() => setI((i - 1 + n) % n)} className="text-[#6a6c6a] hover:text-rk-text">
           <LongArrow dir={-1} />
         </button>
         <span className="text-[14px] font-bold">
           {i + 1} / {n}
         </span>
-        <button type="button" aria-label="Next testimonial" onClick={() => setI((i + 1) % n)} className="text-[#6c6e79] hover:text-rk-text">
+        <button type="button" aria-label="Next testimonial" onClick={() => setI((i + 1) % n)} className="text-[#6a6c6a] hover:text-rk-text">
           <LongArrow dir={1} />
         </button>
       </div>
@@ -189,7 +189,7 @@ function Trusted() {
         <Avatar i={i} />
       </div>
       <div className="mt-[16px] text-[16px] leading-6">{t.name}</div>
-      <div className="text-[16px] leading-6 text-[#6c6e79]">{t.role}</div>
+      <div className="text-[16px] leading-6 text-[#6a6c6a]">{t.role}</div>
     </section>
   );
 }

@@ -71,7 +71,7 @@ function Stat({ label, value, info, chart }: { label: string; value: string; inf
         {label}
         {info && <InfoIcon width={16} height={16} className="text-rk-faint" />}
       </div>
-      <div className="mt-[4px] text-[24px] leading-7 font-bold text-[#5652cc]">{value}</div>
+      <div className="mt-[4px] text-[24px] leading-7 font-bold text-[#5c5cc4]">{value}</div>
       <div className="mt-[5px] pl-[2px]">
         <MiniArea kind={chart} />
       </div>

@@ -437,10 +437,10 @@ export function StrategyBuilder() {
               onClose={() => setTip(false)}
               actions={
                 <>
-                  <button type="button" onClick={() => setTip(false)} className="h-7 rounded-md bg-white px-2 text-[14px] text-rk-text hover:bg-[#f4f5f9]">
+                  <button type="button" onClick={() => setTip(false)} className="h-7 rounded-md bg-white px-2 text-[14px] text-rk-text hover:bg-[#f5f6f6]">
                     Got it
                   </button>
-                  <button type="button" onClick={() => setTip(false)} className="text-[14px] text-[#6c6e79] hover:text-rk-text">
+                  <button type="button" onClick={() => setTip(false)} className="text-[14px] text-[#6a6c6a] hover:text-rk-text">
                     Remind me later
                   </button>
                 </>

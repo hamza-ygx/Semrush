@@ -3,7 +3,7 @@
 import { useToggle } from "./ui";
 
 export const dashedCls =
-  "text-[14px] text-rk-muted underline decoration-[#a9abb6] decoration-dashed decoration-1 underline-offset-[5px] hover:text-rk-text";
+  "text-[14px] text-rk-muted underline decoration-[#a9abaa] decoration-dashed decoration-1 underline-offset-[5px] hover:text-rk-text";
 
 export type FixInfo = { about: string; fix: string };
 

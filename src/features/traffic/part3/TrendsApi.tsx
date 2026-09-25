@@ -26,7 +26,7 @@ import {
 } from "./trendsArt";
 import { trendsFaq } from "./data";
 
-const h2 = "text-center text-[32px] leading-[40px] font-semibold text-[#191b23] tracking-[-0.2px]";
+const h2 = "text-center text-[32px] leading-[40px] font-semibold text-[#1b1e1a] tracking-[-0.2px]";
 
 function ToolCard({ title, sub, icons }: { title: string; sub: string; icons: React.ReactNode }) {
   return (
@@ -192,7 +192,7 @@ export function TrendsApi() {
               const on = open === i;
               return (
                 <div key={f.q} className="rounded-[4px] bg-[#f9f9f9]">
-                  <button type="button" onClick={() => setOpen(on ? -1 : i)} className="flex h-[40px] w-full items-center gap-[8px] pl-[16px] text-left text-[16px] font-semibold text-[#6c6e79] hover:text-rk-text">
+                  <button type="button" onClick={() => setOpen(on ? -1 : i)} className="flex h-[40px] w-full items-center gap-[8px] pl-[16px] text-left text-[16px] font-semibold text-[#6a6c6a] hover:text-rk-text">
                     <ChevronRight width={12} height={12} className={on ? "rotate-90" : ""} strokeWidth={2.4} />
                     {f.q}
                   </button>

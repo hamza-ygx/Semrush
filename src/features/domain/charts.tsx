@@ -67,8 +67,8 @@ export function Plot({
   children,
   overlay,
   labelClass = "text-[12px] leading-4 text-rk-muted",
-  gridColor = "#e6e7ec",
-  baseColor = "#c4c7cf",
+  gridColor = "#e7e8e8",
+  baseColor = "#d6d8d7",
   className = "",
 }: {
   height: number;

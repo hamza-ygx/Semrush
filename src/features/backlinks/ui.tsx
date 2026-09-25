@@ -17,14 +17,14 @@ export const ExtIcon = (p: P) => (
 
 export function ExtLink({ href, className = "" }: { href: string; className?: string }) {
   return (
-    <a href={ext(href)} target="_blank" rel="noreferrer" aria-label="Open in new tab" className={`inline-flex shrink-0 align-[-3px] text-[#a9abb6] hover:text-rk-link ${className}`}>
+    <a href={ext(href)} target="_blank" rel="noreferrer" aria-label="Open in new tab" className={`inline-flex shrink-0 align-[-3px] text-[#a9abaa] hover:text-rk-link ${className}`}>
       <ExtIcon />
     </a>
   );
 }
 
 export const ItalicInfo = () => (
-  <svg viewBox="0 0 10 16" width={10} height={16} className="ml-[6px] shrink-0 text-[#a9abb6]">
+  <svg viewBox="0 0 10 16" width={10} height={16} className="ml-[6px] shrink-0 text-[#a9abaa]">
     <circle cx="6.5" cy="4.6" r="1.1" fill="currentColor" />
     <path d="M4 7.5h2l-1.3 5.2c-.1.5.3.8.7.5l.8-.6" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
   </svg>
@@ -74,7 +74,7 @@ export function CardHead({ title, info, count, right, className = "" }: { title:
     <header className={`flex h-[44px] items-center justify-between border-b border-[#ecedf0] px-5 ${className}`}>
       <h2 className="flex items-center gap-[7px] text-[16px] leading-6 font-bold text-rk-text">
         {title}
-        {count && <span className="-ml-[1px] font-normal text-[#a9abb6]">{count}</span>}
+        {count && <span className="-ml-[1px] font-normal text-[#a9abaa]">{count}</span>}
         {info && <Info className="ml-[2px]" />}
       </h2>
       {right}
@@ -96,7 +96,7 @@ export function ExportBtn({ label = "Export", className = "", menu = true }: { l
       <button
         type="button"
         onClick={() => menu && setOpen(!open)}
-        className={`inline-flex h-7 items-center gap-[7px] rounded-md border border-[#c4c7cf] px-[8px] text-[14px] text-rk-text-2 hover:bg-rk-hover ${open ? "bg-rk-hover" : "bg-[#f4f5f9]"} ${className}`}
+        className={`inline-flex h-7 items-center gap-[7px] rounded-md border border-[#d6d8d7] px-[8px] text-[14px] text-rk-text-2 hover:bg-rk-hover ${open ? "bg-rk-hover" : "bg-[#f5f6f6]"} ${className}`}
       >
         <ExportIcon width={16} height={16} />
         {label}
@@ -130,7 +130,7 @@ export function DarkBtn({ children, href, onClick, className = "" }: { children:
 export type Tone = "gray" | "orange" | "red" | "green" | "404";
 
 const tones: Record<Tone, string> = {
-  gray: "bg-[#ededed] text-[#6c6e79]",
+  gray: "bg-[#ededed] text-[#6a6c6a]",
   orange: "bg-[#fbdcc6] text-[#c24800]",
   red: "bg-[#ffd0d5] text-[#d1002f]",
   green: "bg-[#c9f5e5] text-[#007c65]",
@@ -145,7 +145,7 @@ export function Checkbox({ checked, onChange, color, label, className = "" }: { 
   return (
     <button type="button" role="checkbox" aria-checked={!!checked} onClick={onChange} className={`flex items-center gap-[8px] text-[14px] leading-5 text-rk-text ${className}`}>
       <span
-        className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border ${checked ? "border-transparent" : "border-[#c4c7cf] bg-white"}`}
+        className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border ${checked ? "border-transparent" : "border-[#d6d8d7] bg-white"}`}
         style={checked ? { background: color ?? "#2b6ee6" } : undefined}
       >
         {checked && (
@@ -168,9 +168,9 @@ export function SearchBox({ placeholder, width = 260 }: { placeholder: string; w
         onChange={(e) => setV(e.target.value)}
         placeholder={placeholder}
         style={{ width }}
-        className="h-7 rounded-l-md border border-[#c4c7cf] bg-white px-[8px] text-[14px] outline-none placeholder:text-[#8a8d99] focus:border-[#7a86f2]"
+        className="h-7 rounded-l-md border border-[#d6d8d7] bg-white px-[8px] text-[14px] outline-none placeholder:text-[#8a8d99] focus:border-[#7a86f2]"
       />
-      <button type="submit" aria-label="Search" className="-ml-px flex h-7 w-[27px] items-center justify-center rounded-r-md border border-[#c4c7cf] bg-white text-rk-text-2 hover:bg-rk-bg">
+      <button type="submit" aria-label="Search" className="-ml-px flex h-7 w-[27px] items-center justify-center rounded-r-md border border-[#d6d8d7] bg-white text-rk-text-2 hover:bg-rk-bg">
         <SearchIcon width={16} height={16} />
       </button>
     </form>
@@ -189,7 +189,7 @@ export function Seg<T extends string>({ options, initial }: { options: readonly 
             type="button"
             onClick={() => setV(o)}
             className={`relative h-7 border px-[8px] text-[14px] whitespace-nowrap ${i === 0 ? "rounded-l-md" : "-ml-px"} ${i === options.length - 1 ? "rounded-r-md" : ""} ${
-              on ? "z-10 border-[#8f9cea] bg-[#eef2fd] text-rk-text" : "border-[#c4c7cf] bg-white text-rk-text hover:bg-rk-bg"
+              on ? "z-10 border-[#8f9cea] bg-[#eef2fd] text-rk-text" : "border-[#d6d8d7] bg-white text-rk-text hover:bg-rk-bg"
             }`}
           >
             {o}
@@ -295,7 +295,7 @@ export function FilterSelect({ label, options, defaultOpen = false }: { label: s
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className={`flex h-7 w-[142px] items-center justify-between rounded-md border pr-[6px] pl-[8px] text-[14px] whitespace-nowrap ${val ? "text-rk-text" : "text-[#999ba5]"} ${open ? "border-[#8f9cea] bg-white" : "border-[#c4c7cf] bg-white hover:bg-rk-bg"}`}
+        className={`flex h-7 w-[142px] items-center justify-between rounded-md border pr-[6px] pl-[8px] text-[14px] whitespace-nowrap ${val ? "text-rk-text" : "text-[#999ba5]"} ${open ? "border-[#8f9cea] bg-white" : "border-[#d6d8d7] bg-white hover:bg-rk-bg"}`}
       >
         {val ?? label}
         <Chevron className="text-rk-text" />
@@ -328,17 +328,17 @@ export function Pager({ pages }: { pages: number }) {
   const dis = "border border-[#e4e5e9] bg-[#f7f7f8] text-[#b9bbc4]";
   return (
     <div className="flex items-center gap-[8px] px-5 pt-[15px] pb-[21px] text-[14px]">
-      <button type="button" aria-label="First page" onClick={() => go(1)} disabled={p === 1} className={`flex h-7 w-7 items-center justify-center rounded-md ${p === 1 ? dis : "border border-[#c4c7cf] bg-white text-rk-text-2"}`}>
+      <button type="button" aria-label="First page" onClick={() => go(1)} disabled={p === 1} className={`flex h-7 w-7 items-center justify-center rounded-md ${p === 1 ? dis : "border border-[#d6d8d7] bg-white text-rk-text-2"}`}>
         <ChevronsLeft width={16} height={16} />
       </button>
-      <button type="button" onClick={() => go(p - 1)} disabled={p === 1} className={`h-7 rounded-md px-[7px] ${p === 1 ? dis : "border border-[#c4c7cf] bg-white text-rk-text-2"}`}>
+      <button type="button" onClick={() => go(p - 1)} disabled={p === 1} className={`h-7 rounded-md px-[7px] ${p === 1 ? dis : "border border-[#d6d8d7] bg-white text-rk-text-2"}`}>
         Prev
       </button>
       <button
         type="button"
         onClick={() => go(p + 1)}
         disabled={p === pages}
-        className={`h-7 rounded-md px-[9px] font-semibold text-white ${p === pages ? "bg-[#a9abb6]" : "bg-rk-btn-dark hover:bg-[#2b2e38]"}`}
+        className={`h-7 rounded-md px-[9px] font-semibold text-white ${p === pages ? "bg-[#a9abaa]" : "bg-rk-btn-dark hover:bg-[#2b2e38]"}`}
       >
         Next
       </button>
@@ -347,7 +347,7 @@ export function Pager({ pages }: { pages: number }) {
         value={p}
         disabled={single}
         onChange={(e) => go(+e.target.value || 1)}
-        className={`-ml-[2px] h-7 w-[68px] rounded-md border px-[8px] outline-none ${single ? "border-[#e4e5e9] bg-white text-[#b9bbc4]" : "border-[#c4c7cf] text-rk-text"}`}
+        className={`-ml-[2px] h-7 w-[68px] rounded-md border px-[8px] outline-none ${single ? "border-[#e4e5e9] bg-white text-[#b9bbc4]" : "border-[#d6d8d7] text-rk-text"}`}
       />
       <span>
         of{" "}

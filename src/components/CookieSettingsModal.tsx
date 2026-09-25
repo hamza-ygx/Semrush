@@ -28,7 +28,7 @@ function Toggle({ on, locked, onChange }: { on: boolean; locked?: boolean; onCha
       aria-checked={on}
       disabled={locked}
       onClick={onChange}
-      className={`flex h-5 w-9 shrink-0 items-center rounded-full p-[2px] ${on ? (locked ? "justify-end bg-[#dabcff]" : "justify-end bg-[#b580ff]") : "justify-start bg-[#c4c7cf]"}`}
+      className={`flex h-5 w-9 shrink-0 items-center rounded-full p-[2px] ${on ? (locked ? "justify-end bg-[#dabcff]" : "justify-end bg-[#b580ff]") : "justify-start bg-[#d6d8d7]"}`}
     >
       <span className="h-4 w-4 rounded-full bg-white" />
     </button>

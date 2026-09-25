@@ -50,7 +50,7 @@ export function FilterBar({
       {box && (
         <div
           style={{ left: box.left, width: box.width }}
-          className="fixed top-0 z-40 bg-[#f4f5f9] px-8 py-[9px] shadow-[0_2px_4px_rgba(25,27,35,0.08),0_1px_0_rgba(25,27,35,0.04)]"
+          className="fixed top-0 z-40 bg-[#f5f6f6] px-8 py-[9px] shadow-[0_2px_4px_rgba(25,27,35,0.08),0_1px_0_rgba(25,27,35,0.04)]"
         >
           <div className="flex items-start justify-between gap-2">
             <div style={{ maxWidth: maxWidth[1] }} className="flex flex-wrap items-center gap-2">

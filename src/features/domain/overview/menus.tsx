@@ -60,14 +60,14 @@ export function NotesMenu() {
               <PlusIcon />
               Compose note
             </button>
-            <button type="button" disabled className="ml-[25px] h-7 shrink-0 rounded-md border whitespace-nowrap border-[#e0e1e9] bg-[#f7f7f9] px-[8px] text-[14px] text-[#a9abb6]">
+            <button type="button" disabled className="ml-[25px] h-7 shrink-0 rounded-md border whitespace-nowrap border-[#e0e2e1] bg-[#f7f7f9] px-[8px] text-[14px] text-[#a9abaa]">
               View all
             </button>
             <button
               type="button"
               aria-label={visible ? "Hide notes" : "Show notes"}
               onClick={() => setVisible(!visible)}
-              className="ml-[9px] flex h-7 w-[33px] items-center justify-center rounded-md border border-rk-border-strong bg-[#f4f5f9] text-rk-text-2 hover:bg-rk-hover"
+              className="ml-[9px] flex h-7 w-[33px] items-center justify-center rounded-md border border-rk-border-strong bg-[#f5f6f6] text-rk-text-2 hover:bg-rk-hover"
             >
               <svg viewBox="0 0 16 16" width={16} height={16}>
                 <path d="M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8z" fill="none" stroke="currentColor" strokeWidth={1.4} />
@@ -89,7 +89,7 @@ export function ExportDropdown() {
         type="button"
         data-testid="trends-export"
         onClick={() => setOpen(!open)}
-        className={`inline-flex h-7 items-center gap-[7px] rounded-md border border-[#d3d5db] px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-hover ${open ? "bg-rk-hover" : "bg-[#f7f8f9]"}`}
+        className={`inline-flex h-7 items-center gap-[7px] rounded-md border border-[#d4d6d5] px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-hover ${open ? "bg-rk-hover" : "bg-[#f7f8f9]"}`}
       >
         <ExportIcon width={16} height={16} />
         Export

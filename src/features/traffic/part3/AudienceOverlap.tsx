@@ -44,7 +44,7 @@ function Pair({ base, other }: { base: number; other: number }) {
   return (
     <div className="w-[590px] shrink-0">
       <Venn a={base} b={other} ra={ra} rb={rb} d={v.d} />
-      <div className="mt-[12px] flex flex-col gap-[9px] border-b border-[#c4c7cf] pb-[13px] text-[14px]">
+      <div className="mt-[12px] flex flex-col gap-[9px] border-b border-[#d6d8d7] pb-[13px] text-[14px]">
         {[
           [base, av],
           [other, bv],
@@ -136,7 +136,7 @@ export function AudienceOverlap() {
               </tr>
             </thead>
             <tbody>
-              <tr className="h-[46px] border-b border-[#e0e1e9]">
+              <tr className="h-[46px] border-b border-[#e0e2e1]">
                 <td className="pl-[12px]">
                   <span className="flex gap-[4px]">
                     {[base, ...others].map((i) => (
@@ -169,7 +169,7 @@ export function AudienceOverlap() {
               <Popover
                 trigger={({ toggle }) => (
                   <OutlineButton onClick={toggle} className="bg-white">
-                    <span className="relative h-[14px] w-[22px] rounded-full border border-[#c4c7cf] bg-[#e0e1e9]">
+                    <span className="relative h-[14px] w-[22px] rounded-full border border-[#d6d8d7] bg-[#e0e2e1]">
                       <span className="absolute top-[1px] left-[1px] h-[10px] w-[10px] rounded-full bg-white" />
                     </span>
                     Of
@@ -211,7 +211,7 @@ export function AudienceOverlap() {
               </Popover>
             </div>
             <div className="mt-[11px] flex items-center gap-[8px] text-[14px]">
-              <label className="flex h-[30px] w-[224px] items-center gap-[8px] rounded-[6px] border border-[#c4c7cf] bg-white px-[8px]">
+              <label className="flex h-[30px] w-[224px] items-center gap-[8px] rounded-[6px] border border-[#d6d8d7] bg-white px-[8px]">
                 <SearchIcon className="text-rk-faint" />
                 <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Filter by domain" className="min-w-0 flex-1 bg-transparent outline-none placeholder:text-rk-faint" />
               </label>
@@ -254,7 +254,7 @@ export function AudienceOverlap() {
             </thead>
             <tbody>
               {rows.map((r) => (
-                <tr key={r.domain} className="h-[45px] border-b border-[#e0e1e9]">
+                <tr key={r.domain} className="h-[45px] border-b border-[#e0e2e1]">
                   <td className="pl-[12px]">
                     <a href={`https://${r.domain}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-[4px] hover:text-rk-link">
                       {r.domain}
@@ -287,17 +287,17 @@ export function AudienceOverlap() {
             </tbody>
           </table>
           <div className="mt-[20px] flex items-center gap-[8px] px-5 text-[14px]">
-            <button type="button" aria-label="First page" disabled={page === 1} onClick={() => setPage(1)} className="flex h-7 w-7 items-center justify-center rounded-[6px] border border-[#e0e1e9] text-rk-faint">
+            <button type="button" aria-label="First page" disabled={page === 1} onClick={() => setPage(1)} className="flex h-7 w-7 items-center justify-center rounded-[6px] border border-[#e0e2e1] text-rk-faint">
               <ChevronsLeft width={14} height={14} />
             </button>
-            <button type="button" disabled={page === 1} onClick={() => setPage((p) => Math.max(1, p - 1))} className="h-7 rounded-[6px] border border-[#e0e1e9] px-[8px] text-rk-faint enabled:text-rk-text">
+            <button type="button" disabled={page === 1} onClick={() => setPage((p) => Math.max(1, p - 1))} className="h-7 rounded-[6px] border border-[#e0e2e1] px-[8px] text-rk-faint enabled:text-rk-text">
               Prev
             </button>
             <button type="button" onClick={() => setPage((p) => Math.min(10, p + 1))} className="h-7 rounded-[6px] bg-rk-btn-dark px-[9px] font-semibold text-white hover:bg-[#2b2e38]">
               Next
             </button>
             <span className="ml-[8px]">Page:</span>
-            <input aria-label="Page" value={page} onChange={(e) => setPage(Math.min(10, Math.max(1, +e.target.value || 1)))} className="h-7 w-[68px] rounded-[6px] border border-[#c4c7cf] px-[8px] outline-none" />
+            <input aria-label="Page" value={page} onChange={(e) => setPage(Math.min(10, Math.max(1, +e.target.value || 1)))} className="h-7 w-[68px] rounded-[6px] border border-[#d6d8d7] px-[8px] outline-none" />
             <span className="ml-[1px]">
               of{" "}
               <button type="button" onClick={() => setPage(10)} className="text-rk-link">

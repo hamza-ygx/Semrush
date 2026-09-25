@@ -33,8 +33,8 @@ export function QuestionCircle({ className = "" }: { className?: string }) {
 export function AiRefreshIcon({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 18 18" width={18} height={18} className={className} aria-hidden>
-      <path d="M13.8 10.5A5.6 5.6 0 1 1 8.7 3.2M4.2 14.2l-1.5 1.6.2-2.6" fill="none" stroke="#2359d6" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M14 2.2l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6z" fill="#2359d6" />
+      <path d="M13.8 10.5A5.6 5.6 0 1 1 8.7 3.2M4.2 14.2l-1.5 1.6.2-2.6" fill="none" stroke="#235fe2" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M14 2.2l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6z" fill="#235fe2" />
     </svg>
   );
 }
@@ -92,7 +92,7 @@ export function ColorCheck({ color, checked = true, onClick, label }: { color: s
       aria-label={label}
       onClick={onClick}
       className="flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border"
-      style={checked ? { background: color, borderColor: color } : { background: "#fff", borderColor: "#c4c7cf" }}
+      style={checked ? { background: color, borderColor: color } : { background: "#fff", borderColor: "#d6d8d7" }}
     >
       {checked && (
         <svg viewBox="0 0 16 16" width={12} height={12} aria-hidden>

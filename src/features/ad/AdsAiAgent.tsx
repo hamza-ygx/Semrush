@@ -41,7 +41,7 @@ export function AdsAiAgent() {
           <span>Ads AI Agent</span>
         </nav>
         <h1 className="mt-[9px] text-[20px] leading-7 font-medium">
-          Ads AI Agent: <span className="text-[#6c6e79]">Google account not connected</span>
+          Ads AI Agent: <span className="text-[#6a6c6a]">Google account not connected</span>
         </h1>
         <div className="relative mt-[19px] h-[498px] rounded-lg bg-white px-8 pt-8 shadow-card">
           <div className="rounded-lg border border-[#f6dede] bg-[#ffefee] px-6 pt-[18px] pb-[18px] text-[14px] leading-5">
@@ -64,7 +64,7 @@ export function AdsAiAgent() {
             <Sparkle />
             <h2 className="text-[28px] leading-9 font-medium">Welcome to Ads AI Agent</h2>
           </div>
-          <p className="mt-[16px] text-center text-[14px] leading-5 text-[#6c6e79]">To get started, connect your Google account.</p>
+          <p className="mt-[16px] text-center text-[14px] leading-5 text-[#6a6c6a]">To get started, connect your Google account.</p>
           <div className="mt-[17px] flex justify-center">
             <button type="button" onClick={() => setModal(true)} className="h-[34px] rounded-md px-[9px] text-[16px] font-semibold text-white hover:brightness-110" style={{ background: P }}>
               Connect
@@ -92,7 +92,7 @@ export function AdsAiAgent() {
             setModal(true);
           }}
         >
-          <input value={msg} onChange={(e) => setMsg(e.target.value)} placeholder="Describe what you need" className="h-full flex-1 bg-transparent text-[16px] outline-none placeholder:text-[#8a8e9b]" />
+          <input value={msg} onChange={(e) => setMsg(e.target.value)} placeholder="Describe what you need" className="h-full flex-1 bg-transparent text-[16px] outline-none placeholder:text-[#8b8d8c]" />
           <button type="submit" aria-label="Send" className="text-[#aea1cc] hover:text-[#6f4bfc]">
             <svg viewBox="0 0 20 20" width={20} height={20}>
               <path d="M3 9.5 17 3l-5 14-2.5-5.5zM9.5 11.5 17 3" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinejoin="round" />

@@ -66,7 +66,7 @@ export function CompetitorsView() {
           <h2 className="text-[16px] leading-6 font-semibold">
             Organic Competitors <span className="font-normal text-rk-muted">249</span>
           </h2>
-          <button type="button" className="flex h-[26px] items-center gap-[6px] rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
+          <button type="button" className="flex h-[26px] items-center gap-[6px] rounded-md border border-rk-border-strong bg-[#f5f6f6] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
             <ExportIcon />
             Export
           </button>
@@ -109,7 +109,7 @@ export function CompetitorsView() {
                 </td>
                 <td className="pl-2">
                   <span className="flex items-center gap-[10px]">
-                    <span className="h-[7px] w-[107px] rounded-full bg-[#eceef2]">
+                    <span className="h-[7px] w-[107px] rounded-full bg-[#edefef]">
                       <span className="block h-full rounded-full bg-[#6167e6]" style={{ width: `${c.level}%` }} />
                     </span>
                     <span className="w-[27px] text-right text-[13px] text-rk-text-2">{c.level}%</span>

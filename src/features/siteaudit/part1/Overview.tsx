@@ -55,9 +55,9 @@ function SegGauge({ value, marker, color, children }: { value: number; marker: n
 
 function CardTitle({ children, extra }: { children: ReactNode; extra?: ReactNode }) {
   return (
-    <div className="flex items-center gap-[6px] text-[16px] leading-6 font-semibold text-rk-text">
+    <div className="flex items-center gap-[6px] text-[16px] leading-6 font-bold text-rk-text">
       {children}
-      <Info className="text-[#a9abb6]" />
+      <Info className="text-[#a9abaa]" />
       {extra}
     </div>
   );
@@ -249,14 +249,14 @@ function AiCard() {
   return (
     <div className="flex min-h-[277px] rounded-lg bg-white shadow-card">
       <div className="flex w-1/2 shrink-0 flex-col border-r border-rk-border px-5 pt-[11px] pb-[20px]">
-        <CardTitle extra={<span className="rounded-full bg-[#f26b1d] px-[5px] text-[11px] leading-[15px] font-semibold text-white">beta</span>}>AI Search Health</CardTitle>
+        <CardTitle extra={<span className="rounded-[6px] bg-[#e65a00] px-1 text-[10px] leading-[14px] font-medium text-white">beta</span>}>AI Search Health</CardTitle>
         <div className="mt-[30px]">
           <SegGauge value={91} marker={80} color="#3ae0b2">
             <span className="text-[24px] leading-7 font-bold text-[#009f81]">91%</span>
             <span className="text-[12px] leading-4 text-rk-muted">no changes</span>
           </SegGauge>
         </div>
-        <div className="mt-[23px] rounded-md bg-[#f4f5f9] px-3 py-[8px] text-[12px] leading-4 text-rk-text">Website is better optimized for AI search engines</div>
+        <div className="mt-[23px] rounded-md bg-[#f5f6f6] px-3 py-[8px] text-[12px] leading-4 text-rk-text">Website is better optimized for AI search engines</div>
         <div className="mt-auto flex items-center justify-between">
           <HowItWorks />
           <Link href={c.issues} className="text-[14px] text-rk-link hover:text-rk-link-hover">
@@ -286,7 +286,7 @@ function MiniChart() {
     <div className="relative mt-[17px] ml-[2px] h-[45px] text-[12px] text-rk-muted">
       <span className="absolute top-[-8px] left-[2px]">1</span>
       <span className="absolute top-[26px] left-[2px]">0</span>
-      <div className="absolute top-[1px] right-[21px] left-[26px] h-px bg-[#eceef2]" />
+      <div className="absolute top-[1px] right-[21px] left-[26px] h-px bg-[#edefef]" />
       <div className="absolute top-[34px] right-[21px] left-[26px] h-px bg-[#d9dbe1]" />
     </div>
   );
@@ -329,7 +329,7 @@ function IssuesCard() {
           </div>
         ))}
       </div>
-      <Link href={c.issues} className="mt-4 flex h-[30px] items-center justify-center gap-2 rounded-md border border-rk-border bg-[#eceef2] text-[14px] text-rk-text-2 hover:bg-rk-hover">
+      <Link href={c.issues} className="mt-4 flex h-[30px] items-center justify-center gap-2 rounded-md border border-rk-border bg-[#edefef] text-[14px] text-rk-text-2 hover:bg-rk-hover">
         View all issues
         <ArrowRightIcon />
       </Link>
@@ -342,13 +342,13 @@ function Ring({ v }: { v: number }) {
   const C = 2 * Math.PI * r;
   return (
     <svg width={24} height={24} viewBox="0 0 24 24" className="shrink-0 -rotate-90">
-      <circle cx="12" cy="12" r={r} fill="none" stroke="#eceef2" strokeWidth={4} />
+      <circle cx="12" cy="12" r={r} fill="none" stroke="#edefef" strokeWidth={4} />
       <circle cx="12" cy="12" r={r} fill="none" stroke="#6167e6" strokeWidth={4} strokeDasharray={`${((v / 100) * C).toFixed(2)} ${C.toFixed(2)}`} />
     </svg>
   );
 }
 
-const tileBtn = "inline-flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover";
+const tileBtn = "inline-flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f5f6f6] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover";
 
 function Thematic() {
   return (
@@ -359,7 +359,7 @@ function Thematic() {
           <div key={t.key} className="h-[137px] rounded-lg border border-rk-border px-5 pt-[19px]">
             <div className="flex items-center gap-2 text-[14px] leading-5">
               {t.label}
-              {t.key === "robots" && <Info className="text-[#a9abb6]" />}
+              {t.key === "robots" && <Info className="text-[#a9abaa]" />}
             </div>
             {"v" in t ? (
               <>
@@ -400,7 +400,7 @@ function BrandPresence() {
           </svg>
         </span>
         <span className="text-[16px] font-semibold">Brand Presence in AI Platforms</span>
-        <span className="h-4 w-px bg-[#c4c7cf]" />
+        <span className="h-4 w-px bg-[#d6d8d7]" />
         <span className="text-[14px] text-rk-muted">
           Domain: <span className="blur-[3px] select-none">rkjh</span>
         </span>
@@ -426,7 +426,7 @@ function BrandPresence() {
           <div>Top Query Intent</div>
           <div className="mt-[7px] flex gap-[4px]">
             {["Research", "Comparison", "Purchase", "..."].map((q) => (
-              <span key={q} className="flex h-[26px] items-center rounded-full bg-[#e6e7ec] px-2 text-[14px] text-rk-text-2">
+              <span key={q} className="flex h-[26px] items-center rounded-full bg-[#e7e8e8] px-2 text-[14px] text-rk-text-2">
                 {q}
               </span>
             ))}

@@ -26,7 +26,7 @@ export function ReportTitle({ label }: { label: string }) {
       {label}:
       <span className="-ml-[2px] flex items-center gap-[3px] text-rk-muted">
         {domain}
-        <ExtLink href={`https://${domain}`} className="text-[#a9abb6]" />
+        <ExtLink href={`https://${domain}`} className="text-[#a9abaa]" />
       </span>
     </>
   );

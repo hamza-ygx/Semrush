@@ -172,7 +172,7 @@ function ChartsCard() {
           render={(v) => (
             <>
               {v}
-              {v === "Backlinks" && <WorldIcon className="text-[#a9abb6]" />}
+              {v === "Backlinks" && <WorldIcon className="text-[#a9abaa]" />}
             </>
           )}
         />

@@ -124,7 +124,7 @@ export function AiSearchWidget({ onClose }: { onClose: () => void }) {
 function AsGauge() {
   return (
     <svg viewBox="0 0 24 24" width={24} height={24} className="shrink-0">
-      <circle cx="12" cy="12" r="11.5" fill="#fff" stroke="#e0e1e9" />
+      <circle cx="12" cy="12" r="11.5" fill="#fff" stroke="#e0e2e1" />
       <path d="M12.6 6.5 11.6 21.5" stroke="#ff8c00" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );

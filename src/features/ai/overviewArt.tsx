@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 const T = { fontFamily: "inherit" };
-const muted = "#8a8e9b";
+const muted = "#8b8d8c";
 const head = "#555a64";
 const sk = "#e6e7eb";
 
@@ -216,7 +216,7 @@ export function PromptCard({ className = "" }: { className?: string }) {
           {t}
         </Label>
       ))}
-      <path d="M25 263.5h380" stroke="#eceef2" />
+      <path d="M25 263.5h380" stroke="#edefef" />
       {[280, 323, 367].map((y, i) => (
         <g key={y}>
           <Pill x={25} y={y} w={68} />
@@ -288,7 +288,7 @@ export function CompetitorCard({ className = "" }: { className?: string }) {
           {t}
         </Label>
       ))}
-      <path d="M25 336.5h380" stroke="#eceef2" />
+      <path d="M25 336.5h380" stroke="#edefef" />
       <rect x={106} y={384} width={48} height={26} fill="#d6fbef" />
       {[352, 390].map((y, i) => (
         <g key={y}>
@@ -316,7 +316,7 @@ function Area({ x, w, color, fill, d }: { x: number; w: number; color: string; f
     <g transform={`translate(${x} 367)`}>
       <path d={`${d}V38H0z`} fill={fill} />
       <path d={d} fill="none" stroke={color} strokeWidth={1.4} />
-      <path d={`M0 38h${w}`} stroke="#eceef2" />
+      <path d={`M0 38h${w}`} stroke="#edefef" />
     </g>
   );
 }
@@ -503,7 +503,7 @@ export function Ga4Card({ className = "" }: { className?: string }) {
           </Label>
         </g>
       ))}
-      <path d="M175 194.5h230" stroke="#eceef2" />
+      <path d="M175 194.5h230" stroke="#edefef" />
       <Label x={175} y={208} size={10}>
         Total
       </Label>

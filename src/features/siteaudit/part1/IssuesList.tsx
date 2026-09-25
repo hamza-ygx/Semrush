@@ -91,7 +91,7 @@ function HowToFix({ issue }: { issue: Issue }) {
         type="button"
         onClick={toggle}
         data-howto={issue.id}
-        className="text-[14px] text-rk-muted underline decoration-[#a9abb6] decoration-dashed decoration-1 underline-offset-[5px] hover:text-rk-text"
+        className="text-[14px] text-rk-muted underline decoration-[#a9abaa] decoration-dashed decoration-1 underline-offset-[5px] hover:text-rk-text"
       >
         How to fix
       </button>
@@ -147,7 +147,7 @@ export function SendTo({ className = "", label = "Send to..." }: { className?: s
         type="button"
         onClick={toggle}
         data-sendto
-        className={`flex h-7 items-center gap-2 rounded-md border border-rk-border-strong px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover ${open ? "bg-rk-hover" : "bg-[#f4f5f9]"}`}
+        className={`flex h-7 items-center gap-2 rounded-md border border-rk-border-strong px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover ${open ? "bg-rk-hover" : "bg-[#f5f6f6]"}`}
       >
         <SendIcon />
         {label}
@@ -183,7 +183,7 @@ export function EyeButton() {
         type="button"
         aria-label="Hide issue"
         onClick={() => setOn(!on)}
-        className={`flex h-[26px] w-[26px] items-center justify-center rounded-md border border-rk-border-strong text-rk-text-2 outline-none hover:bg-rk-hover focus-visible:border-[#8e92ec] focus-visible:bg-rk-hover focus-visible:shadow-[0_0_0_1px_#8e92ec] ${on ? "bg-rk-hover" : "bg-[#f4f5f9]"}`}
+        className={`flex h-[26px] w-[26px] items-center justify-center rounded-md border border-rk-border-strong text-rk-text-2 outline-none hover:bg-rk-hover focus-visible:border-[#8e92ec] focus-visible:bg-rk-hover focus-visible:shadow-[0_0_0_1px_#8e92ec] ${on ? "bg-rk-hover" : "bg-[#f5f6f6]"}`}
       >
         <EyeIcon />
       </button>
@@ -234,7 +234,7 @@ export function IssuesList() {
       <div className="sticky top-0 z-30 -mx-8 bg-rk-bg px-8 pt-[15px] pb-[13px] after:absolute after:inset-x-0 after:top-full after:h-[4px] after:bg-rk-bg">
         <div className="-ml-[9px] flex flex-wrap items-center gap-y-[9px]">
           <label className="ml-[9px] flex h-7 w-[196px] items-center max-xl:w-[200px] gap-[6px] rounded-md border border-rk-border-strong bg-white px-2 focus-within:border-[#8e92ec]">
-            <SearchIcon width={15} height={15} className="text-[#8a8e9b]" />
+            <SearchIcon width={15} height={15} className="text-[#8b8d8c]" />
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search" className="min-w-0 flex-1 text-[14px] outline-none placeholder:text-rk-muted" />
           </label>
           <div className="ml-[8px] flex">
@@ -283,7 +283,7 @@ export function IssuesList() {
                 <div className="flex h-[44px] items-center pr-5 pl-5">
                   <span className="text-[16px] font-semibold">{s.label}</span>
                   <span className="ml-[5px] text-[16px] text-rk-muted">({rows.length})</span>
-                  <Info className="ml-[6px] text-[#a9abb6]" />
+                  <Info className="ml-[6px] text-[#a9abaa]" />
                   <span className="mr-[160px] ml-auto">
                     <TrendBlob />
                   </span>

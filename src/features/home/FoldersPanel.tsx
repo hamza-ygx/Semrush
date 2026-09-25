@@ -19,7 +19,7 @@ const trendColor = {
 function Gauge() {
   return (
     <svg viewBox="0 0 34 20" width={34} height={20} className="ml-[10px]">
-      <path d="M4 17a13 13 0 0 1 26 0" fill="none" stroke="#e0e1e9" strokeWidth={4} strokeLinecap="round" />
+      <path d="M4 17a13 13 0 0 1 26 0" fill="none" stroke="#e0e2e1" strokeWidth={4} strokeLinecap="round" />
       <circle cx="4" cy="17" r="2.6" fill="#fdc23c" />
     </svg>
   );
@@ -50,11 +50,11 @@ export function FoldersPanel() {
       <div className="flex h-[56px] items-center justify-between border-b border-rk-border px-5">
         <h2 className="text-[16px] font-bold">Folders</h2>
         <div className="flex gap-2">
-          <button type="button" onClick={() => setSharing(true)} className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-white px-2 text-[14px] text-rk-text-2 hover:bg-rk-bg">
+          <button type="button" onClick={() => setSharing(true)} className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f8f9f9] px-2 text-[14px] font-medium text-rk-muted hover:bg-rk-bg">
             <ShareUserIcon />
             Share
           </button>
-          <button type="button" onClick={() => setCreating(true)} className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-white px-2 pr-[10px] text-[14px] text-rk-text-2 hover:bg-rk-bg">
+          <button type="button" onClick={() => setCreating(true)} className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f8f9f9] px-2 pr-[10px] text-[14px] font-medium text-rk-muted hover:bg-rk-bg">
             <PlusIcon />
             Create Folder
           </button>

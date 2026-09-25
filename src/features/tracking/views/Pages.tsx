@@ -16,10 +16,10 @@ const groups = [
 function PagesTable() {
   return (
     <Panel title="Pages" count="0 (0)" headerClassName="h-[41px]" divider={false} className="mt-[15px] h-[379px]">
-      <div className="flex h-[82px] border-y border-[#eceef2] bg-[#f7f8f9] text-[12px] leading-4 text-rk-text">
+      <div className="flex h-[82px] border-y border-[#edefef] bg-[#f7f8f9] text-[12px] leading-4 text-rk-text">
         <div className="flex-1 pt-[12px] pl-[52px]">URL</div>
         {groups.map((g, gi) => (
-          <div key={g.label} style={{ width: g.w }} className={`flex shrink-0 flex-col border-l border-[#eceef2] ${g.sorted ? "bg-[#eceded]" : ""}`}>
+          <div key={g.label} style={{ width: g.w }} className={`flex shrink-0 flex-col border-l border-[#edefef] ${g.sorted ? "bg-[#eceded]" : ""}`}>
             <div className="h-[41px] pt-[12px] text-center whitespace-nowrap">{g.label}</div>
             {g.sub && (
               <div className="flex h-[41px] items-center">

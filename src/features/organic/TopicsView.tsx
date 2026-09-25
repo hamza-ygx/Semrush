@@ -61,7 +61,7 @@ function TileView({ tile, selected, onSelect }: { tile: Tile; selected: boolean;
         width: pct(w),
         height: h,
         background: selected ? "linear-gradient(90deg, #4999fe 0%, #6d92fe 45%, #a583ff 100%)" : tile.color ?? "#ddd5fe",
-        color: selected ? "#fff" : "#191b23",
+        color: selected ? "#fff" : "#1b1e1a",
       }}
     >
       {showName && <span className={`block truncate text-[14px] leading-4 font-semibold ${w < 100 ? "-mx-[1px]" : ""}`}>{tile.name}</span>}
@@ -126,7 +126,7 @@ function HowItWorks() {
       </button>
       {open && (
         <div className="absolute top-[calc(100%+5px)] right-0 z-50 w-[342px] rounded-md bg-white pt-[16px] pr-4 pb-[16px] pl-4 text-[14px] leading-5 text-rk-text shadow-popover">
-          <ul className="flex list-disc flex-col gap-2 pl-[16px] marker:text-[#6c6e79]">
+          <ul className="flex list-disc flex-col gap-2 pl-[16px] marker:text-[#6a6c6a]">
             <li>{brand.name} is looking for domain&apos;s well-performing and non-branded content.</li>
             <li>AI evaluates this data and categorizes keywords into topics.</li>
             <li>As a result, you get a list of key topics and related pages.</li>
@@ -269,7 +269,7 @@ export function TopicsView({ initial = "redovisningsbyrå halmstad" }: { initial
               rkjh.se
               <span className="mx-[9px] h-4 w-px bg-rk-border" />
               {loading ? (
-                <span className="ml-[4px] h-[11px] w-[125px] rounded-full bg-[#e0e1e9]" />
+                <span className="ml-[4px] h-[11px] w-[125px] rounded-full bg-[#e0e2e1]" />
               ) : (
                 <>
                   Aug 2026
@@ -280,7 +280,7 @@ export function TopicsView({ initial = "redovisningsbyrå halmstad" }: { initial
           </div>
           <div className="flex items-center gap-[9px] -mt-[2px]">
             <HowItWorks />
-            <button type="button" className="flex h-7 items-center gap-[6px] rounded-md border border-rk-border-strong bg-[#f4f5f9] px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-hover">
+            <button type="button" className="flex h-7 items-center gap-[6px] rounded-md border border-rk-border-strong bg-[#f5f6f6] px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-hover">
               <svg viewBox="0 0 16 16" width={14} height={14}>
                 <path d="M9.4 7 14 1.8h-1.1l-4 4.5-3.2-4.5H2l4.8 6.9L2 14.2h1.1l4.2-4.8 3.4 4.8h3.7zm-1.5 1.7-.5-.7L3.5 2.6h1.7l3.1 4.4.5.7 4.1 5.8h-1.7z" fill="currentColor" />
               </svg>
@@ -289,7 +289,7 @@ export function TopicsView({ initial = "redovisningsbyrå halmstad" }: { initial
             <button
               type="button"
               disabled={loading}
-              className={`flex h-7 items-center gap-[6px] rounded-md border px-[9px] text-[14px] ${loading ? "border-rk-border bg-[#f7f7f9] text-[#b9bbc4]" : "border-rk-border-strong bg-[#f4f5f9] text-rk-text-2 hover:bg-rk-hover"}`}
+              className={`flex h-7 items-center gap-[6px] rounded-md border px-[9px] text-[14px] ${loading ? "border-rk-border bg-[#f7f7f9] text-[#b9bbc4]" : "border-rk-border-strong bg-[#f5f6f6] text-rk-text-2 hover:bg-rk-hover"}`}
             >
               <ExportIcon />
               Export to XLSX

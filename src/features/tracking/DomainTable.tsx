@@ -7,7 +7,7 @@ export type DomainCol = { label: ReactNode; w: number; sorted?: boolean; value?:
 export function DomainTable({ title, count, cols, domain = "www.rkjh.se", className = "" }: { title: string; count?: string; cols: DomainCol[]; domain?: string; className?: string }) {
   return (
     <Panel title={title} count={count} headerClassName="h-[40px]" divider={false} className={className}>
-      <div className="flex h-[41px] border-y border-[#eceef2] bg-[#f7f8f9] text-[12px] leading-4 text-rk-text">
+      <div className="flex h-[41px] border-y border-[#edefef] bg-[#f7f8f9] text-[12px] leading-4 text-rk-text">
         <div className="flex flex-1 items-center pl-5">Domain</div>
         {cols.map((c, i) => (
           <div
@@ -27,7 +27,7 @@ export function DomainTable({ title, count, cols, domain = "www.rkjh.se", classN
         {cols.map((c, i) => (
           <div key={i} style={{ width: c.w }} className={`flex shrink-0 items-center justify-end gap-[16px] ${i === cols.length - 1 ? "pr-[19.5px]" : "pr-[7.5px]"}`}>
             {c.value ?? "0"}
-            {c.bar && <span className="h-[7px] w-[80px] shrink-0 rounded-full bg-[#e0e1e9]" />}
+            {c.bar && <span className="h-[7px] w-[80px] shrink-0 rounded-full bg-[#e0e2e1]" />}
           </div>
         ))}
       </div>

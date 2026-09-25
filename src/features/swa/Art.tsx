@@ -82,7 +82,7 @@ export function FeatureArt({ kind, active }: { kind: FeatureKey; active: boolean
 }
 
 const Tb = ({ children }: { children: ReactNode }) => (
-  <span className="flex h-[22px] items-center gap-[10px] rounded-[4px] bg-white px-[8px] text-[13px] text-[#484a54] shadow-[0_0_1px_rgba(0,0,0,0.3)]">{children}</span>
+  <span className="flex h-[22px] items-center gap-[10px] rounded-[4px] bg-white px-[8px] text-[13px] text-[#484a49] shadow-[0_0_1px_rgba(0,0,0,0.3)]">{children}</span>
 );
 
 const Hl = ({ children }: { children: ReactNode }) => <span className="bg-[#c9f3e6]">{children}</span>;
@@ -91,7 +91,7 @@ function Chip({ children, on, clip }: { children: ReactNode; on?: boolean; clip?
   return (
     <span
       className={`inline-flex h-8 items-center overflow-hidden rounded-full px-[13px] text-[14.5px] whitespace-nowrap ${
-        on ? "bg-[#d5f5ec] text-[#1fb892]" : "border border-[#a9abb6] text-[#6c6e79]"
+        on ? "bg-[#d5f5ec] text-[#1fb892]" : "border border-[#a9abaa] text-[#6a6c6a]"
       } ${clip ? "w-[134px]" : ""}`}
     >
       {children}
@@ -104,14 +104,14 @@ function Panel({ kind }: { kind: FeatureKey }) {
     return (
       <>
         <div className="text-[12px] leading-[22px] font-bold text-rk-text">Target keywords</div>
-        <p className="mt-[3px] w-[268px] text-[12px] leading-[22px] text-[#484a54]">Target keywords are phrases that summarize your text. They are what people type into Google search.</p>
+        <p className="mt-[3px] w-[268px] text-[12px] leading-[22px] text-[#484a49]">Target keywords are phrases that summarize your text. They are what people type into Google search.</p>
         <div className="mt-[12px] flex w-[290px] flex-wrap gap-x-[9px] gap-y-[4px]">
           <Chip>how to write good content</Chip>
           <Chip on>seo strategy</Chip>
           <Chip>website content</Chip>
         </div>
         <div className="mt-[30px] text-[12px] leading-[22px] font-bold text-rk-text">Recommended keywords</div>
-        <p className="mt-[2px] w-[222px] text-[12px] leading-[22px] text-[#484a54]">Enrich your text with these keywords to get better SEO results.</p>
+        <p className="mt-[2px] w-[222px] text-[12px] leading-[22px] text-[#484a49]">Enrich your text with these keywords to get better SEO results.</p>
         <div className="mt-[12px] flex w-[300px] flex-wrap gap-x-[5px] gap-y-[4px]">
           <Chip on>keyword research</Chip>
           <Chip on clip>
@@ -126,8 +126,8 @@ function Panel({ kind }: { kind: FeatureKey }) {
       <>
         <div className="text-[12px] leading-[22px] font-bold text-rk-text">Readability</div>
         <div className="mt-2 text-[28px] font-semibold text-[#1fb892]">72.4</div>
-        <p className="mt-1 w-[250px] text-[12px] leading-[22px] text-[#484a54]">Your text is fairly easy to read. Target score based on your top 10 rivals: 68.</p>
-        <div className="mt-4 flex flex-col gap-2 text-[12px] text-[#484a54]">
+        <p className="mt-1 w-[250px] text-[12px] leading-[22px] text-[#484a49]">Your text is fairly easy to read. Target score based on your top 10 rivals: 68.</p>
+        <div className="mt-4 flex flex-col gap-2 text-[12px] text-[#484a49]">
           {["Rewrite hard to read sentences", "Simplify complex words", "Add more subheadings"].map((t) => (
             <span key={t} className="flex items-center gap-2">
               <span className="h-[7px] w-[7px] rounded-full bg-[#ff4953]" />
@@ -141,14 +141,14 @@ function Panel({ kind }: { kind: FeatureKey }) {
     return (
       <>
         <div className="text-[12px] leading-[22px] font-bold text-rk-text">Tone of voice</div>
-        <div className="mt-3 flex items-center gap-2 text-[12px] text-[#484a54]">
+        <div className="mt-3 flex items-center gap-2 text-[12px] text-[#484a49]">
           Casual
-          <span className="relative h-[6px] w-[160px] rounded-full bg-[#e0e1e9]">
+          <span className="relative h-[6px] w-[160px] rounded-full bg-[#e0e2e1]">
             <span className="absolute top-1/2 left-[62%] h-3 w-3 -translate-y-1/2 rounded-full bg-[#1fb892]" />
           </span>
           Formal
         </div>
-        <p className="mt-4 w-[250px] text-[12px] leading-[22px] text-[#484a54]">Your text is consistent with the formal tone you selected. 2 sentences sound too casual.</p>
+        <p className="mt-4 w-[250px] text-[12px] leading-[22px] text-[#484a49]">Your text is consistent with the formal tone you selected. 2 sentences sound too casual.</p>
         <div className="mt-4 flex w-[290px] flex-wrap gap-2">
           <Chip on>consistent</Chip>
           <Chip>2 sentences to review</Chip>
@@ -159,10 +159,10 @@ function Panel({ kind }: { kind: FeatureKey }) {
     <>
       <div className="text-[12px] leading-[22px] font-bold text-rk-text">Originality</div>
       <div className="mt-2 text-[28px] font-semibold text-[#1fb892]">61.1%</div>
-      <div className="mt-1 h-1 w-[240px] rounded-full bg-[#e0e1e9]">
+      <div className="mt-1 h-1 w-[240px] rounded-full bg-[#e0e2e1]">
         <div className="h-full w-[60%] rounded-full bg-[#1fb892]" />
       </div>
-      <p className="mt-3 w-[250px] text-[12px] leading-[22px] text-[#484a54]">The total percent of your text is not similar to other sources.</p>
+      <p className="mt-3 w-[250px] text-[12px] leading-[22px] text-[#484a49]">The total percent of your text is not similar to other sources.</p>
       <div className="mt-3 flex items-center gap-2 text-[12px] font-bold text-rk-text">
         <span className="h-[7px] w-[7px] rounded-full bg-[#ff4953]" />
         Unoriginal text <span className="font-normal text-rk-muted">(3)</span>
@@ -199,7 +199,7 @@ export function EditorMock({ kind }: { kind: FeatureKey }) {
             <i className="font-serif underline">T</i>
           </Tb>
         </div>
-        <div className="mt-[20px] text-[12.2px] leading-[21.8px] tracking-[-0.1px] text-[#484a54]">
+        <div className="mt-[20px] text-[12.2px] leading-[21.8px] tracking-[-0.1px] text-[#484a49]">
           <p>
             Content creation is a pillar of a successful SEO strategy. It’s also important because it’s one of the few elements of your <Hl>SEO strategy</Hl> you have
             direct control over.
@@ -221,7 +221,7 @@ export function EditorMock({ kind }: { kind: FeatureKey }) {
 }
 
 function Pill({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <span className={`absolute flex h-[27px] items-center justify-center rounded-full bg-[#e8eaed] text-[13px] text-[#6c6e79] ${className}`}>{children}</span>;
+  return <span className={`absolute flex h-[27px] items-center justify-center rounded-full bg-[#e8eaed] text-[13px] text-[#6a6c6a] ${className}`}>{children}</span>;
 }
 
 export function ScoreMock() {
@@ -229,15 +229,15 @@ export function ScoreMock() {
     <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-lg">
       <div className="absolute top-[39px] left-[371px] h-[700px] w-[317px] rounded-xl bg-[#f7f9fa] shadow-[0_6px_30px_rgba(25,27,35,0.08)]">
         <div className="mt-[24px] text-center text-[14px] text-[#1fb892]">
-          Good <b className="text-[16px]">7.4</b> <span className="text-[13px] text-[#6c6e79]">/10</span>
+          Good <b className="text-[16px]">7.4</b> <span className="text-[13px] text-[#6a6c6a]">/10</span>
         </div>
         <Pill className="top-[63px] left-[39px] w-[83px]">Readability</Pill>
         <Pill className="top-[63px] left-[200px] w-[79px]">SEO</Pill>
         <svg className="absolute top-[88px] left-[58px]" width={200} height={190} viewBox="0 0 200 190">
-          <path d="M40 20l40 40M160 20l-40 40M40 170l40-40M160 170l-40-40" stroke="#c4c7cf" strokeDasharray="2 3" />
+          <path d="M40 20l40 40M160 20l-40 40M40 170l40-40M160 170l-40-40" stroke="#d6d8d7" strokeDasharray="2 3" />
           <circle cx={100} cy={92} r={78} fill="none" stroke="#c9ced3" strokeWidth={3} />
-          <circle cx={100} cy={92} r={62} fill="#eceef0" stroke="#c4c7cf" strokeDasharray="2 3" />
-          <circle cx={100} cy={92} r={40} fill="none" stroke="#c4c7cf" strokeDasharray="2 3" />
+          <circle cx={100} cy={92} r={62} fill="#eceef0" stroke="#d6d8d7" strokeDasharray="2 3" />
+          <circle cx={100} cy={92} r={40} fill="none" stroke="#d6d8d7" strokeDasharray="2 3" />
           <path d="M65 145C35 120 36 60 70 42s70-10 76 20" fill="none" stroke="#1fb892" strokeWidth={3.5} strokeLinecap="round" />
           <path d="M146 62c8 30-4 60-40 72-18 6-32 6-41 11" fill="none" stroke="#e8753a" strokeWidth={3.5} strokeLinecap="round" />
           <circle cx={70} cy={42} r={3.5} fill="#1fb892" />
@@ -245,7 +245,7 @@ export function ScoreMock() {
           <circle cx={65} cy={145} r={3.5} fill="#1fb892" />
           <circle cx={125} cy={122} r={3.5} fill="#e8753a" />
           <rect x={80} y={164} width={40} height={14} fill="#f7f9fa" />
-          <text x={100} y={174} textAnchor="middle" fontSize={11} fill="#6c6e79">
+          <text x={100} y={174} textAnchor="middle" fontSize={11} fill="#6a6c6a">
             Target
           </text>
         </svg>
@@ -253,21 +253,21 @@ export function ScoreMock() {
         <Pill className="top-[266px] left-[183px] w-[100px]">Tone of voice</Pill>
         <div className="absolute top-[328px] left-[30px] h-[118px] w-[238px] rounded-lg bg-white px-5 pt-[14px] shadow-[0_1px_6px_rgba(25,27,35,0.08)]">
           <div className="text-[16px] font-bold">Readability</div>
-          <svg viewBox="0 0 16 16" width={16} height={16} className="absolute top-[18px] right-[4px]"><path d="M3 13l1-4 7-7 3 3-7 7z" fill="#a9abb6" /></svg>
-          <div className="mt-[17px] flex items-center gap-[12px] text-[13px] whitespace-nowrap text-[#484a54]">
+          <svg viewBox="0 0 16 16" width={16} height={16} className="absolute top-[18px] right-[4px]"><path d="M3 13l1-4 7-7 3 3-7 7z" fill="#a9abaa" /></svg>
+          <div className="mt-[17px] flex items-center gap-[12px] text-[13px] whitespace-nowrap text-[#484a49]">
             <span className="h-[7px] w-[7px] shrink-0 rounded-full bg-[#e8173b]" />
             Rewrite hard to read sentences
           </div>
-          <div className="dotted-underline mt-[9px] ml-[19px] text-[13px] text-[#6c6e79] decoration-[#a9abb6]">5 more problems</div>
+          <div className="dotted-underline mt-[9px] ml-[19px] text-[13px] text-[#6a6c6a] decoration-[#a9abaa]">5 more problems</div>
         </div>
         <div className="absolute top-[458px] left-[30px] h-[150px] w-[238px] rounded-lg bg-white px-5 pt-[14px] shadow-[0_1px_6px_rgba(25,27,35,0.08)]">
           <div className="text-[16px] font-bold">SEO</div>
-          <svg viewBox="0 0 16 16" width={16} height={16} className="absolute top-[18px] right-[4px]"><path d="M3 13l1-4 7-7 3 3-7 7z" fill="#a9abb6" /></svg>
-          <div className="mt-[19px] flex items-start gap-[12px] text-[13px] leading-[17px] text-[#484a54]">
+          <svg viewBox="0 0 16 16" width={16} height={16} className="absolute top-[18px] right-[4px]"><path d="M3 13l1-4 7-7 3 3-7 7z" fill="#a9abaa" /></svg>
+          <div className="mt-[19px] flex items-start gap-[12px] text-[13px] leading-[17px] text-[#484a49]">
             <span className="mt-[5px] h-[7px] w-[7px] shrink-0 rounded-full bg-[#e8173b]" />
             <span className="w-[190px] shrink-0">Use at least one of your target keywords.</span>
           </div>
-          <div className="dotted-underline mt-[10px] ml-[19px] text-[13px] text-[#6c6e79] decoration-[#a9abb6]">5 more problems</div>
+          <div className="dotted-underline mt-[10px] ml-[19px] text-[13px] text-[#6a6c6a] decoration-[#a9abaa]">5 more problems</div>
         </div>
       </div>
       <div className="absolute top-[165px] left-[632px] h-[600px] w-[304px] rounded-xl bg-white shadow-[0_6px_30px_rgba(25,27,35,0.12)]">
@@ -275,41 +275,41 @@ export function ScoreMock() {
           <div className="flex items-center justify-between">
             <span className="text-[16px] font-bold">Originality</span>
             <svg viewBox="0 0 16 16" width={16} height={16}>
-              <path d="M3 13l1-4 7-7 3 3-7 7z" fill="#a9abb6" />
+              <path d="M3 13l1-4 7-7 3 3-7 7z" fill="#a9abaa" />
             </svg>
           </div>
-          <div className="mt-[21px] flex gap-3 leading-[17px] text-[#484a54]">
+          <div className="mt-[21px] flex gap-3 leading-[17px] text-[#484a49]">
             <span className="mt-[5px] h-[7px] w-[7px] shrink-0 rounded-full bg-[#e8173b]" />
             <span>
               The text has been changed since the last check (currently <b className="text-rk-text">23%</b> similar). Originality data may be obsolete.
             </span>
           </div>
-          <div className="mt-[12px] ml-[19px] flex justify-between text-[13px] text-[#484a54]">
+          <div className="mt-[12px] ml-[19px] flex justify-between text-[13px] text-[#484a49]">
             Checks used
             <span>
-              3<span className="text-[#6c6e79]">/10</span>
+              3<span className="text-[#6a6c6a]">/10</span>
             </span>
           </div>
           <div className="mt-[5px] ml-[19px] h-[4px] rounded-full bg-[#e8eaed]">
             <div className="h-full w-[22%] rounded-full bg-[#5c6b6f]" />
           </div>
-          <span className="mt-[12px] ml-[19px] inline-flex h-[26px] items-center rounded-md border border-[#d6d8dd] bg-[#f4f5f6] px-[15px] text-[11px] text-[#484a54]">Recheck</span>
+          <span className="mt-[12px] ml-[19px] inline-flex h-[26px] items-center rounded-md border border-[#d6d8dd] bg-[#f4f5f6] px-[15px] text-[11px] text-[#484a49]">Recheck</span>
         </div>
         <div className="mt-[22px] border-t border-[#e8eaed] px-[33px] pt-[20px]">
           <div className="text-[22px] leading-7 text-[#1fb892]">61.1%</div>
           <div className="mt-[4px] h-[4px] rounded-full bg-[#e8eaed]">
             <div className="h-full w-[60%] rounded-full bg-[#1fb892]" />
           </div>
-          <p className="mt-[17px] text-[13px] leading-[17px] text-[#484a54]">The total percent of your text is not similar to other sources.</p>
+          <p className="mt-[17px] text-[13px] leading-[17px] text-[#484a49]">The total percent of your text is not similar to other sources.</p>
           <div className="mt-[22px] -ml-[3px] flex items-center gap-[10px] text-[13px] font-semibold">
             <span className="h-[7px] w-[7px] rounded-full bg-[#e8173b]" />
-            Unoriginal text <span className="font-normal text-[#6c6e79]">(3)</span>
+            Unoriginal text <span className="font-normal text-[#6a6c6a]">(3)</span>
           </div>
           <div className="mt-[14px] rounded-lg border border-[#e8eaed] px-[14px] pt-[11px] pb-4 text-[13px] leading-[17px]">
             <div>
               <b className="text-[#e8173b]">120</b> copied words:
             </div>
-            <p className="mt-2 text-[#6c6e79] italic">The tool returns a list of suggested keywords and their search volume, keyword difficulty and more.</p>
+            <p className="mt-2 text-[#6a6c6a] italic">The tool returns a list of suggested keywords and their search volume, keyword difficulty and more.</p>
           </div>
         </div>
       </div>
@@ -326,8 +326,8 @@ export const GoogleDocIcon = () => (
 );
 export const WordPressIcon = () => (
   <svg viewBox="0 0 16 16" width={16} height={16}>
-    <circle cx="8" cy="8" r="6.8" fill="none" stroke="#6c6e79" strokeWidth={1.2} />
-    <path d="M3.8 5.5l3 7.5 1.4-4 1.3 4 2.3-6.8M3 5.5h2.2M7 5.5h2.2" fill="none" stroke="#6c6e79" strokeWidth={1.1} strokeLinejoin="round" />
+    <circle cx="8" cy="8" r="6.8" fill="none" stroke="#6a6c6a" strokeWidth={1.2} />
+    <path d="M3.8 5.5l3 7.5 1.4-4 1.3 4 2.3-6.8M3 5.5h2.2M7 5.5h2.2" fill="none" stroke="#6a6c6a" strokeWidth={1.1} strokeLinejoin="round" />
   </svg>
 );
 export const OfficeIcon = () => (

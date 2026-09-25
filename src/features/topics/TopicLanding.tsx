@@ -54,26 +54,26 @@ function Illustration() {
       <div className="absolute top-[122px] left-[60px] h-[260px] w-[599px] overflow-hidden rounded-sm bg-[#eef0f5] px-6 pt-[14px]">
         <div className="flex items-center text-[11px]">
           <span className="rounded-l-sm border border-[#56a5f0] bg-white px-[5px] py-[2px]">content trends ×</span>
-          <span className="flex items-center gap-2 border border-l-0 border-[#c4c7cf] bg-[#e8eaee] px-[5px] py-[2px]">United States ⌄</span>
+          <span className="flex items-center gap-2 border border-l-0 border-[#d6d8d7] bg-[#e8eaee] px-[5px] py-[2px]">United States ⌄</span>
         </div>
         <div className="mt-[10px] flex items-center justify-between text-[11px]">
           <span className="flex">
             <span className="rounded-l-sm border border-[#56a5f0] bg-[#d9ecfc] px-[5px] py-[2px]">▣ Cards</span>
-            <span className="border border-l-0 border-[#c4c7cf] bg-white px-[5px] py-[2px]">⊞ Explorer</span>
+            <span className="border border-l-0 border-[#d6d8d7] bg-white px-[5px] py-[2px]">⊞ Explorer</span>
           </span>
           <span className="flex items-center gap-1">
-            Sort by: <span className="rounded-sm border border-[#c4c7cf] bg-white px-[5px] py-[2px]">Topic Efficiency ⌄</span>
+            Sort by: <span className="rounded-sm border border-[#d6d8d7] bg-white px-[5px] py-[2px]">Topic Efficiency ⌄</span>
           </span>
         </div>
         <MockCard title="Virtual Reality" x={24} />
         <MockCard title="Content Creators" x={398} />
         <div className="absolute top-[36px] left-[134px] w-[166px] rounded-sm bg-white px-[6px] pt-[8px] pb-2 text-[9px] shadow-[0_2px_8px_rgba(25,27,35,0.18)]">
           <div>Country</div>
-          <div className="mt-[2px] rounded-sm border border-[#c4c7cf] px-1 py-[1px]">United States</div>
+          <div className="mt-[2px] rounded-sm border border-[#d6d8d7] px-1 py-[1px]">United States</div>
           <div className="mt-[8px]">Region</div>
-          <div className="mt-[2px] rounded-sm border border-[#c4c7cf] px-1 py-[1px]">Massachusetts</div>
+          <div className="mt-[2px] rounded-sm border border-[#d6d8d7] px-1 py-[1px]">Massachusetts</div>
           <div className="mt-[8px]">City</div>
-          <div className="mt-[2px] rounded-sm border border-[#c4c7cf] px-1 py-[1px]">Boston</div>
+          <div className="mt-[2px] rounded-sm border border-[#d6d8d7] px-1 py-[1px]">Boston</div>
         </div>
       </div>
     </div>
@@ -102,13 +102,13 @@ export function TopicLanding() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Enter topic"
-            className="h-10 flex-1 rounded-l-md border border-[#c4c7cf] px-3 text-[16px] outline-none placeholder:text-[#8a8e9b] focus:border-[#008ff8]"
+            className="h-10 flex-1 rounded-l-md border border-[#d6d8d7] px-3 text-[16px] outline-none placeholder:text-[#8b8d8c] focus:border-[#008ff8]"
           />
           <Popover
             align="right"
             panelClassName="w-[176px]"
             trigger={({ toggle }) => (
-              <button type="button" onClick={toggle} className="-ml-px flex h-10 w-[177px] items-center gap-2 rounded-r-md border border-[#c4c7cf] bg-white px-3 text-[16px]">
+              <button type="button" onClick={toggle} className="-ml-px flex h-10 w-[177px] items-center gap-2 rounded-r-md border border-[#d6d8d7] bg-white px-3 text-[16px]">
                 {db.flag}
                 {db.code}
                 <svg viewBox="0 0 16 16" width={16} height={16} className="ml-auto">
@@ -134,7 +134,7 @@ export function TopicLanding() {
             }
           </Popover>
         </div>
-        {domain && <input placeholder="Enter domain" className="mt-3 h-10 w-full rounded-md border border-[#c4c7cf] px-3 text-[16px] outline-none placeholder:text-[#8a8e9b]" />}
+        {domain && <input placeholder="Enter domain" className="mt-3 h-10 w-full rounded-md border border-[#d6d8d7] px-3 text-[16px] outline-none placeholder:text-[#8b8d8c]" />}
         <div className="mt-[14px] flex items-start justify-between">
           <button type="button" onClick={() => setDomain((d) => !d)} className="mt-[3px] ml-[1px] flex items-center gap-[6px] text-[16px] text-[#006dca] hover:underline">
             <span className="text-[20px] leading-5">{domain ? "−" : "+"}</span>

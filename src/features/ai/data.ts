@@ -68,9 +68,9 @@ export const drivers: Driver[] = [
 ];
 
 export const heatScale = [
-  { label: "0", min: 0, max: 0, bg: "#f3f5f5", fg: "#6c6e79" },
-  { label: "1–9", min: 1, max: 9, bg: "#eff4fe", fg: "#6c6e79" },
-  { label: "10–18", min: 10, max: 18, bg: "#cfdbff", fg: "#6c6e79" },
+  { label: "0", min: 0, max: 0, bg: "#f3f5f5", fg: "#6a6c6a" },
+  { label: "1–9", min: 1, max: 9, bg: "#eff4fe", fg: "#6a6c6a" },
+  { label: "10–18", min: 10, max: 18, bg: "#cfdbff", fg: "#6a6c6a" },
   { label: "19–36", min: 19, max: 36, bg: "#94a8f3", fg: "#ffffff" },
   { label: "37–63", min: 37, max: 63, bg: "#5c5bc4", fg: "#ffffff" },
   { label: "64–108", min: 64, max: 108, bg: "#2e296b", fg: "#ffffff" },
@@ -280,17 +280,17 @@ export const voTopCountries: { name: string; code: string }[] = [
 ];
 
 export const voCountries: { name: string; flag: FlagBands }[] = [
-  { name: "Afghanistan", flag: { dir: "v", colors: ["#191b23", "#be0000", "#007a36"] } },
-  { name: "Albania", flag: { dir: "h", colors: ["#e41e20"], mark: "#191b23" } },
+  { name: "Afghanistan", flag: { dir: "v", colors: ["#1b1e1a", "#be0000", "#007a36"] } },
+  { name: "Albania", flag: { dir: "h", colors: ["#e41e20"], mark: "#1b1e1a" } },
   { name: "Algeria", flag: { dir: "v", colors: ["#006233", "#ffffff"], mark: "#d21034" } },
   { name: "Andorra", flag: { dir: "v", colors: ["#10069f", "#fedd00", "#d50032"] } },
-  { name: "Angola", flag: { dir: "h", colors: ["#cc092f", "#191b23"], mark: "#ffcb00" } },
+  { name: "Angola", flag: { dir: "h", colors: ["#cc092f", "#1b1e1a"], mark: "#ffcb00" } },
   { name: "Argentina", flag: { dir: "h", colors: ["#74acdf", "#ffffff", "#74acdf"], mark: "#f6b40e" } },
   { name: "Armenia", flag: { dir: "h", colors: ["#d90012", "#0033a0", "#f2a800"] } },
   { name: "Australia", flag: { dir: "h", colors: ["#012169"], mark: "#ffffff" } },
   { name: "Austria", flag: { dir: "h", colors: ["#ed2939", "#ffffff", "#ed2939"] } },
   { name: "Azerbaijan", flag: { dir: "h", colors: ["#0092bc", "#e4002b", "#00af66"] } },
-  { name: "Belgium", flag: { dir: "v", colors: ["#191b23", "#fdda24", "#ef3340"] } },
+  { name: "Belgium", flag: { dir: "v", colors: ["#1b1e1a", "#fdda24", "#ef3340"] } },
   { name: "Brazil", flag: { dir: "h", colors: ["#009c3b"], mark: "#ffdf00" } },
   { name: "Bulgaria", flag: { dir: "h", colors: ["#ffffff", "#00966e", "#d62612"] } },
   { name: "Canada", flag: { dir: "v", colors: ["#d52b1e", "#ffffff", "#d52b1e"], mark: "#d52b1e" } },

@@ -10,7 +10,7 @@ import { Chevron, I, MenuPanel, useMenu } from "./ui";
 export type ModalKind = "competitors" | "tags" | "rename" | "share" | "create" | null;
 
 const ico = (d: string) => (
-  <svg viewBox="0 0 16 16" width={16} height={16} className="shrink-0 text-[#8a8e9b]">
+  <svg viewBox="0 0 16 16" width={16} height={16} className="shrink-0 text-[#8b8d8c]">
     <path d={d} fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
@@ -107,7 +107,7 @@ export function DashboardHeader({ name, onOpen }: { name: string; onOpen: (k: Ex
         <span className="flex items-center">
           <span className="mr-[6px]">SEO Dashboard:</span>
           <ProjectDropdown name={name} onCreate={() => onOpen("create")} />
-          <a href={`https://${project.domain}`} target="_blank" rel="noreferrer" aria-label="Open website" className="ml-[9px] text-[#8a8e9b] hover:text-rk-text-2">
+          <a href={`https://${project.domain}`} target="_blank" rel="noreferrer" aria-label="Open website" className="ml-[9px] text-[#8b8d8c] hover:text-rk-text-2">
             <ExternalIcon width={17} height={17} />
           </a>
         </span>

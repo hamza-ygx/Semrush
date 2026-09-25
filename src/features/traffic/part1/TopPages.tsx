@@ -110,7 +110,7 @@ function TopPagesTable() {
   const th = "text-[12px] font-normal text-rk-text";
   return (
     <SampleCard title="Top Pages" bodyClassName="pt-[21px]">
-      <label className="mx-5 flex h-[27px] w-[224px] items-center gap-[8px] rounded-[6px] border border-[#d7d9de] bg-white px-[8px]">
+      <label className="mx-5 flex h-[27px] w-[224px] items-center gap-[8px] rounded-[6px] border border-[#d8dad9] bg-white px-[8px]">
         <SearchIcon width={16} height={16} className="text-rk-muted" />
         <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Filter by page" className="w-full bg-transparent text-[14px] text-rk-text outline-none placeholder:text-[#8a8c96]" />
       </label>
@@ -195,7 +195,7 @@ function TopPagesTable() {
           Next
         </button>
         <span className="ml-[8px]">Page:</span>
-        <input defaultValue="1" className="h-7 w-[68px] rounded-[6px] border border-[#d7d9de] px-[8px] outline-none" />
+        <input defaultValue="1" className="h-7 w-[68px] rounded-[6px] border border-[#d8dad9] px-[8px] outline-none" />
         <span className="ml-[1px]">
           of <span className="text-rk-link">941</span>
         </span>
@@ -251,7 +251,7 @@ export function TopPagesLocked() {
               </div>
             </SampleCard>
             <SampleCard title="Top Pages" bodyClassName="pt-[21px] pb-[40px]">
-              <div className="mx-5 flex h-[27px] w-[224px] items-center gap-[8px] rounded-[6px] border border-[#d7d9de] px-[8px] text-[14px] text-rk-muted">
+              <div className="mx-5 flex h-[27px] w-[224px] items-center gap-[8px] rounded-[6px] border border-[#d8dad9] px-[8px] text-[14px] text-rk-muted">
                 <SearchIcon width={16} height={16} />
                 Filter by page
               </div>

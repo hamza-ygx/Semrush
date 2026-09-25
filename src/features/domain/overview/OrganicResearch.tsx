@@ -34,13 +34,13 @@ function TopKeywords() {
                   <Link href={routes.keywordOverview} className={`${i ? "max-w-[121px]" : "max-w-[146px]"} truncate text-rk-link hover:text-rk-link-hover`}>
                     {k.keyword}
                   </Link>
-                  {i > 0 && <SerpIcon className="shrink-0 text-[#a9abb6]" />}
+                  {i > 0 && <SerpIcon className="shrink-0 text-[#a9abaa]" />}
                 </span>
               </td>
               <td className="pl-5">
                 <IntentBadge intent={k.intent} />
               </td>
-              <td className="text-right">{k.pos === "local" ? <LocalPinIcon className="ml-auto text-[#2359d6]" /> : k.pos}</td>
+              <td className="text-right">{k.pos === "local" ? <LocalPinIcon className="ml-auto text-[#235fe2]" /> : k.pos}</td>
               <td className="text-right">{k.volume}</td>
               <td className="text-right">{k.cpc}</td>
               <td className="pr-5 text-right">{k.traffic}</td>
@@ -149,7 +149,7 @@ function PositionDistribution() {
         bottomH={60}
         x={positionDistribution.map((p, i) => ({ at: (i + 0.5) / n, label: p.label }))}
         labelClass="text-[13px] leading-4 text-rk-muted"
-        baseColor="#c4c7cf"
+        baseColor="#d6d8d7"
       >
         {positionDistribution.map((p, i) => (
           <rect key={p.label} x={i * w + 1} width={w - 2} y={H - (p.value / 100) * H} height={(p.value / 100) * H} fill="#6167e6" />
@@ -248,11 +248,11 @@ function PositioningMap() {
           xGap={10}
           x={[0, 20, 40, 60, 80, 100, 120, 140, 160].map((v) => ({ at: v / maxX, label: String(v) }))}
           labelClass="text-[12px] leading-4 text-rk-muted"
-          baseColor="#c4c7cf"
+          baseColor="#d6d8d7"
           overlay={
             <>
               {[20, 40, 60, 80, 100, 120, 140, 160].map((v) => (
-                <div key={v} className="absolute top-0 bottom-0 border-l border-[#e6e7ec]" style={{ left: `${(v / maxX) * 100}%` }} />
+                <div key={v} className="absolute top-0 bottom-0 border-l border-[#e7e8e8]" style={{ left: `${(v / maxX) * 100}%` }} />
               ))}
               {all.map((c) => (
                 <span

@@ -52,8 +52,8 @@ function BusinessSuggestions({ q }: { q: string }) {
             </svg>
             {b.name}
           </div>
-          <div className="text-[13px] leading-5 text-[#6c6e79]">{b.address}</div>
-          <div className="flex items-center gap-[3px] text-[13px] leading-5 text-[#6c6e79]">
+          <div className="text-[13px] leading-5 text-[#6a6c6a]">{b.address}</div>
+          <div className="flex items-center gap-[3px] text-[13px] leading-5 text-[#6a6c6a]">
             {b.rating}
             {[0, 1, 2, 3, 4].map((i) => (
               <Star key={i} fill={i < Math.floor(b.rating)} />
@@ -64,7 +64,7 @@ function BusinessSuggestions({ q }: { q: string }) {
       ))}
       <div className="mt-[9px] h-[86px] rounded-[8px] border border-[#d6dcf5] bg-[#ecf0ff] pt-[18px] pl-[15px] text-[#1f1f24]">
         <div className="flex items-center gap-[8px] text-[16px] leading-6 font-bold">
-          <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#6c6e79]">
+          <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#6a6c6a]">
             <path d="M5.8 11.5h4.4M6.3 13.8h3.4M8 1.8a4.4 4.4 0 0 0-2.6 8c.4.3.5.7.5 1.2h4.2c0-.5.1-.9.5-1.2A4.4 4.4 0 0 0 8 1.8z" fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" strokeLinejoin="round" />
           </svg>
           Can&apos;t find your business?
@@ -105,7 +105,7 @@ function Dashboard() {
     [0, 6, "lost"],
     [3, 6, "down"],
   ];
-  const tone = (v: number) => (v > 20 ? ["#e3e4e8", "#b9bac0"] : v <= 3 ? ["#1fc28e", "#11a070"] : v <= 10 ? ["#fbb62b", "#e39a0b"] : ["#f23d4f", "#cf2436"]);
+  const tone = (v: number) => (v > 20 ? ["#e4e5e5", "#b9bac0"] : v <= 3 ? ["#1fc28e", "#11a070"] : v <= 10 ? ["#fbb62b", "#e39a0b"] : ["#f23d4f", "#cf2436"]);
   const comps = [
     ["Sizzle Slice Pizzeria", "3.5", "(4)", "3.2"],
     ["Crusty Heaven", "3.9", "(470)", "3.4"],
@@ -123,7 +123,7 @@ function Dashboard() {
           ["Poor", "10%", [0.1, "#ff6fd8"]],
           ["Out of Top 20", "10%", [0.1, "#8a8b90"]],
         ].map(([l, v, d], i) => (
-          <div key={l as string} style={{ width: [98, 148, 115, 116, 113, 120][i] }} className={`shrink-0 ${i ? "border-l border-[#e3e4e8] pl-[21px]" : ""}`}>
+          <div key={l as string} style={{ width: [98, 148, 115, 116, 113, 120][i] }} className={`shrink-0 ${i ? "border-l border-[#e4e5e5] pl-[21px]" : ""}`}>
             <div className="flex items-center text-[13px] text-[#3a3b40]">
               {l as string}
               <Info />
@@ -138,13 +138,13 @@ function Dashboard() {
       <div className="mt-[8px] flex h-[269px] overflow-hidden">
         <div className="w-[285px] shrink-0 bg-white">
           {comps.map(([n, r, c, ar], i) => (
-            <div key={n} className={`relative h-[65px] border-b border-[#e3e4e8] pt-[11px] pr-[18px] pl-[17px] ${i === 1 ? "bg-[#e8eefc]" : ""}`}>
+            <div key={n} className={`relative h-[65px] border-b border-[#e4e5e5] pt-[11px] pr-[18px] pl-[17px] ${i === 1 ? "bg-[#e8eefc]" : ""}`}>
               {i === 1 && <span className="absolute top-0 bottom-0 left-0 w-[3px] bg-[#1f1f24]" />}
               <div className="flex justify-between text-[13px] text-[#1f1f24]">
                 {n}
                 {i === 1 && <span className="rounded-[4px] bg-[#d5f5e3] px-[6px] text-[12px] text-[#0f8a5f]">You</span>}
               </div>
-              <div className="mt-[6px] flex items-center justify-between text-[13px] text-[#6c6e79]">
+              <div className="mt-[6px] flex items-center justify-between text-[13px] text-[#6a6c6a]">
                 <span>
                   {r} <span className="text-[17px] tracking-[1px] text-[#8a8b90]">★★★★☆</span> {c}
                 </span>
@@ -289,7 +289,7 @@ function MapFaq() {
             <ChevronR className={`mr-[7px] shrink-0 transition-transform ${open === i ? "rotate-90" : ""}`} />
             {f.q}
           </button>
-          {open === i && <p className="pr-[20px] pb-[14px] pl-[36px] text-[14px] leading-[22px] text-[#484a54]">{f.a}</p>}
+          {open === i && <p className="pr-[20px] pb-[14px] pl-[36px] text-[14px] leading-[22px] text-[#484a49]">{f.a}</p>}
         </div>
       ))}
     </div>

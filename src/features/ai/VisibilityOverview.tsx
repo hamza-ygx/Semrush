@@ -42,11 +42,11 @@ function HowIcon() {
   );
 }
 
-const seg = "flex h-7 items-center gap-[6px] border-r border-[#c4c7cf] px-2 text-[14px] text-rk-text-2 last:border-r-0 hover:bg-rk-bg";
+const seg = "flex h-7 items-center gap-[6px] border-r border-[#d6d8d7] px-2 text-[14px] text-rk-text-2 last:border-r-0 hover:bg-rk-bg";
 
 function Segmented<T extends string>({ items, value, onChange, className = "" }: { items: { key: T; label: ReactNode }[]; value: T; onChange: (v: T) => void; className?: string }) {
   return (
-    <div className={`flex w-fit overflow-hidden rounded-md border border-[#c4c7cf] bg-white ${className}`}>
+    <div className={`flex w-fit overflow-hidden rounded-md border border-[#d6d8d7] bg-white ${className}`}>
       {items.map((it) => (
         <button
           key={it.key}
@@ -73,7 +73,7 @@ function HistoryTip({ onClose }: { onClose: () => void }) {
             Got it
           </button>
         </div>
-        <button type="button" aria-label="Close tip" onClick={onClose} className="-mt-[3px] h-5 text-[#6c6e79] hover:text-rk-text">
+        <button type="button" aria-label="Close tip" onClick={onClose} className="-mt-[3px] h-5 text-[#6a6c6a] hover:text-rk-text">
           <CloseIcon width={14} height={14} />
         </button>
       </div>
@@ -115,7 +115,7 @@ function Header({ domain }: { domain: string }) {
             How it works
             {!howSeen && <span className="absolute -top-[4px] -right-[5px] h-[10px] w-[10px] rounded-full bg-[#ff8c00]" />}
           </button>
-          <button type="button" className="ml-[6px] flex h-7 items-center gap-[7px] rounded-md border border-[#c4c7cf] bg-[#f4f5f9] px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-hover">
+          <button type="button" className="ml-[6px] flex h-7 items-center gap-[7px] rounded-md border border-[#d6d8d7] bg-[#f5f6f6] px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-hover">
             <ExportIcon width={16} height={16} />
             Export to PDF
           </button>
@@ -208,7 +208,7 @@ function VisibilityGauge() {
         <svg viewBox="0 0 216 134" width={216} height={134} aria-hidden>
           <path d="M14.75 126.1A95 95 0 1 1 201.25 126.1" fill="none" stroke="#e9ebeb" strokeWidth={26} />
         </svg>
-        <span className="absolute top-[85px] text-[32px] font-bold text-[#6c6e79]">n/a</span>
+        <span className="absolute top-[85px] text-[32px] font-bold text-[#6a6c6a]">n/a</span>
       </div>
     </Card>
   );
@@ -272,18 +272,18 @@ function MainChart() {
       <svg width={w} height={330} className="pointer-events-none absolute top-0 left-0" aria-hidden>
         {[0, 2, 4, 6, 8].map((v) => (
           <g key={v}>
-            <line x1={X(426)} x2={X(1075)} y1={Y(v)} y2={Y(v)} stroke="#e0e1e9" />
-            <text x={58} y={Y(v) + 4} textAnchor="end" fontSize={12} fill="#6c6e79">
+            <line x1={X(426)} x2={X(1075)} y1={Y(v)} y2={Y(v)} stroke="#e0e2e1" />
+            <text x={58} y={Y(v) + 4} textAnchor="end" fontSize={12} fill="#6a6c6a">
               {v}
             </text>
           </g>
         ))}
         {[471, 583].map((x) => (
-          <line key={x} x1={X(x)} x2={X(x)} y1={Y(8)} y2={Y(0)} stroke="#c4c7cf" strokeDasharray="3 3" />
+          <line key={x} x1={X(x)} x2={X(x)} y1={Y(8)} y2={Y(0)} stroke="#d6d8d7" strokeDasharray="3 3" />
         ))}
-        <rect x={X(1025)} y={Y(8)} width={10} height={Y(0) - Y(8)} fill="#e0e1e9" opacity={0.7} />
+        <rect x={X(1025)} y={Y(8)} width={10} height={Y(0) - Y(8)} fill="#e0e2e1" opacity={0.7} />
         {voChart.labels.map((l) => (
-          <text key={l.t} x={X(l.x)} y={309} textAnchor="middle" fontSize={12} fill="#6c6e79">
+          <text key={l.t} x={X(l.x)} y={309} textAnchor="middle" fontSize={12} fill="#6a6c6a">
             {l.t}
           </text>
         ))}
@@ -477,7 +477,7 @@ function TopicsTable() {
         <h3 className="text-[16px] font-semibold text-rk-text">
           Your Performing Topics <span className="font-normal text-rk-muted">1–1 (1)</span>
         </h3>
-        <button type="button" className="flex h-7 items-center gap-[6px] rounded-md border border-[#c4c7cf] bg-white px-2 text-[14px] text-rk-text-2 hover:bg-rk-bg">
+        <button type="button" className="flex h-7 items-center gap-[6px] rounded-md border border-[#d6d8d7] bg-white px-2 text-[14px] text-rk-text-2 hover:bg-rk-bg">
           <ExportIcon width={16} height={16} />
           Export
         </button>
@@ -505,16 +505,16 @@ function TopicsTable() {
             },
           ]}
         />
-        <label className="flex h-7 w-[228px] items-center rounded-md border border-[#c4c7cf] bg-white">
+        <label className="flex h-7 w-[228px] items-center rounded-md border border-[#d6d8d7] bg-white">
           <input aria-label="Filter by topic" placeholder="Filter by topic" className="h-full min-w-0 flex-1 rounded-l-md px-2 text-[14px] outline-none placeholder:text-rk-muted" />
-          <span className="flex h-full w-[28px] items-center justify-center border-l border-[#c4c7cf] text-rk-text-2">
+          <span className="flex h-full w-[28px] items-center justify-center border-l border-[#d6d8d7] text-rk-text-2">
             <SearchIcon width={16} height={16} />
           </span>
         </label>
         <Popover
           panelClassName="min-w-[160px]"
           trigger={({ toggle }) => (
-            <button type="button" onClick={toggle} className="flex h-7 items-center gap-[6px] rounded-md border border-[#c4c7cf] bg-white pr-[7px] pl-2 text-[14px] text-rk-muted hover:bg-rk-bg">
+            <button type="button" onClick={toggle} className="flex h-7 items-center gap-[6px] rounded-md border border-[#d6d8d7] bg-white pr-[7px] pl-2 text-[14px] text-rk-muted hover:bg-rk-bg">
               AI Volume
               <ChevronDown width={16} height={16} className="text-rk-text" />
             </button>
@@ -533,19 +533,19 @@ function TopicsTable() {
           Add filter
         </button>
       </div>
-      <div className="grid h-10 grid-cols-[315px_152px_168px_152px_1fr] items-center bg-[#f4f5f9] text-[12px] text-rk-text-2">
+      <div className="grid h-10 grid-cols-[315px_152px_168px_152px_1fr] items-center bg-[#f5f6f6] text-[12px] text-rk-text-2">
         <span className="pl-5">Topic</span>
-        <span className="flex h-full items-center justify-between bg-[#e8e9ee] pr-5 pl-3">
+        <span className="flex h-full items-center justify-between bg-[#e9eaea] pr-5 pl-3">
           Visibility
           <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden>
-            <path d="M2.5 4h11M2.5 8h7M2.5 12h3.5" stroke="#6c6e79" strokeWidth={1.4} />
+            <path d="M2.5 4h11M2.5 8h7M2.5 12h3.5" stroke="#6a6c6a" strokeWidth={1.4} />
           </svg>
         </span>
         <span className="pl-3">Your Mentions</span>
         <span className="pl-[9px]">AI Volume</span>
         <span className="pl-[7px]">Intent</span>
       </div>
-      <div className="grid h-[60px] grid-cols-[315px_152px_168px_152px_1fr] items-center border-b border-rk-border bg-[#f4f5f9] text-[14px]">
+      <div className="grid h-[60px] grid-cols-[315px_152px_168px_152px_1fr] items-center border-b border-rk-border bg-[#f5f6f6] text-[14px]">
         <div className="flex items-start gap-[10px] pl-5">
           <button type="button" aria-label={expanded ? "Collapse topic" : "Expand topic"} onClick={() => setExpanded((e) => !e)} className="mt-[3px] text-rk-text-2">
             <ChevronDown width={16} height={16} className={expanded ? "" : "-rotate-90"} />
@@ -577,7 +577,7 @@ function TopicsTable() {
             <span className="w-[4%] bg-[#ffb400]" />
             <span className="w-[3%] bg-[#ff9bd8]" />
           </span>
-          <button type="button" className="flex h-7 items-center gap-[6px] rounded-md bg-[#191b23] px-[9px] text-[14px] font-medium text-white hover:bg-[#2b2e38]">
+          <button type="button" className="flex h-7 items-center gap-[6px] rounded-md bg-[#1b1e1a] px-[9px] text-[14px] font-medium text-white hover:bg-[#2b2e38]">
             <InsightIcon />
             Monitor
           </button>
@@ -593,7 +593,7 @@ function TopicsTable() {
               <span className="flex items-center gap-[24px]">
                 Brands
                 <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden>
-                  <path d="M2.5 4h11M2.5 8h7M2.5 12h3.5" stroke="#6c6e79" strokeWidth={1.4} />
+                  <path d="M2.5 4h11M2.5 8h7M2.5 12h3.5" stroke="#6a6c6a" strokeWidth={1.4} />
                 </svg>
               </span>
               <span>Sources</span>
@@ -610,7 +610,7 @@ function TopicsTable() {
                 </span>
               </span>
               <span>
-                <span className="ml-[8px] rounded-[4px] bg-[#e0e1e9] px-[6px] text-[12px] text-rk-text-2">Cited</span>
+                <span className="ml-[8px] rounded-[4px] bg-[#e0e2e1] px-[6px] text-[12px] text-rk-text-2">Cited</span>
               </span>
               <span className="pr-[34px] text-right text-rk-text">0</span>
               <span className="flex items-start justify-between">
@@ -619,7 +619,7 @@ function TopicsTable() {
                 </a>
                 <span className="flex gap-[8px]">
                   {rowActions.map(([t, Icon]) => (
-                    <button key={t} type="button" aria-label={t} className="flex h-7 w-7 items-center justify-center rounded-md border border-[#c4c7cf] bg-[#f4f5f9] text-rk-text-2 hover:bg-rk-hover">
+                    <button key={t} type="button" aria-label={t} className="flex h-7 w-7 items-center justify-center rounded-md border border-[#d6d8d7] bg-[#f5f6f6] text-rk-text-2 hover:bg-rk-hover">
                       <Icon />
                     </button>
                   ))}
@@ -656,18 +656,18 @@ function Promo() {
       </div>
       <div className="pointer-events-none absolute top-0 right-0 h-full w-[560px]">
         <div className="absolute top-[156px] left-[35px] h-[140px] w-[120px] -rotate-[10deg] rounded-xl bg-white px-3 pt-[12px] shadow-[0_4px_20px_rgba(96,92,190,0.12)]">
-          <div className="text-[14px] text-[#8a8e9b]">Insights</div>
+          <div className="text-[14px] text-[#8b8d8c]">Insights</div>
           <div className="mt-[10px] flex h-[26px] items-center gap-2 rounded-md border border-[#e6e2fb] px-2">
             <PieGlyph />
-            <span className="h-[5px] w-[40px] rounded bg-[#eceef3]" />
+            <span className="h-[5px] w-[40px] rounded bg-[#edefef]" />
           </div>
           <div className="mt-[8px] flex h-[26px] items-center gap-2 rounded-md border border-[#e6e2fb] px-2">
             <SparkUserGlyph />
-            <span className="h-[5px] w-[40px] rounded bg-[#eceef3]" />
+            <span className="h-[5px] w-[40px] rounded bg-[#edefef]" />
           </div>
         </div>
         <div className="absolute top-[101px] left-[125px] h-[200px] w-[150px] -rotate-[4deg] rounded-xl bg-white px-3 pt-[16px] shadow-[0_4px_20px_rgba(96,92,190,0.12)]">
-          <div className="text-[14px] text-[#8a8e9b]">Share of Voice</div>
+          <div className="text-[14px] text-[#8b8d8c]">Share of Voice</div>
           <svg viewBox="0 0 130 150" width={130} height={150} className="mt-[4px] overflow-visible">
             {promoBubbles.map(([cx, cy, r, fill, mark, op]) => (
               <g key={cx}>
@@ -678,9 +678,9 @@ function Promo() {
           </svg>
         </div>
         <div className="absolute top-[64px] left-[252px] h-[230px] w-[210px] rotate-[3deg] rounded-xl bg-white pt-[25px] pr-4 pl-[23px] shadow-[0_4px_20px_rgba(96,92,190,0.12)]">
-          <div className="text-[15px] text-[#8a8e9b]">Prompt Research</div>
-          <div className="mt-[13px] text-[12px] text-[#8a8e9b]">AI Volume</div>
-          <div className="mt-[9px] text-[20px] font-semibold text-[#8a8e9b]">
+          <div className="text-[15px] text-[#8b8d8c]">Prompt Research</div>
+          <div className="mt-[13px] text-[12px] text-[#8b8d8c]">AI Volume</div>
+          <div className="mt-[9px] text-[20px] font-semibold text-[#8b8d8c]">
             34.6K <span className="text-[12px] font-normal text-[#1cc08a]">+16%</span>
           </div>
           <svg viewBox="0 0 130 60" width={150} height={60} preserveAspectRatio="none" className="mt-[6px]">
@@ -688,7 +688,7 @@ function Promo() {
           </svg>
         </div>
         <div className="absolute top-[110px] left-[388px] h-[200px] w-[200px] rotate-[8deg] rounded-xl bg-white px-4 pt-[25px] shadow-[0_4px_20px_rgba(96,92,190,0.12)]">
-          <div className="text-[15px] text-[#8a8e9b]">AI Visibility Overview</div>
+          <div className="text-[15px] text-[#8b8d8c]">AI Visibility Overview</div>
           <div className="mt-[27px] flex items-start">
             <Gauge size={110} />
             <div className="mt-[11px] ml-[14px] flex flex-col gap-[9px]">

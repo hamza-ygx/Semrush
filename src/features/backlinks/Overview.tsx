@@ -38,7 +38,7 @@ function CompareBar() {
     <div className="flex gap-2">
       <div>
         <ScopeSelect testid="scope-0" />
-        <div className="mt-[8px] flex h-7 w-[174px] items-center gap-[8px] rounded-md border border-[#d3d5db] bg-[#f4f5f9] px-2 text-[14px]">
+        <div className="mt-[8px] flex h-7 w-[174px] items-center gap-[8px] rounded-md border border-[#d4d6d5] bg-[#f5f6f6] px-2 text-[14px]">
           <span className="rounded-full bg-[#e2e3fb] px-[8px] text-[12px] leading-[18px] text-[#5a50c8]">You</span>
           {domain}
         </div>
@@ -46,9 +46,9 @@ function CompareBar() {
       {Array.from({ length: 1 + extra }, (_, i) => (
         <div key={i}>
           <ScopeSelect testid={`scope-${i + 1}`} />
-          <div className="mt-[8px] flex h-7 w-[174px] items-center gap-[8px] rounded-md border border-[#d3d5db] bg-white px-[9px] text-[14px]">
-            <span className={`h-[12px] w-[12px] shrink-0 rounded-full ${["bg-[#c4c7cf]", "bg-[#3ed4a4]", "bg-[#ffb200]", "bg-[#ff6b70]"][i]}`} />
-            <input placeholder="Add competitor" className="w-full bg-transparent outline-none placeholder:text-[#8a8e9b]" />
+          <div className="mt-[8px] flex h-7 w-[174px] items-center gap-[8px] rounded-md border border-[#d4d6d5] bg-white px-[9px] text-[14px]">
+            <span className={`h-[12px] w-[12px] shrink-0 rounded-full ${["bg-[#d6d8d7]", "bg-[#3ed4a4]", "bg-[#ffb200]", "bg-[#ff6b70]"][i]}`} />
+            <input placeholder="Add competitor" className="w-full bg-transparent outline-none placeholder:text-[#8b8d8c]" />
           </div>
         </div>
       ))}
@@ -436,13 +436,13 @@ function ProfileWidget() {
 function EmptyIllustration() {
   return (
     <svg width={76} height={72} viewBox="0 0 76 72">
-      <path d="M10 18c6-12 26-16 40-12 14 3 24 12 25 26 1 16-8 30-24 34-15 4-34 2-44-8C-1 49 3 30 10 18z" fill="#e4e5ea" />
+      <path d="M10 18c6-12 26-16 40-12 14 3 24 12 25 26 1 16-8 30-24 34-15 4-34 2-44-8C-1 49 3 30 10 18z" fill="#e5e6e6" />
       <g transform="rotate(-8 38 36)">
-        <rect x="14" y="14" width="50" height="42" rx="3" fill="#fff" stroke="#6c6e79" strokeWidth="1.6" />
-        <path d="M14 17a3 3 0 0 1 3-3h44a3 3 0 0 1 3 3v6H14z" fill="#6c6e79" />
+        <rect x="14" y="14" width="50" height="42" rx="3" fill="#fff" stroke="#6a6c6a" strokeWidth="1.6" />
+        <path d="M14 17a3 3 0 0 1 3-3h44a3 3 0 0 1 3 3v6H14z" fill="#6a6c6a" />
         <circle cx="19" cy="19" r="1.4" fill="#fff" />
         <circle cx="24" cy="19" r="1.4" fill="#fff" />
-        <path d="M34 23v33M14 39h50" stroke="#6c6e79" strokeWidth="1.2" />
+        <path d="M34 23v33M14 39h50" stroke="#6a6c6a" strokeWidth="1.2" />
       </g>
     </svg>
   );
@@ -529,7 +529,7 @@ function SuggestCard() {
         <br />
         Let us know what widgets you’d like us to add.
       </div>
-      <button type="button" className="mx-5 mt-[11px] h-7 rounded-md border border-[#d3d5db] bg-[#f4f5f9] px-[8px] text-[14px] text-rk-text-2 hover:bg-rk-hover">
+      <button type="button" className="mx-5 mt-[11px] h-7 rounded-md border border-[#d4d6d5] bg-[#f5f6f6] px-[8px] text-[14px] text-rk-text-2 hover:bg-rk-hover">
         Suggest widget
       </button>
     </section>

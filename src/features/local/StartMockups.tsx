@@ -254,7 +254,7 @@ export function InsightsMockup() {
       </div>
       <div className="relative h-[120px]">
         <div className="absolute top-[14px] left-[24px] text-[20px] leading-6 text-[#c2c3c7]">Average rating</div>
-        <div className="absolute top-[48px] left-[24px] text-[28px] text-[#c9cacf]">★</div>
+        <div className="absolute top-[48px] left-[24px] text-[28px] text-[#cacccb]">★</div>
         <svg viewBox="0 0 40 20" width={30} height={16} className="absolute top-[38px] right-[22px]">
           <path d="M0 16 20 4 40 14" fill="none" stroke="#9fd2f5" strokeWidth={2.5} />
         </svg>

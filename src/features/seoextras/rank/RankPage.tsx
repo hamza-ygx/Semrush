@@ -132,7 +132,7 @@ function DomainCell({ domain }: { domain: string }) {
       <Link href={`${routes.domainOverview}?q=${domain}&db=se&searchType=domain`} className="max-w-[106px] truncate text-rk-link hover:text-rk-link-hover">
         {domain}
       </Link>
-      <a href={`https://${domain}`} target="_blank" rel="noreferrer" aria-label={`Open ${domain}`} className="text-[#a9abb6] hover:text-rk-link">
+      <a href={`https://${domain}`} target="_blank" rel="noreferrer" aria-label={`Open ${domain}`} className="text-[#a9abaa] hover:text-rk-link">
         <ExtIcon />
       </a>
     </span>

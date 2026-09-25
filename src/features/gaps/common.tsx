@@ -13,7 +13,7 @@ export const D2 = "#2ed9ae";
 export const PAGE_BG = "#f3f5f5";
 
 export function CenteredFooter() {
-  const link = "text-[16px] leading-6 text-[#6c6e79] hover:text-rk-text";
+  const link = "text-[16px] leading-6 text-[#6a6c6a] hover:text-rk-text";
   return (
     <>
       <div className="hidden pt-[34px] xl:block">
@@ -25,9 +25,9 @@ export function CenteredFooter() {
           panelClassName="min-w-[140px] bottom-[calc(100%+4px)] top-auto!"
           trigger={({ toggle }) => (
             <button type="button" onClick={toggle} className={`${link} flex items-center gap-[7px]`}>
-              <TranslateIcon className="text-[#484a54]" />
+              <TranslateIcon className="text-[#484a49]" />
               English
-              <ChevronDownIcon width={14} height={14} className="text-[#a9abb6]" />
+              <ChevronDownIcon width={14} height={14} className="text-[#a9abaa]" />
             </button>
           )}
         >
@@ -47,7 +47,7 @@ export function CenteredFooter() {
           Cookie settings
         </button>
         </div>
-        <div className="mt-6 text-[16px] leading-6 text-[#6c6e79]">© 2026 {brand.legalName}. All rights reserved.</div>
+        <div className="mt-6 text-[16px] leading-6 text-[#6a6c6a]">© 2026 {brand.legalName}. All rights reserved.</div>
       </footer>
     </>
   );
@@ -93,7 +93,7 @@ export function Opt({
       type="button"
       onClick={onClick}
       className={`flex w-full items-center gap-2 text-left whitespace-nowrap text-rk-text ${size === "l" ? "h-10 px-3 text-[16px]" : "h-8 px-2 text-[14px]"} ${
-        active ? "bg-[#e9effb] shadow-[inset_2px_0_0_#191b23]" : "hover:bg-[#f2f4f8]"
+        active ? "bg-[#e9effb] shadow-[inset_2px_0_0_#1b1e1a]" : "hover:bg-[#f2f4f8]"
       } ${className}`}
     >
       {children}
@@ -172,7 +172,7 @@ export function ScopeSelect({
       panelClassName="left-px! min-w-[102px]"
       trigger={({ toggle, open }) => (
         <button type="button" data-testid={testId} onClick={toggle} className="flex items-center gap-[6px] text-[14px] leading-5 text-rk-text">
-          <span className={open ? "underline decoration-[#8a8e9b] underline-offset-[5px]" : ""}>{v}</span>
+          <span className={open ? "underline decoration-[#8b8d8c] underline-offset-[5px]" : ""}>{v}</span>
           <ChevronDownIcon width={14} height={14} />
         </button>
       )}
@@ -221,7 +221,7 @@ export function DomainField({
       {you ? (
         <YouTag className={`shrink-0 ${wide ? "mr-4 px-[9px]!" : "mr-[4px] px-[9px]!"}`} />
       ) : (
-        <Dot color={value ? (color ?? "#c4c7cf") : "#c4c7cf"} size={wide ? 12 : 10} className={wide ? "mr-[14px] ml-[3px]" : "mr-[8px]"} />
+        <Dot color={value ? (color ?? "#d6d8d7") : "#d6d8d7"} size={wide ? 12 : 10} className={wide ? "mr-[14px] ml-[3px]" : "mr-[8px]"} />
       )}
       <input
         value={shown}
@@ -229,10 +229,10 @@ export function DomainField({
         onBlur={() => setFocus(false)}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className={`min-w-0 flex-1 bg-transparent text-[14px] text-rk-text outline-none ${wide ? "placeholder:text-[#8a8e9b]" : "placeholder:text-[#a4a7b0]"}`}
+        className={`min-w-0 flex-1 bg-transparent text-[14px] text-rk-text outline-none ${wide ? "placeholder:text-[#8b8d8c]" : "placeholder:text-[#a4a7b0]"}`}
       />
       {value && (
-        <button type="button" aria-label="Clear" onClick={() => onChange("")} className="ml-1 shrink-0 text-[#6c6e79] hover:text-rk-text">
+        <button type="button" aria-label="Clear" onClick={() => onChange("")} className="ml-1 shrink-0 text-[#6a6c6a] hover:text-rk-text">
           <CloseIcon width={14} height={14} />
         </button>
       )}
@@ -264,7 +264,7 @@ export function SelectButton({
           onClick={toggle}
           className={`flex w-full items-center justify-between gap-2 rounded-md border bg-white ${open ? OPEN_BORDER : "border-[#dfe2e2]"} ${
             size === "l" ? "h-10 px-3 text-[16px]" : "h-7 px-2 text-[14px]"
-          } ${muted && v === value ? "text-[#8a8e9b]" : "text-rk-text"}`}
+          } ${muted && v === value ? "text-[#8b8d8c]" : "text-rk-text"}`}
         >
           <span className="truncate">{v}</span>
           <ChevronDown width={14} height={14} className="shrink-0 text-rk-text" strokeWidth={2.4} />
@@ -336,7 +336,7 @@ export function Checkbox({ color, checked, onChange, label }: { color: string; c
     <button type="button" onClick={onChange} className="flex items-center gap-2 text-[14px] leading-5 text-rk-text">
       <span
         className="flex h-4 w-4 items-center justify-center rounded-[4px] border"
-        style={checked ? { background: color, borderColor: color } : { borderColor: "#c4c7cf", background: "#fff" }}
+        style={checked ? { background: color, borderColor: color } : { borderColor: "#d6d8d7", background: "#fff" }}
       >
         {checked && (
           <svg viewBox="0 0 16 16" width={12} height={12}>
@@ -350,7 +350,7 @@ export function Checkbox({ color, checked, onChange, label }: { color: string; c
 }
 
 export const SerpIcon = ({ className = "" }: { className?: string }) => (
-  <svg viewBox="0 0 16 16" width={16} height={16} className={`inline-block shrink-0 text-[#a9abb6] ${className}`}>
+  <svg viewBox="0 0 16 16" width={16} height={16} className={`inline-block shrink-0 text-[#a9abaa] ${className}`}>
     <path d="M2.5 3h11v10h-11zM2.5 7h11" fill="none" stroke="currentColor" strokeWidth={1.4} />
   </svg>
 );

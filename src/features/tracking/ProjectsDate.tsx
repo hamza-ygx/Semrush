@@ -17,9 +17,9 @@ export function ProjectsDate() {
           type="button"
           onClick={toggle}
           data-testid="pt-projects-date"
-          className={`flex h-7 items-center gap-[8.5px] rounded-md border bg-white px-[8px] text-[14px] whitespace-nowrap text-[#6c6e79] ${open ? "border-[#8e9ff0]" : "border-rk-border-strong"}`}
+          className={`flex h-7 items-center gap-[8.5px] rounded-md border bg-white px-[8px] text-[14px] whitespace-nowrap text-[#6a6c6a] ${open ? "border-[#8e9ff0]" : "border-rk-border-strong"}`}
         >
-          <CalendarIcon className="text-[#8a8e9b]" />
+          <CalendarIcon className="text-[#8b8d8c]" />
           {project.periodLong}
         </button>
       )}

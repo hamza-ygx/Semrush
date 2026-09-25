@@ -277,7 +277,7 @@ export function CompetitorsEmpty() {
     <div className="pt-[2px]">
       <h2 className="text-[24px] leading-[26px] font-medium text-rk-text">No matching results</h2>
       <div className="mt-[24px] flex">
-        <div className="w-[370px] border-r border-[#d3d5db] pr-[18px]">
+        <div className="w-[370px] border-r border-[#d4d6d5] pr-[18px]">
           <h3 className="max-w-[330px] text-[16px] leading-6 font-bold text-rk-text">Is it your site? Connect GSC to get more data in Backlink Audit!</h3>
           <p className="mt-[12px] text-[14px] leading-[19.7px] text-rk-text-2">Secure your SEO efforts in link building. Comprehensive algorithms help discover and disavow toxic backlinks which can lead to penalties by search engines</p>
           <DarkBtn href={routes.backlinkAudit} className="mt-[19px]">
@@ -289,7 +289,7 @@ export function CompetitorsEmpty() {
           <ul className="mt-[11px] w-[350px] text-[14px] leading-5 text-rk-text-2">
             {["The domain name was mistyped or doesn’t exist. Double-check its spelling.", "This is a new website or page, and we haven’t crawled it yet. Please come back later.", "The website or page doesn’t have any backlinks."].map((t) => (
               <li key={t} className="mb-[7px] flex gap-[8px] pl-[3px]">
-                <span className="text-[#6c6e79]">•</span>
+                <span className="text-[#6a6c6a]">•</span>
                 <span>{t}</span>
               </li>
             ))}
@@ -325,10 +325,10 @@ export function BulkAnalysis() {
     <div className="-mt-px">
       <div className="flex h-5 items-center gap-[6px] text-[14px] text-rk-muted">
         Enter up to 200 URLs/domains, one per line
-        <span className="rounded-full border border-[#c4c7cf] px-[5px] text-[11px] leading-[15px] text-rk-text-2">{count}/200</span>
+        <span className="rounded-full border border-[#d6d8d7] px-[5px] text-[11px] leading-[15px] text-rk-text-2">{count}/200</span>
       </div>
-      <div className="mt-[9px] flex h-[160px] w-[600px] rounded-md border border-[#c4c7cf] bg-white focus-within:border-[#8f9cea] focus-within:shadow-[0_0_0_2px_rgba(143,156,234,0.25)]">
-        <div className="w-[40px] shrink-0 pt-[7px] pl-[11px] text-[16px] leading-6 text-[#a9abb6]">
+      <div className="mt-[9px] flex h-[160px] w-[600px] rounded-md border border-[#d6d8d7] bg-white focus-within:border-[#8f9cea] focus-within:shadow-[0_0_0_2px_rgba(143,156,234,0.25)]">
+        <div className="w-[40px] shrink-0 pt-[7px] pl-[11px] text-[16px] leading-6 text-[#a9abaa]">
           {lines.split("\n").map((_, i) => (
             <div key={i}>{i + 1}.</div>
           ))}
@@ -344,7 +344,7 @@ export function BulkAnalysis() {
       <div className="mt-[12px] flex h-7 w-[600px] items-center">
         <span className="text-[14px] text-rk-text-2">Results scope</span>
         <div className="relative ml-[12px]">
-          <button type="button" onClick={() => setScopeOpen(!scopeOpen)} className="flex h-7 items-center gap-[6px] rounded-md border border-[#c4c7cf] bg-white pr-[7px] pl-[8px] text-[14px] text-rk-text">
+          <button type="button" onClick={() => setScopeOpen(!scopeOpen)} className="flex h-7 items-center gap-[6px] rounded-md border border-[#d6d8d7] bg-white pr-[7px] pl-[8px] text-[14px] text-rk-text">
             {scope}
             <Chevron />
           </button>

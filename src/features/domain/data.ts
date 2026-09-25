@@ -100,7 +100,7 @@ export const marketChannels = [
   { label: "Organic Search", pct: "15%", value: "93K", color: "#f0313d", height: 6 },
   { label: "Google AI Mode", pct: "15%", value: "93K", color: "#ffb200", height: 6, ai: true },
   { label: "Paid Search", pct: "3%", value: "18.6K", color: "#e03fd8", height: 2 },
-  { label: "Other", pct: "21%", value: "130K", color: "#c4c7cf", height: 8 },
+  { label: "Other", pct: "21%", value: "130K", color: "#d6d8d7", height: 8 },
 ];
 
 export type Intent = "C" | "I" | "N" | "T";
@@ -367,5 +367,5 @@ export const tldDistribution = [
   { label: ".se", pct: 14, color: "#3ed4a4" },
   { label: ".net", pct: 9, color: "#ffb200" },
   { label: ".org", pct: 6, color: "#ff6b70" },
-  { label: "Others", pct: 13, color: "#c4c7cf" },
+  { label: "Others", pct: 13, color: "#d6d8d7" },
 ];

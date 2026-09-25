@@ -12,7 +12,7 @@ const stroke = {
 
 export const LogoIcon = (p: P) => (
   <svg viewBox="0 0 24 24" width={24} height={24} {...p}>
-    <rect x="1" y="1" width="22" height="22" rx="5" fill="#191b23" />
+    <rect x="1" y="1" width="22" height="22" rx="5" fill="#1b1e1a" />
     <path d="M6 1h12a5 5 0 0 1 5 5v2H1V6a5 5 0 0 1 5-5z" fill="#e8132b" />
     <text x="12" y="19.5" textAnchor="middle" fontSize="9.5" fontWeight="700" fill="#fff" fontFamily="inherit">RK</text>
   </svg>
@@ -250,7 +250,7 @@ export const RkjhFaviconSquare = (p: P) => (
 
 export const RkjhFavicon = (p: P) => (
   <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
-    <rect x="0.5" y="1.5" width="15" height="13" rx="3" fill="#191b23" />
+    <rect x="0.5" y="1.5" width="15" height="13" rx="3" fill="#1b1e1a" />
     <path d="M3.5 1.5h9a3 3 0 0 1 3 3V8H.5V4.5a3 3 0 0 1 3-3z" fill="#e8132b" />
   </svg>
 );

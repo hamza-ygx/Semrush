@@ -103,10 +103,10 @@ function Notes({ align = "right", panelClassName = "" }: { align?: "left" | "rig
               <PlusIcon width={14} height={14} strokeWidth={2} />
               Compose note
             </button>
-            <button type="button" disabled className="ml-[25px] h-7 rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-rk-muted">
+            <button type="button" disabled className="ml-[25px] h-7 rounded-md border border-rk-border-strong bg-[#f5f6f6] px-2 text-rk-muted">
               View all
             </button>
-            <button type="button" aria-label="Show notes" className="ml-2 flex h-7 w-[34px] items-center justify-center rounded-md border border-rk-border-strong bg-[#f4f5f9] text-rk-text-2 hover:bg-rk-hover">
+            <button type="button" aria-label="Show notes" className="ml-2 flex h-7 w-[34px] items-center justify-center rounded-md border border-rk-border-strong bg-[#f5f6f6] text-rk-text-2 hover:bg-rk-hover">
               <EyeIcon width={16} height={16} />
             </button>
           </div>
@@ -141,21 +141,21 @@ function CompetitiveChart({ metric, current: cur, latest }: { metric: (typeof me
   return (
     <svg width="100%" height={418} className="pointer-events-none absolute top-0 left-0 overflow-visible">
       <rect x={shade} y={y(0)} width={right - shade} height={y(4) - y(0)} fill="#f0f1f2" />
-      <line x1={shade} x2={shade} y1={y(0)} y2={y(4)} stroke="#c4c7cf" strokeDasharray="3 3" />
-      {!current && <line x1={right} x2={right} y1={y(0)} y2={y(4)} stroke="#c4c7cf" strokeDasharray="3 3" />}
-      <text transform={`translate(${shade - 7} ${y(2)}) rotate(-90)`} textAnchor="middle" fontSize={12} fill="#484a54">
+      <line x1={shade} x2={shade} y1={y(0)} y2={y(4)} stroke="#d6d8d7" strokeDasharray="3 3" />
+      {!current && <line x1={right} x2={right} y1={y(0)} y2={y(4)} stroke="#d6d8d7" strokeDasharray="3 3" />}
+      <text transform={`translate(${shade - 7} ${y(2)}) rotate(-90)`} textAnchor="middle" fontSize={12} fill="#484a49">
         {latest ? "Last 7 days" : "Last 8 days"}
       </text>
       {ticks.map((t, i) => (
         <g key={t}>
-          <line x1={x(0)} x2={right} y1={y(i)} y2={y(i)} stroke={i === 4 ? "#c4c7cf" : "#e6e7ec"} />
-          <text x={57} y={y(i) + 4} textAnchor="end" fontSize={12} fill="#6c6e79">
+          <line x1={x(0)} x2={right} y1={y(i)} y2={y(i)} stroke={i === 4 ? "#d6d8d7" : "#e7e8e8"} />
+          <text x={57} y={y(i) + 4} textAnchor="end" fontSize={12} fill="#6a6c6a">
             {t}
           </text>
         </g>
       ))}
       {labels.map((l) => (
-        <text key={l.l} x={x(l.d)} y={y(4) + 27} textAnchor="middle" fontSize={12} fill="#6c6e79">
+        <text key={l.l} x={x(l.d)} y={y(4) + 27} textAnchor="middle" fontSize={12} fill="#6a6c6a">
           {l.l}
         </text>
       ))}
@@ -193,19 +193,19 @@ function GrowthChart() {
       {ticks.map((t, i) => (
         <g key={t}>
           <line x1={78} x2={717} y1={y(i)} y2={y(i)} stroke="#eef0f2" />
-          <text x={57} y={y(i) + 4} textAnchor="end" fontSize={12} fill="#6c6e79">
+          <text x={57} y={y(i) + 4} textAnchor="end" fontSize={12} fill="#6a6c6a">
             {t}
           </text>
         </g>
       ))}
-      <line x1={78} x2={717} y1={base} y2={base} stroke="#e6e7ec" />
-      <line x1={549} x2={549} y1={y(0)} y2={base} stroke="#e0e1e9" strokeDasharray="3 3" />
+      <line x1={78} x2={717} y1={base} y2={base} stroke="#e7e8e8" />
+      <line x1={549} x2={549} y1={y(0)} y2={base} stroke="#e0e2e1" strokeDasharray="3 3" />
       {pgLabels.map((l, i) => (
-        <text key={l} x={x(1 + i * 4)} y={base + 26} textAnchor="middle" fontSize={12} fill="#6c6e79">
+        <text key={l} x={x(1 + i * 4)} y={base + 26} textAnchor="middle" fontSize={12} fill="#6a6c6a">
           {l}
         </text>
       ))}
-      <text x={667} y={base + 26} textAnchor="middle" fontSize={12} fill="#6c6e79">
+      <text x={667} y={base + 26} textAnchor="middle" fontSize={12} fill="#6a6c6a">
         3-month potential
       </text>
       <path d={`${curve}V${base}Z`} fill="url(#pt-pg-fill)" />
@@ -257,7 +257,7 @@ function GrowthSide() {
         {["How it’s calculated", "How to reach potential"].map((t) => (
           <li key={t} className="flex items-center gap-[10px]">
             <span className="h-[4px] w-[4px] rounded-full bg-rk-muted" />
-            <button type="button" className="underline decoration-[#6c6e79] decoration-dashed decoration-1 underline-offset-[5px] hover:text-rk-text">
+            <button type="button" className="underline decoration-[#6a6c6a] decoration-dashed decoration-1 underline-offset-[5px] hover:text-rk-text">
               {t}
             </button>
           </li>
@@ -274,8 +274,8 @@ export function OverviewChartCard({ mode = "ca", current = false, latest = false
   const [metric, setMetric] = useState<(typeof metrics)[number]>("Visibility");
   const pg = mode === "pg";
   return (
-    <section className="relative mt-[15px] h-[418px] rounded-md border border-[#e4e5ea] bg-white shadow-[0_1px_2px_rgba(25,27,35,0.05)]">
-      <div className="flex h-[45px] items-center gap-[16px] border-b-2 border-[#eceef2] px-5">
+    <section className="relative mt-[15px] h-[418px] rounded-md border border-[#e5e6e6] bg-white shadow-[0_1px_2px_rgba(25,27,35,0.05)]">
+      <div className="flex h-[45px] items-center gap-[16px] border-b-2 border-[#edefef] px-5">
         <ModeSwitch mode={mode} onMode={(m) => onMode?.(m)} />
         {pg ? (
           <Segmented key="pg" items={pgMetrics} value="Visibility" className="[&>button]:h-[27px]" />
@@ -287,8 +287,8 @@ export function OverviewChartCard({ mode = "ca", current = false, latest = false
       {pg ? (
         <>
           <div className="absolute top-[64px] left-5 flex items-center">
-            <Checkbox checked color="#191b23" label={<span className="text-[14px] text-rk-text">Smart zoom</span>} className="!gap-[8px]" />
-            <span className="mx-[16px] h-[22px] border-l border-[#e0e1e9]" />
+            <Checkbox checked color="#1b1e1a" label={<span className="text-[14px] text-rk-text">Smart zoom</span>} className="!gap-[8px]" />
+            <span className="mx-[16px] h-[22px] border-l border-[#e0e2e1]" />
             <Notes align="left" panelClassName="!-left-[188px]" />
           </div>
           <GrowthChart />
@@ -298,15 +298,15 @@ export function OverviewChartCard({ mode = "ca", current = false, latest = false
         <>
           <div className="absolute top-[64px] left-5 text-[14px] leading-5 text-rk-text">{project.domain}</div>
           <div className="absolute top-[86px] left-5 flex items-baseline gap-[8px]">
-            <span className="text-[24px] leading-8 font-semibold text-[#6c6e79]">0</span>
+            <span className="text-[24px] leading-8 font-semibold text-[#6a6c6a]">0</span>
             <span className="text-[12px] text-rk-muted">0</span>
           </div>
           <div className="absolute top-[136px] left-5">
             <Checkbox checked color="#5c5fd6" label={<span className="text-[14px] text-rk-text">{project.domain}</span>} className="!gap-[6px]" />
           </div>
           <div className="absolute top-[134px] right-5 flex items-center">
-            <Checkbox checked color="#191b23" label={<span className="text-[14px] text-rk-text">Smart zoom</span>} className="!gap-[8px]" />
-            <span className="mx-[16px] h-[22px] border-l border-[#e0e1e9]" />
+            <Checkbox checked color="#1b1e1a" label={<span className="text-[14px] text-rk-text">Smart zoom</span>} className="!gap-[8px]" />
+            <span className="mx-[16px] h-[22px] border-l border-[#e0e2e1]" />
             {(!current || latest) && <Notes />}
           </div>
           <CompetitiveChart metric={metric} current={current} latest={latest} />

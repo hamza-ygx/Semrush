@@ -12,7 +12,7 @@ function MiniPill({ children, className = "", style }: { children: ReactNode; cl
   return (
     <div
       style={style}
-      className={`flex h-6 items-center rounded-[7px] border border-[#dcdde2] bg-white text-[10.5px] whitespace-nowrap text-[#484a54] ${className}`}
+      className={`flex h-6 items-center rounded-[7px] border border-[#dcdde2] bg-white text-[10.5px] whitespace-nowrap text-[#484a49] ${className}`}
     >
       {children}
     </div>
@@ -51,7 +51,7 @@ export function FormMock({ big = false }: { big?: boolean }) {
         ) : (
           <span className="ml-[8px] h-[11px] w-[11px] rounded-full bg-[#2ed9ae]" />
         )}
-        <span className={`flex-1 truncate ${first ? "text-[#484a54]" : "text-[#c4c7cf]"}`} style={{ paddingLeft: first ? 8 : 10 }}>
+        <span className={`flex-1 truncate ${first ? "text-[#484a49]" : "text-[#d6d8d7]"}`} style={{ paddingLeft: first ? 8 : 10 }}>
           {first ? "asos.com" : "Add competitor"}
         </span>
         <span className="flex h-full shrink-0 items-center justify-center gap-[3px] border-l border-[#dcdde2]" style={{ width: g.scope }}>
@@ -130,7 +130,7 @@ export function IllusOverlap() {
         ))}
       </div>
       <div className={`absolute top-[181px] left-[48px] flex h-[64px] w-[346px] items-center rounded-lg bg-white pl-[19px] ${shadow}`}>
-        <div className="flex h-8 text-[12px] text-[#484a54]">
+        <div className="flex h-8 text-[12px] text-[#484a49]">
           <span className="flex items-center rounded-l-[5px] border border-[#98a6ee] bg-[#f0f3ff] px-2">Organic keywords</span>
           <span className="flex items-center border-y border-[#dcdde2] px-[9px]">Paid keywords</span>
           <span className="flex items-center rounded-r-[5px] border border-[#dcdde2] px-2">PLA keywords</span>
@@ -160,7 +160,7 @@ export function IllusTable() {
         <path d="M57 124 A154 154 0 0 0 365 124 Z" fill="#f4f1fe" />
       </svg>
       <div className={`absolute top-[68px] left-[37px] h-[146px] w-[350px] rounded-lg bg-white px-[11px] ${shadow}`}>
-        <div className="flex h-[38px] items-end pb-[6px] text-[12px] text-[#6c6e79]">
+        <div className="flex h-[38px] items-end pb-[6px] text-[12px] text-[#6a6c6a]">
           <span className="w-[76px] pl-[10px]">Keyword</span>
           <span className="w-[59px] text-right">Volume</span>
           <span className="flex w-[86px] items-center justify-center gap-[5px]">
@@ -174,8 +174,8 @@ export function IllusTable() {
         </div>
         {rows.map((r) => (
           <div key={r.k} className="flex h-[31.5px] items-center border-t border-[#ecedf0] text-[12px]">
-            <span className="w-[76px] pl-[10px] text-[#2359d6]">{r.k}</span>
-            <span className="w-[59px] text-right text-[#6c6e79]">{r.v}</span>
+            <span className="w-[76px] pl-[10px] text-[#235fe2]">{r.k}</span>
+            <span className="w-[59px] text-right text-[#6a6c6a]">{r.v}</span>
             <span className={`ml-[10px] flex h-full w-[84px] items-center gap-[5px] pl-[8px] ${r.a ? "bg-[#e6fbf3]" : ""}`}>
               {r.a ? (
                 <>

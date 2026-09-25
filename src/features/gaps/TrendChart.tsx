@@ -65,13 +65,13 @@ export function TrendChart({
     <svg viewBox={`0 0 ${width} ${height}`} width="100%" className="block overflow-visible">
       {ticks.map((t) => (
         <g key={t}>
-          <line x1={plot.left} x2={plot.right} y1={y(t)} y2={y(t)} stroke={t === min ? "#c4c7cf" : "#e8e9ec"} />
+          <line x1={plot.left} x2={plot.right} y1={y(t)} y2={y(t)} stroke={t === min ? "#d6d8d7" : "#e8e9ec"} />
           <text
             x={axis === "right" ? plot.right + 16 : plot.left - 12}
             y={y(t) + 4}
             textAnchor={axis === "right" ? "start" : "end"}
             fontSize={labelFont}
-            fill="#6c6e79"
+            fill="#6a6c6a"
           >
             {t}
           </text>
@@ -79,7 +79,7 @@ export function TrendChart({
       ))}
       {labels.map((l, i) =>
         l ? (
-          <text key={i} x={labelAt ? labelAt[i] : x(i)} y={labelY} textAnchor="middle" fontSize={labelFont} fill="#6c6e79">
+          <text key={i} x={labelAt ? labelAt[i] : x(i)} y={labelY} textAnchor="middle" fontSize={labelFont} fill="#6a6c6a">
             {l}
           </text>
         ) : null,

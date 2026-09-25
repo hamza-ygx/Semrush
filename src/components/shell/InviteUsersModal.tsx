@@ -6,7 +6,7 @@ import { CloseIcon, InfoIcon } from "../ui/icons";
 
 const Spinner = () => (
   <svg viewBox="0 0 16 16" width={14} height={14} className="inline-block animate-spin align-[-2px]">
-    <path d="M8 2a6 6 0 1 0 6 6" fill="none" stroke="#c4c7cf" strokeWidth={2} strokeLinecap="round" />
+    <path d="M8 2a6 6 0 1 0 6 6" fill="none" stroke="#d6d8d7" strokeWidth={2} strokeLinecap="round" />
   </svg>
 );
 
@@ -38,7 +38,7 @@ export function InviteUsersModal({ open, onClose }: { open: boolean; onClose: ()
         onClick={(e) => (e.currentTarget.querySelector("input") as HTMLInputElement)?.focus()}
       >
         {emails.map((e, i) => (
-          <span key={i} className="group flex h-7 items-center gap-1 rounded-full bg-[#e0e1e9] px-2 text-[14px] text-rk-text-2">
+          <span key={i} className="group flex h-7 items-center gap-1 rounded-full bg-[#e0e2e1] px-2 text-[14px] text-rk-text-2">
             {e}
             <button type="button" aria-label={`Remove ${e}`} className="hidden group-hover:block" onClick={() => setEmails((x) => x.filter((_, j) => j !== i))}>
               <CloseIcon width={12} height={12} />

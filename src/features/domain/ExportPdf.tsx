@@ -81,7 +81,7 @@ function ExportModal({ onClose }: { onClose: () => void }) {
         </div>
         <div className="px-10 pt-10 pb-[20px]">
           <label className="flex items-center gap-4 text-[14px] leading-5 text-rk-text">
-            <input type="checkbox" checked={agree} onChange={() => setAgree(!agree)} className="h-4 w-4 shrink-0 appearance-none rounded-[3px] border border-[#d3d5db] bg-white checked:border-rk-link checked:bg-rk-link" />
+            <input type="checkbox" checked={agree} onChange={() => setAgree(!agree)} className="h-4 w-4 shrink-0 appearance-none rounded-[3px] border border-[#d4d6d5] bg-white checked:border-rk-link checked:bg-rk-link" />
             <span>
               I have read{" "}
               <span className="text-rk-link hover:text-rk-link-hover">Privacy Policy</span>{" "}
@@ -95,7 +95,7 @@ function ExportModal({ onClose }: { onClose: () => void }) {
                 type="button"
                 disabled={!agree}
                 onClick={onClose}
-                className="flex h-[151px] flex-col items-center rounded-md border border-[#c4c7cf] pt-[35px] text-[16px] leading-6 text-rk-text enabled:hover:bg-rk-bg"
+                className="flex h-[151px] flex-col items-center rounded-md border border-[#d6d8d7] pt-[35px] text-[16px] leading-6 text-rk-text enabled:hover:bg-rk-bg"
               >
                 <I d={a.icon} />
                 <span className="mt-[8px]">{a.label[0]}</span>
@@ -106,7 +106,7 @@ function ExportModal({ onClose }: { onClose: () => void }) {
               </button>
             ))}
           </div>
-          <button type="button" disabled={!agree} className="mt-[17px] flex h-[57px] w-full items-center justify-center gap-2 rounded-md border border-[#c4c7cf] text-[16px] text-rk-text enabled:hover:bg-rk-bg">
+          <button type="button" disabled={!agree} className="mt-[17px] flex h-[57px] w-full items-center justify-center gap-2 rounded-md border border-[#d6d8d7] text-[16px] text-rk-text enabled:hover:bg-rk-bg">
             <svg viewBox="0 0 16 16" width={16} height={16}>
               <path d="M5.5 4 1.5 8l4 4M10.5 4l4 4-4 4" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -131,7 +131,7 @@ export function ExportPdf() {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Button variant="tertiary" onClick={() => setOpen(true)} className="h-7 border-[#d3d5db] !bg-[#eceeee] px-[9px] !text-rk-muted">
+      <Button variant="tertiary" onClick={() => setOpen(true)} className="h-7 border-[#d4d6d5] !bg-[#eceeee] px-[9px] !text-rk-muted">
         <ExportIcon />
         Export to PDF
       </Button>

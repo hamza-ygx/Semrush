@@ -50,11 +50,11 @@ function HeroArt() {
           </span>
           <span>
             <div className="text-[11.5px] leading-[14px] font-medium">Lumos Living</div>
-            <div className="text-[8px] leading-[10px] text-[#6c6e79]">Sevilla, Spain</div>
+            <div className="text-[8px] leading-[10px] text-[#6a6c6a]">Sevilla, Spain</div>
           </span>
         </div>
         <LampPhoto />
-        <div className="flex h-[33px] items-center gap-[7px] px-[11px] text-[#484a54]">
+        <div className="flex h-[33px] items-center gap-[7px] px-[11px] text-[#484a49]">
           <svg viewBox="0 0 60 18" width={60} height={18} aria-hidden>
             <path d="M9 16S1 11 1 6a4 4 0 0 1 8-1.5A4 4 0 0 1 17 6c0 5-8 10-8 10z" fill="none" stroke="currentColor" strokeWidth={1.4} />
             <path d="M30 2a7 7 0 1 0 6.3 10l1.7 4-4-1.5A7 7 0 0 0 30 2z" fill="none" stroke="currentColor" strokeWidth={1.4} />
@@ -63,8 +63,8 @@ function HeroArt() {
         </div>
       </div>
       <div className="absolute top-[25px] left-[186px] w-[213px] rounded-xl bg-white pb-[10px] shadow-[0_6px_24px_rgba(0,0,0,0.2)]">
-        <div className="border-b border-[#ececf0] px-[11px] pt-[9px] pb-[6px] text-[12.5px] text-[#484a54]">Placement per platform</div>
-        <div className="flex gap-3 px-[11px] pt-[6px] text-[11px] text-[#484a54]">
+        <div className="border-b border-[#ececf0] px-[11px] pt-[9px] pb-[6px] text-[12.5px] text-[#484a49]">Placement per platform</div>
+        <div className="flex gap-3 px-[11px] pt-[6px] text-[11px] text-[#484a49]">
           <span className="flex items-center gap-1">
             <span className="h-[5px] w-[5px] rounded-full" style={{ background: B }} />
             Reach
@@ -74,7 +74,7 @@ function HeroArt() {
             Clicks
           </span>
         </div>
-        <div className="mx-[11px] mt-[10px] flex h-[68px] items-end justify-around border-y border-[#f0f0f3] px-4">
+        <div className="mx-[11px] mt-[10px] flex h-[68px] items-end justify-around border-y border-[#f0f1f1] px-4">
           {[
             [40, 62],
             [52, 40],
@@ -86,15 +86,15 @@ function HeroArt() {
             </span>
           ))}
         </div>
-        <div className="mt-[4px] flex justify-around text-[11px] text-[#484a54]">
+        <div className="mt-[4px] flex justify-around text-[11px] text-[#484a49]">
           <span>Instagram</span>
           <span>Facebook</span>
           <span>Google</span>
         </div>
       </div>
       <div className="absolute top-[235px] left-[137px] w-[190px] rounded-xl bg-white pb-[10px] shadow-[0_6px_24px_rgba(0,0,0,0.2)]">
-        <div className="border-b border-[#ececf0] px-[10px] pt-[7px] pb-[5px] text-[12.5px] text-[#484a54]">Distribution by Device</div>
-        <div className="flex gap-2 px-[10px] pt-[5px] text-[11px] text-[#484a54]">
+        <div className="border-b border-[#ececf0] px-[10px] pt-[7px] pb-[5px] text-[12.5px] text-[#484a49]">Distribution by Device</div>
+        <div className="flex gap-2 px-[10px] pt-[5px] text-[11px] text-[#484a49]">
           {[
             ["Desktop", B],
             ["Tablet", Y],

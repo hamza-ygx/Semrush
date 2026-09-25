@@ -55,7 +55,7 @@ function Toolbar({ type, setType, currency }: { type: Type; setType: (t: Type) =
       </div>
       <label className="mt-[11px] flex h-7 w-[274px] items-center gap-2 rounded-md border border-[#d7c5fb] bg-white px-2">
         <SparkleLg />
-        <input placeholder="Enter domain for personalized data" className="min-w-0 flex-1 bg-transparent text-[14px] outline-none placeholder:text-[#a0a2aa]" />
+        <input placeholder="Enter domain for personalized data" className="min-w-0 flex-1 bg-transparent text-[14px] outline-none placeholder:text-[#a1a3a2]" />
       </label>
       <div className="mt-[13px]">
         <Filters currency={currency} />
@@ -155,7 +155,7 @@ export function KeywordMagic({ q, initialMode, initialType }: { q: string; initi
                   title="Explore keyword topics"
                   onClose={() => setTip(false)}
                   actions={
-                    <button type="button" onClick={() => setTip(false)} className="h-7 rounded-md bg-white px-[9px] text-[14px] text-rk-text hover:bg-[#f4f5f9]">
+                    <button type="button" onClick={() => setTip(false)} className="h-7 rounded-md bg-white px-[9px] text-[14px] text-rk-text hover:bg-[#f5f6f6]">
                       Got it
                     </button>
                   }

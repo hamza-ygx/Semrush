@@ -56,10 +56,10 @@ export function MagnifierArt() {
   return (
     <svg viewBox="0 0 84 84" width={84} height={84} aria-hidden>
       <rect x="12" y="10" width="58" height="62" rx="4" fill="#d6d8de" transform="rotate(-12 41 41)" />
-      <rect x="10" y="14" width="58" height="60" rx="4" fill="#f3f4f7" stroke="#8a8e9b" strokeWidth={1.2} transform="rotate(-6 39 44)" />
-      <circle cx="44" cy="34" r="16" fill="#fff" stroke="#6c6e79" strokeWidth={3} />
-      <path d="M52 46 66 64" stroke="#6c6e79" strokeWidth={6} strokeLinecap="round" />
-      <path d="M36 28c3-4 8-5 12-3" fill="none" stroke="#c4c7cf" strokeWidth={2} strokeLinecap="round" />
+      <rect x="10" y="14" width="58" height="60" rx="4" fill="#f3f4f7" stroke="#8b8d8c" strokeWidth={1.2} transform="rotate(-6 39 44)" />
+      <circle cx="44" cy="34" r="16" fill="#fff" stroke="#6a6c6a" strokeWidth={3} />
+      <path d="M52 46 66 64" stroke="#6a6c6a" strokeWidth={6} strokeLinecap="round" />
+      <path d="M36 28c3-4 8-5 12-3" fill="none" stroke="#d6d8d7" strokeWidth={2} strokeLinecap="round" />
     </svg>
   );
 }
@@ -68,23 +68,23 @@ export function AppsEmptyArt({ width = 346, height = 266 }: { width?: number; he
   return (
     <svg viewBox="0 0 346 266" width={width} height={height} className="shrink-0" aria-hidden>
       <rect x="0.5" y="0.5" width="345" height="265" rx="8" fill="#fff" stroke="#d6d8e1" />
-      <path d="M1 9a8 8 0 0 1 8-8h328a8 8 0 0 1 8 8v8H1z" fill="#e0e1e9" />
+      <path d="M1 9a8 8 0 0 1 8-8h328a8 8 0 0 1 8 8v8H1z" fill="#e0e2e1" />
       <circle cx="322" cy="9" r="1.8" fill="#fff" />
       <circle cx="329" cy="9" r="1.8" fill="#fff" />
       <circle cx="336" cy="9" r="1.8" fill="#fff" />
-      <rect x="16" y="36" width="128" height="10" rx="5" fill="#e0e1e9" />
-      <path d="M1 65h344" stroke="#e0e1e9" />
+      <rect x="16" y="36" width="128" height="10" rx="5" fill="#e0e2e1" />
+      <path d="M1 65h344" stroke="#e0e2e1" />
       <rect x="16.5" y="80.5" width="310" height="161" rx="6" fill="#fff" stroke="#d6d8e1" />
-      <circle cx="39" cy="103" r="11" fill="#e0e1e9" />
-      <rect x="60" y="92" width="104" height="6" rx="3" fill="#e0e1e9" />
-      <rect x="60" y="108" width="74" height="6" rx="3" fill="#e0e1e9" />
-      <rect x="200" y="92" width="114" height="22" rx="4" fill="#8a8e9b" />
+      <circle cx="39" cy="103" r="11" fill="#e0e2e1" />
+      <rect x="60" y="92" width="104" height="6" rx="3" fill="#e0e2e1" />
+      <rect x="60" y="108" width="74" height="6" rx="3" fill="#e0e2e1" />
+      <rect x="200" y="92" width="114" height="22" rx="4" fill="#8b8d8c" />
       <text x="257" y="107.5" textAnchor="middle" fontSize="13" fill="#fff">
         Revoke access
       </text>
-      <path d="M17 126h310" stroke="#e0e1e9" />
-      <rect x="28" y="150" width="208" height="6" rx="3" fill="#e0e1e9" />
-      <rect x="28" y="166" width="171" height="6" rx="3" fill="#e0e1e9" />
+      <path d="M17 126h310" stroke="#e0e2e1" />
+      <rect x="28" y="150" width="208" height="6" rx="3" fill="#e0e2e1" />
+      <rect x="28" y="166" width="171" height="6" rx="3" fill="#e0e2e1" />
       <rect x="28" y="182" width="287" height="38" rx="5" fill="#f3f4f7" />
       <path d="M17 262v-6a6 6 0 0 1 6-6h298a6 6 0 0 1 6 6v6" fill="none" stroke="#d6d8e1" />
     </svg>

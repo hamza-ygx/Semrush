@@ -19,7 +19,7 @@ const HelpCircle = () => (
   </svg>
 );
 
-const zoomBtn = "flex h-7 w-7 items-center justify-center rounded-md border border-[#c4c7cf] bg-white text-rk-text-2 hover:bg-rk-bg";
+const zoomBtn = "flex h-7 w-7 items-center justify-center rounded-md border border-[#d6d8d7] bg-white text-rk-text-2 hover:bg-rk-bg";
 
 const ZoomIn = () => (
   <svg viewBox="0 0 16 16" width={16} height={16}>
@@ -77,7 +77,7 @@ function CategorySelect() {
         <div className="absolute top-[30px] left-0 z-40 w-[302px] rounded-md bg-white shadow-popover">
           <label className="flex h-[35px] items-center gap-[7px] rounded-md border-2 border-[#8f9cea] px-[8px]">
             <SearchIcon width={16} height={16} className="shrink-0 text-[#8a8d99]" />
-            <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search" className="w-full bg-transparent text-[14px] text-rk-text outline-none placeholder:text-[#a9abb6]" />
+            <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search" className="w-full bg-transparent text-[14px] text-rk-text outline-none placeholder:text-[#a9abaa]" />
           </label>
           <div className="max-h-[229px] overflow-y-auto py-[4px] [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#d4d5d9]">
             {list.map((c) => (
@@ -125,7 +125,7 @@ function HowItWorks({ onClose }: { onClose: () => void }) {
   const ref = useOutsideClose<HTMLDivElement>(true, onClose);
   return (
     <div ref={ref} className="fixed top-0 right-0 bottom-0 z-[60] w-[380px] bg-white shadow-[-4px_0_16px_rgba(25,27,35,0.12)]" role="dialog" aria-label="How it works">
-      <header className="flex h-[49px] items-center justify-between border-b border-[#e0e1e9] pr-[18px] pl-5">
+      <header className="flex h-[49px] items-center justify-between border-b border-[#e0e2e1] pr-[18px] pl-5">
         <h2 className="text-[16px] leading-6 font-bold text-rk-text">How it works</h2>
         <button type="button" aria-label="Close" onClick={onClose} className="text-rk-text-2 hover:text-rk-text">
           <CloseX size={18} />
@@ -279,7 +279,7 @@ function FullScreen({ onClose }: { onClose: () => void }) {
     <div className="fixed inset-0 z-[120] flex flex-col bg-white" role="dialog" aria-label="Network Graph">
       <header className="flex h-[77px] shrink-0 items-center justify-between border-b border-[#cbcbcb] pr-[36px] pl-8">
         <h2 className="text-[24px] leading-8 font-bold text-rk-text">Network Graph</h2>
-        <button type="button" aria-label="Close full screen" onClick={onClose} className="text-[#a9abb6] hover:text-rk-text">
+        <button type="button" aria-label="Close full screen" onClick={onClose} className="text-[#a9abaa] hover:text-rk-text">
           <CloseX />
         </button>
       </header>

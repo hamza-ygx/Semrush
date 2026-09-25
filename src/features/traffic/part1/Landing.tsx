@@ -11,7 +11,7 @@ import { DomainDot } from "../TrafficFrame";
 import { ListSettings } from "../part8/ListSettings";
 import { competitorColors, ListDomains, listsFor, type SavedList } from "../part8/lists";
 
-const inputCls = "h-10 w-[500px] rounded-[6px] border border-[#d7d9de] bg-white text-[16px] text-rk-text outline-none placeholder:text-[#a0a2ab]";
+const inputCls = "h-10 w-[500px] rounded-[6px] border border-[#d8dad9] bg-white text-[16px] text-rk-text outline-none placeholder:text-[#a0a2ab]";
 
 function Hero({ tag, title, subtitle, subtitleClass = "", withList = false }: { tag: string; title: ReactNode; subtitle: ReactNode; subtitleClass?: string; withList?: boolean }) {
   const router = useRouter();
@@ -230,9 +230,9 @@ function ApiIllustration() {
         +15%
       </text>
       <circle cx="61" cy="204" r="2.3" fill="#a45ff4" />
-      <text x="67" y="206" fontSize="6.5" fill="#6c6e79">Competitor 1</text>
+      <text x="67" y="206" fontSize="6.5" fill="#6a6c6a">Competitor 1</text>
       <circle cx="114" cy="204" r="2.3" fill="#d6b5fb" />
-      <text x="120" y="206" fontSize="6.5" fill="#6c6e79">Competitor 2</text>
+      <text x="120" y="206" fontSize="6.5" fill="#6a6c6a">Competitor 2</text>
       <g filter="url(#apish)">
         <rect x="179" y="68" width="119" height="84" rx="4" fill="#b366fb" />
       </g>
@@ -270,7 +270,7 @@ function ApiCard() {
         </button>
         <Link
           href={routes.traffic.trendsApi}
-          className="mt-[16px] flex h-10 w-[446px] items-center justify-center rounded-[6px] border border-[#c4c7cf] bg-[#f4f5f9] text-[16px] text-rk-text-2 hover:bg-rk-hover"
+          className="mt-[16px] flex h-10 w-[446px] items-center justify-center rounded-[6px] border border-[#d6d8d7] bg-[#f5f6f6] text-[16px] text-rk-text-2 hover:bg-rk-hover"
         >
           Learn more about API
         </Link>
@@ -323,7 +323,7 @@ function GrowthIllustration() {
           <feDropShadow dx="0" dy="2" stdDeviation="5" floodColor="#2a4d80" floodOpacity="0.1" />
         </filter>
       </defs>
-      <text x="70" y="103" fontSize="15" fontWeight="600" fill="#191b23">
+      <text x="70" y="103" fontSize="15" fontWeight="600" fill="#1b1e1a">
         Traffic Trend
       </text>
       <line x1="70" x2="350" y1="128" y2="128" stroke="#eef0f3" />
@@ -331,14 +331,14 @@ function GrowthIllustration() {
       <path d="M70 165c10-5 18-6 28-2s20 2 30-2 18 3 26 2c8-1 12-30 15-30s6 30 12 31 20 0 28 0 14 5 20 4c8-2 12-10 16-12" fill="none" stroke="#2ea8f2" strokeWidth="2.6" />
       <circle cx="170" cy="135" r="4" fill="#2ea8f2" />
       <rect x="238" y="72" width="140" height="98" rx="6" fill="#cfeafc" />
-      <path d="M257 90a3 3 0 1 1 0 6h-2M253 88v10M259 92h5a2.5 2.5 0 0 1 0 5h-5ZM259 97h5a2.5 2.5 0 0 1 0 5h-5Z" fill="none" stroke="#191b23" strokeWidth="1.4" />
-      <text x="252" y="126" fontSize="10.5" fontWeight="500" fill="#191b23">
+      <path d="M257 90a3 3 0 1 1 0 6h-2M253 88v10M259 92h5a2.5 2.5 0 0 1 0 5h-5ZM259 97h5a2.5 2.5 0 0 1 0 5h-5Z" fill="none" stroke="#1b1e1a" strokeWidth="1.4" />
+      <text x="252" y="126" fontSize="10.5" fontWeight="500" fill="#1b1e1a">
         Purchase Conversion
       </text>
-      <text x="251" y="154" fontSize="25" fill="#191b23">
+      <text x="251" y="154" fontSize="25" fill="#1b1e1a">
         4.35%
       </text>
-      <text x="324" y="153" fontSize="10.5" fill="#484a54">
+      <text x="324" y="153" fontSize="10.5" fill="#484a49">
         ↑5.57
       </text>
     </svg>
@@ -381,7 +381,7 @@ export function TrafficLanding() {
                   {[0, 1, 2, 3].map((k) => (
                     <g key={k}>
                       <rect x="80" y={84 + k * 28} width={60 + ((k * 53) % 90)} height="10" rx="3" fill={i === 1 ? "#c9b3f7" : "#8fdcbc"} />
-                      <rect x="250" y={84 + k * 28} width="60" height="10" rx="3" fill="#eceef2" />
+                      <rect x="250" y={84 + k * 28} width="60" height="10" rx="3" fill="#edefef" />
                     </g>
                   ))}
                 </svg>

@@ -39,7 +39,7 @@ export function TipBox({
       style={{ "--tip-gap": `${gap}px`, "--tip-shift": `${shift}px`, ...style } as CSSProperties}
       className={`pointer-events-none absolute ${dark ? "z-[61]" : "z-[60]"} block text-left whitespace-normal ${pos[place]} ${
         dark
-          ? "rounded-[4px] bg-[#191b23] px-2 py-1 text-[12px] leading-4 text-white"
+          ? "rounded-[4px] bg-[#1b1e1a] px-2 py-1 text-[12px] leading-4 text-white"
           : "rounded-md bg-white px-3 py-[10px] text-[14px] leading-5 font-normal text-rk-text shadow-popover"
       } ${className}`}
     >
@@ -47,7 +47,7 @@ export function TipBox({
       {arrow !== -1 && (
         <span
           style={arrow === undefined ? { left: "50%" } : { left: arrow }}
-          className={`absolute h-[9px] w-[9px] -translate-x-1/2 rotate-45 ${dark ? "bg-[#191b23]" : "bg-white shadow-[1px_1px_1px_rgba(25,27,35,0.08)]"} ${
+          className={`absolute h-[9px] w-[9px] -translate-x-1/2 rotate-45 ${dark ? "bg-[#1b1e1a]" : "bg-white shadow-[1px_1px_1px_rgba(25,27,35,0.08)]"} ${
             up ? "-bottom-[4px]" : "-top-[4px] shadow-none"
           }`}
         />

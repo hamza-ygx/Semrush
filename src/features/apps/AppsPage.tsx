@@ -19,7 +19,7 @@ export function AppCard({ app }: { app: App }) {
       <p className="mt-[7px] line-clamp-3 h-[60px] text-[14px] leading-5 text-rk-text-2">{app.description}</p>
       <div className="mt-5 flex h-[27px] items-center justify-between">
         {badge ? <span className="flex h-[27px] items-center rounded-full bg-[#c7f3e6] px-[9px] text-[14px] text-[#007c65]">{badge}</span> : <span />}
-        <span className={`text-[14px] leading-5 ${app.toolkit ? "font-medium text-rk-text-2" : "text-rk-text-2"}`}>{app.toolkit ? "Learn more" : app.price}</span>
+        <span className={`text-[14px] leading-5 ${app.toolkit ? "font-medium text-rk-text-2" : "text-[#6c6e79]"}`}>{app.toolkit ? "Learn more" : app.price}</span>
       </div>
     </>
   );

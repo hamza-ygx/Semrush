@@ -90,14 +90,14 @@ function GrowingGroupPages() {
       <DomainSwitch domains={domains} onChange={setCur} />
       <div className="mt-[21px] flex gap-4 overflow-hidden">
         {pageGroupGrowing[cur].map((p) => (
-          <div key={p.url} className="h-[113px] w-[250px] shrink-0 rounded-[6px] border border-[#d7d9de] bg-white px-[16px] pt-[15px]">
+          <div key={p.url} className="h-[113px] w-[250px] shrink-0 rounded-[6px] border border-[#d8dad9] bg-white px-[16px] pt-[15px]">
             <div className="text-[24px] leading-[30px] font-semibold text-rk-text">{p.pct}</div>
             <div className="mt-[1px] text-[14px] leading-5 text-rk-text-2">
               {p.a} <span className="text-[#8b8d96]">vs.</span> {p.b}
             </div>
             <div className="mt-[14px] flex items-center justify-between text-[14px] leading-5 text-rk-text-2">
               <span className="truncate">{p.url}</span>
-              <a href={`https://${p.url.split("/")[0]}`} target="_blank" rel="noopener noreferrer" aria-label="Open page" className="ml-2 text-[#a9abb6] hover:text-rk-link">
+              <a href={`https://${p.url.split("/")[0]}`} target="_blank" rel="noopener noreferrer" aria-label="Open page" className="ml-2 text-[#a9abaa] hover:text-rk-link">
                 <ExternalIcon width={16} height={16} />
               </a>
             </div>
@@ -129,13 +129,13 @@ function ChannelsChart() {
     <SampleCard title="Traffic Channels" bodyClassName="px-5 pt-[35px] pb-[20px]">
       <div className="relative">
         <svg width={W} height={top + H + 29} className="block overflow-visible">
-          <text x={0} y={0} transform={`translate(19 ${top + H / 2}) rotate(-90)`} textAnchor="middle" fontSize={12} fill="#6c6e79">
+          <text x={0} y={0} transform={`translate(19 ${top + H / 2}) rotate(-90)`} textAnchor="middle" fontSize={12} fill="#6a6c6a">
             Visits
           </text>
           {[0, 100e3, 200e3, 300e3, 400e3].map((t) => (
             <Fragment key={t}>
               <line x1={98} x2={W} y1={y(t)} y2={y(t)} stroke={t === 0 ? "#d9dadd" : "#f0f0f1"} />
-              <text x={84} y={y(t) + 4} textAnchor="end" fontSize={12} fill="#6c6e79">
+              <text x={84} y={y(t) + 4} textAnchor="end" fontSize={12} fill="#6a6c6a">
                 {fmtAxis(t)}
               </text>
             </Fragment>
@@ -157,7 +157,7 @@ function ChannelsChart() {
           const cx = left + band * i + band / 2;
           const ai = n === "AI Traffic" || n === "Google AI Mode";
           return (
-            <div key={n} className="absolute flex w-[108px] items-center justify-center gap-[4px] text-[12px] leading-4 text-[#6c6e79]" style={{ left: cx - 54, top: top + H + 12 }}>
+            <div key={n} className="absolute flex w-[108px] items-center justify-center gap-[4px] text-[12px] leading-4 text-[#6a6c6a]" style={{ left: cx - 54, top: top + H + 12 }}>
               <span className="max-w-[88px] truncate whitespace-nowrap">{n === "Google AI Mode" ? "Google AI Mo..." : n}</span>
               {ai && <Sparkle />}
             </div>
@@ -214,17 +214,17 @@ function Journey() {
       <div className="relative mt-[21px] h-[27px]">
         <div className="absolute top-[3px] right-[1057px] text-right">
           <div className="text-[14px] leading-5 font-semibold text-rk-text">Top Sources</div>
-          <div className="text-[12px] leading-4 text-[#6c6e79]">Out of 38</div>
+          <div className="text-[12px] leading-4 text-[#6a6c6a]">Out of 38</div>
         </div>
         <div className="absolute left-[156px]">
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
-            className="flex h-7 items-center gap-[8px] rounded-[6px] border border-[#d7d9de] bg-white pr-[7px] pl-[8px] text-[14px] leading-5 text-rk-text"
+            className="flex h-7 items-center gap-[8px] rounded-[6px] border border-[#d8dad9] bg-white pr-[7px] pl-[8px] text-[14px] leading-5 text-rk-text"
           >
             {channel}
             <svg viewBox="0 0 16 16" width={16} height={16} className={open ? "rotate-180" : ""}>
-              <path d="m4 6 4 4 4-4" fill="none" stroke="#191b23" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+              <path d="m4 6 4 4 4-4" fill="none" stroke="#1b1e1a" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
           {open && (
@@ -262,7 +262,7 @@ function Journey() {
             <rect key={r.label} x={barX} y={r.y} width={4} height={r.h} fill="#6167e6" />
           ))}
           <path d={`M${boxX - 19} ${boxTop + boxH / 2}h13m-5-5 5 5-5 5`} fill="none" stroke="#6167e6" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
-          <path d={`M${boxX + boxW + 14} ${boxTop + boxH / 2}h13m-5-5 5 5-5 5`} fill="none" stroke="#484a54" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
+          <path d={`M${boxX + boxW + 14} ${boxTop + boxH / 2}h13m-5-5 5 5-5 5`} fill="none" stroke="#484a49" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
         </svg>
         {rows.map((r) => (
           <div key={r.label} className="absolute text-right" style={{ top: r.y + 1, right: 1196 - 139 }}>
@@ -307,8 +307,8 @@ function ByCountry() {
               </div>
               {countryCols.map((c, j) => (
                 <div key={c.code} className="flex shrink-0 items-center justify-end" style={{ width: c.width }}>
-                  <span className="text-[#6c6e79]">{vals[j][0]}</span>
-                  <span className={`w-[76px] text-right ${j === maxIdx ? "font-semibold text-rk-text" : vals[j][1] === "n/a" ? "text-[#6c6e79]" : "text-rk-text"}`}>{vals[j][1]}</span>
+                  <span className="text-[#6a6c6a]">{vals[j][0]}</span>
+                  <span className={`w-[76px] text-right ${j === maxIdx ? "font-semibold text-rk-text" : vals[j][1] === "n/a" ? "text-[#6a6c6a]" : "text-rk-text"}`}>{vals[j][1]}</span>
                 </div>
               ))}
             </div>

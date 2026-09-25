@@ -59,7 +59,7 @@ const specs: Record<string, Spec> = {
 export function Flag({ code, className = "" }: { code: string; className?: string }) {
   if (code === "US") return <FlagUS width={14} height={10} className={className} />;
   if (code === "GB") return <FlagUK width={14} height={10} className={className} />;
-  const s = specs[code] ?? { d: "h", c: ["#c4c7cf"] };
+  const s = specs[code] ?? { d: "h", c: ["#d6d8d7"] };
   const n = s.c.length;
   return (
     <svg viewBox="0 0 16 12" width={14} height={10} className={`shrink-0 ${className}`}>

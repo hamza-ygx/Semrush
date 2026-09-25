@@ -298,7 +298,7 @@ function SerpDonut() {
   const offs = lens.map((_, i) => lens.slice(0, i).reduce((a, b) => a + b, 0));
   return (
     <svg viewBox="0 0 76 76" width={76} height={76} className="-rotate-90">
-      <circle cx="38" cy="38" r={r} fill="none" stroke="#e0e1e9" strokeWidth={11} />
+      <circle cx="38" cy="38" r={r} fill="none" stroke="#e0e2e1" strokeWidth={11} />
       {serpDistribution.map((s, i) => (
         <circle key={s.label} cx="38" cy="38" r={r} fill="none" stroke={s.color} strokeWidth={11} strokeDasharray={`${Math.max(lens[i] - 0.4, 0)} ${c}`} strokeDashoffset={-offs[i]} />
       ))}

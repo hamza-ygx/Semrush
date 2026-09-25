@@ -326,8 +326,8 @@ export const mmMetrics: { label: string; value: string; spark: string; wrap?: bo
 export const mmSentimentBreakdown = [
   { label: "Positive", pct: "64.2%", count: "7.24K", color: "#4ed45a", value: 64.2 },
   { label: "Negative", pct: "13.2%", count: "1.49K", color: "#f0303e", value: 13.2 },
-  { label: "Neutral", pct: "22.6%", count: "2.55K", color: "#c4c7cf", value: 22.6 },
-  { label: "Unknown", pct: "0%", count: "0", color: "#6c6e79", value: 0 },
+  { label: "Neutral", pct: "22.6%", count: "2.55K", color: "#d6d8d7", value: 22.6 },
+  { label: "Unknown", pct: "0%", count: "0", color: "#6a6c6a", value: 0 },
 ];
 
 export const mmSources = [

@@ -30,7 +30,7 @@ function Metric({ label, short, children }: { label: string; short?: string; chi
         ) : (
           <span className="whitespace-nowrap">{label}</span>
         )}
-        <Info className="shrink-0 text-[#a9abb6]" />
+        <Info className="shrink-0 text-[#a9abaa]" />
       </div>
       <div className="mt-[4px] text-[14px] leading-5 text-rk-text">{children}</div>
     </div>
@@ -44,7 +44,7 @@ function Incoming({ n }: { n: number }) {
   return (
     <div ref={ref} className="relative">
       <button type="button" onClick={toggle} data-testid="sa-incoming" className="flex items-center gap-[4px] text-[20px] leading-6 font-semibold text-rk-muted">
-        <span className="underline decoration-[#a9abb6] decoration-dashed decoration-1 underline-offset-[5px]">{n}</span>
+        <span className="underline decoration-[#a9abaa] decoration-dashed decoration-1 underline-offset-[5px]">{n}</span>
         <ChevronDown width={14} height={14} strokeWidth={2} className="text-rk-text-2" />
       </button>
       {open && (
@@ -54,7 +54,7 @@ function Incoming({ n }: { n: number }) {
               <Link href={c.crawledPages} className="truncate text-rk-link hover:text-rk-link-hover">
                 {u}
               </Link>
-              <a href={u} target="_blank" rel="noreferrer" aria-label="Open page" className="shrink-0 text-[#8a8e9b] hover:text-rk-text-2">
+              <a href={u} target="_blank" rel="noreferrer" aria-label="Open page" className="shrink-0 text-[#8b8d8c] hover:text-rk-text-2">
                 <ExtIcon />
               </a>
             </div>
@@ -114,7 +114,7 @@ function IssueRow({ issue, first }: { issue: DetailIssue; first: boolean }) {
             <div key={r.url + k} className={`flex h-[45px] items-center pr-5 pl-[71px] text-[14px] leading-5 ${k ? "border-t border-rk-border" : ""}`}>
               <span className="flex flex-1 items-center gap-[6px] text-rk-text">
                 {r.url}
-                <a href={r.url} target="_blank" rel="noreferrer" aria-label="Open page" className="text-[#8a8e9b] hover:text-rk-text-2">
+                <a href={r.url} target="_blank" rel="noreferrer" aria-label="Open page" className="text-[#8b8d8c] hover:text-rk-text-2">
                   <ExtIcon />
                 </a>
               </span>
@@ -139,11 +139,11 @@ export function PageDetail({ d }: { d: Detail }) {
   return (
     <div className="px-8 pt-4 pb-[140px]">
       <div className="flex items-center">
-        <Link href={c.crawledPages} aria-label="Back to Crawled Pages" className="flex h-7 w-7 items-center justify-center rounded-md border border-rk-border-strong bg-[#f4f5f9] text-rk-text-2 hover:bg-rk-hover">
+        <Link href={c.crawledPages} aria-label="Back to Crawled Pages" className="flex h-7 w-7 items-center justify-center rounded-md border border-rk-border-strong bg-[#f5f6f6] text-rk-text-2 hover:bg-rk-hover">
           <BackIcon />
         </Link>
         <h2 className="ml-4 text-[20px] leading-7 font-semibold text-rk-text">{d.row.url}</h2>
-        <a href={d.row.url} target="_blank" rel="noreferrer" aria-label="Open page" className="ml-[9px] text-[#a9abb6] hover:text-rk-text-2">
+        <a href={d.row.url} target="_blank" rel="noreferrer" aria-label="Open page" className="ml-[9px] text-[#a9abaa] hover:text-rk-text-2">
           <ExtIcon />
         </a>
         <span className={`ml-[13px] flex h-[26px] items-center rounded-full px-[9px] text-[14px] ${statusCls}`}>{d.row.status}</span>
@@ -153,7 +153,7 @@ export function PageDetail({ d }: { d: Detail }) {
         <Metric label="Internal Link Rank">
           <div className="flex items-center gap-[10px]">
             <Big>{d.ilr}</Big>
-            <span className="mt-[2px] h-[7px] w-[80px] rounded-full bg-[#eceef2]">
+            <span className="mt-[2px] h-[7px] w-[80px] rounded-full bg-[#edefef]">
               <span className="block h-full rounded-full bg-rk-accent" style={{ width: `${d.ilr}%` }} />
             </span>
           </div>

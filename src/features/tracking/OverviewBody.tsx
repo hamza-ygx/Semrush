@@ -28,8 +28,8 @@ function AddDomain({ disabled }: { disabled?: boolean }) {
 
 function YouField() {
   return (
-    <div className="flex h-7 w-[211px] items-center gap-[9px] rounded-md border border-rk-border-strong bg-[#f4f5f9] pl-2 text-[14px] text-rk-text">
-      <span className="rounded-full bg-[#e1e3ff] px-[8px] leading-5 text-[#5652cc]">You</span>
+    <div className="flex h-7 w-[211px] items-center gap-[9px] rounded-md border border-rk-border-strong bg-[#f5f6f6] pl-2 text-[14px] text-rk-text">
+      <span className="rounded-full bg-[#e1e3ff] px-[8px] leading-5 text-[#5c5cc4]">You</span>
       {project.domain}
     </div>
   );
@@ -37,7 +37,7 @@ function YouField() {
 
 function GreyChip() {
   return (
-    <div className="flex h-7 items-stretch rounded-md border border-[#dfe2f0] bg-[#f0f1f7] text-[14px] text-[#a9abb6]">
+    <div className="flex h-7 items-stretch rounded-md border border-[#dfe2f0] bg-[#f0f1f7] text-[14px] text-[#a9abaa]">
       <span className="flex items-center px-[8px]">{project.domain}</span>
       <span className="flex w-[26px] items-center justify-center border-l border-[#dfe2f0]">
         <XBoldIcon width={14} height={14} />

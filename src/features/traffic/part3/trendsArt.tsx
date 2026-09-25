@@ -10,7 +10,7 @@ export function HeroArt() {
       <g filter="url(#tsh)">
         <rect x="632" y="81" width="228" height="135" rx="7" fill="#fff" />
       </g>
-      <text x="643" y="107" fontSize="14" fontWeight="600" fill="#6c6e79">Traffic</text>
+      <text x="643" y="107" fontSize="14" fontWeight="600" fill="#6a6c6a">Traffic</text>
       {[125, 145, 165, 185].map((y, i) => (
         <g key={y}>
           <line x1="660" x2="846" y1={y} y2={y} stroke="#eef0f3" />
@@ -25,9 +25,9 @@ export function HeroArt() {
       <path d="M726 116 L730 116 L728 119Z" fill="#7ddcbc" />
       <text x="730" y="110" fontSize="10" fontWeight="600" fill="#fff" textAnchor="middle">+15%</text>
       <circle cx="661" cy="199" r="2.2" fill="#11b98a" />
-      <text x="668" y="201" fontSize="6" fill="#6c6e79">Competitor 1</text>
+      <text x="668" y="201" fontSize="6" fill="#6a6c6a">Competitor 1</text>
       <circle cx="715" cy="199" r="2.2" fill="#b58af2" />
-      <text x="722" y="201" fontSize="6" fill="#6c6e79">Competitor 2</text>
+      <text x="722" y="201" fontSize="6" fill="#6a6c6a">Competitor 2</text>
       <g filter="url(#tsh)">
         <rect x="780" y="64" width="119" height="84" rx="4" fill="#06c192" />
       </g>
@@ -39,7 +39,7 @@ export function HeroArt() {
       <text x="866" y="132" fontSize="8" fill="#e1fbf2">↑1.35</text>
       <defs>
         <filter id="tsh" x="-20%" y="-20%" width="140%" height="150%">
-          <feDropShadow dx="0" dy="3" stdDeviation="5" floodColor="#191b23" floodOpacity="0.12" />
+          <feDropShadow dx="0" dy="3" stdDeviation="5" floodColor="#1b1e1a" floodOpacity="0.12" />
         </filter>
       </defs>
     </svg>
@@ -169,8 +169,8 @@ export const TableauIcon = (p: P) => (
 
 export const PowerBiIcon = (p: P) => (
   <svg viewBox="0 0 40 40" width={40} height={40} {...p}>
-    <path d="M8 18h5v18H8zM15 12h5v24h-5zM22 8h5v28h-5z" fill="#191b23" />
-    <path d="M29 4h3a4 4 0 0 1 4 4v26a4 4 0 0 1-4 4H12" fill="none" stroke="#191b23" strokeWidth="2" />
+    <path d="M8 18h5v18H8zM15 12h5v24h-5zM22 8h5v28h-5z" fill="#1b1e1a" />
+    <path d="M29 4h3a4 4 0 0 1 4 4v26a4 4 0 0 1-4 4H12" fill="none" stroke="#1b1e1a" strokeWidth="2" />
   </svg>
 );
 

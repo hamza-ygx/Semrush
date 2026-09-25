@@ -232,9 +232,9 @@ export function ListingsPage() {
         <h2 className="text-[24px] leading-8 font-bold text-[#1a1a1f]">Everything you need to manage your listings</h2>
         <div className="mt-[32px] grid grid-cols-4 gap-[24px] text-left">
           {benefits.map(([t, d]) => (
-            <div key={t} className="rounded-[8px] border border-[#e0e1e9] p-[16px]">
+            <div key={t} className="rounded-[8px] border border-[#e0e2e1] p-[16px]">
               <div className="text-[14px] leading-5 font-semibold text-[#1a1a1f]">{t}</div>
-              <div className="mt-[8px] text-[14px] leading-5 text-[#6c6e79]">{d}</div>
+              <div className="mt-[8px] text-[14px] leading-5 text-[#6a6c6a]">{d}</div>
             </div>
           ))}
         </div>

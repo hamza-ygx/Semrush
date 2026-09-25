@@ -66,14 +66,14 @@ export function TrendLines({
       {ticks.map((t, i) => (
         <Fragment key={t}>
           <line x1={left} x2={width} y1={y(t)} y2={y(t)} stroke={t === 0 ? "#d9dadd" : "#f0f0f1"} strokeWidth={1} />
-          <text x={lw + 5} y={y(t) + 4} textAnchor="end" fontSize={12} fill="#6c6e79">
+          <text x={lw + 5} y={y(t) + 4} textAnchor="end" fontSize={12} fill="#6a6c6a">
             {tickLabels[i]}
           </text>
         </Fragment>
       ))}
       {labels.map((l, i) =>
         i % labelEvery === 0 || i === n - 1 ? (
-          <text key={l} x={x(i)} y={top + plotH + xLabelGap + 4} textAnchor={i === 0 ? "start" : i === n - 1 ? "end" : "middle"} fontSize={12} fill="#6c6e79">
+          <text key={l} x={x(i)} y={top + plotH + xLabelGap + 4} textAnchor={i === 0 ? "start" : i === n - 1 ? "end" : "middle"} fontSize={12} fill="#6a6c6a">
             {l}
           </text>
         ) : null,

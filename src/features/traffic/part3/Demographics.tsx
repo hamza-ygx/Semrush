@@ -15,7 +15,7 @@ function AgeChart({ visible }: { visible: boolean[] }) {
       {[0, 10, 20, 30, 40].map((t) => (
         <g key={t}>
           <line x1={60} x2={820} y1={y(t)} y2={y(t)} stroke={t ? "#eceef0" : "#d9dbe0"} />
-          <text x={43} y={y(t) + 4} textAnchor="end" fontSize={12} fill="#6c6e79">
+          <text x={43} y={y(t) + 4} textAnchor="end" fontSize={12} fill="#6a6c6a">
             {t}%
           </text>
         </g>
@@ -27,7 +27,7 @@ function AgeChart({ visible }: { visible: boolean[] }) {
             {ageData[i].map((v, j) =>
               visible[j] ? <rect key={j} x={x0 + j * 28} y={y(v)} width={25} height={178 - y(v)} rx={2} fill={doms[j].color} /> : null,
             )}
-            <text x={x0 + 40} y={199} textAnchor="middle" fontSize={12} fill="#6c6e79">
+            <text x={x0 + 40} y={199} textAnchor="middle" fontSize={12} fill="#6a6c6a">
               {g}
             </text>
           </g>
@@ -45,13 +45,13 @@ function UvChart({ visible }: { visible: boolean[] }) {
       {[0, 20, 40, 60].map((t) => (
         <g key={t}>
           <line x1={46} x2={1196} y1={y(t)} y2={y(t)} stroke={t ? "#eceef0" : "#d9dbe0"} />
-          <text x={30} y={y(t) + 4} textAnchor="end" fontSize={12} fill="#6c6e79">
+          <text x={30} y={y(t) + 4} textAnchor="end" fontSize={12} fill="#6a6c6a">
             {t ? `${t}M` : 0}
           </text>
         </g>
       ))}
       {uvMonths.map((m, i) => (
-        <text key={m} x={i === 0 ? x(i) : x(i)} y={212} textAnchor={i === 0 ? "start" : "middle"} fontSize={12} fill="#6c6e79">
+        <text key={m} x={i === 0 ? x(i) : x(i)} y={212} textAnchor={i === 0 ? "start" : "middle"} fontSize={12} fill="#6a6c6a">
           {m}
         </text>
       ))}
@@ -87,7 +87,7 @@ export function Demographics() {
             </div>
             <DomainLegend className="mt-[16px]" onChange={(r) => setAgeVis(toVis(r))} />
           </div>
-          <div className="mr-[20px] ml-[21px] w-px shrink-0 bg-[#e0e1e9]" />
+          <div className="mr-[20px] ml-[21px] w-px shrink-0 bg-[#e0e2e1]" />
           <div className="min-w-0 flex-1">
             <div className="flex items-center justify-between">
               <h3 className="text-[14px] leading-5 font-semibold">Sex</h3>
@@ -154,7 +154,7 @@ export function Demographics() {
           </div>
           <table className="mt-[17px] w-[588px] border-collapse text-[14px]">
             <thead>
-              <tr className="h-[34px] border-b border-[#e0e1e9] text-[13px] text-rk-text-2">
+              <tr className="h-[34px] border-b border-[#e0e2e1] text-[13px] text-rk-text-2">
                 <th className="pl-[8px] text-left font-normal">Country</th>
                 <th colSpan={2} className="pr-[8px] text-right font-normal">
                   <span className="inline-flex items-center gap-[4px]">
@@ -167,7 +167,7 @@ export function Demographics() {
             </thead>
             <tbody>
               {geoRows.map((r, i) => (
-                <tr key={r.code} className="h-[37px] border-b border-[#e0e1e9]">
+                <tr key={r.code} className="h-[37px] border-b border-[#e0e2e1]">
                   <td className="pl-[8px]">
                     <span className="flex items-center gap-[6px]">
                       <Flag code={r.code} />

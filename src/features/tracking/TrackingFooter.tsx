@@ -12,7 +12,7 @@ export function TrackingFooter() {
       <button type="button" className="flex items-center gap-[6px] hover:text-rk-text">
         <TranslateIcon width={16} height={16} />
         English
-        <ChevronDownIcon className="text-[#a9abb6]" />
+        <ChevronDownIcon className="text-[#a9abaa]" />
       </button>
       <div className="mt-[24px] flex gap-7">
         <a href="#" className="hover:text-rk-text">

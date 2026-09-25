@@ -9,7 +9,7 @@ import { SupportChat } from "./SupportChat";
 const articles = ["Audit your website", "Conduct keyword research", "Track your rankings", "Create winning content", "Optimize backlinks", "Run competitive analysis"];
 
 const res = (d: string) => (
-  <svg viewBox="0 0 24 24" width={24} height={24} className="shrink-0 text-[#8a8e9b]">
+  <svg viewBox="0 0 24 24" width={24} height={24} className="shrink-0 text-[#8b8d8c]">
     <path d={d} fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
@@ -30,7 +30,7 @@ export function HelpButtonAndPanel({ variant = "question" }: { variant?: "questi
         <aside className="fixed top-0 right-0 bottom-0 z-[60] flex w-[400px] flex-col xl:w-[403px] bg-white shadow-popover">
           <div className="flex h-[49px] shrink-0 items-center justify-between border-b border-rk-border px-6">
             <h2 className="text-[16px] font-semibold">Help &amp; Support</h2>
-            <button type="button" aria-label="Close help" onClick={() => setOpen(false)} className="text-[#a9abb6] hover:text-rk-text">
+            <button type="button" aria-label="Close help" onClick={() => setOpen(false)} className="text-[#a9abaa] hover:text-rk-text">
               <CloseIcon width={22} height={22} />
             </button>
           </div>

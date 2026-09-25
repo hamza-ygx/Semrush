@@ -57,7 +57,7 @@ export function PrDashboard({ domain }: { domain?: string }) {
             >
               {d.logo === "wp" ? <WpLogo /> : <LogoIcon width={16} height={16} />}
               <span className="ml-[9px] flex-1 text-left">{d.domain}</span>
-              <ChevronRight width={14} height={14} strokeWidth={2.2} className="text-[#191b23]" />
+              <ChevronRight width={14} height={14} strokeWidth={2.2} className="text-[#1b1e1a]" />
             </Link>
           ))}
         </div>
@@ -80,7 +80,7 @@ function Section({ label, title, teal, children, className = "" }: { label: stri
 function TryIt({ text, href }: { text: string; href: string }) {
   return (
     <div className="flex flex-col items-center">
-      <p className="mt-[33px] text-[16.5px] leading-5 text-[#484a54]">{text}</p>
+      <p className="mt-[33px] text-[16.5px] leading-5 text-[#484a49]">{text}</p>
       <Link href={href} className="mt-[43px] flex h-10 items-center rounded-md bg-rk-btn-dark px-[13px] text-[16px] font-semibold text-white hover:bg-[#2b2e38]">
         Try it now
       </Link>
@@ -107,7 +107,7 @@ function OutletLogo({ kind }: { kind: "pc" | "tc" | "fc" }) {
 }
 
 function Ext({ className = "" }: { className?: string }) {
-  return <ExternalIcon width={16} height={16} className={`inline-block shrink-0 text-[#a9abb6] ${className}`} />;
+  return <ExternalIcon width={16} height={16} className={`inline-block shrink-0 text-[#a9abaa] ${className}`} />;
 }
 
 function JournalistCard({ j }: { j: (typeof journalists)[number] }) {
@@ -146,7 +146,7 @@ function JournalistCard({ j }: { j: (typeof journalists)[number] }) {
         <div className="flex flex-col items-end">
           <div className="flex items-center gap-[7px] text-[14px] leading-5 text-rk-text">
             AI authority
-            <InfoIcon width={14} height={14} className="text-[#a9abb6]" />
+            <InfoIcon width={14} height={14} className="text-[#a9abaa]" />
           </div>
           <span className="mt-[5px] rounded-full bg-[#d0f2e7] px-[9px] text-[12.5px] leading-5 text-[#006f55]">High</span>
         </div>
@@ -165,11 +165,11 @@ function MentionCard({ m }: { m: (typeof exampleMentions)[number] }) {
     <div className="h-[203px] rounded-lg bg-white px-5 pt-[20px]">
       <div className="text-[14px] leading-5 text-rk-text">{m.source}</div>
       <div className="mt-[6px] line-clamp-2 text-[16px] leading-6 font-semibold text-rk-text">{m.title}</div>
-      <div className="mt-[4px] line-clamp-3 text-[14px] leading-5 text-[#484a54]">{m.text}</div>
+      <div className="mt-[4px] line-clamp-3 text-[14px] leading-5 text-[#484a49]">{m.text}</div>
       <div className="mt-[3px] flex items-center gap-2 text-[14px] leading-5 text-rk-text">
         <svg viewBox="0 0 16 16" width={16} height={16}>
-          <circle cx="8" cy="8" r="6.6" fill="none" stroke="#191b23" strokeWidth={1.6} />
-          <path d="M3.5 5.5c1.5.3 2.2 1 2 2.3-.2 1.2 1 1.6 1.2 2.6.2.9-.3 1.8-.3 2.7M9.5 2c-.3 1.2.3 2 1.4 2.2 1 .2 1.2 1 .7 1.8-.5.9.2 1.8 1.2 1.6.8-.2 1.5.2 1.9.9" fill="none" stroke="#191b23" strokeWidth={1.3} />
+          <circle cx="8" cy="8" r="6.6" fill="none" stroke="#1b1e1a" strokeWidth={1.6} />
+          <path d="M3.5 5.5c1.5.3 2.2 1 2 2.3-.2 1.2 1 1.6 1.2 2.6.2.9-.3 1.8-.3 2.7M9.5 2c-.3 1.2.3 2 1.4 2.2 1 .2 1.2 1 .7 1.8-.5.9.2 1.8 1.2 1.6.8-.2 1.5.2 1.9.9" fill="none" stroke="#1b1e1a" strokeWidth={1.3} />
         </svg>
         {m.date}
       </div>
@@ -180,17 +180,17 @@ function MentionCard({ m }: { m: (typeof exampleMentions)[number] }) {
 function StatCard({ s }: { s: (typeof emailStats)[number] }) {
   return (
     <div className="rounded-lg bg-white px-6 pt-5 pb-5">
-      <div className="text-[14px] leading-5 text-[#6c6e79]">{s.label}</div>
+      <div className="text-[14px] leading-5 text-[#6a6c6a]">{s.label}</div>
       <div className="mt-1 text-[32px] leading-10 font-semibold text-rk-text">{s.value}</div>
       <svg viewBox="0 0 100 30" preserveAspectRatio="none" className="mt-3 h-[40px] w-full">
         <path d="M0 26 L15 22 L30 24 L45 14 L60 17 L75 8 L90 11 L100 4" fill="none" stroke="#8e92ec" strokeWidth={1.5} vectorEffect="non-scaling-stroke" />
       </svg>
       {s.rows.length > 0 && (
-        <div className="mt-[14px] space-y-3 border-t border-[#eceef3] pt-[14px]">
+        <div className="mt-[14px] space-y-3 border-t border-[#edefef] pt-[14px]">
           {s.rows.map(([l, v]) => (
             <div key={l} className="flex items-center justify-between gap-2 text-[16px] leading-6 text-rk-text">
               <span className="max-w-[118px]">{l}</span>
-              <span className="text-[#6c6e79]">{v}</span>
+              <span className="text-[#6a6c6a]">{v}</span>
             </div>
           ))}
         </div>
@@ -227,11 +227,11 @@ export function PrExample({ domain }: { domain: string }) {
               ))}
             </div>
             <div className="mt-4 rounded-lg bg-white px-3 pt-[11px] pb-[12px] text-[14px] leading-5">
-              <div className="text-[#6c6e79]">Industry:</div>
+              <div className="text-[#6a6c6a]">Industry:</div>
               <div className="mt-2 text-rk-text">Eyewear retail</div>
-              <div className="mt-[20px] text-[#6c6e79]">Mentions containing:</div>
-              <span className="mt-[8px] inline-block rounded-full bg-[#ececec] px-[9px] py-[4px] leading-[19px] text-[#484a54]">{brandName}</span>
-              <div className="mt-[20px] text-[#6c6e79]">Sources:</div>
+              <div className="mt-[20px] text-[#6a6c6a]">Mentions containing:</div>
+              <span className="mt-[8px] inline-block rounded-full bg-[#ececec] px-[9px] py-[4px] leading-[19px] text-[#484a49]">{brandName}</span>
+              <div className="mt-[20px] text-[#6a6c6a]">Sources:</div>
               <div className="mt-2 text-rk-text">Online news, Blogs, Discussions</div>
             </div>
           </div>
@@ -245,9 +245,9 @@ export function PrExample({ domain }: { domain: string }) {
       </Section>
       <Section teal label="Email analytics" title="Measure how journalists engage with your pitches" className="mt-16">
         <div className="rounded-lg bg-white px-6 py-5">
-          <div className="text-[14px] leading-5 text-[#6c6e79]">Pitch</div>
+          <div className="text-[14px] leading-5 text-[#6a6c6a]">Pitch</div>
           <div className="mt-1 text-[18px] leading-6 font-semibold text-rk-text">68% of travelers report better sleep with earplugs</div>
-          <div className="mt-1 text-[14px] leading-5 text-[#484a54]">Sent to 25 journalists covering {domain.replace(/\..*$/, "")}-related topics · Sep 24, 2026</div>
+          <div className="mt-1 text-[14px] leading-5 text-[#484a49]">Sent to 25 journalists covering {domain.replace(/\..*$/, "")}-related topics · Sep 24, 2026</div>
         </div>
         <div className="mt-4 grid grid-cols-5 gap-3">
           {emailStats.map((s) => (
@@ -266,7 +266,7 @@ export function PrExample({ domain }: { domain: string }) {
               <span key={v.label} className="flex items-center gap-2">
                 <i className="h-4 w-4 rounded-full" style={{ background: v.color }} />
                 {v.label}
-                <span className="-ml-1 text-[#6c6e79]">({v.pct}%)</span>
+                <span className="-ml-1 text-[#6a6c6a]">({v.pct}%)</span>
               </span>
             ))}
           </div>

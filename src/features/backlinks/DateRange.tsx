@@ -25,7 +25,7 @@ function Month({ y, m, sel, onPick }: { y: number; m: number; sel: Date; onPick:
   const cells = [...Array(first).fill(null), ...Array.from({ length: days }, (_, i) => i + 1)];
   return (
     <div className="w-[224px]">
-      <div className="grid grid-cols-7 text-center text-[14px] leading-5 text-[#6c6e79]">
+      <div className="grid grid-cols-7 text-center text-[14px] leading-5 text-[#6a6c6a]">
         {wd.map((w) => (
           <span key={w}>{w}</span>
         ))}
@@ -42,7 +42,7 @@ function Month({ y, m, sel, onPick }: { y: number; m: number; sel: Date; onPick:
               type="button"
               disabled={future}
               onClick={() => onPick(date)}
-              className={`mx-auto h-8 w-8 rounded-md leading-8 ${on ? "bg-[#7a7ee8] text-white" : future ? "text-[#a9abb6]" : "text-rk-text hover:bg-rk-bg"}`}
+              className={`mx-auto h-8 w-8 rounded-md leading-8 ${on ? "bg-[#7a7ee8] text-white" : future ? "text-[#a9abaa]" : "text-rk-text hover:bg-rk-bg"}`}
             >
               {d}
             </button>
@@ -96,7 +96,7 @@ export function DateChip({ onClear }: { onClear?: () => void }) {
           </div>
           <div className="relative ml-auto w-[153px] border-l border-[#dfdfdf] pt-[16px] pl-[26px]">
             {presets.map((p) => (
-              <button key={p} type="button" onClick={() => setSel(today)} className="block h-7 text-left text-[14px] leading-5 text-[#6c6e79] hover:text-rk-text">
+              <button key={p} type="button" onClick={() => setSel(today)} className="block h-7 text-left text-[14px] leading-5 text-[#6a6c6a] hover:text-rk-text">
                 {p}
               </button>
             ))}
@@ -117,7 +117,7 @@ export function DateChip({ onClear }: { onClear?: () => void }) {
                   setSel(today);
                   setView(new Date(2026, 8, 1));
                 }}
-                className="text-[14px] text-[#6c6e79] hover:text-rk-text"
+                className="text-[14px] text-[#6a6c6a] hover:text-rk-text"
               >
                 Reset
               </button>

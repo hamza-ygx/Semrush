@@ -57,7 +57,7 @@ function Month({ year, month, left, from, to, pick, mark }: { year: number; mont
                 : inRange
                   ? "bg-[#ebf0ff] text-rk-text"
                   : disabled
-                    ? "text-[#c4c7cf]"
+                    ? "text-[#d6d8d7]"
                     : "rounded-[4px] text-rk-text hover:bg-rk-bg"
             } ${t === mark ? "rounded-[4px] !bg-white shadow-[inset_0_0_0_1px_#7c84a8]" : ""}`}
           >

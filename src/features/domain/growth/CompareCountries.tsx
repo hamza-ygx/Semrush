@@ -56,7 +56,7 @@ function AddCountry({ taken, onPick }: { taken: string[]; onPick: (c: string) =>
         data-testid="add-country"
         aria-expanded={open}
         onClick={() => (open ? close() : setOpen(true))}
-        className={`flex h-7 w-[174px] items-center justify-between rounded-md border pr-[10px] pl-[8px] text-[14px] text-rk-muted ${open ? "border-[#a9b8ea] bg-[#f8faff]" : "border-[#d3d5db] bg-white"}`}
+        className={`flex h-7 w-[174px] items-center justify-between rounded-md border pr-[10px] pl-[8px] text-[14px] text-rk-muted ${open ? "border-[#a9b8ea] bg-[#f8faff]" : "border-[#d4d6d5] bg-white"}`}
       >
         Add country
         <ChevronDown width={18} height={18} className="-mr-[2px] text-rk-text [&_path]:stroke-[2]" />
@@ -64,16 +64,16 @@ function AddCountry({ taken, onPick }: { taken: string[]; onPick: (c: string) =>
       {open && (
         <div className="absolute top-[calc(100%+3px)] left-0 z-50 w-[259px] rounded-md bg-white shadow-popover">
           <div className="relative">
-            <SearchIcon className="pointer-events-none absolute top-1/2 left-[10px] -translate-y-1/2 text-[#a9abb6]" />
+            <SearchIcon className="pointer-events-none absolute top-1/2 left-[10px] -translate-y-1/2 text-[#a9abaa]" />
             <input
               autoFocus
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search"
-              className="h-[34px] w-full rounded-md border-2 border-[#8f9cea] pr-2 pl-[32px] text-[14px] outline-none placeholder:text-[#a9abb6]"
+              className="h-[34px] w-full rounded-md border-2 border-[#8f9cea] pr-2 pl-[32px] text-[14px] outline-none placeholder:text-[#a9abaa]"
             />
           </div>
-          <div className="mt-[3px] max-h-[243px] overflow-y-auto pb-1 [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#c4c7cf]">
+          <div className="mt-[3px] max-h-[243px] overflow-y-auto pb-1 [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#d6d8d7]">
             {topRows.map((c) => row(c, `top-${c.code}`))}
             {topRows.length > 0 && <div className="border-t border-rk-border" />}
             {options.filter(match).map((c) => row(c, c.code))}
@@ -118,7 +118,7 @@ export function CompareCountries() {
             setPicked(["Sweden"]);
             setCompared(null);
           }}
-          className="h-7 rounded-md border border-[#d3d5db] bg-[#eceef0] px-[8px] text-[14px] text-rk-text-2 hover:bg-rk-hover"
+          className="h-7 rounded-md border border-[#d4d6d5] bg-[#eceef0] px-[8px] text-[14px] text-rk-text-2 hover:bg-rk-hover"
         >
           Cancel
         </button>

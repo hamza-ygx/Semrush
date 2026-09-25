@@ -70,8 +70,8 @@ function RefDomainsChart() {
     <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="block overflow-visible">
       {[100, 200, 300].map((t) => (
         <g key={t}>
-          <line x1={left} x2={W - right} y1={y(t)} y2={y(t)} stroke={t === 100 ? "#e0e1e9" : "#f0f0f4"} />
-          <text x={left - 17} y={y(t) + 4} textAnchor="end" fontSize="12" fill="#6c6e79">
+          <line x1={left} x2={W - right} y1={y(t)} y2={y(t)} stroke={t === 100 ? "#e0e2e1" : "#f0f0f4"} />
+          <text x={left - 17} y={y(t) + 4} textAnchor="end" fontSize="12" fill="#6a6c6a">
             {t}
           </text>
         </g>
@@ -80,7 +80,7 @@ function RefDomainsChart() {
       <path d={line} fill="none" stroke="#6167e6" strokeWidth={2} strokeLinejoin="round" />
       {refDomainsTrend.labels.map((l, i) =>
         l ? (
-          <text key={i} x={x(i) + 19} y={bottom + 21} textAnchor="middle" fontSize="12" fill="#6c6e79">
+          <text key={i} x={x(i) + 19} y={bottom + 21} textAnchor="middle" fontSize="12" fill="#6a6c6a">
             {l}
           </text>
         ) : null,

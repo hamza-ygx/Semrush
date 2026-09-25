@@ -63,12 +63,12 @@ function SubscribePopover() {
               ).map(([k, l]) => (
                 <label key={k} className="flex cursor-pointer items-center gap-2">
                   <input type="radio" name="sensor-notify" checked={mode === k} onChange={() => setMode(k)} className="sr-only" />
-                  <span className={`h-4 w-4 rounded-full ${mode === k ? "border-[5px] border-rk-text" : "border border-[#c4c7cf]"}`} />
+                  <span className={`h-4 w-4 rounded-full ${mode === k ? "border-[5px] border-rk-text" : "border border-[#d6d8d7]"}`} />
                   {l}
                 </label>
               ))}
             </div>
-            {mode === "email" && <input type="email" placeholder="Enter your email" className="mt-[17px] h-7 w-full rounded-md border border-[#d3d5d8] px-2 text-[14px] outline-none placeholder:text-[#a9abb6] focus:border-[#8f9cea]" />}
+            {mode === "email" && <input type="email" placeholder="Enter your email" className="mt-[17px] h-7 w-full rounded-md border border-[#d3d5d8] px-2 text-[14px] outline-none placeholder:text-[#a9abaa] focus:border-[#8f9cea]" />}
             <p className="mt-[8px] text-[12px] leading-4 text-rk-muted">
               We’ll notify you about any significant fluctuations in rankings.{" "}
               <a href="https://www.iubenda.com/privacy-policy" target="_blank" rel="noreferrer" className="text-rk-link hover:text-rk-link-hover">
@@ -121,7 +121,7 @@ const countries = [
   { code: "AU", name: "Australia" },
 ];
 
-export const sensorScroll = "overflow-y-auto [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#c4c7cf]";
+export const sensorScroll = "overflow-y-auto [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#d6d8d7]";
 
 export const Chevron = ({ size = 14 }: { size?: number }) => (
   <svg viewBox="0 0 16 16" width={size} height={size}>
@@ -203,7 +203,7 @@ export function CategoryList({
           key={name}
           type="button"
           onClick={() => onSelect(name)}
-          className={`flex h-[33px] w-full items-center justify-between rounded-[4px] pr-2 pl-7 text-left text-[14px] text-rk-text ${name === selected ? "bg-[#d5edfd]" : "hover:bg-[#f4f5f9]"}`}
+          className={`flex h-[33px] w-full items-center justify-between rounded-[4px] pr-2 pl-7 text-left text-[14px] text-rk-text ${name === selected ? "bg-[#d5edfd]" : "hover:bg-[#f5f6f6]"}`}
         >
           {name}
           {render(v)}

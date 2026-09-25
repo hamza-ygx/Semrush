@@ -103,7 +103,7 @@ export function ScoreRing({
         cy={size / 2}
         r={r}
         fill="none"
-        stroke="#e0e1e9"
+        stroke="#e0e2e1"
         strokeWidth={thickness}
       />
       <circle
@@ -176,14 +176,14 @@ export function BarChart({
             x2={left + W}
             y1={y(t)}
             y2={y(t)}
-            stroke={t === 0 ? "#c4c7cf" : "#e0e1e9"}
+            stroke={t === 0 ? "#d6d8d7" : "#e0e2e1"}
           />
           <text
             x={left - tickGap}
             y={y(t) + 4}
             textAnchor="end"
             fontSize={fontSize}
-            fill="#6c6e79"
+            fill="#6a6c6a"
           >
             {t}
           </text>
@@ -193,7 +193,7 @@ export function BarChart({
         transform={`translate(${left - titleGap} ${top + H / 2}) rotate(-90)`}
         textAnchor="middle"
         fontSize={fontSize}
-        fill="#6c6e79"
+        fill="#6a6c6a"
       >
         {yTitle}
       </text>
@@ -215,7 +215,7 @@ export function BarChart({
                 transform={`translate(${x + bw / 2 + 4} ${top + H + 14}) rotate(-45)`}
                 textAnchor="end"
                 fontSize={fontSize}
-                fill="#6c6e79"
+                fill="#6a6c6a"
               >
                 {d.label}
               </text>
@@ -225,7 +225,7 @@ export function BarChart({
                 y={top + H + labelGap}
                 textAnchor="middle"
                 fontSize={fontSize}
-                fill="#6c6e79"
+                fill="#6a6c6a"
               >
                 {d.label}
               </text>
@@ -239,7 +239,7 @@ export function BarChart({
           y={height - 2}
           textAnchor="middle"
           fontSize={fontSize}
-          fill="#6c6e79"
+          fill="#6a6c6a"
         >
           {xTitle}
         </text>
@@ -344,7 +344,7 @@ export function IssuesCard({ title, groups, info = false, className = "" }: { ti
                     {n ? (
                       <Link
                         href={routes.siteAuditCampaign.issueDetail(issueId(name))}
-                        className="flex h-7 items-center rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-[14px] whitespace-nowrap text-rk-text-2 hover:bg-rk-hover"
+                        className="flex h-7 items-center rounded-md border border-rk-border-strong bg-[#f5f6f6] px-2 text-[14px] whitespace-nowrap text-rk-text-2 hover:bg-rk-hover"
                       >
                         {n} issues
                       </Link>
@@ -386,7 +386,7 @@ export function LegendRow({
 }
 
 export const InfoI = ({ className = "" }: { className?: string }) => (
-  <svg viewBox="0 0 16 16" width={16} height={16} className={`inline-block shrink-0 text-[#8a8e9b] ${className}`}>
+  <svg viewBox="0 0 16 16" width={16} height={16} className={`inline-block shrink-0 text-[#8b8d8c] ${className}`}>
     <circle cx="9.9" cy="3.4" r="1.25" fill="currentColor" />
     <path d="M7 6.6h2.1L7.5 13M6 13h3" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
   </svg>

@@ -234,7 +234,7 @@ export function BacklinksSection() {
       <div className="mt-[22px] flex items-center gap-[10px]">
         <h2 className="text-[20px] leading-7 font-semibold">Backlinks</h2>
         <span className="flex items-center gap-1 text-[13px] text-rk-text-2">
-          <WorldIcon className="text-[#a9abb6]" />
+          <WorldIcon className="text-[#a9abaa]" />
           Worldwide
         </span>
         <span className="flex items-center gap-1 text-[14px] text-rk-text-2">

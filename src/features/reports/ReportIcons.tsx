@@ -20,7 +20,7 @@ export const GaIcon = (p: P) => (
 
 export const GscIcon = (p: P) => (
   <svg viewBox="0 0 20 20" width={20} height={20} {...p}>
-    <rect x="3" y="3.5" width="14" height="11" rx="1.5" fill="#fff" stroke="#8a8e9b" strokeWidth={1.2} />
+    <rect x="3" y="3.5" width="14" height="11" rx="1.5" fill="#fff" stroke="#8b8d8c" strokeWidth={1.2} />
     <rect x="3" y="3.5" width="14" height="3" rx="1.2" fill="#4285f4" />
     <circle cx="10" cy="11" r="3.2" fill="#fff" stroke="#34a853" strokeWidth={1.5} />
     <path d="M12.4 13.3l2.6 2.6" stroke="#ea4335" strokeWidth={1.8} strokeLinecap="round" />

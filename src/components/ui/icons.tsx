@@ -141,7 +141,7 @@ export const FlagUK = (p: P) => (
 );
 export const GlobeIcon = (p: P) => (
   <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
-    <circle cx="8" cy="8" r="7" fill="#6c6e79" />
+    <circle cx="8" cy="8" r="7" fill="#6a6c6a" />
     <path d="M3.5 5.5c1.5.5 2.5 1.8 2.3 3.2-.2 1.2 1 1.6 1 2.8M9.5 1.5c-.5 1.3.2 2.3 1.5 2.5 1.2.2 1.8 1.2 1.2 2.5M11 10c.8.2 1.8.8 2.5 1.5" stroke="#fff" strokeWidth="1.2" fill="none" />
   </svg>
 );

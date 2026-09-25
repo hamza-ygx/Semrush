@@ -6,12 +6,12 @@ import { ChevronDown, CloseIcon, FlagUK, FlagUS, SearchIcon } from "@/components
 import { voCountries, voCurrentDate, voHistory, voHowItWorks, voPlatforms, voTopCountries, type FlagBands } from "./data";
 
 const thinScroll = "[&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#d5d7d7] [&::-webkit-scrollbar-track]:bg-transparent";
-const activeRow = "border-[#191b23] bg-[#ebf1ff]";
+const activeRow = "border-[#1b1e1a] bg-[#ebf1ff]";
 
 export function FlagDE() {
   return (
     <svg viewBox="0 0 16 12" width={16} height={12} aria-hidden>
-      <rect width="16" height="4" fill="#191b23" />
+      <rect width="16" height="4" fill="#1b1e1a" />
       <rect y="4" width="16" height="4" fill="#dd0000" />
       <rect y="8" width="16" height="4" fill="#ffce00" />
     </svg>
@@ -58,7 +58,7 @@ export function MoreCountries() {
           type="button"
           aria-label="More countries"
           onClick={toggle}
-          className="flex h-[30px] items-center rounded-r-md border border-l-0 border-[#c4c7cf] bg-white pr-2 pl-[6px] text-rk-text-2 hover:bg-rk-bg"
+          className="flex h-[30px] items-center rounded-r-md border border-l-0 border-[#d6d8d7] bg-white pr-2 pl-[6px] text-rk-text-2 hover:bg-rk-bg"
         >
           <svg viewBox="0 0 16 4" width={16} height={4} aria-hidden>
             <path d="M2 2h.01M8 2h.01M14 2h.01" stroke="currentColor" strokeWidth={3} strokeLinecap="round" />
@@ -69,14 +69,14 @@ export function MoreCountries() {
       {(close) => (
         <>
           <label className="flex h-[36px] items-center gap-[7px] rounded-md border border-[#8e8fe6] pl-[10px] shadow-[inset_0_0_0_1px_#b4b7ff]">
-            <SearchIcon width={16} height={16} className="shrink-0 text-[#8a8e9b]" />
-            <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} aria-label="Search country" placeholder="Search" className="h-full min-w-0 flex-1 bg-transparent text-[14px] outline-none placeholder:text-[#a9abb6]" />
+            <SearchIcon width={16} height={16} className="shrink-0 text-[#8b8d8c]" />
+            <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} aria-label="Search country" placeholder="Search" className="h-full min-w-0 flex-1 bg-transparent text-[14px] outline-none placeholder:text-[#a9abaa]" />
           </label>
           <div className={`flex max-h-[245px] flex-col overflow-y-auto pt-[3px] pb-1 ${thinScroll}`}>
             {voTopCountries.filter((c) => match(c.name)).map((c) => (
               <CountryRow key={c.name} flag={topFlags[c.code]} name={c.name} onClick={close} />
             ))}
-            {!q && <span className="my-1 h-px shrink-0 bg-[#e0e1e9]" />}
+            {!q && <span className="my-1 h-px shrink-0 bg-[#e0e2e1]" />}
             {voCountries.filter((c) => match(c.name)).map((c) => (
               <CountryRow key={c.name} flag={<BandFlag flag={c.flag} />} name={c.name} onClick={close} />
             ))}
@@ -94,7 +94,7 @@ export function PlatformSelect() {
       offset={8}
       panelClassName="w-[138px] py-px!"
       trigger={({ toggle, open }) => (
-        <button type="button" onClick={toggle} className={`flex h-7 items-center gap-[6px] rounded-md border bg-white pr-[7px] pl-2 text-[14px] text-rk-text hover:bg-rk-bg ${open ? "border-[#8e8fe6]" : "border-[#c4c7cf]"}`}>
+        <button type="button" onClick={toggle} className={`flex h-7 items-center gap-[6px] rounded-md border bg-white pr-[7px] pl-2 text-[14px] text-rk-text hover:bg-rk-bg ${open ? "border-[#8e8fe6]" : "border-[#d6d8d7]"}`}>
           {value}
           <ChevronDown width={16} height={16} />
         </button>
@@ -146,7 +146,7 @@ export function DateSelect() {
             <span className="text-[14px] leading-5 text-rk-text">{voCurrentDate}</span>
             <span className="mt-[3px] text-[12px] leading-4 text-rk-muted">Actual state of AI Visibility</span>
           </button>
-          <div className="flex h-8 items-center border-b border-[#e0e1e9] pl-2 text-[14px] font-semibold text-rk-text">Historical data</div>
+          <div className="flex h-8 items-center border-b border-[#e0e2e1] pl-2 text-[14px] font-semibold text-rk-text">Historical data</div>
           <div className={`max-h-[243px] overflow-y-auto pt-[3px] ${thinScroll}`}>
             {voHistory.map((m) => (
               <button

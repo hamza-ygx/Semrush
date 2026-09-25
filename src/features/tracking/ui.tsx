@@ -3,7 +3,7 @@ import { EmptyTable } from "./illustrations";
 
 export function Info({ className = "" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 16 16" width={16} height={16} className={`inline-block shrink-0 text-[#a9abb6] ${className}`}>
+    <svg viewBox="0 0 16 16" width={16} height={16} className={`inline-block shrink-0 text-[#a9abaa] ${className}`}>
       <text x="8" y="13" textAnchor="middle" fontSize="15" fontStyle="italic" fontFamily="Georgia, 'Times New Roman', serif" fill="currentColor">
         i
       </text>
@@ -31,8 +31,8 @@ export function Panel({
   divider?: boolean;
 }) {
   return (
-    <section className={`rounded-md border border-[#e4e5ea] bg-white shadow-[0_1px_2px_rgba(25,27,35,0.05)] ${className}`}>
-      <div className={`flex items-center justify-between px-5 ${divider ? "border-b-2 border-[#eceef2]" : ""} ${headerClassName}`}>
+    <section className={`rounded-md border border-[#e5e6e6] bg-white shadow-[0_1px_2px_rgba(25,27,35,0.05)] ${className}`}>
+      <div className={`flex items-center justify-between px-5 ${divider ? "border-b-2 border-[#edefef]" : ""} ${headerClassName}`}>
         <h2 className="flex items-center gap-[6px] text-[16px] leading-6 font-semibold text-rk-text">
           {title}
           {count && <span className="-mr-[4px] -ml-[2px] font-normal text-rk-muted">{count}</span>}
@@ -58,7 +58,7 @@ export function GrayButton({ children, className = "", onClick }: { children: Re
     <button
       type="button"
       onClick={onClick}
-      className={`inline-flex h-7 items-center gap-[6px] rounded-md border border-rk-border-strong bg-[#f0f0f3] px-[9px] text-[14px] whitespace-nowrap text-rk-text-2 hover:bg-rk-hover ${className}`}
+      className={`inline-flex h-7 items-center gap-[6px] rounded-md border border-rk-border-strong bg-[#f0f1f1] px-[9px] text-[14px] whitespace-nowrap text-rk-text-2 hover:bg-rk-hover ${className}`}
     >
       {children}
     </button>
@@ -79,7 +79,7 @@ export function ExtLink({ href, children, className = "" }: { href: string; chil
   return (
     <a href={href} target="_blank" rel="noreferrer" className={`inline-flex items-center gap-[4px] text-rk-link hover:text-rk-link-hover ${className}`}>
       {children}
-      <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#a9abb6]">
+      <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#a9abaa]">
         <path d="M9 2.5h4.5V7M13.5 2.5 7 9M11.5 9.5v4h-9v-9h4" fill="none" stroke="currentColor" strokeWidth={1.4} />
       </svg>
     </a>

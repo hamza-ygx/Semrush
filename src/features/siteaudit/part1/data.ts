@@ -366,7 +366,7 @@ export const crawledStatus = [
   { label: "Broken", n: 3, color: "#ff6b70" },
   { label: "Have issues", n: 83, color: "#ffb400" },
   { label: "Redirects", n: 2, color: "#6167e6" },
-  { label: "Blocked", n: 0, color: "#c4c7cf" },
+  { label: "Blocked", n: 0, color: "#d6d8d7" },
 ];
 
 export type Bot = "ChatGPT-User" | "OAI-SearchBot" | "Googlebot" | "Google-Extended" | "PerplexityBot" | "Perplexity-User" | "Claude-User" | "Claude-SearchBot";

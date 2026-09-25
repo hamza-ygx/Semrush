@@ -124,7 +124,7 @@ export function AdClarity() {
           <AppMark />
         </div>
         <h1 className="mt-[20px] text-[24px] leading-8 font-semibold">AdClarity - Advertising Intelligence</h1>
-        <p className="mt-[2px] flex items-center gap-[6px] text-[14px] leading-5 text-[#6c6e79]">
+        <p className="mt-[2px] flex items-center gap-[6px] text-[14px] leading-5 text-[#6a6c6a]">
           <svg viewBox="0 0 16 16" width={14} height={14}>
             <path d="M8 14S1.5 10 1.5 5.5A3.3 3.3 0 0 1 8 4a3.3 3.3 0 0 1 6.5 1.5C14.5 10 8 14 8 14z" fill="#ff757c" />
           </svg>
@@ -136,7 +136,7 @@ export function AdClarity() {
         <button type="button" onClick={() => setTried(true)} className="mt-[22px] flex h-10 w-[330px] items-center justify-center rounded-md bg-[#00a480] text-[16px] font-semibold text-white hover:bg-[#008a6c]">
           {tried ? "Trial activated" : "Try it free"}
         </button>
-        <p className="mt-[11px] w-[330px] text-center text-[14px] leading-5 text-[#6c6e79]">
+        <p className="mt-[11px] w-[330px] text-center text-[14px] leading-5 text-[#6a6c6a]">
           You&apos;ll activate the <span className="dotted-underline">recommended plan</span>
         </p>
         <VideoPoster playing={playing} onPlay={() => setPlaying((p) => !p)} />

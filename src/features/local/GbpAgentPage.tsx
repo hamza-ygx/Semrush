@@ -61,7 +61,7 @@ export function GbpAgentPage() {
     <div className="relative pb-[100px]">
       <div aria-hidden className="pointer-events-none absolute top-0 left-0 h-px w-[1153px]" />
       <section className="relative h-[646px] overflow-hidden rounded-b-[40px] bg-[linear-gradient(90deg,#f1e7fe_0%,#e4e9fd_50%,#d6ebfd_100%)]">
-        <div className="pt-[24px] text-center text-[16px] leading-6 text-[#6c6e79]">GBP AI Agent</div>
+        <div className="pt-[24px] text-center text-[16px] leading-6 text-[#6a6c6a]">GBP AI Agent</div>
         <h1 className="mt-[121px] pl-[52px] text-[36px] leading-10 font-semibold text-[#2b2a33]">
           The AI agent that grows your
           <br />
@@ -69,13 +69,13 @@ export function GbpAgentPage() {
           <br />
           <span className={`mt-[-2px] inline-block h-[50px] rounded-full px-[14px] leading-[48px] text-white bg-[linear-gradient(90deg,#b58df9_0%,#6fb0f7_100%)]`}>automatically</span>
         </h1>
-        <p className="mt-[18px] w-[419px] pl-[52px] text-[16px] leading-6 text-[#6c6e79]">
+        <p className="mt-[18px] w-[419px] pl-[52px] text-[16px] leading-6 text-[#6a6c6a]">
           The GBP AI agent updates, posts, and replies, so you show up in Google and AI assistants and win more local customers without lifting a finger.
         </p>
         <div ref={heroBtn} className="mt-[40px] pl-[52px]">
           <ActivateButton onClick={open} />
         </div>
-        <p className="mt-[16px] pl-[52px] text-[12px] leading-4 text-[#6c6e79]">
+        <p className="mt-[16px] pl-[52px] text-[12px] leading-4 text-[#6a6c6a]">
           Your data is secure and encrypted.
           <br />
           We only access the information needed for optimization.
@@ -135,11 +135,11 @@ export function GbpAgentPage() {
       </div>
       <section className="h-[355px] bg-[linear-gradient(90deg,#f1e7fe_0%,#e4e9fd_50%,#d6ebfd_100%)] pt-[80px] text-center">
         <h2 className="text-[32px] leading-10 font-semibold text-[#2b2a33]">Let AI grow your local business</h2>
-        <p className="mt-[13px] text-[16px] leading-6 text-[#6c6e79]">Activate your AI Agent today and watch calls, bookings, and walk-ins roll in.</p>
+        <p className="mt-[13px] text-[16px] leading-6 text-[#6a6c6a]">Activate your AI Agent today and watch calls, bookings, and walk-ins roll in.</p>
         <div ref={ctaBtn} className="mt-[39px]">
           <ActivateButton onClick={open} />
         </div>
-        <p className="mt-[16px] text-[16px] leading-6 text-[#6c6e79]">5-minute setup • Cancel anytime</p>
+        <p className="mt-[16px] text-[16px] leading-6 text-[#6a6c6a]">5-minute setup • Cancel anytime</p>
       </section>
       <div
         className={`fixed right-0 bottom-0 left-0 z-40 flex h-[88px] items-center justify-center bg-white shadow-[0_-4px_16px_rgba(24,27,40,0.08)] ${bar ? "opacity-100" : "pointer-events-none opacity-0"}`}

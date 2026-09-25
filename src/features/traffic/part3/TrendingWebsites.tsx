@@ -37,31 +37,31 @@ function TopBar({ onSignup }: { onSignup: () => void }) {
       <Link href={routes.home} className="flex items-center gap-[8px]" aria-label={brand.name}>
         <LogoIcon width={28} height={28} />
         <span className="flex flex-col leading-none">
-          <span className="text-[15px] font-extrabold tracking-[-0.2px] text-[#191b23] uppercase">{brand.name}</span>
-          <span className="mt-[3px] text-[10px] text-[#191b23]">Traffic &amp; Market</span>
+          <span className="text-[15px] font-extrabold tracking-[-0.2px] text-[#1b1e1a] uppercase">{brand.name}</span>
+          <span className="mt-[3px] text-[10px] text-[#1b1e1a]">Traffic &amp; Market</span>
         </span>
       </Link>
       <div ref={ref} className="relative flex items-center gap-[27px]">
-        <button type="button" aria-label="Menu" onClick={() => setMenu(!menu)} className="flex h-9 w-6 items-center justify-center text-[#191b23]">
+        <button type="button" aria-label="Menu" onClick={() => setMenu(!menu)} className="flex h-9 w-6 items-center justify-center text-[#1b1e1a]">
           <svg viewBox="0 0 16 12" width={14} height={11}>
             <path d="M1 2.5h14M1 9.5h14" stroke="currentColor" strokeWidth={2} strokeLinecap="round" />
           </svg>
         </button>
-        <button type="button" aria-label="Account" onClick={() => setMenu(!menu)} className="flex h-9 w-9 items-center justify-center rounded-full bg-[#cda4f6] text-[16px] text-[#191b23]">
+        <button type="button" aria-label="Account" onClick={() => setMenu(!menu)} className="flex h-9 w-9 items-center justify-center rounded-full bg-[#cda4f6] text-[16px] text-[#1b1e1a]">
           {account.initial}
         </button>
         {menu && (
           <div className="absolute top-[44px] right-0 w-[240px] rounded-lg bg-white py-2 text-[14px] shadow-popover">
-            <Link href={routes.traffic.overview} className="block px-4 py-2 hover:bg-[#f4f5f9]">
+            <Link href={routes.traffic.overview} className="block px-4 py-2 hover:bg-[#f5f6f6]">
               Check a Website&apos;s Traffic
             </Link>
-            <Link href={routes.traffic.trendingWebsites} className="block px-4 py-2 hover:bg-[#f4f5f9]">
+            <Link href={routes.traffic.trendingWebsites} className="block px-4 py-2 hover:bg-[#f5f6f6]">
               Top Websites
             </Link>
-            <Link href={routes.traffic.home} className="block px-4 py-2 hover:bg-[#f4f5f9]">
+            <Link href={routes.traffic.home} className="block px-4 py-2 hover:bg-[#f5f6f6]">
               Traffic &amp; Market Toolkit
             </Link>
-            <button type="button" onClick={onSignup} className="block w-full px-4 py-2 text-left hover:bg-[#f4f5f9]">
+            <button type="button" onClick={onSignup} className="block w-full px-4 py-2 text-left hover:bg-[#f5f6f6]">
               Upgrade plan
             </button>
           </div>
@@ -75,24 +75,24 @@ function PromoPopover({ onClose }: { onClose: () => void }) {
   return (
     <div role="dialog" aria-label="Free account" className="absolute top-[181px] left-[631px] z-30 w-[448px] rounded-2xl bg-white shadow-[0_4px_28px_rgba(25,27,35,0.14)]">
       <span className="absolute -top-[8px] right-[56px] h-4 w-4 rotate-45 bg-white" />
-      <button type="button" aria-label="Close" onClick={onClose} className="absolute top-[21px] right-[22px] text-[#6c6e79] hover:text-[#191b23]">
+      <button type="button" aria-label="Close" onClick={onClose} className="absolute top-[21px] right-[22px] text-[#6a6c6a] hover:text-[#1b1e1a]">
         <svg viewBox="0 0 12 12" width={12} height={12}>
           <path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" />
         </svg>
       </button>
       <div className="px-[24px] pt-[31px] pb-[16px]">
-        <h3 className="w-[340px] text-[20px] leading-7 font-semibold tracking-[-0.2px] text-[#191b23]">Uncover competitor traffic and market data with a Free Account!</h3>
+        <h3 className="w-[340px] text-[20px] leading-7 font-semibold tracking-[-0.2px] text-[#1b1e1a]">Uncover competitor traffic and market data with a Free Account!</h3>
         <ul className="mt-[12px] text-[14px] leading-[27px] text-[#333]">
           {["Get AI-powered alerts explaining every traffic shift", "Gauge market size and share to spot growth potential", "Find untapped opportunities before competitors do", "Uncover conversion, channel, and page-level trends"].map((t) => (
             <li key={t} className="flex items-center gap-[4px]">
-              <Check className="text-[#191b23]" />
+              <Check className="text-[#1b1e1a]" />
               {t}
             </li>
           ))}
         </ul>
       </div>
       <div className="h-[114px] rounded-b-2xl bg-[#fde6cc] px-[24px] pt-[17px] text-[16px] leading-6 text-[#333]">
-        <div className="font-bold text-[#191b23]">Maximize your online visibility:</div>
+        <div className="font-bold text-[#1b1e1a]">Maximize your online visibility:</div>
         <div>Get insights into the performance of any website.</div>
         <div>Every detail, only a click away.</div>
       </div>
@@ -102,7 +102,7 @@ function PromoPopover({ onClose }: { onClose: () => void }) {
 
 function Select({ value, options, onChange }: { value: string; options: string[]; onChange: (v: string) => void }) {
   return (
-    <label className="relative flex h-[56px] flex-1 items-center rounded-md bg-white px-[13px] text-[16px] text-[#191b23]">
+    <label className="relative flex h-[56px] flex-1 items-center rounded-md bg-white px-[13px] text-[16px] text-[#1b1e1a]">
       <span className="flex-1 truncate">{value}</span>
       <Chevron />
       <select value={value} onChange={(e) => onChange(e.target.value)} className="absolute inset-0 cursor-pointer opacity-0">
@@ -131,14 +131,14 @@ const cw = [40, 169, 100, 99, 81, 99, 81, 99, 100, 0];
 
 function Table({ onBlocked }: { onBlocked: () => void }) {
   return (
-    <table className="w-full table-fixed border-collapse border border-[#e6e6e6] text-[14px] text-[#191b23]">
+    <table className="w-full table-fixed border-collapse border border-[#e6e6e6] text-[14px] text-[#1b1e1a]">
       <colgroup>
         {cw.map((x, i) => (
           <col key={i} style={{ width: x || undefined }} />
         ))}
       </colgroup>
       <thead className="bg-white">
-        <tr className="h-[46px] border-b border-[#e6e6e6] text-[13px] text-[#6c6e79]">
+        <tr className="h-[46px] border-b border-[#e6e6e6] text-[13px] text-[#6a6c6a]">
           <th />
           <th className="pl-[11px] text-left font-normal">Website</th>
           <th className="text-right font-normal">Visits</th>
@@ -161,7 +161,7 @@ function Table({ onBlocked }: { onBlocked: () => void }) {
         {sites.map((s) => (
           <tr key={s.d} className="h-[45.5px] border-b border-[#e6e6e6] hover:bg-[#f0eff3]">
             <td className="text-center align-middle">
-              <button type="button" aria-label={`Hide ${s.d}`} onClick={onBlocked} className="inline-flex align-middle text-[#c4c7cf] hover:text-[#6c6e79]">
+              <button type="button" aria-label={`Hide ${s.d}`} onClick={onBlocked} className="inline-flex align-middle text-[#d6d8d7] hover:text-[#6a6c6a]">
                 <svg viewBox="0 0 20 20" width={20} height={20}>
                   <circle cx="10" cy="10" r="7.5" fill="none" stroke="currentColor" strokeWidth={1.6} />
                   <path d="M5 15 15 5" stroke="currentColor" strokeWidth={1.6} />
@@ -175,9 +175,9 @@ function Table({ onBlocked }: { onBlocked: () => void }) {
               </Link>
             </td>
             <td className="text-right">{s.v}</td>
-            <td className="text-right text-[#8a8e9b]">{s.ds}</td>
+            <td className="text-right text-[#8b8d8c]">{s.ds}</td>
             <td className="text-right">{s.dv}</td>
-            <td className="text-right text-[#8a8e9b]">{s.ms}</td>
+            <td className="text-right text-[#8b8d8c]">{s.ms}</td>
             <td className="text-right">{s.mv}</td>
             <td className="text-right">
               <Delta v={s.mom} />
@@ -212,13 +212,13 @@ function SignupModal({ onClose }: { onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(25,27,35,0.7)] pr-[var(--sbw,0px)]" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
       <div role="dialog" aria-label="Sign up" className="relative ml-[16px] flex h-[410px] w-[723px] rounded-2xl bg-white pt-[47px] pl-[40px]">
-        <button type="button" aria-label="Close" onClick={onClose} className="absolute top-[16px] right-[18px] text-[#6c6e79] hover:text-[#191b23]">
+        <button type="button" aria-label="Close" onClick={onClose} className="absolute top-[16px] right-[18px] text-[#6a6c6a] hover:text-[#1b1e1a]">
           <svg viewBox="0 0 24 24" width={24} height={24}>
             <path d="M5 5l14 14M19 5 5 19" stroke="currentColor" strokeWidth={2} strokeLinecap="round" />
           </svg>
         </button>
         <div className="w-[350px]">
-          <h2 className="text-[31px] leading-[39px] font-semibold tracking-[-0.4px] text-[#191b23]">Don&apos;t Miss Out on Even More Competitor Insights!</h2>
+          <h2 className="text-[31px] leading-[39px] font-semibold tracking-[-0.4px] text-[#1b1e1a]">Don&apos;t Miss Out on Even More Competitor Insights!</h2>
           <ul className="mt-[12px] flex flex-col text-[14px] leading-[25.7px] text-[#333]">
             {["Which keywords they target", "Where their traffic comes from", "Their most important pages", "How they make money"].map((t) => (
               <li key={t} className="flex items-center gap-[8px]">
@@ -230,7 +230,7 @@ function SignupModal({ onClose }: { onClose: () => void }) {
           <Link href={routes.home} className={`mt-[21px] inline-flex h-[40px] items-center rounded-md px-[14px] text-[14px] font-medium text-white ${orange}`}>
             Get Started for Free →
           </Link>
-          <p className="text-[13px] leading-[16px] text-[#6c6e79]">Enjoy 10 Free Daily Requests on Us When You Sign Up</p>
+          <p className="text-[13px] leading-[16px] text-[#6a6c6a]">Enjoy 10 Free Daily Requests on Us When You Sign Up</p>
         </div>
         <SignupArt />
       </div>
@@ -247,7 +247,7 @@ function Wordmark() {
       }}
     >
       <svg viewBox="0 0 1065 160" width={1065} height={160} className="absolute bottom-[26px] left-[30px]" aria-label={brand.name}>
-        <text x="0" y="152" fontSize="190" fontWeight="900" fill="#191b23" textLength="1065" lengthAdjust="spacingAndGlyphs">
+        <text x="0" y="152" fontSize="190" fontWeight="900" fill="#1b1e1a" textLength="1065" lengthAdjust="spacingAndGlyphs">
           {brand.name.toUpperCase()}
         </text>
       </svg>
@@ -279,7 +279,7 @@ export function TrendingWebsites() {
   }, [seen]);
 
   return (
-    <div className="relative min-h-screen bg-white text-[#191b23]">
+    <div className="relative min-h-screen bg-white text-[#1b1e1a]">
       <TopBar onSignup={() => setModal(true)} />
       <div className="relative z-20 flex h-[102px] items-center justify-between bg-white pr-[48px] pl-[48px] shadow-[0_10px_18px_rgba(25,27,35,0.06)]">
         <nav className="-mt-[6px] flex items-center gap-[24px] text-[20px] tracking-[-0.3px]">
@@ -294,17 +294,17 @@ export function TrendingWebsites() {
           <button type="button" onClick={() => setModal(true)} className={`h-[45px] w-[199px] rounded-md text-[18px] font-medium text-white ${orange}`}>
             Try for free
           </button>
-          <span className="mt-[5px] pr-[6px] text-[16px] text-[#6c6e79]">10x daily insights. Free!</span>
+          <span className="mt-[5px] pr-[6px] text-[16px] text-[#6a6c6a]">10x daily insights. Free!</span>
         </div>
       </div>
       {pop && <PromoPopover onClose={() => setPop(false)} />}
 
       <main className="mx-auto w-[1031px] pb-[120px]">
         <nav className="mt-[48px] flex items-center gap-[8px] text-[14px]">
-          <Link href={routes.home} className="text-[#6c6e79] hover:text-[#191b23]">
+          <Link href={routes.home} className="text-[#6a6c6a] hover:text-[#1b1e1a]">
             Main
           </Link>
-          <span className="text-[#c4c7cf]">/</span>
+          <span className="text-[#d6d8d7]">/</span>
           <span>Top Websites</span>
         </nav>
         <form
@@ -318,7 +318,7 @@ export function TrendingWebsites() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Enter a domain to see detailed stats"
-            className="h-[57px] w-[402px] rounded-md border border-[#d0d3da] px-[12px] text-[16px] outline-none placeholder:text-[#8a8e9b] focus:border-[#ff642d]"
+            className="h-[57px] w-[402px] rounded-md border border-[#d0d3da] px-[12px] text-[16px] outline-none placeholder:text-[#8b8d8c] focus:border-[#ff642d]"
           />
           <button type="submit" className={`h-[57px] w-[290px] rounded-md text-[18px] font-semibold text-white ${orange}`}>
             Check Traffic
@@ -343,7 +343,7 @@ export function TrendingWebsites() {
         <h2 className="mt-[64px] text-[36px] leading-[44px] font-bold tracking-[-0.5px]">
           Top {sites.length} Most Visited Websites{region === "World" ? " in the World" : ` in ${region}`}
         </h2>
-        <p className="mt-[12px] text-[16px] leading-6 text-[#6c6e79]">
+        <p className="mt-[12px] text-[16px] leading-6 text-[#6a6c6a]">
           {industry} · August 2026 · Monthly visits, desktop and mobile split, month-over-month and year-over-year change.
         </p>
         <div className="mt-[28px]">
@@ -353,7 +353,7 @@ export function TrendingWebsites() {
         <section className="mt-[64px] flex items-center justify-between rounded-2xl bg-[#f6f3ff] px-[40px] py-[36px]">
           <div>
             <h2 className="text-[28px] leading-9 font-bold tracking-[-0.3px]">Want the full picture?</h2>
-            <p className="mt-[8px] w-[560px] text-[16px] leading-6 text-[#484a54]">Analyze any website&apos;s traffic sources, audience and top pages with the {brand.name} Traffic &amp; Market toolkit.</p>
+            <p className="mt-[8px] w-[560px] text-[16px] leading-6 text-[#484a49]">Analyze any website&apos;s traffic sources, audience and top pages with the {brand.name} Traffic &amp; Market toolkit.</p>
           </div>
           <Link href={routes.traffic.home} className={`inline-flex h-[48px] items-center rounded-md px-[20px] text-[16px] font-semibold text-white ${orange}`}>
             Explore Traffic &amp; Market
@@ -372,17 +372,17 @@ export function TrendingWebsites() {
               ["fb", "https://www.facebook.com"],
             ] as const
           ).map(([s, url]) => (
-            <a key={s} href={url} target="_blank" rel="noreferrer" aria-label={s} className="flex h-[22px] w-[22px] items-center justify-center text-[#191b23] hover:text-[#ff642d]">
+            <a key={s} href={url} target="_blank" rel="noreferrer" aria-label={s} className="flex h-[22px] w-[22px] items-center justify-center text-[#1b1e1a] hover:text-[#ff642d]">
               <SocialGlyph k={s} />
             </a>
           ))}
         </div>
-        <div className="flex h-[66px] items-start justify-between pt-[15px] pr-[26px] pl-[24px] text-[14px] leading-5 text-[#484a54]">
+        <div className="flex h-[66px] items-start justify-between pt-[15px] pr-[26px] pl-[24px] text-[14px] leading-5 text-[#484a49]">
           <span className="flex items-center gap-[20px]">
             <LogoIcon width={24} height={24} />
             © 2026 {brand.legalName}. All rights reserved.
           </span>
-          <button type="button" className="flex items-center gap-[4px] text-[15px] text-[#191b23]">
+          <button type="button" className="flex items-center gap-[4px] text-[15px] text-[#1b1e1a]">
             English
             <svg viewBox="0 0 16 16" width={12} height={12}>
               <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth={1.6} />

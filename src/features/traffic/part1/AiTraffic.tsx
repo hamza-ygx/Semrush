@@ -76,7 +76,7 @@ function DistributionCard() {
   const [hidden, setHidden] = useState<Record<string, boolean>>({});
   return (
     <SampleCard title="Traffic Distribution" bodyClassName="px-5 pt-[35px] pb-[21px]">
-      <GroupedBars width={1196} plotLeft={81} plotHeight={152} ticks={[0, 100 * K, 200 * K, 300 * K, 400 * K]} groups={[...aiSources]} series={dist} hidden={hidden} barWidth={45} barGap={5} labelColor="#6c6e79" />
+      <GroupedBars width={1196} plotLeft={81} plotHeight={152} ticks={[0, 100 * K, 200 * K, 300 * K, 400 * K]} groups={[...aiSources]} series={dist} hidden={hidden} barWidth={45} barGap={5} labelColor="#6a6c6a" />
       <DomainLegend className="mt-[19px]" onChange={(v) => setHidden(hide(v))} />
       <OutlineButton className="mt-[20px]">View all sources</OutlineButton>
     </SampleCard>
@@ -101,7 +101,7 @@ function CategorySelect() {
   return (
     <Popover
       trigger={({ toggle, open }) => (
-        <button type="button" onClick={toggle} className="flex h-7 items-center gap-[8px] rounded-[6px] border border-[#d7d9de] bg-white px-[8px] text-[14px] text-rk-muted hover:bg-rk-bg">
+        <button type="button" onClick={toggle} className="flex h-7 items-center gap-[8px] rounded-[6px] border border-[#d8dad9] bg-white px-[8px] text-[14px] text-rk-muted hover:bg-rk-bg">
           Category
           <svg viewBox="0 0 16 16" width={14} height={14} className={`text-rk-text ${open ? "rotate-180" : ""}`}>
             <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
@@ -197,7 +197,7 @@ export function AiTrafficLocked() {
             <SampleCard title="Traffic Distribution" bodyClassName="px-5 pt-[140px] pb-[30px]">
               <div className="flex items-end gap-[18px] pl-[10px]">
                 {Array.from({ length: 36 }).map((_, i) => (
-                  <span key={i} className="w-[12px] bg-[#d7d9de]" style={{ height: [70, 110, 60, 90, 100, 80, 66, 110, 70][i % 9] }} />
+                  <span key={i} className="w-[12px] bg-[#d8dad9]" style={{ height: [70, 110, 60, 90, 100, 80, 66, 110, 70][i % 9] }} />
                 ))}
               </div>
             </SampleCard>

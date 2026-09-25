@@ -108,7 +108,7 @@ function MetricsCard() {
           {m.ranking.map((r) => (
             <CheckBox key={r.brand} color={brandColor[r.brand]} on={shown[r.brand]} bold={you(r.brand)} you={you(r.brand)} label={r.brand} onClick={() => setShown((s) => ({ ...s, [r.brand]: !s[r.brand] }))} />
           ))}
-          <CheckBox color="#a9abb6" on={shown.Other} label="Other" onClick={() => setShown((s) => ({ ...s, Other: !s.Other }))} />
+          <CheckBox color="#a9abaa" on={shown.Other} label="Other" onClick={() => setShown((s) => ({ ...s, Other: !s.Other }))} />
         </div>
         <div className="mt-3">
           <TimeTabs />
@@ -117,7 +117,7 @@ function MetricsCard() {
           <TrendChart
             lines={[
               ...m.ranking.filter((r) => shown[r.brand]).map((r) => ({ name: r.brand, color: brandColor[r.brand], data: m.trend[r.brand] })),
-              ...(shown.Other ? [{ name: "Other", color: "#a9abb6", data: m.trend["Ac lens"].map((v) => v * 0.6) }] : []),
+              ...(shown.Other ? [{ name: "Other", color: "#a9abaa", data: m.trend["Ac lens"].map((v) => v * 0.6) }] : []),
             ]}
             max={m.max}
             ticks={m.ticks}
@@ -182,7 +182,7 @@ function CitationsCard() {
 
 function DiveTiles({ active, onChange }: { active: string; onChange: (k: string) => void }) {
   return (
-    <div className="flex overflow-hidden rounded-lg border border-[#e0e1e9] bg-white" data-testid="dive-tiles">
+    <div className="flex overflow-hidden rounded-lg border border-[#e0e2e1] bg-white" data-testid="dive-tiles">
       {diveTiles.map((t, i) => {
         const on = t.key === active;
         return (
@@ -190,7 +190,7 @@ function DiveTiles({ active, onChange }: { active: string; onChange: (k: string)
             key={t.key}
             type="button"
             onClick={() => onChange(t.key)}
-            className={`flex-1 px-[13px] pt-[16px] pb-[18px] text-left ${i ? "border-l border-[#e0e1e9]" : ""} ${on ? "bg-[#eaf0f8] shadow-[inset_0_0_0_1px_#a9bde4]" : "hover:bg-rk-bg"}`}
+            className={`flex-1 px-[13px] pt-[16px] pb-[18px] text-left ${i ? "border-l border-[#e0e2e1]" : ""} ${on ? "bg-[#eaf0f8] shadow-[inset_0_0_0_1px_#a9bde4]" : "hover:bg-rk-bg"}`}
           >
             <div className="text-[16px] leading-6 text-rk-text">{t.title}</div>
             <div className="mt-[4px] text-[12px] leading-4 text-rk-muted">{t.text}</div>

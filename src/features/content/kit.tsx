@@ -43,7 +43,7 @@ export function Chip({ x, y, w, h = 21, children, className = "" }: { x: number;
 }
 
 export function Toolbar({ x, y, w, extra, groups = true }: { x: number; y: number; w: number; extra?: ReactNode; groups?: boolean }) {
-  const g = "flex h-[26px] items-center gap-[7px] rounded-md border border-[#e3dcef] px-[6px] text-[14px] font-medium text-[#6c6e79]";
+  const g = "flex h-[26px] items-center gap-[7px] rounded-md border border-[#e3dcef] px-[6px] text-[14px] font-medium text-[#6a6c6a]";
   return (
     <A x={x} y={y} w={w} h={43} className="flex items-center gap-[10px] rounded-lg bg-[#f8f4fe] px-[8px]">
       {extra}
@@ -61,10 +61,10 @@ export function Toolbar({ x, y, w, extra, groups = true }: { x: number; y: numbe
           </span>
           <span className={g}>
             <svg viewBox="0 0 34 14" width={34} height={14} aria-hidden>
-              <path d="M5 2h8M5 7h8M5 12h8M21 2h12M21 7h12M21 12h12" stroke="#6c6e79" strokeWidth={1.4} />
-              <circle cx="18" cy="2" r="1" fill="#6c6e79" />
-              <circle cx="18" cy="7" r="1" fill="#6c6e79" />
-              <circle cx="18" cy="12" r="1" fill="#6c6e79" />
+              <path d="M5 2h8M5 7h8M5 12h8M21 2h12M21 7h12M21 12h12" stroke="#6a6c6a" strokeWidth={1.4} />
+              <circle cx="18" cy="2" r="1" fill="#6a6c6a" />
+              <circle cx="18" cy="7" r="1" fill="#6a6c6a" />
+              <circle cx="18" cy="12" r="1" fill="#6a6c6a" />
             </svg>
           </span>
         </>
@@ -74,7 +74,7 @@ export function Toolbar({ x, y, w, extra, groups = true }: { x: number; y: numbe
 }
 
 export const DocsChip = ({ x, y, w }: { x: number; y: number; w: number }) => (
-  <A x={x} y={y} w={w} h={27} className="flex items-center gap-2 rounded-md border border-[#e3dcef] bg-[#f3eefb] px-[8px] text-[14px] whitespace-nowrap text-[#6c6e79]">
+  <A x={x} y={y} w={w} h={27} className="flex items-center gap-2 rounded-md border border-[#e3dcef] bg-[#f3eefb] px-[8px] text-[14px] whitespace-nowrap text-[#6a6c6a]">
     <svg viewBox="0 0 12 16" width={11} height={14} aria-hidden>
       <path d="M1 1h7l3 3v11H1z" fill="#4c8bf5" />
       <path d="M3 8h6M3 10.5h6M3 13h4" stroke="#fff" strokeWidth={1} />
@@ -98,16 +98,16 @@ export function FoodBag({ x, y, w = 65, h = 66 }: { x: number; y: number; w?: nu
 
 export const TitleKeywords = ({ x, y, h1, title }: { x: number; y: number; h1: number; title: string }) => (
   <>
-    <A x={h1} y={y - 10} className="text-[13px] text-[#a9abb6]">
+    <A x={h1} y={y - 10} className="text-[13px] text-[#a9abaa]">
       h1
     </A>
-    <A x={x} y={y - 14} className="text-[20px] leading-7 font-semibold whitespace-nowrap text-[#484a54]">
+    <A x={x} y={y - 14} className="text-[20px] leading-7 font-semibold whitespace-nowrap text-[#484a49]">
       {title}
     </A>
-    <A x={x} y={y + 33} className="flex items-center gap-2 text-[13px] whitespace-nowrap text-[#6c6e79]">
+    <A x={x} y={y + 33} className="flex items-center gap-2 text-[13px] whitespace-nowrap text-[#6a6c6a]">
       Target keywords:
-      <span className="flex h-[25px] items-center rounded-full bg-[#ececef] px-[9px] text-[#484a54]">puppy food</span>
-      <span className="flex h-[25px] items-center rounded-full border border-dashed border-[#c4c7cf] px-[8px]">+ Add keyword</span>
+      <span className="flex h-[25px] items-center rounded-full bg-[#ececef] px-[9px] text-[#484a49]">puppy food</span>
+      <span className="flex h-[25px] items-center rounded-full border border-dashed border-[#d6d8d7] px-[8px]">+ Add keyword</span>
     </A>
   </>
 );

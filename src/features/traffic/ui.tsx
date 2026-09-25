@@ -46,7 +46,7 @@ export function LegendCheck({ color, label, checked = true, onClick }: { color: 
     <button type="button" onClick={onClick} className="flex items-center gap-[8px] text-[14px] leading-5 text-rk-text">
       <span
         className="flex h-4 w-4 items-center justify-center rounded-[4px] border text-white"
-        style={checked ? { background: color, borderColor: color } : { background: "#fff", borderColor: "#c4c7cf" }}
+        style={checked ? { background: color, borderColor: color } : { background: "#fff", borderColor: "#d6d8d7" }}
       >
         {checked && <CheckSmall width={14} height={14} />}
       </span>
@@ -112,7 +112,7 @@ export function SegTabs<T extends string>({
             }}
             className={`relative -ml-px flex items-center border px-[8px] text-[14px] leading-5 whitespace-nowrap text-rk-text first:ml-0 ${
               i === 0 ? "rounded-l-[6px]" : ""
-            } ${i === items.length - 1 ? "rounded-r-[6px]" : ""} ${active ? "z-10 border-[#a3aabb] bg-[#f0f5ff]" : "border-[#d7d9de] bg-white hover:bg-rk-bg"}`}
+            } ${i === items.length - 1 ? "rounded-r-[6px]" : ""} ${active ? "z-10 border-[#a3aabb] bg-[#f0f5ff]" : "border-[#d8dad9] bg-white hover:bg-rk-bg"}`}
           >
             {render ? render(it) : it}
           </button>
@@ -144,7 +144,7 @@ export function OutlineButton({ children, onClick, className = "" }: { children:
     <button
       type="button"
       onClick={onClick}
-      className={`inline-flex h-7 items-center gap-[6px] rounded-[6px] border border-[#d7d9de] bg-[#f9fafa] px-[8px] text-[14px] leading-5 whitespace-nowrap text-rk-text-2 hover:bg-rk-hover ${className}`}
+      className={`inline-flex h-7 items-center gap-[6px] rounded-[6px] border border-[#d8dad9] bg-[#f9fafa] px-[8px] text-[14px] leading-5 whitespace-nowrap text-rk-text-2 hover:bg-rk-hover ${className}`}
     >
       {children}
     </button>

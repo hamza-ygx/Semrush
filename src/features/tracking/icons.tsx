@@ -113,9 +113,9 @@ export const JobIcon = (p: P) => (
 
 export const RadioOn = (p: P) => (
   <svg viewBox="0 0 18 18" width={18} height={18} {...p}>
-    <circle cx="9" cy="9" r="8" fill="#fff" stroke="#191b23" strokeWidth={1} />
-    <circle cx="9" cy="9" r="8" fill="none" stroke="#191b23" strokeWidth={1} />
-    <circle cx="9" cy="9" r="5" fill="#191b23" />
+    <circle cx="9" cy="9" r="8" fill="#fff" stroke="#1b1e1a" strokeWidth={1} />
+    <circle cx="9" cy="9" r="8" fill="none" stroke="#1b1e1a" strokeWidth={1} />
+    <circle cx="9" cy="9" r="5" fill="#1b1e1a" />
     <circle cx="9" cy="9" r="2.5" fill="#fff" />
   </svg>
 );

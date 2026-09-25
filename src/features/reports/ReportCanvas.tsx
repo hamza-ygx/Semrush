@@ -81,13 +81,13 @@ function PeriodWarning() {
 function DropArt() {
   return (
     <svg viewBox="0 0 190 180" width={190} height={180} aria-hidden>
-      <path d="M40 22c30-18 90-20 120 4s32 70 20 100-50 50-90 48S12 150 8 110 10 40 40 22z" fill="#e8e9ee" />
+      <path d="M40 22c30-18 90-20 120 4s32 70 20 100-50 50-90 48S12 150 8 110 10 40 40 22z" fill="#e9eaea" />
       <g stroke="#3a3d46" strokeWidth={2} strokeLinejoin="round" fill="#fff">
         <rect x="20" y="38" width="118" height="92" rx="6" />
-        <path d="M20 44a6 6 0 0 1 6-6h106a6 6 0 0 1 6 6v8H20z" fill="#6c6e79" />
+        <path d="M20 44a6 6 0 0 1 6-6h106a6 6 0 0 1 6 6v8H20z" fill="#6a6c6a" />
         <rect x="30" y="66" width="30" height="24" rx="3" />
         <rect x="30" y="98" width="30" height="24" rx="3" />
-        <rect x="104" y="92" width="62" height="58" rx="5" transform="rotate(-8 135 121)" fill="#6c6e79" />
+        <rect x="104" y="92" width="62" height="58" rx="5" transform="rotate(-8 135 121)" fill="#6a6c6a" />
         <rect x="108" y="96" width="54" height="50" rx="4" transform="rotate(-8 135 121)" />
       </g>
       <circle cx="30" cy="45" r="2.2" fill="#fff" />
@@ -96,7 +96,7 @@ function DropArt() {
       <path d="M36 118v-8M42 118v-12M48 118v-6" stroke="#3a3d46" strokeWidth={2} />
       <path d="M68 66h58v48H68z" fill="none" stroke="#3a3d46" strokeWidth={1.4} strokeDasharray="4 3" />
       <circle cx="136" cy="122" r="15" fill="#fff" stroke="#3a3d46" strokeWidth={2} />
-      <path d="M136 107v15h15a15 15 0 0 0-15-15z" fill="#6c6e79" stroke="#3a3d46" strokeWidth={2} strokeLinejoin="round" />
+      <path d="M136 107v15h15a15 15 0 0 0-15-15z" fill="#6a6c6a" stroke="#3a3d46" strokeWidth={2} strokeLinejoin="round" />
       <path
         d="M96 80c-3-6 3-10 7-6l2 3c-1-6 5-8 8-3 1-5 7-5 9 0 2-3 7-2 7 3v10c0 8-5 14-13 14h-6c-6 0-9-4-11-9z"
         fill="#fff"
@@ -134,9 +134,9 @@ export function ReportCanvas({ onChooseTemplate }: { onChooseTemplate: () => voi
               {brand.name}
             </div>
             <div className="absolute top-[520px] w-full text-center text-[40px] leading-[48px] font-bold text-rk-text">Untitled report</div>
-            <div className="absolute top-[1347px] w-full text-center text-[15px] leading-5 text-[#8a8e9b]">Generated on {generatedOn}</div>
+            <div className="absolute top-[1347px] w-full text-center text-[15px] leading-5 text-[#8b8d8c]">Generated on {generatedOn}</div>
           </div>
-          <div className="relative flex h-0 items-center justify-center border-t border-dashed border-[#c4c7cf]">
+          <div className="relative flex h-0 items-center justify-center border-t border-dashed border-[#d6d8d7]">
             <span className="bg-white px-3 text-[14px] leading-5 text-rk-text-2">page break</span>
           </div>
           <div className="relative h-[1180px]">
@@ -152,14 +152,14 @@ export function ReportCanvas({ onChooseTemplate }: { onChooseTemplate: () => voi
                 </div>
               </div>
             </div>
-            <div className="mt-[30px] ml-[37px] flex h-[400px] w-[720px] flex-col items-center rounded border border-dashed border-[#c4c7cf] pt-[62px]">
+            <div className="mt-[30px] ml-[37px] flex h-[400px] w-[720px] flex-col items-center rounded border border-dashed border-[#d6d8d7] pt-[62px]">
               <DropArt />
               <p className="mt-4 text-[14px] leading-[21px] text-rk-muted">
                 Drag and drop a widget from the left sidebar
                 <br />
                 <span className="block text-center">or</span>
               </p>
-              <button type="button" onClick={onChooseTemplate} className="mt-[5px] h-7 rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
+              <button type="button" onClick={onChooseTemplate} className="mt-[5px] h-7 rounded-md border border-rk-border-strong bg-[#f5f6f6] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
                 Choose template
               </button>
             </div>

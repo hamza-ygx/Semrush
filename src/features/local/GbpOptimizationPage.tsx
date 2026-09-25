@@ -42,7 +42,7 @@ const Field = ({ label, children }: { label: string; children: ReactNode }) => (
   </div>
 );
 const Input = ({ v, w = 172 }: { v: string; w?: number }) => (
-  <div className="flex h-[19px] items-center truncate rounded-[3px] border border-[#c9cacf] px-[6px] text-[8px] text-[#1f1f24]" style={{ width: w }}>
+  <div className="flex h-[19px] items-center truncate rounded-[3px] border border-[#cacccb] px-[6px] text-[8px] text-[#1f1f24]" style={{ width: w }}>
     {v}
   </div>
 );
@@ -56,7 +56,7 @@ const Check = ({ label }: { label: string }) => (
   </span>
 );
 const Select = ({ v, w = 52 }: { v: string; w?: number }) => (
-  <span className="flex h-[17px] shrink-0 items-center justify-between rounded-[3px] border border-[#c9cacf] bg-white px-[5px] text-[7px] text-[#1f1f24]" style={{ width: w }}>
+  <span className="flex h-[17px] shrink-0 items-center justify-between rounded-[3px] border border-[#cacccb] bg-white px-[5px] text-[7px] text-[#1f1f24]" style={{ width: w }}>
     {v}
     <svg viewBox="0 0 8 8" width={7} height={7}>
       <path d="m1.5 3 2.5 2.5L6.5 3" fill="none" stroke="#6b6c72" strokeWidth={1.1} />
@@ -70,7 +70,7 @@ const Cal = () => (
   </svg>
 );
 const DateBox = ({ v }: { v: string }) => (
-  <span className="flex h-[18px] w-[68px] items-center gap-[4px] rounded-[3px] whitespace-nowrap border border-[#c9cacf] bg-white px-[5px] text-[7px] text-[#1f1f24]">
+  <span className="flex h-[18px] w-[68px] items-center gap-[4px] rounded-[3px] whitespace-nowrap border border-[#cacccb] bg-white px-[5px] text-[7px] text-[#1f1f24]">
     <Cal />
     {v}
   </span>
@@ -106,7 +106,7 @@ function HoursMockup() {
           <DateBox v="Jan 18, 2024" />
           <div className="mt-[5px] flex items-center gap-[4px] text-[7px] text-[#1f1f24]">
             <Select v="Open" />
-            <span className="flex h-[17px] w-[52px] items-center rounded-[3px] border border-[#c9cacf] bg-white px-[5px]">09:00</span>
+            <span className="flex h-[17px] w-[52px] items-center rounded-[3px] border border-[#cacccb] bg-white px-[5px]">09:00</span>
             <span>–</span>
           </div>
         </div>
@@ -145,7 +145,7 @@ function HoursMockup() {
                 <span className="h-[10px] w-px bg-[#1f1f24]" />
                 City, country, region, postal code, etc.
               </div>
-              <span className="mt-[5px] ml-[12px] flex h-[14px] w-fit items-center gap-[4px] rounded-full border border-[#c9cacf] px-[5px] text-[6.5px] text-[#1f1f24]">
+              <span className="mt-[5px] ml-[12px] flex h-[14px] w-fit items-center gap-[4px] rounded-full border border-[#cacccb] px-[5px] text-[6.5px] text-[#1f1f24]">
                 New Westminster, BC, Canada <span className="text-[8px] leading-none">×</span>
               </span>
             </div>
@@ -173,7 +173,7 @@ function GbpInsightsMockup() {
       <div className="absolute top-[-110px] left-[295px] h-[260px] w-[240px] rounded-[48%] bg-[#fde8f1]" />
       <div className="absolute inset-0 rounded-[12px] bg-white px-[16px] pt-[24px] shadow-[0_4px_24px_rgba(20,30,50,0.12)]">
         <div className="text-[18px] leading-6 font-semibold text-[#66646b]">Google Business Profile Insights</div>
-        <div className="relative mt-[14px] h-[53px] rounded-[8px] border border-[#e3e4e8] text-[13px] leading-[18px]">
+        <div className="relative mt-[14px] h-[53px] rounded-[8px] border border-[#e4e5e5] text-[13px] leading-[18px]">
           {[
             ["Views", "55.1K", "+28%", "#0f8a5f", 18],
             ["Actions", "345", "-2.5%", "#d6336c", 157],
@@ -186,22 +186,22 @@ function GbpInsightsMockup() {
               </div>
             </div>
           ))}
-          <span className="absolute top-[9px] left-[128px] h-[34px] w-px bg-[#e3e4e8]" />
-          <span className="absolute top-[9px] left-[255px] h-[34px] w-px bg-[#e3e4e8]" />
+          <span className="absolute top-[9px] left-[128px] h-[34px] w-px bg-[#e4e5e5]" />
+          <span className="absolute top-[9px] left-[255px] h-[34px] w-px bg-[#e4e5e5]" />
         </div>
         <div className="mt-[12px] flex gap-[13px]">
           {[
             ["Google Search Views", "+26%"],
             ["Google Maps Views", "+40%"],
           ].map(([t, u], k) => (
-            <div key={t} className="h-[140px] flex-1 rounded-[8px] border border-[#e3e4e8] px-[10px] pt-[6px] text-[12px]">
-              <div className="border-b border-[#e3e4e8] pb-[6px] font-semibold text-[#6b6c72]">{t}</div>
+            <div key={t} className="h-[140px] flex-1 rounded-[8px] border border-[#e4e5e5] px-[10px] pt-[6px] text-[12px]">
+              <div className="border-b border-[#e4e5e5] pb-[6px] font-semibold text-[#6b6c72]">{t}</div>
               <div className="mt-[4px] flex items-center gap-[4px] text-[11px] text-[#76777d]">
-                <span className="h-[6px] w-[6px] rounded-full bg-[#2bb0f0]" /> 2024 <span className="ml-[4px] h-[6px] w-[6px] rounded-full bg-[#c9cacf]" /> 2023 <span className="ml-[8px] font-semibold text-[#0f8a5f]">{u}</span>
+                <span className="h-[6px] w-[6px] rounded-full bg-[#2bb0f0]" /> 2024 <span className="ml-[4px] h-[6px] w-[6px] rounded-full bg-[#cacccb]" /> 2023 <span className="ml-[8px] font-semibold text-[#0f8a5f]">{u}</span>
               </div>
               <svg viewBox="0 0 180 50" className="mt-[10px] w-full">
                 <path d="M0 5h180M0 20h180M0 35h180" stroke="#f0f1f3" strokeWidth={1} />
-                <path d={insightLines[k][1]} fill="none" stroke="#c9cacf" strokeWidth={1.6} />
+                <path d={insightLines[k][1]} fill="none" stroke="#cacccb" strokeWidth={1.6} />
                 <path d={insightLines[k][0]} fill="none" stroke="#2bb0f0" strokeWidth={1.6} />
               </svg>
             </div>
@@ -217,7 +217,7 @@ function PostsMockup() {
     <div className="h-[300px] w-[440px] rounded-[12px] bg-white p-[20px] shadow-[0_4px_24px_rgba(20,30,50,0.12)]">
       <div className="text-[18px] font-semibold text-[#6b6c72]">Scheduled posts</div>
       {["Weekend brunch is back!", "New seasonal menu", "Happy hour 4–6 pm"].map((t, i) => (
-        <div key={t} className="mt-[14px] flex items-center gap-[12px] rounded-[8px] border border-[#e3e4e8] p-[10px]">
+        <div key={t} className="mt-[14px] flex items-center gap-[12px] rounded-[8px] border border-[#e4e5e5] p-[10px]">
           <span className="h-[44px] w-[44px] rounded-[6px]" style={{ background: ["#e5a83b", "#6aa84f", "#c0492b"][i] }} />
           <div className="flex-1">
             <div className="text-[14px] font-semibold text-[#1f1f24]">{t}</div>

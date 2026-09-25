@@ -41,9 +41,9 @@ export function ReportMock() {
           </span>
           <span className="text-[13px] font-semibold text-[#1c8ff5] underline decoration-dotted underline-offset-4">Your Logo</span>
         </div>
-        <div style={{ left: 527, top: 9, width: 115, height: 38 }} className={`${box} flex items-center justify-center gap-2 text-[13px] text-[#6c6e79]`}>
+        <div style={{ left: 527, top: 9, width: 115, height: 38 }} className={`${box} flex items-center justify-center gap-2 text-[13px] text-[#6a6c6a]`}>
           <svg viewBox="0 0 16 16" width={16} height={16}>
-            <path d="M3 13l1-3.5 6.5-6.5 2.5 2.5L6.5 12zM9.5 4l2.5 2.5" fill="none" stroke="#8a8e9b" strokeWidth={1.2} strokeLinejoin="round" />
+            <path d="M3 13l1-3.5 6.5-6.5 2.5 2.5L6.5 12zM9.5 4l2.5 2.5" fill="none" stroke="#8b8d8c" strokeWidth={1.2} strokeLinejoin="round" />
           </svg>
           June 2025
         </div>
@@ -67,7 +67,7 @@ export function ReportMock() {
               <div key={l.label} className="flex items-center">
                 <span className="mr-[6px] h-2 w-2 rounded-full" style={{ background: l.c }} />
                 <span className="flex-1 font-medium text-[#555861]">{l.label}</span>
-                <span className="w-9 text-right text-[#8a8e9b]">{l.pct}</span>
+                <span className="w-9 text-right text-[#8b8d8c]">{l.pct}</span>
                 <Delta v={l.ch} up={l.up} className="w-[54px] text-right" />
               </div>
             ))}
@@ -90,7 +90,7 @@ export function ReportMock() {
               ["0", 138],
             ].map(([t, y]) => (
               <g key={t}>
-                <text x="40" y={+y + 4} textAnchor="end" fontSize="11" fill="#6c6e79" fontFamily="Inter, sans-serif">
+                <text x="40" y={+y + 4} textAnchor="end" fontSize="11" fill="#6a6c6a" fontFamily="Inter, sans-serif">
                   {t}
                 </text>
                 <line x1="48" x2="350" y1={y} y2={y} stroke="#e7e8ec" />
@@ -156,7 +156,7 @@ export function ReportMock() {
         <svg viewBox="0 0 24 24" width={24} height={24}>
           <path
             d="M12 3.5c-4.5 0-7.5 3.3-7.5 7.3 0 2 .7 3.7 2 5l-.5 2.5 2.5-.6c1 .5 2.2.8 3.5.8 4.5 0 7.5-3.3 7.5-7.5S16.5 3.5 12 3.5z"
-            fill="#191b23"
+            fill="#1b1e1a"
           />
           <circle cx="14.2" cy="10.2" r="1.2" fill="#fff" />
           <path d="M9 14c1.5 1.2 4.5 1.2 6 0" fill="none" stroke="#fff" strokeWidth={1.2} strokeLinecap="round" />

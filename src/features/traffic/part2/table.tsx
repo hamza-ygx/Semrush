@@ -50,7 +50,7 @@ const catPaths: Record<string, ReactNode> = {
 };
 
 export function CatIcons({ codes }: { codes: string }) {
-  if (!codes) return <span className="text-[14px] text-[#6c6e79]">No category</span>;
+  if (!codes) return <span className="text-[14px] text-[#6a6c6a]">No category</span>;
   return (
     <span className="flex items-center gap-[4px] text-[#8b8d96]">
       {codes.split("").map((c, i) => (
@@ -74,17 +74,17 @@ export function DomainLink({ name, extra }: { name: string; extra?: ReactNode })
   return (
     <span className="flex items-center text-[14px] leading-5 text-rk-text">
       {name}
-      <a href={name.startsWith("/") ? `https://zara.com${name}` : `https://${name}`} target="_blank" rel="noopener noreferrer" aria-label={`Open ${name}`} className="ml-[5px] text-[#a9abb6] hover:text-rk-link">
+      <a href={name.startsWith("/") ? `https://zara.com${name}` : `https://${name}`} target="_blank" rel="noopener noreferrer" aria-label={`Open ${name}`} className="ml-[5px] text-[#a9abaa] hover:text-rk-link">
         <ExternalIcon width={16} height={16} />
       </a>
-      {extra && <span className="text-[12px] text-[#6c6e79]">{extra}</span>}
+      {extra && <span className="text-[12px] text-[#6a6c6a]">{extra}</span>}
     </span>
   );
 }
 
 export function SortIcon() {
   return (
-    <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#6c6e79]">
+    <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#6a6c6a]">
       <path d="M2.5 4h11M2.5 8h7M2.5 12h3.5" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
     </svg>
   );
@@ -95,7 +95,7 @@ export function Pagination({ pages, className = "" }: { pages: number; className
   const btn = "flex h-7 items-center justify-center rounded-[6px] text-[14px] leading-5";
   return (
     <div className={`flex items-center ${className}`}>
-      <button type="button" aria-label="First page" disabled={page === 1} onClick={() => setPage(1)} className={`${btn} w-7 border border-[#e0e1e9] text-[#c4c7cf]`}>
+      <button type="button" aria-label="First page" disabled={page === 1} onClick={() => setPage(1)} className={`${btn} w-7 border border-[#e0e2e1] text-[#d6d8d7]`}>
         <svg viewBox="0 0 16 16" width={14} height={14}>
           <path d="m8 4-4 4 4 4M13 4 9 8l4 4" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
         </svg>
@@ -104,7 +104,7 @@ export function Pagination({ pages, className = "" }: { pages: number; className
         type="button"
         disabled={page === 1}
         onClick={() => setPage((p) => Math.max(1, p - 1))}
-        className={`${btn} ml-[8px] border px-[8px] ${page === 1 ? "border-[#e0e1e9] text-[#c4c7cf]" : "border-[#d7d9de] text-rk-text-2"}`}
+        className={`${btn} ml-[8px] border px-[8px] ${page === 1 ? "border-[#e0e2e1] text-[#d6d8d7]" : "border-[#d8dad9] text-rk-text-2"}`}
       >
         Prev
       </button>
@@ -119,7 +119,7 @@ export function Pagination({ pages, className = "" }: { pages: number; className
           const v = parseInt(e.target.value, 10);
           if (v >= 1 && v <= pages) setPage(v);
         }}
-        className="ml-[4px] h-7 w-[68px] rounded-[6px] border border-[#c4c7cf] px-[8px] text-[14px] outline-none focus:border-rk-link"
+        className="ml-[4px] h-7 w-[68px] rounded-[6px] border border-[#d6d8d7] px-[8px] text-[14px] outline-none focus:border-rk-link"
       />
       <span className="ml-[9px] text-[14px] text-rk-text">of</span>
       <span className="ml-[5px] text-[14px] text-rk-link">{pages}</span>
@@ -153,11 +153,11 @@ export function SelectBox({ label, options, className = "" }: { label: string; o
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex h-7 items-center gap-[8px] rounded-[6px] border border-[#d7d9de] bg-white pr-[7px] pl-[8px] text-[14px] leading-5"
+        className="flex h-7 items-center gap-[8px] rounded-[6px] border border-[#d8dad9] bg-white pr-[7px] pl-[8px] text-[14px] leading-5"
       >
         <span className={val ? "text-rk-text" : "text-[#8b8d96]"}>{val ?? label}</span>
         <svg viewBox="0 0 16 16" width={16} height={16} className={open ? "rotate-180" : ""}>
-          <path d="m4 6 4 4 4-4" fill="none" stroke="#191b23" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+          <path d="m4 6 4 4 4-4" fill="none" stroke="#1b1e1a" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </button>
       {open && (
@@ -199,7 +199,7 @@ export function ShareCell({ pct, label, left = false }: { pct: number; label: st
       <span className="relative h-[6px] w-[90px] shrink-0 rounded-[1px] bg-[#f1f3f3]">
         <span className="absolute inset-y-0 left-0 rounded-[1px] bg-[#6567ec]" style={{ width: Math.max(1, (pct / 100) * 90) }} />
       </span>
-      <span className="text-right text-[14px] text-[#6c6e79]">{label}</span>
+      <span className="text-right text-[14px] text-[#6a6c6a]">{label}</span>
     </span>
   );
 }
@@ -275,7 +275,7 @@ export function MetricTable({
 
 export function SearchInput({ placeholder, className = "" }: { placeholder: string; className?: string }) {
   return (
-    <label className={`flex h-7 w-[224px] items-center gap-[8px] rounded-[6px] border border-[#d7d9de] bg-white px-[9px] ${className}`}>
+    <label className={`flex h-7 w-[224px] items-center gap-[8px] rounded-[6px] border border-[#d8dad9] bg-white px-[9px] ${className}`}>
       <svg viewBox="0 0 16 16" width={16} height={16} className="shrink-0 text-[#8b8d96]">
         <circle cx="6.8" cy="6.8" r="4.3" fill="none" stroke="currentColor" strokeWidth={1.8} />
         <path d="m10 10 3.5 3.5" stroke="currentColor" strokeWidth={2} strokeLinecap="round" />
@@ -289,7 +289,7 @@ export function Toggle({ label, defaultOn = true }: { label: string; defaultOn?:
   const [on, setOn] = useState(defaultOn);
   return (
     <button type="button" onClick={() => setOn((v) => !v)} className="flex items-center gap-[8px] text-[12px] leading-4 text-rk-text">
-      <span className={`relative h-[12px] w-[20px] rounded-full ${on ? "bg-[#191b23]" : "bg-[#c4c7cf]"}`}>
+      <span className={`relative h-[12px] w-[20px] rounded-full ${on ? "bg-[#1b1e1a]" : "bg-[#d6d8d7]"}`}>
         <span className={`absolute top-[2px] h-[8px] w-[8px] rounded-full bg-white ${on ? "left-[10px]" : "left-[2px]"}`} />
       </span>
       {label}

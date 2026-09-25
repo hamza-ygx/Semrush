@@ -20,7 +20,7 @@ export function ActionsMenu() {
           type="button"
           onClick={toggle}
           data-testid="pt-actions"
-          className={`inline-flex h-7 items-center rounded-md border border-rk-border-strong px-[9px] text-[14px] whitespace-nowrap text-rk-text-2 hover:bg-rk-hover ${open ? "bg-[#e6e7ec]" : "bg-[#f4f5f9]"}`}
+          className={`inline-flex h-7 items-center rounded-md border border-rk-border-strong px-[9px] text-[14px] whitespace-nowrap text-rk-text-2 hover:bg-rk-hover ${open ? "bg-[#e7e8e8]" : "bg-[#f5f6f6]"}`}
         >
           Actions
         </button>
@@ -32,7 +32,7 @@ export function ActionsMenu() {
       </div>
       <div className="pt-[2px] pb-[4px]">
         {["Remove keywords", "Add tag"].map((t) => (
-          <button key={t} type="button" disabled className={`${item} !text-[#a9abb6] hover:!bg-transparent`}>
+          <button key={t} type="button" disabled className={`${item} !text-[#a9abaa] hover:!bg-transparent`}>
             {t}
           </button>
         ))}
@@ -79,7 +79,7 @@ export function PotMetricSelect({ value, onChange, className = "" }: { value: Po
                 onChange(o);
                 close();
               }}
-              className={`${item} border-l-2 !pl-[6px] ${o === value ? "border-[#484a54] bg-[#ebf0ff]" : "border-transparent"}`}
+              className={`${item} border-l-2 !pl-[6px] ${o === value ? "border-[#484a49] bg-[#ebf0ff]" : "border-transparent"}`}
             >
               {o}
             </button>
@@ -129,7 +129,7 @@ export function TableSettingsMenu() {
       panelClassName="w-[222px] !pt-[3px] !pb-[12px]"
       trigger={({ toggle, open }) => (
         <span data-testid="pt-table-settings" onClick={toggle} className="inline-flex">
-          <GrayButton className={`h-[27px] ${open ? "!bg-[#e6e7ec]" : "bg-white"}`}>
+          <GrayButton className={`h-[27px] ${open ? "!bg-[#e7e8e8]" : "bg-white"}`}>
             <GearIcon />
             Table settings
           </GrayButton>

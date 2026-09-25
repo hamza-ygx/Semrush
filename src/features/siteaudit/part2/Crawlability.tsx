@@ -28,20 +28,20 @@ function PagesCrawledChart() {
     <svg width={475} height={176} className="block">
       {[0, 50, 100, 150].map((t) => (
         <g key={t}>
-          <line x1={left} x2={left + W} y1={y(t)} y2={y(t)} stroke={t ? "none" : "#c4c7cf"} />
-          <text x={left - 14} y={y(t) + 4} textAnchor="end" fontSize={12} fill="#6c6e79">
+          <line x1={left} x2={left + W} y1={y(t)} y2={y(t)} stroke={t ? "none" : "#d6d8d7"} />
+          <text x={left - 14} y={y(t) + 4} textAnchor="end" fontSize={12} fill="#6a6c6a">
             {t}
           </text>
         </g>
       ))}
-      <text transform={`translate(${left - 46} ${top + H / 2}) rotate(-90)`} textAnchor="middle" fontSize={12} fill="#6c6e79">
+      <text transform={`translate(${left - 46} ${top + H / 2}) rotate(-90)`} textAnchor="middle" fontSize={12} fill="#6a6c6a">
         Pages
       </text>
       <circle cx={left + W / 2} cy={y(100)} r={4} fill={C.blue} />
-      <text x={left + W / 2} y={top + H + 20} textAnchor="middle" fontSize={12} fill="#6c6e79">
+      <text x={left + W / 2} y={top + H + 20} textAnchor="middle" fontSize={12} fill="#6a6c6a">
         Wed, Jul 22, 2026 4:11 PM
       </text>
-      <text x={left + W / 2} y={top + H + 40} textAnchor="middle" fontSize={12} fill="#6c6e79">
+      <text x={left + W / 2} y={top + H + 40} textAnchor="middle" fontSize={12} fill="#6a6c6a">
         Crawl Date
       </text>
     </svg>

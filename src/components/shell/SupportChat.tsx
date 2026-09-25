@@ -139,7 +139,7 @@ function HomeView({ go, onClose }: { go: (v: View) => void; onClose: () => void 
   return (
     <div className={`h-full ${scroll}`} style={{ background: "linear-gradient(#c08fff 220px, #fafafa 360px)" }}>
       <div className="flex h-[106px] items-center pr-[21px] pl-[41px]">
-        <span className="flex items-center gap-[6px] text-[13px] font-bold tracking-[-0.01em] text-[#191b23]">
+        <span className="flex items-center gap-[6px] text-[13px] font-bold tracking-[-0.01em] text-[#1b1e1a]">
           <LogoIcon width={20} height={20} />
           {brand.name}
         </span>

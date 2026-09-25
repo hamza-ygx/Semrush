@@ -37,16 +37,16 @@ const items: Item[] = [
 
 export function Sidebar() {
   return (
-    <aside className="sticky top-0 flex h-screen w-[73px] shrink-0 flex-col items-start gap-[4.5px] border-r border-[#e0e1e9] bg-[#f3f5f5] pt-[6px] pl-[3px]">
+    <aside className="sticky top-0 flex h-screen w-[73px] shrink-0 flex-col items-start gap-[4.5px] border-r border-[#e0e2e1] bg-[#f3f5f5] pt-[6px] pl-[3px]">
       {items.map(({ label, href, icon: Icon, active }) => (
         <Link
           key={label}
           href={href}
-          className={`flex w-[63px] flex-col items-center rounded-lg px-1 pt-2 pb-3 text-center text-[12px] leading-4 text-[#191b23] transition-colors ${
-            active ? "bg-[#e6e7ec]" : "hover:bg-[#e6e7ec]"
+          className={`flex w-[63px] flex-col items-center rounded-lg px-1 pt-2 pb-3 text-center text-[12px] leading-4 text-[#1b1e1a] transition-colors ${
+            active ? "bg-[#e7e8e8]" : "hover:bg-[#e7e8e8]"
           }`}
         >
-          <Icon className={active ? "text-[#191b23]" : "text-[#2b2e38]"} />
+          <Icon className={active ? "text-[#1b1e1a]" : "text-[#2b2e38]"} />
           <span className="mt-1">{label}</span>
         </Link>
       ))}

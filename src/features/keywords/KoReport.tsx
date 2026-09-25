@@ -122,7 +122,7 @@ function TopCards() {
                 <CountryFlag code={c.code} />
                 {c.code}
               </span>
-              <div className="relative h-3 w-[131px] bg-[#e0e1e9]">
+              <div className="relative h-3 w-[131px] bg-[#e0e2e1]">
                 <div className="absolute inset-y-0 left-0 bg-[#6167e6]" style={{ width: Math.max(2, (c.value / max) * 131) }} />
                 {c.value / max < 0.1 && <div className="absolute inset-y-0 left-0 w-[2px] bg-[#b7bcf6]" />}
               </div>
@@ -138,9 +138,9 @@ function TopCards() {
         </Card>
         <Card className="flex-1 rounded-xl px-5 pt-5">
           <Label>Trend</Label>
-          <div className="relative mt-[14px] h-[110px] w-[242px] border-b border-[#e0e1e9]">
-            <div className="absolute inset-x-0 top-0 border-t border-[#f0f0f3]" />
-            <div className="absolute inset-x-0 top-[55px] border-t border-[#f0f0f3]" />
+          <div className="relative mt-[14px] h-[110px] w-[242px] border-b border-[#e0e2e1]">
+            <div className="absolute inset-x-0 top-0 border-t border-[#f0f1f1]" />
+            <div className="absolute inset-x-0 top-[55px] border-t border-[#f0f1f1]" />
             <div className="absolute inset-0 flex items-end gap-[11px] pl-[13px]">
               {s.trend.map((v, i) => (
                 <div key={i} className="w-[9px] bg-[#b0bff8]" style={{ height: v * 110 }} />
@@ -207,7 +207,7 @@ function KeywordIdeas() {
               ))}
             </tbody>
           </table>
-          <Link href={`${routes.keywordMagic}?db=se&q=${encodeURIComponent(koVariations[0].keyword)}`} className="mt-[18px] inline-flex h-7 items-center rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
+          <Link href={`${routes.keywordMagic}?db=se&q=${encodeURIComponent(koVariations[0].keyword)}`} className="mt-[18px] inline-flex h-7 items-center rounded-md border border-rk-border-strong bg-[#f5f6f6] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
             View all 1 keywords
           </Link>
         </div>
@@ -326,11 +326,11 @@ function SerpAnalysis() {
               <tr key={i} className="h-[57px] border-b border-[#eeeff1] last:border-0">
                 <td className="pr-[13px] text-right align-top pt-[9px]">{row.pos}</td>
                 <td className="align-top pt-[9px] leading-5">
-                  <a href={row.url} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-[#2359d6] hover:text-rk-link-hover">
+                  <a href={row.url} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-[#235fe2] hover:text-rk-link-hover">
                     {row.url}
                     <ExtIcon className="text-rk-muted" />
                   </a>
-                  <Link href={`${routes.domainOverview}?q=${row.domain}`} className="font-semibold text-[#2359d6] hover:text-rk-link-hover">
+                  <Link href={`${routes.domainOverview}?q=${row.domain}`} className="font-semibold text-[#235fe2] hover:text-rk-link-hover">
                     {row.domain}
                   </Link>
                 </td>
@@ -367,7 +367,7 @@ export function KoReport({ q }: { q: string }) {
         <div className="flex w-[1093px] items-center gap-2">
           <DomainInput />
           <LocationSelect />
-          <button type="button" className="ml-auto flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
+          <button type="button" className="ml-auto flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f5f6f6] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
             <RefreshIcon />
             Update
             <span className="rounded-full bg-white px-[6px] text-[12px] leading-[18px] text-rk-text-2">0/1,000</span>

@@ -19,7 +19,7 @@ export function Radio({ on }: { on: boolean }) {
 
 export function Box({ on }: { on: boolean }) {
   return (
-    <span className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border ${on ? "border-rk-text bg-rk-text" : "border-[#c4c7cf] bg-white"}`}>
+    <span className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border ${on ? "border-rk-text bg-rk-text" : "border-[#d6d8d7] bg-white"}`}>
       {on && <CheckIcon width={12} height={12} strokeWidth={2.4} className="text-white" />}
     </span>
   );
@@ -66,7 +66,7 @@ export function SerpFilterPanel({ close }: { close: () => void }) {
   const [mode, setMode] = useState(0);
   return (
     <div className="relative h-[374px] w-[228px] overflow-y-auto overscroll-contain py-[4px] [scrollbar-width:none]">
-      <span className="pointer-events-none sticky top-[3px] float-right -mb-[93px] mr-[1px] h-[93px] w-[4px] rounded-full bg-[#c4c7cf]" />
+      <span className="pointer-events-none sticky top-[3px] float-right -mb-[93px] mr-[1px] h-[93px] w-[4px] rounded-full bg-[#d6d8d7]" />
       {serpModes.map((m, i) => (
         <button key={m} type="button" onClick={() => setMode(i)} className="flex h-8 w-full items-center gap-2 px-2 text-left whitespace-nowrap text-[14px] text-rk-text hover:bg-rk-bg">
           <Radio on={mode === i} />
@@ -83,7 +83,7 @@ export function SerpFilterPanel({ close }: { close: () => void }) {
             type="button"
             disabled={!n}
             onClick={close}
-            className={`flex h-8 w-full items-center gap-[8px] pr-[8px] pl-[6px] text-left text-[14px] ${n ? "text-rk-text hover:bg-rk-bg" : "text-[#c4c7cf]"}`}
+            className={`flex h-8 w-full items-center gap-[8px] pr-[8px] pl-[6px] text-left text-[14px] ${n ? "text-rk-text hover:bg-rk-bg" : "text-[#d6d8d7]"}`}
           >
             <FeatureIcon i={i} />
             <span className="flex-1">{serpFeatureNames[i]}</span>
@@ -133,8 +133,8 @@ export function VolumePanel({ close }: { close: () => void }) {
       <div className="mt-[4px] border-t border-rk-border" />
       <div className="mt-[9px] px-3 text-[14px] leading-5 font-semibold text-rk-text">Custom range</div>
       <div className="mt-[12px] flex px-3">
-        <input placeholder="From" className="h-[27px] w-[78px] rounded-l-md border border-rk-border-strong px-2 text-[14px] outline-none placeholder:text-[#a9abb6] focus:border-[#8e9ff0]" />
-        <input placeholder="To" className="-ml-px h-[27px] w-[79px] rounded-r-md border border-rk-border-strong px-2 text-[14px] outline-none placeholder:text-[#a9abb6] focus:border-[#8e9ff0]" />
+        <input placeholder="From" className="h-[27px] w-[78px] rounded-l-md border border-rk-border-strong px-2 text-[14px] outline-none placeholder:text-[#a9abaa] focus:border-[#8e9ff0]" />
+        <input placeholder="To" className="-ml-px h-[27px] w-[79px] rounded-r-md border border-rk-border-strong px-2 text-[14px] outline-none placeholder:text-[#a9abaa] focus:border-[#8e9ff0]" />
       </div>
       <div className="px-3">
         <button type="button" onClick={close} className="mt-[8px] h-7 w-full rounded-md bg-rk-btn-dark text-[14px] font-semibold text-white hover:bg-[#2b2e38]">

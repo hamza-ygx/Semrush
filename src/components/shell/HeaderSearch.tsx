@@ -240,7 +240,7 @@ export function AnalyzeSearch({
           )}
         </div>
       )}
-      <button type="submit" className={`${h} rounded-r-md bg-rk-btn-dark px-[13px] text-[16px] font-semibold text-white hover:bg-[#2b2e38] xl:px-[8px] xl:text-[14px]`}>
+      <button type="submit" className={`${h} rounded-r-md bg-rk-btn-dark px-[13px] text-[16px] font-medium text-white hover:bg-[#2b2e38] xl:px-[8px] xl:text-[14px]`}>
         Analyze
       </button>
     </form>

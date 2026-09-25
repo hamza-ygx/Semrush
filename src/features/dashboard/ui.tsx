@@ -15,7 +15,7 @@ export function I({ className = "" }: { className?: string }) {
 
 export function CloseX({ onClick, label = "Hide widget", className = "" }: { onClick?: () => void; label?: string; className?: string }) {
   return (
-    <button type="button" aria-label={label} onClick={onClick} className={`-mr-[3px] flex h-5 w-5 shrink-0 items-center justify-center text-[#a9abb6] hover:text-rk-text-2 ${className}`}>
+    <button type="button" aria-label={label} onClick={onClick} className={`-mr-[3px] flex h-5 w-5 shrink-0 items-center justify-center text-[#a9abaa] hover:text-rk-text-2 ${className}`}>
       <CloseIcon width={16} height={16} strokeWidth={1.8} />
     </button>
   );

@@ -34,8 +34,8 @@ const logos: Record<Logo, ReactNode> = {
   influencer: (
     <>
       <circle cx="8.5" cy="11" r="2.4" fill="#6d5cf6" />
-      <rect x="6.3" y="15" width="4.4" height="12" rx="1" fill="#191b23" />
-      <path d="M21 14.5a6.4 6.4 0 1 0 0 12.8h9.5V21A6.5 6.5 0 0 0 21 14.5zm0 4.1a2.4 2.4 0 1 1 0 4.8 2.4 2.4 0 0 1 0-4.8z" fill="#191b23" />
+      <rect x="6.3" y="15" width="4.4" height="12" rx="1" fill="#1b1e1a" />
+      <path d="M21 14.5a6.4 6.4 0 1 0 0 12.8h9.5V21A6.5 6.5 0 0 0 21 14.5zm0 4.1a2.4 2.4 0 1 1 0 4.8 2.4 2.4 0 0 1 0-4.8z" fill="#1b1e1a" />
     </>
   ),
   exploding: (

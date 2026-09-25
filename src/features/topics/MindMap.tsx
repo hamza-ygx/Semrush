@@ -56,7 +56,7 @@ export function MindMap() {
             </g>
           );
         })}
-        <text x={CX} y={CY + 2} textAnchor="middle" dominantBaseline="middle" fontSize={24} fill="#191b23">
+        <text x={CX} y={CY + 2} textAnchor="middle" dominantBaseline="middle" fontSize={24} fill="#1b1e1a">
           accounting
         </text>
       </svg>

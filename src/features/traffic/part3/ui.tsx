@@ -58,7 +58,7 @@ const catPaths: Record<Cat, string> = {
 
 export function CatIcon({ c }: { c: Cat }) {
   return (
-    <svg viewBox="0 0 16 16" width={18} height={18} className="text-[#8a8e9b]">
+    <svg viewBox="0 0 16 16" width={18} height={18} className="text-[#8b8d8c]">
       <path d={catPaths[c]} {...st} strokeWidth={1.3} />
     </svg>
   );
@@ -78,7 +78,7 @@ const empPaths: Record<EmpIcon, string> = {
 
 export function EmpIco({ i, yellow }: { i: EmpIcon; yellow?: boolean }) {
   return (
-    <svg viewBox="0 0 16 16" width={18} height={18} className={yellow ? "text-[#ffae00]" : "text-[#8a8e9b]"}>
+    <svg viewBox="0 0 16 16" width={18} height={18} className={yellow ? "text-[#ffae00]" : "text-[#8b8d8c]"}>
       <path d={empPaths[i]} {...st} strokeWidth={1.4} />
     </svg>
   );
@@ -190,7 +190,7 @@ export function Toggle({ on, onClick, dark = false }: { on: boolean; onClick: ()
       role="switch"
       aria-checked={on}
       onClick={onClick}
-      className={`relative h-[14px] w-[22px] shrink-0 rounded-full border ${on ? (dark ? "border-[#191b23] bg-[#191b23]" : "border-[#6167e6] bg-[#6167e6]") : "border-[#c4c7cf] bg-[#e0e1e9]"}`}
+      className={`relative h-[14px] w-[22px] shrink-0 rounded-full border ${on ? (dark ? "border-[#1b1e1a] bg-[#1b1e1a]" : "border-[#6167e6] bg-[#6167e6]") : "border-[#d6d8d7] bg-[#e0e2e1]"}`}
     >
       <span className={`absolute top-[1px] h-[10px] w-[10px] rounded-full bg-white transition-all ${on ? "left-[9px]" : "left-[1px]"}`} />
     </button>

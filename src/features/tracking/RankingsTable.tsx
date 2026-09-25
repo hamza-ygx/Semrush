@@ -113,7 +113,7 @@ const latestCols: Col[] = cols.map((c) => {
 const width = (cs: Col[]) => cs.reduce((a, c) => a + c.w, 0);
 
 const serpPool = ["People also ask", "Site link", "Related searches", "AI Overview", "Reviews", "Video", "Image pack"];
-const dash = <span className="text-[#c4c7cf]">—</span>;
+const dash = <span className="text-[#d6d8d7]">—</span>;
 
 const serpHref = (kw: string) =>
   `${routes.tracking.serp(kw)}?source_type=tracking&campaign_id=30526913_5175527&date_begin=20260925&domain=${project.domain}&location=Sweden%252C%2520desktop&type=organic&device_group=desktop`;
@@ -131,14 +131,14 @@ function cell(k: Kw, key: string): ReactNode {
     case "sf":
       return (
         <span className="-mx-1 flex items-center justify-center gap-[6px] whitespace-nowrap">
-          <a href={serpHref(k.keyword)} target="_blank" rel="noreferrer" aria-label={`SERP snapshot for ${k.keyword}`} data-testid="pt-serp-link" className="text-[#8a8e9b] hover:text-rk-link">
+          <a href={serpHref(k.keyword)} target="_blank" rel="noreferrer" aria-label={`SERP snapshot for ${k.keyword}`} data-testid="pt-serp-link" className="text-[#8b8d8c] hover:text-rk-link">
             <svg viewBox="0 0 16 16" width={16} height={16}>
               <path d="M2.5 13.5v-11h11v5M2.5 5.5h11" fill="none" stroke="currentColor" strokeWidth={1.5} />
               <circle cx="10" cy="10.5" r="2.5" fill="none" stroke="currentColor" strokeWidth={1.5} />
               <path d="m12 12.5 2 2" stroke="currentColor" strokeWidth={1.6} />
             </svg>
           </a>
-          <span className="h-[20px] border-l border-[#e0e1e9]" />
+          <span className="h-[20px] border-l border-[#e0e2e1]" />
           <SfCount n={k.sf} features={onSerp[k.keyword] ?? serpPool.slice(0, k.sf)} />
         </span>
       );
@@ -183,7 +183,7 @@ function PositionsChart({ period }: { period: string }) {
         <span className="text-[14px] text-rk-muted">{period}</span>
       </div>
       <div className="absolute top-[17px] right-[48px]">
-        <Checkbox checked color="#191b23" label={<span className="text-[14px] text-rk-text">Smart zoom</span>} className="!gap-[8px]" />
+        <Checkbox checked color="#1b1e1a" label={<span className="text-[14px] text-rk-text">Smart zoom</span>} className="!gap-[8px]" />
       </div>
       {ticks.map((t, i) => (
         <span key={t} style={{ top: y(i) - 9 }} className="absolute right-[calc(100%-90px)] text-[12px] leading-[18px] text-rk-muted">
@@ -192,7 +192,7 @@ function PositionsChart({ period }: { period: string }) {
       ))}
       <div className="absolute top-0 right-[74px] bottom-0 left-[106px]">
         {ticks.map((t, i) => (
-          <span key={t} style={{ top: y(i) }} className={`absolute right-0 left-0 border-t ${i === 4 ? "border-[#e0e1e9]" : "border-[#eef0f2]"}`} />
+          <span key={t} style={{ top: y(i) }} className={`absolute right-0 left-0 border-t ${i === 4 ? "border-[#e0e2e1]" : "border-[#eef0f2]"}`} />
         ))}
         <span style={{ top: y(2) - 1.5 }} className="absolute right-0 left-0 h-[3px] bg-[#5c5fd6]" />
         {[0, 100].map((l) => (
@@ -240,7 +240,7 @@ function Row({ k, cs, period }: { k: Kw; cs: Col[]; period: string }) {
             </button>
           </div>
         </div>
-        <div className="relative min-w-0 flex-1 overflow-x-clip border-t border-[#eceef2] group-first:border-t-0 has-[[data-open]]:z-30">
+        <div className="relative min-w-0 flex-1 overflow-x-clip border-t border-[#edefef] group-first:border-t-0 has-[[data-open]]:z-30">
           <div
             className="flex h-full"
             style={{
@@ -252,7 +252,7 @@ function Row({ k, cs, period }: { k: Kw; cs: Col[]; period: string }) {
               <div
                 key={c.key}
                 style={{ width: c.w }}
-                className={`flex shrink-0 items-start px-2 pt-[11.5px] text-[14px] leading-5 whitespace-nowrap ${alignCls(c.align)} ${c.sep ? "border-l border-[#eceef2]" : ""}`}
+                className={`flex shrink-0 items-start px-2 pt-[11.5px] text-[14px] leading-5 whitespace-nowrap ${alignCls(c.align)} ${c.sep ? "border-l border-[#edefef]" : ""}`}
               >
                 {cell(k, c.key)}
               </div>
@@ -283,7 +283,7 @@ function ScrollThumb({ sx, setSx, viewport, total }: { sx: number; setSx: (v: nu
       onPointerMove={onMove}
       onPointerUp={() => (start.current = null)}
       style={{ left: sx * ratio, width: viewport * ratio }}
-      className="absolute bottom-[1px] h-[7px] cursor-pointer rounded-full bg-[#c4c7cf] hover:bg-[#a9abb6]"
+      className="absolute bottom-[1px] h-[7px] cursor-pointer rounded-full bg-[#d6d8d7] hover:bg-[#a9abaa]"
     />
   );
 }
@@ -337,7 +337,7 @@ export function RankingsTable() {
         <button type="button" className="h-7 rounded-md bg-[#009f81] px-[9px] text-[14px] font-medium text-white hover:bg-[#007c65]">
           Buy more keywords
         </button>
-        <GrayButton className="!gap-[8px] !bg-[#f4f5f9]">
+        <GrayButton className="!gap-[8px] !bg-[#f5f6f6]">
           <PlusIcon width={14} height={14} />
           Add keywords
         </GrayButton>
@@ -366,7 +366,7 @@ export function RankingsTable() {
                 <div
                   key={c.key}
                   style={{ width: c.w }}
-                  className={`flex shrink-0 items-start px-2 pt-[12px] whitespace-nowrap ${alignCls(c.align)} ${c.head ?? ""} ${c.sep ? "border-l border-[#eceef2]" : ""}`}
+                  className={`flex shrink-0 items-start px-2 pt-[12px] whitespace-nowrap ${alignCls(c.align)} ${c.head ?? ""} ${c.sep ? "border-l border-[#edefef]" : ""}`}
                 >
                   {c.label}
                 </div>
@@ -379,7 +379,7 @@ export function RankingsTable() {
           <Row key={k.keyword} k={k} cs={cs} period={period} />
         ))}
       </div>
-      <div className="flex h-[66px] items-center gap-[8px] border-t border-[#eceef2] px-5 pb-[5px] text-[14px] text-rk-text">
+      <div className="flex h-[66px] items-center gap-[8px] border-t border-[#edefef] px-5 pb-[5px] text-[14px] text-rk-text">
         Page:
         <input defaultValue="1" className="-ml-[5px] h-[27px] w-[67px] rounded-md border border-rk-border-strong px-[9px] text-[14px] outline-none focus:border-[#006dca]" />
         <span className="mr-[10px]">of 1</span>

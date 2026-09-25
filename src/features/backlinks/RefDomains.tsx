@@ -25,7 +25,7 @@ function UrlText({ url, className = "" }: { url: string; className?: string }) {
       {url.slice(0, -1)}
       <span className="whitespace-nowrap">
         {url.slice(-1)}
-        <span className="ml-[4px] inline-flex align-[-3px] text-[#a9abb6] group-hover:text-rk-link">
+        <span className="ml-[4px] inline-flex align-[-3px] text-[#a9abaa] group-hover:text-rk-link">
           <ExtIcon />
         </span>
       </span>
@@ -145,7 +145,7 @@ function RowBacklinks({ r, onHide }: { r: RdRow; onHide: () => void }) {
                             <Chip className="mr-[5px] align-[1px] !px-[10px]">{l.code}</Chip>
                           </>
                         )}
-                        {l.broken && <BrokenIcon className="mr-[5px] inline-block align-[-3px] text-[#a9abb6]" />}
+                        {l.broken && <BrokenIcon className="mr-[5px] inline-block align-[-3px] text-[#a9abaa]" />}
                         <UrlText url={l.target} />
                       </div>
                       {l.lost && (
@@ -165,17 +165,17 @@ function RowBacklinks({ r, onHide }: { r: RdRow; onHide: () => void }) {
         <div className="mt-[12px] flex items-center text-[14px] leading-5">
           <Link
             href={`${routes.backlinksToolkit.backlinks}?q=${domain}&searchType=domain`}
-            className="inline-flex h-7 items-center rounded-md border border-[#c4c7cf] bg-[#f4f5f9] px-[8px] text-rk-text hover:bg-rk-hover"
+            className="inline-flex h-7 items-center rounded-md border border-[#d6d8d7] bg-[#f5f6f6] px-[8px] text-rk-text hover:bg-rk-hover"
           >
             View full report
           </Link>
           {more > 0 && (
-            <button type="button" onClick={() => setShown(shown + 5)} className="ml-[16px] text-rk-muted underline decoration-[#c4c7cf] decoration-dashed underline-offset-[5px] hover:text-rk-text">
+            <button type="button" onClick={() => setShown(shown + 5)} className="ml-[16px] text-rk-muted underline decoration-[#d6d8d7] decoration-dashed underline-offset-[5px] hover:text-rk-text">
               Show {more} more
             </button>
           )}
           <span className="mx-[15px] h-5 w-px bg-[#d5d7dc]" />
-          <button type="button" onClick={onHide} className="text-rk-muted underline decoration-[#c4c7cf] decoration-dashed underline-offset-[5px] hover:text-rk-text">
+          <button type="button" onClick={onHide} className="text-rk-muted underline decoration-[#d6d8d7] decoration-dashed underline-offset-[5px] hover:text-rk-text">
             Hide
           </button>
         </div>

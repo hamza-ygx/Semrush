@@ -10,7 +10,7 @@ import { CloseX, Label, LinkDropdown, WidgetCard, WTitle } from "./ui";
 function Ring() {
   return (
     <svg viewBox="0 0 24 24" width={24} height={24} className="shrink-0">
-      <circle cx="12" cy="12" r="10" fill="none" stroke="#c4c7cf" strokeWidth="3" />
+      <circle cx="12" cy="12" r="10" fill="none" stroke="#d6d8d7" strokeWidth="3" />
     </svg>
   );
 }

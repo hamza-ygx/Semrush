@@ -66,12 +66,12 @@ export function OrganicDbSelect({ value }: { value: ReactNode }) {
         <div className="absolute top-[calc(100%+3px)] left-0 z-50 w-[260px] rounded-md bg-white shadow-popover">
           <label className="flex h-[35px] items-center gap-[7px] rounded-md border-2 border-[#8f9cea] px-[8px]">
             <SearchIcon width={16} height={16} className="shrink-0 text-[#8a8d99]" />
-            <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search" className="w-full bg-transparent text-[14px] text-rk-text outline-none placeholder:text-[#a9abb6]" />
+            <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search" className="w-full bg-transparent text-[14px] text-rk-text outline-none placeholder:text-[#a9abaa]" />
           </label>
           <div className="max-h-[229px] overflow-y-auto py-[4px] [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#d4d5d9]">
             {list.map((c) => (
               <button key={c.name} type="button" onClick={() => setOpen(false)} className="flex h-8 w-full items-center pr-[13px] pl-[9px] text-left text-[14px] leading-5 text-rk-text hover:bg-rk-bg">
-                <span className="mr-[8px] inline-flex h-[10px] w-[14px] shrink-0 overflow-hidden bg-[#eceef2]">
+                <span className="mr-[8px] inline-flex h-[10px] w-[14px] shrink-0 overflow-hidden bg-[#edefef]">
                   <Flag code={c.flag} className="!h-[10px] !w-[14px]" />
                 </span>
                 <span className="flex-1">{c.name}</span>
@@ -125,7 +125,7 @@ export function AuthorityTrend() {
         gap={16}
         xGap={9}
         bottomH={26}
-        baseColor="#e6e7ec"
+        baseColor="#e7e8e8"
         x={[
           { at: 0.02, label: "Oct 2025" },
           { at: 0.375, label: "Feb 2026" },
@@ -145,7 +145,7 @@ export function AuthorityTrend() {
             )}
             {hp && hi !== null && (
               <>
-                <div className="pointer-events-none absolute top-0 bottom-0 w-px bg-[#c4c7cf]" style={{ left: `${at(hi) * 100}%` }} />
+                <div className="pointer-events-none absolute top-0 bottom-0 w-px bg-[#d6d8d7]" style={{ left: `${at(hi) * 100}%` }} />
                 <span className="pointer-events-none absolute h-[10px] w-[10px] -translate-x-1/2 -translate-y-1/2 rounded-full border-[1.5px] border-white bg-[#6167e6]" style={{ left: `calc(${at(hi) * 100}% + 0.5px)`, top: hp[1] }} />
                 <div
                   className="pointer-events-none absolute top-[178px] z-20 w-[173px] rounded-md bg-white px-[12px] pt-[11px] pb-[12px] text-[12px] leading-4 whitespace-nowrap shadow-popover"

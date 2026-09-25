@@ -2,17 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NavBadge, navHeading } from "./navExtras";
+import { NavBadge, drawerNavs, navHeading } from "./navExtras";
 import { useEffect, useState } from "react";
-import { sectionNavs } from "@/config/routes";
 import { ArrowLeft, ExternalIcon } from "../ui/icons";
 import { railItems, type Section } from "./Rail";
 import { isActive } from "./SectionNav";
 
 export function NavDrawer({ section, onClose }: { section: Section; onClose: () => void }) {
   const path = usePathname();
-  const [view, setView] = useState<string | null>(sectionNavs[section] ? section : null);
-  const nav = view ? sectionNavs[view] : undefined;
+  const [view, setView] = useState<string | null>(drawerNavs[section] ? section : null);
+  const nav = view ? drawerNavs[view] : undefined;
 
   useEffect(() => {
     const el = document.documentElement;
@@ -45,7 +44,7 @@ export function NavDrawer({ section, onClose }: { section: Section; onClose: () 
                 {g.heading && <div className="mb-2 px-3 text-[14px] leading-5 text-rk-muted">{navHeading(g.heading)}</div>}
                 {g.items.map((it) => (
                   <Link
-                    key={it.href}
+                    key={it.label}
                     href={it.href}
                     onClick={onClose}
                     className={`flex h-10 items-center justify-between rounded-md px-3 text-[16px] text-rk-text ${isActive(it, path) ? "bg-[#e3e4e5]" : "hover:bg-[#e3e4e5]"}`}
@@ -63,7 +62,7 @@ export function NavDrawer({ section, onClose }: { section: Section; onClose: () 
         ) : (
           <nav className="px-2 pt-[11px] pb-6">
             {railItems.map(({ key, label, href, icon: Icon }) => {
-              const hasNav = !!sectionNavs[key];
+              const hasNav = !!drawerNavs[key];
               const on = key === section;
               const cls = `flex h-10 w-full items-center gap-[10px] rounded-md px-[10px] text-left text-[16px] ${on ? "bg-[#e3e4e5] text-rk-text" : "text-rk-muted hover:bg-[#e3e4e5]"} ${
                 key === "ai" || key === "reports" ? "mt-3" : "mt-2"

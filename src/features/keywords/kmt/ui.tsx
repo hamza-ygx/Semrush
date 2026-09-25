@@ -135,7 +135,7 @@ export function Check({
       disabled={disabled}
       onClick={onChange}
       className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-[4px] border align-middle ${
-        on ? (disabled ? "border-[#a9abb6] bg-[#a9abb6]" : "border-rk-btn-dark bg-rk-btn-dark") : "border-[#d1d3da] bg-white"
+        on ? (disabled ? "border-[#a9abaa] bg-[#a9abaa]" : "border-rk-btn-dark bg-rk-btn-dark") : "border-[#d1d3da] bg-white"
       } ${className}`}
     >
       {checked && !indeterminate && (

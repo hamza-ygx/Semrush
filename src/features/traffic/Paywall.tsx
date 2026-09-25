@@ -34,7 +34,7 @@ export function Paywall({ charge, sampleHref, top = 40 }: { charge: string; samp
       </h2>
       <ul className="mt-[11px] flex flex-col">
         {bullets.map((b) => (
-          <li key={b} className="relative h-8 pl-[17px] text-[16px] leading-8 text-rk-text-2 before:absolute before:top-[14px] before:left-[4px] before:h-[4px] before:w-[4px] before:rounded-full before:bg-[#6c6e79]">
+          <li key={b} className="relative h-8 pl-[17px] text-[16px] leading-8 text-rk-text-2 before:absolute before:top-[14px] before:left-[4px] before:h-[4px] before:w-[4px] before:rounded-full before:bg-[#6a6c6a]">
             {b}
           </li>
         ))}
@@ -47,7 +47,7 @@ export function Paywall({ charge, sampleHref, top = 40 }: { charge: string; samp
           View sample
         </Link>
       </div>
-      <div className="mt-[13px] border-t border-[#d7d9de] pt-[7px]">
+      <div className="mt-[13px] border-t border-[#d8dad9] pt-[7px]">
         <div className="flex items-center gap-[8px] text-[14px] leading-6 font-medium text-rk-text">
           Today&apos;s charge: {charge} (incl. Tax)
           <InfoIcon width={16} height={16} className="text-rk-faint" />

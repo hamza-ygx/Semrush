@@ -29,11 +29,11 @@ export function ProjectsView() {
         <h1 className="mt-[7px] text-[20px] leading-7 font-semibold">Position Tracking</h1>
       </div>
       <div className="px-8 pt-[5px]">
-        <section className="h-[259px] rounded-md border border-[#e4e5ea] bg-white shadow-[0_1px_2px_rgba(25,27,35,0.05)]">
+        <section className="h-[259px] rounded-md border border-[#e5e6e6] bg-white shadow-[0_1px_2px_rgba(25,27,35,0.05)]">
           <div className="flex h-[68.5px] items-start px-5 pt-[18.5px]">
             <label className="relative flex h-7 w-[299.4px] items-center rounded-md border border-rk-border-strong bg-white">
-              <SearchIcon width={16} height={16} className="absolute left-[9px] text-[#8a8e9b]" />
-              <input placeholder="Project name or domain" className="h-full w-full rounded-md pr-2 pl-[32px] text-[14px] outline-none placeholder:text-[#8a8e9b]" />
+              <SearchIcon width={16} height={16} className="absolute left-[9px] text-[#8b8d8c]" />
+              <input placeholder="Project name or domain" className="h-full w-full rounded-md pr-2 pl-[32px] text-[14px] outline-none placeholder:text-[#8b8d8c]" />
             </label>
             <Segmented items={["All targets", "AI Search", "SEO"] as const} value="All targets" className="ml-[24.3px]" />
             <ProjectsDate />
@@ -42,7 +42,7 @@ export function ProjectsView() {
               Create SEO project
             </button>
           </div>
-          <div className="flex h-[40px] border-y border-[#eceef2] bg-[#f7f8f9] text-[12px] leading-4 text-rk-text">
+          <div className="flex h-[40px] border-y border-[#edefef] bg-[#f7f8f9] text-[12px] leading-4 text-rk-text">
             <div className="flex w-[206.6px] items-center gap-[6px] bg-[#e9ebeb] pl-5">
               Project <SortAscIcon width={14} height={14} className="text-rk-muted" />
             </div>
@@ -54,7 +54,7 @@ export function ProjectsView() {
             ))}
             <div className="flex flex-1 items-center pl-[17.5px]">Updated</div>
           </div>
-          <div className="flex h-[86px] border-b border-[#eceef2] pt-[10.9px] text-[14px] leading-5 text-rk-text">
+          <div className="flex h-[86px] border-b border-[#edefef] pt-[10.9px] text-[14px] leading-5 text-rk-text">
             <div className="w-[206.6px] pl-5">
               <Link href={routes.tracking.landscape} className="font-semibold text-rk-link hover:text-rk-link-hover">
                 {project.domain}
@@ -86,7 +86,7 @@ export function ProjectsView() {
           </div>
           <div className="flex h-[63px] items-center gap-[4px] px-5 pb-[6px] text-[14px] text-rk-text">
             Page:
-            <input defaultValue="" placeholder="1" className="h-7 w-[67px] rounded-md border border-rk-border-strong px-[9px] outline-none placeholder:text-[#a9abb6] focus:border-[#006dca]" />
+            <input defaultValue="" placeholder="1" className="h-7 w-[67px] rounded-md border border-rk-border-strong px-[9px] outline-none placeholder:text-[#a9abaa] focus:border-[#006dca]" />
             <span className="ml-[5px]">of 1</span>
           </div>
         </section>

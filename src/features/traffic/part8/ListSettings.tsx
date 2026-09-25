@@ -101,7 +101,7 @@ function PageGroups() {
             key={t}
             type="button"
             onClick={() => setTab(t)}
-            className={`-mb-px border-b-2 px-0 text-[16px] leading-6 text-rk-text ${t === tab ? "border-[#8e92ec]" : "border-transparent hover:border-[#c4c7cf]"}`}
+            className={`-mb-px border-b-2 px-0 text-[16px] leading-6 text-rk-text ${t === tab ? "border-[#8e92ec]" : "border-transparent hover:border-[#d6d8d7]"}`}
           >
             {t}
           </button>
@@ -136,7 +136,7 @@ function PageGroups() {
           </a>{" "}
           to see how the Page Groups dashboard works.
         </p>
-        <button type="button" className="mt-[21px] border-b border-dashed border-[#a9abb6] text-[16px] leading-5 text-rk-muted hover:text-rk-text">
+        <button type="button" className="mt-[21px] border-b border-dashed border-[#a9abaa] text-[16px] leading-5 text-rk-muted hover:text-rk-text">
           Show more
         </button>
       </section>
@@ -193,7 +193,7 @@ function Notifications() {
       <Heading>Notifications</Heading>
       <div className={`${row} mt-[14px] justify-between px-[20px]`}>
         <span className="text-rk-text">Email me when competitors&apos; traffic changes significantly</span>
-        <button type="button" role="switch" aria-checked={on} onClick={() => setOn(!on)} className={`relative h-5 w-9 rounded-full ${on ? "bg-[#00a47e]" : "bg-[#c4c7cf]"}`}>
+        <button type="button" role="switch" aria-checked={on} onClick={() => setOn(!on)} className={`relative h-5 w-9 rounded-full ${on ? "bg-[#00a47e]" : "bg-[#d6d8d7]"}`}>
           <span className={`absolute top-[2px] h-4 w-4 rounded-full bg-white transition-[left] ${on ? "left-[18px]" : "left-[2px]"}`} />
         </button>
       </div>
@@ -259,7 +259,7 @@ export function ListSettings({ list, initial = "competitors", onClose }: { list:
           <button type="button" onClick={onClose} className="h-10 rounded-[6px] bg-rk-btn-dark px-[12px] text-[16px] leading-6 font-semibold text-white hover:bg-black">
             Save changes
           </button>
-          <button type="button" onClick={onClose} className="h-10 rounded-[6px] border border-[#d7d9de] bg-[#f0f0f0] px-[12px] text-[16px] leading-6 text-rk-muted hover:bg-[#e6e6e6]">
+          <button type="button" onClick={onClose} className="h-10 rounded-[6px] border border-[#d8dad9] bg-[#f0f0f0] px-[12px] text-[16px] leading-6 text-rk-muted hover:bg-[#e6e6e6]">
             Cancel
           </button>
           <button type="button" onClick={onClose} className="ml-auto flex h-10 items-center gap-[8px] text-[16px] leading-6 text-rk-muted hover:text-rk-danger">

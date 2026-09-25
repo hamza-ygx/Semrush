@@ -7,7 +7,7 @@ import { AccountShell, PageTop } from "./AccountShell";
 import { PeopleArt } from "./art";
 import { countries, profileTabs, registrationDate, timeZones, type ProfileTab } from "./data";
 
-const input = "h-10 rounded-md border border-[#d9d9d9] bg-white px-3 text-[16px] outline-none placeholder:text-[#a9abb6] focus:border-[#7a86f2]";
+const input = "h-10 rounded-md border border-[#d9d9d9] bg-white px-3 text-[16px] outline-none placeholder:text-[#a9abaa] focus:border-[#7a86f2]";
 const green = "inline-flex h-10 items-center rounded-md bg-[#009f81] px-3 text-[16px] font-semibold text-white hover:bg-[#007c65]";
 
 const VerifiedIcon = () => (
@@ -32,7 +32,7 @@ function Select({ options, placeholder, defaultValue = "" }: { options: string[]
   const [v, setV] = useState(defaultValue);
   return (
     <div className="relative">
-      <select value={v} onChange={(e) => setV(e.target.value)} className={`${input} w-[350px] appearance-none pr-8 ${v ? "text-rk-text" : "text-[#a9abb6]"}`}>
+      <select value={v} onChange={(e) => setV(e.target.value)} className={`${input} w-[350px] appearance-none pr-8 ${v ? "text-rk-text" : "text-[#a9abaa]"}`}>
         {placeholder && (
           <option value="" disabled>
             {placeholder}
@@ -118,7 +118,7 @@ function PasswordTab() {
       <Field label="New password" labelW={159}>
         <div className="relative">
           <input type={show ? "text" : "password"} aria-label="New password" className={`${input} w-[240px] pr-9 text-rk-text`} />
-          <button type="button" aria-label="Show password" onClick={() => setShow((s) => !s)} className="absolute top-1/2 right-[9px] -translate-y-1/2 text-[#8a8e9b] hover:text-rk-text">
+          <button type="button" aria-label="Show password" onClick={() => setShow((s) => !s)} className="absolute top-1/2 right-[9px] -translate-y-1/2 text-[#8b8d8c] hover:text-rk-text">
             <EyeIcon />
           </button>
         </div>
@@ -143,12 +143,12 @@ function SecurityTab() {
           aria-checked={on}
           aria-label="Enable 2-factor authentication via email"
           onClick={() => setOn((o) => !o)}
-          className={`relative h-[18px] w-9 rounded-full transition-colors ${on ? "bg-[#009f81]" : "bg-[#e0e1e9]"}`}
+          className={`relative h-[18px] w-9 rounded-full transition-colors ${on ? "bg-[#009f81]" : "bg-[#e0e2e1]"}`}
         >
           <span className={`absolute top-[1px] flex h-4 w-4 items-center justify-center rounded-full bg-white transition-all ${on ? "left-[19px]" : "left-[1px]"}`}>
             {!on && (
               <svg viewBox="0 0 10 10" width={10} height={10}>
-                <path d="M2.5 2.5l5 5M7.5 2.5l-5 5" stroke="#8a8e9b" strokeWidth={1.3} strokeLinecap="round" />
+                <path d="M2.5 2.5l5 5M7.5 2.5l-5 5" stroke="#8b8d8c" strokeWidth={1.3} strokeLinecap="round" />
               </svg>
             )}
           </span>

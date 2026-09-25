@@ -35,7 +35,7 @@ export function ShareFoldersModal({ open, onClose }: { open: boolean; onClose: (
         panelClassName="w-full"
         trigger={({ toggle, open: o }) => (
           <button type="button" onClick={toggle} className="flex h-10 w-full items-center justify-between rounded-md border border-rk-border-strong bg-white px-3 text-left text-[16px]">
-            <span className={picked.length ? "text-rk-text" : "text-[#8a8e9b]"}>{picked.length ? picked.join(", ") : "Select folders"}</span>
+            <span className={picked.length ? "text-rk-text" : "text-[#8b8d8c]"}>{picked.length ? picked.join(", ") : "Select folders"}</span>
             <ChevronDown className={o ? "rotate-180" : ""} />
           </button>
         )}
@@ -50,7 +50,7 @@ export function ShareFoldersModal({ open, onClose }: { open: boolean; onClose: (
           value={emails}
           onChange={(e) => setEmails(e.target.value)}
           placeholder="mark@example.com, eve@example.com"
-          className="h-[104px] w-[376px] resize-none rounded-md border border-rk-border-strong px-[10px] py-[7px] text-[16px] leading-6 outline-none placeholder:text-[#a9abb6] focus:border-[#8f95eb]"
+          className="h-[104px] w-[376px] resize-none rounded-md border border-rk-border-strong px-[10px] py-[7px] text-[16px] leading-6 outline-none placeholder:text-[#a9abaa] focus:border-[#8f95eb]"
         />
         <Popover
           className="w-[124px]"

@@ -113,7 +113,7 @@ function FilterTrigger({ label, open, onClick, width, testId }: { label: string;
       data-testid={testId}
       onClick={onClick}
       style={{ width }}
-      className={`flex h-7 items-center justify-between gap-2 rounded-md border bg-white px-2 text-[14px] text-[#8a8e9b] ${open ? OPEN_BORDER : "border-[#dfe2e2]"}`}
+      className={`flex h-7 items-center justify-between gap-2 rounded-md border bg-white px-2 text-[14px] text-[#8b8d8c] ${open ? OPEN_BORDER : "border-[#dfe2e2]"}`}
     >
       <span className="truncate">{label}</span>
       <ChevronDown width={14} height={14} className="shrink-0 text-rk-text" strokeWidth={2.4} />
@@ -148,8 +148,8 @@ function AsFilter() {
           <div className="border-t border-[#e8e9ec] px-2 pt-[7px] pb-2">
             <div className="text-[14px] leading-5 font-bold">Custom range</div>
             <div className="mt-[14px] flex h-7">
-              <input placeholder="from" className="w-1/2 min-w-0 rounded-l-md border border-[#dfe2e2] px-2 text-[14px] outline-none placeholder:text-[#a9abb6] focus:border-[#7a86f2]" />
-              <input placeholder="to" className="-ml-px w-1/2 min-w-0 rounded-r-md border border-[#dfe2e2] px-2 text-[14px] outline-none placeholder:text-[#a9abb6] focus:border-[#7a86f2]" />
+              <input placeholder="from" className="w-1/2 min-w-0 rounded-l-md border border-[#dfe2e2] px-2 text-[14px] outline-none placeholder:text-[#a9abaa] focus:border-[#7a86f2]" />
+              <input placeholder="to" className="-ml-px w-1/2 min-w-0 rounded-r-md border border-[#dfe2e2] px-2 text-[14px] outline-none placeholder:text-[#a9abaa] focus:border-[#7a86f2]" />
             </div>
             <button type="button" onClick={close} className="mt-2 h-7 w-full rounded-md bg-[#191b1c] text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
               Apply
@@ -193,7 +193,7 @@ function AdvancedFilters() {
             <button type="button" onClick={close} className="h-7 rounded-md bg-[#191b1c] px-2 text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
               Apply
             </button>
-            <button type="button" onClick={() => setRows(1)} className="mr-[9px] flex items-center gap-[7px] text-[14px] text-[#6c6e79] hover:text-rk-text">
+            <button type="button" onClick={() => setRows(1)} className="mr-[9px] flex items-center gap-[7px] text-[14px] text-[#6a6c6a] hover:text-rk-text">
               <CloseIcon width={12} height={12} strokeWidth={2} />
               Clear all
             </button>
@@ -206,14 +206,14 @@ function AdvancedFilters() {
 
 const Pill = ({ children, tone = "gray" }: { children: ReactNode; tone?: "gray" | "orange" }) => (
   <span
-    className={`inline-flex h-5 items-center rounded-full px-2 text-[12px] ${tone === "orange" ? "bg-[#ffe1cc] text-[#c24b00]" : "bg-[#e9ebed] text-[#6c6e79]"}`}
+    className={`inline-flex h-5 items-center rounded-full px-2 text-[12px] ${tone === "orange" ? "bg-[#ffe1cc] text-[#c24b00]" : "bg-[#e9ebed] text-[#6a6c6a]"}`}
   >
     {children}
   </span>
 );
 
 const BrokenLinkIcon = () => (
-  <svg viewBox="0 0 16 16" width={16} height={16} className="shrink-0 text-[#a9abb6]">
+  <svg viewBox="0 0 16 16" width={16} height={16} className="shrink-0 text-[#a9abaa]">
     <path d="M6.5 9.5 9.5 6.5M7.3 4.2l1.2-1.2a3 3 0 0 1 4.3 4.3l-1.2 1.2M8.7 11.8l-1.2 1.2a3 3 0 0 1-4.3-4.3l1.2-1.2M2.5 13.5l11-11" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" />
   </svg>
 );
@@ -226,9 +226,9 @@ function BacklinkDetails({ row, onHide }: { row: BgRow; onHide: () => void }) {
       <div className="flex h-[44px] items-center gap-6 px-[1px] text-[14px]">
         {["New", "Lost", "Follow"].map((l) => (
           <label key={l} className="flex items-center gap-2">
-            <input type="checkbox" className="h-4 w-4 appearance-none rounded-[4px] border border-[#c4c7cf] bg-white checked:border-[#2359d6] checked:bg-[#2359d6]" />
+            <input type="checkbox" className="h-4 w-4 appearance-none rounded-[4px] border border-[#d6d8d7] bg-white checked:border-[#235fe2] checked:bg-[#235fe2]" />
             {l}
-            {l !== "Follow" && <span className="-ml-[1px] font-serif text-[13px] text-[#a9abb6] italic">i</span>}
+            {l !== "Follow" && <span className="-ml-[1px] font-serif text-[13px] text-[#a9abaa] italic">i</span>}
           </label>
         ))}
       </div>
@@ -248,7 +248,7 @@ function BacklinkDetails({ row, onHide }: { row: BgRow; onHide: () => void }) {
               <span className="inline-flex items-center gap-[5px]">
                 Page AS
                 <svg viewBox="0 0 16 16" width={14} height={14}>
-                  <path d="M2.5 4h11M2.5 8h7M2.5 12h3.5" stroke="#6c6e79" strokeWidth={1.5} strokeLinecap="round" />
+                  <path d="M2.5 4h11M2.5 8h7M2.5 12h3.5" stroke="#6a6c6a" strokeWidth={1.5} strokeLinecap="round" />
                 </svg>
               </span>
             </th>
@@ -268,7 +268,7 @@ function BacklinkDetails({ row, onHide }: { row: BgRow; onHide: () => void }) {
               <a href={`https://${d.url}`} target="_blank" rel="noreferrer" className="break-all tracking-[0.25px] text-rk-link hover:text-rk-link-hover">
                 {d.url}
               </a>
-              <ExternalIcon className="ml-[5px] inline-block align-[-2px] text-[#a9abb6]" />
+              <ExternalIcon className="ml-[5px] inline-block align-[-2px] text-[#a9abaa]" />
               <div className="mt-[3px] flex gap-[6px]">
                 {d.tags.map((t) => (
                   <Pill key={t}>{t}</Pill>
@@ -284,7 +284,7 @@ function BacklinkDetails({ row, onHide }: { row: BgRow; onHide: () => void }) {
                 <a href={`https://${d.target}`} target="_blank" rel="noreferrer" className="text-rk-link hover:text-rk-link-hover">
                   {d.target}
                 </a>
-                <ExternalIcon className="text-[#a9abb6]" />
+                <ExternalIcon className="text-[#a9abaa]" />
               </div>
               <div className="mt-[3px] flex gap-[6px]">
                 <Pill>Text</Pill>
@@ -304,7 +304,7 @@ function BacklinkDetails({ row, onHide }: { row: BgRow; onHide: () => void }) {
           View full report
         </Link>
         <span className="mx-5 h-5 w-px bg-[#e0e1e4]" />
-        <button type="button" onClick={onHide} className="dotted-underline text-[14px] text-rk-muted decoration-[#a9abb6] hover:text-rk-text">
+        <button type="button" onClick={onHide} className="dotted-underline text-[14px] text-rk-muted decoration-[#a9abaa] hover:text-rk-text">
           Hide
         </button>
       </div>
@@ -351,7 +351,7 @@ function Prospects() {
           <div className="flex w-[93px] items-center gap-[6px] bg-[#e8e9ea] pl-3">
             Matches
             <svg viewBox="0 0 16 16" width={14} height={14}>
-              <path d="M2.5 4h11M2.5 8h7M2.5 12h3.5" stroke="#6c6e79" strokeWidth={1.5} strokeLinecap="round" />
+              <path d="M2.5 4h11M2.5 8h7M2.5 12h3.5" stroke="#6a6c6a" strokeWidth={1.5} strokeLinecap="round" />
             </svg>
           </div>
           <div className="flex w-[110px] items-center justify-end gap-[5px] pr-[8px]">
@@ -375,7 +375,7 @@ function Prospects() {
                 <a href={`https://${r.domain}`} target="_blank" rel="noreferrer" className="text-rk-link hover:text-rk-link-hover">
                   {r.domain}
                 </a>
-                <ExternalIcon className="text-[#a9abb6]" />
+                <ExternalIcon className="text-[#a9abaa]" />
               </span>
               {r.category && <span className="text-rk-text-2">{r.category}</span>}
             </div>
@@ -425,18 +425,18 @@ function Prospects() {
           type="button"
           disabled
           aria-label="First page"
-          className="flex h-7 w-7 items-center justify-center rounded-md border border-[#e3e5e5] text-[#c4c7cf]"
+          className="flex h-7 w-7 items-center justify-center rounded-md border border-[#e3e5e5] text-[#d6d8d7]"
         >
           <ChevronsLeft />
         </button>
-        <button type="button" disabled className="h-7 rounded-md border border-[#e3e5e5] px-2 text-[14px] text-[#c4c7cf]">
+        <button type="button" disabled className="h-7 rounded-md border border-[#e3e5e5] px-2 text-[14px] text-[#d6d8d7]">
           Prev
         </button>
         <button type="button" disabled className="h-7 rounded-md bg-[#a3a5a8] px-2 text-[14px] font-semibold text-white">
           Next
         </button>
         <span className="ml-2 text-[14px]">Page:</span>
-        <input defaultValue="1" className="h-7 w-[64px] rounded-md border border-[#e3e5e5] px-2 text-[14px] text-[#a9abb6] outline-none" />
+        <input defaultValue="1" className="h-7 w-[64px] rounded-md border border-[#e3e5e5] px-2 text-[14px] text-[#a9abaa] outline-none" />
         <span className="text-[14px]">of 1</span>
       </div>
     </div>

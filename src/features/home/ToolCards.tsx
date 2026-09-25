@@ -125,9 +125,9 @@ export function ToolCards() {
               >
                 <Icon width={24} height={24} />
               </span>
-              <span className="text-[14px] font-medium text-[#191b23]">{title}</span>
+              <span className="text-[14px] font-medium text-[#1b1e1a]">{title}</span>
             </div>
-            <p className="mt-2 text-[14px] leading-5 text-[#484a54]">{description}</p>
+            <p className="mt-2 text-[14px] leading-5 text-[#484a49]">{description}</p>
           </Link>
         ))}
       </div>
@@ -135,7 +135,7 @@ export function ToolCards() {
       <button
         aria-label="Next"
         onClick={() => scroller.current?.scrollBy({ left: 256, behavior: "smooth" })}
-        className="absolute top-1/2 right-[-8px] flex h-7 w-7 max-xl:opacity-0 max-xl:group-hover:opacity-100 -translate-y-1/2 items-center justify-center rounded-full border border-[#c4c7cf] bg-white text-[#191b23] shadow-card hover:bg-[#f4f5f9]"
+        className="absolute top-1/2 right-[-8px] flex h-7 w-7 max-xl:opacity-0 max-xl:group-hover:opacity-100 -translate-y-1/2 items-center justify-center rounded-full border border-[#d6d8d7] bg-white text-[#1b1e1a] shadow-card hover:bg-[#f5f6f6]"
       >
         <ChevronRightIcon />
       </button>

@@ -163,7 +163,7 @@ function DriversCard() {
 }
 
 const sentimentScale = [
-  { label: "0 mentions", color: "#e0e1e9", x: 84 },
+  { label: "0 mentions", color: "#e0e2e1", x: 84 },
   { label: "0% – 7%", color: "#ff6b70", x: 254 },
   { label: "8% – 39%", color: "#ffb26b", x: 418 },
   { label: "40% – 60%", color: "#fdda72", x: 611 },
@@ -183,7 +183,7 @@ const mentionScale = [
 function sentimentColor(v: number) {
   if (v >= 93) return ["#008360", "#fff"];
   if (v >= 61) return ["#00cb98", "#fff"];
-  if (v >= 40) return ["#fdda72", "#484a54"];
+  if (v >= 40) return ["#fdda72", "#484a49"];
   if (v >= 8) return ["#ffb26b", "#fff"];
   return ["#ff6b70", "#fff"];
 }
@@ -192,8 +192,8 @@ function mentionColor(v: number) {
   if (v >= 180) return ["#30296b", "#fff"];
   if (v >= 105) return ["#5c5bc4", "#fff"];
   if (v >= 55) return ["#93a4f5", "#fff"];
-  if (v >= 30) return ["#cddcff", "#6c6e79"];
-  return ["#f0f5ff", "#6c6e79"];
+  if (v >= 30) return ["#cddcff", "#6a6c6a"];
+  return ["#f0f5ff", "#6a6c6a"];
 }
 
 function Heatmap({ values, color, scale }: { values: number[][]; color: (v: number) => string[]; scale: { label: string; color: string; x: number }[] }) {
@@ -230,7 +230,7 @@ function Heatmap({ values, color, scale }: { values: number[][]; color: (v: numb
         {scale.map((s) => (
           <div key={s.label} className="absolute top-0 flex -translate-x-1/2 flex-col items-center" style={{ left: s.x }}>
             <span className="text-[12px] leading-5 whitespace-nowrap text-rk-muted">{s.label}</span>
-            <span className="mt-1 h-2 w-[96px] rounded-full border border-[#e0e1e9]" style={{ background: s.color }} />
+            <span className="mt-1 h-2 w-[96px] rounded-full border border-[#e0e2e1]" style={{ background: s.color }} />
           </div>
         ))}
       </div>

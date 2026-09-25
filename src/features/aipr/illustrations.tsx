@@ -35,7 +35,7 @@ export function DrawnAvatar({ size, tone = "#b08a70", hair = "#2e2622", bg = "#e
 function TopicArt() {
   return (
     <Frame l={68} t={67} w={322} h={273} pad={7}>
-      <div className="absolute top-[14px] left-[17px] text-[14px] leading-5 text-[#191b23]">
+      <div className="absolute top-[14px] left-[17px] text-[14px] leading-5 text-[#1b1e1a]">
         Topic: <b className="font-bold">Renewable energy sources</b>
       </div>
       <div className="absolute top-[44px] left-[17px] flex gap-[9px]">
@@ -56,7 +56,7 @@ function TopicOverlay() {
         <DrawnAvatar size={36} tone="#c49a80" hair="#231c18" bg="#5a4d44" />
         <div className="leading-[20px]">
           <div className="text-[14px] font-bold text-[#2d63c8]">John Smith</div>
-          <div className="text-[12.5px] text-[#484a54]">Editor</div>
+          <div className="text-[12.5px] text-[#484a49]">Editor</div>
         </div>
       </div>
       <div className="absolute top-[22px] left-[162px] flex items-center gap-[7px]">
@@ -96,20 +96,20 @@ function JournalistArt() {
         <div className="absolute top-[20px] left-[12px]">
           <DrawnAvatar size={54} square beard tone="#c69a80" hair="#8b7f76" bg="#3b4a5c" />
         </div>
-        <div className="absolute top-[22px] left-[83px] text-[15px] leading-5 font-bold text-[#191b23]">Jacob Jones</div>
+        <div className="absolute top-[22px] left-[83px] text-[15px] leading-5 font-bold text-[#1b1e1a]">Jacob Jones</div>
         <div className="absolute top-[45px] left-[83px] w-[130px] text-[11px] leading-[10px] text-[#60626c]">jacob.jones@technews. com</div>
-        <div className="absolute top-[21px] left-[278px] rounded-[3px] bg-[#191b23] px-[5px] text-[11.5px] leading-4 text-white">Add to list</div>
-        <div className="absolute top-[95px] left-[21px] rounded-full bg-[#eeeff3] px-2 text-[11.5px] leading-5 text-[#6c6e79]">Artificial Intelligence</div>
+        <div className="absolute top-[21px] left-[278px] rounded-[3px] bg-[#1b1e1a] px-[5px] text-[11.5px] leading-4 text-white">Add to list</div>
+        <div className="absolute top-[95px] left-[21px] rounded-full bg-[#eeeff3] px-2 text-[11.5px] leading-5 text-[#6a6c6a]">Artificial Intelligence</div>
         <div className="absolute top-[131px] left-[21px] h-[104px] w-[307px] rounded-[8px] bg-[#f3f4f8] px-[10px] pt-[9px]">
-          <div className="text-[13px] leading-4 font-bold text-[#191b23]">Related article</div>
-          <div className="mt-[8px] text-[13px] leading-4 text-[#191b23]">How AI chatbots keep people coming back</div>
-          <div className="mt-[4px] text-[11px] leading-[13px] text-[#484a54]">
+          <div className="text-[13px] leading-4 font-bold text-[#1b1e1a]">Related article</div>
+          <div className="mt-[8px] text-[13px] leading-4 text-[#1b1e1a]">How AI chatbots keep people coming back</div>
+          <div className="mt-[4px] text-[11px] leading-[13px] text-[#484a49]">
             Chatbots are increasingly looking to keep people chatting, using familiar tactics that we’ve already seen lead to negative consequences.
           </div>
         </div>
       </Frame>
       <div className="absolute rounded-[10px] bg-white shadow-[0_4px_16px_rgba(80,90,150,0.14)]" style={box({ l: 188, t: 155, w: 229, h: 77 })}>
-        <div className="absolute top-[9px] left-[13px] text-[13px] leading-4 font-bold text-[#191b23]">Outlet audience</div>
+        <div className="absolute top-[9px] left-[13px] text-[13px] leading-4 font-bold text-[#1b1e1a]">Outlet audience</div>
         {[
           { l: 13, pct: 76, c: "#34d9a8", n: "Men" },
           { l: 118, pct: 24, c: "#b57cf2", n: "Women" },
@@ -117,7 +117,7 @@ function JournalistArt() {
           <div key={s.n} className="absolute top-[31px] flex h-[32px] w-[99px] items-center gap-[6px] rounded-[4px] bg-[#f4f5f8] pl-[5px]" style={{ left: s.l }}>
             <Donut pct={s.pct} color={s.c} />
             <div className="leading-[9px]">
-              <div className="text-[8px] font-bold text-[#191b23]">{s.pct}%</div>
+              <div className="text-[8px] font-bold text-[#1b1e1a]">{s.pct}%</div>
               <div className="text-[6.5px] text-[#8a8c96]">{s.n}</div>
             </div>
           </div>
@@ -141,8 +141,8 @@ function Chip({ children, ai }: { children: ReactNode; ai?: boolean }) {
 function SearchArt() {
   return (
     <Frame l={51} t={62} w={386} h={320} pad={9}>
-      <div className="absolute top-[14px] left-[14px] text-[15px] leading-5 font-medium text-[#191b23]">Search for journalists</div>
-      <div className="absolute top-[38px] left-[33px] text-[10px] leading-4 font-bold text-[#191b23]">Keywords</div>
+      <div className="absolute top-[14px] left-[14px] text-[15px] leading-5 font-medium text-[#1b1e1a]">Search for journalists</div>
+      <div className="absolute top-[38px] left-[33px] text-[10px] leading-4 font-bold text-[#1b1e1a]">Keywords</div>
       <div className="absolute top-[56px] left-[33px]">
         <Chip>Artificial Intelligence</Chip>
       </div>
@@ -151,16 +151,16 @@ function SearchArt() {
         <Chip ai>Technology</Chip>
         <Chip ai>Cybersecurity</Chip>
       </div>
-      <div className="absolute top-[112px] left-[33px] text-[10px] leading-4 font-bold text-[#191b23]">Location</div>
-      <div className="absolute top-[130px] left-[33px] h-[22px] w-[320px] rounded-[4px] border border-[#e0e1e9] px-[6px] text-[10px] leading-5 text-[#60626c]">United States</div>
-      <div className="absolute top-[166px] left-[33px] text-[10px] leading-4 font-bold text-[#191b23]">Outlet type</div>
+      <div className="absolute top-[112px] left-[33px] text-[10px] leading-4 font-bold text-[#1b1e1a]">Location</div>
+      <div className="absolute top-[130px] left-[33px] h-[22px] w-[320px] rounded-[4px] border border-[#e0e2e1] px-[6px] text-[10px] leading-5 text-[#60626c]">United States</div>
+      <div className="absolute top-[166px] left-[33px] text-[10px] leading-4 font-bold text-[#1b1e1a]">Outlet type</div>
       <div className="absolute top-[184px] left-[33px] flex gap-[4px]">
         <Chip>Online news</Chip>
         <Chip>Magazines</Chip>
         <Chip>Blogs</Chip>
       </div>
-      <div className="absolute top-[226px] left-[33px] rounded-[4px] bg-[#191b23] px-[10px] text-[11px] leading-[22px] font-semibold text-white">Find journalists</div>
-      <div className="absolute top-[266px] left-[33px] flex w-[320px] items-center gap-2 border-t border-[#eceef3] pt-[10px]">
+      <div className="absolute top-[226px] left-[33px] rounded-[4px] bg-[#1b1e1a] px-[10px] text-[11px] leading-[22px] font-semibold text-white">Find journalists</div>
+      <div className="absolute top-[266px] left-[33px] flex w-[320px] items-center gap-2 border-t border-[#edefef] pt-[10px]">
         <DrawnAvatar size={26} tone="#c49a80" hair="#3a2a20" />
         <div className="h-[8px] w-[120px] rounded-full bg-[#e1e2ea]" />
       </div>
@@ -171,7 +171,7 @@ function SearchArt() {
 function InboxArt() {
   return (
     <Frame l={54} t={70} w={373} h={300} pad={8}>
-      <div className="absolute top-[11px] left-[17px] text-[15px] leading-5 font-medium text-[#191b23]">Inbox</div>
+      <div className="absolute top-[11px] left-[17px] text-[15px] leading-5 font-medium text-[#1b1e1a]">Inbox</div>
       <div className="absolute top-[9px] left-[205px] flex h-[27px] w-[151px] items-center gap-[7px] rounded-[7px] bg-[#f5f6f9] pl-[10px] text-[10px] text-[#a3a5b0]">
         <svg viewBox="0 0 16 16" width={10} height={10}>
           <circle cx="7" cy="7" r="4.5" fill="none" stroke="#8a8c96" strokeWidth={2} />
@@ -188,7 +188,7 @@ function InboxArt() {
         Inbox
       </div>
       {["Sent", "Drafts", "Scheduled"].map((l, i) => (
-        <div key={l} className="absolute left-[13px] text-[10px] text-[#6c6e79]" style={{ top: 90 + i * 24 }}>
+        <div key={l} className="absolute left-[13px] text-[10px] text-[#6a6c6a]" style={{ top: 90 + i * 24 }}>
           {l}
         </div>
       ))}
@@ -198,11 +198,11 @@ function InboxArt() {
         { t: "Local startup cuts food waste by 40%", s: "Hi Sara, thought this might fit your column…" },
       ].map((m, i) => (
         <div key={m.t} className="absolute left-[111px] h-[62px] w-[251px] rounded-[6px] border border-[#eeeff3] bg-white px-[8px] pt-[6px]" style={{ top: 55 + i * 70 }}>
-          <div className="truncate text-[10px] leading-[14px] font-bold text-[#191b23]">{m.t}</div>
-          <div className="mt-[3px] truncate text-[9px] leading-[12px] text-[#6c6e79]">{m.s}</div>
+          <div className="truncate text-[10px] leading-[14px] font-bold text-[#1b1e1a]">{m.t}</div>
+          <div className="mt-[3px] truncate text-[9px] leading-[12px] text-[#6a6c6a]">{m.s}</div>
           <div className="mt-[6px] flex gap-[4px]">
             <span className="rounded-full bg-[#e6f8f1] px-[5px] text-[8px] leading-[12px] text-[#177a5f]">Opened</span>
-            <span className="rounded-full bg-[#eef0fc] px-[5px] text-[8px] leading-[12px] text-[#5652cc]">Clicked</span>
+            <span className="rounded-full bg-[#eef0fc] px-[5px] text-[8px] leading-[12px] text-[#5c5cc4]">Clicked</span>
           </div>
         </div>
       ))}
@@ -216,32 +216,32 @@ function MentionsArt() {
   return (
     <>
       <Frame l={53} t={60} w={370} h={271} pad={8}>
-        <div className="absolute top-[18px] left-[18px] h-[128px] w-[334px] rounded-[4px] border border-[#eceef3]">
-          <div className="absolute top-[7px] left-[6px] text-[11px] leading-4 font-semibold text-[#191b23]">Mentions and Reach</div>
-          <div className="absolute top-[27px] right-0 left-0 border-t border-[#eceef3]" />
+        <div className="absolute top-[18px] left-[18px] h-[128px] w-[334px] rounded-[4px] border border-[#edefef]">
+          <div className="absolute top-[7px] left-[6px] text-[11px] leading-4 font-semibold text-[#1b1e1a]">Mentions and Reach</div>
+          <div className="absolute top-[27px] right-0 left-0 border-t border-[#edefef]" />
           <svg viewBox="0 0 435 110" width={328} height={80} preserveAspectRatio="none" className="absolute top-[41px] left-[6px]">
             <path d={`${top} L435 110 L0 110Z`} fill="#f2e9fd" />
             <path d={`${low} L435 110 L0 110Z`} fill="#e8e5fb" />
             <path d={top} fill="none" stroke="#b58af2" strokeWidth={2} />
             <path d={low} fill="none" stroke="#5b5fc7" strokeWidth={2} />
           </svg>
-          <div className="absolute top-[107px] right-[6px] left-[6px] flex justify-between text-[8px] text-[#6c6e79]">
+          <div className="absolute top-[107px] right-[6px] left-[6px] flex justify-between text-[8px] text-[#6a6c6a]">
             <span>02 Jun</span>
             <span>09 Jun</span>
             <span>16 Jun</span>
             <span>23 Jun</span>
           </div>
         </div>
-        <div className="absolute top-[158px] left-[166px] h-[130px] w-[186px] rounded-[4px] border border-[#eceef3]">
-          <div className="absolute top-[7px] left-[12px] text-[11px] leading-4 font-semibold text-[#191b23]">Sentiment</div>
-          <div className="absolute top-[26px] right-0 left-0 border-t border-[#eceef3]" />
-          <div className="absolute top-[31px] left-[9px] flex gap-[6px] text-[10px] text-[#484a54]">
+        <div className="absolute top-[158px] left-[166px] h-[130px] w-[186px] rounded-[4px] border border-[#edefef]">
+          <div className="absolute top-[7px] left-[12px] text-[11px] leading-4 font-semibold text-[#1b1e1a]">Sentiment</div>
+          <div className="absolute top-[26px] right-0 left-0 border-t border-[#edefef]" />
+          <div className="absolute top-[31px] left-[9px] flex gap-[6px] text-[10px] text-[#484a49]">
             <span className="flex items-center gap-[3px]">
               <i className="h-[5px] w-[5px] rounded-full bg-[#34d9a8]" />
               Positive
             </span>
             <span className="flex items-center gap-[3px]">
-              <i className="h-[5px] w-[5px] rounded-full bg-[#c4c7cf]" />
+              <i className="h-[5px] w-[5px] rounded-full bg-[#d6d8d7]" />
               Neutral
             </span>
             <span className="flex items-center gap-[3px]">
@@ -257,7 +257,7 @@ function MentionsArt() {
         </div>
       </Frame>
       <div className="absolute rounded-[10px] bg-white shadow-[0_4px_16px_rgba(80,90,150,0.14)]" style={box({ l: 51, t: 222, w: 153, h: 127 })}>
-        <div className="absolute top-[14px] left-[14px] text-[11px] leading-4 font-semibold text-[#191b23]">Sources</div>
+        <div className="absolute top-[14px] left-[14px] text-[11px] leading-4 font-semibold text-[#1b1e1a]">Sources</div>
         {[
           { c: "#ccd7fb", ch: "#d6ddfb", l: "News" },
           { c: "#94a3f2", ch: "#94a3f2", l: "Blogs" },
@@ -265,7 +265,7 @@ function MentionsArt() {
         ].map((s, i) => (
           <div key={s.l}>
             <div className="absolute left-[14px] h-[25px] w-[35px]" style={{ top: 35 + i * 27, background: s.c }} />
-            <div className="absolute left-[60px] flex items-center gap-[7px] text-[10.5px] text-[#484a54]" style={{ top: 46 + i * 21 }}>
+            <div className="absolute left-[60px] flex items-center gap-[7px] text-[10.5px] text-[#484a49]" style={{ top: 46 + i * 21 }}>
               <span className="flex h-[13px] w-[13px] items-center justify-center rounded-[3px] text-white" style={{ background: s.ch }}>
                 <svg viewBox="0 0 16 16" width={9} height={9}>
                   <path d="m3 8.5 3 3 7-7" fill="none" stroke="currentColor" strokeWidth={2.4} />
@@ -286,16 +286,16 @@ function AlertsArt() {
       <div className="absolute top-[19px] left-[17px] h-[252px] w-[315px] rounded-[8px] bg-[#f4f5f8] p-[14px]">
         <div className="flex items-center gap-2">
           <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#ffe3e3] text-[12px] text-[#e5484d]">!</span>
-          <div className="text-[12px] leading-4 font-bold text-[#191b23]">New mention alert</div>
+          <div className="text-[12px] leading-4 font-bold text-[#1b1e1a]">New mention alert</div>
         </div>
-        <div className="mt-[6px] text-[10px] leading-[14px] text-[#6c6e79]">Query: Warby Parker · Real-time</div>
+        <div className="mt-[6px] text-[10px] leading-[14px] text-[#6a6c6a]">Query: Warby Parker · Real-time</div>
         {[
           { s: "Negative", c: "bg-[#ffe3e3] text-[#d1002f]", t: "Customers report delays with online orders" },
           { s: "Positive", c: "bg-[#d4f5ea] text-[#177a5f]", t: "Warby Parker opens 20 new stores this fall" },
-          { s: "Neutral", c: "bg-[#eceef3] text-[#484a54]", t: "Eyewear brands bet on smart glasses" },
+          { s: "Neutral", c: "bg-[#edefef] text-[#484a49]", t: "Eyewear brands bet on smart glasses" },
         ].map((m) => (
           <div key={m.t} className="mt-[10px] rounded-[6px] bg-white p-[8px]">
-            <div className="truncate text-[10.5px] leading-[14px] font-semibold text-[#191b23]">{m.t}</div>
+            <div className="truncate text-[10.5px] leading-[14px] font-semibold text-[#1b1e1a]">{m.t}</div>
             <div className="mt-[5px] flex items-center justify-between">
               <span className={`rounded-full px-[6px] text-[8.5px] leading-[13px] ${m.c}`}>{m.s}</span>
               <span className="text-[8.5px] text-[#8a8c96]">2 min ago</span>
@@ -310,11 +310,11 @@ function AlertsArt() {
 function DigestArt() {
   return (
     <Frame l={50} t={61} w={380} h={286} pad={9}>
-      <div className="absolute top-[16px] left-[18px] text-[13px] leading-5 font-bold text-[#191b23]">Weekly digest</div>
+      <div className="absolute top-[16px] left-[18px] text-[13px] leading-5 font-bold text-[#1b1e1a]">Weekly digest</div>
       <div className="absolute top-[20px] right-[18px] text-[10px] text-[#8a8c96]">Sep 17 – Sep 24</div>
       <div className="absolute top-[48px] left-[18px] w-[344px] rounded-[8px] bg-[#f5effe] p-[10px]">
         <div className="flex items-center gap-1 text-[10.5px] leading-[14px] font-semibold text-[#8a3fcf]">✦ AI summary</div>
-        <div className="mt-[4px] text-[10px] leading-[14px] text-[#484a54]">
+        <div className="mt-[4px] text-[10px] leading-[14px] text-[#484a49]">
           Coverage grew 18% this week, driven by new store openings. Sentiment stayed mostly positive, with a few complaints about delivery times.
         </div>
       </div>
@@ -324,15 +324,15 @@ function DigestArt() {
           ["Reach", "58.2M"],
           ["Positive", "71%"],
         ].map(([l, v]) => (
-          <div key={l} className="rounded-[6px] border border-[#eceef3] px-[8px] py-[6px]">
-            <div className="text-[9px] text-[#6c6e79]">{l}</div>
-            <div className="text-[15px] leading-5 font-bold text-[#191b23]">{v}</div>
+          <div key={l} className="rounded-[6px] border border-[#edefef] px-[8px] py-[6px]">
+            <div className="text-[9px] text-[#6a6c6a]">{l}</div>
+            <div className="text-[15px] leading-5 font-bold text-[#1b1e1a]">{v}</div>
           </div>
         ))}
       </div>
       {[200, 222, 244].map((t, i) => (
         <div key={t} className="absolute left-[18px] flex items-center gap-2" style={{ top: t }}>
-          <i className="h-[6px] w-[6px] rounded-full" style={{ background: ["#34d9a8", "#c4c7cf", "#ff6b70"][i] }} />
+          <i className="h-[6px] w-[6px] rounded-full" style={{ background: ["#34d9a8", "#d6d8d7", "#ff6b70"][i] }} />
           <div className="h-[8px] rounded-full bg-[#e1e2ea]" style={{ width: [300, 250, 280][i] }} />
         </div>
       ))}
@@ -343,18 +343,18 @@ function DigestArt() {
 function ListsArt() {
   return (
     <Frame l={50} t={61} w={386} h={290} pad={9}>
-      <div className="absolute top-[16px] left-[18px] text-[14px] leading-5 font-bold text-[#191b23]">Media lists</div>
-      <div className="absolute top-[14px] right-[18px] rounded-[4px] bg-[#191b23] px-[8px] text-[10.5px] leading-[22px] font-semibold text-white">+ New list</div>
+      <div className="absolute top-[16px] left-[18px] text-[14px] leading-5 font-bold text-[#1b1e1a]">Media lists</div>
+      <div className="absolute top-[14px] right-[18px] rounded-[4px] bg-[#1b1e1a] px-[8px] text-[10.5px] leading-[22px] font-semibold text-white">+ New list</div>
       {[
         { n: "Tech launch Q4", c: 24 },
         { n: "Wellness journalists", c: 17 },
         { n: "Retail & DTC", c: 31 },
         { n: "Local press — Sweden", c: 9 },
       ].map((l, i) => (
-        <div key={l.n} className="absolute left-[18px] flex h-[46px] w-[350px] items-center justify-between rounded-[6px] border border-[#eceef3] px-[10px]" style={{ top: 54 + i * 54 }}>
+        <div key={l.n} className="absolute left-[18px] flex h-[46px] w-[350px] items-center justify-between rounded-[6px] border border-[#edefef] px-[10px]" style={{ top: 54 + i * 54 }}>
           <div>
-            <div className="text-[11px] leading-[14px] font-semibold text-[#191b23]">{l.n}</div>
-            <div className="text-[9.5px] leading-[13px] text-[#6c6e79]">{l.c} contacts</div>
+            <div className="text-[11px] leading-[14px] font-semibold text-[#1b1e1a]">{l.n}</div>
+            <div className="text-[9.5px] leading-[13px] text-[#6a6c6a]">{l.c} contacts</div>
           </div>
           <div className="flex -space-x-[6px]">
             {["#c49a80", "#8d7a6a", "#e0b89a"].map((t) => (
@@ -372,18 +372,18 @@ function ListsArt() {
 function SendersArt() {
   return (
     <Frame l={50} t={61} w={386} h={290} pad={9}>
-      <div className="absolute top-[16px] left-[18px] text-[14px] leading-5 font-bold text-[#191b23]">Senders and domains</div>
+      <div className="absolute top-[16px] left-[18px] text-[14px] leading-5 font-bold text-[#1b1e1a]">Senders and domains</div>
       {[
         { n: "press@yourbrand.com", s: "Verified" },
         { n: "news@yourbrand.com", s: "Verified" },
         { n: "pr@yourbrand.se", s: "Pending" },
       ].map((d, i) => (
-        <div key={d.n} className="absolute left-[18px] flex h-[46px] w-[350px] items-center justify-between rounded-[6px] border border-[#eceef3] px-[10px]" style={{ top: 54 + i * 54 }}>
-          <div className="text-[11px] font-semibold text-[#191b23]">{d.n}</div>
+        <div key={d.n} className="absolute left-[18px] flex h-[46px] w-[350px] items-center justify-between rounded-[6px] border border-[#edefef] px-[10px]" style={{ top: 54 + i * 54 }}>
+          <div className="text-[11px] font-semibold text-[#1b1e1a]">{d.n}</div>
           <span className={`rounded-full px-[7px] text-[9.5px] leading-[15px] ${d.s === "Verified" ? "bg-[#d4f5ea] text-[#177a5f]" : "bg-[#fff1d6] text-[#b26a00]"}`}>{d.s}</span>
         </div>
       ))}
-      <div className="absolute top-[226px] left-[18px] w-[350px] rounded-[6px] bg-[#f4f5f8] p-[10px] text-[10px] leading-[14px] text-[#484a54]">
+      <div className="absolute top-[226px] left-[18px] w-[350px] rounded-[6px] bg-[#f4f5f8] p-[10px] text-[10px] leading-[14px] text-[#484a49]">
         Sending health: <b className="text-[#177a5f]">Good</b> · 98% delivered
       </div>
     </Frame>

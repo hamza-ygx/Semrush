@@ -91,11 +91,11 @@ export function DomainRow({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className="peer min-w-0 flex-1 bg-transparent text-[16px] text-rk-text outline-none placeholder:text-[#8a8e9b]"
+          className="peer min-w-0 flex-1 bg-transparent text-[16px] text-rk-text outline-none placeholder:text-[#8b8d8c]"
         />
         <span className="pointer-events-none absolute -top-[2px] -right-[3px] -bottom-px -left-[2px] z-10 hidden rounded-md border-2 border-[#9798ee] peer-focus:block" />
         {value && (
-          <button type="button" aria-label="Clear" onClick={() => onChange("")} className="text-[#8a8e9b] hover:text-rk-text">
+          <button type="button" aria-label="Clear" onClick={() => onChange("")} className="text-[#8b8d8c] hover:text-rk-text">
             <CloseIcon width={14} height={14} />
           </button>
         )}
@@ -154,11 +154,11 @@ export function DbSelect({ width = 88 }: { width?: number }) {
 
 const WorldIcon = () => (
   <svg viewBox="0 0 16 16" width={16} height={16} className="shrink-0">
-    <circle cx="8" cy="8" r="6.6" fill="#fff" stroke="#a9abb6" strokeWidth="1.3" />
+    <circle cx="8" cy="8" r="6.6" fill="#fff" stroke="#a9abaa" strokeWidth="1.3" />
     <path
       d="M4 4.2c1.6.4 2.5 1.6 2.2 3-.2 1 .9 1.4.7 2.8M9.3 2c-.4 1.2.3 2 1.4 2.2 1.1.2 1.6 1 1.1 2.3M10.4 10c.9.2 1.9.9 2.6 1.6"
       fill="none"
-      stroke="#a9abb6"
+      stroke="#a9abaa"
       strokeWidth="1.2"
     />
   </svg>
@@ -189,7 +189,7 @@ export function CountrySelect() {
       {(close) => (
         <div>
           <div className="flex h-[42px] items-center rounded-md border-2 border-[#8f95ee] bg-white pl-[11px]">
-            <SearchIcon width={16} height={16} className="shrink-0 text-[#a9abb6]" />
+            <SearchIcon width={16} height={16} className="shrink-0 text-[#a9abaa]" />
             <input
               autoFocus
               value={q}

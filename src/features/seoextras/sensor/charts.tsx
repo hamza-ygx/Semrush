@@ -38,7 +38,7 @@ export function monotonePath(pts: [number, number][]) {
 function XAxis({ y, at = xAt }: { y: number; at?: (i: number) => number }) {
   const last = sensorDates.length - 1;
   return (
-    <g fontSize={12} fill="#6c6e79">
+    <g fontSize={12} fill="#6a6c6a">
       {sensorDates.map((d, i) =>
         i === last ? (
           <g key={d}>
@@ -105,7 +105,7 @@ export function VolatilityChart({ data, top = 145, bottom = 373 }: { data: (numb
       </defs>
       {[10, 8, 5, 2, 0].map((v) => (
         <g key={v}>
-          <text x={46} y={y(v) + 4} textAnchor="end" fontSize={12} fill="#6c6e79">
+          <text x={46} y={y(v) + 4} textAnchor="end" fontSize={12} fill="#6a6c6a">
             {v}
           </text>
           <line x1={60} x2={759} y1={y(v)} y2={y(v)} stroke="#eeeff2" />
@@ -117,7 +117,7 @@ export function VolatilityChart({ data, top = 145, bottom = 373 }: { data: (numb
           <path d={line} fill="none" stroke={b.stroke} strokeWidth={3} strokeLinecap="round" />
         </g>
       ))}
-      <line x1={lastX} x2={lastX} y1={top} y2={bottom} stroke="#8a8e9b" strokeDasharray="4 3" />
+      <line x1={lastX} x2={lastX} y1={top} y2={bottom} stroke="#8b8d8c" strokeDasharray="4 3" />
       {hover != null && data[hover] != null && <rect x={xAt(hover) - 5.5} y={top} width={12} height={bottom - top} fill="#b9bbbb" opacity={0.7} />}
       {data.map((v, i) => (v == null ? null : <circle key={i} cx={xAt(i)} cy={y(v)} r={hover === i ? 5 : 4} fill={bandColor(v)} stroke={hover === i ? "#fff" : "none"} strokeOpacity={0.5} />))}
       <XAxis y={bottom + 39} />
@@ -140,15 +140,15 @@ export function DeviationChart({ data, avg = 1.7, top = 138, bottom = 370 }: { d
     <svg viewBox={`0 0 779 ${bottom + 60}`} width={779} height={bottom + 60} className="pointer-events-none absolute top-0 left-0 overflow-visible" onMouseLeave={() => setHover(null)}>
       {[10, 5.7, 4.2, avg, 0].map((v) => (
         <g key={v}>
-          <text x={43} y={y(v) + 4} textAnchor="end" fontSize={12} fill="#6c6e79">
+          <text x={43} y={y(v) + 4} textAnchor="end" fontSize={12} fill="#6a6c6a">
             {v}
           </text>
           <line x1={57} x2={759} y1={y(v)} y2={y(v)} stroke="#eeeff2" />
         </g>
       ))}
-      <line x1={lastX} x2={lastX} y1={top} y2={bottom} stroke="#8a8e9b" strokeDasharray="4 3" />
+      <line x1={lastX} x2={lastX} y1={top} y2={bottom} stroke="#8b8d8c" strokeDasharray="4 3" />
       {data.map((v, i) => (v == null ? null : <line key={i} x1={xDev(i)} x2={xDev(i)} y1={y(avg)} y2={y(v)} stroke={devColor(v)} strokeWidth={1.4} />))}
-      <line x1={xDev(0)} x2={lastX} y1={y(avg)} y2={y(avg)} stroke="#8a8e9b" strokeWidth={3} />
+      <line x1={xDev(0)} x2={lastX} y1={y(avg)} y2={y(avg)} stroke="#8b8d8c" strokeWidth={3} />
       {data.map((v, i) => (v == null ? null : <circle key={`c${i}`} cx={xDev(i)} cy={y(v)} r={hover === i ? 5.5 : 4} fill={devColor(v)} />))}
       <XAxis y={bottom + 36} at={xDev} />
       {data.map((v, i) =>
@@ -166,7 +166,7 @@ export function Legend({ items }: { items: { color: string; label: string; dash?
     <div className="flex items-center gap-4 text-[14px] leading-5 text-rk-text">
       {items.map((it) => (
         <span key={it.label} className="flex items-center gap-[4px]">
-          {it.dash ? <span className="mx-[3px] h-[2px] w-[9px] bg-[#8a8e9b]" /> : <span className="h-3 w-3 rounded-full" style={{ background: it.color }} />}
+          {it.dash ? <span className="mx-[3px] h-[2px] w-[9px] bg-[#8b8d8c]" /> : <span className="h-3 w-3 rounded-full" style={{ background: it.color }} />}
           {it.label}
         </span>
       ))}

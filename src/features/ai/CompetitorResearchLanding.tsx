@@ -53,7 +53,7 @@ export function CompetitorResearchLanding() {
             </label>
             {competitors.map((c, i) => (
               <label key={i} className={field}>
-                <span className="ml-[3px] h-[10px] w-[10px] rounded-full bg-[#eceef3]" />
+                <span className="ml-[3px] h-[10px] w-[10px] rounded-full bg-[#edefef]" />
                 <input
                   aria-label={`Competitor ${i + 1}`}
                   value={c}

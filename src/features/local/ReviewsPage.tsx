@@ -107,7 +107,7 @@ function MapsMockup() {
           ))}
         </div>
       </div>
-      <div className="absolute top-[502px] left-[38px] text-[14px] text-[#6c6e79]">If you are strategic about reviews, you are more visible</div>
+      <div className="absolute top-[502px] left-[38px] text-[14px] text-[#6a6c6a]">If you are strategic about reviews, you are more visible</div>
     </div>
   );
 }

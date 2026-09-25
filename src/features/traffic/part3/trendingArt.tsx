@@ -1,6 +1,6 @@
 import { worldCountries, worldOutline } from "../part2/geo";
 
-const card = "absolute rounded-lg border border-[#e3e4e8] bg-white shadow-[0_4px_14px_rgba(25,27,35,0.08)]";
+const card = "absolute rounded-lg border border-[#e4e5e5] bg-white shadow-[0_4px_14px_rgba(25,27,35,0.08)]";
 const bar = "absolute h-[3px] rounded-full bg-[#dcdde2]";
 const blue = ["United States of America", "Japan"];
 
@@ -17,7 +17,7 @@ function KeywordRow({ top, t, n }: { top: number; t: boolean; n?: boolean }) {
         </span>
       )}
       {n && (
-        <span className="absolute left-[84px] text-[5px] leading-none text-[#484a54]" style={{ top: top - 3 }}>
+        <span className="absolute left-[84px] text-[5px] leading-none text-[#484a49]" style={{ top: top - 3 }}>
           1
         </span>
       )}
@@ -46,7 +46,7 @@ export function SignupArt() {
       </div>
       <div className={`${card} top-[61px] left-[41px] h-[160px] w-[214px]`}>
         <div className="absolute top-[11px] left-[10px] text-[7px] leading-[9px] font-semibold text-[#333]">Top Organic Keywords</div>
-        <div className="absolute top-[34px] left-[12px] h-[19px] w-[189px] rounded bg-[#f4f5f9] text-[5px] leading-[19px] text-[#8a8e9b]">
+        <div className="absolute top-[34px] left-[12px] h-[19px] w-[189px] rounded bg-[#f5f6f6] text-[5px] leading-[19px] text-[#8b8d8c]">
           <span className="absolute left-[8px]">Keyword</span>
           <span className={`${bar} top-[8px] left-[43px] w-[21px]`} />
           <span className={`${bar} top-[8px] left-[70px] w-[13px]`} />
@@ -76,14 +76,14 @@ export function SignupArt() {
           ] as const
         ).map(([l, w, label, v]) => (
           <div key={label} className="absolute top-[26px] h-[41px] rounded border border-[#eceef0]" style={{ left: l, width: w }}>
-            <div className="absolute top-[7px] left-[7px] flex items-center gap-[4px] text-[5px] leading-[6px] text-[#8a8e9b]">
+            <div className="absolute top-[7px] left-[7px] flex items-center gap-[4px] text-[5px] leading-[6px] text-[#8b8d8c]">
               {label}
               {label === "Visits" && <span className="rounded-[2px] bg-[#d6f5e8] px-[2px] text-[#16876a]">+73%</span>}
             </div>
-            <div className="absolute top-[18px] left-[7px] text-[15px] leading-[16px] font-bold text-[#191b23]">{v}</div>
+            <div className="absolute top-[18px] left-[7px] text-[15px] leading-[16px] font-bold text-[#1b1e1a]">{v}</div>
           </div>
         ))}
-        <div className="absolute top-[74px] left-[12px] text-[4px] leading-[6px] text-[#8a8e9b]">Total Visits last 3 months</div>
+        <div className="absolute top-[74px] left-[12px] text-[4px] leading-[6px] text-[#8b8d8c]">Total Visits last 3 months</div>
         {(
           [
             [89, 97, "#1c9df0", "106.52B"],

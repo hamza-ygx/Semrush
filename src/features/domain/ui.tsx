@@ -93,7 +93,7 @@ export function ExportButton({ label = "Export", className = "" }: { label?: str
   return (
     <button
       type="button"
-      className={`inline-flex h-7 items-center gap-[7px] rounded-md border border-[#d3d5db] bg-[#f7f8f9] px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-hover ${className}`}
+      className={`inline-flex h-7 items-center gap-[7px] rounded-md border border-[#d4d6d5] bg-[#f7f8f9] px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-hover ${className}`}
     >
       <ExportIcon width={16} height={16} />
       {label}
@@ -109,7 +109,7 @@ export const ExtIcon = (p: SVGProps<SVGSVGElement>) => (
 
 export function ExtLink({ href = "#", className = "" }: { href?: string; className?: string }) {
   return (
-    <a href={href} target="_blank" rel="noreferrer" aria-label="Open in new tab" className={`inline-flex text-[#a9abb6] hover:text-rk-muted ${className}`}>
+    <a href={href} target="_blank" rel="noreferrer" aria-label="Open in new tab" className={`inline-flex text-[#a9abaa] hover:text-rk-muted ${className}`}>
       <ExtIcon />
     </a>
   );
@@ -156,7 +156,7 @@ export function IntentBadge({ intent }: { intent: Intent }) {
 export function Check({ color, label, checked = true, onToggle }: { color: string; label: ReactNode; checked?: boolean; onToggle?: () => void }) {
   return (
     <button type="button" onClick={onToggle} className="flex items-center gap-[5px] text-[14px] leading-5 text-rk-text">
-      <span className="flex h-4 w-4 items-center justify-center rounded-[4px] border" style={{ background: checked ? color : "#fff", borderColor: checked ? color : "#c4c7cf" }}>
+      <span className="flex h-4 w-4 items-center justify-center rounded-[4px] border" style={{ background: checked ? color : "#fff", borderColor: checked ? color : "#d6d8d7" }}>
         {checked && (
           <svg viewBox="0 0 16 16" width={12} height={12}>
             <path d="m3.5 8.5 3 3 6-6.5" fill="none" stroke="#fff" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
@@ -176,13 +176,13 @@ const FlagAE = (p: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 16 12" width={16} height={12} {...p}>
     <path d="M0 0h16v4H0z" fill="#00732f" />
     <path d="M0 4h16v4H0z" fill="#fff" />
-    <path d="M0 8h16v4H0z" fill="#191b23" />
+    <path d="M0 8h16v4H0z" fill="#1b1e1a" />
     <path d="M0 0h5v12H0z" fill="#e0262b" />
   </svg>
 );
 const FlagAF = (p: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 16 12" width={16} height={12} {...p}>
-    <path d="M0 0h5.4v12H0z" fill="#191b23" />
+    <path d="M0 0h5.4v12H0z" fill="#1b1e1a" />
     <path d="M5.3 0h5.4v12H5.3z" fill="#be0000" />
     <path d="M10.6 0H16v12h-5.4z" fill="#007a36" />
     <circle cx="8" cy="6" r="1.9" fill="none" stroke="#fff" strokeWidth=".8" />
@@ -212,7 +212,7 @@ const FlagVN = (p: SVGProps<SVGSVGElement>) => (
 const FlagNone = (p: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 16 12" width={16} height={12} {...p}>
     <rect width="16" height="12" fill="#eceef1" />
-    <path d="M3 10h10" stroke="#484a54" strokeWidth="1" />
+    <path d="M3 10h10" stroke="#484a49" strokeWidth="1" />
   </svg>
 );
 
@@ -238,10 +238,10 @@ const front = "M9.5 18.6 62 10.2a3 3 0 0 1 3.4 2.5L73 51.4a2 2 0 0 1-1.6 2.3L21.
 export function TiltedWindow({ children, extra }: { children?: ReactNode; extra?: ReactNode }) {
   return (
     <svg viewBox="-2 -2 84 82" width={84} height={82} className="block">
-      <path d={blob} fill="#e4e5ea" />
-      <path d={front} transform="translate(-2.6 3.6)" fill="#fff" stroke="#6c6e79" strokeWidth="1.3" strokeLinejoin="round" />
-      <path d={front} fill="#fff" stroke="#6c6e79" strokeWidth="1.6" strokeLinejoin="round" />
-      <path d="M9.5 18.6 62 10.2a3 3 0 0 1 3.4 2.5l1.1 6.3-56.3 11.2-3-8.2a3 3 0 0 1 2.3-3.4z" fill="#6c6e79" />
+      <path d={blob} fill="#e5e6e6" />
+      <path d={front} transform="translate(-2.6 3.6)" fill="#fff" stroke="#6a6c6a" strokeWidth="1.3" strokeLinejoin="round" />
+      <path d={front} fill="#fff" stroke="#6a6c6a" strokeWidth="1.6" strokeLinejoin="round" />
+      <path d="M9.5 18.6 62 10.2a3 3 0 0 1 3.4 2.5l1.1 6.3-56.3 11.2-3-8.2a3 3 0 0 1 2.3-3.4z" fill="#6a6c6a" />
       <circle cx="15.4" cy="24" r="1.8" fill="#fff" />
       <circle cx="21.6" cy="22.6" r="1.8" fill="#fff" />
       {children}
@@ -253,7 +253,7 @@ export function TiltedWindow({ children, extra }: { children?: ReactNode; extra?
 function IllustrationTable() {
   return (
     <TiltedWindow>
-      <path d="M30.4 30.4 38.3 57.9M48.5 26.4 55.7 53.5M20.2 47.4 65.1 36.4" stroke="#6c6e79" strokeWidth="1.2" />
+      <path d="M30.4 30.4 38.3 57.9M48.5 26.4 55.7 53.5M20.2 47.4 65.1 36.4" stroke="#6a6c6a" strokeWidth="1.2" />
     </TiltedWindow>
   );
 }
@@ -261,11 +261,11 @@ function IllustrationTable() {
 function IllustrationChart() {
   return (
     <TiltedWindow>
-      <path d="M26 34.5 31.5 58.5 69 50.6" fill="none" stroke="#6c6e79" strokeWidth="1" />
-      <circle cx="57" cy="31" r="7.2" fill="#d9dae0" stroke="#6c6e79" strokeWidth="1.5" />
-      <circle cx="46" cy="47" r="5.6" fill="#d9dae0" stroke="#6c6e79" strokeWidth="1.5" />
-      <path d="m42.6 50.2 6.8-6.6" stroke="#6c6e79" strokeWidth="1.3" />
-      <circle cx="31.5" cy="42.5" r="2.1" fill="#6c6e79" />
+      <path d="M26 34.5 31.5 58.5 69 50.6" fill="none" stroke="#6a6c6a" strokeWidth="1" />
+      <circle cx="57" cy="31" r="7.2" fill="#d9dae0" stroke="#6a6c6a" strokeWidth="1.5" />
+      <circle cx="46" cy="47" r="5.6" fill="#d9dae0" stroke="#6a6c6a" strokeWidth="1.5" />
+      <path d="m42.6 50.2 6.8-6.6" stroke="#6a6c6a" strokeWidth="1.3" />
+      <circle cx="31.5" cy="42.5" r="2.1" fill="#6a6c6a" />
     </TiltedWindow>
   );
 }
@@ -275,12 +275,12 @@ function IllustrationSearch() {
     <TiltedWindow
       extra={
         <>
-          <circle cx="44" cy="33" r="10" fill="#eef0f3" fillOpacity=".85" stroke="#6c6e79" strokeWidth="2.2" />
-          <path d="m50.5 41 6.5 9.5" stroke="#6c6e79" strokeWidth="3.4" strokeLinecap="round" />
+          <circle cx="44" cy="33" r="10" fill="#eef0f3" fillOpacity=".85" stroke="#6a6c6a" strokeWidth="2.2" />
+          <path d="m50.5 41 6.5 9.5" stroke="#6a6c6a" strokeWidth="3.4" strokeLinecap="round" />
         </>
       }
     >
-      <path d="M17 38.5l14-2.8M18.5 44.5l20-4M20 50.5l12-2.4M44 50.5l20-4M45.5 56l12-2.4" stroke="#d3d5db" strokeWidth="2" />
+      <path d="M17 38.5l14-2.8M18.5 44.5l20-4M20 50.5l12-2.4M44 50.5l20-4M45.5 56l12-2.4" stroke="#d4d6d5" strokeWidth="2" />
     </TiltedWindow>
   );
 }
@@ -368,16 +368,16 @@ export function DatabaseSelector<T extends string>({
         {open && (
           <div className="absolute top-[calc(100%+4px)] left-0 z-50 w-[259px] rounded-md bg-white shadow-popover">
             <div className="relative">
-              <SearchIcon className="pointer-events-none absolute top-1/2 left-[10px] -translate-y-1/2 text-[#a9abb6]" />
+              <SearchIcon className="pointer-events-none absolute top-1/2 left-[10px] -translate-y-1/2 text-[#a9abaa]" />
               <input
                 autoFocus
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 placeholder="Search by country"
-                className="h-[36px] w-full rounded-md border-2 border-[#8f9cea] pr-2 pl-[32px] text-[14px] outline-none placeholder:text-[#a9abb6]"
+                className="h-[36px] w-full rounded-md border-2 border-[#8f9cea] pr-2 pl-[32px] text-[14px] outline-none placeholder:text-[#a9abaa]"
               />
             </div>
-            <div className="mt-[2px] max-h-[284px] overflow-y-auto pb-1 [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#c4c7cf]">
+            <div className="mt-[2px] max-h-[284px] overflow-y-auto pb-1 [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#d6d8d7]">
               {topCountries.filter(match).map((c) => row({ ...c, code: c.code }))}
               <div className="border-t border-rk-border" />
               {allCountries.filter(match).map(row)}

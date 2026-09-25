@@ -26,7 +26,7 @@ function Bullets({ items, gap = 7, width = 492 }: { items: string[]; gap?: numbe
     <ul className="flex flex-col text-[18px] leading-7 text-[#2d2f38]" style={{ gap, width }}>
       {items.map((t) => (
         <li key={t} className="relative pl-[18px]">
-          <span className="absolute top-0 left-[1px] text-[#8a8e9b]">•</span>
+          <span className="absolute top-0 left-[1px] text-[#8b8d8c]">•</span>
           {t}
         </li>
       ))}
@@ -109,7 +109,7 @@ function CtaBackground() {
 }
 
 function BrandLogos() {
-  const c = "absolute top-0 flex h-10 -translate-x-1/2 items-center whitespace-nowrap text-[#8a8e9b]";
+  const c = "absolute top-0 flex h-10 -translate-x-1/2 items-center whitespace-nowrap text-[#8b8d8c]";
   return (
     <div className="relative h-10 w-[1127px]">
       <span className={`${c} font-mono text-[26px] tracking-[7px]`} style={{ left: 114 }}>
@@ -126,7 +126,7 @@ function BrandLogos() {
       </span>
       <span className={`${c} gap-1 text-[23px] font-bold`} style={{ left: 837 }}>
         LALIGA
-        <span className="flex h-[24px] w-[24px] items-center justify-center rounded-full bg-[#8a8e9b] text-[8px] font-bold text-white">EA</span>
+        <span className="flex h-[24px] w-[24px] items-center justify-center rounded-full bg-[#8b8d8c] text-[8px] font-bold text-white">EA</span>
       </span>
       <span className={`${c} text-[26px] font-black tracking-[-1.5px]`} style={{ left: 1021 }}>
         Fed<span className="opacity-60">Ex</span>

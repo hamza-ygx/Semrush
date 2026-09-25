@@ -86,13 +86,13 @@ function Summary() {
               bottomH={30}
               x={labels}
               labelClass="text-[13px] leading-4 text-rk-muted"
-              overlay={<div className="absolute top-0 bottom-0 left-0 border-l border-dashed border-[#c4c7cf]" />}
+              overlay={<div className="absolute top-0 bottom-0 left-0 border-l border-dashed border-[#d6d8d7]" />}
             >
               <rect x={VBW * 0.989} width={VBW * 0.011} y={0} height={H} fill="#e9ecee" />
               {on.cited && <Stroke d={smoothPath(pts(s(tpCited), 107, H))} color="#c28bf5" width={2.5} />}
               {on.pages && <Stroke d={smoothPath(pts(s(tpPages), 107, H))} color="#3ed4a4" width={2.5} />}
               {on.traffic && <Stroke d={smoothPath(pts(s(tpTraffic), 132, H))} color="#6167e6" width={2.5} />}
-              <path d={linePath([[0, H], [VBW, H]])} stroke="#c4c7cf" vectorEffect="non-scaling-stroke" />
+              <path d={linePath([[0, H], [VBW, H]])} stroke="#d6d8d7" vectorEffect="non-scaling-stroke" />
             </Plot>
           </div>
         </div>
@@ -116,7 +116,7 @@ function Row({ p }: { p: TopPage }) {
   return (
     <tr className="border-b border-rk-border text-[14px] leading-5">
       <td className="pt-[10px] pl-[32px] align-top">
-        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white shadow-[0_0_0_1px_#e0e1e9,0_1px_2px_rgba(25,27,35,0.12)]">
+        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white shadow-[0_0_0_1px_#e0e2e1,0_1px_2px_rgba(25,27,35,0.12)]">
           <GoogleIcon width={16} height={16} />
         </span>
       </td>
@@ -125,7 +125,7 @@ function Row({ p }: { p: TopPage }) {
           <Link href={routes.organic.pages} className="text-rk-link hover:text-rk-link-hover">
             {p.url}
           </Link>
-          <a href={`https://${p.url}`} target="_blank" rel="noreferrer" aria-label="Open page" className="ml-[4px] inline-block align-[-3px] text-[#a9abb6] hover:text-rk-muted">
+          <a href={`https://${p.url}`} target="_blank" rel="noreferrer" aria-label="Open page" className="ml-[4px] inline-block align-[-3px] text-[#a9abaa] hover:text-rk-muted">
             <ExtIcon width={16} height={16} />
           </a>
         </span>
@@ -164,7 +164,7 @@ function Row({ p }: { p: TopPage }) {
         {p.keyword ? (
           <Link href={`${routes.keywordOverview}?q=${encodeURIComponent(p.keyword)}&db=se`} className="text-rk-link hover:text-rk-link-hover">
             {p.keyword}
-            <SerpIcon width={14} height={14} className="ml-[5px] inline-block align-[-2px] text-[#a9abb6]" />
+            <SerpIcon width={14} height={14} className="ml-[5px] inline-block align-[-2px] text-[#a9abaa]" />
           </Link>
         ) : (
           <span className="text-rk-muted">n/a</span>
@@ -218,7 +218,7 @@ function AllPages() {
               type="button"
               aria-label="Export pages"
               onClick={toggle}
-              className={`inline-flex h-7 items-center gap-[7px] rounded-md border border-[#d3d5db] px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-hover ${open ? "bg-rk-hover" : "bg-[#f7f8f9]"}`}
+              className={`inline-flex h-7 items-center gap-[7px] rounded-md border border-[#d4d6d5] px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-hover ${open ? "bg-rk-hover" : "bg-[#f7f8f9]"}`}
             >
               <ExportIcon width={16} height={16} />
               Export
@@ -233,9 +233,9 @@ function AllPages() {
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
               placeholder="Filter by URL"
-              className="h-7 w-[195px] rounded-l-md border border-[#d3d5db] px-[9px] text-[14px] outline-none placeholder:text-[#8a8e9b] focus:border-[#7a86f2]"
+              className="h-7 w-[195px] rounded-l-md border border-[#d4d6d5] px-[9px] text-[14px] outline-none placeholder:text-[#8b8d8c] focus:border-[#7a86f2]"
             />
-            <button type="button" aria-label="Search" className="flex h-7 w-8 items-center justify-center rounded-r-md border border-l-0 border-[#d3d5db] bg-white text-rk-text-2 hover:bg-rk-bg">
+            <button type="button" aria-label="Search" className="flex h-7 w-8 items-center justify-center rounded-r-md border border-l-0 border-[#d4d6d5] bg-white text-rk-text-2 hover:bg-rk-bg">
               <SearchIcon />
             </button>
           </div>
@@ -271,7 +271,7 @@ function AllPages() {
         </div>
       </div>
       <div
-        className="overflow-x-auto [&::-webkit-scrollbar]:h-[8px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#c4c7cf] [&::-webkit-scrollbar-track]:bg-transparent"
+        className="overflow-x-auto [&::-webkit-scrollbar]:h-[8px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#d6d8d7] [&::-webkit-scrollbar-track]:bg-transparent"
         onScroll={(e) => {
           if (head.current) head.current.scrollLeft = e.currentTarget.scrollLeft;
         }}
@@ -294,7 +294,7 @@ function AllPages() {
       </div>
       <div className="flex h-[69px] items-center gap-[6px] border-t border-rk-border px-5 text-[14px]">
         Page:
-        <input defaultValue="1" className="h-7 w-[66px] rounded-md border border-[#d3d5db] px-[8px] text-[#a9abb6] outline-none" />
+        <input defaultValue="1" className="h-7 w-[66px] rounded-md border border-[#d4d6d5] px-[8px] text-[#a9abaa] outline-none" />
         <span className="ml-[2px]">of 1</span>
       </div>
     </section>

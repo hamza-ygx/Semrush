@@ -59,7 +59,7 @@ function FilterBar() {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Filter by keyword"
-          className="h-7 w-[178px] rounded-l-md border border-[#dfe2e2] bg-white px-2 text-[14px] outline-none placeholder:text-[#8a8e9b] focus:border-[#7a86f2]"
+          className="h-7 w-[178px] rounded-l-md border border-[#dfe2e2] bg-white px-2 text-[14px] outline-none placeholder:text-[#8b8d8c] focus:border-[#7a86f2]"
         />
         <button
           type="button"
@@ -118,7 +118,7 @@ function KeywordTable() {
       type="button"
       onClick={onClick}
       aria-label="Select"
-      className={`flex h-4 w-4 items-center justify-center rounded-[4px] border ${on ? "border-[#2359d6] bg-[#2359d6]" : "border-[#d6d8dd] bg-white"}`}
+      className={`flex h-4 w-4 items-center justify-center rounded-[4px] border ${on ? "border-[#235fe2] bg-[#235fe2]" : "border-[#d6d8dd] bg-white"}`}
     >
       {on && (
         <svg viewBox="0 0 16 16" width={12} height={12}>
@@ -200,7 +200,7 @@ function KeywordTable() {
                 <span className="inline-flex items-center gap-[5px]">
                   Volume
                   <svg viewBox="0 0 16 16" width={14} height={14}>
-                    <path d="M2.5 4h11M2.5 8h7M2.5 12h3.5" stroke="#6c6e79" strokeWidth={1.5} strokeLinecap="round" />
+                    <path d="M2.5 4h11M2.5 8h7M2.5 12h3.5" stroke="#6a6c6a" strokeWidth={1.5} strokeLinecap="round" />
                   </svg>
                 </span>
               </th>
@@ -219,7 +219,7 @@ function KeywordTable() {
                   <td className="pt-[14px] pl-4">{box(sel.has(r.keyword), () => toggle(r.keyword))}</td>
                   <td className="py-[12px] pr-2">
                     <span className="flex items-start gap-[5px]">
-                      <svg viewBox="0 0 16 16" width={16} height={16} className="mt-[2px] shrink-0 text-[#a9abb6]">
+                      <svg viewBox="0 0 16 16" width={16} height={16} className="mt-[2px] shrink-0 text-[#a9abaa]">
                         <circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" strokeWidth={1.3} />
                         <path d="M8 5v6M5 8h6" stroke="currentColor" strokeWidth={1.3} />
                       </svg>
@@ -227,7 +227,7 @@ function KeywordTable() {
                         <Link href={routes.keywordOverview} className="text-rk-link hover:text-rk-link-hover">
                           {r.keyword}
                         </Link>{" "}
-                        <svg viewBox="0 0 16 16" width={16} height={16} className="-mr-4 inline-block align-[-3px] text-[#a9abb6]">
+                        <svg viewBox="0 0 16 16" width={16} height={16} className="-mr-4 inline-block align-[-3px] text-[#a9abaa]">
                           <path d="M2.5 3h11v10h-11zM2.5 7h11" fill="none" stroke="currentColor" strokeWidth={1.4} />
                         </svg>
                       </span>
@@ -354,7 +354,7 @@ export function KeywordGapReport({ q, competitors }: { q: string; competitors: s
               value={kwType}
               onChange={setKwType}
             />
-            <button type="button" className="dotted-underline text-[14px] text-rk-muted decoration-[#a9abb6] hover:text-rk-text">
+            <button type="button" className="dotted-underline text-[14px] text-rk-muted decoration-[#a9abaa] hover:text-rk-text">
               Select keyword type for each domain
             </button>
           </div>

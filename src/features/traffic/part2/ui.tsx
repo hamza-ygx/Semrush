@@ -14,7 +14,7 @@ export function extUrl(u: string) {
 }
 
 const viewDetails =
-  "mt-[21px] inline-flex h-7 items-center rounded-[6px] border border-[#d7d9de] bg-[#f9fafa] px-[8px] text-[14px] leading-5 whitespace-nowrap text-rk-text-2 hover:bg-rk-hover";
+  "mt-[21px] inline-flex h-7 items-center rounded-[6px] border border-[#d8dad9] bg-[#f9fafa] px-[8px] text-[14px] leading-5 whitespace-nowrap text-rk-text-2 hover:bg-rk-hover";
 
 export function InfoMark({ className = "" }: { className?: string }) {
   return (
@@ -68,7 +68,7 @@ export function TrendCard({
 
 function PageCard({ p, color }: { p: GrowingPage; color: string }) {
   return (
-    <div className="h-[144px] w-[250px] shrink-0 rounded-[6px] border border-[#d7d9de] bg-white px-[16px] pt-[16px]">
+    <div className="h-[144px] w-[250px] shrink-0 rounded-[6px] border border-[#d8dad9] bg-white px-[16px] pt-[16px]">
       <div className="flex h-[18px] items-center gap-[6px] text-[13px] leading-[18px]">
         {p.kind === "Spiked" ? (
           <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#00735d]">
@@ -86,7 +86,7 @@ function PageCard({ p, color }: { p: GrowingPage; color: string }) {
         href={extUrl(p.url)}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-[9px] inline-flex h-7 max-w-full items-center gap-[7px] rounded-full bg-[#e8e9ea] px-[9px] text-[14px] leading-5 whitespace-nowrap text-[#6c6e79]"
+        className="mt-[9px] inline-flex h-7 max-w-full items-center gap-[7px] rounded-full bg-[#e8e9ea] px-[9px] text-[14px] leading-5 whitespace-nowrap text-[#6a6c6a]"
       >
         <span>{p.url}</span>
         <ExternalIcon width={16} height={16} className="shrink-0" />
@@ -106,13 +106,13 @@ function PageCard({ p, color }: { p: GrowingPage; color: string }) {
 export function EmptyFound({ className = "" }: { className?: string }) {
   return (
     <div className={`flex flex-col items-center ${className}`}>
-      <svg viewBox="0 0 24 24" width={24} height={24} className="text-[#6c6e79]">
+      <svg viewBox="0 0 24 24" width={24} height={24} className="text-[#6a6c6a]">
         <path d="M20 10V5H4v14h7" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinejoin="round" />
         <circle cx="15.5" cy="15" r="3.5" fill="none" stroke="currentColor" strokeWidth={1.7} />
         <path d="m18 17.6 2.5 2.4" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" />
       </svg>
-      <div className="mt-[9px] text-[16px] leading-6 font-semibold text-[#6c6e79]">Nothing found</div>
-      <div className="mt-[5px] text-[14px] leading-5 text-[#6c6e79]">
+      <div className="mt-[9px] text-[16px] leading-6 font-semibold text-[#6a6c6a]">Nothing found</div>
+      <div className="mt-[5px] text-[14px] leading-5 text-[#6a6c6a]">
         Try changing filters or check your{" "}
         <Link href={routes.traffic.topPages} className="text-rk-link hover:underline">
           Top Pages overview

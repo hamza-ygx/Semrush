@@ -20,7 +20,7 @@ const checkbox = (on: boolean) => (
 );
 
 function SocialIcon({ k }: { k: string }) {
-  const c = { Email: "#6c6e79", Facebook: "#6c6e79", Instagram: "#e1306c", LinkedIn: "#0a66c2", X: "#484a54", Pinterest: "#6c6e79", "Google Business profile": "#6c6e79" }[k] ?? "#6c6e79";
+  const c = { Email: "#6a6c6a", Facebook: "#6a6c6a", Instagram: "#e1306c", LinkedIn: "#0a66c2", X: "#484a49", Pinterest: "#6a6c6a", "Google Business profile": "#6a6c6a" }[k] ?? "#6a6c6a";
   if (k === "LinkedIn") return <span className="text-[15px] leading-none font-bold" style={{ color: c }}>in</span>;
   if (k === "X") return <span className="text-[13px] leading-none" style={{ color: c }}>𝕏</span>;
   return (
@@ -34,7 +34,7 @@ export function RepurposeList({ items, checked, x, y, pitch = 28, bg = PANEL }: 
   return (
     <>
       {items.map((it, i) => (
-        <A key={it} x={x} y={y + i * pitch} h={pitch} className="flex items-center gap-[8px] pl-[8px] text-[13px] whitespace-nowrap text-[#484a54]" style={{ background: checked.includes(it) ? bg : undefined, borderLeft: checked.includes(it) ? "2px solid #484a54" : "2px solid transparent" }}>
+        <A key={it} x={x} y={y + i * pitch} h={pitch} className="flex items-center gap-[8px] pl-[8px] text-[13px] whitespace-nowrap text-[#484a49]" style={{ background: checked.includes(it) ? bg : undefined, borderLeft: checked.includes(it) ? "2px solid #484a49" : "2px solid transparent" }}>
           {checkbox(checked.includes(it))}
           <SocialIcon k={it} />
           {it}
@@ -67,7 +67,7 @@ export function DashboardHero() {
       <DocsChip x={541} y={47} w={174} />
       <A x={142} y={90} w={383} h={280} className="rounded-t-lg bg-white" />
       <TitleKeywords x={180} y={111} h1={155} title="Best Puppy Dry Food Brands" />
-      <A x={162} y={185} className="text-[13px] text-[#a9abb6]">
+      <A x={162} y={185} className="text-[13px] text-[#a9abaa]">
         p
       </A>
       <FoodBag x={180} y={183} />
@@ -76,16 +76,16 @@ export function DashboardHero() {
       <Line x={366} y={206} w={119} />
       <Line x={258} y={226} w={227} />
       <Line x={258} y={245} w={227} />
-      <A x={162} y={256} className="text-[13px] text-[#a9abb6]">
+      <A x={162} y={256} className="text-[13px] text-[#a9abaa]">
         3
       </A>
       <Line x={180} y={265} w={305} />
       <A x={532} y={90} w={227} h={187} className="rounded-lg bg-white px-[12px] pt-[11px] shadow-[0_2px_8px_rgba(60,20,120,0.08)]">
-        <div className="text-[14px] text-[#484a54]">AI SEO Improvements</div>
+        <div className="text-[14px] text-[#484a49]">AI SEO Improvements</div>
         <div className="mt-[4px] flex h-[18px] items-center gap-[4px]">
           <LogoMini />
         </div>
-        <div className="mt-[6px] flex h-[27px] items-center justify-center gap-1 rounded-md border border-[#c9bdf6] bg-[#f6f3fe] text-[13px] text-[#484a54]">
+        <div className="mt-[6px] flex h-[27px] items-center justify-center gap-1 rounded-md border border-[#c9bdf6] bg-[#f6f3fe] text-[13px] text-[#484a49]">
           <Sparkle /> Improve all
         </div>
         <div className="mt-[8px] flex h-[33px] items-center rounded-md border border-[#e3e3ea] border-l-[3px] border-l-[#b9a4f3] pl-[8px] text-[12px] whitespace-nowrap">Show authorship and credentials</div>
@@ -116,7 +116,7 @@ export function DashboardHero() {
         ✓ Ready to rank
       </A>
       <A x={-4} y={212} w={160} h={132} rotate={-2} className="rounded-lg bg-white px-[10px] pt-[14px] shadow-[0_4px_16px_rgba(60,20,120,0.18)]">
-        <div className="text-[14px] text-[#484a54]">SEO Improvements</div>
+        <div className="text-[14px] text-[#484a49]">SEO Improvements</div>
         <div className="mt-[8px] flex items-center gap-2">
           <Gauge size={36} value={0.55} />
           <span className="text-[14px] font-semibold text-[#0a7a5a]">Ready to rank</span>
@@ -124,7 +124,7 @@ export function DashboardHero() {
         <div className="mt-[8px] inline-flex h-[26px] items-center gap-1 rounded-full bg-[#d6f7ea] px-[10px] text-[12px] text-[#0a7a5a]">✓ SEO Boosted!</div>
       </A>
       <A x={157} y={269} w={553} h={65} className="rounded-[16px] p-[2px]" style={{ background: "linear-gradient(90deg,#ff7a3d,#ffb36b 20%,#b9a4f3 60%,#8b5cf6)" }}>
-        <div className="flex h-full items-center rounded-[14px] bg-white pr-[12px] pl-[18px] text-[16px] text-[#6c6e79]">
+        <div className="flex h-full items-center rounded-[14px] bg-white pr-[12px] pl-[18px] text-[16px] text-[#6a6c6a]">
           Ask to generate, optimize or repurpose content..
           <span className="ml-auto flex h-[43px] w-[45px] items-center justify-center rounded-xl bg-[#9361f7] text-white">
             <svg viewBox="0 0 16 16" width={18} height={18}>
@@ -140,8 +140,8 @@ export function DashboardHero() {
 function LogoTileIcon() {
   return (
     <svg viewBox="0 0 24 24" width={16} height={16} aria-hidden>
-      <circle cx="12" cy="12" r="10" fill="none" stroke="#6c6e79" strokeWidth={1.6} />
-      <path d="M6 8l3.5 9 2.5-7 2.5 7L18 8" fill="none" stroke="#6c6e79" strokeWidth={1.5} />
+      <circle cx="12" cy="12" r="10" fill="none" stroke="#6a6c6a" strokeWidth={1.6} />
+      <path d="M6 8l3.5 9 2.5-7 2.5 7L18 8" fill="none" stroke="#6a6c6a" strokeWidth={1.5} />
     </svg>
   );
 }
@@ -194,7 +194,7 @@ export function GeneratorHero() {
       <Toolbar x={229} y={23} w={403} />
       <A x={229} y={73} w={403} h={290} className="rounded-t-lg bg-white" />
       <TitleKeywords x={268} y={107} h1={236} title="Top Puppy Dry Food Picks" />
-      <A x={248} y={175} className="text-[13px] text-[#a9abb6]">
+      <A x={248} y={175} className="text-[13px] text-[#a9abaa]">
         p
       </A>
       <FoodBag x={268} y={180} />
@@ -224,7 +224,7 @@ export function GeneratorHero() {
         </div>
       </A>
       <A x={622} y={176} w={250} h={178} rotate={2} className="rounded-xl bg-white px-[26px] pt-[21px] shadow-[0_4px_16px_rgba(60,20,120,0.18)]">
-        <div className="text-[14px] text-[#484a54]">Overall score</div>
+        <div className="text-[14px] text-[#484a49]">Overall score</div>
         <div className="mt-[10px] flex items-start gap-[12px]">
           <div className="relative">
             <Gauge size={78} value={0.72} />
@@ -236,7 +236,7 @@ export function GeneratorHero() {
             <div className="mt-[7px] h-[7px] rounded-full bg-[#a9ebd3]" />
           </div>
         </div>
-        <div className="mt-[16px] -ml-[8px] flex h-[33px] w-[212px] items-center justify-center gap-2 rounded-md bg-[#f3f3f5] text-[14px] text-[#484a54]">↱ Share</div>
+        <div className="mt-[16px] -ml-[8px] flex h-[33px] w-[212px] items-center justify-center gap-2 rounded-md bg-[#f3f3f5] text-[14px] text-[#484a49]">↱ Share</div>
       </A>
       <A x={27} y={198} w={240} h={170} rotate={-3} className="rounded-xl bg-white px-[20px] pt-[26px] shadow-[0_4px_16px_rgba(60,20,120,0.18)]">
         <div className="flex h-[34px] w-[145px] items-center gap-2 rounded-full border-2 border-[#dcc9fb] px-[12px] text-[12.5px] font-medium">
@@ -285,9 +285,9 @@ export function OptimizerHero() {
         y={23}
         w={580}
         extra={
-          <span className="mr-[60px] ml-[12px] flex items-center gap-2 text-[14px] text-[#6c6e79]">
+          <span className="mr-[60px] ml-[12px] flex items-center gap-2 text-[14px] text-[#6a6c6a]">
             <svg viewBox="0 0 16 16" width={15} height={15} aria-hidden>
-              <path d="M13 8a5 5 0 1 1-2-4M11 1v3h3" fill="none" stroke="#6c6e79" strokeWidth={1.4} />
+              <path d="M13 8a5 5 0 1 1-2-4M11 1v3h3" fill="none" stroke="#6a6c6a" strokeWidth={1.4} />
             </svg>
             AI chat
           </span>
@@ -296,7 +296,7 @@ export function OptimizerHero() {
       <DocsChip x={540} y={31} w={174} />
       <A x={142} y={73} w={383} h={290} className="rounded-t-lg bg-white" />
       <TitleKeywords x={180} y={96} h1={155} title="Best Puppy Dry Food Brands" />
-      <A x={163} y={168} className="text-[13px] text-[#a9abb6]">
+      <A x={163} y={168} className="text-[13px] text-[#a9abaa]">
         p
       </A>
       <FoodBag x={180} y={168} />
@@ -305,11 +305,11 @@ export function OptimizerHero() {
       <Line x={366} y={191} w={119} />
       <Line x={258} y={211} w={227} />
       <Line x={258} y={230} w={227} />
-      <A x={155} y={240} className="text-[13px] text-[#a9abb6]">
+      <A x={155} y={240} className="text-[13px] text-[#a9abaa]">
         h3
       </A>
       <Line x={180} y={250} w={305} />
-      <A x={163} y={262} className="text-[13px] text-[#a9abb6]">
+      <A x={163} y={262} className="text-[13px] text-[#a9abaa]">
         p
       </A>
       <Line x={180} y={269} w={45} />
@@ -317,11 +317,11 @@ export function OptimizerHero() {
       <Line x={180} y={288} w={305} />
       <Line x={180} y={308} w={305} />
       <A x={530} y={73} w={192} h={140} className="rounded-t-lg bg-white px-[16px] pt-[9px]">
-        <div className="text-[14px] text-[#484a54]">SEO content score</div>
+        <div className="text-[14px] text-[#484a49]">SEO content score</div>
         <div className="mt-[4px]">
           <Gauge size={40} value={0.6} />
         </div>
-        <div className="mt-[2px] border-l-2 border-[#ffcf4a] pl-[8px] text-[13px] text-[#6c6e79]">Use target keywords</div>
+        <div className="mt-[2px] border-l-2 border-[#ffcf4a] pl-[8px] text-[13px] text-[#6a6c6a]">Use target keywords</div>
       </A>
       <A x={742} y={32} w={140} h={122} className="rounded-xl pt-[20px] pl-[30px]" style={{ background: PANEL, color: MUTED }}>
         <div className="ml-[18px] text-[15px] font-medium">Images</div>
@@ -342,11 +342,11 @@ export function OptimizerHero() {
         <div className="mt-[8px] ml-[10px]">More...</div>
       </A>
       <A x={484} y={160} w={272} h={210} rotate={-2} className="rounded-xl bg-white px-[20px] pt-[18px] shadow-[0_4px_16px_rgba(60,20,120,0.18)]">
-        <div className="text-[14px] text-[#484a54]">AI SEO Improvements</div>
-        <div className="mt-[8px] flex h-[24px] items-center justify-center gap-1 rounded-md border border-[#c9bdf6] bg-[#f6f3fe] text-[12px] text-[#484a54]">
+        <div className="text-[14px] text-[#484a49]">AI SEO Improvements</div>
+        <div className="mt-[8px] flex h-[24px] items-center justify-center gap-1 rounded-md border border-[#c9bdf6] bg-[#f6f3fe] text-[12px] text-[#484a49]">
           <Sparkle /> Improve all
         </div>
-        <div className="mt-[10px] text-[16px] font-semibold text-[#484a54]">Improvements</div>
+        <div className="mt-[10px] text-[16px] font-semibold text-[#484a49]">Improvements</div>
         <div className="mt-[6px] flex h-[37px] items-center rounded-md border border-[#e3e3ea] border-l-[3px] border-l-[#b9a4f3] pl-[10px] text-[13px]">Show authorship and credentials</div>
         <div className="mt-[8px] flex h-[37px] items-center rounded-md border border-[#e3e3ea] border-l-[3px] border-l-[#b9a4f3] pl-[10px] text-[13px]">Use natural Q&amp;A format</div>
       </A>
@@ -393,7 +393,7 @@ export function TopicHero() {
       </A>
       <A x={130} y={39} w={603} h={340} className="rounded-tl-lg bg-white shadow-[0_2px_12px_rgba(60,20,120,0.1)]" />
       <A x={130} y={39} w={188} h={330} className="border-r border-[#f0eef5]">
-        <div className="px-[9px] pt-[14px] text-[15px] text-[#484a54]">Best-performing topics</div>
+        <div className="px-[9px] pt-[14px] text-[15px] text-[#484a49]">Best-performing topics</div>
         <div className="mt-[6px] border-l-[3px] border-[#2b2e38] bg-[#f5f7fe] px-[7px] pt-[8px] pb-[8px]">
           {tag("Low-hanging fruit")}
           <div className="mt-[4px] text-[13px]">best dog food ratings</div>
@@ -413,7 +413,7 @@ export function TopicHero() {
           </div>
         ))}
       </A>
-      <A x={334} y={58} className="text-[15px] font-medium text-[#6c6e79]">
+      <A x={334} y={58} className="text-[15px] font-medium text-[#6a6c6a]">
         Title ideas for this topic
       </A>
       {[
@@ -423,17 +423,17 @@ export function TopicHero() {
         [281, ""],
         [343, ""],
       ].map(([y, t]) => (
-        <A key={y as number} x={334} y={y as number} w={392} h={49} className="flex items-center rounded-lg bg-[#f7f7f9] px-[12px] text-[12.5px] whitespace-nowrap text-[#484a54]">
+        <A key={y as number} x={334} y={y as number} w={392} h={49} className="flex items-center rounded-lg bg-[#f7f7f9] px-[12px] text-[12.5px] whitespace-nowrap text-[#484a49]">
           {t || <span className="h-[9px] w-[200px] rounded-full bg-[#ececef]" />}
         </A>
       ))}
-      <A x={602} y={223} w={110} h={33} className="flex items-center justify-center gap-2 rounded-md border border-[#d6d8e1] bg-[#ececef] text-[13px] text-[#6c6e79]">
+      <A x={602} y={223} w={110} h={33} className="flex items-center justify-center gap-2 rounded-md border border-[#d6d8e1] bg-[#ececef] text-[13px] text-[#6a6c6a]">
         Start writing <ChevronDown width={12} height={12} />
       </A>
       <A x={528} y={261} w={186} h={96} className="rounded-md bg-white py-[4px] text-[12.5px] shadow-[0_2px_10px_rgba(25,27,35,0.15)]">
         {["Generate article with AI", "Create SEO content brief", "Write article yourself"].map((t, i) => (
           <div key={t} className={`flex h-[29px] items-center gap-2 px-[12px] ${i === 0 ? "border-l-2 border-[#2b2e38] bg-[#f5f7fe]" : ""}`}>
-            <span className="text-[#6c6e79]">{["✦", "▣", "✎"][i]}</span>
+            <span className="text-[#6a6c6a]">{["✦", "▣", "✎"][i]}</span>
             {t}
           </div>
         ))}
@@ -451,7 +451,7 @@ export function TopicHero() {
         <div className="mt-[10px] ml-[6px] h-[5px] w-[282px] rounded-full bg-[#e5d4fb]" />
         <div className="mt-[11px] ml-[6px] h-[5px] w-[282px] rounded-full bg-[#e5d4fb]" />
         <div className="mt-[11px] ml-[6px] h-[5px] w-[84px] rounded-full bg-[#e5d4fb]" />
-        <div className="mt-[14px] ml-[6px] flex gap-[16px] text-[12px] text-[#484a54]">
+        <div className="mt-[14px] ml-[6px] flex gap-[16px] text-[12px] text-[#484a49]">
           <div className="border-r border-[#ececf0] pr-[15px]">
             Keywords
             <div className="mt-[3px] text-[19px] leading-6 font-semibold text-[#2f6fe0]">+15</div>
@@ -480,7 +480,7 @@ export function TopicHero() {
 }
 
 export function BriefHero() {
-  const step = "flex h-[30px] items-center gap-2 rounded-md bg-white px-[10px] text-[12.5px] font-semibold text-[#484a54]";
+  const step = "flex h-[30px] items-center gap-2 rounded-md bg-white px-[10px] text-[12.5px] font-semibold text-[#484a49]";
   return (
     <Frame w={862} h={354} bg="#ab70f8">
       <A x={0} y={0} w={170} h={110} className="rounded-br-xl pl-[4px]" style={{ background: PANEL }}>
@@ -506,30 +506,30 @@ export function BriefHero() {
       </A>
       <A x={187} y={26} w={488} h={340} className="rounded-xl" style={{ background: EDITOR }} />
       <A x={195} y={33} w={472} h={45} className="flex items-center justify-between rounded-lg bg-white px-[8px]">
-        <span className="flex h-[27px] items-center gap-[6px] rounded-full bg-[#ececef] px-[10px] text-[14px] text-[#6c6e79]">
+        <span className="flex h-[27px] items-center gap-[6px] rounded-full bg-[#ececef] px-[10px] text-[14px] text-[#6a6c6a]">
           <span className="h-[11px] w-[15px] bg-[linear-gradient(#b22234_0_14%,#fff_14%_28%,#b22234_28%_42%,#fff_42%_56%,#b22234_56%_70%,#fff_70%_84%,#b22234_84%)]" />
           ⚲ Puppy dry food brands
         </span>
-        <span className="flex h-[27px] items-center gap-[6px] rounded-md bg-[#f3f3f5] px-[10px] text-[14px] text-[#6c6e79]">
+        <span className="flex h-[27px] items-center gap-[6px] rounded-md bg-[#f3f3f5] px-[10px] text-[14px] text-[#6a6c6a]">
           <Sparkle /> Generate SEO article
         </span>
       </A>
       {["Competitors", "General info", "Keywords", "Structure", "Meta info"].map((s, i) => (
         <A key={s} x={195} y={85 + i * 35} w={128} className={step}>
-          <span className="text-[#8a8e9b]">✓</span>
+          <span className="text-[#8b8d8c]">✓</span>
           {s}
         </A>
       ))}
       <A x={195} y={260} w={128} className={`${step} border border-[#c9bdf6]`}>
-        <span className="text-[#8a8e9b]">✓</span>
+        <span className="text-[#8b8d8c]">✓</span>
         Finish and share
       </A>
       <A x={332} y={85} w={335} h={280} className="rounded-t-lg bg-white" />
-      <A x={355} y={104} className="text-[20px] font-semibold text-[#484a54]">
+      <A x={355} y={104} className="text-[20px] font-semibold text-[#484a49]">
         SEO Content Brief
       </A>
       <A x={355} y={150} className="flex items-center gap-2 text-[12.5px]">
-        <span className="text-[#8a8e9b]">⚲</span>
+        <span className="text-[#8b8d8c]">⚲</span>
         <span className="flex h-[25px] items-center gap-[6px] rounded-full bg-[#d9faf1] px-[10px]">
           puppy food <span className="h-[6px] w-[6px] rounded-full bg-[#2fd3a6]" />
         </span>
@@ -538,7 +538,7 @@ export function BriefHero() {
         </span>
       </A>
       {[197, 228, 259].map((y, i) => (
-        <A key={y} x={360} y={y - 9} className="text-[13px] text-[#8a8e9b]">
+        <A key={y} x={360} y={y - 9} className="text-[13px] text-[#8b8d8c]">
           {["T", "◎", "∞"][i]}
         </A>
       ))}
@@ -550,7 +550,7 @@ export function BriefHero() {
         ["H2", 314, 376],
         ["H3", 338, 384],
       ].map(([t, y, x]) => (
-        <A key={t as string} x={(x as number) - 16} y={(y as number) - 8} className="text-[11px] text-[#c4c7cf]">
+        <A key={t as string} x={(x as number) - 16} y={(y as number) - 8} className="text-[11px] text-[#d6d8d7]">
           {t}
         </A>
       ))}
@@ -566,7 +566,7 @@ export function BriefHero() {
         ))}
       </A>
       <A x={449} y={218} w={398} h={108} rotate={2} className="flex items-center gap-[16px] rounded-xl bg-white px-[20px] shadow-[0_4px_16px_rgba(60,20,120,0.18)]">
-        <span className="flex h-[40px] items-center gap-[10px] rounded-md bg-[#f3f3f5] px-[12px] text-[17px] whitespace-nowrap text-[#6c6e79]">
+        <span className="flex h-[40px] items-center gap-[10px] rounded-md bg-[#f3f3f5] px-[12px] text-[17px] whitespace-nowrap text-[#6a6c6a]">
           <svg viewBox="0 0 12 16" width={11} height={14} aria-hidden>
             <path d="M1 1h7l3 3v11H1z" fill="#4c8bf5" />
           </svg>
@@ -582,7 +582,7 @@ export function BriefHero() {
             <span className="h-[7px] rounded-full bg-[#e3e3e8]" style={{ width: [135, 75, 118][i] }} />
           </div>
         ))}
-        <div className="mt-[16px] inline-flex h-[26px] items-center gap-2 rounded-md bg-[#f3f3f5] px-[10px] text-[14px] text-[#484a54]">
+        <div className="mt-[16px] inline-flex h-[26px] items-center gap-2 rounded-md bg-[#f3f3f5] px-[10px] text-[14px] text-[#484a49]">
           <Sparkle /> Keyword suggestions
         </div>
       </A>

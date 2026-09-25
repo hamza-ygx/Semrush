@@ -56,7 +56,7 @@ export function Socioeconomics() {
         <SampleCard title="Summary" info bodyClassName="pt-[19px]">
           <table className="ml-5 w-[1196px] border-collapse text-[14px]">
             <thead>
-              <tr className="h-[34px] border-b border-[#e0e1e9] text-[12px] text-rk-text-2">
+              <tr className="h-[34px] border-b border-[#e0e2e1] text-[12px] text-rk-text-2">
                 <th className="w-[172px] text-left font-normal">Target</th>
                 <th className={`${pair} font-normal`}>Household Size</th>
                 <th className={`${share1} font-normal`}>Share</th>
@@ -70,7 +70,7 @@ export function Socioeconomics() {
             </thead>
             <tbody>
               {socioSummary.map((r, i) => (
-                <tr key={doms[i].name} className={`h-[37px] ${i < 2 ? "border-b border-[#e0e1e9]" : ""}`}>
+                <tr key={doms[i].name} className={`h-[37px] ${i < 2 ? "border-b border-[#e0e2e1]" : ""}`}>
                   <td>
                     <span className="flex items-center gap-[8px] pl-[4px]">
                       <DomainDot color={doms[i].color} size={12} />

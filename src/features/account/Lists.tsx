@@ -18,7 +18,7 @@ export function ActivityLog() {
         <PageTop crumb="Activity log" title="Activity log" variant="plain" />
         <div className="px-8 pt-4">
           <div className="overflow-hidden rounded-lg bg-white shadow-card">
-            <div className={`${cols} h-10 items-center border-b border-[#e8e9ee] bg-[#fafafa] px-3 text-[12px] leading-4 text-rk-text`}>
+            <div className={`${cols} h-10 items-center border-b border-[#e9eaea] bg-[#fafafa] px-3 text-[12px] leading-4 text-rk-text`}>
               <span>Date &amp; Time</span>
               <span>Event Type</span>
               <span>IP</span>
@@ -45,7 +45,7 @@ export function ActivityLog() {
             <button type="button" aria-label="Previous page" disabled={page === 1} onClick={() => setPage(1)} className="flex h-7 w-7 items-center justify-center rounded-md text-rk-muted disabled:opacity-40">
               <ChevronLeft />
             </button>
-            <span className="flex h-7 min-w-7 items-center justify-center rounded-md bg-[#e0e1e9] px-2">{page}</span>
+            <span className="flex h-7 min-w-7 items-center justify-center rounded-md bg-[#e0e2e1] px-2">{page}</span>
             <button type="button" aria-label="Next page" disabled className="flex h-7 w-7 items-center justify-center rounded-md text-rk-muted disabled:opacity-40">
               <ChevronRight />
             </button>

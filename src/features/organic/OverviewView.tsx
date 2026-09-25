@@ -202,8 +202,8 @@ export function useTrendChart({ data, labels, ticks, max, height, pad, notes, go
           <>
             {notes?.map((n) => (
               <g key={n.label}>
-                <line x1={x(n.index)} x2={x(n.index)} y1={pad.top - 10} y2={y(0)} stroke="#a9abb6" strokeDasharray="3 3" />
-                <text transform={`translate(${x(n.index) - 6} ${y(0) - 40}) rotate(-90)`} fontSize="12" fill="#6c6e79">
+                <line x1={x(n.index)} x2={x(n.index)} y1={pad.top - 10} y2={y(0)} stroke="#a9abaa" strokeDasharray="3 3" />
+                <text transform={`translate(${x(n.index) - 6} ${y(0) - 40}) rotate(-90)`} fontSize="12" fill="#6a6c6a">
                   {n.label}
                 </text>
               </g>
@@ -387,14 +387,14 @@ function NothingFound() {
   return (
     <div className="flex flex-col items-center pt-[53px]">
       <svg width="78" height="78" viewBox="0 0 78 78">
-        <path d="M37 1c5 0 7 3 11 3s7-1 10 2 2 6 5 9 7 5 8 9-2 7-1 11 5 7 3 11-6 5-8 8-1 8-5 10-7 0-11 2-6 6-11 6-7-3-11-4-8 1-11-2-2-6-5-9-8-4-9-8 2-7 1-11-4-8-2-12 6-4 8-8 1-8 5-10 7 0 11-2 5-5 10-5z" fill="#e0e1e9" />
+        <path d="M37 1c5 0 7 3 11 3s7-1 10 2 2 6 5 9 7 5 8 9-2 7-1 11 5 7 3 11-6 5-8 8-1 8-5 10-7 0-11 2-6 6-11 6-7-3-11-4-8 1-11-2-2-6-5-9-8-4-9-8 2-7 1-11-4-8-2-12 6-4 8-8 1-8 5-10 7 0 11-2 5-5 10-5z" fill="#e0e2e1" />
         <g transform="rotate(-13 39 40)">
-          <rect x="7.5" y="23" width="60" height="41" rx="3.5" fill="#fff" stroke="#6c6e79" strokeWidth="1.3" />
-          <rect x="10" y="19" width="60" height="41" rx="3.5" fill="#fff" stroke="#6c6e79" strokeWidth="1.5" />
-          <path d="M13.5 19h53a3.5 3.5 0 0 1 3.5 3.5V28H10v-5.5a3.5 3.5 0 0 1 3.5-3.5z" fill="#6c6e79" />
+          <rect x="7.5" y="23" width="60" height="41" rx="3.5" fill="#fff" stroke="#6a6c6a" strokeWidth="1.3" />
+          <rect x="10" y="19" width="60" height="41" rx="3.5" fill="#fff" stroke="#6a6c6a" strokeWidth="1.5" />
+          <path d="M13.5 19h53a3.5 3.5 0 0 1 3.5 3.5V28H10v-5.5a3.5 3.5 0 0 1 3.5-3.5z" fill="#6a6c6a" />
           <circle cx="15" cy="23.5" r="1.6" fill="#fff" />
           <circle cx="20" cy="23.5" r="1.6" fill="#fff" />
-          <path d="M31 28v32M50 28v32M13 44h54" stroke="#6c6e79" strokeWidth="1.2" />
+          <path d="M31 28v32M50 28v32M13 44h54" stroke="#6a6c6a" strokeWidth="1.2" />
         </g>
       </svg>
       <div className="mt-[13px] text-[16px] leading-6 font-semibold text-rk-muted">Nothing found</div>
@@ -441,8 +441,8 @@ function ChangesCard() {
                   <td className="pl-5">
                     <KeywordLink keyword={r.keyword} />
                   </td>
-                  <td className="text-right text-[#a9abb6]">{r.previous ?? <span className="mr-6">·</span>}</td>
-                  <td className="pr-[13px] text-right">{r.current ?? <span className="text-[#a9abb6]">·</span>}</td>
+                  <td className="text-right text-[#a9abaa]">{r.previous ?? <span className="mr-6">·</span>}</td>
+                  <td className="pr-[13px] text-right">{r.current ?? <span className="text-[#a9abaa]">·</span>}</td>
                   <td className="text-right">{r.volume}</td>
                   <td className="pr-5 text-right">{r.traffic}</td>
                 </tr>
@@ -487,7 +487,7 @@ function BrandPresence() {
             </svg>
           </span>
           <span className="ml-[8px] text-[16px] leading-6 font-semibold text-rk-text">Brand Presence in AI Platforms</span>
-          <span className="mx-[9px] h-5 w-px bg-[#c4c7cf]" />
+          <span className="mx-[9px] h-5 w-px bg-[#d6d8d7]" />
           <span className="text-[14px] text-rk-muted">Domain:</span>
           <span className="ml-1 text-[14px] text-rk-muted blur-[4px] select-none">rkjh</span>
         </div>
@@ -586,7 +586,7 @@ function FeatureGrid({ items, linked }: { items: SerpFeature[]; linked: boolean 
         const on = f.count > 0;
         return (
           <div key={f.name} className={`flex items-center gap-[9px] ${on ? "" : "opacity-40"}`}>
-            <span className={`flex h-[31px] w-[31px] shrink-0 items-center justify-center rounded-md bg-[#f4f5f9] ${linked ? "text-rk-link" : "text-[#6c6e79]"}`}>
+            <span className={`flex h-[31px] w-[31px] shrink-0 items-center justify-center rounded-md bg-[#f5f6f6] ${linked ? "text-rk-link" : "text-[#6a6c6a]"}`}>
               <SerpIcon name={f.icon} size={18} />
             </span>
             <span className="min-w-0 text-[12px] leading-[16.5px]">
@@ -755,7 +755,7 @@ function CompetitorsCard() {
               </td>
               <td className="pr-5">
                 <span className="flex items-center justify-end gap-[9px]">
-                  <span className="h-[7px] w-[77px] rounded-full bg-[#eceef2]">
+                  <span className="h-[7px] w-[77px] rounded-full bg-[#edefef]">
                     <span className="block h-full rounded-full bg-[#6167e6]" style={{ width: `${c.level}%` }} />
                   </span>
                   <span className="w-[27px] text-right text-[13px] text-rk-text-2">{c.level}%</span>

@@ -165,9 +165,9 @@ export const tlds = [
   { label: ".com", pct: "56%", v: 148, color: "#6167e6" },
   { label: ".shop", pct: "6%", v: 17, color: "#3ed4a4" },
   { label: ".in", pct: "5%", v: 12, color: "#ffb200" },
-  { label: ".gov", pct: "0%", v: 0, color: "#c4c7cf" },
-  { label: ".edu", pct: "0%", v: 0, color: "#c4c7cf" },
-  { label: "other", pct: "33%", v: 86, color: "#c4c7cf" },
+  { label: ".gov", pct: "0%", v: 0, color: "#d6d8d7" },
+  { label: ".edu", pct: "0%", v: 0, color: "#d6d8d7" },
+  { label: "other", pct: "33%", v: 86, color: "#d6d8d7" },
 ];
 
 export const countries = [

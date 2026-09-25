@@ -54,12 +54,12 @@ function Feedback({ onClose }: { onClose: () => void }) {
     <div className="absolute right-0 bottom-0 left-[344px] z-20 flex h-[73px] items-center border-t border-[#dfe3f0] bg-[#eef2fb] pr-[92px] pl-[18px] text-[14px] text-rk-text">
       <svg viewBox="0 0 32 32" width={32} height={32} className="shrink-0">
         <rect x="2" y="2" width="28" height="28" rx="7" fill="#5cc8f5" />
-        <path d="M11 24v-9c0-1 1.6-1 1.6 0v-5c0-1 1.6-1 1.6 0v-1.5c0-1 1.6-1 1.6 0V10c0-1 1.6-1 1.6 0v7c1-2 3-2.5 3.6-1.5-1 1.5-2 3.5-2.4 5.5-.6 2.2-2 3-4 3z" fill="#fff" stroke="#191b23" strokeWidth={1.3} strokeLinejoin="round" />
+        <path d="M11 24v-9c0-1 1.6-1 1.6 0v-5c0-1 1.6-1 1.6 0v-1.5c0-1 1.6-1 1.6 0V10c0-1 1.6-1 1.6 0v7c1-2 3-2.5 3.6-1.5-1 1.5-2 3.5-2.4 5.5-.6 2.2-2 3-4 3z" fill="#fff" stroke="#1b1e1a" strokeWidth={1.3} strokeLinejoin="round" />
       </svg>
       <span className="ml-[18px]">How would you rate the customization options and Themes?</span>
       <span className="ml-3 flex gap-1">
         {[1, 2, 3, 4, 5].map((n) => (
-          <button key={n} type="button" aria-label={`${n} stars`} onClick={() => setRating(n)} className="text-[#8a8e9b] hover:text-[#ffb400]">
+          <button key={n} type="button" aria-label={`${n} stars`} onClick={() => setRating(n)} className="text-[#8b8d8c] hover:text-[#ffb400]">
             <svg viewBox="0 0 24 24" width={24} height={24}>
               <path
                 d="m12 3 2.7 5.6 6.1.8-4.5 4.2 1.1 6-5.4-2.9-5.4 2.9 1.1-6-4.5-4.2 6.1-.8z"
@@ -140,7 +140,7 @@ export function ConstructorPage() {
             aria-label="Settings"
             onMouseEnter={() => setSettingsHover(true)}
             onMouseLeave={() => setSettingsHover(false)}
-            className="relative flex h-[26px] w-[26px] items-center justify-center rounded-md bg-[#6b6d6d] text-[#191b23] hover:bg-[#7c7e7e]">
+            className="relative flex h-[26px] w-[26px] items-center justify-center rounded-md bg-[#6b6d6d] text-[#1b1e1a] hover:bg-[#7c7e7e]">
             <GearIcon width={17} height={17} />
             <span className="absolute -top-[4px] -right-[4px] h-[9px] w-[9px] rounded-full bg-[#e8811f]" />
           </button>
@@ -169,7 +169,7 @@ export function ConstructorPage() {
               }}
               onMouseEnter={() => setTip(key)}
               onMouseLeave={() => setTip(null)}
-              className={`relative flex h-14 w-14 items-center justify-center ${on ? "bg-white text-[#ff642d]" : "text-[#6c6e79] hover:text-rk-text"} ${key === "themes" ? "h-[55px]" : ""}`}
+              className={`relative flex h-14 w-14 items-center justify-center ${on ? "bg-white text-[#ff642d]" : "text-[#6a6c6a] hover:text-rk-text"} ${key === "themes" ? "h-[55px]" : ""}`}
             >
               <Icon width={24} height={24} className={key === "integrations" ? "-mt-[4px]" : ""} />
               {key === "integrations" && (

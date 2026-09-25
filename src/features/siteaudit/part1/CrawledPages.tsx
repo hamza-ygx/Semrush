@@ -219,7 +219,7 @@ function FilterRow({ filtered }: { filtered: boolean }) {
 
 const statusCls = { 200: "bg-[#d2f7ea] text-[#007c65]", 301: "bg-[#e8e7fb] text-[#5a50c8]", 404: "bg-[#ffdcbc] text-[#a2470b]" };
 
-const Dash = () => <span className="inline-block h-[2px] w-[10px] bg-[#6c6e79] align-middle" />;
+const Dash = () => <span className="inline-block h-[2px] w-[10px] bg-[#6a6c6a] align-middle" />;
 
 function cell(key: string, r: CrawledRow): ReactNode {
   switch (key) {
@@ -231,7 +231,7 @@ function cell(key: string, r: CrawledRow): ReactNode {
           <Link href={pageDetailHref(r.id)} data-testid="sa-page-link" className="break-all text-rk-link hover:text-rk-link-hover">
             {r.url}
           </Link>
-          <a href={r.url} target="_blank" rel="noreferrer" aria-label="Open page" className="mt-[2px] text-[#8a8e9b] hover:text-rk-text-2">
+          <a href={r.url} target="_blank" rel="noreferrer" aria-label="Open page" className="mt-[2px] text-[#8b8d8c] hover:text-rk-text-2">
             <ExtIcon />
           </a>
         </span>
@@ -254,7 +254,7 @@ function cell(key: string, r: CrawledRow): ReactNode {
           ) : r.state === "Broken" ? (
             <XIcon className="text-[#d1002f]" size={15} />
           ) : (
-            <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#8a8e9b]">
+            <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#8b8d8c]">
               <path d="M1.5 12 6 7.5l2.5 2.5L14 4.5M10 4.5h4v4" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           )}
@@ -281,7 +281,7 @@ function ManageColumns({ on, setOn }: { on: string[]; setOn: (v: string[]) => vo
   const { open, ref, toggle } = useToggle();
   return (
     <div ref={ref} className="relative" data-columns>
-      <button type="button" onClick={toggle} className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f4f5f9] pr-[6px] pl-[7px] text-[14px] text-rk-text-2 hover:bg-rk-hover">
+      <button type="button" onClick={toggle} className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f5f6f6] pr-[6px] pl-[7px] text-[14px] text-rk-text-2 hover:bg-rk-hover">
         <CogIcon />
         Manage columns
         <span className="rounded-full border border-rk-border-strong px-[5px] text-[11px] leading-[16px] text-rk-text-2">
@@ -303,7 +303,7 @@ function ManageColumns({ on, setOn }: { on: string[]; setOn: (v: string[]) => vo
             {pageColumns.map((p) => {
               const checked = on.includes(p.key);
               return (
-                <label key={p.key} className={`flex h-8 items-center gap-[10px] px-2 text-[14px] ${p.fixed ? "text-[#a9abb6]" : "cursor-pointer text-rk-text hover:bg-rk-bg"}`}>
+                <label key={p.key} className={`flex h-8 items-center gap-[10px] px-2 text-[14px] ${p.fixed ? "text-[#a9abaa]" : "cursor-pointer text-rk-text hover:bg-rk-bg"}`}>
                   <Checkbox checked={checked} disabled={p.fixed} onChange={() => setOn(checked ? on.filter((k) => k !== p.key) : pageColumns.filter((x) => x.key === p.key || on.includes(x.key)).map((x) => x.key))} />
                   {p.label}
                 </label>
@@ -384,7 +384,7 @@ function PagesTable() {
             {headRow}
           </div>
           {bar && (
-            <div className="pointer-events-none absolute bottom-[3px] left-[325px] h-[5px] rounded-full bg-[#c4c7cf]" style={{ width: bar.w, transform: `translateX(${bar.x}px)` }} />
+            <div className="pointer-events-none absolute bottom-[3px] left-[325px] h-[5px] rounded-full bg-[#d6d8d7]" style={{ width: bar.w, transform: `translateX(${bar.x}px)` }} />
           )}
         </div>
       </div>
@@ -409,7 +409,7 @@ function PagesTable() {
       </div>
       <div className="flex h-[63px] items-center gap-2 border-t border-rk-border px-5 pb-[3px] text-[14px]">
         <span>Page:</span>
-        <input placeholder="1" className="h-7 w-[70px] rounded-md border border-rk-border px-2 outline-none placeholder:text-[#a9abb6]" />
+        <input placeholder="1" className="h-7 w-[70px] rounded-md border border-rk-border px-2 outline-none placeholder:text-[#a9abaa]" />
         <span className="ml-[2px]">of 1</span>
         <div className="ml-[6px]">
           <PageSize value={100} />
@@ -432,7 +432,7 @@ const FolderClosed = () => (
 );
 const FolderEmpty = () => (
   <svg viewBox="0 0 16 16" width={16} height={16} className="shrink-0">
-    <path d="M1.75 3.25h4.4l1.4 1.5h6.7v8.5H1.75z" fill="none" stroke="#8a8e9b" strokeWidth={1.4} strokeLinejoin="round" />
+    <path d="M1.75 3.25h4.4l1.4 1.5h6.7v8.5H1.75z" fill="none" stroke="#8b8d8c" strokeWidth={1.4} strokeLinejoin="round" />
   </svg>
 );
 const Chev = ({ open }: { open: boolean }) => (
@@ -477,7 +477,7 @@ function SiteStructure({ roots }: { roots: Dir[] }) {
     <div className="rounded-lg bg-white pb-3 shadow-card">
       <div className="flex h-[39px] items-center gap-2 pt-[2px] pl-5">
         <h2 className="text-[16px] leading-6 font-semibold">Site Structure</h2>
-        <Info className="text-[#a9abb6]" />
+        <Info className="text-[#a9abaa]" />
       </div>
       <div className="flex h-[45px] items-center border-y border-rk-border bg-[#f7f7f8] pr-5 pl-5 text-[13px] text-rk-text-2">
         Directory

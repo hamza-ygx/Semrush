@@ -12,7 +12,7 @@ const Arrow = () => <span className="ml-[3px]">→</span>;
 
 function DarkButton({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <Link href={href} className="inline-flex h-7 items-center rounded-[6px] bg-[#191b23] px-[9px] text-[14px] leading-5 font-medium text-white hover:bg-[#2b2e38]">
+    <Link href={href} className="inline-flex h-7 items-center rounded-[6px] bg-[#1b1e1a] px-[9px] text-[14px] leading-5 font-medium text-white hover:bg-[#2b2e38]">
       {children}
     </Link>
   );
@@ -55,7 +55,7 @@ function BubbleChart() {
           const checked = on[n] ?? true;
           return (
             <label key={n} className="flex cursor-pointer items-center gap-2">
-              <ColorCheck color={b?.color ?? "#c4c7cf"} checked={checked} label={n} onClick={() => setOn((s) => ({ ...s, [n]: !checked }))} />
+              <ColorCheck color={b?.color ?? "#d6d8d7"} checked={checked} label={n} onClick={() => setOn((s) => ({ ...s, [n]: !checked }))} />
               <span className={b?.you ? "font-semibold" : ""}>{n}</span>
               {b?.you && <YouTag />}
             </label>
@@ -66,22 +66,22 @@ function BubbleChart() {
         <svg width={W} height={380} className="absolute inset-0 overflow-visible">
           {[100, 95, 90, 85, 80, 75].map((t) => (
             <g key={t}>
-              <line x1={80} x2={1032} y1={yScale(t)} y2={yScale(t)} stroke="#e0e1e9" strokeWidth={1} />
-              <text x={62} y={yScale(t) + 4} textAnchor="end" fontSize={12} fill="#6c6e79">
+              <line x1={80} x2={1032} y1={yScale(t)} y2={yScale(t)} stroke="#e0e2e1" strokeWidth={1} />
+              <text x={62} y={yScale(t) + 4} textAnchor="end" fontSize={12} fill="#6a6c6a">
                 {t}
               </text>
             </g>
           ))}
-          <line x1={80} x2={1032} y1={311} y2={311} stroke="#c4c7cf" strokeWidth={1} />
+          <line x1={80} x2={1032} y1={311} y2={311} stroke="#d6d8d7" strokeWidth={1} />
           {[2, 4, 6, 8, 10, 12, 14, 16].map((t) => (
-            <text key={t} x={xScale(t)} y={332} textAnchor="middle" fontSize={12} fill="#6c6e79">
+            <text key={t} x={xScale(t)} y={332} textAnchor="middle" fontSize={12} fill="#6a6c6a">
               {t}
             </text>
           ))}
-          <text x={556} y={360} textAnchor="middle" fontSize={12} fill="#6c6e79">
+          <text x={556} y={360} textAnchor="middle" fontSize={12} fill="#6a6c6a">
             Share of Voice (%)
           </text>
-          <text transform={`translate(33 ${yScale(87.6)}) rotate(-90)`} textAnchor="middle" fontSize={12} fill="#6c6e79">
+          <text transform={`translate(33 ${yScale(87.6)}) rotate(-90)`} textAnchor="middle" fontSize={12} fill="#6a6c6a">
             Sentiment Score (%)
           </text>
           {sovBubbles
@@ -142,7 +142,7 @@ function ShareOfVoice() {
               const checked = on[s.name] ?? true;
               return (
                 <div key={s.name} className="flex items-center">
-                  <ColorCheck color={s.color || "#c4c7cf"} checked={checked} label={s.name} onClick={() => setOn((o) => ({ ...o, [s.name]: !checked }))} />
+                  <ColorCheck color={s.color || "#d6d8d7"} checked={checked} label={s.name} onClick={() => setOn((o) => ({ ...o, [s.name]: !checked }))} />
                   <span className={`ml-2 flex w-[152px] items-center gap-[6px] ${s.you ? "font-semibold" : "text-rk-text-2"}`}>
                     {s.name}
                     {s.you && <YouTag />}
@@ -188,7 +188,7 @@ function HeatCell({ v, leader, className = "" }: { v: number | null; leader?: bo
 function DriverIcons({ className = "" }: { className?: string }) {
   return (
     <span className={`flex items-center gap-[11px] ${className}`}>
-      <button type="button" aria-label="What is this driver" className="text-[#8a8e9b] hover:text-rk-text">
+      <button type="button" aria-label="What is this driver" className="text-[#8b8d8c] hover:text-rk-text">
         <QuestionCircle />
       </button>
       <button type="button" aria-label="Explore driver" className="hover:opacity-80">

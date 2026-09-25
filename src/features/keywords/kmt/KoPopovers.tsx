@@ -94,7 +94,7 @@ export function LocationSelect() {
           >
             Reset location
           </button>
-          <div className="max-h-[233px] overflow-y-auto border-t border-rk-border pt-[8px]" style={{ scrollbarWidth: "thin", scrollbarColor: "#c4c7cf transparent" }}>
+          <div className="max-h-[233px] overflow-y-auto border-t border-rk-border pt-[8px]" style={{ scrollbarWidth: "thin", scrollbarColor: "#d6d8d7 transparent" }}>
             {items.map((l) => (
               <button
                 key={l.name}

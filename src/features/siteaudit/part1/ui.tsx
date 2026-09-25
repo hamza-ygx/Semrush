@@ -72,7 +72,7 @@ export function Checkbox({ checked, disabled, onChange, className = "" }: { chec
       disabled={disabled}
       onClick={onChange}
       className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border ${
-        checked ? (disabled ? "border-[#a9abb6] bg-[#a9abb6]" : "border-rk-text bg-rk-text") : "border-rk-border-strong bg-white"
+        checked ? (disabled ? "border-[#a9abaa] bg-[#a9abaa]" : "border-rk-text bg-rk-text") : "border-rk-border-strong bg-white"
       } ${className}`}
     >
       {checked && (
@@ -108,7 +108,7 @@ export function SelectButton({
       type="button"
       onClick={onClick}
       className={`flex h-7 items-center justify-between gap-1 rounded-md border bg-white px-2 text-[14px] ${
-        open ? "border-[#8e92ec]" : "border-rk-border-strong hover:border-[#a9abb6]"
+        open ? "border-[#8e92ec]" : "border-rk-border-strong hover:border-[#a9abaa]"
       } ${placeholder ? "text-rk-muted" : "text-rk-text"} ${className}`}
     >
       <span className="truncate">{children}</span>
@@ -128,7 +128,7 @@ export function SearchBox({ width = 200, placeholder = "Search", button = true, 
         }`}
       />
       {button && (
-        <button type="button" aria-label="Search" className="-ml-px flex h-7 w-7 items-center justify-center rounded-r-md border border-rk-border-strong bg-[#f4f5f9] text-rk-text-2 hover:bg-rk-hover">
+        <button type="button" aria-label="Search" className="-ml-px flex h-7 w-7 items-center justify-center rounded-r-md border border-rk-border-strong bg-[#f5f6f6] text-rk-text-2 hover:bg-rk-hover">
           <SearchIcon width={15} height={15} />
         </button>
       )}
@@ -141,7 +141,7 @@ export function PageSize({ value }: { value: number }) {
   const [v, setV] = useState(value);
   return (
     <div ref={ref} className="relative">
-      <button type="button" onClick={toggle} className="flex h-7 items-center gap-[6px] rounded-md border border-rk-border-strong bg-white pr-[6px] pl-2 text-[14px] text-rk-text hover:border-[#a9abb6]">
+      <button type="button" onClick={toggle} className="flex h-7 items-center gap-[6px] rounded-md border border-rk-border-strong bg-white pr-[6px] pl-2 text-[14px] text-rk-text hover:border-[#a9abaa]">
         {v}
         <ChevronDown strokeWidth={2.2} width={14} height={14} />
       </button>
@@ -225,14 +225,14 @@ export const ErrorBolt = ({ className = "" }: { className?: string }) => (
 
 export const NoticeIcon = ({ className = "" }: { className?: string }) => (
   <svg viewBox="0 0 16 16" width={16} height={16} className={`shrink-0 ${className}`}>
-    <circle cx="8" cy="8" r="6.5" fill="none" stroke="#8a8e9b" strokeWidth={1.4} />
-    <path d="M8 7.2v4" stroke="#8a8e9b" strokeWidth={1.6} strokeLinecap="round" />
-    <circle cx="8" cy="4.9" r=".95" fill="#8a8e9b" />
+    <circle cx="8" cy="8" r="6.5" fill="none" stroke="#8b8d8c" strokeWidth={1.4} />
+    <path d="M8 7.2v4" stroke="#8b8d8c" strokeWidth={1.6} strokeLinecap="round" />
+    <circle cx="8" cy="4.9" r=".95" fill="#8b8d8c" />
   </svg>
 );
 
 export const AiTag = ({ className = "" }: { className?: string }) => (
-  <span className={`inline-flex h-4 items-center rounded-[4px] bg-gradient-to-r from-[#9a5cff] to-[#b18bff] px-[5px] text-[11px] leading-4 font-semibold text-white ${className}`}>AI Search</span>
+  <span className={`inline-flex h-[14px] items-center rounded-[6px] bg-gradient-to-r from-[#9a5cff] to-[#b18bff] px-1 text-[10px] leading-[14px] font-medium text-white ${className}`}>AI Search</span>
 );
 
 export function BotIcon({ kind }: { kind: "perplexity" | "claude" }) {
@@ -256,4 +256,4 @@ export function BotIcon({ kind }: { kind: "perplexity" | "claude" }) {
 }
 
 export const thinScroll =
-  "[&::-webkit-scrollbar]:w-[8px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-[#c4c7cf] [&::-webkit-scrollbar-thumb]:bg-clip-padding";
+  "[&::-webkit-scrollbar]:w-[8px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-[#d6d8d7] [&::-webkit-scrollbar-thumb]:bg-clip-padding";

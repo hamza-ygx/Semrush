@@ -34,8 +34,8 @@ export function FeaturedTiles() {
                   i === g.length - 1 ? "rounded-r-md" : ""
                 } ${on ? "z-10 border-[#8e9ff0] bg-[#f4f6fe]" : "border-rk-border-strong bg-white hover:bg-rk-bg"}`}
               >
-                <span className="text-[14px] leading-5 whitespace-nowrap text-[#8a8e9b]">{t.key}</span>
-                <span className="mt-[7px] text-[16px] leading-5 text-[#a9abb6]">
+                <span className="text-[14px] leading-5 whitespace-nowrap text-[#8b8d8c]">{t.key}</span>
+                <span className="mt-[7px] text-[16px] leading-5 text-[#a9abaa]">
                   {"color" in t ? (
                     <>
                       <b className={`font-semibold ${t.color}`}>0</b>/0

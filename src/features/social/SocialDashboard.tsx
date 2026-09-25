@@ -53,7 +53,7 @@ export function SocialDashboard() {
           {socialHero.cta}
         </button>
       </div>
-      <p className="mt-2 text-center text-[14px] leading-5 text-[#6c6e79]">{socialHero.note}</p>
+      <p className="mt-2 text-center text-[14px] leading-5 text-[#6a6c6a]">{socialHero.note}</p>
       <div className="relative z-10 mt-[49px] flex justify-center">
         <PeopleArt />
       </div>
@@ -75,7 +75,7 @@ export function SocialDashboard() {
                     {t.avatar && <DrawnAvatar size={72} tone={t.avatar.tone} hair={t.avatar.hair} bg={t.avatar.bg} />}
                     <div>
                       <div className="font-semibold text-rk-text">{t.title}</div>
-                      {t.company && <div className="text-[#6c6e79]">{t.company}</div>}
+                      {t.company && <div className="text-[#6a6c6a]">{t.company}</div>}
                     </div>
                   </figcaption>
                 </figure>

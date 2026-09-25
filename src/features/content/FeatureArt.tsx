@@ -10,9 +10,9 @@ function Generate() {
     <>
       <A x={-10} y={105} w={230} h={168} className="rounded-full bg-[#e8f9d9]" />
       <A x={73} y={18} w={209} h={240} className={`${card} px-[16px] pt-[16px]`}>
-        <div className="text-[13px] font-semibold text-[#484a54]">Brand voice</div>
+        <div className="text-[13px] font-semibold text-[#484a49]">Brand voice</div>
         <div className="mt-[8px] rounded-md bg-[#f3f3f5] px-[10px] py-[7px] text-[12.5px]">🐶 The Puppy POV</div>
-        <div className="mt-[12px] text-[13px] font-semibold text-[#484a54]">Topic</div>
+        <div className="mt-[12px] text-[13px] font-semibold text-[#484a49]">Topic</div>
         <div className="mt-[8px] rounded-md border border-[#e3e3ea] px-[10px] py-[7px] text-[12.5px]">Best puppy dry food</div>
         <div className="mt-[12px] flex items-center gap-2 text-[12.5px]">
           <span className="h-[14px] w-[14px] rounded-[3px] bg-[#8b5cf6]" /> SEO Booster
@@ -33,7 +33,7 @@ function Optimize() {
     <>
       <A x={135} y={14} w={270} h={270} className="rounded-full bg-[#f1ecfd]" />
       <A x={38} y={44} w={307} h={207} className={card}>
-        <div className="absolute top-0 right-0 bottom-0 w-[60px] border-l border-[#ececf0] pt-[18px] text-center text-[11px] text-[#6c6e79]">
+        <div className="absolute top-0 right-0 bottom-0 w-[60px] border-l border-[#ececf0] pt-[18px] text-center text-[11px] text-[#6a6c6a]">
           <div className="text-[18px] leading-5">⚙</div>
           SEO
           <div className="mx-auto mt-[14px] flex h-[28px] w-[28px] items-center justify-center rounded-md bg-[#efeafd] text-[#8b5cf6]">
@@ -41,7 +41,7 @@ function Optimize() {
           </div>
           <div className="text-[#8b5cf6]">AI SEO</div>
           <div className="mt-[14px] text-[18px] leading-5">▣</div>
-          <span className="text-[#c4c7cf]">Images</span>
+          <span className="text-[#d6d8d7]">Images</span>
         </div>
         <div className="px-[12px] pt-[10px] text-[13.5px] font-semibold">AI SEO Improvements</div>
         <div className="mx-[12px] mt-[8px] flex h-[22px] w-[221px] items-center justify-center gap-1 rounded-md border border-[#c9bdf6] bg-[#f6f3fe] text-[11px]">
@@ -69,10 +69,10 @@ function Repurpose() {
     <>
       <A x={168} y={24} w={240} h={240} className="rounded-full bg-[#d3fbee]" />
       <A x={15} y={14} w={233} h={207} className={card} />
-      <A x={28} y={28} className="flex items-center gap-[8px] text-[15px] text-[#484a54]">
+      <A x={28} y={28} className="flex items-center gap-[8px] text-[15px] text-[#484a49]">
         <span className="text-[16px]">▤</span> Article
       </A>
-      <A x={131} y={28} w={107} h={24} className="flex items-center justify-center gap-[6px] rounded-md bg-[#f3f3f5] text-[14px] text-[#6c6e79]">
+      <A x={131} y={28} w={107} h={24} className="flex items-center justify-center gap-[6px] rounded-md bg-[#f3f3f5] text-[14px] text-[#6a6c6a]">
         ⇅ Repurpose
       </A>
       <A x={26} y={76}>
@@ -117,7 +117,7 @@ function Brief() {
     <>
       <A x={130} y={20} w={260} h={260} className="rounded-full bg-[#f1ecfd]" />
       <A x={30} y={30} w={320} h={230} className={`${card} px-[18px] pt-[16px]`}>
-        <div className="text-[17px] font-semibold text-[#484a54]">SEO Content Brief</div>
+        <div className="text-[17px] font-semibold text-[#484a49]">SEO Content Brief</div>
         <div className="mt-[10px] flex gap-2 text-[12px]">
           <span className="rounded-full bg-[#d9faf1] px-[9px] py-[3px]">puppy food</span>
           <span className="rounded-full bg-[#fdf3c9] px-[9px] py-[3px]">puppy kibble brands</span>

@@ -25,7 +25,7 @@ function HealthGauge({ value }: { value: number }) {
     <div className="relative h-[84px] w-[166px]">
       <svg width={166} height={84} viewBox="0 0 166 84">
         <path d={arc(0, value)} fill="none" stroke="#6167e6" strokeWidth={t} />
-        <path d={arc(value + 0.8, 100)} fill="none" stroke="#c4c7cf" strokeWidth={t} />
+        <path d={arc(value + 0.8, 100)} fill="none" stroke="#d6d8d7" strokeWidth={t} />
       </svg>
       <div className="absolute inset-x-0 bottom-[9px] flex flex-col items-center">
         <span className="text-[20px] leading-6 font-semibold text-rk-number">{value}%</span>

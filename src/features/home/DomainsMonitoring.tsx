@@ -29,7 +29,7 @@ function Illustration() {
     <svg viewBox="0 0 300 240" width={300} height={240} className="shrink-0" aria-hidden>
       <defs>
         <filter id="rk-mon-sh" x="-20%" y="-20%" width="140%" height="160%">
-          <feDropShadow dx="0" dy="2" stdDeviation="5" floodColor="#191b23" floodOpacity="0.1" />
+          <feDropShadow dx="0" dy="2" stdDeviation="5" floodColor="#1b1e1a" floodOpacity="0.1" />
         </filter>
       </defs>
       <rect width="300" height="240" fill="#f3f4f4" />

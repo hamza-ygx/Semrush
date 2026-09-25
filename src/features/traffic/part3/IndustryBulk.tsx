@@ -25,10 +25,10 @@ function Form({ locked }: { locked: boolean }) {
       />
       <div className="mt-[16px] flex items-center gap-[8px] text-[14px]">
         Competitors
-        <span className="rounded-full border border-[#d7d9de] px-[5px] text-[10px] leading-[14px] text-rk-muted">{lines.length}/100</span>
+        <span className="rounded-full border border-[#d8dad9] px-[5px] text-[10px] leading-[14px] text-rk-muted">{lines.length}/100</span>
       </div>
       <div className="mt-[9px] flex gap-4">
-        <div className="relative h-[252px] w-[590px] shrink-0 rounded-[6px] border border-[#e0e1e9] bg-white">
+        <div className="relative h-[252px] w-[590px] shrink-0 rounded-[6px] border border-[#e0e2e1] bg-white">
           <div className="pointer-events-none absolute top-[9px] left-[16px] flex flex-col text-[14px] leading-6 text-rk-faint">
             {(text ? shown : [""]).map((_, i) => (
               <span key={i}>{i + 1}.</span>
@@ -39,15 +39,15 @@ function Form({ locked }: { locked: boolean }) {
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="Enter domain, subdomain or subfolder"
-            className="absolute inset-0 resize-none bg-transparent pt-[9px] pl-[32px] text-[14px] leading-6 text-[#a9abb6] outline-none placeholder:text-rk-faint"
+            className="absolute inset-0 resize-none bg-transparent pt-[9px] pl-[32px] text-[14px] leading-6 text-[#a9abaa] outline-none placeholder:text-rk-faint"
           />
         </div>
         <button
           type="button"
           onClick={() => file.current?.click()}
-          className="flex h-[254px] flex-1 flex-col items-center rounded-[6px] border border-dashed border-[#d7d9de] pt-[92px] text-[14px] leading-6 text-[#a9abb6]"
+          className="flex h-[254px] flex-1 flex-col items-center rounded-[6px] border border-dashed border-[#d8dad9] pt-[92px] text-[14px] leading-6 text-[#a9abaa]"
         >
-          <PlusIcon width={20} height={20} className="text-[#a9abb6]" strokeWidth={1.2} />
+          <PlusIcon width={20} height={20} className="text-[#a9abaa]" strokeWidth={1.2} />
           <span className="mt-[4px] font-semibold">
             Drop file here or <span className="text-[#7da3ee]">browse</span>
           </span>
@@ -65,7 +65,7 @@ function Form({ locked }: { locked: boolean }) {
       <button
         type="button"
         disabled={locked || !lines.length}
-        className={`mt-[14px] h-10 rounded-md bg-rk-btn-dark px-[13px] text-[16px] font-semibold text-white hover:bg-[#2b2e38] ${locked ? "disabled:bg-[#767979]" : "disabled:bg-[#c4c7cf]"}`}
+        className={`mt-[14px] h-10 rounded-md bg-rk-btn-dark px-[13px] text-[16px] font-semibold text-white hover:bg-[#2b2e38] ${locked ? "disabled:bg-[#767979]" : "disabled:bg-[#d6d8d7]"}`}
       >
         Analyze
       </button>
@@ -105,7 +105,7 @@ function Results() {
         </thead>
         <tbody>
           {rows.map((r) => (
-            <tr key={r.domain} className="h-[60px] border-b border-[#e0e1e9] last:border-0">
+            <tr key={r.domain} className="h-[60px] border-b border-[#e0e2e1] last:border-0">
               <td className="pl-[12px]">
                 <a href={`https://${r.domain}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-[4px] leading-5 hover:text-rk-link">
                   {r.domain}
@@ -157,7 +157,7 @@ function Promo() {
           </div>
         ))}
       </div>
-      <div className="absolute top-[25px] left-[1040px] flex h-[34px] w-[34px] items-center justify-center rounded-md bg-white text-[28px] leading-none font-bold text-[#191b23]">a</div>
+      <div className="absolute top-[25px] left-[1040px] flex h-[34px] w-[34px] items-center justify-center rounded-md bg-white text-[28px] leading-none font-bold text-[#1b1e1a]">a</div>
       <div className="absolute top-[36px] left-[1091px] text-[20px] font-semibold text-rk-muted">a</div>
       <div className="absolute top-[88px] left-[1038px] text-[44px] leading-none font-medium text-rk-muted">750</div>
     </SampleCard>

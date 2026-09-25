@@ -51,24 +51,24 @@ function TrafficChart({ visible }: { visible: Record<string, boolean> }) {
     <svg width="100%" height={H} viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="block overflow-visible">
       {[0, 50, 100, 150].map((t) => (
         <g key={t}>
-          <line x1={left} x2={W - right} y1={y(t)} y2={y(t)} stroke={t === 0 ? "#e0e1e9" : "#f0f0f4"} />
-          <text x={left - 16} y={y(t) + 4} textAnchor="end" fontSize="12" fill="#6c6e79">
+          <line x1={left} x2={W - right} y1={y(t)} y2={y(t)} stroke={t === 0 ? "#e0e2e1" : "#f0f0f4"} />
+          <text x={left - 16} y={y(t) + 4} textAnchor="end" fontSize="12" fill="#6a6c6a">
             {t}
           </text>
         </g>
       ))}
       {labels.map((i) => (
-        <text key={i} x={i === 0 ? x(i) - 4 : i === 29 ? x(i) + 7 : x(i)} y={bottom + 22} textAnchor={i === 0 ? "start" : i === 29 ? "end" : "middle"} fontSize="12" fill="#6c6e79">
+        <text key={i} x={i === 0 ? x(i) - 4 : i === 29 ? x(i) + 7 : x(i)} y={bottom + 22} textAnchor={i === 0 ? "start" : i === 29 ? "end" : "middle"} fontSize="12" fill="#6a6c6a">
           {trafficDays[i]}
         </text>
       ))}
       {visible.Referral && (
         <>
-          <path d={`M${x(g.from)} ${y(1)}L${x(g.peak)} ${y(g.value)}L${x(g.to)} ${y(1)}`} fill="none" stroke="#c4c7cf" strokeWidth={2} strokeDasharray="5 5" />
+          <path d={`M${x(g.from)} ${y(1)}L${x(g.peak)} ${y(g.value)}L${x(g.to)} ${y(1)}`} fill="none" stroke="#d6d8d7" strokeWidth={2} strokeDasharray="5 5" />
           <circle cx={x(g.peak)} cy={y(g.value)} r={3.5} fill="#3ee3b6" />
         </>
       )}
-      <path d={`M${x(0)} ${y(0.5)}H${x(29)}`} stroke="#8a8e9b" strokeWidth={2.5} strokeDasharray="5 3" opacity={0.6} />
+      <path d={`M${x(0)} ${y(0.5)}H${x(29)}`} stroke="#8b8d8c" strokeWidth={2.5} strokeDasharray="5 3" opacity={0.6} />
       {trafficSeries
         .filter((s) => visible[s.name])
         .map((s) => {
@@ -147,7 +147,7 @@ export function TrafficAnalyticsWidget({ onClose }: { onClose: () => void }) {
           {trafficSeries.map((s) => (
             <label key={s.name} className="flex cursor-pointer items-center gap-2">
               <input type="checkbox" className="sr-only" checked={visible[s.name]} onChange={() => setVisible((v) => ({ ...v, [s.name]: !v[s.name] }))} />
-              <span className="flex h-4 w-4 items-center justify-center rounded-[3px]" style={{ background: visible[s.name] ? s.color : "#fff", border: visible[s.name] ? "none" : "1px solid #c4c7cf" }}>
+              <span className="flex h-4 w-4 items-center justify-center rounded-[3px]" style={{ background: visible[s.name] ? s.color : "#fff", border: visible[s.name] ? "none" : "1px solid #d6d8d7" }}>
                 {visible[s.name] && <CheckIcon width={12} height={12} className="text-white" strokeWidth={2.2} />}
               </span>
               {s.name}

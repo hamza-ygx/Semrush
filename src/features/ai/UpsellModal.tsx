@@ -8,7 +8,7 @@ import { aiButton } from "./landing";
 
 const card = "absolute rounded-[14px] bg-white shadow-[0_4px_24px_rgba(98,94,196,0.12)]";
 
-function Bar({ w, c = "#eceef3", h = 6 }: { w: number; c?: string; h?: number }) {
+function Bar({ w, c = "#edefef", h = 6 }: { w: number; c?: string; h?: number }) {
   return <span className="block rounded-full" style={{ width: w, height: h, background: c }} />;
 }
 
@@ -44,7 +44,7 @@ function LeftArt() {
   return (
     <div className="pointer-events-none absolute inset-y-0 left-0 w-[270px]">
       <div className={`${card} top-[18px] left-[-6px] h-[150px] w-[210px] -rotate-[4deg] px-4 pt-[20px]`}>
-        <div className="text-[14px] text-[#8a8e9b]">Competitor Analysis</div>
+        <div className="text-[14px] text-[#8b8d8c]">Competitor Analysis</div>
         <div className="mt-[12px] flex items-center gap-2">
           <span className="h-[7px] w-[7px] rounded-full bg-[#8fd7f5]" />
           <Bar w={70} />
@@ -60,8 +60,8 @@ function LeftArt() {
         <GoogleIcon width={46} height={46} />
       </div>
       <div className={`${card} top-[158px] left-0 h-[198px] w-[240px] px-5 pt-[20px]`}>
-        <div className="text-[14px] text-[#8a8e9b]">Domain Analytics</div>
-        <div className="mt-[14px] grid grid-cols-2 text-[12px] text-[#8a8e9b]">
+        <div className="text-[14px] text-[#8b8d8c]">Domain Analytics</div>
+        <div className="mt-[14px] grid grid-cols-2 text-[12px] text-[#8b8d8c]">
           <span>Authority Score</span>
           <span>Organic Traffic</span>
         </div>
@@ -79,7 +79,7 @@ function LeftArt() {
         </div>
       </div>
       <div className={`${card} top-[316px] left-0 h-[140px] w-[206px] px-4 pt-[14px]`}>
-        <div className="text-[14px] text-[#8a8e9b]">Site Audit</div>
+        <div className="text-[14px] text-[#8b8d8c]">Site Audit</div>
         <div className="mt-[10px] flex gap-3">
           <svg viewBox="0 0 80 50" width={78} height={48}>
             <path d="M8 46a32 32 0 0 1 64 0" fill="none" stroke="#e8f3fd" strokeWidth={8} />
@@ -141,10 +141,10 @@ function RightArt() {
   return (
     <div className="pointer-events-none absolute inset-y-0 right-[-41px] w-[260px]">
       <div className={`${card} top-[50px] left-[-30px] flex h-[70px] w-[70px] -rotate-[8deg] items-center justify-center`}>
-        <ChatGptIcon width={50} height={50} className="text-[#6c6e79]" />
+        <ChatGptIcon width={50} height={50} className="text-[#6a6c6a]" />
       </div>
       <div className={`${card} top-[18px] left-[28px] h-[150px] w-[240px] rotate-[3deg] px-4 pt-[18px]`}>
-        <div className="text-[14px] text-[#8a8e9b]">Insights</div>
+        <div className="text-[14px] text-[#8b8d8c]">Insights</div>
         {[PieGlyph, SparkUserGlyph].map((G, i) => (
           <div key={i} className="mt-[10px] flex h-[36px] items-center gap-[10px] rounded-lg border border-[#e6e2fb] px-3">
             <G />
@@ -153,7 +153,7 @@ function RightArt() {
         ))}
       </div>
       <div className={`${card} top-[158px] left-[-12px] h-[198px] w-[260px] px-5 pt-[20px]`}>
-        <div className="text-[14px] text-[#8a8e9b]">Brand Perfomance</div>
+        <div className="text-[14px] text-[#8b8d8c]">Brand Perfomance</div>
         <svg viewBox="0 0 240 120" width={240} height={120} className="mt-[4px]">
           {bubbles.map(([cx, cy, r, fill, mark, op]) => (
             <g key={cx}>
@@ -164,7 +164,7 @@ function RightArt() {
         </svg>
       </div>
       <div className={`${card} top-[316px] left-[20px] h-[160px] w-[204px] -rotate-[4deg] px-5 pt-[18px]`}>
-        <div className="text-[14px] text-[#8a8e9b]">AI Visibility Overview</div>
+        <div className="text-[14px] text-[#8b8d8c]">AI Visibility Overview</div>
         <div className="mt-[6px] flex items-start justify-between">
           <Gauge size={120} />
           <div className="flex flex-col gap-[6px] pt-[6px] pr-2">

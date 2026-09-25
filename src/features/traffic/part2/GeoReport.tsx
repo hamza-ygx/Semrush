@@ -73,7 +73,7 @@ function MapCard({ kind }: { kind: Kind }) {
       className="relative"
       extra={
         <div className="flex items-center gap-[23px]">
-          <button type="button" aria-label="Full screen" className="flex h-7 w-7 items-center justify-center rounded-[6px] border border-[#d7d9de] bg-[#f9fafa] text-rk-text-2 hover:bg-rk-hover">
+          <button type="button" aria-label="Full screen" className="flex h-7 w-7 items-center justify-center rounded-[6px] border border-[#d8dad9] bg-[#f9fafa] text-rk-text-2 hover:bg-rk-hover">
             <svg viewBox="0 0 16 16" width={16} height={16}>
               <path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -134,7 +134,7 @@ function TrendCard({ kind }: { kind: Kind }) {
     <SampleCard title="Traffic Trend" bodyClassName="px-5 pt-5 pb-[31px]">
       <div className="flex items-center gap-4">
         <div className="relative">
-          <button type="button" onClick={() => setOpen((o) => !o)} className="flex h-7 items-center gap-[14px] rounded-[6px] border border-[#d7d9de] bg-white pr-[7px] pl-[8px] text-[14px] leading-5 text-rk-text">
+          <button type="button" onClick={() => setOpen((o) => !o)} className="flex h-7 items-center gap-[14px] rounded-[6px] border border-[#d8dad9] bg-white pr-[7px] pl-[8px] text-[14px] leading-5 text-rk-text">
             {t.series.map((s) => (
               <span key={s.name} className={`flex items-center gap-[8px] ${off[s.name] ? "opacity-40" : ""}`}>
                 <span className="h-[10px] w-[10px] rounded-full" style={{ background: s.color }} />
@@ -142,7 +142,7 @@ function TrendCard({ kind }: { kind: Kind }) {
               </span>
             ))}
             <svg viewBox="0 0 16 16" width={16} height={16} className={`-ml-[9px] ${open ? "rotate-180" : ""}`}>
-              <path d="m4 6 4 4 4-4" fill="none" stroke="#191b23" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+              <path d="m4 6 4 4 4-4" fill="none" stroke="#1b1e1a" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
           {open && (
@@ -154,7 +154,7 @@ function TrendCard({ kind }: { kind: Kind }) {
                   onClick={() => setOff((o) => ({ ...o, [s.name]: !o[s.name] }))}
                   className="flex w-full items-center gap-[8px] px-2 py-[6px] text-left text-[14px] hover:bg-rk-bg"
                 >
-                  <span className="flex h-4 w-4 items-center justify-center rounded-[4px] border text-white" style={off[s.name] ? { borderColor: "#c4c7cf" } : { background: s.color, borderColor: s.color }}>
+                  <span className="flex h-4 w-4 items-center justify-center rounded-[4px] border text-white" style={off[s.name] ? { borderColor: "#d6d8d7" } : { background: s.color, borderColor: s.color }}>
                     {!off[s.name] && (
                       <svg viewBox="0 0 16 16" width={14} height={14}>
                         <path d="m4.5 8.3 2.3 2.3 4.7-4.9" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />

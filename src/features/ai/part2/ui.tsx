@@ -26,9 +26,9 @@ export function SparkleIcon() {
 export function AnswersIcon({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 18 18" width={18} height={18} aria-hidden className={`shrink-0 ${className}`}>
-      <path d="M13.6 9.6A5.3 5.3 0 1 1 9.4 4" fill="none" stroke="#2359d6" strokeWidth={1.7} strokeLinecap="round" />
-      <path d="M4.6 13.6 3.3 15.6l2.7-.6" fill="none" stroke="#2359d6" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M13.4 2.2v3.4M11.7 3.9h3.4" stroke="#2359d6" strokeWidth={1.7} strokeLinecap="round" />
+      <path d="M13.6 9.6A5.3 5.3 0 1 1 9.4 4" fill="none" stroke="#235fe2" strokeWidth={1.7} strokeLinecap="round" />
+      <path d="M4.6 13.6 3.3 15.6l2.7-.6" fill="none" stroke="#235fe2" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M13.4 2.2v3.4M11.7 3.9h3.4" stroke="#235fe2" strokeWidth={1.7} strokeLinecap="round" />
     </svg>
   );
 }
@@ -36,8 +36,8 @@ export function AnswersIcon({ className = "" }: { className?: string }) {
 export function ShieldIcon() {
   return (
     <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden className="shrink-0">
-      <path d="M8 1.8 13 3.6v4c0 3-2.1 5.4-5 6.6-2.9-1.2-5-3.6-5-6.6v-4z" fill="none" stroke="#191b23" strokeWidth={1.5} strokeLinejoin="round" />
-      <path d="m5.6 7.9 1.7 1.7 3.2-3.2" fill="none" stroke="#191b23" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M8 1.8 13 3.6v4c0 3-2.1 5.4-5 6.6-2.9-1.2-5-3.6-5-6.6v-4z" fill="none" stroke="#1b1e1a" strokeWidth={1.5} strokeLinejoin="round" />
+      <path d="m5.6 7.9 1.7 1.7 3.2-3.2" fill="none" stroke="#1b1e1a" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -45,9 +45,9 @@ export function ShieldIcon() {
 export function BulbIcon() {
   return (
     <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden className="shrink-0">
-      <path d="M8 1.6a5 5 0 0 0-3 9c.6.5.9 1 .9 1.7h4.2c0-.7.3-1.2.9-1.7a5 5 0 0 0-3-9z" fill="none" stroke="#191b23" strokeWidth={1.5} strokeLinejoin="round" />
-      <path d="M6.2 14.6h3.6" stroke="#191b23" strokeWidth={1.5} strokeLinecap="round" />
-      <path d="M8.6 4.6 6.9 7.4h2.2L7.4 10.2" fill="none" stroke="#191b23" strokeWidth={1.3} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M8 1.6a5 5 0 0 0-3 9c.6.5.9 1 .9 1.7h4.2c0-.7.3-1.2.9-1.7a5 5 0 0 0-3-9z" fill="none" stroke="#1b1e1a" strokeWidth={1.5} strokeLinejoin="round" />
+      <path d="M6.2 14.6h3.6" stroke="#1b1e1a" strokeWidth={1.5} strokeLinecap="round" />
+      <path d="M8.6 4.6 6.9 7.4h2.2L7.4 10.2" fill="none" stroke="#1b1e1a" strokeWidth={1.3} strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -55,9 +55,9 @@ export function BulbIcon() {
 export function WarnIcon() {
   return (
     <svg viewBox="0 0 16 16" width={18} height={18} aria-hidden className="shrink-0">
-      <path d="M8 1.8 15 14H1z" fill="none" stroke="#484a54" strokeWidth={1.4} strokeLinejoin="round" />
-      <path d="M8 6.2v3.6" stroke="#484a54" strokeWidth={1.5} strokeLinecap="round" />
-      <circle cx="8" cy="11.8" r=".9" fill="#484a54" />
+      <path d="M8 1.8 15 14H1z" fill="none" stroke="#484a49" strokeWidth={1.4} strokeLinejoin="round" />
+      <path d="M8 6.2v3.6" stroke="#484a49" strokeWidth={1.5} strokeLinecap="round" />
+      <circle cx="8" cy="11.8" r=".9" fill="#484a49" />
     </svg>
   );
 }
@@ -155,7 +155,7 @@ export function CheckBox({ color, on, onClick, label, bold, you, muted, testid }
     <button type="button" data-testid={testid} onClick={onClick} className="flex items-center gap-2 text-[14px] leading-5 whitespace-nowrap">
       <span
         className="flex h-4 w-4 shrink-0 items-center justify-center rounded-[4px] border"
-        style={on ? { background: color, borderColor: color } : { background: "#fff", borderColor: "#e0e1e9" }}
+        style={on ? { background: color, borderColor: color } : { background: "#fff", borderColor: "#e0e2e1" }}
       >
         {on && (
           <svg viewBox="0 0 16 16" width={12} height={12} aria-hidden>
@@ -214,14 +214,14 @@ export function TrendChart({
     <svg viewBox={`0 0 ${width} ${height}`} width="100%" className="block overflow-visible" aria-hidden>
       {ticks.map((t) => (
         <g key={t}>
-          <line x1={L} x2={L + W} y1={y(t)} y2={y(t)} stroke={t === 0 ? "#e0e1e9" : "#f0f0f3"} />
-          <text x={L - 17} y={y(t) + 4} textAnchor="end" fontSize="12" fill="#6c6e79">
+          <line x1={L} x2={L + W} y1={y(t)} y2={y(t)} stroke={t === 0 ? "#e0e2e1" : "#f0f1f1"} />
+          <text x={L - 17} y={y(t) + 4} textAnchor="end" fontSize="12" fill="#6a6c6a">
             {format(t)}
           </text>
         </g>
       ))}
       {ticksX.map((t) => (
-        <text key={t.label} x={L + t.at * W} y={top + H + 22} textAnchor="middle" fontSize="12" fill="#6c6e79">
+        <text key={t.label} x={L + t.at * W} y={top + H + 22} textAnchor="middle" fontSize="12" fill="#6a6c6a">
           {t.label}
         </text>
       ))}
@@ -267,7 +267,7 @@ export function PlatformBars({
     <div className="relative mt-[25px] ml-[129px]" style={{ height: plotH + 38 }}>
       <div className="absolute inset-x-0 top-0 border-b border-[#e2e2e2]" style={{ height: plotH }}>
         {ticks.map((t) => (
-          <div key={t} className="absolute top-0 bottom-0 w-px bg-[#f0f0f3]" style={{ left: (t / max) * PW }} />
+          <div key={t} className="absolute top-0 bottom-0 w-px bg-[#f0f1f1]" style={{ left: (t / max) * PW }} />
         ))}
         {all.map((r, i) => {
           const blockH = 4 * bar + 3 * gap;
@@ -278,7 +278,7 @@ export function PlatformBars({
                 <Dot color={r.color} size={10} />
                 <span className={"you" in r && r.you ? "font-semibold" : ""}>{r.name}</span>
                 {r.name === "Other" && (
-                  <span className="ml-[1px] inline-flex h-[11px] w-[20px] items-center rounded-full border border-[#c4c7cf] bg-[#e0e1e9] px-[1px]">
+                  <span className="ml-[1px] inline-flex h-[11px] w-[20px] items-center rounded-full border border-[#d6d8d7] bg-[#e0e2e1] px-[1px]">
                     <span className="h-[7px] w-[7px] rounded-full bg-white" />
                   </span>
                 )}
@@ -317,7 +317,7 @@ export function PlatformLegend({ enabled, setEnabled }: { enabled: boolean[]; se
         <CheckBox key={it.label} color={it.color} on={enabled[i]} label={it.label} onClick={() => setEnabled(enabled.map((e, k) => (k === i ? !e : e)))} />
       ))}
       <span className="flex items-center gap-2 text-[14px] leading-5 text-rk-faint">
-        <span className="h-4 w-4 rounded-[4px] border border-[#eceef2] bg-white" />
+        <span className="h-4 w-4 rounded-[4px] border border-[#edefef] bg-white" />
         Perplexity
         <span className="-ml-[6px]">
           <WarnIcon />
@@ -361,7 +361,7 @@ export function SentimentPill({ value }: { value: number }) {
 }
 
 export function NoData() {
-  return <span className="inline-block h-[3px] w-[3px] rounded-full bg-[#a9abb6] align-middle" />;
+  return <span className="inline-block h-[3px] w-[3px] rounded-full bg-[#a9abaa] align-middle" />;
 }
 
 const tf: Record<Timeframe, string> = {
@@ -457,7 +457,7 @@ export function FilterSelect({ label, options, testid }: { label: string; option
         >
           {value ?? label}
           <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden className={open ? "rotate-180" : ""}>
-            <path d="m4 6 4 4 4-4" fill="none" stroke="#191b23" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+            <path d="m4 6 4 4 4-4" fill="none" stroke="#1b1e1a" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
       )}

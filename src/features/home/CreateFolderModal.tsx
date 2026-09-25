@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Modal } from "@/components/ui/Modal";
 
-const input = "h-10 w-[360px] rounded-md border bg-white px-3 text-[16px] outline-none placeholder:text-[#8a8e9b]";
+const input = "h-10 w-[360px] rounded-md border bg-white px-3 text-[16px] outline-none placeholder:text-[#8b8d8c]";
 
 function Tag({ x, y, w, label }: { x: number; y: number; w: number; label: string }) {
   return (
@@ -73,7 +73,7 @@ export function CreateFolderModal({ open, onClose }: { open: boolean; onClose: (
         <h2 className="text-[24px] leading-8 font-semibold">Create folder</h2>
         <label className="mt-[18px] flex items-center gap-[6px] text-[16px] leading-6">
           Website
-          <span className="font-serif text-[14px] text-[#a9abb6] italic">i</span>
+          <span className="font-serif text-[14px] text-[#a9abaa] italic">i</span>
         </label>
         <input
           autoFocus

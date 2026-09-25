@@ -27,7 +27,7 @@ export function FeatureRow({ f, flip }: { f: Feature; flip: boolean }) {
       <ul className="mt-[22px] space-y-4 text-[15px] leading-6 text-rk-text">
         {f.bullets.map((b) => (
           <li key={b} className="relative pl-[21px]">
-            <span className="absolute top-[9px] left-[6px] h-[5px] w-[5px] rounded-full bg-[#6c6e79]" />
+            <span className="absolute top-[9px] left-[6px] h-[5px] w-[5px] rounded-full bg-[#6a6c6a]" />
             {b}
           </li>
         ))}
@@ -57,7 +57,7 @@ export function PrLanding({ page, children }: { page: Landing; children?: ReactN
     <div className="pb-[155px]">
       <PrHero title={page.title} subtitle={page.subtitle} className={page.price ? "pt-[143px] pb-[143px]" : "pt-[143px] pb-[144px]"}>
         <TrialButton className="mt-[33px]" />
-        {page.price && <div className="mt-3 text-[16px] leading-6 text-[#484a54]">{page.price}</div>}
+        {page.price && <div className="mt-3 text-[16px] leading-6 text-[#484a49]">{page.price}</div>}
       </PrHero>
       {children}
       <FeatureList features={page.features} gap={page.gap} />

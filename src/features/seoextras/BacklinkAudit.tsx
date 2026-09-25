@@ -13,7 +13,7 @@ function Callout({ title, children, className }: { title: string; children: Reac
   return (
     <div className={`absolute z-10 bg-white px-4 pt-[13px] pb-[14px] shadow-[0_2px_10px_rgba(25,27,35,0.10)] ${className}`}>
       <div className="text-[14px] leading-5 text-[#8e44d8]">{title}</div>
-      <div className="mt-[3px] text-[12px] leading-4 text-[#191b23]">{children}</div>
+      <div className="mt-[3px] text-[12px] leading-4 text-[#1b1e1a]">{children}</div>
     </div>
   );
 }
@@ -62,7 +62,7 @@ function Stat({ label, value }: { label: string; value: string }) {
 const Chip = ({ children, tone, small }: { children: ReactNode; tone: "money" | "text" | "branded"; small?: boolean }) => (
   <span
     className={`inline-flex items-center gap-[5px] rounded-full ${small ? "h-[18px] px-[9px] text-[11px]" : "h-[23px] px-[11px] text-[13px]"} ${
-      tone === "money" ? "bg-[#ffe6ec] text-[#f06c86]" : tone === "branded" ? "bg-[#f1f2f5] text-[#8a8e9b]" : "border border-[#d6d8de] text-[#a9abb6]"
+      tone === "money" ? "bg-[#ffe6ec] text-[#f06c86]" : tone === "branded" ? "bg-[#f1f2f5] text-[#8b8d8c]" : "border border-[#d6d8de] text-[#a9abaa]"
     }`}
   >
     {children}
@@ -76,7 +76,7 @@ const Chip = ({ children, tone, small }: { children: ReactNode; tone: "money" | 
 
 const ActionBtn = ({ kind }: { kind: "doc" | "send" | "ban" }) => (
   <span
-    className={`flex h-[44px] w-[44px] items-center justify-center rounded-md ${kind === "doc" ? "border border-[#c4c7cf] bg-[#f4f5f9] text-[#8a8e9b]" : "text-white"}`}
+    className={`flex h-[44px] w-[44px] items-center justify-center rounded-md ${kind === "doc" ? "border border-[#d6d8d7] bg-[#f5f6f6] text-[#8b8d8c]" : "text-white"}`}
     style={kind === "doc" ? undefined : { background: SKY }}
   >
     <svg viewBox="0 0 20 20" width={20} height={20}>
@@ -145,7 +145,7 @@ function Hero() {
           </div>
         </div>
         <div className="absolute top-[227px] left-[26px] w-[814px] overflow-hidden rounded-md bg-white shadow-[0_2px_6px_rgba(25,27,35,0.05)]">
-          <div className="flex h-[42px] items-center bg-[#f4f5f8] text-[13px] text-[#6c6e79]">
+          <div className="flex h-[42px] items-center bg-[#f4f5f8] text-[13px] text-[#6a6c6a]">
             <span className="flex h-full w-[167px] items-center border-r-2 border-white pl-5">Page Title and URL</span>
             <span className="flex h-full w-[178px] items-center border-r-2 border-white pl-5">Anchor</span>
             <span className="flex h-full w-[160px] items-center gap-[6px] border-r-2 border-white pl-[22px]">
@@ -156,8 +156,8 @@ function Hero() {
             <span className="flex h-full flex-1 items-center justify-end pr-5">Actions</span>
           </div>
           <div className="flex h-[73px] items-start pt-[17px] text-[13px]">
-            <span className="flex w-[167px] gap-2 pl-5 leading-[19px] text-[#6c6e79]">
-              <svg viewBox="0 0 16 16" width={16} height={16} className="mt-[3px] shrink-0 text-[#c4c7cf]">
+            <span className="flex w-[167px] gap-2 pl-5 leading-[19px] text-[#6a6c6a]">
+              <svg viewBox="0 0 16 16" width={16} height={16} className="mt-[3px] shrink-0 text-[#d6d8d7]">
                 <path d="M7 9.5 9.5 7M7.3 5.1l1-1a2.6 2.6 0 0 1 3.7 3.7l-1 1M8.7 11l-1 1a2.6 2.6 0 0 1-3.7-3.7l1-1" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" />
               </svg>
               <span>
@@ -170,7 +170,7 @@ function Hero() {
               <Chip tone="money">Money</Chip>
               <Chip tone="text">Text</Chip>
             </span>
-            <span className="w-[160px] pr-[25px] text-right text-[20px] font-semibold text-[#c4c7cf]">139</span>
+            <span className="w-[160px] pr-[25px] text-right text-[20px] font-semibold text-[#d6d8d7]">139</span>
             <span className="flex w-[124px] items-center gap-2 pl-[57px] text-[20px] font-semibold" style={{ color: PINK }}>
               87
               <svg viewBox="0 0 12 12" width={12} height={12}>
@@ -197,7 +197,7 @@ function Frame({ children, className = "" }: { children: ReactNode; className?: 
 
 function AuditArt() {
   const row = (anchor: "branded" | "money", traffic: string, score: number, color: string) => (
-    <div className="flex h-[98px] border-t border-[#eceef2] pt-[18px] text-[12px]">
+    <div className="flex h-[98px] border-t border-[#edefef] pt-[18px] text-[12px]">
       <div className="w-[125px] pl-4">
         <Skel w={88} />
         <Skel w={38} className="mt-2" />
@@ -206,10 +206,10 @@ function AuditArt() {
       <div className="w-[104px] space-y-[8px] pl-[14px]">
         <Chip small tone={anchor}>{anchor === "money" ? "Money" : "Branded"}</Chip>
         <div>
-          <span className="inline-flex h-[18px] items-center rounded-full border border-[#dcdee3] px-[9px] text-[11px] text-[#a9abb6]">Text</span>
+          <span className="inline-flex h-[18px] items-center rounded-full border border-[#dcdee3] px-[9px] text-[11px] text-[#a9abaa]">Text</span>
         </div>
       </div>
-      <div className="w-[94px] pr-4 text-right text-[16px] font-semibold text-[#a9abb6]">{traffic}</div>
+      <div className="w-[94px] pr-4 text-right text-[16px] font-semibold text-[#a9abaa]">{traffic}</div>
       <div className="flex w-[76px] items-start justify-end gap-1 pr-4 text-[16px] font-semibold" style={{ color }}>
         {score}
         <svg viewBox="0 0 12 12" width={11} height={11} className="mt-[5px]">
@@ -221,10 +221,10 @@ function AuditArt() {
   return (
     <Frame>
       <div className="absolute top-[33px] left-[30px] w-[420px] bg-white">
-        <div className="flex h-[50px] items-center border-b border-[#eceef2] text-[11px] leading-4 text-[#484a54]">
+        <div className="flex h-[50px] items-center border-b border-[#edefef] text-[11px] leading-4 text-[#484a49]">
           <span className="w-[125px] pl-4">Page Title and URL</span>
-          <span className="flex h-full w-[104px] items-center border-l border-[#eceef2] pl-[14px]">Anchor</span>
-          <span className="flex h-full w-[94px] items-center justify-end gap-1 border-l border-[#eceef2] pr-4 text-right">
+          <span className="flex h-full w-[104px] items-center border-l border-[#edefef] pl-[14px]">Anchor</span>
+          <span className="flex h-full w-[94px] items-center justify-end gap-1 border-l border-[#edefef] pr-4 text-right">
             <TrafficGlyph />
             <span>
               Refferal
@@ -232,7 +232,7 @@ function AuditArt() {
               Traffic
             </span>
           </span>
-          <span className="flex h-full w-[76px] items-center justify-end border-l border-[#eceef2] pr-4 text-right">
+          <span className="flex h-full w-[76px] items-center justify-end border-l border-[#edefef] pr-4 text-right">
             Toxicity
             <br />
             Score
@@ -253,10 +253,10 @@ function DisavowArt() {
   return (
     <Frame>
       <div className="absolute top-[31px] left-[30px] h-[260px] w-[160px] bg-white text-[11px]">
-        <div className="px-4 pt-[13px] pb-[9px] text-[14px] font-medium text-[#484a54]">Remove</div>
+        <div className="px-4 pt-[13px] pb-[9px] text-[14px] font-medium text-[#484a49]">Remove</div>
         <div className="flex">
           <div className="h-[200px] w-[114px] bg-[#f4f5f8]">
-            <div className="h-[62px] bg-[#e8e9ef] px-4 pt-[9px] leading-[14px] text-[#6c6e79]">
+            <div className="h-[62px] bg-[#e8e9ef] px-4 pt-[9px] leading-[14px] text-[#6a6c6a]">
               Source Domain, Anchor Text, Status
             </div>
             <div className="px-4 pt-5">
@@ -269,20 +269,20 @@ function DisavowArt() {
                     <span className="h-[2px] w-[16px] bg-[#12c78b]" />
                   </span>
                 ))}
-                <span className="h-[9px] w-[9px] rounded-full border-2 border-[#c4c7cf]" />
+                <span className="h-[9px] w-[9px] rounded-full border-2 border-[#d6d8d7]" />
               </div>
               <span className="mt-[21px] flex h-[25px] w-[86px] items-center justify-center rounded-sm bg-[#1bc68b] text-[12px] text-white">Send email</span>
             </div>
           </div>
           <div className="pt-[13px] pl-4">
-            <div className="h-[28px] w-[40px] rounded-[3px] border border-[#e0e1e9]" />
-            <div className="mt-[11px] h-[28px] w-[40px] rounded-[3px] border border-[#e0e1e9]" />
+            <div className="h-[28px] w-[40px] rounded-[3px] border border-[#e0e2e1]" />
+            <div className="mt-[11px] h-[28px] w-[40px] rounded-[3px] border border-[#e0e2e1]" />
           </div>
         </div>
       </div>
       <div className="absolute top-[51px] left-[178px] h-[228px] w-[251px] rounded-l-md bg-white text-[11px] shadow-[0_2px_10px_rgba(25,27,35,0.08)]">
-        <div className="px-4 pt-[12px] pb-[8px] text-[14px] font-medium text-[#484a54]">Disavow</div>
-        <div className="flex h-[32px] items-center bg-[#f4f5f8] text-[#6c6e79]">
+        <div className="px-4 pt-[12px] pb-[8px] text-[14px] font-medium text-[#484a49]">Disavow</div>
+        <div className="flex h-[32px] items-center bg-[#f4f5f8] text-[#6a6c6a]">
           <span className="w-[118px] border-r border-white pl-4">URL</span>
           <span className="pl-4">Disavowed</span>
         </div>
@@ -296,7 +296,7 @@ function DisavowArt() {
               <Skel w={90} />
               {k !== "check" && <Skel w={62} className="mt-[5px]" />}
             </div>
-            <div className="flex items-center gap-[6px] pl-[18px] leading-[14px] whitespace-pre text-[#484a54]">
+            <div className="flex items-center gap-[6px] pl-[18px] leading-[14px] whitespace-pre text-[#484a49]">
               <svg viewBox="0 0 16 16" width={16} height={16} className="shrink-0">
                 {k === "check" && <path d="m3 8.5 3 3 7-7" fill="none" stroke="#12c78b" strokeWidth={1.8} strokeLinecap="round" />}
                 {k === "export" && <path d="M6 3H3v10h3M7 8h7M11 5l3 3-3 3" fill="none" stroke="#2bb3ff" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />}
@@ -330,7 +330,7 @@ function ImportArt() {
             </svg>
             Import backlinks
           </span>
-          <span className="flex h-[26px] items-center gap-[6px] rounded-[3px] border border-[#c4c7cf] bg-[#eef0f3] px-[9px] text-[12px] font-medium text-[#484a54]">
+          <span className="flex h-[26px] items-center gap-[6px] rounded-[3px] border border-[#d6d8d7] bg-[#eef0f3] px-[9px] text-[12px] font-medium text-[#484a49]">
             <span className="text-[16px] leading-none">+</span>
             Integrations
           </span>
@@ -354,9 +354,9 @@ function ImportArt() {
           <TrafficGlyph />
           Google Analytics
         </div>
-        <div className="mt-[2px] text-[10px] text-[#a9abb6]">{account.email}</div>
+        <div className="mt-[2px] text-[10px] text-[#a9abaa]">{account.email}</div>
         <div className="mt-[14px]">Google Search Console</div>
-        <div className="mt-[2px] text-[10px] text-[#a9abb6]">{brand.domain}</div>
+        <div className="mt-[2px] text-[10px] text-[#a9abaa]">{brand.domain}</div>
         <div className="mt-[14px]">Majestic</div>
         <div className="mt-[20px] flex items-center gap-2 text-[#008ff8]">
           <span className="text-[16px] leading-none">+</span>
@@ -377,12 +377,12 @@ function MonitorArt() {
   return (
     <Frame>
       <div className="absolute top-[34px] left-[30px] h-[260px] w-[400px] rounded-l-md bg-white">
-        <span className="absolute top-[13px] right-[12px] flex h-[26px] items-center gap-[6px] rounded-[3px] border border-[#c4c7cf] bg-[#eef0f3] px-[9px] text-[12px] font-medium text-[#484a54]">
+        <span className="absolute top-[13px] right-[12px] flex h-[26px] items-center gap-[6px] rounded-[3px] border border-[#d6d8d7] bg-[#eef0f3] px-[9px] text-[12px] font-medium text-[#484a49]">
           <GearIcon width={14} height={14} />
           Setting
         </span>
-        <div className="absolute top-[58px] left-[30px] h-[1px] w-[110px] bg-[#e0e1e9]" />
-        <div className="absolute top-[117px] left-[30px] h-[1px] w-[110px] bg-[#e0e1e9]" />
+        <div className="absolute top-[58px] left-[30px] h-[1px] w-[110px] bg-[#e0e2e1]" />
+        <div className="absolute top-[117px] left-[30px] h-[1px] w-[110px] bg-[#e0e2e1]" />
         {bars.map(([up, down, red], i) => (
           <div key={i} className="absolute" style={{ left: 40 + i * 32, top: 117 - up }}>
             {up > 0 && <div className="w-[12px] rounded-t-[2px] bg-[#48b9f7]" style={{ height: up }} />}
@@ -390,21 +390,21 @@ function MonitorArt() {
             <div className="w-[12px] rounded-b-[2px] bg-[#ff9b56]" style={{ height: down }} />
           </div>
         ))}
-        <div className="absolute top-[179px] left-[30px] h-[1px] w-[110px] bg-[#e0e1e9]" />
-        <div className="absolute top-[191px] left-[30px] flex gap-[30px] text-[11px] text-[#a9abb6]">
+        <div className="absolute top-[179px] left-[30px] h-[1px] w-[110px] bg-[#e0e2e1]" />
+        <div className="absolute top-[191px] left-[30px] flex gap-[30px] text-[11px] text-[#a9abaa]">
           <span>Jan 17</span>
           <span>Jan 19</span>
         </div>
       </div>
       <div className="absolute top-[78px] left-[160px] h-[230px] w-[258px] rounded-md bg-white px-4 pt-[14px] shadow-[0_2px_12px_rgba(25,27,35,0.14)]">
         <div className="text-[14px] font-medium text-[#2b2e38]">Recrawl schedule</div>
-        <span className="mt-[17px] inline-flex h-[28px] items-center gap-[6px] rounded-md border border-[#c4c7cf] px-[9px] text-[12px] text-[#2b2e38]">
+        <span className="mt-[17px] inline-flex h-[28px] items-center gap-[6px] rounded-md border border-[#d6d8d7] px-[9px] text-[12px] text-[#2b2e38]">
           Once a week
           <svg viewBox="0 0 12 12" width={10} height={10}>
             <path d="m2.5 4.5 3.5 3.5 3.5-3.5" fill="none" stroke="currentColor" strokeWidth={1.6} />
           </svg>
         </span>
-        <div className="mt-[14px] flex gap-[9px] text-[12px] leading-[18px] text-[#484a54]">
+        <div className="mt-[14px] flex gap-[9px] text-[12px] leading-[18px] text-[#484a49]">
           <span className="mt-[1px] flex h-[15px] w-[15px] shrink-0 items-center justify-center rounded-[3px] bg-[#2bb3ff] text-white">
             <svg viewBox="0 0 12 12" width={10} height={10}>
               <path d="m2.5 6 2.5 2.5 4.5-5" fill="none" stroke="currentColor" strokeWidth={1.8} />
@@ -439,7 +439,7 @@ function FeaturesArt() {
       </div>
       <div className={`${card} top-[30px] left-[223px] h-[175px] w-[175px] px-[19px] pt-[21px]`}>
         <div className="text-[15px] font-medium text-[#2b2e38]">New &amp; Lost</div>
-        <div className="absolute top-[106px] left-[22px] h-[1px] w-[132px] bg-[#e0e1e9]" />
+        <div className="absolute top-[106px] left-[22px] h-[1px] w-[132px] bg-[#e0e2e1]" />
         {nl.map(([u, d], i) => (
           <div key={i} className="absolute" style={{ left: 34 + i * 25.5, top: 106 - u }}>
             <div className="w-[9px] rounded-t-[2px] bg-[#2bb3ff]" style={{ height: u }} />

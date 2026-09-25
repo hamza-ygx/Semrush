@@ -55,17 +55,17 @@ function IdeasSummary() {
   return (
     <div className="relative mx-auto mt-[34px] h-[346px] w-[732px] rounded-[10px] bg-[#f3f5f8] pt-[23px]">
       <div className="relative mx-auto h-[299px] w-[684px] rounded-md bg-white">
-        <div className="absolute top-[18px] left-[22px] text-[16px] leading-5 text-[#484a54]">Total Ideas</div>
+        <div className="absolute top-[18px] left-[22px] text-[16px] leading-5 text-[#484a49]">Total Ideas</div>
         <Donut />
         <div className="absolute top-[128px] left-[20px] w-[200px] text-center">
           <div className="text-[36px] leading-[44px] font-bold text-[#086dc6]">243</div>
-          <div className="mt-[3px] text-[13px] leading-4 text-[#484a54]">for 24 pages</div>
+          <div className="mt-[3px] text-[13px] leading-4 text-[#484a49]">for 24 pages</div>
         </div>
         <div className="absolute top-[27px] left-[260px] flex gap-[29px]">
           {cols.map((col, ci) => (
             <div key={ci} className="w-[188px]">
               {col.map((code) => (
-                <div key={code} className="flex h-[36px] items-center text-[13px] text-[#484a54]">
+                <div key={code} className="flex h-[36px] items-center text-[13px] text-[#484a49]">
                   <Badge code={code} className="mr-[10px]" />
                   <span className="flex-1 text-[12px] whitespace-nowrap">{idea(code).label}</span>
                   <span className="font-medium text-[#086dc6]">{idea(code).count}</span>
@@ -75,10 +75,10 @@ function IdeasSummary() {
           ))}
         </div>
         <div className="absolute top-[185px] left-[260px] h-[94px] w-[404px] rounded-md bg-[#e8fbf2] px-4 pt-[10px]">
-          <div className="text-[12px] leading-4 text-[#484a54]">Our ideas may help you increase your organic traffic</div>
+          <div className="text-[12px] leading-4 text-[#484a49]">Our ideas may help you increase your organic traffic</div>
           <div className="mt-[16px] flex items-center">
             <span className="w-[151px] text-[26px] leading-8 font-semibold text-[#189e79]">Over 240%</span>
-            <div className="space-y-[8px] text-[12px] leading-4 text-[#484a54]">
+            <div className="space-y-[8px] text-[12px] leading-4 text-[#484a49]">
               {[
                 ["Current", "36%", "300K"],
                 ["Potential", "100%", "720K"],
@@ -102,14 +102,14 @@ function IdeasSummary() {
 function PagesArt() {
   return (
     <div className="relative h-[259px] w-[429px] overflow-hidden rounded-md bg-[#f3f5f8]">
-      <div className="absolute top-[32px] left-0 h-[227px] w-[398px] rounded-tr-md bg-white text-[12px] text-[#484a54]">
-        <div className="flex h-[37px] items-center border-b border-[#e6e7ec] pl-3">
+      <div className="absolute top-[32px] left-0 h-[227px] w-[398px] rounded-tr-md bg-white text-[12px] text-[#484a49]">
+        <div className="flex h-[37px] items-center border-b border-[#e7e8e8] pl-3">
           <span className="w-[76px]">Priority</span>
           <span className="w-[235px]">Page</span>
           <span>All ideas</span>
         </div>
         {opscPages.map((p, i) => (
-          <div key={i} className={`flex items-start border-b border-[#e6e7ec] pl-3 ${p.url.includes("\n") ? "h-[52px]" : "h-[37px]"}`}>
+          <div key={i} className={`flex items-start border-b border-[#e7e8e8] pl-3 ${p.url.includes("\n") ? "h-[52px]" : "h-[37px]"}`}>
             <span className="flex h-[36px] w-[76px] items-center gap-[2px]">
               {[0, 1, 2].map((k) => (
                 <span key={k} className="h-[7px] w-[16px] rounded-[2px]" style={{ background: k < p.prio ? "#ffc400" : "#fdf1b8" }} />
@@ -130,8 +130,8 @@ const Skel = ({ w, className = "" }: { w: number; className?: string }) => <div 
 
 function ReportArt() {
   const box = (code: string, label: string, body: ReactNode, h: number) => (
-    <div className="flex overflow-hidden rounded-[4px] border border-[#e0e1e9]" style={{ height: h }}>
-      <div className="flex w-[134px] shrink-0 items-start gap-[8px] bg-[#f4f5f9] px-[7px] pt-[6px] text-[12px] text-[#484a54]">
+    <div className="flex overflow-hidden rounded-[4px] border border-[#e0e2e1]" style={{ height: h }}>
+      <div className="flex w-[134px] shrink-0 items-start gap-[8px] bg-[#f5f6f6] px-[7px] pt-[6px] text-[12px] text-[#484a49]">
         <Badge code={code} />
         {label}
       </div>
@@ -173,7 +173,7 @@ function ReportArt() {
 function IdeaCard({ code }: { code: string }) {
   const i = idea(code);
   return (
-    <div className="relative h-[128px] rounded-md bg-[#f4f5f9] px-5 pt-[32px]">
+    <div className="relative h-[128px] rounded-md bg-[#f5f6f6] px-5 pt-[32px]">
       <span className="absolute -top-[20px] left-5 flex h-10 w-10 items-center justify-center rounded-md text-[16px] font-semibold text-white shadow-[0_2px_6px_rgba(25,27,35,0.18)]" style={{ background: i.color }}>
         {code}
       </span>

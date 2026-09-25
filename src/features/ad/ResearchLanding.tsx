@@ -121,7 +121,7 @@ export function ResearchLanding({ kind }: { kind: "research" | "pla" }) {
                   <ul className={`mt-3 flex ${kind === "pla" ? "w-[440px]" : "w-[410px]"} flex-col gap-2`}>
                     {f.bullets.map((b) => (
                       <li key={b} className="flex text-[16px] leading-6">
-                        <span className="mr-[7px] ml-[2px] text-[#6c6e79]">•</span>
+                        <span className="mr-[7px] ml-[2px] text-[#6a6c6a]">•</span>
                         <span>{b}</span>
                       </li>
                     ))}

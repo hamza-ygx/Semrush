@@ -49,7 +49,7 @@ export function ExtLink({
       target="_blank"
       rel="noreferrer"
       aria-label="Open in new tab"
-      className={`inline-flex text-[#a9abb6] hover:text-rk-link ${className}`}
+      className={`inline-flex text-[#a9abaa] hover:text-rk-link ${className}`}
     >
       <ExtIcon />
     </a>
@@ -277,7 +277,7 @@ export function SerpCell({ count, href, features }: { count?: number; href?: str
       )}
       <span className="mx-2 h-5 w-px bg-rk-border" />
       {count == null ? (
-        <span className="text-[#c4c7cf]">·</span>
+        <span className="text-[#d6d8d7]">·</span>
       ) : (
         <span className="group/sf relative inline-flex">
           <button
@@ -293,7 +293,7 @@ export function SerpCell({ count, href, features }: { count?: number; href?: str
               <span className="mt-[7px] block">
                 {features.map((f) => (
                   <span key={f.label} className="flex h-8 items-center gap-[6px] px-2">
-                    <span className="text-[#a0a2aa]">
+                    <span className="text-[#a1a3a2]">
                       <SerpIcon name={f.icon} />
                     </span>
                     {f.label}
@@ -355,7 +355,7 @@ export function Checkbox({
       {...(onChange ? { type: "button" as const, onClick: onChange } : {})}
       role="checkbox"
       aria-checked={!!checked}
-      className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border ${checked ? "border-[#2b6ee6] bg-[#2b6ee6]" : "border-[#c4c7cf] bg-white"} ${className}`}
+      className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border ${checked ? "border-[#2b6ee6] bg-[#2b6ee6]" : "border-[#d6d8d7] bg-white"} ${className}`}
     >
       {checked && (
         <svg viewBox="0 0 16 16" width={12} height={12}>
@@ -496,7 +496,7 @@ export function SearchInput({
       <button
         type="submit"
         aria-label="Search"
-        className="flex h-7 w-[32px] items-center justify-center rounded-r-md border border-l-0 border-rk-border-strong bg-[#f4f5f9] text-rk-text-2 hover:bg-rk-hover"
+        className="flex h-7 w-[32px] items-center justify-center rounded-r-md border border-l-0 border-rk-border-strong bg-[#f5f6f6] text-rk-text-2 hover:bg-rk-hover"
       >
         <SearchIcon />
       </button>
@@ -658,7 +658,7 @@ export function LegendCheck({
         style={
           checked
             ? { background: color, borderColor: color }
-            : { borderColor: "#c4c7cf", background: "#fff" }
+            : { borderColor: "#d6d8d7", background: "#fff" }
         }
       >
         {checked && (
@@ -724,14 +724,14 @@ export function NotesMenu() {
               <PlusIcon />
               Compose note
             </button>
-            <button type="button" disabled className="ml-[25px] h-7 shrink-0 rounded-md border border-[#e0e1e9] bg-[#f7f7f9] px-[8px] text-[14px] whitespace-nowrap text-[#a9abb6]">
+            <button type="button" disabled className="ml-[25px] h-7 shrink-0 rounded-md border border-[#e0e2e1] bg-[#f7f7f9] px-[8px] text-[14px] whitespace-nowrap text-[#a9abaa]">
               View all
             </button>
             <button
               type="button"
               aria-label={visible ? "Hide notes" : "Show notes"}
               onClick={() => setVisible(!visible)}
-              className="ml-[9px] flex h-7 w-[33px] items-center justify-center rounded-md border border-rk-border-strong bg-[#f4f5f9] text-rk-text-2 hover:bg-rk-hover"
+              className="ml-[9px] flex h-7 w-[33px] items-center justify-center rounded-md border border-rk-border-strong bg-[#f5f6f6] text-rk-text-2 hover:bg-rk-hover"
             >
               <svg viewBox="0 0 16 16" width={16} height={16}>
                 <path d="M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8z" fill="none" stroke="currentColor" strokeWidth={1.4} />
@@ -773,7 +773,7 @@ export function SimpleFooter() {
               </g>
             </svg>
             English
-            <ChevronDown className="text-[#a9abb6]" />
+            <ChevronDown className="text-[#a9abaa]" />
           </button>
         )}
       >

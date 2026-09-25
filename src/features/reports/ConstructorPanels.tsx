@@ -61,7 +61,7 @@ function integrationIcon(i: IntegrationItem): ReactNode {
 
 export function IntegrationsPanel({ onOpen }: { onOpen: (label: string) => void }) {
   return (
-    <ScrollArea className="h-full" vInset={{ right: 3, top: 112, bottom: 360 }} thumbClassName="bg-[#c4c7cf]">
+    <ScrollArea className="h-full" vInset={{ right: 3, top: 112, bottom: 360 }} thumbClassName="bg-[#d6d8d7]">
       <div className="px-4 pt-[15px] pb-6">
         <h2 className="text-[16px] leading-6 font-bold text-rk-text">Integrations</h2>
         <div className="mt-[13px]">
@@ -99,7 +99,7 @@ export function WidgetsPanel() {
             key={w.label}
             type="button"
             disabled={w.disabled}
-            className={`flex h-9 w-full items-center gap-[6px] text-left text-[14px] ${w.disabled ? "text-[#c4c7cf]" : "text-rk-text hover:text-rk-link"}`}
+            className={`flex h-9 w-full items-center gap-[6px] text-left text-[14px] ${w.disabled ? "text-[#d6d8d7]" : "text-rk-text hover:text-rk-link"}`}
           >
             {w.label}
             {w.star && <StarIcon width={17} height={17} className="-mt-[3px] text-[#ffb400]" />}
@@ -177,7 +177,7 @@ function ThemeThumb({ accent, cover }: { accent: string; cover: string }) {
 export function ThemesPanel() {
   const [active, setActive] = useState(themes[0].name);
   return (
-    <ScrollArea className="h-full" vInset={{ right: 3, top: 58, bottom: 380 }} thumbClassName="bg-[#c4c7cf]">
+    <ScrollArea className="h-full" vInset={{ right: 3, top: 58, bottom: 380 }} thumbClassName="bg-[#d6d8d7]">
       <div className="px-4 pt-[15px] pb-6">
         <h2 className="flex items-center gap-2 text-[16px] leading-6 font-bold text-rk-text">
           Themes
@@ -197,7 +197,7 @@ export function ThemesPanel() {
                     <ThemeThumb accent={t.accent} cover={t.cover} />
                   </div>
                   {on && (
-                    <span className="absolute top-[108px] right-3 left-3 flex h-7 items-center justify-center gap-2 rounded-md bg-[#191b23]/90 text-[14px] font-medium text-white">
+                    <span className="absolute top-[108px] right-3 left-3 flex h-7 items-center justify-center gap-2 rounded-md bg-[#1b1e1a]/90 text-[14px] font-medium text-white">
                       <BrushIcon width={16} height={16} />
                       Customize theme
                     </span>
@@ -277,7 +277,7 @@ export function IntegrationDetail({ name, onBack }: { name: string; onBack: () =
               })}
             </div>
           </div>
-          <ScrollArea className="mt-[17px] min-h-0 flex-1" vInset={{ right: 2, top: 1, bottom: 2 }} thumbClassName="bg-[#c4c7cf]">
+          <ScrollArea className="mt-[17px] min-h-0 flex-1" vInset={{ right: 2, top: 1, bottom: 2 }} thumbClassName="bg-[#d6d8d7]">
             <div className="pr-3 pb-6 pl-[14px]">
               {sections.map((sec, i) => (
                 <div key={sec.heading} className={i ? "mt-[18px]" : ""}>
@@ -287,7 +287,7 @@ export function IntegrationDetail({ name, onBack }: { name: string; onBack: () =
                       const Icon = kindIcon[w.kind];
                       return (
                         <button key={w.label} type="button" draggable className="flex h-[34px] w-full cursor-grab items-center gap-[6px] text-left text-[14px] text-rk-text hover:text-rk-link">
-                          <Icon className="shrink-0 text-[#a9abb6]" />
+                          <Icon className="shrink-0 text-[#a9abaa]" />
                           <span className="truncate">{w.label}</span>
                         </button>
                       );

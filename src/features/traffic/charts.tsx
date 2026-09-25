@@ -67,14 +67,14 @@ export function TrafficLineChart({
       {ticks.map((t, i) => (
         <g key={t}>
           <line x1={x0 - 2} x2={x1 + 8} y1={Y(t)} y2={Y(t)} stroke={i === 0 ? "#e0e1e5" : "#f0f0f2"} strokeWidth={1} />
-          <text x={x0 - 15} y={Y(t) + 4} textAnchor="end" fontSize={12} fill="#6c6e79">
+          <text x={x0 - 15} y={Y(t) + 4} textAnchor="end" fontSize={12} fill="#6a6c6a">
             {labels[i]}
           </text>
         </g>
       ))}
       {months.map((m, i) =>
         i % labelEvery === 0 || i === n - 1 ? (
-          <text key={m} x={X(i)} y={top + plotHeight + 22} fontSize={12} fill="#6c6e79" textAnchor={i === 0 ? "start" : i === n - 1 && labelEvery > 1 ? "end" : "middle"}>
+          <text key={m} x={X(i)} y={top + plotHeight + 22} fontSize={12} fill="#6a6c6a" textAnchor={i === 0 ? "start" : i === n - 1 && labelEvery > 1 ? "end" : "middle"}>
             {m}
           </text>
         ) : null,
@@ -97,7 +97,7 @@ export function TrafficLineChart({
         })}
       {tooltip && hi !== null && (
         <g pointerEvents="none">
-          <line x1={X(hi) + 0.5} x2={X(hi) + 0.5} y1={top} y2={top + plotHeight} stroke="#c4c7cf" strokeWidth={1} />
+          <line x1={X(hi) + 0.5} x2={X(hi) + 0.5} y1={top} y2={top + plotHeight} stroke="#d6d8d7" strokeWidth={1} />
           {vis.map((s) => (
             <circle key={s.name} cx={X(hi)} cy={Y(s.data[hi])} r={4.5} fill={s.color} stroke="#fff" strokeWidth={1.5} />
           ))}
@@ -147,7 +147,7 @@ export function GroupedBars({
   labelClass,
   labelGap = 16,
   hidden = {},
-  labelColor = "#2359d6",
+  labelColor = "#235fe2",
   firstLabelColor,
   plotLeft,
 }: {
@@ -181,7 +181,7 @@ export function GroupedBars({
       {ticks.map((t, i) => (
         <g key={t}>
           <line x1={x0} x2={width} y1={Y(t)} y2={Y(t)} stroke={i === 0 ? "#e0e1e5" : "#f0f0f2"} />
-          <text x={x0 - 15} y={Y(t) + 4} textAnchor="end" fontSize={12} fill="#6c6e79">
+          <text x={x0 - 15} y={Y(t) + 4} textAnchor="end" fontSize={12} fill="#6a6c6a">
             {labels[i]}
           </text>
         </g>

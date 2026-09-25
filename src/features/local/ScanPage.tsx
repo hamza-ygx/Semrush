@@ -146,7 +146,7 @@ function FeatureCols({ items, cols = 3 }: { items: [string, string][]; cols?: nu
       {items.map(([t, d], i) => (
         <div key={t} style={{ width: widths[i] }} className={`border-r border-[#d4d5da] pb-[9px] text-center last:border-0 ${cols === 4 ? ["px-[14px]", "px-[12px]", "px-[12px]", "px-[20px]"][i] : ["px-[14px]", "px-[19px]", "px-[13px]"][i]}`}>
           <div className="text-[14px] leading-5 font-semibold text-[#1a1a1f]">{t}</div>
-          <div className="mt-[8px] text-[14px] leading-5 text-[#6c6e79]">{d}</div>
+          <div className="mt-[8px] text-[14px] leading-5 text-[#6a6c6a]">{d}</div>
         </div>
       ))}
     </div>
@@ -220,7 +220,7 @@ const Legend = ({ up }: { up: string }) => (
       2024
     </span>
     <span className="flex items-center gap-1">
-      <i className="h-[6px] w-[6px] rounded-full bg-[#c9cacf]" />
+      <i className="h-[6px] w-[6px] rounded-full bg-[#cacccb]" />
       2023
     </span>
     <span className="font-medium text-[#0f8a5f]">{up}</span>
@@ -234,20 +234,20 @@ const chartB = "M0 70 12 66 24 72 36 68 48 72 60 66 72 70 84 64 96 68 108 72 120
 function GbpSlide({ n }: { n: number }) {
   if (n > 0)
     return (
-      <div className="flex h-full flex-col items-center justify-center text-[#6c6e79]">
+      <div className="flex h-full flex-col items-center justify-center text-[#6a6c6a]">
         <div className="text-[20px] font-semibold text-[#1a1a1f]">{n === 1 ? "AI-generated posts" : "Review insights"}</div>
         <div className="mt-2 text-[14px]">{n === 1 ? "Plan and schedule GBP posts for weeks ahead." : "See how your rating changes month to month."}</div>
       </div>
     );
   return (
     <div className="px-[66px] pt-[81px]">
-      <div className="flex h-[79px] items-center rounded-[12px] border border-[#e3e4e8]">
+      <div className="flex h-[79px] items-center rounded-[12px] border border-[#e4e5e5]">
         {[
           ["Views", "55.1K", "+28%", "text-[#0f8a5f]"],
           ["Actions", "345", "-2.5%", "text-[#d1273b]"],
           ["Average Rating", "4.8", "↑0.3", "text-[#0f8a5f]"],
         ].map(([l, v, d, c], i) => (
-          <div key={l} className={`flex-1 pl-[28px] ${i ? "border-l border-[#e3e4e8]" : ""} ${i === 2 ? "pl-[53px]" : ""}`}>
+          <div key={l} className={`flex-1 pl-[28px] ${i ? "border-l border-[#e4e5e5]" : ""} ${i === 2 ? "pl-[53px]" : ""}`}>
             <div className="text-[18px] leading-6 text-[#1f1f24]">{l}</div>
             <div className="text-[18px] leading-6 font-bold text-[#1f1f24]">
               {v} <span className={`font-normal ${c}`}>{d}</span>
@@ -260,14 +260,14 @@ function GbpSlide({ n }: { n: number }) {
           ["Search Views", "+26%"],
           ["Maps Views", "+40%"],
         ].map(([t, u], i) => (
-          <div key={t} className="h-[290px] flex-1 rounded-[12px] border border-[#e3e4e8] px-[15px] pt-[14px]">
-            <div className="border-b border-[#e3e4e8] pb-[10px] text-[17px] font-semibold text-[#1f1f24]">{t}</div>
+          <div key={t} className="h-[290px] flex-1 rounded-[12px] border border-[#e4e5e5] px-[15px] pt-[14px]">
+            <div className="border-b border-[#e4e5e5] pb-[10px] text-[17px] font-semibold text-[#1f1f24]">{t}</div>
             <div className="mt-[10px]">
               <Legend up={u} />
             </div>
             <div className="mt-[14px] border-t border-[#ececee]" />
             <svg viewBox="0 0 286 90" className="mt-[2px] w-full">
-              <path d={chartB} fill="none" stroke="#c9cacf" strokeWidth={2} />
+              <path d={chartB} fill="none" stroke="#cacccb" strokeWidth={2} />
               <path d={i ? chartC : chartA} fill="none" stroke="#2bb0f0" strokeWidth={2.4} />
             </svg>
           </div>
@@ -302,7 +302,7 @@ function Carousel({ slides, h, arrows = true, dotsTop = 27 }: { slides: number; 
       </div>
       <div className="flex justify-center gap-[14px]" style={{ marginTop: dotsTop - 5 }}>
         {Array.from({ length: slides }, (_, k) => (
-          <button key={k} type="button" aria-label={`Slide ${k + 1}`} onClick={() => setI(k)} className={`h-[10px] w-[10px] rounded-full ${k === i ? "bg-[#6c6e79]" : "bg-[#d4d5da]"}`} />
+          <button key={k} type="button" aria-label={`Slide ${k + 1}`} onClick={() => setI(k)} className={`h-[10px] w-[10px] rounded-full ${k === i ? "bg-[#6a6c6a]" : "bg-[#d4d5da]"}`} />
         ))}
       </div>
     </>
@@ -326,7 +326,7 @@ function ReviewSlide({ n }: { n: number }) {
         <div className="mt-[10px] text-[13px] text-[#1f1f24]">{r.text}</div>
       </div>
       <div className="relative ml-[58px] flex items-start gap-[14px] pt-[23px]">
-        <span className="absolute top-0 -left-[22px] h-[46px] w-[22px] rounded-bl-[14px] border-b-2 border-l-2 border-[#e3e4e8]" />
+        <span className="absolute top-0 -left-[22px] h-[46px] w-[22px] rounded-bl-[14px] border-b-2 border-l-2 border-[#e4e5e5]" />
         <div className="h-[54px] w-[526px] rounded-[6px] border-2 border-[#3ab0f5] px-[6px] pt-[8px] text-[13px] leading-[18px] whitespace-pre-line text-[#1f1f24]">{r.reply}</div>
         <span className="flex h-9 w-[82px] items-center justify-center gap-[8px] rounded-[6px] bg-[#0f8cf0] text-[16px] text-white">
           Reply
@@ -350,7 +350,7 @@ function MapDashboard() {
   return (
     <div className="px-[31px] pt-[31px]">
       <div className="flex gap-[9px]">
-        <span className="flex h-[27px] items-center gap-[8px] rounded-[4px] border border-[#c9cacf] px-[8px] text-[14px] text-[#1f1f24]">
+        <span className="flex h-[27px] items-center gap-[8px] rounded-[4px] border border-[#cacccb] px-[8px] text-[14px] text-[#1f1f24]">
           <svg viewBox="0 0 16 16" width={16} height={16}>
             <path d="M2.5 3.5h11v10h-11zM2.5 6.5h11M5 2v3M11 2v3" fill="none" stroke="currentColor" strokeWidth={1.4} />
           </svg>
@@ -359,7 +359,7 @@ function MapDashboard() {
             <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth={2} />
           </svg>
         </span>
-        <span className="flex h-[27px] items-center gap-[8px] rounded-[4px] border border-[#c9cacf] px-[8px] text-[14px] text-[#1f1f24]">
+        <span className="flex h-[27px] items-center gap-[8px] rounded-[4px] border border-[#cacccb] px-[8px] text-[14px] text-[#1f1f24]">
           Keyword: hair care
           <svg viewBox="0 0 16 16" width={14} height={14}>
             <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth={2} />
@@ -367,12 +367,12 @@ function MapDashboard() {
         </span>
       </div>
       <div className="mt-[9px] flex gap-[9px]">
-        <div className="h-[152px] w-[309px] rounded-[4px] border border-[#c9cacf] px-[19px]">
+        <div className="h-[152px] w-[309px] rounded-[4px] border border-[#cacccb] px-[19px]">
           {[
             ["Avg. Rank", "8.22", "↓0.22", "text-[#d1273b]"],
             ["Share of Voice", "7.39%", "↑0.19", "text-[#0f8a5f]"],
           ].map(([l, v, d, c], i) => (
-            <div key={l} className={`relative h-[76px] pt-[12px] ${i ? "border-t border-[#c9cacf]" : ""}`}>
+            <div key={l} className={`relative h-[76px] pt-[12px] ${i ? "border-t border-[#cacccb]" : ""}`}>
               <div className="text-[14px] text-[#1f1f24]">{l}</div>
               <div className="flex items-baseline gap-[4px] text-[24px] leading-8 font-semibold text-[#1f1f24]">
                 {v} <span className={`text-[12px] font-normal ${c}`}>{d}</span>
@@ -384,8 +384,8 @@ function MapDashboard() {
             </div>
           ))}
         </div>
-        <div className="h-[152px] flex-1 rounded-[4px] border border-[#c9cacf]">
-          <div className="mb-[13px] border-b border-[#c9cacf] px-[19px] py-[9px] text-[16px] font-semibold text-[#1f1f24]">Rank decomposition</div>
+        <div className="h-[152px] flex-1 rounded-[4px] border border-[#cacccb]">
+          <div className="mb-[13px] border-b border-[#cacccb] px-[19px] py-[9px] text-[16px] font-semibold text-[#1f1f24]">Rank decomposition</div>
           {[
             ["Good:", "28.57%", 29, "#1fc28e"],
             ["Average:", "38.78%", 39, "#fbbf24"],
@@ -395,17 +395,17 @@ function MapDashboard() {
             <div key={l as string} className="mb-[7px] flex h-[17px] items-center px-[19px] text-[14px] text-[#1f1f24]">
               <span className="w-[80px]">{l}</span>
               <span className="w-[74px] text-right">{v}</span>
-              <span className="ml-[16px] h-[15px] flex-1 bg-[#e3e4e8]">
+              <span className="ml-[16px] h-[15px] flex-1 bg-[#e4e5e5]">
                 <span className="block h-full" style={{ width: `${w}%`, background: c as string }} />
               </span>
             </div>
           ))}
         </div>
       </div>
-      <div className="mt-[10px] flex h-[298px] overflow-hidden rounded-[4px] border border-[#c9cacf]">
-        <div className="w-[305px] shrink-0 border-r-[3px] border-[#c9cacf]">
+      <div className="mt-[10px] flex h-[298px] overflow-hidden rounded-[4px] border border-[#cacccb]">
+        <div className="w-[305px] shrink-0 border-r-[3px] border-[#cacccb]">
           {["Crystal Cuts Studio", "Hair & Soul", "Salon Lumière", "The Cutting Room", "Urban Mane"].map((n, i) => (
-            <div key={n} className={`flex h-[58px] items-center gap-[10px] border-b border-[#e3e4e8] px-[12px] text-[14px] ${i === 1 ? "bg-[#e5f3fd]" : ""}`}>
+            <div key={n} className={`flex h-[58px] items-center gap-[10px] border-b border-[#e4e5e5] px-[12px] text-[14px] ${i === 1 ? "bg-[#e5f3fd]" : ""}`}>
               <span className="rounded-full bg-[#eeeff1] px-[6px] text-[12px] text-[#76777d]">{[2.4, 3.1, 4.8, 6.2, 8.9][i]}</span>
               {n}
             </div>
@@ -457,7 +457,7 @@ export function ScanPage() {
               <span className="mt-[-2px] ml-[7px] flex items-center gap-[6px] text-[#e8680d]">
                 <svg viewBox="0 0 46 22" width={46} height={22}>
                   <path d="M0 22V14l12-4v12zM16 22V9l12-4v17z" fill="#c63c0a" />
-                  <path d="M32 22V4l12-4v22z" fill="#c9cacf" />
+                  <path d="M32 22V4l12-4v22z" fill="#cacccb" />
                 </svg>
                 Medium
               </span>

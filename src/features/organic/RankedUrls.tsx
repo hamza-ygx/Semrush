@@ -69,7 +69,7 @@ export function RankedUrls({ r }: { r: PositionRow }) {
           <div className="absolute top-0 bottom-0 bg-[#eaeeee]" style={{ left: "91%", width: "7.31%" }} />
           <svg className="absolute inset-0 h-full w-full overflow-visible" viewBox={`0 0 1000 ${H}`} preserveAspectRatio="none">
             {ticks.map((t) => (
-              <path key={t} d={`M0 ${(t * H) / 100}H1000`} stroke={t === 100 ? "#c4c7cf" : "#e8e9ee"} strokeWidth={1} vectorEffect="non-scaling-stroke" />
+              <path key={t} d={`M0 ${(t * H) / 100}H1000`} stroke={t === 100 ? "#d6d8d7" : "#e9eaea"} strokeWidth={1} vectorEffect="non-scaling-stroke" />
             ))}
             {on && <path d={d} fill="none" stroke="#6167e6" strokeWidth={1.6} vectorEffect="non-scaling-stroke" />}
           </svg>

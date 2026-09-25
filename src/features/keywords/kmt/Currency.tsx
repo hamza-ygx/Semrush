@@ -28,7 +28,7 @@ export function CurrencySelect({ value, onChange }: { value: Currency; onChange:
                 onChange(c.code);
                 close();
               }}
-              className={`flex h-8 w-full items-center px-[9px] text-left text-[14px] text-rk-text ${c.code === value ? "bg-[#eef1fb] shadow-[inset_2px_0_0_#191b23]" : "hover:bg-rk-bg"}`}
+              className={`flex h-8 w-full items-center px-[9px] text-left text-[14px] text-rk-text ${c.code === value ? "bg-[#eef1fb] shadow-[inset_2px_0_0_#1b1e1a]" : "hover:bg-rk-bg"}`}
             >
               {c.label}
             </button>

@@ -50,8 +50,8 @@ function MarketSummary() {
         <p className="mt-[14px] text-[12px] leading-[15px] text-rk-muted">A moderately-low level of consolidation within the market.</p>
         <div className="relative mt-[15px] h-[14px]">
           <span className="absolute top-[6px] right-[4px] left-[4px] h-[3px] rounded bg-[#dcdde2]" />
-          <span className="absolute top-[3px] left-[2px] h-[8px] w-[8px] rounded-full bg-[#c4c7cf]" />
-          <span className="absolute top-[3px] right-[2px] h-[8px] w-[8px] rounded-full bg-[#c4c7cf]" />
+          <span className="absolute top-[3px] left-[2px] h-[8px] w-[8px] rounded-full bg-[#d6d8d7]" />
+          <span className="absolute top-[3px] right-[2px] h-[8px] w-[8px] rounded-full bg-[#d6d8d7]" />
           <span className="absolute top-0 left-[106px] h-[14px] w-[14px] rounded-full bg-[#5d62de]" />
         </div>
         <div className="mt-[3px] flex justify-between text-[12px] leading-4 text-rk-muted">
@@ -134,7 +134,7 @@ function AxisSelect({ value, options }: { value: string; options: string[] }) {
   return (
     <Popover
       trigger={({ toggle, open }) => (
-        <button type="button" onClick={toggle} className="flex h-[27px] w-[200px] items-center justify-between rounded-[6px] border border-[#d7d9de] bg-white pr-[8px] pl-[9px] text-[14px] text-rk-text">
+        <button type="button" onClick={toggle} className="flex h-[27px] w-[200px] items-center justify-between rounded-[6px] border border-[#d8dad9] bg-white pr-[8px] pl-[9px] text-[14px] text-rk-text">
           {v}
           <svg viewBox="0 0 16 16" width={16} height={16} className={open ? "rotate-180" : ""}>
             <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
@@ -311,8 +311,8 @@ function MarketPlayers() {
             ))}
           </tbody>
         </table>
-        <span className="absolute top-[33px] left-[223px] h-[5px] w-[264px] rounded-full bg-[#c9cacf]" />
-        <span className="absolute bottom-[3px] left-[223px] h-[5px] w-[264px] rounded-full bg-[#c9cacf]" />
+        <span className="absolute top-[33px] left-[223px] h-[5px] w-[264px] rounded-full bg-[#cacccb]" />
+        <span className="absolute bottom-[3px] left-[223px] h-[5px] w-[264px] rounded-full bg-[#cacccb]" />
       </div>
     </SampleCard>
   );

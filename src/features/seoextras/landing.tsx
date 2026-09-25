@@ -37,7 +37,7 @@ export function DomainForm({ button, className = "", inputClassName = "w-[544px]
           setError(false);
         }}
         placeholder="Enter domain"
-        className={`h-10 rounded-md border bg-white px-3 text-[16px] outline-none placeholder:text-[#8a8e9b] focus:border-[#008ff8] ${error ? "border-[#ff4953]" : "border-[#d1d4db]"} ${inputClassName}`}
+        className={`h-10 rounded-md border bg-white px-3 text-[16px] outline-none placeholder:text-[#8b8d8c] focus:border-[#008ff8] ${error ? "border-[#ff4953]" : "border-[#d1d4db]"} ${inputClassName}`}
       />
       <button type="submit" className="h-10 shrink-0 rounded-md bg-[#009f81] px-[13px] text-[16px] font-medium text-white hover:bg-[#008a70]">
         {button}
@@ -51,7 +51,7 @@ export function Bullets({ items, className = "" }: { items: ReactNode[]; classNa
     <ul className={`space-y-2 text-[16px] leading-6 text-rk-text ${className}`}>
       {items.map((it, i) => (
         <li key={i} className="relative pl-[17px]">
-          <span className="absolute top-[10px] left-[3px] h-[5px] w-[5px] rounded-full bg-[#484a54]" />
+          <span className="absolute top-[10px] left-[3px] h-[5px] w-[5px] rounded-full bg-[#484a49]" />
           {it}
         </li>
       ))}

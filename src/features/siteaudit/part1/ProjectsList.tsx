@@ -28,7 +28,7 @@ function Thumb({ left, top, onDrag }: { left: number; top: number; onDrag: (dx: 
   };
   return (
     <div style={{ top }} className="pointer-events-none absolute right-[7px] left-0 h-1">
-      <div onMouseDown={start} style={{ left, width: THUMB }} className="pointer-events-auto absolute top-0 h-1 cursor-pointer rounded-full bg-[#d3d4d9] hover:bg-[#c4c7cf]" />
+      <div onMouseDown={start} style={{ left, width: THUMB }} className="pointer-events-auto absolute top-0 h-1 cursor-pointer rounded-full bg-[#d3d4d9] hover:bg-[#d6d8d7]" />
     </div>
   );
 }
@@ -45,7 +45,7 @@ export function AuditSettingsPanel({
   const [email, setEmail] = useState(false);
   const [stuck, setStuck] = useState(false);
   const h = roomy ? "h-[32px]" : "h-[31px]";
-  const dis = `flex ${h} w-full items-center gap-2 px-2 text-[14px] text-[#a9abb6]`;
+  const dis = `flex ${h} w-full items-center gap-2 px-2 text-[14px] text-[#a9abaa]`;
   return (
     <div className={`rounded-md bg-white shadow-popover ${className}`}>
       <div className={roomy ? "pt-[2px] pb-[4px]" : "pt-[4px] pb-[5px]"}>
@@ -54,11 +54,11 @@ export function AuditSettingsPanel({
           Rerun campaign
         </button>
         <div className={dis}>
-          <span className="mx-[2px] h-3 w-3 bg-[#a9abb6]" />
+          <span className="mx-[2px] h-3 w-3 bg-[#a9abaa]" />
           Stop and save results
         </div>
         <div className={dis}>
-          <XIcon size={16} className="text-[#a9abb6]" />
+          <XIcon size={16} className="text-[#a9abaa]" />
           Cancel crawling
         </div>
       </div>
@@ -88,7 +88,7 @@ function GearMenu() {
   const { open, setOpen, ref, toggle } = useToggle();
   return (
     <div ref={ref} className="relative mt-[5px] inline-flex">
-      <button type="button" aria-label="Project settings" onClick={toggle} className="text-[#8a8e9b] hover:text-rk-text-2" data-gear>
+      <button type="button" aria-label="Project settings" onClick={toggle} className="text-[#8b8d8c] hover:text-rk-text-2" data-gear>
         <CogIcon />
       </button>
       {open && <AuditSettingsPanel onClose={() => setOpen(false)} />}
@@ -117,7 +117,7 @@ export function ProjectsList() {
     <div className="rounded-lg bg-white shadow-card">
       <div className="flex items-center justify-between px-5 pt-5 pb-[19px]">
         <label className="flex h-7 w-[294px] items-center gap-[6px] rounded-md border border-rk-border-strong px-2 focus-within:border-[#8e92ec]">
-          <SearchIcon width={15} height={15} className="text-[#8a8e9b]" />
+          <SearchIcon width={15} height={15} className="text-[#8b8d8c]" />
           <input placeholder="Project name or domain" className="flex-1 text-[14px] outline-none placeholder:text-rk-muted" />
         </label>
         <button type="button" className="flex h-7 items-center gap-2 rounded-md bg-rk-btn-dark pr-2 pl-[10px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
@@ -185,7 +185,7 @@ export function ProjectsList() {
 
       <div className="flex h-[63px] items-center gap-2 px-5 pb-[6px] text-[14px]">
         <span>Page:</span>
-        <input defaultValue="" placeholder="1" className="h-7 w-[66px] rounded-md border border-rk-border px-2 outline-none placeholder:text-[#a9abb6]" />
+        <input defaultValue="" placeholder="1" className="h-7 w-[66px] rounded-md border border-rk-border px-2 outline-none placeholder:text-[#a9abaa]" />
         <span className="ml-[2px]">of 1</span>
         <div className="ml-[6px]">
           <PageSize value={10} />

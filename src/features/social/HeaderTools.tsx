@@ -19,7 +19,7 @@ export function ProjectGoTo() {
             type="button"
             aria-label="Select project"
             onClick={toggle}
-            className={`flex h-[38px] w-[162px] items-center rounded-md border bg-white pr-[10px] pl-3 text-[16px] text-rk-text ${open ? "border-[#7a86f2]" : "border-[#e0e1e9]"}`}
+            className={`flex h-[38px] w-[162px] items-center rounded-md border bg-white pr-[10px] pl-3 text-[16px] text-rk-text ${open ? "border-[#7a86f2]" : "border-[#e0e2e1]"}`}
           >
             <RkjhFavicon width={16} height={16} />
             <span className="ml-2 flex-1 text-left">{project}</span>
@@ -72,7 +72,7 @@ export function KeywordAnalyze() {
         onChange={(e) => setQ(e.target.value)}
         placeholder="Enter website or keyword"
         aria-label="Enter website or keyword"
-        className="h-10 w-[342px] rounded-l-md border border-r-0 border-[#e0e1e9] bg-white px-3 text-[16px] text-rk-text outline-none placeholder:text-[#6c6e79] focus:border-[#7a86f2]"
+        className="h-10 w-[342px] rounded-l-md border border-r-0 border-[#e0e2e1] bg-white px-3 text-[16px] text-rk-text outline-none placeholder:text-[#6a6c6a] focus:border-[#7a86f2]"
       />
       <button type="submit" className="h-10 w-[87px] rounded-r-md bg-rk-btn-dark text-[16px] font-semibold text-white hover:bg-[#2b2e38]">
         Analyze

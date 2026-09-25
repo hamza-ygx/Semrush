@@ -86,7 +86,7 @@ function SummarySample() {
 function TrendTip({ i, hidden, scale }: { i: number; hidden: Record<string, boolean>; scale: number }) {
   return (
     <div className="text-[12px] leading-4">
-      <div className="text-[#8a8e9b]">{shortMonths[i]}</div>
+      <div className="text-[#8b8d8c]">{shortMonths[i]}</div>
       <div className="mt-[4px] grid grid-cols-[auto_auto_auto] items-center gap-x-[10px]">
         {visitsTrend.map((s, k) =>
           hidden[s.name] ? null : (
@@ -221,7 +221,7 @@ function ChannelSelect() {
   return (
     <Popover
       trigger={({ toggle, open }) => (
-        <button type="button" onClick={toggle} className="flex h-7 items-center gap-[8px] rounded-[6px] border border-[#d7d9de] bg-white px-[8px] text-[14px] text-rk-text hover:bg-rk-bg">
+        <button type="button" onClick={toggle} className="flex h-7 items-center gap-[8px] rounded-[6px] border border-[#d8dad9] bg-white px-[8px] text-[14px] text-rk-text hover:bg-rk-bg">
           All Traffic Channels
           <svg viewBox="0 0 16 16" width={14} height={14} className={open ? "rotate-180" : ""}>
             <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
@@ -265,7 +265,7 @@ function JourneyCard() {
           <path d="M1.5 7h11M8.5 3l4 4-4 4" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
         </svg>
         <div className="absolute top-[193px] left-[804px] flex h-[55px] w-[231px] items-center justify-center rounded-[3px] bg-[#6167e6] text-[14px] text-white">zara.com</div>
-        <svg viewBox="0 0 14 14" width={14} height={14} className="absolute top-[214px] left-[1048px] text-[#6c6e79]">
+        <svg viewBox="0 0 14 14" width={14} height={14} className="absolute top-[214px] left-[1048px] text-[#6a6c6a]">
           <path d="M1.5 7h11M8.5 3l4 4-4 4" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </div>
@@ -280,7 +280,7 @@ function TopPagesCard() {
   return (
     <SampleCard header={false} bodyClassName="">
       <div className="flex h-[43px] items-end border-b border-[#f0f0f0] px-5">
-        <div className="flex border-b border-[#e0e1e9]">
+        <div className="flex border-b border-[#e0e2e1]">
           {topPagesTabs.map((t) => (
             <button
               key={t}
@@ -375,7 +375,7 @@ function GeoCard() {
         <SegTabs items={["Visits", "Unique Visitors"]} />
         <Popover
           trigger={({ toggle }) => (
-            <button type="button" onClick={toggle} className="flex h-7 items-center gap-[8px] rounded-[6px] border border-[#d7d9de] bg-white px-[8px] text-[14px] text-rk-text hover:bg-rk-bg">
+            <button type="button" onClick={toggle} className="flex h-7 items-center gap-[8px] rounded-[6px] border border-[#d8dad9] bg-white px-[8px] text-[14px] text-rk-text hover:bg-rk-bg">
               By country
               <svg viewBox="0 0 16 16" width={14} height={14}>
                 <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
@@ -469,14 +469,14 @@ function BrandCard() {
           </svg>
         </span>
         <span className="ml-[9px] text-[16px] leading-6 font-semibold text-rk-text">Brand Presence in AI Platforms</span>
-        <span className="mx-[8px] h-5 w-px bg-[#c4c7cf]" />
+        <span className="mx-[8px] h-5 w-px bg-[#d6d8d7]" />
         <span className="text-[14px] text-rk-muted">Domain:</span>
         <span className="ml-1 text-[14px] text-rk-text">zara.com</span>
       </div>
       <div className="flex px-[16px] pt-[21px]">
         <div className="pr-[27px]">
           <div className="text-[14px] leading-5 text-rk-text-2">AI Visibility</div>
-          <div className="mt-[4px] flex items-center gap-[7px] text-[32px] leading-10 font-bold text-[#5652cc]">
+          <div className="mt-[4px] flex items-center gap-[7px] text-[32px] leading-10 font-bold text-[#5c5cc4]">
             60
             <Gauge />
           </div>
@@ -484,7 +484,7 @@ function BrandCard() {
         <span className="mt-[4px] h-[70px] w-px bg-rk-border" />
         <div className="pr-[24px] pl-[24px]">
           <div className="text-[14px] leading-5 text-rk-text-2">Missing topics</div>
-          <div className="mt-[4px] text-[32px] leading-10 font-bold text-[#5652cc]">345K</div>
+          <div className="mt-[4px] text-[32px] leading-10 font-bold text-[#5c5cc4]">345K</div>
         </div>
         <span className="mt-[4px] h-[70px] w-px bg-rk-border" />
         <div className="pl-[24px]">
@@ -496,7 +496,7 @@ function BrandCard() {
                   {m.icon}
                   {m.label}
                 </div>
-                <div className="mt-[6px] text-[16px] leading-5 font-bold text-[#5652cc]">{m.v}</div>
+                <div className="mt-[6px] text-[16px] leading-5 font-bold text-[#5c5cc4]">{m.v}</div>
               </div>
             ))}
           </div>
@@ -576,10 +576,10 @@ export function TrafficAnalyticsLocked() {
         <LockedArea charge="$335.35" sampleHref={`${routes.traffic.overview}?sample=1`} top={42}>
           <div className="flex flex-col gap-4">
             <GreyCard title="Traffic Trend" h={364}>
-              <div className="inline-flex h-7 rounded-[6px] border border-[#d7d9de] text-[14px] text-rk-muted">
+              <div className="inline-flex h-7 rounded-[6px] border border-[#d8dad9] text-[14px] text-rk-muted">
                 {["Visits", "Unique Visitors", "Purchase Conversion", "Pages / Visit", "Avg. Visit Duration", "Bounce Rate"].map((t, i) => (
-                  <span key={t} className={`flex items-center gap-[8px] px-[8px] ${i ? "border-l border-[#d7d9de]" : "bg-[#eef0ff]"}`}>
-                    <DomainDot color={i ? "#c4c7cf" : "#8e92ec"} />
+                  <span key={t} className={`flex items-center gap-[8px] px-[8px] ${i ? "border-l border-[#d8dad9]" : "bg-[#eef0ff]"}`}>
+                    <DomainDot color={i ? "#d6d8d7" : "#8e92ec"} />
                     {t}
                   </span>
                 ))}
@@ -597,7 +597,7 @@ export function TrafficAnalyticsLocked() {
             <GreyCard title="Traffic Channel Distribution" h={323}>
               <div className="mt-[130px] flex items-end gap-[16px] pl-[10px]">
                 {Array.from({ length: 36 }).map((_, i) => (
-                  <span key={i} className="w-[12px] bg-[#d7d9de]" style={{ height: [100, 80, 66, 90, 100, 80, 66, 90, 100][i % 9] }} />
+                  <span key={i} className="w-[12px] bg-[#d8dad9]" style={{ height: [100, 80, 66, 90, 100, 80, 66, 90, 100][i % 9] }} />
                 ))}
               </div>
             </GreyCard>
@@ -607,17 +607,17 @@ export function TrafficAnalyticsLocked() {
               </svg>
             </GreyCard>
             <GreyCard title="Top Pages" h={398}>
-              <div className="h-7 w-[290px] rounded-[6px] border border-[#d7d9de]" />
+              <div className="h-7 w-[290px] rounded-[6px] border border-[#d8dad9]" />
               <div className="mt-[20px]">
                 <SkelTable cols={[300, 160, 160, 160]} width={1196} />
               </div>
             </GreyCard>
             <GreyCard title="Geo Distribution" h={350}>
               <div className="flex items-center gap-[16px]">
-                <div className="flex h-7 w-[162px] items-center rounded-[6px] border border-[#d7d9de] bg-[#eef0ff] px-[8px]">
+                <div className="flex h-7 w-[162px] items-center rounded-[6px] border border-[#d8dad9] bg-[#eef0ff] px-[8px]">
                   <Skel w={64} h={7} />
                 </div>
-                <span className="flex h-7 items-center rounded-[6px] border border-[#d7d9de] px-[8px] text-[14px] text-rk-muted">By country ⌄</span>
+                <span className="flex h-7 items-center rounded-[6px] border border-[#d8dad9] px-[8px] text-[14px] text-rk-muted">By country ⌄</span>
               </div>
               <div className="mt-[20px] flex">
                 <div>

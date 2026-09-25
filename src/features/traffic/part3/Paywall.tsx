@@ -28,7 +28,7 @@ export function Paywall({ sampleHref, className = "" }: { sampleHref: string; cl
           View sample
         </Link>
       </div>
-      <div className="mt-[15px] border-t border-[#e0e1e9] pt-[8px]">
+      <div className="mt-[15px] border-t border-[#e0e2e1] pt-[8px]">
         <div className="flex items-center gap-[8px] text-[14px] leading-5 font-medium text-rk-text">
           Today&apos;s charge: $335.13 (incl. Tax)
           <InfoIcon width={16} height={16} className="text-rk-faint" />

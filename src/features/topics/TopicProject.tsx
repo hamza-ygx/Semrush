@@ -30,9 +30,9 @@ const ThumbIcon = ({ down, ...p }: P & { down?: boolean }) => (
 const PenBadge = () => (
   <svg viewBox="0 0 32 36" width={32} height={36}>
     <path d="M3 5c0-2 1.5-3.5 3.5-3.5h19C27.5 1.5 29 3 29 5v22c0 2-1.5 3.5-3.5 3.5H12L5 35v-4.6C3.8 30 3 28.8 3 27.5z" fill="#6ec4f0" />
-    <path d="M8 6.5 20 22l3.5 5.5-5.7-3.2L6 8.8C5 7.6 6.8 5.3 8 6.5z" fill="#fff" stroke="#191b23" strokeWidth={1.4} strokeLinejoin="round" />
-    <path d="M17.8 24.3l5.7 3.2-1.5-4.8" fill="#191b23" />
-    <path d="M9 10.5 11.5 8.5" stroke="#191b23" strokeWidth={1.2} />
+    <path d="M8 6.5 20 22l3.5 5.5-5.7-3.2L6 8.8C5 7.6 6.8 5.3 8 6.5z" fill="#fff" stroke="#1b1e1a" strokeWidth={1.4} strokeLinejoin="round" />
+    <path d="M17.8 24.3l5.7 3.2-1.5-4.8" fill="#1b1e1a" />
+    <path d="M9 10.5 11.5 8.5" stroke="#1b1e1a" strokeWidth={1.2} />
   </svg>
 );
 
@@ -49,7 +49,7 @@ function FeedbackBanner() {
           <button
             type="button"
             onClick={() => setAnswered(true)}
-            className="ml-4 flex h-7 items-center gap-[6px] rounded-md border border-[#c9d3dd] bg-[#dfe6ee] px-2 text-[#6c6e79] hover:bg-[#d3dce6]"
+            className="ml-4 flex h-7 items-center gap-[6px] rounded-md border border-[#c9d3dd] bg-[#dfe6ee] px-2 text-[#6a6c6a] hover:bg-[#d3dce6]"
           >
             <ThumbIcon />
             Yes
@@ -57,7 +57,7 @@ function FeedbackBanner() {
           <button
             type="button"
             onClick={() => setAnswered(true)}
-            className="ml-2 flex h-7 items-center gap-[6px] rounded-md border border-[#c9d3dd] bg-[#dfe6ee] px-2 text-[#6c6e79] hover:bg-[#d3dce6]"
+            className="ml-2 flex h-7 items-center gap-[6px] rounded-md border border-[#c9d3dd] bg-[#dfe6ee] px-2 text-[#6a6c6a] hover:bg-[#d3dce6]"
           >
             <ThumbIcon down />
             No
@@ -67,7 +67,7 @@ function FeedbackBanner() {
           </button>
         </>
       )}
-      <button type="button" aria-label="Close" onClick={() => setOpen(false)} className="ml-auto text-[#484a54] hover:text-rk-text">
+      <button type="button" aria-label="Close" onClick={() => setOpen(false)} className="ml-auto text-[#484a49] hover:text-rk-text">
         <CloseIcon width={14} height={14} strokeWidth={2.4} />
       </button>
     </div>
@@ -111,7 +111,7 @@ function ProjectHeader({ loading }: { loading: boolean }) {
           <button
             type="button"
             disabled={loading}
-            className={`flex h-7 items-center gap-2 rounded-md border px-2 text-[14px] ${loading ? "border-[#e0e3e7] bg-[#f4f5f7] text-[#c4c7cf]" : "border-[#c4c7cf] bg-[#eceff2] text-[#6c6e79] hover:bg-[#e0e3e7]"}`}
+            className={`flex h-7 items-center gap-2 rounded-md border px-2 text-[14px] ${loading ? "border-[#e0e3e7] bg-[#f4f5f7] text-[#d6d8d7]" : "border-[#d6d8d7] bg-[#eceff2] text-[#6a6c6a] hover:bg-[#e0e3e7]"}`}
           >
             <ExportIco />
             Export topic to XLSX
@@ -216,7 +216,7 @@ function ViewSwitch({ view }: { view: TopicView }) {
             v.key === view ? "z-10 border-[#7fb3e8] bg-[#dcecfb] text-rk-text" : "border-[#d7dbe0] bg-white text-rk-text hover:bg-[#f4f5f7]"
           }`}
         >
-          <span className="text-[#484a54]">{v.icon}</span>
+          <span className="text-[#484a49]">{v.icon}</span>
           {v.label}
         </Link>
       ))}
@@ -230,7 +230,7 @@ function Toggle() {
     <button
       type="button"
       onClick={() => setOn((o) => !o)}
-      className={`relative h-5 w-9 rounded-full transition-colors ${on ? "bg-[#008ff8]" : "bg-[#a9abb6]"}`}
+      className={`relative h-5 w-9 rounded-full transition-colors ${on ? "bg-[#008ff8]" : "bg-[#a9abaa]"}`}
       aria-pressed={on}
     >
       <span className={`absolute top-[2px] h-4 w-4 rounded-full bg-white transition-all ${on ? "left-[18px]" : "left-[2px]"}`} />
@@ -266,7 +266,7 @@ function Prioritize() {
           type="button"
           data-testid="tr-prioritize"
           onClick={toggle}
-          className={`flex h-7 items-center gap-[4px] rounded-md border bg-white pr-[6px] pl-[7px] text-rk-text ${open ? "border-[#6b7d8b]" : "border-[#c4c7cf]"}`}
+          className={`flex h-7 items-center gap-[4px] rounded-md border bg-white pr-[6px] pl-[7px] text-rk-text ${open ? "border-[#6b7d8b]" : "border-[#d6d8d7]"}`}
         >
           {v}
           <svg viewBox="0 0 16 16" width={16} height={16}>
@@ -297,7 +297,7 @@ function Prioritize() {
 function Controls({ view, loading }: { view: TopicView; loading: boolean }) {
   const [q, setQ] = useState(topic);
   const [barRef, stuck] = useStuck<HTMLDivElement>();
-  const dis = loading ? "text-[#a9abb6]" : "";
+  const dis = loading ? "text-[#a9abaa]" : "";
   return (
     <>
       <div ref={barRef} className={`sticky top-0 z-30 bg-[#f3f5f8] px-[30px] pt-[14px] pb-[17px] ${stuck ? "shadow-[0_2px_5px_rgba(25,27,35,0.14)]" : ""}`}>
@@ -307,20 +307,20 @@ function Controls({ view, loading }: { view: TopicView; loading: boolean }) {
             <div
               className="h-[7px] rounded-full"
               style={{
-                background: "repeating-linear-gradient(-45deg, #c4c7cf 0 4px, #e6e8ec 4px 8px)",
+                background: "repeating-linear-gradient(-45deg, #d6d8d7 0 4px, #e6e8ec 4px 8px)",
               }}
             />
           </div>
         )}
         <div className="flex h-7 items-center">
-          <div className={`flex h-7 w-[178px] items-center rounded-l-md border border-[#c4c7cf] bg-white pr-2 pl-2 ${loading ? "border-[#e0e3e7]" : ""}`}>
+          <div className={`flex h-7 w-[178px] items-center rounded-l-md border border-[#d6d8d7] bg-white pr-2 pl-2 ${loading ? "border-[#e0e3e7]" : ""}`}>
             <input
               value={q}
               disabled={loading}
               onChange={(e) => setQ(e.target.value)}
               className={`min-w-0 flex-1 bg-transparent text-[14px] outline-none ${dis}`}
             />
-            <button type="button" aria-label="Clear" onClick={() => setQ("")} className="text-[#a9abb6] hover:text-[#6c6e79]">
+            <button type="button" aria-label="Clear" onClick={() => setQ("")} className="text-[#a9abaa] hover:text-[#6a6c6a]">
               <CloseIcon width={12} height={12} strokeWidth={2.4} />
             </button>
           </div>
@@ -331,7 +331,7 @@ function Controls({ view, loading }: { view: TopicView; loading: boolean }) {
                 type="button"
                 disabled={loading}
                 onClick={toggle}
-                className={`-ml-px flex h-7 w-[192px] items-center justify-between rounded-r-md border bg-white px-2 text-[14px] ${loading ? "border-[#e0e3e7] text-[#a9abb6]" : "border-[#c4c7cf]"}`}
+                className={`-ml-px flex h-7 w-[192px] items-center justify-between rounded-r-md border bg-white px-2 text-[14px] ${loading ? "border-[#e0e3e7] text-[#a9abaa]" : "border-[#d6d8d7]"}`}
               >
                 United States
                 <svg viewBox="0 0 16 16" width={16} height={16}>
@@ -351,7 +351,7 @@ function Controls({ view, loading }: { view: TopicView; loading: boolean }) {
           <input
             disabled={loading}
             placeholder="Search content on domain"
-            className={`ml-3 h-7 w-[192px] rounded-md border bg-white px-2 text-[14px] outline-none placeholder:text-[#a9abb6] ${loading ? "border-[#e0e3e7]" : "border-[#c4c7cf]"}`}
+            className={`ml-3 h-7 w-[192px] rounded-md border bg-white px-2 text-[14px] outline-none placeholder:text-[#a9abaa] ${loading ? "border-[#e0e3e7]" : "border-[#d6d8d7]"}`}
           />
           <button
             type="button"
@@ -360,7 +360,7 @@ function Controls({ view, loading }: { view: TopicView; loading: boolean }) {
           >
             {loading ? <span className="h-3 w-3 animate-spin rounded-full border-2 border-white border-t-transparent" /> : "Get content ideas"}
           </button>
-          <button type="button" className="ml-auto mr-[17px] flex items-center gap-2 text-[14px] text-[#6c6e79] hover:text-rk-text">
+          <button type="button" className="ml-auto mr-[17px] flex items-center gap-2 text-[14px] text-[#6a6c6a] hover:text-rk-text">
             <svg viewBox="0 0 16 16" width={16} height={16}>
               <path d="M5.5 4h9M5.5 8h9M5.5 12h9" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
               <circle cx="2" cy="4" r="1" fill="currentColor" />
@@ -383,7 +383,7 @@ function Controls({ view, loading }: { view: TopicView; loading: boolean }) {
           </span>
         )}
         {view === "cards" && (
-          <span className="ml-auto flex items-center gap-[6px] text-[14px] text-[#484a54]">
+          <span className="ml-auto flex items-center gap-[6px] text-[14px] text-[#484a49]">
             Prioritize topics by:
             <Prioritize />
           </span>
@@ -495,7 +495,7 @@ function Card({ card, index, loading, active, onToggle }: { card: TopicCard; ind
 
 function CardTools({ card, index, onDismiss }: { card: TopicCard; index: number; onDismiss: () => void }) {
   return (
-    <div className="absolute top-[19px] right-6 flex items-center gap-[10px] text-[#6c6e79]">
+    <div className="absolute top-[19px] right-6 flex items-center gap-[10px] text-[#6a6c6a]">
       <Link href={`${routes.topicResearch}?q=${encodeURIComponent(card.title.toLowerCase())}`} aria-label="Search" className="hover:text-rk-text">
         <SearchIco />
       </Link>
@@ -522,7 +522,7 @@ function CardTools({ card, index, onDismiss }: { card: TopicCard; index: number;
         {(close) =>
           cardActions.map((a) => (
             <Fragment key={a.label}>
-              {a.sep && <div className="h-px bg-[#e0e1e9]" />}
+              {a.sep && <div className="h-px bg-[#e0e2e1]" />}
               <button
                 type="button"
                 onClick={() => {
@@ -592,17 +592,17 @@ function IdeasPanel({ card, onClose }: { card: TopicCard; onClose: () => void })
         <div className="pt-[1px] pr-6 text-[16px] leading-[20px] font-bold">{card.title}</div>
         {stats.map(([k, v]) => (
           <div key={k} className="-mt-[1px] border-l border-[#b8cfe3] px-6 py-[1px]">
-            <div className="text-[14px] leading-5 text-[#484a54]">{k}</div>
+            <div className="text-[14px] leading-5 text-[#484a49]">{k}</div>
             <div className="mt-[1px] text-[16px] leading-[22px] font-bold">{v}</div>
           </div>
         ))}
-        <button type="button" aria-label="Close" onClick={onClose} className="mt-[7px] mr-[20px] ml-auto text-[#8a8e9b] hover:text-rk-text">
+        <button type="button" aria-label="Close" onClick={onClose} className="mt-[7px] mr-[20px] ml-auto text-[#8b8d8c] hover:text-rk-text">
           <CloseIcon width={14} height={14} strokeWidth={2.2} />
         </button>
       </div>
       <div className="flex">
         <div className="flex-1">
-          <div className="flex h-10 items-center border-b border-[#e0e1e9] px-[22px] text-[16px] font-bold">
+          <div className="flex h-10 items-center border-b border-[#e0e2e1] px-[22px] text-[16px] font-bold">
             Headlines
             <span className="ml-1 font-normal text-[#898d99]">{d.headlines.length}</span>
           </div>
@@ -616,16 +616,16 @@ function IdeasPanel({ card, onClose }: { card: TopicCard; onClose: () => void })
                     <ExtIco />
                   </span>
                 </a>
-                <span className="mr-[1px] text-[#a9abb6]">
+                <span className="mr-[1px] text-[#a9abaa]">
                   <AddIco />
                 </span>
               </div>
             ))}
           </div>
         </div>
-        <div className="w-px bg-[#e0e1e9]" />
+        <div className="w-px bg-[#e0e2e1]" />
         <div className="flex-1">
-          <div className="flex h-10 items-center border-b border-[#e0e1e9] px-[22px] text-[16px] font-bold">
+          <div className="flex h-10 items-center border-b border-[#e0e2e1] px-[22px] text-[16px] font-bold">
             Questions
             <span className="ml-1 font-normal text-[#898d99]">{d.questions.length}</span>
           </div>
@@ -635,7 +635,7 @@ function IdeasPanel({ card, onClose }: { card: TopicCard; onClose: () => void })
                 <a href={gsearch(q)} target="_blank" rel="noreferrer" className="relative -top-[2px] hover:text-[#006dca]">
                   {q}
                 </a>
-                <span className="mr-[1px] text-[#a9abb6]">
+                <span className="mr-[1px] text-[#a9abaa]">
                   <AddIco />
                 </span>
               </div>
@@ -696,7 +696,7 @@ const AddIco = () => (
   </svg>
 );
 const ExtIco = () => (
-  <svg viewBox="0 0 16 16" width={14} height={14} className="shrink-0 text-[#a9abb6]">
+  <svg viewBox="0 0 16 16" width={14} height={14} className="shrink-0 text-[#a9abaa]">
     <path d="M9.5 2.5h4v4M13.5 2.5 8 8M12 9.5v4H2.5V4h4" fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
@@ -714,11 +714,11 @@ function ExplorerView() {
           <col className="w-[41px]" />
         </colgroup>
         <thead>
-          <tr className="h-14 border-b border-[#e0e1e9] bg-[#f5f6f8] text-left align-top text-[12px] leading-4 text-[#484a54]">
-            <th className="bg-[#e6e7ec] pt-3 pl-[13px] font-normal">
+          <tr className="h-14 border-b border-[#e0e2e1] bg-[#f5f6f8] text-left align-top text-[12px] leading-4 text-[#484a49]">
+            <th className="bg-[#e7e8e8] pt-3 pl-[13px] font-normal">
               <span className="flex items-center gap-1">
                 Subtopic
-                <svg viewBox="0 0 16 16" width={14} height={14} className="text-[#6c6e79]">
+                <svg viewBox="0 0 16 16" width={14} height={14} className="text-[#6a6c6a]">
                   <path d="M2.5 4h11M2.5 8h7.5M2.5 12h4" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
                 </svg>
               </span>
@@ -736,13 +736,13 @@ function ExplorerView() {
         </thead>
         <tbody>
           {explorerRows.map((r, i) => (
-            <tr key={i} className="h-[61px] border-b border-[#e0e1e9] last:border-0 hover:bg-[#f7f8fa]">
+            <tr key={i} className="h-[61px] border-b border-[#e0e2e1] last:border-0 hover:bg-[#f7f8fa]">
               <td className="overflow-hidden pt-3 pl-[13px] align-top leading-[18px] whitespace-nowrap">{r.subtopic}</td>
               <td className="pt-3 pl-3 align-top leading-4">
                 <a href={gsearch(r.title)} target="_blank" rel="noreferrer" className="block truncate hover:text-[#006dca]">
                   {r.title}
                 </a>
-                <span className="flex items-center gap-1 text-[#6c6e79]">
+                <span className="flex items-center gap-1 text-[#6a6c6a]">
                   {r.url}
                   <ExtIco />
                 </span>
@@ -750,8 +750,8 @@ function ExplorerView() {
               <td className="pt-3 pr-2 text-right align-top leading-[18px]">{r.fb}</td>
               <td className="pt-3 pr-3 text-right align-top leading-[18px]">{r.backlinks}</td>
               <td className="pt-3 pr-3 text-right align-top leading-[18px]">{r.shares}</td>
-              <td className="pt-3 pl-3 align-top text-[#a9abb6]">
-                <button type="button" aria-label="Add to favorites" className="hover:text-[#6c6e79]">
+              <td className="pt-3 pl-3 align-top text-[#a9abaa]">
+                <button type="button" aria-label="Add to favorites" className="hover:text-[#6a6c6a]">
                   <AddIco />
                 </button>
               </td>
@@ -766,7 +766,7 @@ function ExplorerView() {
 function OverviewList({ title, items, ext, rowH }: { title: string; items: string[]; ext?: boolean; rowH: string }) {
   return (
     <div className="flex-1">
-      <div className="flex h-10 items-center border-b border-[#e0e1e9] px-5 text-[16px] font-bold">{title}</div>
+      <div className="flex h-10 items-center border-b border-[#e0e2e1] px-5 text-[16px] font-bold">{title}</div>
       <div className="px-5 pt-[11px] pb-2">
         {items.map((t) => (
           <div key={t} className={`flex ${rowH} items-center justify-between border-b border-[#d7dbe0] text-[14px] last:border-0`}>
@@ -774,7 +774,7 @@ function OverviewList({ title, items, ext, rowH }: { title: string; items: strin
               {t}
               {ext && <ExtIco />}
             </a>
-            <span className="mr-[1px] text-[#a9abb6]">
+            <span className="mr-[1px] text-[#a9abaa]">
               <AddIco />
             </span>
           </div>
@@ -788,7 +788,7 @@ function OverviewView() {
   return (
     <div className="mx-[29px] mt-4 flex rounded-md bg-white shadow-[0_1px_2px_rgba(25,27,35,0.15)]">
       <OverviewList title="Top 10 Headlines by backlinks" items={overviewHeadlines} ext rowH="h-[45.5px]" />
-      <div className="w-px bg-[#e0e1e9]" />
+      <div className="w-px bg-[#e0e2e1]" />
       <OverviewList title="10 Interesting Questions" items={overviewQuestions} rowH="h-[43.7px]" />
     </div>
   );

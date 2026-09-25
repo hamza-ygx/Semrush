@@ -76,7 +76,7 @@ const dimItem = "text-[#b7b8bd]";
 
 const panel = "absolute z-50 rounded-[6px] bg-white shadow-popover";
 const itemBase = "flex h-8 w-full items-center text-left text-[14px] leading-5";
-const activeItem = "bg-[#ecf0ff] text-rk-text shadow-[inset_2px_0_0_#191b23]";
+const activeItem = "bg-[#ecf0ff] text-rk-text shadow-[inset_2px_0_0_#1b1e1a]";
 
 export function GeoPanel({ value, onApply, locked = false }: { value: string; onApply: (v: string) => void; locked?: boolean }) {
   const [tab, setTab] = useState<"Countries" | "Regions">("Countries");
@@ -101,7 +101,7 @@ export function GeoPanel({ value, onApply, locked = false }: { value: string; on
     return (
       <button key={key} type="button" onClick={() => (multi ? toggle(n) : setSingle(n))} className={`${itemBase} gap-[12px] pl-[8px] ${!multi && on ? activeItem : "text-rk-text hover:bg-rk-bg"}`}>
         {multi && (
-          <span className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[4px] border ${on ? "border-[#2359d6] bg-[#2359d6]" : "border-[#dcdede] bg-white"}`}>
+          <span className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[4px] border ${on ? "border-[#235fe2] bg-[#235fe2]" : "border-[#dcdede] bg-white"}`}>
             {on && (
               <svg viewBox="0 0 16 16" width={12} height={12}>
                 <path d="m3.5 8.3 3 3 6-6.3" fill="none" stroke="#fff" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
@@ -116,7 +116,7 @@ export function GeoPanel({ value, onApply, locked = false }: { value: string; on
   };
   return (
     <div data-testid="traffic-geo-panel" className={`${panel} top-[28px] left-0 w-[320px] overflow-hidden`}>
-      <label className="flex h-9 items-center gap-[8px] rounded-[6px] border border-[#d7d9de] bg-white pr-2 pl-[9px] focus-within:border-2 focus-within:border-[#8b8fdd] focus-within:pl-[8px]">
+      <label className="flex h-9 items-center gap-[8px] rounded-[6px] border border-[#d8dad9] bg-white pr-2 pl-[9px] focus-within:border-2 focus-within:border-[#8b8fdd] focus-within:pl-[8px]">
         <SearchIcon width={16} height={16} className="shrink-0 text-[#a1a3aa]" />
         <input
           autoFocus
@@ -150,7 +150,7 @@ export function GeoPanel({ value, onApply, locked = false }: { value: string; on
             }}
             className={`${itemBase} gap-[7px] border-b border-[#e3e8ef] pl-[9px] ${single === "Worldwide" && !picked.length ? activeItem : "text-rk-text hover:bg-rk-bg"}`}
           >
-            <WorldFilledIcon className="text-[#191b23]" />
+            <WorldFilledIcon className="text-[#1b1e1a]" />
             Worldwide
           </button>
         )}
@@ -161,7 +161,7 @@ export function GeoPanel({ value, onApply, locked = false }: { value: string; on
             onClick={() => setMulti((m) => !m)}
             className={`flex h-8 w-full items-center gap-[8px] pl-[8px] text-[12px] leading-4 ${locked ? "text-[#b7b8bd]" : "text-rk-text"}`}
           >
-            <span className={`relative h-3 w-5 rounded-full ${multi ? "bg-[#00a47e]" : locked ? "bg-[#e6e7ea]" : "bg-[#c4c7cf]"}`}>
+            <span className={`relative h-3 w-5 rounded-full ${multi ? "bg-[#00a47e]" : locked ? "bg-[#e6e7ea]" : "bg-[#d6d8d7]"}`}>
               <span className={`absolute top-[2px] h-2 w-2 rounded-full bg-white ${multi ? "left-[10px]" : "left-[2px]"}`} />
             </span>
             Select multiple
@@ -242,7 +242,7 @@ export function MonthRangePanel({ value, onApply, locked = false }: { value: str
               aria-label="Previous year"
               disabled={locked}
               onClick={() => setBase((b) => b - 1)}
-              className={`flex w-[40px] justify-center ${locked ? "text-[#b7b8bd]" : "text-[#6c6e79] hover:text-rk-text"}`}
+              className={`flex w-[40px] justify-center ${locked ? "text-[#b7b8bd]" : "text-[#6a6c6a] hover:text-rk-text"}`}
             >
               <ChevronLeft width={16} height={16} />
             </button>
@@ -253,7 +253,7 @@ export function MonthRangePanel({ value, onApply, locked = false }: { value: str
               aria-label="Next year"
               disabled={base + 1 >= LAST.y || locked}
               onClick={() => setBase((b) => b + 1)}
-              className={`flex w-[40px] justify-center ${locked ? "text-[#b7b8bd]" : "text-[#6c6e79] hover:text-rk-text"}`}
+              className={`flex w-[40px] justify-center ${locked ? "text-[#b7b8bd]" : "text-[#6a6c6a] hover:text-rk-text"}`}
             >
               <ChevronRight width={16} height={16} />
             </button>
@@ -283,7 +283,7 @@ export function MonthRangePanel({ value, onApply, locked = false }: { value: str
                 setPreset(p);
                 setSel(LAST);
               }}
-              className={`flex h-7 items-center rounded-[6px] px-[9px] text-left text-[14px] leading-5 ${p === preset ? "bg-[#e9ebeb] font-semibold text-rk-text" : locked ? "text-[#b7b8bd]" : "text-[#6c6e79] hover:bg-rk-bg"}`}
+              className={`flex h-7 items-center rounded-[6px] px-[9px] text-left text-[14px] leading-5 ${p === preset ? "bg-[#e9ebeb] font-semibold text-rk-text" : locked ? "text-[#b7b8bd]" : "text-[#6a6c6a] hover:bg-rk-bg"}`}
             >
               {p}
             </button>
@@ -304,7 +304,7 @@ export function MonthRangePanel({ value, onApply, locked = false }: { value: str
                 setSel(LAST);
                 setPreset("Last 1 month");
               }}
-              className={`text-[14px] leading-5 ${locked ? "text-[#c4c5ca]" : "text-[#6c6e79] hover:text-rk-text"}`}
+              className={`text-[14px] leading-5 ${locked ? "text-[#c4c5ca]" : "text-[#6a6c6a] hover:text-rk-text"}`}
             >
               Reset
             </button>

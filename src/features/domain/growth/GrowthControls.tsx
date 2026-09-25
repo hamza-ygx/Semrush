@@ -38,7 +38,7 @@ export function GrowthControls({ active }: { active?: string }) {
           aria-haspopup="listbox"
           aria-expanded={open}
           onClick={() => setOpen((o) => !o)}
-          className={`flex h-7 w-[179px] items-center justify-between rounded-md border pr-[10px] pl-[8px] text-[14px] text-rk-text ${open ? "border-[#a9b8ea] bg-[#f8faff]" : "border-[#d3d5db] bg-white"}`}
+          className={`flex h-7 w-[179px] items-center justify-between rounded-md border pr-[10px] pl-[8px] text-[14px] text-rk-text ${open ? "border-[#a9b8ea] bg-[#f8faff]" : "border-[#d4d6d5] bg-white"}`}
         >
           {value}
           <ChevronDown width={18} height={18} className="-mr-[2px] text-rk-text [&_path]:stroke-[2]" />
@@ -70,7 +70,7 @@ export function GrowthControls({ active }: { active?: string }) {
       <button
         type="button"
         onClick={() => active && router.push(withParams())}
-        className={`h-7 rounded-md border border-[#d3d5db] bg-[#eceef0] px-[7.5px] text-[14px] ${active ? "text-rk-text-2 hover:bg-rk-hover" : "cursor-default text-rk-muted"}`}
+        className={`h-7 rounded-md border border-[#d4d6d5] bg-[#eceef0] px-[7.5px] text-[14px] ${active ? "text-rk-text-2 hover:bg-rk-hover" : "cursor-default text-rk-muted"}`}
       >
         Cancel
       </button>

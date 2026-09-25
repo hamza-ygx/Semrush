@@ -124,7 +124,7 @@ export function FreeAuditSearch({ placeholder, className = "", inputClass = "", 
           onChange={(e) => setQ(e.target.value)}
           placeholder={placeholder}
           aria-label="Business name"
-          className={`h-14 min-w-0 flex-1 rounded-l-[6px] bg-white px-[13px] text-[16px] text-[#191b23] outline-none placeholder:text-[#8f8f94] ${light ? "border border-r-0 border-[#d1d4db]" : ""} ${inputClass}`}
+          className={`h-14 min-w-0 flex-1 rounded-l-[6px] bg-white px-[13px] text-[16px] text-[#1b1e1a] outline-none placeholder:text-[#8f8f94] ${light ? "border border-r-0 border-[#d1d4db]" : ""} ${inputClass}`}
         />
         <button type="submit" aria-label="Get free audit" className="flex h-14 w-14 shrink-0 items-center justify-center rounded-r-[6px] bg-[#a35eff] text-white hover:bg-[#9048f2]">
           <MagnifierIcon size={28} sw={1.8} />
@@ -141,7 +141,7 @@ export function AdvancedSearch({ open, onToggle, light, onSubmit }: { open: bool
       <button
         type="button"
         onClick={onToggle}
-        className={`mx-auto mt-[20px] flex items-center gap-[7px] text-[14px] leading-5 font-semibold ${light ? "text-[#898c96] hover:text-[#6c6e79]" : "text-[#c9b1f2] hover:text-white"}`}
+        className={`mx-auto mt-[20px] flex items-center gap-[7px] text-[14px] leading-5 font-semibold ${light ? "text-[#898c96] hover:text-[#6a6c6a]" : "text-[#c9b1f2] hover:text-white"}`}
       >
         Advanced search
         <ChevronD className={`transition-transform ${open ? "rotate-180" : ""}`} />
@@ -155,7 +155,7 @@ export function AdvancedSearch({ open, onToggle, light, onSubmit }: { open: bool
           }}
         >
           {["Country", "City", "ZIP code"].map((l) => (
-            <input key={l} placeholder={l} aria-label={l} className="h-10 rounded-[6px] border border-[#d1d4db] bg-white px-3 text-[14px] text-[#191b23] outline-none placeholder:text-[#8f8f94]" />
+            <input key={l} placeholder={l} aria-label={l} className="h-10 rounded-[6px] border border-[#d1d4db] bg-white px-3 text-[14px] text-[#1b1e1a] outline-none placeholder:text-[#8f8f94]" />
           ))}
         </form>
       )}
@@ -194,10 +194,10 @@ export function Faq({ items, className = "", itemClass = "", textClass = "" }: {
       {items.map((it, i) => (
         <div key={it.q} className={itemClass}>
           <button type="button" onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i} className={`flex w-full items-center text-left ${textClass}`}>
-            <ChevronR className={`mr-[18px] shrink-0 text-[#6c6e79] transition-transform ${open === i ? "rotate-90" : ""}`} />
+            <ChevronR className={`mr-[18px] shrink-0 text-[#6a6c6a] transition-transform ${open === i ? "rotate-90" : ""}`} />
             <span>{it.q}</span>
           </button>
-          {open === i && <p className="pr-6 pb-4 pl-[56px] text-[14px] leading-[22px] text-[#484a54]">{it.a}</p>}
+          {open === i && <p className="pr-6 pb-4 pl-[56px] text-[14px] leading-[22px] text-[#484a49]">{it.a}</p>}
         </div>
       ))}
     </div>

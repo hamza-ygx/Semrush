@@ -40,14 +40,14 @@ function LanguagePicker({ className, chevron, wide }: { className: string; chevr
   );
 }
 
-const link = "text-[14px] leading-5 text-[#484a54] hover:text-[#191b23]";
+const link = "text-[14px] leading-5 text-[#484a49] hover:text-[#1b1e1a]";
 
 export function Footer({ compactPb = 40 }: { compactPb?: number }) {
   const [cookies, setCookies] = useState(false);
   return (
     <footer className="mt-auto px-8 pb-[28px] max-xl:pb-[var(--fpb)]" style={{ "--fpb": `${compactPb}px` } as CSSProperties}>
-      <div className="flex flex-col items-center gap-6 text-[16px] leading-6 text-rk-muted xl:hidden">
-        <LanguagePicker className="hover:text-rk-text" chevron="text-[#a9abb6]" />
+      <div className="flex flex-col items-center gap-6 text-[16px] leading-6 text-[#6c6e79] xl:hidden">
+        <LanguagePicker className="hover:text-rk-text" chevron="text-[#a9abaa]" />
         <div className="flex gap-7">
           <a href="#" className="hover:text-rk-text">Contact us</a>
           <button type="button" onClick={() => setCookies(true)} className="hover:text-rk-text">
@@ -61,12 +61,12 @@ export function Footer({ compactPb = 40 }: { compactPb?: number }) {
           <a href="#" className={link}>Contact us</a>
           <a href="#" className={link}>About us</a>
           <a href="#" className={link}>Blog</a>
-          <LanguagePicker wide className={link} chevron="text-[#8a8e9b]" />
+          <LanguagePicker wide className={link} chevron="text-[#8b8d8c]" />
         </div>
         <div className="flex min-w-0 gap-2">
           <a
             href="#"
-            className="flex h-[30px] shrink-0 items-center rounded-md border border-[#c4c7cf] bg-[#e0e1e9] px-3 text-[14px] text-[#484a54] hover:bg-[#c4c7cf]"
+            className="flex h-[30px] shrink-0 items-center rounded-md border border-[#d6d8d7] bg-[#e0e2e1] px-3 text-[14px] text-[#484a49] hover:bg-[#d6d8d7]"
           >
             See plans and pricing
           </a>
@@ -88,7 +88,7 @@ export function Footer({ compactPb = 40 }: { compactPb?: number }) {
           <a href="#" className={link}>Privacy policy</a>
           <a href="#" className={link}>Do not sell my personal info</a>
         </div>
-        <span title={`© 2026 ${brand.legalName}. All rights reserved.`} className="min-w-0 truncate text-[14px] leading-5 text-[#484a54]">
+        <span title={`© 2026 ${brand.legalName}. All rights reserved.`} className="min-w-0 truncate text-[14px] leading-5 text-[#484a49]">
           © 2026 {brand.legalName}. All rights reserved.
         </span>
       </div>

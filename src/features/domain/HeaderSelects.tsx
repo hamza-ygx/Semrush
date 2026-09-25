@@ -55,7 +55,7 @@ export function DateSelect() {
             <span className="text-[12px] leading-4 text-rk-muted">Actual state of Google Search engine</span>
           </HeaderOption>
           <div className="flex h-8 items-center border-b border-rk-border px-2 text-[14px] font-semibold">Historical data:</div>
-          <div className="max-h-[240px] overflow-y-auto pt-[4px] pb-1 [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#c4c7cf]">
+          <div className="max-h-[240px] overflow-y-auto pt-[4px] pb-1 [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#d6d8d7]">
             {history.map((h) => (
               <HeaderOption
                 key={h}

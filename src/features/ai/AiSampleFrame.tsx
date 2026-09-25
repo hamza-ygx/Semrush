@@ -57,7 +57,7 @@ function LlmTip({ onClose }: { onClose: () => void }) {
             Got it
           </button>
         </div>
-        <button type="button" aria-label="Close tip" onClick={onClose} className="-mt-[3px] h-5 text-[#6c6e79] hover:text-rk-text">
+        <button type="button" aria-label="Close tip" onClick={onClose} className="-mt-[3px] h-5 text-[#6a6c6a] hover:text-rk-text">
           <CloseIcon width={14} height={14} />
         </button>
       </div>
@@ -73,7 +73,7 @@ function BrandChip({ b, onRemove }: { b: AiBrand; onRemove?: () => void }) {
       {b.you ? (
         <span className="ml-[1px] rounded-[9px] bg-[#e4e3fa] px-[8px] text-[12px] leading-[17px] text-[#5a50c8]">you</span>
       ) : (
-        <button type="button" aria-label={`Remove ${b.name}`} onClick={onRemove} className="-ml-[1px] text-[#a9abb6] hover:text-rk-text">
+        <button type="button" aria-label={`Remove ${b.name}`} onClick={onRemove} className="-ml-[1px] text-[#a9abaa] hover:text-rk-text">
           <CloseIcon width={11} height={11} />
         </button>
       )}
@@ -119,7 +119,7 @@ export function AiSampleFrame({
               <input
                 aria-label="Enter your domain"
                 placeholder="Enter your domain"
-                className="h-7 w-[260px] rounded-[4px] border border-[#dcdae3] bg-white px-2 text-[14px] text-rk-text outline-none placeholder:text-[#8a8e9b] focus:border-[#a55ff7]"
+                className="h-7 w-[260px] rounded-[4px] border border-[#dcdae3] bg-white px-2 text-[14px] text-rk-text outline-none placeholder:text-[#8b8d8c] focus:border-[#a55ff7]"
               />
               <button type="submit" className={`h-7 rounded-[4px] px-2 text-[14px] font-medium text-white ${aiGradient}`}>
                 Start tracking

@@ -12,7 +12,7 @@ import { seoUnits, subscriptionTabs, toolkits, type SubscriptionTab } from "./da
 const greenS = "inline-flex h-7 items-center rounded-md bg-[#009f81] px-2 text-[14px] font-semibold text-white hover:bg-[#007c65]";
 const nf = (n: number) => n.toLocaleString("en-US");
 
-const InfoI = () => <span className="ml-[7px] font-serif text-[14px] text-[#a9abb6] italic">i</span>;
+const InfoI = () => <span className="ml-[7px] font-serif text-[14px] text-[#a9abaa] italic">i</span>;
 
 const CrownIcon = () => (
   <svg viewBox="0 0 16 16" width={16} height={16} className="mt-[2px] shrink-0 text-[#ff642d]">
@@ -38,10 +38,10 @@ function RadioCards({ options, compact }: { options: { label: string; desc?: str
             aria-checked={on}
             onClick={() => setSel(i)}
             className={`flex gap-2 rounded-md border bg-white px-3 text-left text-[14px] leading-5 ${o.desc ? "items-start pt-[11px] pb-[11px]" : "h-[45px] items-center"} ${
-              on ? "border-[#7f86d6]" : "border-[#e0e1e9] hover:border-[#c4c7cf]"
+              on ? "border-[#7f86d6]" : "border-[#e0e2e1] hover:border-[#d6d8d7]"
             }`}
           >
-            <span className={`${o.desc ? "mt-[2px]" : ""} flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${on ? "bg-rk-text" : "border border-[#c4c7cf]"}`}>
+            <span className={`${o.desc ? "mt-[2px]" : ""} flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${on ? "bg-rk-text" : "border border-[#d6d8d7]"}`}>
               {on && <span className="h-[6px] w-[6px] rounded-full bg-white" />}
             </span>
             <span className={compact ? "" : ""}>
@@ -117,7 +117,7 @@ function UnitsTable({ toolkit }: { toolkit: string }) {
     );
   return (
     <div className="pr-[19px] pl-5">
-      <div className="flex h-[46px] items-center border-b border-[#e0e1e9] text-[14px] leading-5">
+      <div className="flex h-[46px] items-center border-b border-[#e0e2e1] text-[14px] leading-5">
         <span className="flex w-[482px] items-center">
           Unit type
           <InfoI />
@@ -136,8 +136,8 @@ function UnitsTable({ toolkit }: { toolkit: string }) {
               )}
             </div>
             {u.limit !== undefined && (
-              <div className="mt-[5px] h-1 rounded-full bg-[#e0e1e9]">
-                <div className="h-1 rounded-full bg-[#6c6e79]" style={{ width: `${u.limit ? Math.max((u.used ?? 0) / u.limit, u.used ? 0.02 : 0) * 100 : 0}%` }} />
+              <div className="mt-[5px] h-1 rounded-full bg-[#e0e2e1]">
+                <div className="h-1 rounded-full bg-[#6a6c6a]" style={{ width: `${u.limit ? Math.max((u.used ?? 0) / u.limit, u.used ? 0.02 : 0) * 100 : 0}%` }} />
               </div>
             )}
           </div>
@@ -148,7 +148,7 @@ function UnitsTable({ toolkit }: { toolkit: string }) {
                 Buy
               </button>
             ) : (
-              <button type="button" disabled className="inline-flex h-7 w-full items-center justify-center rounded-md border border-[#dcdcdc] bg-[#f5f5f5] text-[14px] text-[#8a8e9b]">
+              <button type="button" disabled className="inline-flex h-7 w-full items-center justify-center rounded-md border border-[#dcdcdc] bg-[#f5f5f5] text-[14px] text-[#8b8d8c]">
                 Buy
               </button>
             )}
@@ -180,7 +180,7 @@ function Summary() {
             ))}
             <button type="button" className="mt-auto flex h-[32px] items-center justify-between rounded-md bg-[#ebf0ff] px-3 text-[16px] hover:bg-[#dde5ff]">
               <span className="flex items-center gap-[10px]">
-                <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#a9abb6]">
+                <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#a9abaa]">
                   <path d="M2 5h11m-3-3 3 3-3 3M14 11H3m3-3-3 3 3 3" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 View units

@@ -27,14 +27,14 @@ function DbList({ value, onPick }: { value: string; onPick: (name: string) => vo
           className="min-w-0 flex-1 text-[14px] outline-none placeholder:text-rk-faint"
         />
       </label>
-      <div ref={listRef} className="relative max-h-[234px] overflow-y-auto pt-[5px]" style={{ scrollbarWidth: "thin", scrollbarColor: "#c4c7cf transparent" }}>
+      <div ref={listRef} className="relative max-h-[234px] overflow-y-auto pt-[5px]" style={{ scrollbarWidth: "thin", scrollbarColor: "#d6d8d7 transparent" }}>
         {items.map((d) => (
           <button
             key={d.code}
             type="button"
             data-current={d.name === value ? "" : undefined}
             onClick={() => onPick(d.name)}
-            className={`flex h-8 w-full items-center gap-2 px-[9px] text-left text-[14px] ${d.name === value ? "bg-[#eef1f6] shadow-[inset_2px_0_0_#191b23]" : "hover:bg-rk-bg"}`}
+            className={`flex h-8 w-full items-center gap-2 px-[9px] text-left text-[14px] ${d.name === value ? "bg-[#eef1f6] shadow-[inset_2px_0_0_#1b1e1a]" : "hover:bg-rk-bg"}`}
           >
             <DbFlag code={d.code} />
             {d.name}

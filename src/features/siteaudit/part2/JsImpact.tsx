@@ -3,7 +3,7 @@ import { SiteAuditHeader } from "../SiteAuditHeader";
 import { Ring } from "./ui";
 
 const Y = "#fdc23c";
-const G = "#e0e1e9";
+const G = "#e0e2e1";
 
 const Tick = () => (
   <svg viewBox="0 0 16 16" width={16} height={16} className="shrink-0 text-[#009f81]">

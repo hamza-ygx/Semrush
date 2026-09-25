@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-const K = "#191b23";
+const K = "#1b1e1a";
 const SKIN = "#bcd9fa";
 const BAND = "#c7e0fc";
 
@@ -103,7 +103,7 @@ export function AudienceArt() {
         <path d="M40 30 C 80 0 150 10 170 60 C 190 110 150 160 100 170 C 50 180 10 140 20 90Z" fill="#fde6ec" />
       </svg>
       <div className="relative rounded-lg bg-white shadow-[0_4px_20px_rgba(25,27,35,0.12)]">
-        <div className="flex h-[38px] items-center border-b border-[#eceef3] px-[15px] text-[14px] text-rk-text">
+        <div className="flex h-[38px] items-center border-b border-[#edefef] px-[15px] text-[14px] text-rk-text">
           <span className="border-b-2 border-[#1d6ff2] pb-[5px] pt-[7px]">Audience</span>
           <span className="ml-4 pt-[2px]">Activity</span>
           <span className="ml-4 pt-[2px]">Engagement</span>
@@ -198,7 +198,7 @@ export function EngagementArt() {
           <div key={l as string} className="mt-[8px] flex items-center gap-3">
             <span className="h-[30px] w-[30px] rounded-full bg-[#f0f1f5]" />
             <div className="leading-4">
-              <div className="text-[12px] text-[#6c6e79]">{l}</div>
+              <div className="text-[12px] text-[#6a6c6a]">{l}</div>
               <div className="text-[14px] font-semibold text-rk-text">
                 {v} <span className={`text-[11px] font-normal ${up ? "text-[#009f81]" : "text-[#d1002f]"}`}>{d}</span>
               </div>
@@ -241,7 +241,7 @@ export function InfluencersArt() {
       {[
         ["Travel creator", "YouTube", "1.2M", "#ff0000"],
         ["Food blogger", "Instagram", "845K", "#c13584"],
-        ["Tech reviewer", "TikTok", "2.4M", "#191b23"],
+        ["Tech reviewer", "TikTok", "2.4M", "#1b1e1a"],
         ["Gaming streamer", "Twitch", "512K", "#9146ff"],
       ].map(([n, p, f, c]) => (
         <div key={n} className="mt-3 flex items-center gap-3 text-[13px]">
@@ -261,7 +261,7 @@ export function MentionsChartArt() {
   return (
     <div className="relative h-[200px] w-[190px] rounded-lg bg-white px-[13px] pt-[14px] shadow-[0_4px_20px_rgba(25,27,35,0.12)]">
       <div className="text-[12px] font-semibold text-rk-text">Brand Mentions</div>
-      <div className="mt-[14px] flex gap-[8px] text-[9px] text-[#484a54]">
+      <div className="mt-[14px] flex gap-[8px] text-[9px] text-[#484a49]">
         {[
           ["Total", "#2d9cf0"],
           ["Positive", "#45d6a0"],
@@ -277,15 +277,15 @@ export function MentionsChartArt() {
         {[10, 37, 64, 90].map((y) => (
           <line key={y} x1="22" x2="150" y1={y} y2={y} stroke="#eef0f3" />
         ))}
-        <text x="2" y="13" fill="#a9abb6">30K</text>
-        <text x="2" y="40" fill="#a9abb6">20K</text>
-        <text x="2" y="67" fill="#a9abb6">10K</text>
-        <text x="10" y="93" fill="#a9abb6">0</text>
+        <text x="2" y="13" fill="#a9abaa">30K</text>
+        <text x="2" y="40" fill="#a9abaa">20K</text>
+        <text x="2" y="67" fill="#a9abaa">10K</text>
+        <text x="10" y="93" fill="#a9abaa">0</text>
         <path d="M24 30 L34 22 L44 28 L54 22 L64 22 L74 28 L82 20 L92 28 L104 28 L114 28 L124 22 L134 28 L150 18" fill="none" stroke="#2d9cf0" strokeWidth={1.6} />
         <path d="M24 68 L34 58 L44 68 L54 50 L64 64 L74 48 L84 60 L94 44 L104 44 L114 52 L124 40 L134 36 L150 30" fill="none" stroke="#45d6a0" strokeWidth={1.6} />
         <path d="M24 86 L34 80 L44 84 L54 78 L64 80 L74 76 L84 80 L94 76 L104 76 L114 80 L124 82 L134 80 L150 80" fill="none" stroke="#ff642d" strokeWidth={1.6} />
       </svg>
-      <div className="absolute bottom-[14px] left-[40px] flex w-[140px] justify-between text-[8px] text-[#a9abb6]">
+      <div className="absolute bottom-[14px] left-[40px] flex w-[140px] justify-between text-[8px] text-[#a9abaa]">
         <span>March 1</span>
         <span>April 1</span>
       </div>

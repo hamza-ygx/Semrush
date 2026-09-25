@@ -2,7 +2,7 @@ import { brand } from "@/config/brand";
 import { Footer } from "@/components/Footer";
 import { ChevronDownIcon, TranslateIcon } from "@/components/icons";
 
-const link = "text-[16px] leading-5 text-[#6c6e79] hover:text-rk-text";
+const link = "text-[16px] leading-5 text-[#6a6c6a] hover:text-rk-text";
 
 export function AnalyticsFooter({ gap = 138, bottom = 39 }: { gap?: number; bottom?: number }) {
   return (
@@ -14,7 +14,7 @@ export function AnalyticsFooter({ gap = 138, bottom = 39 }: { gap?: number; bott
         <button type="button" className={`${link} flex items-center gap-[6px]`}>
           <TranslateIcon width={18} height={18} />
           English
-          <ChevronDownIcon className="text-[#a9abb6]" />
+          <ChevronDownIcon className="text-[#a9abaa]" />
         </button>
         <div className="mt-7 flex gap-7">
           <button type="button" className={link}>
@@ -24,7 +24,7 @@ export function AnalyticsFooter({ gap = 138, bottom = 39 }: { gap?: number; bott
             Cookie settings
           </button>
         </div>
-        <div className="mt-7 text-[16px] leading-5 text-[#6c6e79]">© 2026 {brand.legalName}. All rights reserved.</div>
+        <div className="mt-7 text-[16px] leading-5 text-[#6a6c6a]">© 2026 {brand.legalName}. All rights reserved.</div>
       </footer>
     </>
   );

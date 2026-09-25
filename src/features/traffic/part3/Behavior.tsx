@@ -28,7 +28,7 @@ function ValueTable({ head, rows, tight = false }: { head: string; rows: { key: 
   return (
     <table className="w-[1196px] border-collapse text-[14px]">
       <thead>
-        <tr className="h-[32px] border-b border-[#e0e1e9] text-[12px] text-rk-text-2">
+        <tr className="h-[32px] border-b border-[#e0e2e1] text-[12px] text-rk-text-2">
           <th className="pl-[8px] text-left font-normal">{head}</th>
           {doms.map((d, i) => (
             <th key={d.name} className={`w-[140px] text-right font-normal ${tight ? "pr-[24px]" : "pr-[8px]"}`}>
@@ -43,7 +43,7 @@ function ValueTable({ head, rows, tight = false }: { head: string; rows: { key: 
       </thead>
       <tbody>
         {sorted.map((r, ri) => (
-          <tr key={r.key} className="h-[37px] border-b border-[#e0e1e9]">
+          <tr key={r.key} className="h-[37px] border-b border-[#e0e2e1]">
             <td className="pl-[8px]">{r.label}</td>
             {r.v.map(([val, pct], i) => (
               <td key={i} className="pr-[8px] text-right">
@@ -65,7 +65,7 @@ export function Behavior() {
         <SampleCard title="Summary" bodyClassName="pt-[20px]">
           <table className="ml-5 w-[1206px] border-collapse text-[14px]">
             <thead>
-              <tr className="h-[34px] border-b border-[#e0e1e9] text-[12px] text-rk-text-2">
+              <tr className="h-[34px] border-b border-[#e0e2e1] text-[12px] text-rk-text-2">
                 <th className="text-left font-normal">Categories</th>
                 {doms.map((d) => (
                   <th key={d.name} className="w-[186px] text-right font-normal">
@@ -79,7 +79,7 @@ export function Behavior() {
             </thead>
             <tbody>
               {behaviorSummary.map((r, ri) => (
-                <tr key={r.label} className={`h-[37px] ${ri < 2 ? "border-b border-[#e0e1e9]" : ""}`}>
+                <tr key={r.label} className={`h-[37px] ${ri < 2 ? "border-b border-[#e0e2e1]" : ""}`}>
                   <td>{r.label}</td>
                   {r.cells.map(([name, pct], i) => (
                     <td key={i} className="text-right whitespace-nowrap">

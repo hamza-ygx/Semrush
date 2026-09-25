@@ -49,11 +49,11 @@ export function Select({
             disabled={disabled}
             data-testid={testid}
             className={`flex h-7 items-center gap-[6px] rounded-md border bg-white pr-[7px] pl-[9px] text-[14px] whitespace-nowrap ${
-              disabled ? "pointer-events-none border-[#e6e7ec] text-[#c4c7cf]" : `hover:bg-rk-bg ${placeholder && !value ? "text-[#8a8e9b]" : "text-rk-text"} ${open ? "border-[#8e9ff0]" : "border-rk-border-strong"}`
+              disabled ? "pointer-events-none border-[#e7e8e8] text-[#d6d8d7]" : `hover:bg-rk-bg ${placeholder && !value ? "text-[#8b8d8c]" : "text-rk-text"} ${open ? "border-[#8e9ff0]" : "border-rk-border-strong"}`
             } ${className}`}
           >
             <span className="flex-1 text-left">{value ?? label}</span>
-            <ChevronBold className={`shrink-0 ${disabled ? "text-[#c4c7cf]" : "text-rk-text"}`} width={16} height={16} />
+            <ChevronBold className={`shrink-0 ${disabled ? "text-[#d6d8d7]" : "text-rk-text"}`} width={16} height={16} />
           </button>
         );
         return tip ? (
@@ -90,9 +90,9 @@ export function SearchInput({ placeholder, width = 214, className = "" }: { plac
     <div className={`flex h-7 ${className}`} style={{ width }}>
       <input
         placeholder={placeholder}
-        className="h-7 min-w-0 flex-1 rounded-l-md border border-r-0 border-rk-border-strong bg-white px-[9px] text-[14px] text-rk-text outline-none placeholder:text-[#8a8e9b] focus:border-[#006dca]"
+        className="h-7 min-w-0 flex-1 rounded-l-md border border-r-0 border-rk-border-strong bg-white px-[9px] text-[14px] text-rk-text outline-none placeholder:text-[#8b8d8c] focus:border-[#006dca]"
       />
-      <button type="button" aria-label="Search" className="flex h-7 w-[27px] items-center justify-center rounded-r-md border border-rk-border-strong bg-[#f0f0f3] text-rk-text-2 hover:bg-rk-hover">
+      <button type="button" aria-label="Search" className="flex h-7 w-[27px] items-center justify-center rounded-r-md border border-rk-border-strong bg-[#f0f1f1] text-rk-text-2 hover:bg-rk-hover">
         <SearchIcon width={16} height={16} />
       </button>
     </div>
@@ -182,7 +182,7 @@ export function DateRange({ label, className = "" }: { label?: string; className
 
 export function Checkbox({
   checked: initial = false,
-  color = "#191b23",
+  color = "#1b1e1a",
   label,
   className = "",
   size = 16,
@@ -198,7 +198,7 @@ export function Checkbox({
     <label className={`inline-flex cursor-pointer items-center gap-2 select-none ${className}`}>
       <span
         onClick={() => setOn(!on)}
-        style={{ width: size, height: size, background: on ? color : "#fff", borderColor: on ? color : "#a9abb6" }}
+        style={{ width: size, height: size, background: on ? color : "#fff", borderColor: on ? color : "#a9abaa" }}
         className="flex shrink-0 items-center justify-center rounded-[3px] border"
       >
         {on && <CheckIcon width={size - 4} height={size - 4} className="text-white" strokeWidth={2.4} />}
@@ -216,7 +216,7 @@ export function Toggle({ initial = false }: { initial?: boolean }) {
       role="switch"
       aria-checked={on}
       onClick={() => setOn(!on)}
-      className={`relative h-[12px] w-[21px] rounded-full transition-colors ${on ? "bg-[#009f81]" : "bg-[#e0e1e9]"}`}
+      className={`relative h-[12px] w-[21px] rounded-full transition-colors ${on ? "bg-[#009f81]" : "bg-[#e0e2e1]"}`}
     >
       <span className={`absolute top-[1px] h-[10px] w-[10px] rounded-full bg-white shadow transition-all ${on ? "left-[10px]" : "left-[1px]"}`} />
     </button>

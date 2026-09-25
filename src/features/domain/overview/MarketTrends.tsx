@@ -21,7 +21,7 @@ export function MarketTrends() {
         <div className="flex items-center gap-2 text-[16px] leading-6">
           <BarsIcon />
           <span className="ml-[3px] font-bold">Market Trends and Channels</span>
-          <span className="h-5 border-l border-[#a9abb6]" />
+          <span className="h-5 border-l border-[#a9abaa]" />
           <span className="text-rk-muted">Top market player:</span>
           <span className="blur-[3px] select-none text-rk-muted">search</span>
         </div>

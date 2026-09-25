@@ -89,13 +89,13 @@ function SitesTable({ rows, losers }: { rows: SiteRow[]; losers: boolean }) {
       <div className="relative">
         <div className="absolute top-0 bottom-0 left-[511px] w-[16px] bg-[#e5f6fb]" />
         {rows.map((r, i) => (
-          <div key={r.url} className={`relative flex items-center border-b border-[#eceef2] ${i === 0 ? "h-[65px]" : "h-[53px]"}`}>
+          <div key={r.url} className={`relative flex items-center border-b border-[#edefef] ${i === 0 ? "h-[65px]" : "h-[53px]"}`}>
             <span className="w-[52px] pl-3">{i + 1}</span>
             <span className="mr-[11px] w-[248px] overflow-hidden leading-5">
               <a href={r.url} target="_blank" rel="noreferrer" className="text-rk-link hover:text-rk-link-hover">
                 {r.url}
               </a>{" "}
-              <ExtIcon className="relative top-[2px] text-[#a9abb6]" />
+              <ExtIcon className="relative top-[2px] text-[#a9abaa]" />
             </span>
             <span className="w-[80px]">
               <span className={`inline-flex h-[28px] items-center gap-[3px] rounded-full px-[9px] text-[15px] font-semibold ${losers ? "bg-[#ffdde2] text-[#d1002f]" : "bg-[#b9f0dc] text-[#007c65]"}`}>
@@ -106,7 +106,7 @@ function SitesTable({ rows, losers }: { rows: SiteRow[]; losers: boolean }) {
             <span className="flex w-[160px] items-center">
               <span className="flex w-[123px] justify-between pr-[7px] pl-[3px]">
                 {Array.from({ length: 6 }).map((_, k) => (
-                  <span key={k} className="h-[1.5px] w-[9px] bg-[#8a8e9b]" />
+                  <span key={k} className="h-[1.5px] w-[9px] bg-[#8b8d8c]" />
                 ))}
               </span>
               <Up className={`${losers ? "rotate-180 text-[#d1002f]" : "text-[#007c65]"}`} />
@@ -188,7 +188,7 @@ function MiniVolatility() {
           </clipPath>
         ))}
       </defs>
-      <line x1={0} x2={276} y1={47} y2={47} stroke="#e6e7ec" />
+      <line x1={0} x2={276} y1={47} y2={47} stroke="#e7e8e8" />
       <rect x={0} y={93} width={276} height={46} fill="#d6ebfb" />
       {bands.map((b) => (
         <g key={b.id} clipPath={`url(#${b.id})`}>
@@ -205,11 +205,11 @@ export function SensorPersonal() {
     <SensorShell tab="personal">
       <div className="flex gap-10 px-16 pt-10 pb-[530px]">
         <div className="h-[230px] w-[300px] shrink-0 rounded-md bg-white px-3 pt-[13px] shadow-[0_2px_12px_rgba(25,27,35,0.10)]">
-          <div className="flex items-center gap-[9px] text-[14px] font-semibold text-[#6c6e79]">
+          <div className="flex items-center gap-[9px] text-[14px] font-semibold text-[#6a6c6a]">
             SERP volatility
-            <span className="h-[7px] w-[32px] rounded-full bg-[#e6e7ec]" />
+            <span className="h-[7px] w-[32px] rounded-full bg-[#e7e8e8]" />
           </div>
-          <div className="mt-[9px] mb-px border-t border-[#e6e7ec]" />
+          <div className="mt-[9px] mb-px border-t border-[#e7e8e8]" />
           <MiniVolatility />
           <div className="mt-[9px] flex gap-[10px] text-[12px] text-rk-text-2">
             {[

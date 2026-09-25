@@ -39,7 +39,7 @@ function TrendChart() {
     <div ref={ref} data-testid="changes-bars" className="relative" onMouseLeave={() => setHover(null)}>
       <svg width={width} height={260} className="block">
         {[75, 50, 25, 0].map((t) => (
-          <text key={t} x={56} y={ya(t) + 4} textAnchor="end" fontSize="12" fill="#6c6e79">
+          <text key={t} x={56} y={ya(t) + 4} textAnchor="end" fontSize="12" fill="#6a6c6a">
             {t}
           </text>
         ))}
@@ -47,18 +47,18 @@ function TrendChart() {
         <path d={line} fill="none" stroke="#6167e6" strokeWidth={2.5} />
         {[3, 2, 1, 0].map((t) => (
           <g key={t}>
-            <line x1={left} x2={right + 8} y1={yb(t)} y2={yb(t)} stroke={t === 0 ? "#c4c7cf" : "#eceef2"} />
-            <text x={56} y={yb(t) + 4} textAnchor="end" fontSize="12" fill="#6c6e79">
+            <line x1={left} x2={right + 8} y1={yb(t)} y2={yb(t)} stroke={t === 0 ? "#d6d8d7" : "#edefef"} />
+            <text x={56} y={yb(t) + 4} textAnchor="end" fontSize="12" fill="#6a6c6a">
               {t}
             </text>
           </g>
         ))}
-        {hover != null && <rect x={x(hover) - 7.5} y={yb(3) - 6} width={15} height={yb(0) - yb(3) + 6} fill="#e0e1e9" opacity={0.45} />}
+        {hover != null && <rect x={x(hover) - 7.5} y={yb(3) - 6} width={15} height={yb(0) - yb(3) + 6} fill="#e0e2e1" opacity={0.45} />}
         {changesTrend.declined.map((v, i) => (v ? <rect key={`d${i}`} x={x(i)} y={yb(v)} width={4} height={yb(0) - yb(v)} rx={1.5} fill="#ff6b70" /> : null))}
         {changesTrend.improved.map((v, i) => (v ? <rect key={`i${i}`} x={x(i) - 5} y={yb(v)} width={4} height={yb(0) - yb(v)} rx={1.5} fill="#1dc99b" /> : null))}
         {changesTrend.labels.map((l, i) =>
           l ? (
-            <text key={i} x={x(i)} y={yb(0) + 23} textAnchor="middle" fontSize="12" fill="#6c6e79">
+            <text key={i} x={x(i)} y={yb(0) + 23} textAnchor="middle" fontSize="12" fill="#6a6c6a">
               {l}
             </text>
           ) : null,
@@ -164,7 +164,7 @@ function PageChangesCard() {
               <td className="text-right">{p.traffic}</td>
               <td className="pr-[2px] text-right">{p.diff < 0 ? `-${Math.abs(p.diff)}` : p.diff}</td>
               <td className="text-center">
-                <button type="button" aria-label="Filter by this page" className="text-[#a9abb6] hover:text-rk-link">
+                <button type="button" aria-label="Filter by this page" className="text-[#a9abaa] hover:text-rk-link">
                   <svg viewBox="0 0 16 16" width={16} height={16}>
                     <path d="M2.5 3h11L9.5 8v5l-3-1.5V8z" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinejoin="round" />
                   </svg>
@@ -182,7 +182,7 @@ function PageChangesCard() {
 }
 
 function Stopwatch() {
-  const ink = "#191b23";
+  const ink = "#1b1e1a";
   const glove = "#c5d0fb";
   return (
     <svg width="120" height="134" viewBox="0 0 120 134" className="absolute -top-[18px] left-[18px]">
@@ -416,10 +416,10 @@ function ChangeRowView({ r, checked, toggle }: { r: ChangeRow; checked: boolean;
           </span>
         </td>
         <td className={`${td} pr-1`}>
-          <span className={`${line} justify-end ${r.previous == null ? "pr-2 text-[#a9abb6]" : ""}`}>{r.previous ?? "·"}</span>
+          <span className={`${line} justify-end ${r.previous == null ? "pr-2 text-[#a9abaa]" : ""}`}>{r.previous ?? "·"}</span>
         </td>
         <td className={`${td} pr-[19px]`}>
-          <span className={`${line} justify-end ${r.current == null ? "pr-2 text-[#a9abb6]" : ""}`}>{r.current ?? "·"}</span>
+          <span className={`${line} justify-end ${r.current == null ? "pr-2 text-[#a9abaa]" : ""}`}>{r.current ?? "·"}</span>
         </td>
         <td className={`${td} pl-[15px]`}>
           <span className={`${line} ${r.diff === "lost" ? "text-rk-danger" : "text-rk-success"}`}>{r.diff}</span>
@@ -574,7 +574,7 @@ function ChangesTable({ tab, filter }: { tab: string; filter: string }) {
         {pos.ratio < 1 && (
           <div className="absolute right-[2px] bottom-[23.5px]" style={{ left: fixedW - 2 }}>
             <div
-              className="h-[5px] cursor-pointer rounded-full bg-[#c4c7cf]"
+              className="h-[5px] cursor-pointer rounded-full bg-[#d6d8d7]"
               style={{ width: `${pos.ratio * 100}%`, marginLeft: `${pos.left * (1 - pos.ratio) * 100}%` }}
               onMouseDown={(e) => {
                 const el = scroller.current;

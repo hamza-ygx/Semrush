@@ -210,7 +210,7 @@ function BottomCta() {
       >
         <label className="flex h-[56px] items-center rounded-[6px] bg-white pl-[10px] text-[#8f8f94]">
           <MagnifierIcon size={26} sw={1.6} />
-          <input placeholder="Enter your business name" aria-label="Enter your business name" className="ml-[9px] h-full flex-1 bg-transparent text-[16px] text-[#191b23] outline-none placeholder:text-[#8f8f94]" />
+          <input placeholder="Enter your business name" aria-label="Enter your business name" className="ml-[9px] h-full flex-1 bg-transparent text-[16px] text-[#1b1e1a] outline-none placeholder:text-[#8f8f94]" />
         </label>
         <button type="submit" className="mt-[11px] h-[56px] w-full rounded-[6px] bg-[#a35eff] text-[18px] font-medium text-white hover:bg-[#9048f2]">
           Get started

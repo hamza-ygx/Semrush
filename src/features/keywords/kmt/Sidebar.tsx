@@ -47,7 +47,7 @@ function SortSelect() {
               setValue(o);
               close();
             }}
-            className={`flex h-8 w-[83px] items-center px-2 text-left text-[14px] text-rk-text ${o === value ? "bg-[#eef1fb] shadow-[inset_2px_0_0_#191b23]" : "hover:bg-rk-bg"}`}
+            className={`flex h-8 w-[83px] items-center px-2 text-left text-[14px] text-rk-text ${o === value ? "bg-[#eef1fb] shadow-[inset_2px_0_0_#1b1e1a]" : "hover:bg-rk-bg"}`}
           >
             {o}
           </button>
@@ -135,7 +135,7 @@ export function Sidebar({
               label: (
                 <span className="flex items-center gap-[6px]">
                   Topics
-                  <span className="rounded-full bg-[#009f81] px-[5px] text-[11px] leading-[14px] font-semibold text-white">new</span>
+                  <span className="rounded-[6px] bg-[#00aa7d] px-1 text-[10px] leading-[14px] font-medium text-white">new</span>
                 </span>
               ),
               wrap: (b) => (

@@ -11,7 +11,7 @@ export function SubdomainsView() {
           <h2 className="text-[16px] leading-6 font-semibold text-rk-text">
             Organic Subdomains <span className="font-normal text-rk-muted">1</span>
           </h2>
-          <button type="button" className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
+          <button type="button" className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f5f6f6] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
             <ExportIcon />
             Export
           </button>

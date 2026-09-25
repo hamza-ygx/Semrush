@@ -8,8 +8,8 @@ import { basePlan, proPlan } from "./data";
 
 function Feature({ children, off }: { children: React.ReactNode; off?: boolean }) {
   return (
-    <li className={`flex gap-[10px] text-[14px] leading-5 ${off ? "text-[#8a8e9b]" : ""}`}>
-      {off ? <span className="mt-[9px] h-[1.5px] w-[10px] shrink-0 bg-[#a9abb6] ml-[2px] mr-[2px]" /> : <CheckIcon className="mt-[2px] shrink-0 text-[#009f81]" strokeWidth={2} width={14} height={14} />}
+    <li className={`flex gap-[10px] text-[14px] leading-5 ${off ? "text-[#8b8d8c]" : ""}`}>
+      {off ? <span className="mt-[9px] h-[1.5px] w-[10px] shrink-0 bg-[#a9abaa] ml-[2px] mr-[2px]" /> : <CheckIcon className="mt-[2px] shrink-0 text-[#009f81]" strokeWidth={2} width={14} height={14} />}
       <span>{children}</span>
     </li>
   );
@@ -79,7 +79,7 @@ export function PricingModal({ open, onClose }: { open: boolean; onClose: () => 
             </button>
           </div>
         </div>
-        <p className="mx-auto mt-[19px] flex w-[590px] gap-2 text-center text-[14px] leading-5 text-[#a9abb6]">
+        <p className="mx-auto mt-[19px] flex w-[590px] gap-2 text-center text-[14px] leading-5 text-[#a9abaa]">
           <svg viewBox="0 0 16 16" width={16} height={16} className="mt-[2px] shrink-0">
             <circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" strokeWidth={1.3} />
             <path d="M6.2 6.3a1.9 1.9 0 1 1 2.6 1.8c-.5.2-.8.6-.8 1.1v.4M8 11.3v.2" fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" />

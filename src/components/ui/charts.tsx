@@ -68,14 +68,14 @@ export function LineChart({
       {grid &&
         ticks.map((t) => (
           <g key={t}>
-            <line x1={padding.left} x2={padding.left + W} y1={y(t)} y2={y(t)} stroke="#e0e1e9" strokeDasharray={t === 0 ? undefined : "0"} />
+            <line x1={padding.left} x2={padding.left + W} y1={y(t)} y2={y(t)} stroke="#e0e2e1" strokeDasharray={t === 0 ? undefined : "0"} />
             {yAxis !== "none" && (
               <text
                 x={yAxis === "right" ? padding.left + W + 8 : padding.left - 8}
                 y={y(t) + 4}
                 textAnchor={yAxis === "right" ? "start" : "end"}
                 fontSize="12"
-                fill="#6c6e79"
+                fill="#6a6c6a"
               >
                 {formatY(t)}
               </text>
@@ -94,7 +94,7 @@ export function LineChart({
       })}
       {labels?.map((l, i) =>
         l ? (
-          <text key={i} x={x(i)} y={height - 6} textAnchor="middle" fontSize="12" fill="#6c6e79">
+          <text key={i} x={x(i)} y={height - 6} textAnchor="middle" fontSize="12" fill="#6a6c6a">
             {l}
           </text>
         ) : null,
@@ -125,7 +125,7 @@ export function Donut({
   return (
     <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="-rotate-90">
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#e0e1e9" strokeWidth={thickness} />
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#e0e2e1" strokeWidth={thickness} />
         {segments.map((s, i) => (
             <circle
               key={i}
@@ -151,7 +151,7 @@ export function SemiGauge({
   size = 176,
   thickness = 28,
   color = "#6167e6",
-  track = "#e0e1e9",
+  track = "#e0e2e1",
   marker,
   children,
 }: {
@@ -198,13 +198,13 @@ export function SemiGauge({
 export function MiniGauge({ size = 34 }: { size?: number }) {
   return (
     <svg viewBox="0 0 34 20" width={size} height={(size * 20) / 34}>
-      <path d="M4 17a13 13 0 0 1 26 0" fill="none" stroke="#e0e1e9" strokeWidth={5} />
+      <path d="M4 17a13 13 0 0 1 26 0" fill="none" stroke="#e0e2e1" strokeWidth={5} />
       <circle cx="4" cy="17" r="2.6" fill="#fdc23c" />
     </svg>
   );
 }
 
-export function HBar({ value, max = 100, color = "#6167e6", track = "#e0e1e9", height = 8, className = "" }: { value: number; max?: number; color?: string; track?: string; height?: number; className?: string }) {
+export function HBar({ value, max = 100, color = "#6167e6", track = "#e0e2e1", height = 8, className = "" }: { value: number; max?: number; color?: string; track?: string; height?: number; className?: string }) {
   return (
     <div className={`w-full rounded-sm ${className}`} style={{ background: track, height }}>
       <div className="h-full rounded-sm" style={{ width: `${Math.min(100, (value / (max || 1)) * 100)}%`, background: color }} />

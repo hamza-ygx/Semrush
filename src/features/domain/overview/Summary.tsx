@@ -13,7 +13,7 @@ function CardTag({ children, className }: { children: string; className: string 
 function MiniArc() {
   return (
     <svg viewBox="0 0 40 20" width={39} height={19}>
-      <path d="M4.5 19a15.5 15.5 0 0 1 31 0" fill="none" stroke="#e0e1e9" strokeWidth={7} />
+      <path d="M4.5 19a15.5 15.5 0 0 1 31 0" fill="none" stroke="#e0e2e1" strokeWidth={7} />
     </svg>
   );
 }
@@ -127,7 +127,7 @@ export function SeoCard() {
                 <div key={m.label} className={`${cols[i]} ${i ? "border-l border-rk-border pl-6" : ""}`}>
                   <div className="flex items-center gap-1 text-[14px] leading-5 whitespace-nowrap">
                     {m.label}
-                    {m.globe && <WorldIcon className="text-[#a9abb6]" />}
+                    {m.globe && <WorldIcon className="text-[#a9abaa]" />}
                   </div>
                   <div className="mt-1 flex items-center gap-[6px]">
                     {m.share && <ShareTooltip />}

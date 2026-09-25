@@ -1,5 +1,5 @@
 const P = "#b77ff9";
-const K = "#191b23";
+const K = "#1b1e1a";
 
 export function UfoArt() {
   return (

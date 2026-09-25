@@ -23,15 +23,15 @@ function HealthActions() {
         <NoteIcon width={17} height={17} />
         Notes:
       </span>
-      <GrayButton className="h-[27px] !gap-[8px] !bg-[#f4f5f9] !px-[8px]">
+      <GrayButton className="h-[27px] !gap-[8px] !bg-[#f5f6f6] !px-[8px]">
         <PlusIcon width={14} height={14} />
         Add
       </GrayButton>
-      <GrayButton className="h-[27px] !bg-[#f4f5f9] !px-[8px]">View all</GrayButton>
-      <GrayButton className="h-[27px] w-[32px] justify-center !bg-[#f4f5f9] !px-0">
+      <GrayButton className="h-[27px] !bg-[#f5f6f6] !px-[8px]">View all</GrayButton>
+      <GrayButton className="h-[27px] w-[32px] justify-center !bg-[#f5f6f6] !px-0">
         <EyeIcon width={17} height={17} />
       </GrayButton>
-      <GrayButton className="h-[27px] w-[33px] justify-center !bg-[#f4f5f9] !px-0">
+      <GrayButton className="h-[27px] w-[33px] justify-center !bg-[#f5f6f6] !px-0">
         <GearIcon width={17} height={17} />
       </GrayButton>
     </div>

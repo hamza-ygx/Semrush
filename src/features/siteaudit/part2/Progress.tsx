@@ -33,7 +33,7 @@ const EyeIcon = () => (
 );
 
 const HelpCircle = () => (
-  <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#8a8e9b]">
+  <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#8b8d8c]">
     <circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" strokeWidth={1.4} />
     <path d="M6.2 6.3a1.9 1.9 0 1 1 2.6 1.7c-.5.3-.8.6-.8 1.2v.3" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" />
     <circle cx="8" cy="11.4" r=".8" fill="currentColor" />
@@ -45,7 +45,7 @@ function Check({ label }: { label: string }) {
   return (
     <label className="flex cursor-pointer items-center gap-2 text-[14px] leading-5">
       <input type="checkbox" checked={on} onChange={() => setOn(!on)} className="sr-only" />
-      <span className={`flex h-4 w-4 items-center justify-center rounded-[3px] border ${on ? "border-[#191b23] bg-[#191b23]" : "border-rk-border-strong bg-white"}`}>
+      <span className={`flex h-4 w-4 items-center justify-center rounded-[3px] border ${on ? "border-[#1b1e1a] bg-[#1b1e1a]" : "border-rk-border-strong bg-white"}`}>
         {on && (
           <svg viewBox="0 0 16 16" width={12} height={12}>
             <path d="m3.5 8.5 3 3 6-7" fill="none" stroke="#fff" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
@@ -70,17 +70,17 @@ function Chart({ show }: { show: boolean }) {
       {[0, 20, 40, 60, 80, 100].map((t) => (
         <g key={t}>
           <line x1={left} x2={left + plotW} y1={y(t)} y2={y(t)} stroke={t ? "#f0f0f2" : "#cecece"} />
-          <text x={left + plotW + 15} y={y(t) + 4} fontSize={12} fill="#6c6e79">
+          <text x={left + plotW + 15} y={y(t) + 4} fontSize={12} fill="#6a6c6a">
             {t}
           </text>
         </g>
       ))}
-      <line x1={cx} x2={cx} y1={y(100)} y2={y(0)} stroke="#e0e1e9" strokeDasharray="3 3" />
-      {show && <circle cx={cx} cy={y(82)} r={1.5} fill="#191b23" />}
-      <text x={cx} y={y(0) + 19} textAnchor="middle" fontSize={12} fill="#6c6e79">
+      <line x1={cx} x2={cx} y1={y(100)} y2={y(0)} stroke="#e0e2e1" strokeDasharray="3 3" />
+      {show && <circle cx={cx} cy={y(82)} r={1.5} fill="#1b1e1a" />}
+      <text x={cx} y={y(0) + 19} textAnchor="middle" fontSize={12} fill="#6a6c6a">
         16:11:34
       </text>
-      <text transform={`translate(${left + plotW + 48} ${top + H / 2}) rotate(90)`} textAnchor="middle" fontSize={12} fill="#6c6e79">
+      <text transform={`translate(${left + plotW + 48} ${top + H / 2}) rotate(90)`} textAnchor="middle" fontSize={12} fill="#6a6c6a">
         Site Health (%)
       </text>
     </svg>
@@ -90,7 +90,7 @@ function Chart({ show }: { show: boolean }) {
 export function Progress() {
   const [sel, setSel] = useState<string[]>(["Site Health"]);
   const toggle = (k: string) => setSel((s) => (s.includes(k) ? s.filter((x) => x !== k) : [...s, k]));
-  const btn = "flex h-[30px] items-center gap-1 rounded-md border border-rk-border-strong bg-[#f4f5f9] px-[9px] text-[14px] hover:bg-rk-hover";
+  const btn = "flex h-[30px] items-center gap-1 rounded-md border border-rk-border-strong bg-[#f5f6f6] px-[9px] text-[14px] hover:bg-rk-hover";
   return (
     <AppShell section="seo">
       <SiteAuditHeader tab="progress" looker={false} pdf={false} exportBtn={false} />
