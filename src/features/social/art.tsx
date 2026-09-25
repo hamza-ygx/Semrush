@@ -296,17 +296,27 @@ export function MentionsChartArt() {
 export function PortraitArt() {
   return (
     <svg viewBox="0 0 273 357" width={273} height={357} className="rounded-lg">
-      <rect width="273" height="357" fill="#3b2a1f" />
-      <rect x="0" y="0" width="120" height="357" fill="#5a4230" />
-      <rect x="160" y="30" width="113" height="150" fill="#6b5240" />
-      <path d="M40 357 C 50 260 100 230 150 230 C 210 230 250 270 273 330 L 273 357Z" fill="#6aa9e0" />
-      <ellipse cx="160" cy="130" rx="52" ry="64" fill="#e6b08c" />
-      <path d="M100 130 C 90 50 150 30 190 50 C 230 70 230 140 220 200 C 210 170 212 120 196 100 C 170 90 130 96 110 140 C 108 170 112 200 100 230 C 90 200 96 160 100 130Z" fill="#1f1512" />
-      <circle cx="140" cy="126" r="14" fill="none" stroke="#c0623a" strokeWidth={4} />
-      <circle cx="182" cy="126" r="14" fill="none" stroke="#c0623a" strokeWidth={4} />
-      <path d="M154 126 L 168 126" stroke="#c0623a" strokeWidth={4} />
-      <path d="M140 160 C 150 176 172 176 182 160 C 170 168 152 168 140 160Z" fill="#fff" />
-      <path d="M60 330 C 80 300 130 290 180 300 L 190 357 L 60 357Z" fill="#5d99d2" />
+      <defs>
+        <linearGradient id="pa-bg" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#3a2a1a" />
+          <stop offset="0.5" stopColor="#5e4527" />
+          <stop offset="1" stopColor="#86673a" />
+        </linearGradient>
+      </defs>
+      <rect width="273" height="357" fill="url(#pa-bg)" />
+      <path d="M232 20c20 10 34 40 30 80-10-20-26-30-36-30z" fill="#4b5a2e" opacity={0.6} />
+      <path d="M120 60c0-40 30-58 62-56 36 2 58 28 56 70-2 40 0 90-8 120l-30-10c6-30 10-70 4-96-10-20-40-24-58-6-12 24-10 70-8 110l-30 4c4-40 12-90 12-136z" fill="#120b07" />
+      <ellipse cx="181" cy="96" rx="38" ry="52" fill="#f3c8a4" />
+      <path d="M143 88c4-40 30-54 50-50 24 6 30 30 26 52-6-20-20-32-40-30-16 2-28 14-36 28z" fill="#120b07" />
+      <circle cx="163" cy="97" r="13" fill="none" stroke="#b5532f" strokeWidth={3.5} />
+      <circle cx="201" cy="97" r="13" fill="none" stroke="#b5532f" strokeWidth={3.5} />
+      <path d="M176 96h12" stroke="#b5532f" strokeWidth={3.5} />
+      <path d="M166 124c8 12 26 12 32 0-10 5-22 5-32 0z" fill="#fff" />
+      <path d="M40 357c6-90 50-150 110-176 40-8 90 4 123 30v146z" fill="#8fd0f4" />
+      <path d="M60 357c10-60 30-100 70-130 10 40 0 90-20 130z" fill="#45aee2" />
+      <path d="M0 250c20-6 44 0 62 14 10 18 8 50-6 72-20 6-40 0-56-10z" fill="#f2c9a6" />
+      <path d="M50 300l60-20 30 77H70z" fill="#d6dde0" />
+      <path d="M56 305l50-17 24 60" fill="none" stroke="#9aa3a8" strokeWidth={2} />
     </svg>
   );
 }

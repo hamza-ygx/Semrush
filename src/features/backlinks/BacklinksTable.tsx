@@ -66,7 +66,7 @@ export function BacklinksTable() {
           {filters.map((f) => (
             <FilterSelect key={f} label={f} options={placementOptions[f] ?? ["Yes", "No"]} defaultOpen />
           ))}
-          <div className={filters.length ? "ml-[1px] basis-full" : "ml-[2px]"}>
+          <div className={`-ml-[1px] ${filters.length ? "basis-full" : ""}`}>
             <div className="inline-block">
               <AddFilter onPick={addFilter} />
             </div>
@@ -107,10 +107,10 @@ export function BacklinksTable() {
                 </td>
                 <td className="px-3 pt-[10px] text-right">{r.as}</td>
                 <td className="px-3 pt-[10px] pb-[12px]">
-                  <div className="max-w-[228px] truncate">{r.title}</div>
+                  <div className="truncate">{r.title}</div>
                   <div className="break-all">
                     {r.broken && <BrokenIcon className="mr-[4px] inline-block align-[-3px] text-[#a9abb6]" />}
-                    <a href={ext(r.url)} target="_blank" rel="noreferrer" className="tracking-[0.3px] text-rk-link hover:text-rk-link-hover">
+                    <a href={ext(r.url)} target="_blank" rel="noreferrer" className="tracking-[0.2px] text-rk-link hover:text-rk-link-hover">
                       {r.url}
                     </a>
                     <ExtLink href={r.url} className="ml-[4px]" />

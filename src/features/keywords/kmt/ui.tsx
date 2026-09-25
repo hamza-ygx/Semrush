@@ -11,11 +11,11 @@ function subscribeWide(cb: () => void) {
   return () => m.removeEventListener("change", cb);
 }
 
-export function useWide() {
+export function useWide(): boolean | null {
   return useSyncExternalStore(
     subscribeWide,
     () => window.matchMedia(wideQuery).matches,
-    () => false,
+    () => null,
   );
 }
 
@@ -155,3 +155,10 @@ export function ApplyButton({ onClick, className = "", disabled = false }: { onC
     </button>
   );
 }
+
+export const SparkleLg = () => (
+  <svg viewBox="0 0 16 16" width={16} height={16} className="shrink-0">
+    <path d="M6.1 4.6c.5 3 1.6 4.3 4.9 5-3.3.7-4.4 2-4.9 5-.5-3-1.6-4.3-4.9-5 3.3-.7 4.4-2 4.9-5z" fill="#7a2edc" />
+    <path d="M12.3.8c.3 1.8 1 2.5 2.9 2.9-1.9.4-2.6 1.1-2.9 2.9-.3-1.8-1-2.5-2.9-2.9 1.9-.4 2.6-1.1 2.9-2.9z" fill="#6a4fb0" />
+  </svg>
+);

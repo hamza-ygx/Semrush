@@ -84,12 +84,12 @@ export function AppShell({
             </button>
             {project && <ProjectSelect width={projectWidth} />}
             {search.kind === "goto" ? (
-              <GoToTool compact={project} />
+              <GoToTool compact={project} extra={projectWidth ? 162 - projectWidth : 0} />
             ) : search.kind === "analyze" ? (
               <AnalyzeSearch value={search.value} scope={search.scope} placeholder={search.placeholder} inputClassName={search.inputClassName} action={search.action} />
             ) : null}
           </div>
-          <nav className="flex items-center gap-10 text-[14px] text-rk-text xl:gap-[29px]">
+          <nav className="flex items-center gap-[39px] text-[14px] text-rk-text xl:gap-[28px]">
             <button type="button" onClick={() => setInvite(true)} className="flex items-center gap-[7px] hover:text-rk-link">
               <PlusIcon />
               Invite users

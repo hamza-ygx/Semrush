@@ -3,6 +3,20 @@
 import { useEffect, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
+export function useScrollLock(active: boolean) {
+  useEffect(() => {
+    if (!active) return;
+    const el = document.documentElement;
+    const { overflow, paddingRight } = el.style;
+    el.style.paddingRight = `${window.innerWidth - el.clientWidth}px`;
+    el.style.overflow = "hidden";
+    return () => {
+      el.style.overflow = overflow;
+      el.style.paddingRight = paddingRight;
+    };
+  }, [active]);
+}
+
 export function Modal({
   open,
   onClose,
@@ -24,6 +38,8 @@ export function Modal({
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
+
+  useScrollLock(open);
 
   if (!open) return null;
   return createPortal(

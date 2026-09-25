@@ -13,6 +13,7 @@ export const bandColor = (v: number) => (v < 2 ? LOW : v < 5 ? NORMAL : v < 8 ? 
 const X0 = 62;
 const DX = 23.14;
 const xAt = (i: number) => X0 + i * DX;
+const xDev = (i: number) => X0 - 3 + i * 23.31;
 
 export function monotonePath(pts: [number, number][]) {
   const n = pts.length;
@@ -34,20 +35,20 @@ export function monotonePath(pts: [number, number][]) {
   return d;
 }
 
-function XAxis({ y }: { y: number }) {
+function XAxis({ y, at = xAt }: { y: number; at?: (i: number) => number }) {
   const last = sensorDates.length - 1;
   return (
     <g fontSize={12} fill="#6c6e79">
       {sensorDates.map((d, i) =>
         i === last ? (
           <g key={d}>
-            <rect x={xAt(i) - 22} y={y - 11} width={44} height={22} rx={3} fill="#5b5d5c" />
-            <text x={xAt(i)} y={y + 4.5} textAnchor="middle" fill="white" fontWeight={500}>
+            <rect x={at(i) - 22} y={y - 11} width={44} height={22} rx={3} fill="#5b5d5c" />
+            <text x={at(i)} y={y + 4.5} textAnchor="middle" fill="white" fontWeight={500}>
               {d}
             </text>
           </g>
         ) : (i - 2) % 3 === 0 && i < last - 1 ? (
-          <text key={d} x={xAt(i)} y={y + 4.5} textAnchor="middle">
+          <text key={d} x={at(i)} y={y + 4.5} textAnchor="middle">
             {d}
           </text>
         ) : null,
@@ -127,27 +128,27 @@ export function DeviationChart({ data, avg = 1.7, top = 138, bottom = 370 }: { d
   const [hover, setHover] = useState<number | null>(null);
   const k = (bottom - top) / 10;
   const y = (v: number) => bottom - v * k;
-  const lastX = xAt(data.length - 1);
+  const lastX = xDev(data.length - 1);
   return (
     <svg viewBox={`0 0 779 ${bottom + 60}`} width={779} height={bottom + 60} className="pointer-events-none absolute top-0 left-0 overflow-visible" onMouseLeave={() => setHover(null)}>
       {[10, 5.7, 4.2, avg, 0].map((v) => (
         <g key={v}>
-          <text x={46} y={y(v) + 4} textAnchor="end" fontSize={12} fill="#6c6e79">
+          <text x={43} y={y(v) + 4} textAnchor="end" fontSize={12} fill="#6c6e79">
             {v}
           </text>
-          <line x1={60} x2={759} y1={y(v)} y2={y(v)} stroke="#eeeff2" />
+          <line x1={57} x2={759} y1={y(v)} y2={y(v)} stroke="#eeeff2" />
         </g>
       ))}
       <line x1={lastX} x2={lastX} y1={top} y2={bottom} stroke="#8a8e9b" strokeDasharray="4 3" />
-      {data.map((v, i) => (v == null ? null : <line key={i} x1={xAt(i)} x2={xAt(i)} y1={y(avg)} y2={y(v)} stroke={devColor(v)} strokeWidth={1.4} />))}
-      <line x1={xAt(0)} x2={lastX} y1={y(avg)} y2={y(avg)} stroke="#8a8e9b" strokeWidth={3} />
-      {data.map((v, i) => (v == null ? null : <circle key={`c${i}`} cx={xAt(i)} cy={y(v)} r={hover === i ? 5.5 : 4} fill={devColor(v)} />))}
-      <XAxis y={bottom + 36} />
+      {data.map((v, i) => (v == null ? null : <line key={i} x1={xDev(i)} x2={xDev(i)} y1={y(avg)} y2={y(v)} stroke={devColor(v)} strokeWidth={1.4} />))}
+      <line x1={xDev(0)} x2={lastX} y1={y(avg)} y2={y(avg)} stroke="#8a8e9b" strokeWidth={3} />
+      {data.map((v, i) => (v == null ? null : <circle key={`c${i}`} cx={xDev(i)} cy={y(v)} r={hover === i ? 5.5 : 4} fill={devColor(v)} />))}
+      <XAxis y={bottom + 36} at={xDev} />
       {data.map((v, i) =>
-        v == null ? null : <rect key={`h${i}`} x={xAt(i) - DX / 2} y={top} width={DX} height={bottom - top} fill="transparent" pointerEvents="all" onMouseEnter={() => setHover(i)} />,
+        v == null ? null : <rect key={`h${i}`} x={xDev(i) - DX / 2} y={top} width={DX} height={bottom - top} fill="transparent" pointerEvents="all" onMouseEnter={() => setHover(i)} />,
       )}
       {hover != null && data[hover] != null && (
-        <Tooltip i={hover} x={xAt(hover)} y={y(data[hover]!)} label="Deviation" value={`${data[hover]! >= avg ? "+" : ""}${(data[hover]! - avg).toFixed(1)}`} color={devColor(data[hover]!)} />
+        <Tooltip i={hover} x={xDev(hover)} y={y(data[hover]!)} label="Deviation" value={`${data[hover]! >= avg ? "+" : ""}${(data[hover]! - avg).toFixed(1)}`} color={devColor(data[hover]!)} />
       )}
     </svg>
   );

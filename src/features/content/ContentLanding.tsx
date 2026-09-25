@@ -177,9 +177,9 @@ function Faq() {
   );
 }
 
-function Shell({ children }: { children: ReactNode }) {
+function Shell({ children, help = true }: { children: ReactNode; help?: boolean }) {
   return (
-    <AppShell section="content" project search={{ kind: "goto" }} footer={false} enterprise={false} help="chat">
+    <AppShell section="content" project search={{ kind: "goto" }} footer={false} enterprise={false} help={help ? "chat" : "none"}>
       {children}
       <CenteredFooter />
     </AppShell>
@@ -249,7 +249,7 @@ export function ContentTool({ tool }: { tool: ToolKey }) {
   const Hero = heroes[tool];
   const wide = tool === "topics";
   return (
-    <Shell>
+    <Shell help={!wide}>
       <div className={wide ? "pt-[25px]" : "pt-[17px]"}>
         <section className={`${card} ${wide ? "w-[980px] px-[49px]" : "w-[959px] px-12"} pt-[43px] pb-[50px] text-center`}>
           <h1 className="text-[37px] leading-[48px] font-semibold tracking-[-0.01em] whitespace-nowrap">{t.title}</h1>

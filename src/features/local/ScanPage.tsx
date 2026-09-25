@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { brand } from "@/config/brand";
 import { routes } from "@/config/routes";
+import { ProjectGoTo } from "@/features/social/HeaderTools";
 import { scanBusiness, scanDirectories } from "./data";
 import { DarkButton, MagnifierIcon } from "./ui";
 
@@ -18,7 +19,7 @@ function PinIcon({ size = 18 }: { size?: number }) {
   );
 }
 
-function ScanHeader() {
+function ScanHeader({ roomy = false }: { roomy?: boolean }) {
   const [copied, setCopied] = useState(false);
   return (
     <>
@@ -58,11 +59,11 @@ function ScanHeader() {
           </button>
         </div>
       </div>
-      <div className="mt-[12px] flex items-center gap-[8px] text-[20px] leading-7 font-semibold text-[#1a1a1f]">
+      <div className={`${roomy ? "mt-[13px]" : "mt-[12px]"} flex items-center gap-[8px] text-[20px] leading-7 font-semibold text-[#1a1a1f]`}>
         <PinIcon />
         {scanBusiness.name}
       </div>
-      <div className="mt-[-2px] text-[14px] leading-5 text-[#1f1f24]">{scanBusiness.address}</div>
+      <div className={`${roomy ? "mt-[2px]" : "mt-[-2px]"} text-[14px] leading-5 text-[#1f1f24]`}>{scanBusiness.address}</div>
     </>
   );
 }
@@ -78,7 +79,7 @@ function Stat({ label, sub, children, w }: { label: string; sub: string; childre
     <div style={{ width: w }} className="border-r border-[#e0e1e6] last:border-0">
       <div className="text-[14px] leading-4 text-[#1f1f24]">{label}</div>
       <div className="mt-[2px] text-[12px] leading-4 text-[#76777d]">{sub}</div>
-      <div className="mt-[10px] flex items-baseline text-[24px] leading-7 font-bold text-[#1a1a1f]">{children}</div>
+      <div className="mt-[7px] flex items-baseline text-[24px] leading-7 font-bold text-[#1a1a1f]">{children}</div>
     </div>
   );
 }
@@ -438,7 +439,8 @@ function MapDashboard() {
 
 export function ScanPage() {
   return (
-    <div className="pt-[7px] pb-[131px]">
+    <div className="relative pt-[7px] pb-[131px]">
+      <ProjectGoTo />
       <Card className="h-[536px] pt-[40px] text-center">
         <div className="text-[16px] leading-6 text-[#1f1f24]">{brand.name} Local</div>
         <h1 className="mt-[12px] text-[36px] leading-[41px] font-bold tracking-[-0.3px] text-[#1a1a1f]">
@@ -446,9 +448,11 @@ export function ScanPage() {
           <br />
           and reviews. All in one platform
         </h1>
-        <InnerCard className="mt-[29px] h-[235px] text-left">
-          <ScanHeader />
-          <div className="mt-[26px] flex">
+        <InnerCard className="mt-[30px] h-[236px] text-left">
+          <div className="pt-[2px]">
+            <ScanHeader roomy />
+          </div>
+          <div className="mt-[21px] flex">
             <Stat label="Online presence" sub="Overall assessment" w={196}>
               <span className="mt-[-2px] ml-[7px] flex items-center gap-[6px] text-[#e8680d]">
                 <svg viewBox="0 0 46 22" width={46} height={22}>

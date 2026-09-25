@@ -22,19 +22,19 @@ const features = [
 
 function VideoPoster({ onPlay, playing }: { onPlay: () => void; playing: boolean }) {
   return (
-    <div className="relative mt-[46px] h-[520px] overflow-hidden rounded-xl bg-[#3c2466]">
+    <div className="relative mt-[37px] h-[520px] overflow-hidden rounded-xl bg-[#3c2466]">
       <div className="absolute top-[45px] left-[662px] h-[500px] w-[460px] rounded-tl-md bg-[#553094]" />
       <div className="absolute top-[106px] left-[87px] flex items-center gap-3 text-[#c9c9cf]">
         <LogoIcon width={30} height={30} className="opacity-80" />
         <span className="text-[25px] leading-8 font-bold">{brand.name}</span>
       </div>
-      <div className="absolute top-[180px] left-[87px] text-[70px] leading-[68px] font-semibold tracking-[-0.015em] text-[#c8c7cc]">
+      <div className="absolute top-[188px] left-[87px] text-[70px] leading-[68px] font-semibold tracking-[-0.015em] text-[#c8c7cc]">
         Advertising
         <br />
         Intelligence
       </div>
       <div className="absolute top-[389px] left-[91px] h-[48px] w-[256px] rounded-md bg-[#b9532e]" />
-      <div className="absolute top-[91px] left-[571px] h-[500px] w-[540px] bg-[#bcbcbc]">
+      <div className="absolute top-[91px] left-[571px] h-[500px] w-[540px] overflow-hidden rounded-tl-xl bg-[#bcbcbc]">
         <div className="flex h-[45px] items-center gap-2 bg-[#0b0b0c] pl-[42px] text-[14px] font-bold text-[#c9c9cf]">
           <LogoIcon width={18} height={18} className="opacity-80" />
           <span>{brand.name}</span>
@@ -42,37 +42,52 @@ function VideoPoster({ onPlay, playing }: { onPlay: () => void; playing: boolean
         </div>
         <div className="pl-[46px]">
           <div className="mt-[22px] text-[48px] leading-[64px] font-semibold tracking-[-0.01em] text-[#1e1e22]">AdClarity</div>
-          <div className="mt-[18px] flex items-center gap-[80px]">
+          <div className="mt-[15px] flex items-center gap-[68px]">
             <span className="text-[19px] font-medium text-[#222]">Top ads</span>
-            <span className="flex h-[18px] w-[105px] items-center rounded border border-[#a4a4a4] px-2 text-[7px] text-[#777]">Sort by: impressions</span>
+            <span className="flex h-[18px] w-[105px] items-center justify-between rounded border border-[#a4a4a4] px-2 text-[7px] text-[#777]">Sort by: impressions<span className="text-[8px]">⌄</span></span>
           </div>
           <div className="relative mt-[15px] flex gap-[23px]">
-            <div className="h-[140px] w-[253px] rounded-md bg-[#adadad]">
+            <div className="h-[140px] w-[253px] rounded-md bg-[#a8a7a9]">
               <svg viewBox="0 0 253 140" width={253} height={140} aria-hidden>
-                <path d="M40 70c30-10 60-50 90-40 20 8 50 30 80 40 20 8 20 30 0 40-60 20-140 10-170-10-10-8-10-24 0-30z" fill="#dedede" />
-                <path d="M40 70c20-20 40-44 60-44 20 0 10 30-10 44z" fill="#2b2b33" />
+                <path d="M18 60 208 140h34l-6-10L26 52z" fill="#d9d9d9" />
+                <path d="M22 58c-2-18 18-36 40-46 16 12 42 30 70 32 8-2 14 2 18 8l52 58c14 10 30 16 34 22H212L24 64z" fill="#e6e6e6" />
+                <path d="M22 58c-2-18 18-36 40-46 10 8 18 18 22 26l-6 38z" fill="#3b3b42" />
+                <path d="M62 12c20 18 46 30 70 32" fill="none" stroke="#9a9a9c" strokeWidth={2} />
+                <path d="M26 64 212 136" fill="none" stroke="#c4c4c4" strokeWidth={2} />
+                <g fill="#9a9a9c">
+                  <circle cx="144" cy="60" r="1.6" />
+                  <rect x="150" y="66" width="10" height="2.5" rx="1" transform="rotate(20 155 67)" />
+                  <rect x="158" y="76" width="10" height="2.5" rx="1" transform="rotate(20 163 77)" />
+                  <rect x="166" y="86" width="10" height="2.5" rx="1" transform="rotate(20 171 87)" />
+                  <rect x="174" y="96" width="10" height="2.5" rx="1" transform="rotate(20 179 97)" />
+                  <rect x="182" y="106" width="10" height="2.5" rx="1" transform="rotate(20 187 107)" />
+                </g>
+                <g fill="none" stroke="#6a6a70" strokeWidth={1}>
+                  <path d="m56 26 3 5 5 1-4 3 1 5-5-3-4 3 1-5-4-3 5-1z" />
+                  <path d="m40 50 2 4 4 1-3 2 1 4-4-2-3 2 1-4-3-2 4-1z" />
+                </g>
               </svg>
             </div>
-            <div className="absolute top-[-6px] left-[141px] w-[105px] rounded bg-[#cfcfcf] px-[7px] py-[4px] text-[7px] leading-[17px] text-[#333] shadow">
+            <div className="absolute top-[-6px] left-[141px] w-[105px] rounded bg-[#c6c6c6] px-[7px] py-[4px] text-[7px] leading-[17px] font-medium text-[#333]">
               <div>newest</div>
               <div className="-mx-[4px] rounded bg-[#c2c2c2] px-[4px]">impressions</div>
               <div>duration</div>
             </div>
             <div>
-              <div className="text-[17px] font-medium text-[#222]">Estimated expenditure</div>
-              <div className="mt-[8px] flex gap-[25px]">
+              <div className="text-[15px] font-semibold text-[#222]">Estimated expenditure</div>
+              <div className="mt-[6px] flex gap-[27px]">
                 <div>
                   <div className="text-[8px] text-[#8b8b8b]">Impressions</div>
-                  <div className="text-[26px] leading-8 font-semibold text-[#1e1e22]">6.9B</div>
+                  <div className="text-[22px] leading-7 font-semibold text-[#1e1e22]">6.9B</div>
                   <div className="text-[9px] text-[#2e8a6c]">↑ 4.23%</div>
                 </div>
                 <div>
                   <div className="text-[8px] text-[#8b8b8b]">Spend</div>
-                  <div className="text-[26px] leading-8 font-semibold text-[#1e1e22]">$40.7M</div>
+                  <div className="text-[22px] leading-7 font-semibold text-[#1e1e22]">$40.7M</div>
                   <div className="text-[9px] text-[#2e8a6c]">↑ 7.35%</div>
                 </div>
               </div>
-              <div className="mt-[30px] text-[17px] font-medium text-[#222]">Ad buying methods</div>
+              <div className="mt-[27px] text-[15px] font-semibold text-[#222]">Ad buying methods</div>
             </div>
           </div>
         </div>
@@ -117,8 +132,8 @@ export function AdClarity() {
             15,5K users and <span className="dotted-underline">Deloitte</span> liked it
           </span>
         </p>
-        <p className="mt-[22px] text-[16px] leading-6">Unwrap competitors&apos; digital ads, ad spend and impressions</p>
-        <button type="button" onClick={() => setTried(true)} className="mt-[20px] flex h-10 w-[330px] items-center justify-center rounded-md bg-[#00a480] text-[16px] font-semibold text-white hover:bg-[#008a6c]">
+        <p className="mt-[20px] text-[16px] leading-6">Unwrap competitors&apos; digital ads, ad spend and impressions</p>
+        <button type="button" onClick={() => setTried(true)} className="mt-[22px] flex h-10 w-[330px] items-center justify-center rounded-md bg-[#00a480] text-[16px] font-semibold text-white hover:bg-[#008a6c]">
           {tried ? "Trial activated" : "Try it free"}
         </button>
         <p className="mt-[11px] w-[330px] text-center text-[14px] leading-5 text-[#6c6e79]">

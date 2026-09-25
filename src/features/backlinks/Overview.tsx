@@ -143,7 +143,7 @@ function SummaryBar() {
           Overall Toxicity Score
           <Info />
         </div>
-        <Link href={routes.backlinkAudit} className="mt-[9px] block text-[14px] leading-5 text-rk-link hover:text-rk-link-hover">
+        <Link href={routes.backlinkAudit} className="mt-[13px] block text-[14px] leading-5 text-rk-link hover:text-rk-link-hover">
           Set up Backlink Audit
         </Link>
       </div>
@@ -173,12 +173,12 @@ function Radar() {
     <div className="relative h-[250px]">
       <svg width={344} height={250} className="absolute inset-0">
         {[90, 72, 54, 36, 18].map((r) => (
-          <circle key={r} cx={cx} cy={cy} r={r} fill="none" stroke="#eceef1" />
+          <circle key={r} cx={cx} cy={cy} r={r} fill="none" stroke="#e6e8eb" strokeDasharray={r === 90 ? undefined : "1.5 2.5"} />
         ))}
         {[-150, -30, 90].map((a) => (
-          <line key={a} x1={cx} y1={cy} x2={rd(cx + 90 * Math.cos((a * Math.PI) / 180))} y2={rd(cy + 90 * Math.sin((a * Math.PI) / 180))} stroke="#eceef1" />
+          <line key={a} x1={cx} y1={cy} x2={rd(cx + 90 * Math.cos((a * Math.PI) / 180))} y2={rd(cy + 90 * Math.sin((a * Math.PI) / 180))} stroke="#e6e8eb" strokeDasharray="1.5 2.5" />
         ))}
-        <path d={`M${cx} ${cy + 89}C${cx - 5} ${cy + 60} ${cx - 4} ${cy - 30} ${cx + 4} ${cy - 33}C${cx + 10} ${cy - 30} ${cx + 8} ${cy + 60} ${cx} ${cy + 89}Z`} fill="#dfe3fb" stroke="#b3bcf5" strokeWidth={2.5} />
+        <path d={`M${cx} ${cy + 89}C${cx - 3} ${cy + 60} ${cx - 2} ${cy - 30} ${cx + 5} ${cy - 34}C${cx + 9} ${cy - 30} ${cx + 5} ${cy + 60} ${cx} ${cy + 89}Z`} fill="#dfe3fb" stroke="#b3bcf5" strokeWidth={2.5} />
         <circle cx={cx - 1} cy={cy - 2} r={4.5} fill="#b3bcf5" />
         <circle cx={cx + 9} cy={cy - 7} r={4.5} fill="#b3bcf5" />
         <circle cx={cx} cy={cy + 89} r={4.5} fill="#b3bcf5" />

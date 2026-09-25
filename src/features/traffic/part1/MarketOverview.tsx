@@ -338,7 +338,7 @@ export function MarketOverviewLocked() {
   return (
     <TrafficFrame title="Market Overview" filters={filters} chips="plain" locked bottomGap={116}>
       <div className="mt-[15px] w-[1236px]">
-        <LockedArea charge="$335.33" sampleHref={routes.traffic.marketOverview}>
+        <LockedArea charge="$335.33" sampleHref={routes.traffic.marketOverview} top={42}>
           <div className="flex flex-col gap-4">
             <section className="h-[401px] rounded-lg bg-white shadow-card">
               <GreyTitle>

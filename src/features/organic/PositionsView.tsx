@@ -64,10 +64,8 @@ function SummaryCard() {
           <div className="mt-[22px] flex items-center justify-between">
             <div className="flex items-center">
               {t.legend}
-              <span className="mx-4 hidden h-7 w-px bg-rk-border" />
-              <span className="hidden">
-                <NotesMenu />
-              </span>
+              <span className="mx-4 -my-1 h-7 w-px bg-rk-border" />
+              <NotesMenu />
             </div>
             <TimeRange value="1M" />
           </div>
@@ -86,26 +84,40 @@ export function TrackingBanner({ text = "Create a new project to see your positi
   const [open, setOpen] = useState(true);
   if (!open) return null;
   return (
-    <div className="relative flex h-[139px] items-center rounded-lg border border-[#c9d3fb] bg-[#eaf0ff] pl-5">
-      <svg width="118" height="104" viewBox="0 0 118 104" className="shrink-0">
-        <circle cx="60" cy="56" r="46" fill="#3ddab4" opacity=".9" />
-        <g transform="rotate(-14 58 50)">
-          <rect x="8" y="14" width="96" height="66" rx="6" fill="#fff" stroke="#191b23" strokeWidth="2.4" />
-          <rect x="8" y="14" width="96" height="14" rx="6" fill="#3ddab4" stroke="#191b23" strokeWidth="2.4" />
-          <circle cx="58" cy="21" r="7" fill="#fff" stroke="#191b23" strokeWidth="1.8" />
-          <rect x="16" y="36" width="24" height="18" rx="2" fill="#3ddab4" stroke="#191b23" strokeWidth="1.4" />
-          <text x="19" y="49" fontSize="9" fill="#191b23">Aa</text>
-          <rect x="46" y="36" width="24" height="18" rx="2" fill="#fff" stroke="#191b23" strokeWidth="1.4" />
-          <text x="50" y="49" fontSize="9" fill="#191b23">@</text>
-          <rect x="76" y="36" width="22" height="18" rx="2" fill="#3ddab4" stroke="#191b23" strokeWidth="1.4" />
-          <path d="M16 62h60M16 70h40" stroke="#191b23" strokeWidth="1.6" />
-        </g>
-        <path d="M100 18 112 30l-6 1 4 7-3 2-4-7-4 4z" fill="#fff" stroke="#191b23" strokeWidth="1.6" strokeLinejoin="round" />
-      </svg>
-      <div className="ml-[30px] pt-[7px]">
+    <div className="relative flex h-[126px] items-end rounded-lg border border-[#c9cfdd] bg-[#ebf1ff] pb-5 pl-5 [@media(min-resolution:1.1dppx)]:h-[139px]">
+      <div className="relative h-[106px] w-[118px] shrink-0 self-center">
+        <svg width="118" height="106" viewBox="0 0 118 106" className="absolute inset-0 overflow-visible [@media(min-resolution:1.1dppx)]:scale-[1.155]">
+          <path d="M62 1c14 0 22 5 32 12s19 18 20 32c2 13-2 24-9 36-8 12-22 24-43 24-15 0-27-7-37-18S10 63 10 51s5-25 15-35S47 1 62 1z" fill="#45dba7" />
+          <g transform="rotate(-17 63.5 49)">
+            <rect x="18.5" y="15.5" width="84" height="73" rx="3" fill="#191b23" />
+            <rect x="21.5" y="12.5" width="84" height="73" rx="3" fill="#45dba7" stroke="#191b23" strokeWidth="1.4" />
+            <path d="M21.5 23.5v-8a3 3 0 0 1 3-3h78a3 3 0 0 1 3 3v8z" fill="#191b23" />
+            <circle cx="27.5" cy="18" r="2.1" fill="#fff" />
+            <circle cx="33.5" cy="18" r="2.1" fill="#fff" />
+            <circle cx="39.5" cy="18" r="2.1" fill="#fff" />
+            <g transform="translate(63.5 37)" fill="none" stroke="#191b23" strokeWidth="1.5">
+              {[0, 60, 120, 180, 240, 300].map((r) => (
+                <ellipse key={r} cx="0" cy="-3.2" rx="3.4" ry="5.6" transform={`rotate(${r})`} />
+              ))}
+            </g>
+            <rect x="27.5" y="52" width="70" height="7" rx="3.5" fill="#fff" />
+            <path d="M31 55.5h26M60 55.5h14" stroke="#c6ede0" strokeWidth="1.2" />
+            <rect x="27.5" y="64" width="22" height="16" rx="2" fill="#fff" />
+            <rect x="52.5" y="64" width="22" height="16" rx="2" fill="#fff" />
+            <rect x="77.5" y="64" width="20" height="16" rx="2" fill="#fff" />
+            <text x="30.5" y="74" fontSize="8" fontWeight="700" fill="#45dba7">Aa</text>
+            <path d="M31 77h14M57 76h14" stroke="#c6ede0" strokeWidth="1.2" />
+            <circle cx="59" cy="71" r="3.3" fill="none" stroke="#45dba7" strokeWidth="1.3" />
+            <path d="M64.5 69.5h7M64.5 72.5h7" stroke="#c6ede0" strokeWidth="1.2" />
+            <path d="m86 67-4 7h4l-2 5 5-7h-4z" fill="#45dba7" />
+          </g>
+          <path d="M98 44v17l4-3.6 3.2 6.2 3-1.5-3.2-6h5.4z" fill="#fff" stroke="#191b23" strokeWidth="1.3" strokeLinejoin="round" />
+        </svg>
+      </div>
+      <div className="ml-[30px]">
         <div className="text-[16px] leading-6 font-semibold">Where do you rank on ChatGPT?</div>
-        <div className="mt-[3px] text-[16px] leading-6">{text}</div>
-        <Link href={routes.positionTracking} className="mt-[10px] inline-flex h-7 items-center rounded-md bg-[#009f81] px-[9px] text-[14px] font-semibold text-white hover:bg-[#007c65]">
+        <div className="mt-[3px] text-[14px] leading-5">{text}</div>
+        <Link href={routes.positionTracking} className="mt-[13px] inline-flex h-7 items-center rounded-md bg-[#009f81] px-[9px] text-[14px] font-semibold text-white hover:bg-[#007c65]">
           {cta}
         </Link>
       </div>

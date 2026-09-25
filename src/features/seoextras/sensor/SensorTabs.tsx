@@ -91,7 +91,7 @@ function SitesTable({ rows, losers }: { rows: SiteRow[]; losers: boolean }) {
         {rows.map((r, i) => (
           <div key={r.url} className={`relative flex items-center border-b border-[#eceef2] ${i === 0 ? "h-[65px]" : "h-[53px]"}`}>
             <span className="w-[52px] pl-3">{i + 1}</span>
-            <span className="mr-[7px] w-[252px] overflow-hidden leading-5">
+            <span className="mr-[11px] w-[248px] overflow-hidden leading-5">
               <a href={r.url} target="_blank" rel="noreferrer" className="text-rk-link hover:text-rk-link-hover">
                 {r.url}
               </a>{" "}

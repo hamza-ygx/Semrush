@@ -42,7 +42,7 @@ export function FilterPopover({
         type="button"
         data-filter={label}
         onClick={toggle}
-        className={`flex h-7 items-center rounded-md border text-[14px] whitespace-nowrap ${compact ? "gap-[6px] px-[9px]" : "gap-[6.5px] pr-[6px] pl-[11px]"} ${value ? "text-rk-text" : compact ? "text-[#8a8e9b]" : "text-rk-muted"} ${
+        className={`flex h-7 items-center rounded-md border text-[14px] whitespace-nowrap ${compact ? "gap-[6px] px-[9px]" : "gap-[6.5px] pr-[6px] pl-[11px]"} ${value ? "text-rk-text" : "text-[#a0a2aa]"} ${
           open ? "border-[#9aa2ea] bg-[#fbfcff]" : `${compact ? "border-[#d3d5db]" : "border-rk-border-strong"} bg-white hover:bg-rk-bg`
         }`}
       >
@@ -256,8 +256,8 @@ export function SerpFeaturesFilter({ value, onChange }: { value: string | null; 
                         }}
                         className={`flex h-8 w-full items-center gap-2 pr-[9px] pl-[9px] text-left text-[14px] leading-5 ${f.count ? "text-rk-text hover:bg-rk-bg" : "text-[#c4c7cf]"}`}
                       >
-                        <span className={f.count ? "text-[#8a8d99]" : "text-[#d3d5db]"}>
-                          <SerpIcon name={f.icon} />
+                        <span className={`-mx-[2px] ${f.count ? "text-[#a0a2aa]" : "text-[#d3d5db]"}`}>
+                          <SerpIcon name={f.icon} size={20} />
                         </span>
                         {f.name}
                         <span className={`ml-auto ${f.count ? "text-rk-text-2" : ""}`}>{f.count}</span>
@@ -278,7 +278,7 @@ function SelectBox({ value, options, onChange, width = "w-[160px]" }: { value: s
   const [open, setOpen] = useState(false);
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
   return (
-    <div ref={ref} className={`relative ${width}`}>
+    <div ref={ref} className={`relative shrink-0 ${width}`}>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
@@ -338,7 +338,7 @@ export function AdvancedFilters({
                 <input
                   value={c.text}
                   onChange={(e) => set(i, { text: e.target.value })}
-                  className="h-7 w-[160px] rounded-md border border-rk-border-strong px-2 text-[14px] outline-none focus:border-[#7a86f2]"
+                  className="h-7 w-[160px] shrink-0 rounded-md border border-rk-border-strong px-2 text-[14px] outline-none focus:border-[#7a86f2]"
                 />
               </div>
             ))}

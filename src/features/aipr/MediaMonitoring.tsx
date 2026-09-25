@@ -233,7 +233,7 @@ function OutletIcon({ icon }: { icon: string }) {
 function TopOutlets() {
   return (
     <Widget title="Top Outlets" className="flex-1" bodyClass="pt-[23px]">
-      <div className="flex h-[34px] items-center border-b border-[#e0e1e9] px-5 text-[13px] text-[#484a54]">
+      <div className="flex h-[34px] items-center border-b border-[#e0e1e9] px-5 text-[12px] text-[#484a54]">
         <span className="flex-1">Outlet name</span>
         <span className="w-[112px] text-right">Authority Score</span>
         <span className="w-[98px] text-right">Domain Reach</span>
@@ -242,7 +242,7 @@ function TopOutlets() {
         <div key={o.name} className="flex h-[37px] items-center border-b border-[#f0f1f4] px-5 text-[14px] text-rk-text">
           <span className="flex min-w-0 flex-1 items-center gap-[5px]">
             <OutletIcon icon={o.icon} />
-            <span className="max-w-[145px] truncate">{o.name}</span>
+            <span className="max-w-[136px] truncate">{o.name}</span>
           </span>
           <span className="w-[80px] text-right">{o.score}</span>
           <span className="w-[98px] text-right">{o.reach}</span>
@@ -331,7 +331,7 @@ const statIcons = [
 
 function MentionCard({ m, compact }: { m: Mention; compact?: boolean }) {
   return (
-    <div className={`rounded-lg border border-[#e0e1e9] bg-white ${compact ? "pt-[14px] pr-[13px] pb-[12px] pl-[12px]" : "pt-[13px] pr-[13px] pb-[12px] pl-[12px]"}`}>
+    <div className={`rounded-lg border border-[#e0e1e9] bg-white ${compact ? "pt-[14px] pr-[13px] pb-[16px] pl-[12px]" : "pt-[13px] pr-[13px] pb-[12px] pl-[12px]"}`}>
       <div className="mr-[8px] flex items-start">
         <span className="mt-[3px] flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full text-[11px] font-bold" style={{ background: m.logo.bg, color: m.logo.fg }}>
           {m.logo.text ?? <i className="mt-3 ml-3 h-8 w-8 rounded-full bg-[#f5a37a]" />}
@@ -350,7 +350,7 @@ function MentionCard({ m, compact }: { m: Mention; compact?: boolean }) {
           <GearIcon width={18} height={18} />
         </button>
       </div>
-      <div className={`${compact ? "mt-[14px]" : "mt-[12px]"} text-[16px] leading-6 font-semibold text-rk-text ${compact ? "truncate" : ""}`}>{m.title}</div>
+      <div className={`${compact ? "mt-[12px] truncate pr-[26px]" : "mt-[12px]"} text-[16px] leading-6 font-semibold text-rk-text`}>{m.title}</div>
       <div className={`text-[14px] leading-5 text-[#191b23] ${compact ? "line-clamp-2" : ""}`}>{compact ? m.text : <Highlight text={m.text} />}</div>
       <div className={`flex items-center ${compact ? "mt-[11px]" : "mt-[14px]"}`}>
         <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#6c6e79]">
@@ -381,8 +381,8 @@ function MentionCard({ m, compact }: { m: Mention; compact?: boolean }) {
 
 function NewestMentions({ onSeeAll }: { onSeeAll: () => void }) {
   return (
-    <Widget title="Newest mentions" info={false} className="min-w-0 flex-1" bodyClass="px-5 pt-[21px]">
-      <div className="space-y-[16px]">
+    <Widget title="Newest mentions" info={false} className="min-w-0 flex-1" bodyClass="px-5 pt-[20px]">
+      <div className="space-y-[15px]">
         {mentions.slice(0, 3).map((m) => (
           <MentionCard key={m.title} m={m} compact />
         ))}
@@ -486,7 +486,7 @@ function Audience() {
 
 function FilterBar({ sentiment, onSentiment }: { sentiment: string; onSentiment: (s: string) => void }) {
   return (
-    <div className="sticky top-0 z-20 flex items-center bg-rk-bg px-5 pt-4 pb-[14px]">
+    <div className="sticky top-0 z-20 mt-px flex items-center bg-rk-bg px-5 pt-4 pb-[14px]">
       <div className="flex h-7 overflow-hidden rounded-md border border-[#c4c7cf] bg-white text-[14px]">
         {mmSentiments.map((s, i) => (
           <button
@@ -535,7 +535,7 @@ function FilterBar({ sentiment, onSentiment }: { sentiment: string; onSentiment:
 function MentionsList({ sentiment }: { sentiment: string }) {
   const list = sentiment === "All" ? mentions : mentions.filter((m) => m.sentiment === sentiment);
   return (
-    <div className="px-5">
+    <div className="px-5 pt-[2px]">
       <div className="flex items-center justify-between">
         <div className="text-[14px] text-rk-text">
           <b className="font-semibold">11276</b> mentions found <span className="text-[#6c6e79]">(1 - 10)</span>
@@ -600,7 +600,7 @@ export function MediaMonitoring() {
         </div>
       </div>
 
-      <div className="mx-5 mt-4 flex items-center justify-between">
+      <div className="mx-5 mt-[13px] flex items-center justify-between">
         <h2 className="text-[20px] leading-7 font-semibold text-rk-text">Warby Parker queries</h2>
         <div className="flex gap-2">
           <button type="button" className="flex h-7 items-center gap-[10px] rounded-md bg-rk-btn-dark px-[11px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
@@ -619,17 +619,17 @@ export function MediaMonitoring() {
       <div className="mx-5 mt-[17px] text-[14px] leading-5 text-rk-text">{queries.filter(Boolean).length}/3 queries selected</div>
       <div className="mx-5 mt-[12px] flex gap-[18px] pl-1">
         {mmQueries.map((q, i) => (
-          <div key={q.name} className="h-[91px] w-[254px] rounded-lg bg-white px-4 pt-[18px] shadow-[0_0_0_1px_rgba(25,27,35,0.03)]">
+          <div key={q.name} className="h-[91px] w-[254px] rounded-lg bg-white px-4 pt-[17px] shadow-[0_0_0_1px_rgba(25,27,35,0.03)]">
             <div className="flex items-center gap-2 text-[14px] leading-5 font-semibold text-rk-text">
               <Toggle on={queries[i]} onClick={() => setQueries((qs) => qs.map((v, j) => (j === i ? !v : v)))} />
               {q.name}
             </div>
-            <div className="mt-[12px] w-fit text-[14px] leading-5 text-rk-text underline decoration-dotted decoration-2 underline-offset-[5px]">{q.count} mentions</div>
+            <div className="mt-[11px] w-fit text-[14px] leading-5 text-rk-text underline decoration-dotted decoration-2 underline-offset-[5px]">{q.count} mentions</div>
           </div>
         ))}
       </div>
 
-      <div className="mt-[28px] flex gap-[17px] border-b border-[#d9dbdb] px-8 text-[16px] leading-6">
+      <div className="mt-[27px] flex gap-[17px] border-b border-[#d9dbdb] px-8 text-[16px] leading-6">
         {[
           ["overview", "Overview"],
           ["mentions", "Mentions"],
@@ -650,7 +650,7 @@ export function MediaMonitoring() {
       <FilterBar sentiment={sentiment} onSentiment={setSentiment} />
 
       {tab === "overview" ? (
-        <div className="px-5">
+        <div className="px-5 pt-[3px]">
           <div className="flex h-[117px] rounded-lg bg-white py-[16px] shadow-[0_0_0_1px_rgba(25,27,35,0.03)]">
             {mmMetrics.map((m, i) => (
               <div key={m.label} className={`w-[178px] px-[21px] ${i ? "border-l border-[#e8e9ee]" : ""} ${i === 5 ? "flex-1" : ""}`}>

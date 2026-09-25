@@ -42,7 +42,7 @@ export function AnchorsReport() {
         <tbody>
           {anchorsRows.map((r) => (
             <tr key={r.a} className="h-[45px] border-b border-[#f0f0f2] hover:bg-[#fafafb]">
-              <td className={`truncate pr-[18px] pl-5 ${r.empty ? "text-rk-muted italic" : ""}`}>{r.a}</td>
+              <td className={`truncate pr-[12px] pl-5 ${r.empty ? "text-rk-muted italic" : ""}`}>{r.a}</td>
               <td className="px-3 text-right">
                 <Link href={tabHref("backlinks")} className={blLink}>
                   {r.bl}
@@ -96,10 +96,10 @@ export function PagesReport() {
         <tbody>
           {rows.map((r, i) => (
             <tr key={i} className="border-b border-[#f0f0f2] align-top hover:bg-[#fafafb]">
-              <td className="pt-[11px] pr-[14px] pb-[13px] pl-5">
+              <td className="pt-[12px] pr-[8px] pb-[12px] pl-5">
                 {r.title && <div className="mb-[4px] truncate">{r.title}</div>}
-                <div className="flex items-center gap-[6px]">
-                  <a href={r.url} target="_blank" rel="noreferrer" className={`truncate tracking-[0.3px] ${blLink}`}>
+                <div className="flex items-center gap-[3px]">
+                  <a href={r.url} target="_blank" rel="noreferrer" className={`truncate ${blLink}`}>
                     {r.url}
                   </a>
                   <ExtLink href={r.url} />
@@ -110,19 +110,19 @@ export function PagesReport() {
                   </Chip>
                 )}
               </td>
-              <td className="px-3 pt-[11px] text-right">
-                <Link href={tabHref("backlinks")} className={r.bl ? blLink : "pointer-events-none"}>
+              <td className="px-3 pt-[12px] text-right">
+                <Link href={tabHref("backlinks")} className={r.bl ? blLink : "pointer-events-none text-rk-muted"}>
                   {r.bl}
                 </Link>
               </td>
-              <td className="px-3 pt-[11px] text-right">
-                <Link href={routes.referringDomains} className={r.d ? blLink : "pointer-events-none"}>
+              <td className="px-3 pt-[12px] text-right">
+                <Link href={routes.referringDomains} className={r.d ? blLink : "pointer-events-none text-rk-muted"}>
                   {r.d}
                 </Link>
               </td>
-              <td className="px-3 pt-[11px] text-right">{r.ext}</td>
-              <td className="px-3 pt-[11px] text-right">{r.int}</td>
-              <td className="pt-[11px] pr-5 pl-3 text-right whitespace-nowrap">{r.last}</td>
+              <td className="px-3 pt-[12px] text-right">{r.ext}</td>
+              <td className="px-3 pt-[12px] text-right">{r.int}</td>
+              <td className="pt-[12px] pr-5 pl-3 text-right whitespace-nowrap">{r.last}</td>
             </tr>
           ))}
         </tbody>
@@ -185,7 +185,7 @@ export function OutboundReport() {
                   )}
                 </td>
                 <td className="px-3 pt-[11px] text-right">
-                  <button type="button" onClick={() => setOpen(open === r.d ? null : r.d)} className="inline-flex items-center gap-[8px] hover:text-rk-link">
+                  <button type="button" onClick={() => setOpen(open === r.d ? null : r.d)} className="inline-flex items-center gap-[12px] hover:text-rk-link">
                     <ChevronRightSm className={`text-rk-text-2 ${open === r.d ? "rotate-90" : ""}`} />
                     {r.links}
                   </button>
@@ -279,16 +279,16 @@ export function CompetitorsEmpty() {
       <div className="mt-[24px] flex">
         <div className="w-[370px] border-r border-[#d3d5db] pr-[18px]">
           <h3 className="max-w-[330px] text-[16px] leading-6 font-bold text-rk-text">Is it your site? Connect GSC to get more data in Backlink Audit!</h3>
-          <p className="mt-[9px] text-[14px] leading-5 text-rk-text-2">Secure your SEO efforts in link building. Comprehensive algorithms help discover and disavow toxic backlinks which can lead to penalties by search engines</p>
-          <DarkBtn href={routes.backlinkAudit} className="mt-[21px]">
+          <p className="mt-[12px] text-[14px] leading-[19.7px] text-rk-text-2">Secure your SEO efforts in link building. Comprehensive algorithms help discover and disavow toxic backlinks which can lead to penalties by search engines</p>
+          <DarkBtn href={routes.backlinkAudit} className="mt-[19px]">
             Set up backlink audit
           </DarkBtn>
         </div>
         <div className="pl-[24px]">
           <h3 className="text-[16px] leading-6 font-bold text-rk-text">This could be because:</h3>
-          <ul className="mt-[10px] w-[350px] text-[14px] leading-[21px] text-rk-text-2">
+          <ul className="mt-[11px] w-[350px] text-[14px] leading-5 text-rk-text-2">
             {["The domain name was mistyped or doesn’t exist. Double-check its spelling.", "This is a new website or page, and we haven’t crawled it yet. Please come back later.", "The website or page doesn’t have any backlinks."].map((t) => (
-              <li key={t} className="mb-[5px] flex gap-[8px] pl-[3px]">
+              <li key={t} className="mb-[7px] flex gap-[8px] pl-[3px]">
                 <span className="text-[#6c6e79]">•</span>
                 <span>{t}</span>
               </li>
@@ -344,7 +344,7 @@ export function BulkAnalysis() {
       <div className="mt-[12px] flex h-7 w-[600px] items-center">
         <span className="text-[14px] text-rk-text-2">Results scope</span>
         <div className="relative ml-[12px]">
-          <button type="button" onClick={() => setScopeOpen(!scopeOpen)} className="flex h-7 items-center gap-[4px] rounded-md border border-[#c4c7cf] bg-white pr-[6px] pl-[8px] text-[14px] text-rk-text">
+          <button type="button" onClick={() => setScopeOpen(!scopeOpen)} className="flex h-7 items-center gap-[6px] rounded-md border border-[#c4c7cf] bg-white pr-[7px] pl-[8px] text-[14px] text-rk-text">
             {scope}
             <Chevron />
           </button>
@@ -411,8 +411,8 @@ export function BulkAnalysis() {
                   {bulk.d}
                 </Link>
               </td>
-              <td className="px-3 pt-[9px] text-right align-top">{bulk.visits}</td>
-              <td className="px-3 pt-[9px] text-right align-top">
+              <td className="px-3 pt-[9px] text-right align-top text-rk-muted">{bulk.visits}</td>
+              <td className="pt-[9px] pr-[30px] pl-3 text-right align-top">
                 <Link href={tabHref("backlinks")} className={blLink}>
                   {bulk.follow}
                 </Link>{" "}
@@ -436,11 +436,11 @@ export function BulkAnalysis() {
                 </Link>
                 <span className={pct}>{bulk.iPct}</span>
               </td>
-              <td className="px-3 pt-[9px] text-right align-top">
+              <td className="px-3 pt-[9px] text-right align-top text-rk-muted">
                 {bulk.form}
                 <span className={pct}>0%</span>
               </td>
-              <td className="px-3 pt-[9px] text-right align-top">
+              <td className="px-3 pt-[9px] text-right align-top text-rk-muted">
                 {bulk.frame}
                 <span className={pct}>0%</span>
               </td>

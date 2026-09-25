@@ -54,7 +54,7 @@ export function KeywordGapLanding() {
                           label="Root domain"
                           options={["Root domain", "Exact URL", "Subdomain", "Subfolder"]}
                           className="w-[142px] border-l border-[#dcdfdf]"
-                          panelClassName="-left-px! w-[calc(100%+1px)]"
+                          panelClassName="left-0! w-[calc(100%+1px)]"
                         />
                       }
                     />

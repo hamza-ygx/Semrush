@@ -33,12 +33,12 @@ export function StepArt({ n }: { n: number }) {
   );
 }
 
-const iso = "matrix(0.866,0.5,-0.866,0.5,0,0)";
+const iso = "matrix(0.731,0.682,-0.857,0.515,0,0)";
 
-function IsoCard({ x, y, w, h, children, dark }: { x: number; y: number; w: number; h: number; children?: ReactNode; dark?: boolean }) {
+function IsoCard({ x, y, w, h, children, dark, faint }: { x: number; y: number; w: number; h: number; children?: ReactNode; dark?: boolean; faint?: boolean }) {
   return (
     <div
-      className={`absolute rounded-[10px] ${dark ? "bg-[#23262d]" : "bg-white"} shadow-[0_8px_24px_rgba(30,40,60,0.12),0_0_1px_rgba(30,40,60,0.2)]`}
+      className={`absolute overflow-hidden rounded-[8px] ${dark ? "bg-[#1f2226]" : "bg-white"} ${faint ? "shadow-[0_4px_16px_rgba(30,40,60,0.06)]" : "shadow-[0_6px_20px_rgba(30,40,60,0.12),0_0_1px_rgba(30,40,60,0.2)]"}`}
       style={{ left: x, top: y, width: w, height: h, transform: iso, transformOrigin: "0 0" }}
     >
       {children}
@@ -46,77 +46,154 @@ function IsoCard({ x, y, w, h, children, dark }: { x: number; y: number; w: numb
   );
 }
 
-const Line = ({ w, c = "#e6e8ec", t = 0, l = 0 }: { w: number; c?: string; t?: number; l?: number }) => (
-  <div className="h-[6px] rounded-full" style={{ width: w, background: c, marginTop: t, marginLeft: l }} />
+const Bar = ({ x, y, w, c = "#e6e8ec", h = 4 }: { x: number; y: number; w: number; c?: string; h?: number }) => (
+  <div className="absolute rounded-full" style={{ left: x, top: y, width: w, height: h, background: c }} />
+);
+
+const T = ({ x, y, children, c = "#6b6c72", s = 6, b }: { x: number; y: number; children: ReactNode; c?: string; s?: number; b?: boolean }) => (
+  <div className="absolute leading-none whitespace-nowrap" style={{ left: x, top: y, color: c, fontSize: s, fontWeight: b ? 700 : 400 }}>
+    {children}
+  </div>
 );
 
 export function IsoArt() {
   return (
-    <div className="absolute inset-0">
-      <svg viewBox="0 0 500 560" width={500} height={560} className="absolute inset-0">
-        <g fill="none" stroke="#d3d6dc" strokeWidth={1.5}>
-          <path d="M150 40 200 60 240 90M110 130 150 150M60 230 20 240M130 240 110 290 130 300M80 350 40 360 30 400M340 220 380 240 400 260 370 280M30 470 60 480M180 330 190 380" />
+    <div className="absolute top-[-80px] left-0 h-[640px] w-[500px] overflow-hidden">
+      <svg viewBox="0 0 500 640" width={500} height={640} className="absolute inset-0">
+        <g fill="none" stroke="#c9ccd1" strokeWidth={1}>
+          <path d="M126 83h20c6 0 8 2 12 6l40 32" />
+          <path d="M133 279h-60l-40 20M133 279l-20 12c-4 3-4 6 0 10l12 10c4 4 2 8-3 10l-10 5" />
+          <path d="M358 268l20 18c5 5 5 9-1 13l-62 42" />
+          <path d="M73 410l-20 12c-4 3-4 6 0 10l12 10M73 410l-30-4" />
         </g>
-        <g fill="#d3d6dc">
-          <circle cx="240" cy="90" r="3" />
-          <circle cx="370" cy="280" r="3" />
-          <circle cx="130" cy="300" r="3" />
-          <circle cx="30" cy="400" r="3" />
+        <g fill="#c9ccd1">
+          <circle cx="198" cy="121" r="2.5" />
+          <circle cx="133" cy="279" r="2.5" />
+          <circle cx="358" cy="268" r="2.5" />
+          <circle cx="73" cy="410" r="2.5" />
         </g>
       </svg>
-      <IsoCard x={40} y={-10} w={120} h={130} dark>
-        <div className="absolute top-[40px] left-[30px] h-[12px] w-[12px] rounded-[3px] bg-[#2d6fe0]" />
-        <div className="absolute top-[60px] left-[20px] text-[8px] text-white/80">Your business on maps</div>
-        <svg viewBox="0 0 120 130" className="absolute inset-0">
-          <path d="M0 80 120 40M20 0l40 130M80 0l10 130" stroke="#e8a33c" strokeOpacity={0.5} />
+      <IsoCard x={-34} y={254} w={90} h={60} faint />
+      <IsoCard x={26} y={442} w={80} h={60} faint />
+      <IsoCard x={48} y={28} w={139} h={133} dark>
+        <svg viewBox="0 0 139 133" className="absolute inset-0">
+          <path d="M0 70 139 40M30 0l30 133M95 0l10 133M0 110l139-30" stroke="#d89a3a" strokeOpacity={0.55} strokeWidth={1.2} fill="none" />
+          <path d="M0 30 70 20l69 30M50 133 80 60" stroke="#4a4f57" strokeWidth={2} fill="none" />
+          <circle cx="22" cy="118" r="7" fill="none" stroke="#5c6168" strokeWidth={2} />
         </svg>
+        <div className="absolute top-[42px] left-[30px] h-[12px] w-[12px] rounded-[3px] bg-[#2d7ff0]" />
+        <T x={46} y={46} c="#fff" s={7}>
+          Your business on maps
+        </T>
       </IsoCard>
-      <IsoCard x={300} y={50} w={210} h={200}>
-        <div className="px-[14px] pt-[12px]">
-          <div className="text-[11px] font-bold text-[#1f1f24]">Business name</div>
-          <div className="mt-[6px] h-[4px] w-[120px] rounded-full bg-[#e6e8ec]">
-            <div className="h-full w-[60px] rounded-full bg-[#62b3f5]" />
+      <IsoCard x={266} y={82} w={220} h={235}>
+        <T x={16} y={12} c="#1f1f24" s={8} b>
+          Business name
+        </T>
+        <Bar x={86} y={15} w={22} c="#62b3f5" h={3} />
+        <T x={112} y={13} s={5.5}>
+          80% completed
+        </T>
+        <T x={170} y={13} c="#2d7ff0" s={7}>
+          ✎ Edit
+        </T>
+        <div className="absolute top-[34px] left-[66px] h-[92px] w-[140px] rounded-[4px] bg-[#f5f6f8]" />
+        {["Address:", "Phone:", "Service area:", "Categories:", "Photos:"].map((l, i) => (
+          <div key={l} className="absolute w-[58px] text-right text-[6.5px] leading-none text-[#6b6c72]" style={{ top: 45 + i * 15.5, left: 2 }}>
+            {l}
           </div>
-          <div className="mt-[10px] grid grid-cols-[50px_1fr] gap-y-[7px] text-[7px] text-[#5f6068]">
-            {["Address:", "Phone:", "Service area:", "Categories:", "Photos:"].map((l) => (
-              <span key={l} className="contents">
-                <span>{l}</span>
-                <Line w={90} />
-              </span>
-            ))}
+        ))}
+        {[0, 1, 2, 3].map((i) => (
+          <Bar key={i} x={76} y={46 + i * 15.5} w={[90, 70, 110, 80][i]} />
+        ))}
+        <T x={76} y={108} c="#8e5ff5" s={6.5}>
+          ▣ +12
+        </T>
+        <T x={14} y={136} c="#1f1f24" s={6.5}>
+          Your Listings
+        </T>
+        <Bar x={14} y={145} w={40} c="#1f1f24" h={1} />
+        <T x={62} y={136} s={6.5}>
+          Duplicates
+        </T>
+        <T x={106} y={136} s={6.5}>
+          User Suggestions
+        </T>
+        {[
+          ["#35c28c", 15, "Connected"],
+          ["#8cc3f5", 76, "Processing"],
+          ["#f04b4b", 134, "Unavailable"],
+        ].map(([c, x, l]) => (
+          <div key={l as string} className="absolute flex items-center gap-[4px] text-[6.5px] leading-none text-[#1f1f24]" style={{ left: x as number, top: 155 }}>
+            <span className="h-[8px] w-[8px] rounded-[2px]" style={{ background: c as string }} />
+            {l}
           </div>
-          <div className="mt-[12px] flex gap-[8px] text-[7px] text-[#8b8c91]">
-            <span>Your Listings</span>
-            <span>Duplicates</span>
-            <span>User Suggestions</span>
-          </div>
-          <div className="mt-[6px] flex h-[4px] w-[170px] overflow-hidden rounded-full">
-            <span className="w-[40%] bg-[#35c28c]" />
-            <span className="w-[35%] bg-[#62b3f5]" />
-            <span className="w-[25%] bg-[#f06a6a]" />
-          </div>
-          <div className="mt-[8px] flex gap-[16px] text-[7px] text-[#62b3f5]">
-            <span>Opt out</span>
-            <span>View listing</span>
-          </div>
+        ))}
+        <div className="absolute top-[170px] left-[15px] flex h-[3px] w-[181px] overflow-hidden rounded-full">
+          <span className="w-[129px] bg-[#35c28c]" />
+          <span className="w-[32px] bg-[#b6dcf8]" />
+          <span className="w-[20px] bg-[#f07a7a]" />
         </div>
+        <T x={14} y={186} s={6}>
+          Directory
+        </T>
+        <T x={71} y={186} s={6}>
+          Status
+        </T>
+        <T x={117} y={186} s={6}>
+          Actions
+        </T>
+        <Bar x={14} y={203} w={40} />
+        <Bar x={14} y={220} w={30} />
+        <span className="absolute top-[199px] left-[74px] h-[11px] w-[11px] rounded-full bg-[#dff5ea]" />
+        <span className="absolute top-[216px] left-[76px] h-[11px] w-[11px] rounded-full bg-[#e2effd]" />
+        <T x={115} y={201} c="#2d7ff0" s={6}>
+          Opt out
+        </T>
+        <T x={141} y={201} c="#2d7ff0" s={6}>
+          View listing
+        </T>
+        <T x={115} y={218} c="#9cc6f5" s={6}>
+          Opt out
+        </T>
+        <T x={141} y={218} c="#9cc6f5" s={6}>
+          View listing
+        </T>
       </IsoCard>
-      <IsoCard x={150} y={250} w={90} h={80}>
-        <div className="absolute top-[20px] left-[16px] flex h-[16px] w-[16px] items-center justify-center rounded-full bg-[#1877f2] text-[10px] font-bold text-white">f</div>
-        <div className="absolute top-[40px] left-[16px] text-[8px] text-[#5f6068]">Your listings</div>
+      <IsoCard x={71} y={334} w={84} h={54}>
+        <T x={14} y={11} s={7}>
+          Your listings
+        </T>
+        <div className="absolute top-[28px] left-[10px] flex h-[16px] w-[16px] items-center justify-center rounded-full bg-[#1877f2] text-[10px] font-bold text-white">f</div>
       </IsoCard>
-      <IsoCard x={290} y={300} w={180} h={140}>
-        <div className="absolute top-0 right-0 h-[140px] w-[80px] rounded-r-[10px] bg-gradient-to-b from-[#d9dfe6] to-[#9aa3ad]" />
-        <div className="px-[12px] pt-[14px] text-[9px] font-bold text-[#1f1f24]">Your Google Business profile</div>
-        <div className="mt-[4px] px-[12px] text-[7px] text-[#f5a623]">★★★★★</div>
-        <div className="mt-[14px] flex gap-[10px] px-[12px]">
-          {[0, 1, 2, 3].map((i) => (
-            <span key={i} className={`h-[14px] w-[14px] rounded-full border ${i ? "border-[#c9cacf]" : "border-[#2d6fe0] bg-[#2d6fe0]"}`} />
-          ))}
+      <IsoCard x={286} y={334} w={144} h={158}>
+        <div className="absolute top-0 left-0 h-[64px] w-[144px] bg-[linear-gradient(90deg,#dfe8ec_0%,#c9d4d8_45%,#8f9aa0_100%)]">
+          <div className="absolute top-[20px] left-[60px] h-[30px] w-[40px] rounded-full bg-[#2b2522]" />
+          <div className="absolute top-[34px] left-[95px] h-[26px] w-[40px] rounded-full bg-[#f1ece6]" />
         </div>
+        <T x={6} y={70} c="#1f1f24" s={8}>
+          Your Google Business profile
+        </T>
+        <T x={6} y={81} s={5.5}>
+          4.2 <span className="text-[#fbbc05]">★★★★★</span> (90)
+        </T>
+        <T x={6} y={89} s={5.5}>
+          Advertising agency
+        </T>
+        <T x={10} y={100} c="#2d7ff0" s={6}>
+          Overview
+        </T>
+        <Bar x={10} y={108} w={26} c="#2d7ff0" h={1.5} />
+        <T x={60} y={100} s={6}>
+          Reviews
+        </T>
+        <T x={108} y={100} s={6}>
+          About
+        </T>
+        {[0, 1, 2, 3, 4].map((i) => (
+          <span key={i} className={`absolute top-[120px] h-[14px] w-[14px] rounded-full ${i ? "border border-[#8ab4f8]" : "bg-[#1a73e8]"}`} style={{ left: 8 + i * 27 }} />
+        ))}
       </IsoCard>
-      <IsoCard x={60} y={340} w={90} h={90} />
-      <div className="absolute bottom-0 left-0 h-[120px] w-full bg-gradient-to-t from-white to-transparent" />
     </div>
   );
 }
@@ -222,19 +299,32 @@ export function GbpProfileCard({ name, food = [0, 1, 2], scale = 1 }: { name: st
             <span className="text-[#188038]">Open</span> · Closes 20:00
           </div>
         </div>
-        <div className="mt-[6px] flex gap-[5px] px-[8px] text-[7.5px]">
-          <span className="flex h-[21px] items-center gap-[4px] rounded-full bg-[#1a73e8] px-[9px] text-white">◆ Directions</span>
-          {["Start", "Call", "Save"].map((l) => (
-            <span key={l} className="flex h-[21px] items-center rounded-full border border-[#dadce0] px-[8px] text-[#1a73e8]">
+        <div className="mt-[8px] flex gap-[5px] pl-[8px] text-[7.5px] whitespace-nowrap">
+          <span className="flex h-[21px] items-center gap-[4px] rounded-full bg-[#1a73e8] pr-[9px] pl-[5px] text-white">
+            <svg viewBox="0 0 12 12" width={12} height={12}>
+              <path d="M6 .8 11.2 6 6 11.2.8 6z" fill="#fff" />
+              <path d="M4 7.6V5.8h3.2M6.3 4.6l1.2 1.2-1.2 1.2" fill="none" stroke="#1a73e8" strokeWidth={0.9} />
+            </svg>
+            Directions
+          </span>
+          {[
+            ["Start", "M6 1.5 10 10.5 6 8.6 2 10.5z"],
+            ["Call", "M3.2 1.5 5 3.6 4 5c.6 1.3 1.6 2.3 3 3l1.4-1 2.1 1.8-.8 1.7C5.8 10.3 1.7 6.2 1.5 2.3z"],
+            ["Save", "M3 1.5h6v9L6 8.2 3 10.5z"],
+          ].map(([l, d]) => (
+            <span key={l} className="flex h-[21px] shrink-0 items-center gap-[4px] rounded-full border border-[#dadce0] pr-[9px] pl-[6px] text-[#1a73e8]">
+              <svg viewBox="0 0 12 12" width={10} height={10}>
+                <path d={d} fill={l === "Start" ? "#1a73e8" : "none"} stroke="#1a73e8" strokeWidth={1.1} strokeLinejoin="round" />
+              </svg>
               {l}
             </span>
           ))}
         </div>
-        <div className="mt-[8px] flex h-[168px] gap-[4px] px-[8px]">
-          <div className="w-[135px] overflow-hidden rounded-[4px]">
+        <div className="mt-[10px] flex h-[168px] gap-[5px] pl-[8px]">
+          <div className="w-[135px] shrink-0 overflow-hidden rounded-[4px]">
             <FoodTile kind={food[0]} />
           </div>
-          <div className="flex flex-1 flex-col gap-[4px]">
+          <div className="flex w-[90px] shrink-0 flex-col gap-[4px]">
             <div className="flex-1 overflow-hidden rounded-[4px]">
               <FoodTile kind={food[1]} />
             </div>
@@ -243,7 +333,7 @@ export function GbpProfileCard({ name, food = [0, 1, 2], scale = 1 }: { name: st
             </div>
           </div>
         </div>
-        <div className="mt-[8px] flex justify-between border-b border-[#e8eaed] px-[10px] pb-[4px] text-[7.5px] text-[#5f6368]">
+        <div className="mt-[6px] flex justify-between border-b border-[#e8eaed] px-[10px] pb-[4px] text-[7.5px] text-[#5f6368]">
           <span className="border-b-2 border-[#1a73e8] pb-[3px] text-[#1a73e8]">Overview</span>
           <span>Reviews</span>
           <span>Photos</span>

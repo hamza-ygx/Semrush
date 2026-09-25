@@ -93,12 +93,12 @@ function SavedLists() {
           Create new list
         </button>
       </div>
-      <Link href={`${routes.traffic.overview}?q=rkjh.se&searchType=domain&lid=1304085`} className="mt-[18px] flex h-[92px] items-start justify-between rounded-lg bg-white px-5 pt-[19px] shadow-card hover:shadow-[0_1px_8px_rgba(0,0,0,0.12)]">
+      <Link href={`${routes.traffic.overview}?q=rkjh.se&searchType=domain&lid=1304085`} className="mt-[18px] flex h-[92px] items-start justify-between rounded-lg bg-white px-5 pt-[21px] shadow-card hover:shadow-[0_1px_8px_rgba(0,0,0,0.12)]">
         <div>
           <div className="text-[14px] leading-5 font-semibold text-rk-text">Untitled list</div>
-          <div className="mt-[3px] flex items-center">
+          <div className="mt-[6px] flex items-center">
             {items.map((it) => (
-              <span key={it.name} className="mr-[11px] flex items-center gap-[8px] text-[15px] leading-5 text-rk-text-2">
+              <span key={it.name} className="mr-[9px] flex items-center gap-[8px] text-[15px] leading-5 text-rk-text-2">
                 <Favicon kind={it.kind} />
                 {it.name}
               </span>
@@ -106,7 +106,7 @@ function SavedLists() {
             <span className="-ml-[1px] text-[14px] text-rk-muted">+ 2 more</span>
           </div>
         </div>
-        <div className="mt-[2px] flex items-center gap-[20px] pr-[7px] text-rk-muted">
+        <div className="mt-[3px] flex items-center gap-[20px] pr-[7px] text-rk-muted">
           <BellOffIcon width={18} height={18} />
           <GearIcon width={18} height={18} />
         </div>

@@ -201,7 +201,7 @@ export function SelectBtn({ label, options, width = 200 }: { label: string; opti
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className={`flex h-7 items-center gap-[6px] rounded-md border pr-[6px] pl-[8px] text-[14px] whitespace-nowrap ${val ? "text-rk-text" : "text-rk-muted"} ${open ? "border-[#8f9cea] bg-[#eef2fd]" : "border-[#c4c7cf] bg-white hover:bg-rk-bg"}`}
+        className={`flex h-7 items-center gap-[8px] rounded-md border pr-[8px] pl-[8px] text-[14px] whitespace-nowrap ${val ? "text-rk-text" : "text-[#999ba5]"} ${open ? "border-[#8f9cea] bg-[#eef2fd]" : "border-[#d6d8de] bg-white hover:bg-rk-bg"}`}
       >
         {val ? `${label}: ${val}` : label}
         <Chevron className={`text-rk-text ${open ? "rotate-180" : ""}`} />
@@ -284,11 +284,11 @@ export function FilterSelect({ label, options, defaultOpen = false }: { label: s
     return () => document.removeEventListener("mousedown", h);
   }, [open]);
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className="relative -ml-[3px]">
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className={`flex h-7 w-[142px] items-center justify-between rounded-md border pr-[6px] pl-[8px] text-[14px] whitespace-nowrap ${val ? "text-rk-text" : "text-rk-muted"} ${open ? "border-[#8f9cea] bg-white" : "border-[#c4c7cf] bg-white hover:bg-rk-bg"}`}
+        className={`flex h-7 w-[142px] items-center justify-between rounded-md border pr-[6px] pl-[8px] text-[14px] whitespace-nowrap ${val ? "text-rk-text" : "text-[#999ba5]"} ${open ? "border-[#8f9cea] bg-white" : "border-[#c4c7cf] bg-white hover:bg-rk-bg"}`}
       >
         {val ?? label}
         <Chevron className="text-rk-text" />
@@ -378,7 +378,7 @@ export function AsSelect({ value }: { value: number }) {
   const [open, setOpen] = useState(false);
   return (
     <span className="relative inline-flex">
-      <button type="button" onClick={() => setOpen(!open)} className="inline-flex items-center gap-[2px] text-rk-link hover:text-rk-link-hover">
+      <button type="button" onClick={() => setOpen(!open)} className="inline-flex items-center gap-[4px] text-rk-link hover:text-rk-link-hover">
         {value}
         <Chevron />
       </button>

@@ -5,13 +5,13 @@ import { useState } from "react";
 import { routes } from "@/config/routes";
 import { LinkSelect } from "@/components/ui/Popover";
 import { FeedbackIcon } from "@/components/ui/icons";
-import { KwHeader, OnboardingTip, SegButtons, SparkleIcon } from "./common";
+import { KwHeader, OnboardingTip, SegButtons } from "./common";
 import { groupRows, kmStats, questionRows, topicRows } from "./data";
 import { DatabaseSelect } from "./kmt/DatabaseSelect";
 import { Filters, LangSelect } from "./kmt/Filters";
 import { Sidebar } from "./kmt/Sidebar";
 import { KmtTable } from "./kmt/Table";
-import { useWide } from "./kmt/ui";
+import { SparkleLg, useWide } from "./kmt/ui";
 
 type Mode = "topics" | "groups";
 type Type = "all" | "questions";
@@ -43,8 +43,8 @@ function Toolbar({ type, setType }: { type: Type; setType: (t: Type) => void }) 
         <LangSelect />
       </div>
       <label className="mt-[11px] flex h-7 w-[274px] items-center gap-2 rounded-md border border-[#d7c5fb] bg-white px-2">
-        <SparkleIcon />
-        <input placeholder="Enter domain for personalized data" className="min-w-0 flex-1 bg-transparent text-[14px] outline-none placeholder:text-rk-muted" />
+        <SparkleLg />
+        <input placeholder="Enter domain for personalized data" className="min-w-0 flex-1 bg-transparent text-[14px] outline-none placeholder:text-[#a0a2aa]" />
       </label>
       <div className="mt-[13px]">
         <Filters />
@@ -136,7 +136,13 @@ export function KeywordMagic({ q, initialMode, initialType }: { q: string; initi
             )
           }
         />
-        <KmtTable key={`${mode}-${type}`} rows={rows} stats={stats} relevance={relevance} plus={mode === "topics" || type === "questions"} wide={wide} />
+        {[false, true]
+          .filter((w) => wide === null || wide === w)
+          .map((w) => (
+            <div key={`${w ? "w" : "n"}-${mode}-${type}`} className={`min-w-0 flex-1 ${wide === null ? (w ? "hidden xl:block" : "xl:hidden") : ""}`}>
+              <KmtTable rows={rows} stats={stats} relevance={relevance} plus={mode === "topics" || type === "questions"} wide={w} />
+            </div>
+          ))}
       </div>
     </>
   );

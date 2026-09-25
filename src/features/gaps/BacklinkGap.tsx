@@ -214,7 +214,7 @@ const Pill = ({ children, tone = "gray" }: { children: ReactNode; tone?: "gray" 
 
 const BrokenLinkIcon = () => (
   <svg viewBox="0 0 16 16" width={16} height={16} className="shrink-0 text-[#a9abb6]">
-    <path d="M6.5 9.5 9.5 6.5M7.3 4.2l1.2-1.2a3 3 0 0 1 4.3 4.3l-1.2 1.2M8.7 11.8l-1.2 1.2a3 3 0 0 1-4.3-4.3l1.2-1.2M2.5 13.5l11-11" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" />
+    <path d="M6.5 9.5 9.5 6.5M7.3 4.2l1.2-1.2a3 3 0 0 1 4.3 4.3l-1.2 1.2M8.7 11.8l-1.2 1.2a3 3 0 0 1-4.3-4.3l1.2-1.2M2.5 13.5l11-11" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" />
   </svg>
 );
 
@@ -265,7 +265,7 @@ function BacklinkDetails({ row, onHide }: { row: BgRow; onHide: () => void }) {
             <td className="pt-[12px] pr-2 pb-[12px] text-right">{d.pageAs}</td>
             <td className="pt-[12px] pb-[12px] pl-2">
               <div>{d.title}</div>
-              <a href={`https://${d.url}`} target="_blank" rel="noreferrer" className="break-all text-rk-link hover:text-rk-link-hover">
+              <a href={`https://${d.url}`} target="_blank" rel="noreferrer" className="break-all tracking-[0.25px] text-rk-link hover:text-rk-link-hover">
                 {d.url}
               </a>
               <ExternalIcon className="ml-[5px] inline-block align-[-2px] text-[#a9abb6]" />
@@ -328,7 +328,9 @@ function Prospects() {
         <div className="flex h-[68px] items-center justify-between px-5">
           <div className="flex items-center gap-2">
             <Segmented items={bgTabs.map((t) => ({ key: t, label: t }))} value={tab} onChange={setTab} />
-            <AsFilter />
+            <div className="ml-[3px]">
+              <AsFilter />
+            </div>
             <AdvancedFilters />
           </div>
           <button
@@ -403,7 +405,7 @@ function Prospects() {
             </div>
             <div className="w-[93px] pt-[12px] pr-3 text-right text-rk-text">1/2</div>
             <div className="w-[110px] pt-[12px] pr-[8px] text-right text-rk-muted">{r.a}</div>
-            <div className={`flex w-[137px] justify-end self-stretch pt-[12px] pr-5 ${open === r.domain ? "bg-[#e6e7ea]" : ""}`}>
+            <div className={`flex w-[137px] justify-end self-stretch pt-[12px] pr-5 ${open === r.domain ? "bg-[linear-gradient(to_right,transparent_4px,#e6e7ea_4px)]" : ""}`}>
               <button
                 type="button"
                 data-testid={`bg-row-toggle-${ri}`}

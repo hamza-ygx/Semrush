@@ -44,7 +44,7 @@ function RankHeader({ tab }: { tab: RankTab }) {
         </div>
       </div>
       <h1 className="mt-[8px] text-[20px] leading-7 font-semibold text-rk-text">{brand.name} Rank</h1>
-      <div className="mt-[8px] flex items-center gap-[25px] text-[14px] leading-5 text-rk-text-2">
+      <div className="mt-[8px] flex items-center gap-[23px] text-[14px] leading-5 text-rk-text-2">
         <span className="flex items-center gap-1">
           Database:
           <LinkSelect value="Sweden" options={["Sweden", "United States", "United Kingdom"] as const} renderOption={(v) => <span className="flex items-center gap-[5px]">{flags[v]}{v}</span>} />
@@ -128,7 +128,7 @@ function Pager() {
 
 function DomainCell({ domain }: { domain: string }) {
   return (
-    <span className="flex items-center gap-[5px]">
+    <span className="flex items-center gap-[2px]">
       <Link href={`${routes.domainOverview}?q=${domain}&db=se&searchType=domain`} className="max-w-[106px] truncate text-rk-link hover:text-rk-link-hover">
         {domain}
       </Link>
@@ -152,7 +152,7 @@ export function RankTable() {
   return (
     <div className="mx-8 mt-[15px] rounded-md bg-white shadow-[0_1px_2px_rgba(25,27,35,0.12)]">
       <CardTitle title={`${brand.name} Rank`} />
-      <div className="sticky top-0 z-10 flex h-[41px] items-center border-y border-rk-border bg-[#f9f9f9] text-[13px] text-rk-text-2">
+      <div className="sticky top-0 z-10 flex h-[41px] items-center border-y border-rk-border bg-[#f9f9f9] text-[12px] text-rk-text-2">
         <span className="w-[62px] pr-[1px] text-right">Rank</span>
         <span className="w-[151px] pl-[15px]">Domain</span>
         {rankCols.map((c) => (
@@ -214,7 +214,7 @@ export function WinnersTable() {
       <div className="relative">
         <div ref={ref} onScroll={onScroll} className="no-scrollbar overflow-x-auto">
           <div style={{ width: inner }}>
-            <div className="flex h-[41px] items-center border-y border-rk-border bg-[#f9f9f9] text-[13px] text-rk-text-2">
+            <div className="flex h-[41px] items-center border-y border-rk-border bg-[#f9f9f9] text-[12px] text-rk-text-2">
               <span className="w-[62px] text-right">Pos.</span>
               <span className="w-[188px] pl-[16px]">Domain</span>
               <span className="w-[42px] text-right">Rank</span>

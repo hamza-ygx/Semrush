@@ -1,4 +1,5 @@
 import { AppShell } from "@/components/shell/AppShell";
+import { LandingFooter } from "@/features/ai/landing";
 import { OverviewLanding } from "@/features/ai/OverviewLanding";
 import { VisibilityOverview } from "@/features/ai/VisibilityOverview";
 
@@ -6,8 +7,9 @@ export default async function AiOverviewPage({ searchParams }: { searchParams: P
   const { q } = await searchParams;
   if (q)
     return (
-      <AppShell section="ai" search={{ kind: "analyze", value: q, scope: true }}>
+      <AppShell section="ai" search={{ kind: "analyze", value: q, scope: true }} footer={false}>
         <VisibilityOverview domain={q} />
+        <LandingFooter gap={34} />
       </AppShell>
     );
   return (

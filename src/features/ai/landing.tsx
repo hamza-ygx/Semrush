@@ -38,7 +38,7 @@ export function LandingBg({ children, className = "", tone = "lavender" }: { chi
 
 export function LandingFooter({ gap = 40 }: { gap?: number }) {
   return (
-    <div style={{ paddingTop: gap }}>
+    <div style={{ paddingTop: gap }} className="max-xl:[&>footer]:pb-[37px]">
       <Footer />
     </div>
   );

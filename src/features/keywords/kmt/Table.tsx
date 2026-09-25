@@ -52,7 +52,7 @@ function Intents({ intents, selected }: { intents: string[]; selected: boolean }
 }
 
 const sfGlyph: Record<SfKind, ReactNode> = {
-  ai: <path d="M8 .8c.6 4 2.4 6.2 7 7.2-4.6 1-6.4 3.2-7 7.2-.6-4-2.4-6.2-7-7.2C5.6 7 7.4 4.8 8 .8z" fill="currentColor" />,
+  ai: <path d="M8 .5C8.9 5 11 7.1 15.5 8 11 8.9 8.9 11 8 15.5 7.1 11 5 8.9.5 8 5 7.1 7.1 5 8 .5z" fill="currentColor" />,
   video: (
     <>
       <circle cx="8" cy="8" r="5.6" fill="none" stroke="currentColor" strokeWidth={1.4} />
@@ -60,7 +60,7 @@ const sfGlyph: Record<SfKind, ReactNode> = {
     </>
   ),
   paa: <path d="M2.5 2.5h11v8h-6l-3 2.8v-2.8h-2zM7.2 5.3c.2-.7 1.5-.8 1.7 0 .2.9-1 .9-1 1.8M7.9 8.5v.1" fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinejoin="round" />,
-  related: <path d="M2 3.5h3M2 6.5h3M2 9.5h3M2 12.5h3M7 3.5h7M7 6.5h7M7 9.5h7M7 12.5h7" stroke="currentColor" strokeWidth={1.3} />,
+  related: <path d="M1.5 3.5h5M1.5 6.5h5M1.5 9.5h5M1.5 12.5h5M8.5 3.5h6M8.5 6.5h6M8.5 9.5h6M8.5 12.5h6" stroke="currentColor" strokeWidth={1.3} />,
   local: <path d="M8 14.5s-4.5-4-4.5-7.5a4.5 4.5 0 0 1 9 0c0 3.5-4.5 7.5-4.5 7.5zM8 5.5v.1" fill="none" stroke="currentColor" strokeWidth={1.4} />,
   sitelinks: <path d="M6.5 9.5 9.5 6.5M5.5 7.5l-1.5 1.5a2.1 2.1 0 0 0 3 3l1.5-1.5M10.5 8.5 12 7a2.1 2.1 0 0 0-3-3L7.5 5.5" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" />,
   reviews: <path d="m8 2.2 1.8 3.7 4 .6-2.9 2.8.7 4L8 11.4l-3.6 1.9.7-4-2.9-2.8 4-.6z" fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinejoin="round" />,
@@ -82,7 +82,7 @@ function SfCount({ row }: { row: KwRow }) {
       {() =>
         feats.map((f) => (
           <div key={f} className="flex h-8 items-center gap-2 px-[9px] text-[14px] text-rk-text">
-            <svg viewBox="0 0 16 16" width={16} height={16} className="shrink-0 text-[#9a9ca5]">
+            <svg viewBox="0 0 16 16" width={18} height={18} className="-mx-px shrink-0 text-[#9a9ca5]">
               {sfGlyph[f]}
             </svg>
             {sfLabels[f]}
@@ -139,7 +139,7 @@ function Row({
             {row.keyword.slice(0, cut)}
             <span className="whitespace-nowrap">
               {row.keyword.slice(cut)}
-              <SerpIcon className="ml-[6px] inline-block align-[-3px] text-[#a9abb6]" />
+              <SerpIcon className="ml-[6px] inline-block align-[-3px] text-[#9a9ca5]" />
             </span>
           </Link>
         </span>
@@ -166,7 +166,7 @@ function Row({
                 <span data-kd>{kd}</span>
               </Tip>
             )}
-            <KdDot kd={kd} />
+            <KdDot kd={kd} size={12} />
           </span>
         </td>
       )}
@@ -322,7 +322,7 @@ function ManageColumns({ cols, setCols, reset }: { cols: KmtColumn[]; setCols: (
             onClick={toggle}
             className={`flex h-7 w-7 items-center justify-center rounded-md border border-[#d6d7db] text-rk-text-2 hover:bg-rk-hover ${open ? "bg-rk-hover" : "bg-[#f8f8f9]"}`}
           >
-            <GearIcon />
+            <GearIcon width={20} height={20} />
           </button>
         </Tip>
       )}
@@ -438,11 +438,11 @@ export function KmtTable({
                     <button
                       type="button"
                       disabled
-                      className="ml-2 flex h-7 items-center gap-2 rounded-md border border-[#d6d7db] bg-[#f8f8f9] pr-[6px] pl-2 text-[14px] font-normal text-[#85878f]"
+                      className="ml-2 flex h-7 items-center gap-[6px] rounded-md border border-[#d6d7db] bg-[#f8f8f9] pr-[7px] pl-[5px] text-[14px] font-normal text-[#85878f]"
                     >
-                      <RefreshIcon className="text-rk-text-2" />
+                      <RefreshIcon width={18} height={18} className="text-rk-text-2" />
                       Update
-                      <span className="rounded-full border border-[#d6d7db] px-[6px] text-[12px] leading-[16px]">0/1,000</span>
+                      <span className="ml-1 rounded-full border border-[#d6d7db] px-[6px] text-[12px] leading-[16px]">0/1,000</span>
                     </button>
                     <ManageColumns cols={cols} setCols={setUserCols} reset={userCols ? () => setUserCols(null) : null} />
                     <button type="button" aria-label="Export" className="ml-2 flex h-7 w-8 items-center justify-center rounded-md border border-[#d6d7db] bg-[#f8f8f9] text-rk-text-2 hover:bg-rk-hover">

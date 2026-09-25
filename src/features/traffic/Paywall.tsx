@@ -5,16 +5,19 @@ import { InfoIcon } from "@/components/ui/icons";
 function BulbArt() {
   return (
     <svg viewBox="0 0 140 140" width={140} height={140} className="absolute -top-[23px] left-[549px]">
-      <path d="M72 6c20 1 38 10 50 26 12 17 15 36 10 55-5 20-19 37-40 45-19 7-42 4-58-8C18 112 7 92 7 70 8 46 20 25 40 13c9-5 21-7 32-7Z" fill="#fbe38e" />
+      <path d="M72 6c20 1 38 10 50 26 12 17 15 36 10 55-5 20-19 37-40 45-19 7-42 4-58-8C18 112 7 92 7 70 8 46 20 25 40 13c9-5 21-7 32-7Z" fill="#f9e690" />
       <path d="M30 18c3-4 8-6 12-4M22 46l-9 4M36 106l-8 7M116 38l9-5M124 66h10M118 94l8 5" stroke="#fff" strokeWidth={2} strokeLinecap="round" />
-      <path d="M22 30 58 5 94 37 74 76 52 85 37 70Z" fill="#fbe8a6" stroke="#1d1d1f" strokeWidth={2.2} strokeLinejoin="round" />
-      <path d="M52 60c-4-9-10-17-9-24M66 55c2-9 8-16 7-24" fill="none" stroke="#1d1d1f" strokeWidth={1.8} strokeLinecap="round" />
-      <circle cx="46" cy="32" r="5" fill="none" stroke="#1d1d1f" strokeWidth={1.8} />
-      <circle cx="72" cy="28" r="5" fill="none" stroke="#1d1d1f" strokeWidth={1.8} />
-      <path d="M50 70 76 62l3 7-26 9ZM53 79l26-8 2 6-25 8Z" fill="#fff" stroke="#1d1d1f" strokeWidth={1.8} strokeLinejoin="round" />
-      <path d="M58 88c2 8 10 12 17 9 6-3 7-10 11-16 4-6 9-11 10-18 1-5-3-6-5-2l-5 11M96 64c3-7 8-12 8-18 0-4-4-5-6-1M84 60c1-6 3-11 5-14" fill="none" stroke="#1d1d1f" strokeWidth={1.8} strokeLinecap="round" />
-      <path d="M72 98c4 5 9 11 16 17l20 12 6-10-19-13" fill="#fff" stroke="#1d1d1f" strokeWidth={1.8} strokeLinejoin="round" />
-      <path d="M96 117l14 9 6-9-14-8Z" fill="#1d1d1f" />
+      <path d="M28.5 3.5 81 12 88.5 61 46 86 8.5 49.8Z" fill="#fce691" stroke="#1d1d1f" strokeWidth={1.8} strokeLinejoin="round" />
+      <path d="M34 10 75 16M82 22l4 30" stroke="#fff" strokeWidth={1.6} strokeLinecap="round" />
+      <circle cx="36" cy="44.8" r="5.3" fill="none" stroke="#1d1d1f" strokeWidth={1.5} />
+      <circle cx="61.8" cy="30.5" r="5.3" fill="none" stroke="#1d1d1f" strokeWidth={1.5} />
+      <path d="M41.3 45.5 56.5 46 61.8 35.8M51 48.5l8.8 25M62.3 35.8l6 36.5" fill="none" stroke="#1d1d1f" strokeWidth={1.5} strokeLinejoin="round" />
+      <path d="M58 72.5 80 67.5c3 3 4 8 3 13l-19 7c-4-3-6-9-6-15Z" fill="#fff" stroke="#1d1d1f" strokeWidth={1.6} strokeLinejoin="round" />
+      <path d="M60 78.5 81 73M62 84l19-6" stroke="#1d1d1f" strokeWidth={1.3} />
+      <path d="M66 122C63 112 60 104 62 96c2-6 8-8 13-6 3-6 7-10 11-10l8-6c2-6 6-12 10-18 2-2 4 0 3 3l-6 13c4-4 9-8 13-8 3 0 3 3 1 6l-8 12c-3 12-5 24-6 36" fill="none" stroke="#1d1d1f" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M75 90c-3-6-1-12 5-14 6-2 10 2 10 6M94 74c3-5 7-9 11-11" fill="none" stroke="#1d1d1f" strokeWidth={1.6} strokeLinecap="round" />
+      <path d="M66 122 101 118.5 106 131 71 137Z" fill="#1d1d1f" />
+      <circle cx="96" cy="127" r="1.6" fill="#fff" />
     </svg>
   );
 }
@@ -36,20 +39,20 @@ export function Paywall({ charge, sampleHref, top = 40 }: { charge: string; samp
           </li>
         ))}
       </ul>
-      <div className="mt-[21px] flex items-center gap-[37px]">
-        <button type="button" className="h-[39px] rounded-[6px] bg-[#009f81] px-[13px] text-[16px] font-semibold text-white hover:bg-[#007c65]">
+      <div className="mt-[20px] flex items-center gap-[37px]">
+        <button type="button" className="h-[41px] rounded-[6px] bg-[#009f81] px-[13px] text-[16px] font-semibold text-white hover:bg-[#007c65]">
           Buy Traffic &amp; Market Pro
         </button>
         <Link href={sampleHref} className="text-[16px] font-medium text-rk-link hover:text-rk-link-hover">
           View sample
         </Link>
       </div>
-      <div className="mt-[16px] border-t border-[#d7d9de] pt-[7px]">
+      <div className="mt-[13px] border-t border-[#d7d9de] pt-[7px]">
         <div className="flex items-center gap-[8px] text-[14px] leading-6 font-medium text-rk-text">
           Today&apos;s charge: {charge} (incl. Tax)
           <InfoIcon width={16} height={16} className="text-rk-faint" />
         </div>
-        <p className="mt-[5px] text-[14px] leading-[21px] text-rk-muted">
+        <p className="mt-[7px] text-[14px] leading-[21px] text-rk-muted">
           By clicking &ldquo;Buy Traffic &amp; Market Pro&rdquo;, you agree to add the full Traffic &amp; Market toolkit to your current subscription for an{" "}
           <b className="font-semibold text-rk-text-2">additional $289/mo</b>.
         </p>

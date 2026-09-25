@@ -14,7 +14,7 @@ export function ScrollTable({ header, children, width, stickyTop = 73 }: { heade
         onScroll={(e) => {
           if (head.current) head.current.scrollLeft = e.currentTarget.scrollLeft;
         }}
-        className="overflow-x-auto [&::-webkit-scrollbar-button]:hidden [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar]:h-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#c4c4c4]"
+        className="overflow-x-auto [&::-webkit-scrollbar-button]:hidden [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar]:h-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#d4d6d6]"
       >
         <div style={{ width }}>{children}</div>
       </div>

@@ -361,7 +361,7 @@ export function OptimizerHero() {
 
 export function TopicHero() {
   const tag = (t: string, blue?: boolean) => (
-    <span className={`inline-flex h-[19px] items-center rounded-full px-[7px] text-[12px] ${blue ? "bg-[#e5e7fd] text-[#5a5fc0]" : "bg-[#d6f7ea] text-[#0a8a5f]"}`}>{t}</span>
+    <span className={`inline-flex h-[17px] items-center rounded-full px-[7px] text-[11px] ${blue ? "bg-[#e5e7fd] text-[#5a5fc0]" : "bg-[#d6f7ea] text-[#0a8a5f]"}`}>{t}</span>
   );
   return (
     <Frame w={883} h={364} bg={FRAME}>
@@ -382,7 +382,7 @@ export function TopicHero() {
           <span className={`flex h-[20px] w-[19px] items-center justify-center rounded text-[10px] ${i === 1 ? "bg-[#c8cdfb] text-[#5a5fc0]" : "bg-[#f3c2c0] text-[#c0605b]"}`}>{i === 1 ? "I" : "C"}</span>
         </A>
       ))}
-      <A x={0} y={210} w={130} h={120} className="pt-[4px]" style={{ background: PANEL }}>
+      <A x={0} y={204} w={130} h={126} className="pt-[4px]" style={{ background: PANEL }}>
         <div className="flex h-[28px] items-center border-y border-[#c9a3f7] px-[8px] text-[13px]" style={{ color: MUTED }}>
           Tasty dog food
         </div>
@@ -394,17 +394,17 @@ export function TopicHero() {
       <A x={130} y={39} w={603} h={340} className="rounded-tl-lg bg-white shadow-[0_2px_12px_rgba(60,20,120,0.1)]" />
       <A x={130} y={39} w={188} h={330} className="border-r border-[#f0eef5]">
         <div className="px-[9px] pt-[14px] text-[15px] text-[#484a54]">Best-performing topics</div>
-        <div className="mt-[8px] border-l-[3px] border-[#2b2e38] bg-[#f5f7fe] px-[7px] pt-[8px] pb-[8px]">
+        <div className="mt-[6px] border-l-[3px] border-[#2b2e38] bg-[#f5f7fe] px-[7px] pt-[8px] pb-[8px]">
           {tag("Low-hanging fruit")}
-          <div className="mt-[4px] text-[13.5px]">best dog food ratings</div>
+          <div className="mt-[4px] text-[13px]">best dog food ratings</div>
         </div>
         <div className="border-t border-[#f0eef5] px-[9px] pt-[10px] pb-[8px]">
           {tag("Low-hanging fruit")}
-          <div className="mt-[4px] text-[13.5px]">buy natural dog food</div>
+          <div className="mt-[4px] text-[13px]">buy natural dog food</div>
         </div>
         <div className="border-t border-[#f0eef5] px-[9px] pt-[10px] pb-[8px]">
           {tag("Balanced growth", true)}
-          <div className="mt-[4px] text-[13.5px]">homemade dog food recipes</div>
+          <div className="mt-[4px] text-[13px]">homemade dog food recipes</div>
         </div>
         {[0, 1].map((i) => (
           <div key={i} className="border-t border-[#f0eef5] px-[9px] pt-[12px] pb-[10px]">
@@ -438,8 +438,8 @@ export function TopicHero() {
           </div>
         ))}
       </A>
-      <A x={755} y={249} w={130} h={40} className="flex items-center gap-2 pl-[6px] text-[13px]" style={{ background: PANEL, color: MUTED }}>
-        <span className="flex h-[17px] w-[30px] items-center justify-end rounded-full bg-[#4a9bb0] pr-[2px]">
+      <A x={755} y={246} w={130} h={36} className="flex items-center gap-[6px] pl-[4px] text-[13px]" style={{ background: PANEL, color: MUTED }}>
+        <span className="flex h-[17px] w-[30px] shrink-0 items-center justify-end rounded-full bg-[#4a9bb0] pr-[2px]">
           <span className="h-[13px] w-[13px] rounded-full bg-white" />
         </span>
         Weekly updates
@@ -454,15 +454,15 @@ export function TopicHero() {
         <div className="mt-[14px] ml-[6px] flex gap-[16px] text-[12px] text-[#484a54]">
           <div className="border-r border-[#ececf0] pr-[15px]">
             Keywords
-            <div className="text-[21px] font-semibold text-[#2f6fe0]">+15</div>
+            <div className="mt-[3px] text-[19px] leading-6 font-semibold text-[#2f6fe0]">+15</div>
           </div>
           <div className="border-r border-[#ececf0] pr-[15px]">
             Total Volume
-            <div className="text-[21px] font-semibold text-rk-text">86.1K</div>
+            <div className="mt-[3px] text-[19px] leading-6 font-semibold text-rk-text">86.1K</div>
           </div>
           <div className="border-r border-[#ececf0] pr-[15px]">
             KD
-            <div className="flex items-center gap-1 text-[21px] font-semibold text-rk-text">
+            <div className="flex items-center gap-1 mt-[3px] text-[19px] leading-6 font-semibold text-rk-text">
               28% <span className="h-[8px] w-[8px] rounded-full bg-[#2fd3a6]" />
             </div>
           </div>

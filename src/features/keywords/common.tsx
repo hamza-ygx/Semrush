@@ -222,9 +222,9 @@ export function OnboardingTip({
   );
 }
 
-export function KdDot({ kd }: { kd: number | null }) {
+export function KdDot({ kd, size = 10 }: { kd: number | null; size?: number }) {
   const c = kd == null ? "#d9d9de" : kd < 15 ? "#009f81" : kd < 30 ? "#3ee1b4" : kd < 50 ? "#fcb40a" : kd < 70 ? "#ff8c43" : "#ff4953";
-  return <span className="inline-block h-[10px] w-[10px] rounded-full" style={{ background: c }} />;
+  return <span className="inline-block shrink-0 rounded-full" style={{ background: c, width: size, height: size }} />;
 }
 
 const intentStyle: Record<string, string> = {

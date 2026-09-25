@@ -439,7 +439,7 @@ export function OverviewLanding() {
         </At>
       </div>
       <div className="bg-rk-bg">
-        <LandingFooter gap={37} />
+        <LandingFooter gap={40} />
       </div>
       <ScrollHint />
     </div>

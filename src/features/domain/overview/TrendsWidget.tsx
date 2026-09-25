@@ -116,7 +116,7 @@ function IncompleteBand({ h }: { h: number }) {
 
 function TrafficChart({ range, gran, hover, onHover }: { range: Range; gran: "Days" | "Months" } & HoverProps) {
   const [on, setOn] = useState({ organic: true, paid: true, branded: true });
-  const H = 85;
+  const H = 83;
   const days = rangeDays[range];
   const raw = slice(trafficDaily, days);
   const data = gran === "Months" && days > 300 ? monthly(raw) : raw;
@@ -126,7 +126,7 @@ function TrafficChart({ range, gran, hover, onHover }: { range: Range; gran: "Da
   return (
     <div>
       <h3 className="text-[16px] leading-6 font-bold">Traffic</h3>
-      <div className="mt-[19px] flex items-center gap-4">
+      <div className="mt-[14px] flex items-center gap-4">
         <Check color="#6167e6" label="Organic Traffic" checked={on.organic} onToggle={() => setOn({ ...on, organic: !on.organic })} />
         <Check color="#3ed4a4" label="Paid Traffic" checked={on.paid} onToggle={() => setOn({ ...on, paid: !on.paid })} />
         <Check color="#c28bf5" label="Branded Traffic" checked={on.branded} onToggle={() => setOn({ ...on, branded: !on.branded })} />
@@ -143,7 +143,8 @@ function TrafficChart({ range, gran, hover, onHover }: { range: Range; gran: "Da
         right={["0", "42", "83", "125"]}
         rightW={70}
         gap={14}
-        bottomH={27}
+        bottomH={26}
+        xGap={10}
         x={xLabels(days)}
         overlay={
           hover != null && (
@@ -179,7 +180,7 @@ function TrafficChart({ range, gran, hover, onHover }: { range: Range; gran: "Da
 function KeywordsChart({ range, hover, onHover }: { range: Range } & HoverProps) {
   const [kind, setKind] = useState<"Organic" | "Paid">("Organic");
   const [on, setOn] = useState<Record<string, boolean>>(Object.fromEntries(keywordLegend.map((l) => [l.label, true])));
-  const H = 165;
+  const H = 167;
   const max = 383;
   const days = rangeDays[range];
   const paid = kind === "Paid";
@@ -202,8 +203,8 @@ function KeywordsChart({ range, hover, onHover }: { range: Range } & HoverProps)
   return (
     <div>
       <h3 className="text-[16px] leading-6 font-bold">Keywords</h3>
-      <Seg items={["Organic", "Paid"] as const} value={kind} onChange={setKind} className="mt-[12px]" itemClassName="px-[8px]" />
-      <div className="mt-[19px] flex flex-wrap items-center gap-x-[15px] gap-y-2">
+      <Seg items={["Organic", "Paid"] as const} value={kind} onChange={setKind} className="mt-[13px]" itemClassName="px-[8px]" />
+      <div className="mt-[18px] flex flex-wrap items-center gap-x-[15px] gap-y-2">
         {keywordLegend.map((l) => (
           <Check key={l.label} color={l.color} label={l.label} checked={on[l.label]} onToggle={() => setOn({ ...on, [l.label]: !on[l.label] })} />
         ))}
@@ -217,6 +218,7 @@ function KeywordsChart({ range, hover, onHover }: { range: Range } & HoverProps)
         rightW={70}
         gap={14}
         bottomH={27}
+        xGap={10}
         x={xLabels(days)}
         overlay={
           <>

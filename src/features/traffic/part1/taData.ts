@@ -84,19 +84,19 @@ export const channelTrendTicks: Record<string, number[]> = {
 };
 
 export const journeySources = [
-  { name: "zara.com", pct: "75.04%", up: false, h: 88 },
-  { name: "google.com", pct: "15.38%", up: false, h: 58 },
-  { name: "google.com", pct: "0.32%", up: true, h: 58 },
-  { name: "mail.google.com", pct: "0.3%", up: false, h: 58 },
-  { name: "duckduckgo.com", pct: "0.3%", up: false, h: 58 },
+  { name: "zara.com", pct: "75.04%", up: false, h: 88, bw: 88 },
+  { name: "google.com", pct: "15.38%", up: false, h: 58, bw: 18 },
+  { name: "google.com", pct: "0.32%", up: true, h: 58, bw: 10 },
+  { name: "mail.google.com", pct: "0.3%", up: false, h: 58, bw: 10 },
+  { name: "duckduckgo.com", pct: "0.3%", up: false, h: 58, bw: 10 },
 ];
 
 export const journeyDest = [
-  { name: "zara.com", pct: "71.2%", up: true, h: 96 },
-  { name: "google.com", pct: "4.51%", up: false, h: 58 },
-  { name: "instagram.com", pct: "1.2%", up: true, h: 58 },
-  { name: "account.zara.com", pct: "0.92%", up: true, h: 58 },
-  { name: "youtube.com", pct: "0.41%", up: false, h: 58 },
+  { name: "zara.com", pct: "71.2%", up: true, h: 96, bw: 96 },
+  { name: "google.com", pct: "4.51%", up: false, h: 58, bw: 14 },
+  { name: "instagram.com", pct: "1.2%", up: true, h: 58, bw: 10 },
+  { name: "account.zara.com", pct: "0.92%", up: true, h: 58, bw: 10 },
+  { name: "youtube.com", pct: "0.41%", up: false, h: 58, bw: 10 },
 ];
 
 export const topPagesTabs = ["Top Pages", "Top Subfolders", "Top Subdomains"] as const;

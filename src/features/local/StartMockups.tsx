@@ -241,7 +241,7 @@ export function InsightsMockup() {
         <div className="absolute top-[50px] left-[24px] flex items-baseline gap-[10px] text-[32px] leading-10 font-bold text-[#8a8b90]">
           25.3K <span className="text-[18px] font-normal text-[#7fcfa6]">+13%</span>
         </div>
-        <svg viewBox="0 0 316 60" width={296} height={62} className="absolute top-[0px] left-[208px]">
+        <svg viewBox="0 0 316 60" width={296} height={62} className="absolute top-[12px] left-[208px]">
           <path d={spark} fill="none" stroke="#7cc0f0" strokeWidth={2.5} strokeLinejoin="round" />
         </svg>
       </div>
@@ -259,19 +259,19 @@ export function InsightsMockup() {
           <path d="M0 16 20 4 40 14" fill="none" stroke="#9fd2f5" strokeWidth={2.5} />
         </svg>
       </div>
-      <div className="absolute top-[150px] left-[40px] h-[300px] w-[452px] origin-top-left rotate-[2.8deg] rounded-[16px] bg-white shadow-[0_6px_24px_rgba(24,27,40,0.14),0_0_1px_rgba(24,27,40,0.2)]">
-        <div className="pt-[42px] pl-[45px] text-[22px] leading-7 font-semibold text-[#1c1c20]">Accept business name update?</div>
-        <div className="mt-[22px] flex pl-[42px] text-[19px] leading-6 text-[#2a2a2f]">
+      <div className="absolute top-[147px] left-[48px] h-[300px] w-[452px] origin-top-left rotate-[4deg] rounded-[16px] bg-white shadow-[0_6px_24px_rgba(24,27,40,0.14),0_0_1px_rgba(24,27,40,0.2)]">
+        <div className="pt-[44px] pl-[38px] text-[24px] leading-7 font-semibold text-[#1c1c20]">Accept business name update?</div>
+        <div className="mt-[26px] flex pl-[36px] text-[20px] leading-6 text-[#2a2a2f]">
           <span className="w-[72px] text-[#6d6e75]">Old</span>
           <span>
             John’s Roofing <s>Company</s>
           </span>
         </div>
-        <div className="mt-[16px] flex pl-[42px] text-[19px] leading-6 text-[#2a2a2f]">
+        <div className="mt-[16px] flex pl-[36px] text-[20px] leading-6 text-[#2a2a2f]">
           <span className="w-[72px] text-[#6d6e75]">New</span>
           <span>John’s Roofing</span>
         </div>
-        <div className="mt-[40px] flex gap-4 pl-[42px]">
+        <div className="mt-[49px] flex gap-4 pl-[40px]">
           <span className="flex h-[40px] w-[174px] items-center justify-center gap-2 rounded-[6px] bg-[#eceef0] text-[16px] text-[#4a4b50]">✓ Accept</span>
           <span className="flex h-[40px] w-[174px] items-center justify-center gap-2 rounded-[6px] bg-[#eceef0] text-[16px] text-[#4a4b50]">✕ Reject</span>
         </div>

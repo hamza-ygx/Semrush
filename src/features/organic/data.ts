@@ -376,7 +376,7 @@ export const positionRows: PositionRow[] = [
   r("hur läser man årsredovisning", "I", 42, 4, 0, L, "30", 10, "rkjh.se/blog/events/lasa-och-forsta-bokslut/", "Aug 22"),
   r("bolagsskatt aktiebolag", "I", 51, 7, 0, L, "30", 22, "rkjh.se/blog/2020/02/03/bilda-eller-kopa-aktiebolag/", "Aug 17"),
   r("vad är utpressning", "I", 25, 4, 0, L, "90", 12, "rkjh.se/blog/2020/02/03/hot-och-utpressning/", "Aug 06"),
-  r("ekonomibyrån halmstad", "I", 35, 4, 0, L, "30", 23, "rkjh.se/", "Aug 19"),
+  r("vad är en hållbarhetsrapport", "I", 64, 3, 0, L, "260", 20, "rkjh.se/blog/tjanster/hallbar-affarutveckling-3/", "Aug 19"),
   r("revisor halmstad", "C", 9, 3, 0, L, "40", 8, "rkjh.se/", "Aug 15"),
   r("hur man läser en årsredovisning", "I", 35, 5, 0, L, "30", 12, "rkjh.se/blog/events/lasa-och-forsta-bokslut/", "Sep 18"),
   r("beskattningsbar förvärvsinkomst", "I", 37, 5, 0, L, "140", 17, "rkjh.se/blog/2018/03/12/skatt-på-arbetsinkomster-förvärvsinkomstbeskattning/", "Aug 01"),

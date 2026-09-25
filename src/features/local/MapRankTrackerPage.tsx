@@ -49,6 +49,17 @@ function Dashboard() {
     [19, 9, 5, 2, 3, 7, 10],
     [21, 18, 15, 5, 13, 10, 13],
   ];
+  const marks: [number, number, string][] = [
+    [0, 0, "new"],
+    [3, 0, "down"],
+    [0, 1, "up"],
+    [0, 2, "up"],
+    [5, 4, "up"],
+    [6, 4, "up"],
+    [2, 5, "up"],
+    [0, 6, "lost"],
+    [3, 6, "down"],
+  ];
   const tone = (v: number) => (v > 20 ? ["#e3e4e8", "#b9bac0"] : v <= 3 ? ["#1fc28e", "#11a070"] : v <= 10 ? ["#fbb62b", "#e39a0b"] : ["#f23d4f", "#cf2436"]);
   const comps = [
     ["Sizzle Slice Pizzeria", "3.5", "(4)", "3.2"],
@@ -58,7 +69,7 @@ function Dashboard() {
   ];
   return (
     <div className="mx-auto h-[378px] w-[753px] bg-[#eef0f2] px-[12px] pt-[10px]">
-      <div className="flex h-[81px] items-center rounded-[4px] bg-white px-[17px]">
+      <div className="flex h-[81px] items-center rounded-[4px] bg-white px-[17px] pt-[3px]">
         {[
           ["Avg. Rank", "2.32", null],
           ["Share of Voice", "26.26%", null],
@@ -67,12 +78,12 @@ function Dashboard() {
           ["Poor", "10%", [0.1, "#ff6fd8"]],
           ["Out of Top 20", "10%", [0.1, "#8a8b90"]],
         ].map(([l, v, d], i) => (
-          <div key={l as string} style={{ width: [118, 146, 116, 116, 113, 120][i] }} className={`shrink-0 ${i ? "border-l border-[#e3e4e8] pl-[21px]" : ""}`}>
+          <div key={l as string} style={{ width: [98, 148, 115, 116, 113, 120][i] }} className={`shrink-0 ${i ? "border-l border-[#e3e4e8] pl-[21px]" : ""}`}>
             <div className="flex items-center text-[13px] text-[#3a3b40]">
               {l as string}
               <Info />
             </div>
-            <div className="flex items-center text-[22px] leading-7 font-semibold text-[#1f1f24]">
+            <div className="mt-[2px] flex items-center text-[22px] leading-7 font-semibold text-[#1f1f24]">
               {v as string}
               {d && <Donut p={(d as [number, string])[0]} c={(d as [number, string])[1]} />}
             </div>
@@ -113,6 +124,25 @@ function Dashboard() {
               );
             }),
           )}
+          {marks.map(([x, y, k]) =>
+            k === "new" || k === "lost" ? (
+              <span
+                key={`${x}-${y}`}
+                className={`absolute flex h-[12px] items-center rounded-full px-[4px] text-[8px] leading-none text-white ${k === "new" ? "bg-[#0f8a5f]" : "bg-[#d1273b]"}`}
+                style={{ left: 102 + x * 37.5 + 3, top: 11 + y * 37 - 9 }}
+              >
+                {k}
+              </span>
+            ) : (
+              <span
+                key={`${x}-${y}`}
+                className={`absolute flex h-[12px] w-[12px] items-center justify-center rounded-full text-[9px] leading-none font-bold text-white ${k === "up" ? "bg-[#0f8a5f]" : "bg-[#d1273b]"}`}
+                style={{ left: 102 + x * 37.5 + 18, top: 11 + y * 37 - 5 }}
+              >
+                {k === "up" ? "↑" : "↓"}
+              </span>
+            ),
+          )}
         </div>
       </div>
     </div>
@@ -148,14 +178,14 @@ export function MapRankTrackerPage() {
           <SearchBox value={q} onChange={setQ} className="-ml-[15px]" />
         </div>
       )}
-      <section className="h-[505px] bg-[#410f7c] text-center">
+      <section className="h-[501px] bg-[#410f7c] text-center">
         <div className="pt-[25px] text-[14px] leading-5 text-[#d3c6e6]">Map Rank Tracker</div>
-        <h1 className="mt-[63px] text-[48px] leading-[56px] font-bold text-white">
+        <h1 className="mt-[61px] text-[48px] leading-[56px] font-bold text-white">
           Monitor your local rankings
           <br />
           with pinpoint accuracy
         </h1>
-        <div ref={heroSearch} className="mt-[37px] flex justify-center">
+        <div ref={heroSearch} className="mt-[39px] flex justify-center">
           <SearchBox value={q} onChange={setQ} />
         </div>
         <div className="mt-[46px] flex items-center justify-center gap-[7px] text-[14px] text-white">
@@ -172,20 +202,20 @@ export function MapRankTrackerPage() {
         <p className="mx-auto mt-[30px] w-[660px] text-[16px] leading-6 text-[#3a3b40]">
           98% of consumers look for local goods and services online. What they see can vary widely depending on their location. Uncover what they’re seeing keyword by keyword across your service area.
         </p>
-        <div className="relative mt-[80px] h-[600px] text-left">
+        <div className="relative mt-[74px] h-[622px] text-left">
           <Callout className="top-0 left-[58px]">Get feedback on your local efforts by seeing ranking changes for a selected date range.</Callout>
           <Callout className="top-0 right-[60px]">View your search positions by keyword and location, with AI help to simplify your search.</Callout>
           <Curve d="M8 2c-2 30 6 44 26 56M34 58l-12 0M34 58l-3-12" className="top-[80px] left-[112px]" />
           <Curve d="M52 2c2 30-6 44-26 56M26 58l12 0M26 58l3-12" className="top-[80px] right-[112px]" />
-          <div className="absolute top-[85px] right-0 left-0">
+          <div className="absolute top-[97px] right-0 left-0">
             <Dashboard />
           </div>
-          <Curve d="M4 66c10-10 20-30 22-58M26 8l-8 10M26 8l6 10" className="top-[424px] left-[290px]" />
-          <Curve d="M10 66c-4-20-2-40 4-60M14 6l-8 8M14 6l8 8" className="top-[424px] left-[590px]" />
-          <Callout title="Gather competitive intel" className="top-[476px] left-[58px]">
+          <Curve d="M4 66c10-10 20-30 22-58M26 8l-8 10M26 8l6 10" className="top-[440px] left-[290px]" />
+          <Curve d="M10 66c-4-20-2-40 4-60M14 6l-8 8M14 6l8 8" className="top-[440px] left-[590px]" />
+          <Callout title="Gather competitive intel" className="top-[498px] left-[58px]">
             See your list of top competitors and a heatmap of their rankings in the area.
           </Callout>
-          <Callout title="Set your map size" className="top-[476px] right-[60px]">
+          <Callout title="Set your map size" className="top-[498px] right-[60px]">
             Zoom in or out and set your pins to customize your map grid.
           </Callout>
         </div>

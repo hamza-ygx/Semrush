@@ -9,8 +9,9 @@ import { LinkSelect, MenuItem, Popover } from "@/components/ui/Popover";
 import { Breadcrumbs, Info } from "@/components/ui/primitives";
 import { ChatGptIcon, ChevronDown, CloseIcon, ExportIcon, FlagSE, FlagUK, FlagUS, GeminiIcon, GoogleIcon, SearchIcon } from "@/components/ui/icons";
 import { voChart, voLlms, voNext, voTabs } from "./data";
+import { TipBulb } from "./bits";
 import { aiButton } from "./landing";
-import { Gauge } from "./UpsellModal";
+import { Gauge, PieGlyph, SparkUserGlyph } from "./UpsellModal";
 
 function BookIcon() {
   return (
@@ -73,15 +74,11 @@ function HistoryTip({ onClose }: { onClose: () => void }) {
   return (
     <div role="dialog" aria-label="Historical data now available" className="absolute top-[36px] left-[341px] z-40 w-[400px] rounded-[7px] bg-[#dfcbf9] pt-[17px] pr-4 pb-[16px] pl-[17px] shadow-[0_2px_8px_rgba(25,27,35,0.12)]">
       <div className="flex gap-[14px]">
-        <svg viewBox="0 0 40 40" width={36} height={36} aria-hidden>
-          <path d="M20 2l4 3.2 5-.6 1.8 4.7 4.7 1.8-.6 5L38 20l-3.2 4 .6 5-4.7 1.8-1.8 4.7-5-.6L20 38l-4-3.2-5 .6-1.8-4.7-4.7-1.8.6-5L2 20l3.2-4-.6-5 4.7-1.8L11 4.6l5 .6z" fill="#c9a4fb" />
-          <path d="M20 9.5a8 8 0 0 0-4.6 14.6c.8.6 1.2 1.4 1.2 2.3v1.3h6.8v-1.3c0-.9.4-1.7 1.2-2.3A8 8 0 0 0 20 9.5z" fill="#efe4ff" stroke="#4d2a86" strokeWidth={1.3} />
-          <path d="M16.8 30.3h6.4M17.6 32.8h4.8" fill="none" stroke="#4d2a86" strokeWidth={1.3} strokeLinecap="round" />
-        </svg>
+        <TipBulb className="mt-[1px]" />
         <div className="flex-1">
           <div className="text-[16px] leading-6 font-semibold text-rk-text">Historical data now available</div>
-          <p className="mt-[1px] w-[280px] text-[14px] leading-5 text-rk-text-2">Get a deeper understanding of trends by viewing data for each month.</p>
-          <button type="button" onClick={onClose} className="mt-[17px] h-7 rounded-md bg-white px-[9px] text-[14px] text-rk-text hover:bg-[#f4f0fb]">
+          <p className="mt-[5px] w-[280px] text-[14px] leading-5 text-rk-text-2">Get a deeper understanding of trends by viewing data for each month.</p>
+          <button type="button" onClick={onClose} className="mt-[16px] h-7 rounded-md bg-white px-[9px] text-[14px] text-rk-text hover:bg-[#f4f0fb]">
             Got it
           </button>
         </div>
@@ -97,7 +94,7 @@ function Header({ domain }: { domain: string }) {
   const [region, setRegion] = useState("world");
   const [tip, setTip] = useState(true);
   return (
-    <div className="border-b border-rk-border px-8 pt-4 pb-[21px]">
+    <div className="border-b border-rk-border px-8 pt-4 pb-[19px]">
       <div className="flex items-center justify-between">
         <Breadcrumbs items={[{ label: "Home", href: routes.home }, { label: "AI Visibility", href: routes.ai.overview }, { label: "Visibility Overview" }]} />
         <div className="flex items-center gap-5">
@@ -131,40 +128,47 @@ function Header({ domain }: { domain: string }) {
             {
               key: "world",
               label: (
-                <>
+                <span className="flex items-center gap-[8px]">
                   <WorldIcon />
                   Worldwide
-                </>
+                </span>
               ),
             },
             {
               key: "us",
               label: (
-                <>
+                <span className="flex items-center gap-[8px]">
                   <FlagUS />
                   US
-                </>
+                </span>
               ),
             },
             {
               key: "uk",
               label: (
-                <>
+                <span className="flex items-center gap-[8px]">
                   <FlagUK />
                   UK
-                </>
+                </span>
               ),
             },
             {
               key: "de",
               label: (
-                <>
+                <span className="flex items-center gap-[8px]">
                   <FlagDE />
                   DE
-                </>
+                </span>
               ),
             },
-            { key: "more", label: <span className="px-[2px] tracking-[1px]">•••</span> },
+            {
+              key: "more",
+              label: (
+                <svg viewBox="0 0 16 4" width={16} height={4} aria-hidden>
+                  <path d="M2 2h.01M8 2h.01M14 2h.01" stroke="currentColor" strokeWidth={3} strokeLinecap="round" />
+                </svg>
+              ),
+            },
           ]}
         />
         <Popover
@@ -202,7 +206,7 @@ function Card({ children, className = "" }: { children: ReactNode; className?: s
 
 function CardHead({ children, right }: { children: ReactNode; right?: ReactNode }) {
   return (
-    <div className="flex h-10 items-center justify-between border-b border-rk-border px-5">
+    <div className="flex h-[38px] items-center justify-between border-b border-rk-border px-5 pb-[1px]">
       <h2 className="flex items-center gap-[6px] text-[16px] font-semibold text-rk-text">{children}</h2>
       {right}
     </div>
@@ -217,9 +221,9 @@ function VisibilityGauge() {
       </CardHead>
       <div className="relative mt-[34px] flex justify-center">
         <svg viewBox="0 0 216 134" width={216} height={134} aria-hidden>
-          <path d="M13 128V108a95 95 0 0 1 190 0v20" fill="none" stroke="#e8e9ec" strokeWidth={26} />
+          <path d="M14.75 126.1A95 95 0 1 1 201.25 126.1" fill="none" stroke="#e9ebeb" strokeWidth={26} />
         </svg>
-        <span className="absolute top-[78px] text-[32px] font-bold text-[#6c6e79]">n/a</span>
+        <span className="absolute top-[85px] text-[32px] font-bold text-[#6c6e79]">n/a</span>
       </div>
     </Card>
   );
@@ -335,11 +339,16 @@ function Distribution() {
 
 function EmptyArt() {
   return (
-    <svg viewBox="0 0 90 80" width={82} height={74} aria-hidden>
-      <circle cx={45} cy={40} r={38} fill="#eceef1" />
-      <rect x={20} y={14} width={52} height={50} rx={5} transform="rotate(-8 46 39)" fill="#fff" stroke="#5d5f68" strokeWidth={2} />
-      <path d="M22 26l50-7" transform="rotate(0)" stroke="#5d5f68" strokeWidth={2} />
-      <path d="M30 30l3 30M50 27l3 30M26 42l44-6" stroke="#5d5f68" strokeWidth={1.6} />
+    <svg viewBox="0 0 90 84" width={90} height={84} aria-hidden>
+      <path d="M40 4c9-3 14 5 22 6s18 2 20 12-4 16-1 25 5 18-4 25-18 3-27 7-18 6-26-1-4-15-10-21-12-12-8-22 9-10 16-16 9-12 18-15z" fill="#e6e7eb" />
+      <g transform="rotate(-9 45 42)">
+        <rect x={13} y={14} width={64} height={56} rx={4} fill="#fff" stroke="#5d5f68" strokeWidth={1.4} />
+        <path d="M13 26V18a4 4 0 0 1 4-4h56a4 4 0 0 1 4 4v8z" fill="#5d5f68" />
+        <circle cx={19} cy={20} r={2} fill="#fff" />
+        <circle cx={25} cy={20} r={2} fill="#fff" />
+        <path d="M36 31v34M56 29v34M20 50h52" stroke="#5d5f68" strokeWidth={1} />
+        <path d="M10 22v48a4 4 0 0 0 4 4h58" fill="none" stroke="#5d5f68" strokeWidth={1.2} />
+      </g>
     </svg>
   );
 }
@@ -348,9 +357,9 @@ function Countries() {
   return (
     <Card className="h-[263px]">
       <CardHead>Mentions by Country</CardHead>
-      <div className="flex flex-col items-center pt-[45px]">
+      <div className="flex flex-col items-center pt-[43px]">
         <EmptyArt />
-        <div className="mt-[4px] text-[16px] leading-6 font-semibold text-rk-text-2">We have no data to show</div>
+        <div className="mt-[7px] text-[16px] leading-6 font-semibold text-rk-text-2">We have no data to show</div>
         <div className="mt-[2px] text-[14px] leading-5 text-rk-muted">Try changing your filters</div>
       </div>
     </Card>
@@ -424,11 +433,50 @@ function WhatsNext() {
   );
 }
 
+function ResponseIcon() {
+  return (
+    <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden>
+      <g fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinejoin="round">
+        <path d="M2.5 2.5h8v11h-6a2 2 0 0 1-2-2z" />
+        <path d="M10.5 6.5h3v5a2 2 0 0 1-2 2h-1M5 5.5h3M5 8h3M5 10.5h3" />
+      </g>
+    </svg>
+  );
+}
+
+function BrandsIcon() {
+  return (
+    <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden>
+      <g fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round">
+        <circle cx="6" cy="6" r="2.3" />
+        <path d="M1.8 13.5c.4-2.2 2.1-3.5 4.2-3.5s3.8 1.3 4.2 3.5M10.5 2.3a2 2 0 1 1 1.3 3.2M12 10c1.2.4 2 1.6 2.2 3.5" />
+      </g>
+    </svg>
+  );
+}
+
+function InsightIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 16 16" width={size} height={size} aria-hidden>
+      <g fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round">
+        <circle cx="7" cy="7" r="5" />
+        <path d="m10.8 10.8 3.2 3.2M5.2 8.6V7.8M7 8.6V5.4M8.8 8.6V6.6" />
+      </g>
+    </svg>
+  );
+}
+
+const rowActions: [string, () => ReactNode][] = [
+  ["View response", ResponseIcon],
+  ["Brands", BrandsIcon],
+  ["Analyze", () => <InsightIcon />],
+];
+
 function TopicsTable() {
   const [expanded, setExpanded] = useState(true);
   const [mode, setMode] = useState("topics");
   return (
-    <Card className="mt-[21px]">
+    <Card className="mt-[19px]">
       <div className="flex h-[44px] items-center justify-between px-5 pt-[2px]">
         <h3 className="text-[16px] font-semibold text-rk-text">
           Your Performing Topics <span className="font-normal text-rk-muted">1–1 (1)</span>
@@ -438,7 +486,7 @@ function TopicsTable() {
           Export
         </button>
       </div>
-      <div className="flex items-center gap-2 px-5 pt-[20px] pb-[20px]">
+      <div className="flex items-center gap-2 px-5 pt-[21px] pb-[20px]">
         <Segmented
           value={mode}
           onChange={setMode}
@@ -498,8 +546,8 @@ function TopicsTable() {
           </svg>
         </span>
         <span className="pl-3">Your Mentions</span>
-        <span className="pl-3">AI Volume</span>
-        <span className="pl-0">Intent</span>
+        <span className="pl-[9px]">AI Volume</span>
+        <span className="pl-[7px]">Intent</span>
       </div>
       <div className="grid h-[60px] grid-cols-[315px_152px_168px_152px_1fr] items-center border-b border-rk-border bg-[#f4f5f9] text-[14px]">
         <div className="flex items-start gap-[10px] pl-5">
@@ -518,14 +566,14 @@ function TopicsTable() {
         </div>
         <span className="pr-[16px] text-right text-rk-text">0</span>
         <span className="pr-[18px] text-right text-rk-text">0</span>
-        <span className="flex items-center justify-between pr-[16px]">
+        <span className="flex items-center justify-between pr-[15px] pl-[8px]">
           <svg viewBox="0 0 52 30" width={52} height={30} aria-hidden>
             <path d="M0 4c8 4 14 2 18 6s8-2 14-4 12-2 20-2v26H0z" fill="#dbe1fb" />
             <path d="M0 4c8 4 14 2 18 6s8-2 14-4 12-2 20-2" fill="none" stroke="#8e9ff0" strokeWidth={1.2} />
           </svg>
           1.9K
         </span>
-        <span className="flex items-center justify-between pr-[20px]">
+        <span className="flex items-center justify-between pr-[26px] pl-[7px]">
           <span className="flex h-[8px] w-[127px] overflow-hidden rounded-full">
             <span className="w-[76%] bg-[#a4b2f5]" />
             <span className="w-[5%] bg-[#3ddcb0]" />
@@ -534,7 +582,7 @@ function TopicsTable() {
             <span className="w-[3%] bg-[#ff9bd8]" />
           </span>
           <button type="button" className="flex h-7 items-center gap-[6px] rounded-md bg-[#191b23] px-[9px] text-[14px] font-medium text-white hover:bg-[#2b2e38]">
-            <SearchIcon width={14} height={14} />
+            <InsightIcon />
             Monitor
           </button>
         </span>
@@ -574,9 +622,9 @@ function TopicsTable() {
                   6
                 </a>
                 <span className="flex gap-[8px]">
-                  {["View response", "Brands", "Analyze"].map((t) => (
+                  {rowActions.map(([t, Icon]) => (
                     <button key={t} type="button" aria-label={t} className="flex h-7 w-7 items-center justify-center rounded-md border border-[#c4c7cf] bg-[#f4f5f9] text-rk-text-2 hover:bg-rk-hover">
-                      <SearchIcon width={14} height={14} />
+                      <Icon />
                     </button>
                   ))}
                 </span>
@@ -589,6 +637,13 @@ function TopicsTable() {
     </Card>
   );
 }
+
+const promoBubbles: [number, number, number, string, string, number][] = [
+  [12, 99, 9, "#ffc9f3", "#e27ad6", 1],
+  [51, 71, 28, "#a8f0d6", "#3fbf95", 0.8],
+  [108, 94, 46, "#a8dcff", "#3fa2e6", 0.85],
+  [125, 27, 25, "#e8d8ff", "#b58af2", 1],
+];
 
 function Promo() {
   return (
@@ -604,37 +659,43 @@ function Promo() {
         </button>
       </div>
       <div className="pointer-events-none absolute top-0 right-0 h-full w-[560px]">
-        <div className="absolute top-[150px] left-[52px] h-[140px] w-[120px] -rotate-[10deg] rounded-xl bg-white px-3 pt-[12px] shadow-[0_4px_20px_rgba(96,92,190,0.12)]">
+        <div className="absolute top-[156px] left-[35px] h-[140px] w-[120px] -rotate-[10deg] rounded-xl bg-white px-3 pt-[12px] shadow-[0_4px_20px_rgba(96,92,190,0.12)]">
           <div className="text-[14px] text-[#8a8e9b]">Insights</div>
           <div className="mt-[10px] flex h-[26px] items-center gap-2 rounded-md border border-[#e6e2fb] px-2">
-            <span className="h-[12px] w-[12px] rounded-full border-2 border-[#c9a4fb]" />
+            <PieGlyph />
+            <span className="h-[5px] w-[40px] rounded bg-[#eceef3]" />
+          </div>
+          <div className="mt-[8px] flex h-[26px] items-center gap-2 rounded-md border border-[#e6e2fb] px-2">
+            <SparkUserGlyph />
             <span className="h-[5px] w-[40px] rounded bg-[#eceef3]" />
           </div>
         </div>
-        <div className="absolute top-[92px] left-[146px] h-[200px] w-[150px] -rotate-[4deg] rounded-xl bg-white px-3 pt-[16px] shadow-[0_4px_20px_rgba(96,92,190,0.12)]">
+        <div className="absolute top-[101px] left-[125px] h-[200px] w-[150px] -rotate-[4deg] rounded-xl bg-white px-3 pt-[16px] shadow-[0_4px_20px_rgba(96,92,190,0.12)]">
           <div className="text-[14px] text-[#8a8e9b]">Share of Voice</div>
-          <svg viewBox="0 0 130 120" width={130} height={120} className="mt-[4px]">
-            <circle cx={20} cy={90} r={8} fill="#ffc9f3" />
-            <circle cx={60} cy={62} r={28} fill="#a8f0d6" opacity={0.8} />
-            <circle cx={96} cy={80} r={36} fill="#a8dcff" opacity={0.85} />
-            <circle cx={112} cy={24} r={20} fill="#e8d8ff" />
+          <svg viewBox="0 0 130 150" width={130} height={150} className="mt-[4px] overflow-visible">
+            {promoBubbles.map(([cx, cy, r, fill, mark, op]) => (
+              <g key={cx}>
+                <circle cx={cx} cy={cy} r={r} fill={fill} opacity={op} />
+                <path d={`M${cx - 3} ${cy}h6M${cx} ${cy - 3}v6`} stroke={mark} strokeWidth={0.8} />
+              </g>
+            ))}
           </svg>
         </div>
-        <div className="absolute top-[64px] left-[288px] h-[220px] w-[170px] rotate-[3deg] rounded-xl bg-white px-4 pt-[16px] shadow-[0_4px_20px_rgba(96,92,190,0.12)]">
+        <div className="absolute top-[64px] left-[252px] h-[230px] w-[210px] rotate-[3deg] rounded-xl bg-white pt-[25px] pr-4 pl-[23px] shadow-[0_4px_20px_rgba(96,92,190,0.12)]">
           <div className="text-[15px] text-[#8a8e9b]">Prompt Research</div>
-          <div className="mt-[8px] text-[12px] text-[#8a8e9b]">AI Volume</div>
-          <div className="text-[20px] font-semibold text-[#8a8e9b]">
+          <div className="mt-[13px] text-[12px] text-[#8a8e9b]">AI Volume</div>
+          <div className="mt-[9px] text-[20px] font-semibold text-[#8a8e9b]">
             34.6K <span className="text-[12px] font-normal text-[#1cc08a]">+16%</span>
           </div>
-          <svg viewBox="0 0 130 60" width={130} height={60} className="mt-[6px]">
+          <svg viewBox="0 0 130 60" width={150} height={60} preserveAspectRatio="none" className="mt-[6px]">
             <path d="M0 50c10-4 14-26 26-24s12 18 24 16 14-14 24-18 14 10 26 4 16-12 30-16" fill="none" stroke="#8fd7f5" strokeWidth={1.6} />
           </svg>
         </div>
-        <div className="absolute top-[100px] left-[410px] h-[200px] w-[180px] rotate-[8deg] rounded-xl bg-white px-4 pt-[16px] shadow-[0_4px_20px_rgba(96,92,190,0.12)]">
+        <div className="absolute top-[110px] left-[388px] h-[200px] w-[200px] rotate-[8deg] rounded-xl bg-white px-4 pt-[25px] shadow-[0_4px_20px_rgba(96,92,190,0.12)]">
           <div className="text-[15px] text-[#8a8e9b]">AI Visibility Overview</div>
-          <div className="mt-[18px] flex items-start">
+          <div className="mt-[27px] flex items-start">
             <Gauge size={110} />
-            <div className="ml-[8px] flex flex-col gap-[6px]">
+            <div className="mt-[11px] ml-[14px] flex flex-col gap-[9px]">
               <ChatGptIcon width={16} height={16} />
               <GoogleIcon width={16} height={16} />
               <GeminiIcon width={16} height={16} />
@@ -651,7 +712,7 @@ export function VisibilityOverview({ domain }: { domain: string }) {
   return (
     <div>
       <Header domain={domain} />
-      <div className="px-8 pt-4 pb-[119px]">
+      <div className="px-8 pt-[17px] pb-[119px]">
         <div className="grid grid-cols-[306px_1fr] gap-4">
           <VisibilityGauge />
           <MainChart />
@@ -668,7 +729,7 @@ export function VisibilityOverview({ domain }: { domain: string }) {
               key={t.label}
               type="button"
               onClick={() => setTab(i)}
-              className={`flex items-center justify-between border-r border-rk-border px-5 text-left text-[14px] font-medium text-rk-text last:border-r-0 ${
+              className={`flex items-start justify-between border-r border-rk-border px-5 pt-[12px] text-left text-[14px] leading-5 font-medium text-rk-text last:border-r-0 ${
                 tab === i ? "rounded-l-lg bg-[#eef1fb] shadow-[inset_0_0_0_1px_#8e9ff0]" : "hover:bg-rk-bg"
               }`}
             >

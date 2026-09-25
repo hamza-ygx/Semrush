@@ -136,7 +136,7 @@ export function NetworkGraphReport() {
             </div>
             <div className="flex-1 overflow-y-auto [scrollbar-color:#c4c7cf_transparent] [scrollbar-width:thin]" data-testid="graph-list">
               {graphDomains.map((d) => (
-                <div key={d.d} className="flex h-[64.7px] border-b border-[#eeeff1] pt-[11px] pr-[14px] pl-[22px]">
+                <div key={d.d} className="flex h-[64.7px] border-b border-[#eeeff1] pt-[11px] pr-[10px] pl-[22px]">
                   <span className="mt-[4px] h-3 w-3 shrink-0 rounded-full bg-[#c4c4c4]" />
                   <div className="ml-[6px] flex-1">
                     <div className="flex items-center gap-[4px] text-[14px] leading-5">

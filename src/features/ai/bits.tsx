@@ -50,7 +50,7 @@ export function ArrowDownThin() {
 export function SampleCard({ title, info = true, children, className = "", head }: { title: ReactNode; info?: boolean; children: ReactNode; className?: string; head?: ReactNode }) {
   return (
     <section className={`rounded-lg bg-white shadow-card ${className}`}>
-      <div className="border-b border-rk-border px-5 pt-[10px] pb-[9px]">
+      <div className="border-b border-rk-border px-5 pt-[8px] pb-[11px]">
         <h2 className="flex items-center gap-[6px] text-[16px] leading-5 font-semibold text-rk-text">
           {title}
           {info && <Info className="-mt-[5px]" />}
@@ -105,4 +105,18 @@ export function ColorCheck({ color, checked = true, onClick, label }: { color: s
 
 export function YouTag() {
   return <span className="rounded-[9px] bg-[#e4e3fa] px-[8px] text-[12px] leading-[17px] font-normal text-[#5a50c8]">you</span>;
+}
+
+export function TipBulb({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 40 40" width={40} height={40} className={`-ml-[2px] ${className}`} aria-hidden>
+      <path d="M20 2l4 3.2 5-.6 1.8 4.7 4.7 1.8-.6 5L38 20l-3.2 4 .6 5-4.7 1.8-1.8 4.7-5-.6L20 38l-4-3.2-5 .6-1.8-4.7-4.7-1.8.6-5L2 20l3.2-4-.6-5 4.7-1.8L11 4.6l5 .6z" fill="#b27ef3" />
+      <g transform="rotate(-28 20 20) translate(20 20) scale(1.15) translate(-20 -20)">
+        <path d="M20 6.5a8.5 8.5 0 0 0-4.9 15.5c.8.6 1.2 1.4 1.2 2.3v2h7.4v-2c0-.9.4-1.7 1.2-2.3A8.5 8.5 0 0 0 20 6.5z" fill="rgba(239,228,255,0.35)" stroke="#3b2266" strokeWidth={1.3} />
+        <path d="M17.6 18.5 20 13l2.4 5.5M20 13v13" fill="none" stroke="#6a3fb0" strokeWidth={1} />
+        <path d="M16.3 28.3h7.4M17 30.8h6" fill="none" stroke="#3b2266" strokeWidth={1.3} strokeLinecap="round" />
+        <path d="M15 11a6 6 0 0 1 3.5-2.4" fill="none" stroke="#fff" strokeWidth={1.2} strokeLinecap="round" />
+      </g>
+    </svg>
+  );
 }

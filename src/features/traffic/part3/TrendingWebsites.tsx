@@ -75,13 +75,13 @@ function PromoPopover({ onClose }: { onClose: () => void }) {
   return (
     <div role="dialog" aria-label="Free account" className="absolute top-[181px] left-[631px] z-30 w-[448px] rounded-2xl bg-white shadow-[0_4px_28px_rgba(25,27,35,0.14)]">
       <span className="absolute -top-[8px] right-[56px] h-4 w-4 rotate-45 bg-white" />
-      <button type="button" aria-label="Close" onClick={onClose} className="absolute top-[18px] right-[22px] text-[#6c6e79] hover:text-[#191b23]">
+      <button type="button" aria-label="Close" onClick={onClose} className="absolute top-[21px] right-[22px] text-[#6c6e79] hover:text-[#191b23]">
         <svg viewBox="0 0 12 12" width={12} height={12}>
           <path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" />
         </svg>
       </button>
       <div className="px-[24px] pt-[31px] pb-[16px]">
-        <h3 className="w-[340px] text-[20px] leading-7 font-bold tracking-[-0.2px] text-[#191b23]">Uncover competitor traffic and market data with a Free Account!</h3>
+        <h3 className="w-[340px] text-[20px] leading-7 font-semibold tracking-[-0.2px] text-[#191b23]">Uncover competitor traffic and market data with a Free Account!</h3>
         <ul className="mt-[12px] text-[14px] leading-[27px] text-[#333]">
           {["Get AI-powered alerts explaining every traffic shift", "Gauge market size and share to spot growth potential", "Find untapped opportunities before competitors do", "Uncover conversion, channel, and page-level trends"].map((t) => (
             <li key={t} className="flex items-center gap-[4px]">
@@ -197,10 +197,20 @@ function SignupModal({ onClose }: { onClose: () => void }) {
   useEffect(() => {
     const k = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", k);
-    return () => document.removeEventListener("keydown", k);
+    const b = document.body.style;
+    const gap = window.innerWidth - document.documentElement.clientWidth;
+    const prev = [b.overflow, b.paddingRight];
+    b.overflow = "hidden";
+    b.paddingRight = `${gap}px`;
+    b.setProperty("--sbw", `${gap}px`);
+    return () => {
+      document.removeEventListener("keydown", k);
+      [b.overflow, b.paddingRight] = prev;
+      b.removeProperty("--sbw");
+    };
   }, [onClose]);
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(25,27,35,0.7)]" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(25,27,35,0.7)] pr-[var(--sbw,0px)]" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
       <div role="dialog" aria-label="Sign up" className="relative ml-[16px] flex h-[410px] w-[723px] rounded-2xl bg-white pt-[47px] pl-[40px]">
         <button type="button" aria-label="Close" onClick={onClose} className="absolute top-[16px] right-[18px] text-[#6c6e79] hover:text-[#191b23]">
           <svg viewBox="0 0 24 24" width={24} height={24}>
@@ -209,7 +219,7 @@ function SignupModal({ onClose }: { onClose: () => void }) {
         </button>
         <div className="w-[350px]">
           <h2 className="text-[31px] leading-[39px] font-semibold tracking-[-0.4px] text-[#191b23]">Don&apos;t Miss Out on Even More Competitor Insights!</h2>
-          <ul className="mt-[18px] flex flex-col text-[16px] leading-[25px] text-[#333]">
+          <ul className="mt-[12px] flex flex-col text-[14px] leading-[25.7px] text-[#333]">
             {["Which keywords they target", "Where their traffic comes from", "Their most important pages", "How they make money"].map((t) => (
               <li key={t} className="flex items-center gap-[8px]">
                 <Check className="text-[#ff642d]" />
@@ -217,10 +227,10 @@ function SignupModal({ onClose }: { onClose: () => void }) {
               </li>
             ))}
           </ul>
-          <Link href={routes.home} className={`mt-[21px] inline-flex h-[39px] items-center rounded-md px-[12px] text-[15px] font-medium text-white ${orange}`}>
+          <Link href={routes.home} className={`mt-[21px] inline-flex h-[40px] items-center rounded-md px-[14px] text-[14px] font-medium text-white ${orange}`}>
             Get Started for Free →
           </Link>
-          <p className="mt-[1px] text-[13px] text-[#6c6e79]">Enjoy 10 Free Daily Requests on Us When You Sign Up</p>
+          <p className="text-[13px] leading-[16px] text-[#6c6e79]">Enjoy 10 Free Daily Requests on Us When You Sign Up</p>
         </div>
         <SignupArt />
       </div>

@@ -316,7 +316,7 @@ function BreakdownTable() {
         return (
           <Fragment key={r.q}>
             <div data-testid={`q-row-${i}`} className={`flex border-b border-[#ebebeb] text-[14px] leading-5 text-rk-text ${bg}`}>
-              <div className={`sticky left-0 flex w-[315px] pt-3 pr-[76px] pb-3 pl-5 ${bg}`}>
+              <div className={`sticky left-0 flex w-[315px] pt-3 pr-[72px] pb-3 pl-5 ${bg}`}>
                 <button type="button" aria-label="Expand question" onClick={() => toggle(i)} className="mt-[2px] mr-[10px] h-4">
                   <Chevron open={isOpen} />
                 </button>
@@ -361,7 +361,7 @@ function BreakdownCard() {
         <FilterSelect label="Competitors" options={brands.filter((b) => !b.you).map((b) => b.name)} />
       </div>
       <BreakdownTable />
-      <div className="px-5 pt-5 pb-5">
+      <div className="px-5 pt-3 pb-5">
         <Pagination pages={8} />
       </div>
     </ReportCard>

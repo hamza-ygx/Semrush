@@ -17,7 +17,7 @@ export function ScopeDrop({
   label = "Root Domain",
   options = scopes,
   className = "",
-  panelClassName = "w-full",
+  panelClassName = "left-px! w-full",
   testId,
 }: {
   label?: string;
@@ -30,7 +30,7 @@ export function ScopeDrop({
   return (
     <Popover
       className={className}
-      offset={7}
+      offset={6}
       panelClassName={panelClassName}
       trigger={({ toggle, open }) => (
         <button
@@ -100,7 +100,7 @@ export function DomainRow({
           </button>
         )}
       </div>
-      {selects ?? <ScopeDrop className="w-[179px] border-l border-[#dcdfdf]" panelClassName="-left-px! w-[calc(100%+1px)]" />}
+      {selects ?? <ScopeDrop className="w-[179px] border-l border-[#dcdfdf]" panelClassName="left-0! w-[calc(100%+1px)]" />}
     </div>
   );
 }
@@ -178,11 +178,11 @@ export function CountrySelect() {
           type="button"
           data-testid="cd-country"
           onClick={toggle}
-          className={`flex h-10 w-[149px] items-center rounded-md border bg-white pr-[12px] pl-3 text-[16px] text-rk-text ${open ? OPEN_BORDER : "border-[#dcdfdf]"}`}
+          className={`flex h-10 w-[149px] items-center rounded-md border bg-white pr-[10px] pl-3 text-[16px] text-rk-text ${open ? OPEN_BORDER : "border-[#dcdfdf]"}`}
         >
-          <span className="mr-2 flex w-4 justify-center">{cur.code ? <CountryFlag code={cur.code} /> : <WorldIcon />}</span>
+          <span className="mr-[7px] flex w-4 justify-center">{cur.code ? <CountryFlag code={cur.code} /> : <WorldIcon />}</span>
           <span className="flex-1 truncate text-left">{cur.name}</span>
-          <ChevronDown width={16} height={16} strokeWidth={2.2} className="ml-1 shrink-0" />
+          <ChevronDown width={16} height={16} strokeWidth={2.2} className="shrink-0" />
         </button>
       )}
     >
@@ -198,7 +198,7 @@ export function CountrySelect() {
               className="ml-2 min-w-0 flex-1 bg-transparent text-[16px] outline-none"
             />
           </div>
-          <div className="max-h-[330px] overflow-y-auto py-[2px] [scrollbar-width:thin]">
+          <div className="max-h-[284px] overflow-y-auto py-[2px] [scrollbar-width:thin]">
             {list.map((c) => (
               <Opt
                 key={c.name}
@@ -276,7 +276,7 @@ export function CompareDomainsLanding({ q }: { q?: string }) {
                   value={d}
                   onChange={(v) => set(i, v)}
                   color={colors[i]}
-                  selects={<ScopeDrop testId={`cd-scope-${i}`} className="w-[179px] border-l border-[#dcdfdf]" panelClassName="-left-px! w-[calc(100%+1px)]" />}
+                  selects={<ScopeDrop testId={`cd-scope-${i}`} className="w-[179px] border-l border-[#dcdfdf]" panelClassName="left-0! w-[calc(100%+1px)]" />}
                 />
               ))}
             </div>

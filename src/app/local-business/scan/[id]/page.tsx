@@ -3,7 +3,7 @@ import { LocalShell } from "@/features/local/ui";
 
 export default function Page() {
   return (
-    <LocalShell search={{ kind: "goto" }} enterprise={false}>
+    <LocalShell enterprise={false}>
       <ScanPage />
     </LocalShell>
   );

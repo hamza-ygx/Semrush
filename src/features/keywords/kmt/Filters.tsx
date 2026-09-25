@@ -22,7 +22,7 @@ function FilterButton({ label, open, toggle }: { label: string; open: boolean; t
       type="button"
       onClick={toggle}
       aria-expanded={open}
-      className={`flex h-7 items-center gap-[7.5px] rounded-md border bg-white px-2 text-[14px] text-rk-muted ${open ? "border-[#9ea6f5]" : "border-rk-border hover:border-rk-border-strong"}`}
+      className={`flex h-7 items-center gap-[7.5px] rounded-md border bg-white px-2 text-[14px] text-[#a0a2aa] ${open ? "border-[#9ea6f5]" : "border-rk-border hover:border-rk-border-strong"}`}
     >
       {label}
       <ChevronDownSm />
@@ -122,7 +122,7 @@ function KeywordsFilter({ label, include }: { label: string; include?: boolean }
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder={"Keyword - Broad match\n[Keyword] - Exact match"}
-              className="block h-[104px] w-full resize-none rounded-md border border-rk-border-strong py-[7px] pr-2 pl-[25px] text-[14px] leading-5 outline-none placeholder:text-[#c4c7cf] focus:border-[#8e97de] focus:shadow-[0_0_0_2px_rgba(142,151,222,0.6)]"
+              className="block h-[104px] w-full resize-none rounded-md border border-rk-border-strong py-[7px] pr-2 pl-[25px] text-[14px] leading-5 outline-none placeholder:text-[#c4c7cf] focus:border-[#8e97de] focus:shadow-[inset_0_0_0_2px_rgba(142,151,222,0.7)]"
             />
           </div>
           <div className="mt-5 flex gap-2">
@@ -207,15 +207,18 @@ export function LangSelect() {
     <FilterDrop label="Languages" width={199}>
       {(close) => (
         <>
-          <div className="max-h-[216px] overflow-y-auto pt-1" style={{ scrollbarWidth: "thin", scrollbarColor: "#c4c7cf transparent" }}>
-            {kmtLanguages.map((l) => (
-              <label key={l} className="flex h-8 cursor-pointer items-center gap-2 px-2 text-[14px] hover:bg-rk-bg">
-                <Check checked={sel.includes(l)} onChange={() => setSel((s) => (s.includes(l) ? s.filter((x) => x !== l) : [...s, l]))} label={l} />
-                {l}
-              </label>
-            ))}
+          <div className="relative">
+            <div className="max-h-[212px] overflow-y-auto pt-[5px] [&::-webkit-scrollbar]:w-[8px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:[border-width:0_2px] [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-[#cfd1d6] [&::-webkit-scrollbar-thumb]:bg-clip-padding">
+              {kmtLanguages.map((l) => (
+                <label key={l} className="flex h-8 cursor-pointer items-center gap-2 px-2 text-[14px] hover:bg-rk-bg">
+                  <Check checked={sel.includes(l)} onChange={() => setSel((s) => (s.includes(l) ? s.filter((x) => x !== l) : [...s, l]))} label={l} />
+                  {l}
+                </label>
+              ))}
+            </div>
+            <span className="pointer-events-none absolute right-2 bottom-0 left-0 h-6 bg-gradient-to-t from-white to-white/0" />
           </div>
-          <div className="px-[9px] pt-[10px] pb-[9px]">
+          <div className="px-[9px] pt-[16px] pb-[8px]">
             <ApplyButton onClick={close} className="w-full" />
           </div>
         </>

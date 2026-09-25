@@ -145,7 +145,7 @@ export function Sidebar({ mode, setMode, type, onTip }: { mode: Mode; setMode: (
           <SortSelect />
         </div>
       )}
-      <div className="kmt-scroll min-h-0 flex-1 overflow-y-scroll" style={{ scrollbarWidth: "thin", scrollbarColor: "#c4c7cf transparent" }}>
+      <div className="min-h-0 flex-1 overflow-y-scroll [&::-webkit-scrollbar]:w-[7px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:[border-width:0_2px_0_0] [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-[#d4d6da] [&::-webkit-scrollbar-thumb]:bg-clip-padding">
         {mode === "topics" ? (
           topics.map((t, i) => (
             <button

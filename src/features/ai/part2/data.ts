@@ -333,7 +333,7 @@ export const questionRows: QuestionRow[] = [
   { q: "Where can I find transparent, all‐in pricing for prescription eyeglasses?", cells: [c("3/4", "2", 100, 0), c("3/4", "2", 86, -14), c("2/4", "4", 83, -17), c("3/4", "3.3", 100, 0), c("3/4", "4", 100, 0)] },
   { q: "Who has the best online frame‐fitting tools?", cells: [c("3/4", "2", 100, 0), c("3/4", "1.7", 100, 0), c("3/4", "4", 100, 0), c("2/4", "3", 100, 0), c("2/4", "5", 100, 0)] },
   { q: "Where can I find stylish eyeglasses at a reasonable price?", cells: [c("3/4", "2", 90, -10), c("3/4", "1.7", 100, 0), c("3/4", "3.7", 100, 0), c("3/4", "4", 100, 0), c("3/4", "4.3", 100, 0)] },
-  { q: "Who offers in‐app virtual try‐on for glasses?", cells: [c("3/4", "2.3", 89, -11), c("3/4", "2.7", 89, -11), c("3/4", "4.3", 88, -12), c("2/4", "4", 100, 0), c("2/4", "5", 100, 0)] },
+  { q: "Who offers in‑app virtual try‑on for glasses?", cells: [c("3/4", "2.3", 89, -11), c("3/4", "2.7", 89, -11), c("3/4", "4.3", 88, -12), c("2/4", "4", 100, 0), c("2/4", "5", 100, 0)] },
   { q: "What brands have transparent pricing for eyewear?", cells: [c("3/4", "2.3", 86, -2), c("3/4", "1.3", 100, 12), c("2/4", "2.5", 100, 0), c("3/4", "3.7", 100, 0), c("3/4", "4.3", 100, 0)] },
   { q: "Who offers the best online experience for progressive lens wearers?", cells: [c("3/4", "2.3", 100, 0), c("3/4", "1.3", 88, -12), c("3/4", "3.7", 87, 20), c("2/4", "3", 100, 0), c("2/4", "4.5", 100, 0)] },
 ];

@@ -358,17 +358,17 @@ function Opportunities() {
     <SampleCard title="AI Strategic Opportunities">
       <div className="px-5 pt-[19px] pb-5">
         <p className="text-[14px] leading-5 text-rk-muted">Based on the LLM’s output about your brand from the latest update.</p>
-        <div className="mt-[21px] flex flex-col gap-[18px]">
+        <div className="mt-[19px] flex flex-col gap-[17px]">
           {opportunities.map((o) => (
             <article key={o.title} className="rounded-lg bg-[#f3f5f5]">
-              <div className="border-b border-rk-border px-3 pt-[2px] pb-[18px]">
+              <div className="border-b border-rk-border px-3 pt-[2px] pb-[15px]">
                 <div className="flex justify-end">
                   <span className={`rounded-[9px] px-[9px] text-[12px] leading-[18px] ${tfTone[o.tf]}`}>{o.tf} timeframe</span>
                 </div>
                 <h3 className="mt-[4px] text-[14px] leading-5 font-semibold text-rk-text">{o.title}</h3>
-                <p className="mt-[16px] text-[14px] leading-5 text-rk-text">{o.text}</p>
+                <p className="mt-[17px] text-[14px] leading-5 text-rk-text">{o.text}</p>
               </div>
-              <div className="px-3 pt-[16px] pb-[26px]">
+              <div className="px-3 pt-[16px] pb-[28px]">
                 <h4 className="text-[12px] leading-4 font-semibold text-rk-text">Recommendations:</h4>
                 <ul className="mt-[8px] flex flex-col gap-[8px]">
                   {o.recs.map((r) => (
@@ -389,7 +389,7 @@ function Opportunities() {
 
 export function BrandPerformanceSample() {
   return (
-    <div className="flex flex-col pb-[130px]">
+    <div className="flex flex-col pb-[126px]">
       <Insights />
       <div className="mt-6">
         <BubbleChart />

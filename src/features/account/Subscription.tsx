@@ -20,8 +20,8 @@ const CrownIcon = () => (
   </svg>
 );
 
-function CardHead({ children }: { children: ReactNode }) {
-  return <div className="flex h-[43px] items-center border-b border-[#eceef0] px-5 text-[16px] leading-6 font-semibold">{children}</div>;
+function CardHead({ children, className = "h-[43px]" }: { children: ReactNode; className?: string }) {
+  return <div className={`flex ${className} items-center border-b border-[#eceef0] px-5 text-[16px] leading-6 font-semibold`}>{children}</div>;
 }
 
 function RadioCards({ options, compact }: { options: { label: string; desc?: string }[]; compact?: boolean }) {
@@ -58,14 +58,14 @@ function RadioCards({ options, compact }: { options: { label: string; desc?: str
 function StandardApi() {
   return (
     <div className="rounded-lg bg-white shadow-card">
-      <CardHead>Standard API</CardHead>
-      <div className="px-5 pt-5 pb-5">
+      <CardHead className="h-[37px]">Standard API</CardHead>
+      <div className="px-5 pt-[22px] pb-[23px]">
         <div className="flex items-center text-[14px] leading-5">
           Balance
           <InfoI />
         </div>
-        <div className="mt-[4px] text-[28px] leading-8 font-semibold">50,000</div>
-        <p className="mt-[14px] flex gap-2 text-[14px] leading-5">
+        <div className="mt-[3px] text-[26px] leading-8 font-semibold">50,000</div>
+        <p className="mt-[11px] flex gap-2 text-[14px] leading-5">
           <CrownIcon />
           <span>You can only use {brand.name} API if your API unit balance has not been exceeded. The option to purchase API units is only available for Business users.</span>
         </p>
@@ -91,15 +91,15 @@ function TrendsApi() {
         .Trends API
         <InfoI />
       </CardHead>
-      <div className="px-5 pt-5 pb-5">
-        <p className="mb-2 text-[14px] leading-5">Select a suitable solution with 10,000 units.</p>
+      <div className="px-5 pt-[17px] pb-5">
+        <p className="mb-[11px] text-[14px] leading-5">Select a suitable solution with 10,000 units.</p>
         <RadioCards
           options={[
             { label: "Premium", desc: "Overview plus in-depth traffic breakdown reports." },
             { label: "Basic", desc: "One report with traffic overview metrics." },
           ]}
         />
-        <button type="button" className={`${greenS} mt-4`}>
+        <button type="button" className={`${greenS} mt-[18px]`}>
           Buy .Trends API
         </button>
       </div>
@@ -223,7 +223,7 @@ function Summary() {
 
 function ApiUnits() {
   return (
-    <div className="flex gap-4 pr-[17px]">
+    <div className="-mr-[7px] flex gap-[14px]">
       <div className="flex min-w-0 flex-1 flex-col gap-4">
         <StandardApi />
         <TrendsApi />

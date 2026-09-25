@@ -105,7 +105,7 @@ function SessionsArt() {
     <Frame>
       <div className="absolute top-[32px] left-0 h-[248px] w-[399px] rounded-tr-md border border-l-0 border-[#eceef2] bg-white">
         <div className="flex h-[40px] items-center border-b border-[#eceef2] pl-5 text-[16px] font-semibold text-[#191b23]">Sessions</div>
-        <svg width={399} height={210} className="absolute top-[40px] left-0 overflow-visible">
+        <svg width={399} height={210} className="absolute top-[40px] left-0">
           {[40, 20, 0].map((v) => (
             <g key={v}>
               <text x={56} y={y(v) + 4} textAnchor="end" fontSize={12} fill="#6c6e79">

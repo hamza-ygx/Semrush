@@ -93,9 +93,9 @@ function FilterSelect({ f }: { f: TrafficFilter }) {
           onBlur={() => setRing(false)}
           className={`group flex h-5 items-center text-[14px] leading-5 whitespace-nowrap text-rk-link outline-[#8b8fdd] hover:text-rk-link-hover focus-visible:outline-2 ${ring ? "outline-2" : "outline-none"}`}
         >
-          {r.icon && <span className="mr-[7px] flex">{r.icon}</span>}
+          {r.icon && <span className="mr-[4px] flex">{r.icon}</span>}
           <span className="decoration-1 underline-offset-[3px] group-hover:underline">{value}</span>
-          <SmallChevron width={14} height={14} className="ml-px" />
+          <SmallChevron width={14} height={14} className="ml-[3px]" />
         </button>
         {open && body}
       </div>
@@ -106,7 +106,7 @@ function FilterSelect({ f }: { f: TrafficFilter }) {
 
 function FilterRow({ filters }: { filters: TrafficFilter[] }) {
   return (
-    <div className="flex items-center gap-[25px]">
+    <div className="flex items-center gap-[26px]">
       {filters.map((f) => (
         <FilterSelect key={typeof f === "string" ? f : f.key} f={f} />
       ))}
@@ -169,8 +169,8 @@ function Chips({ domains, variant, locked }: { domains: TrafficDomain[]; variant
         </span>
       ))}
       {locked && (
-        <button type="button" aria-label="Add competitor" className="ml-[17px] flex h-[26px] w-[26px] items-center justify-center rounded-full bg-rk-btn-dark text-white">
-          <PlusIcon width={13} height={13} strokeWidth={2.4} />
+        <button type="button" aria-label="Add competitor" className="ml-[5px] flex h-[28px] w-[28px] items-center justify-center rounded-full bg-rk-btn-dark text-white">
+          <PlusIcon width={14} height={14} strokeWidth={2.4} />
         </button>
       )}
     </div>

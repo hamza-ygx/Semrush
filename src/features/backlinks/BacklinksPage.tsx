@@ -72,7 +72,7 @@ function LiveInfo() {
         <Info />
       </span>
       {open && (
-        <span className="absolute top-[20px] left-1/2 z-50 -ml-[113px] block w-[226px] pt-[2px]">
+        <span className="absolute top-[18px] left-1/2 z-50 -ml-[117px] block w-[226px] pt-[10px]">
           <span className="block rounded-md bg-white px-3 pt-[10px] pb-[12px] text-[14px] leading-5 text-rk-text shadow-popover">
             {brand.name} is the fastest tool to find new links. New data appears in the tool within just 15 minutes of being found.
             <a href="#" onClick={(e) => e.preventDefault()} className="mt-[-1px] block text-rk-link hover:text-rk-link-hover">

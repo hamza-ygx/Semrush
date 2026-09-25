@@ -197,13 +197,13 @@ function genDomain(r: () => number) {
 const backlinkHead: SrcRow[] = [
   { as: 30, title: "bobbyfraherc", url: "bobbyfraherc.blogspot.com/", tags: ["Blog", "Mobile friendly"], ext: 14511, int: 10, anchor: "rkjh.se", target: "rkjh.se/", ltags: [T("Text"), T("Content"), T("Nofollow", "orange")], first: "Jan 21, 2026", last: "Mar 13, 2026" },
   { as: 27, title: "sleagueasenm", url: "sleagueasenm.blogspot.com/", tags: ["Blog", "Mobile friendly"], ext: 14510, int: 7, anchor: "https://rkjh.se/", target: "rkjh.se/", ltags: [T("Text"), T("Content"), T("Nofollow", "orange")], first: "Feb 2, 2026", last: "Mar 15, 2026" },
-  { as: 25, title: "Sites like rkjh.se – Similar Websites to rkjh.se", url: "www.sitelike.org/similar/rkjh.se/", tags: ["EN", "Mobile friendly"], ext: 2, int: 74, anchor: "rkjh.se", target: "www.rkjh.se/", ltags: [T("Image"), T("Content"), T("Nofollow", "orange")], first: "Nov 22, 2025", last: "Jul 14, 2026" },
+  { as: 25, title: "Sites like rkjh.se – Similar Websit...", url: "www.sitelike.org/similar/rkjh.se/", tags: ["EN", "Mobile friendly"], ext: 2, int: 74, anchor: "rkjh.se", target: "www.rkjh.se/", ltags: [T("Image"), T("Content"), T("Nofollow", "orange")], first: "Nov 22, 2025", last: "Jul 14, 2026" },
 ];
 
 const backlinkTail: SrcRow[] = [
   { as: 0, title: "rkjh.se – Website Analysis and Domain Report", url: "carplz.com/page-469874882a090a0af8be63bac0ef2bf6.html", broken: true, tags: ["EN", "Mobile friendly"], ext: 44, int: 12, anchor: "rkjh.se", target: "rkjh.se/", targetBroken: true, ltags: [T("Text"), T("Lost: Broken domain", "red")], first: "Dec 3, 2025", last: "Jun 30, 2026" },
   { as: 0, title: "seo domain research", url: "blinks.monster/domain/domain/part/200393", broken: true, tags: ["EN", "Mobile friendly"], ext: 1973, int: 3, anchor: "rkjh.se", target: "rkjh.se/", ltags: [T("Text"), T("Nofollow", "orange")], first: "Jan 16, 2026", last: "Aug 8, 2026" },
-  { as: 0, title: "Keyword Research Tips for SEO and SEM Campaigns", url: "backlinktime.com/keyword-research-tips-for-seo-and-sem-campaigns/", broken: true, tags: ["Blog", "EN", "Mobile friendly"], ext: 5006, int: 155, anchor: "rkjh.se", target: "rkjh.se/", ltags: [T("Text"), T("Content")], first: "Jul 29, 2025", last: "Aug 24, 2026" },
+  { as: 0, title: "Keyword Research Tips for SEO and SEM ...", url: "backlinktime.com/keyword-research-tips-for-seo-and-sem-campaigns/", broken: true, tags: ["Blog", "EN", "Mobile friendly"], ext: 5006, int: 155, anchor: "rkjh.se", target: "rkjh.se/", ltags: [T("Text"), T("Content")], first: "Jul 29, 2025", last: "Aug 24, 2026" },
 ];
 
 export const backlinkRows: SrcRow[] = (() => {

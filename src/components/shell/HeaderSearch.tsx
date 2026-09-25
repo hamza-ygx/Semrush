@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { routes, tools } from "@/config/routes";
 import { useOutsideClose } from "../ui/Popover";
 import { ChevronDown, ClockIcon, CloseIcon, SearchIcon } from "../ui/icons";
@@ -26,7 +26,7 @@ function ToolLine({ name, description, href, onClick }: { name: string; descript
   );
 }
 
-export function GoToTool({ compact = false }: { compact?: boolean }) {
+export function GoToTool({ compact = false, extra = 0 }: { compact?: boolean; extra?: number }) {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
   const router = useRouter();
@@ -89,7 +89,8 @@ export function GoToTool({ compact = false }: { compact?: boolean }) {
             onChange={(e) => setQ(e.target.value)}
             onFocus={() => setOpen(true)}
             placeholder="Go to tool..."
-            className={`${h} ${compact ? "w-[316px] xl:w-[402px]" : "w-[388px] xl:w-[402px]"} rounded-l-md border bg-white pr-8 pl-3 text-[16px] xl:text-[14px] outline-none placeholder:text-rk-muted ${
+            style={compact ? ({ "--gw": `${316 + extra}px` } as CSSProperties) : undefined}
+            className={`${h} ${compact ? "w-[var(--gw)] xl:w-[402px]" : "w-[388px] xl:w-[402px]"} rounded-l-md border bg-white pr-8 pl-3 text-[16px] xl:text-[14px] outline-none placeholder:text-rk-muted ${
               open ? "border-[#7a86f2] ring-2 ring-[#b7c0fa]" : "border-rk-border-strong"
             }`}
           />
@@ -142,7 +143,7 @@ export function AnalyzeSearch({
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder={placeholder}
-          className={`${h} ${inputClassName ?? (scope ? (open ? "w-[161px]" : "w-[197px]") : "w-[463px]")} rounded-l-md border border-rk-border-strong bg-white pr-9 pl-3 text-[16px] outline-none focus:border-[#7a86f2]`}
+          className={`${h} ${inputClassName ?? (scope ? (open ? "w-[161px]" : "w-[197px]") : "w-[463px] xl:w-[480px]")} rounded-l-md border border-rk-border-strong bg-white pr-9 pl-3 text-[16px] outline-none focus:border-[#7a86f2] xl:text-[14px]`}
         />
         {q && (
           <button type="button" aria-label="Clear" onClick={() => setQ("")} className="absolute top-1/2 right-3 -translate-y-1/2 text-rk-text-2">
@@ -186,7 +187,7 @@ export function AnalyzeSearch({
           )}
         </div>
       )}
-      <button type="submit" className={`${h} rounded-r-md bg-rk-btn-dark px-[13px] text-[16px] font-semibold text-white hover:bg-[#2b2e38]`}>
+      <button type="submit" className={`${h} rounded-r-md bg-rk-btn-dark px-[13px] text-[16px] font-semibold text-white hover:bg-[#2b2e38] xl:px-[8px] xl:text-[14px]`}>
         Analyze
       </button>
     </form>

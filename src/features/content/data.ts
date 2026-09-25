@@ -7,7 +7,7 @@ export type Feature = { title: string; bullets: string[]; cta: string; href: str
 export const features: Feature[] = [
   {
     title: "Generate SEO-optimized articles in minutes",
-    bullets: ["Create full drafts based on real search data and your brand voice", "Add AI-generated images and visuals in one click", "Publish straight to WordPress or Google Docs"],
+    bullets: ["Create full drafts based on real search data and your brand voice", "Add AI-generated images and visuals to every article in one click", "Publish straight to WordPress or Google Docs, or export as HTML"],
     cta: "Go to AI Article Generator",
     href: routes.content.articleGenerator,
     art: "generate",

@@ -260,13 +260,13 @@ function Prioritize() {
   return (
     <Popover
       offset={6}
-      panelClassName="-left-2!"
+      panelClassName="-left-[7px]!"
       trigger={({ toggle, open }) => (
         <button
           type="button"
           data-testid="tr-prioritize"
           onClick={toggle}
-          className={`flex h-7 items-center gap-[6px] rounded-md border bg-white px-[7px] text-rk-text ${open ? "border-[#6b7d8b]" : "border-[#c4c7cf]"}`}
+          className={`flex h-7 items-center gap-[4px] rounded-md border bg-white pr-[6px] pl-[7px] text-rk-text ${open ? "border-[#6b7d8b]" : "border-[#c4c7cf]"}`}
         >
           {v}
           <svg viewBox="0 0 16 16" width={16} height={16}>
@@ -408,9 +408,9 @@ const SearchIco = () => (
 );
 const Dots = () => (
   <svg viewBox="0 0 16 16" width={16} height={16}>
-    <circle cx="3" cy="8" r="1.5" fill="currentColor" />
-    <circle cx="8" cy="8" r="1.5" fill="currentColor" />
-    <circle cx="13" cy="8" r="1.5" fill="currentColor" />
+    <circle cx="2.5" cy="8" r="1.8" fill="currentColor" />
+    <circle cx="8" cy="8" r="1.8" fill="currentColor" />
+    <circle cx="13.5" cy="8" r="1.8" fill="currentColor" />
   </svg>
 );
 
@@ -480,7 +480,7 @@ function Card({ card, index, loading, active, onToggle }: { card: TopicCard; ind
             type="button"
             data-testid={`tr-card-more-${index}`}
             onClick={onToggle}
-            className={`mx-auto mt-[31px] mb-4 flex items-center gap-1 text-[14px] ${blue} group/more`}
+            className={`relative left-[3px] mx-auto mt-[31px] mb-4 flex items-center gap-1 text-[13px] ${blue} group/more`}
           >
             <span className="group-hover/more:underline group-hover/more:underline-offset-[5px]">{active ? "Hide ideas" : "Show more"}</span>
             <svg viewBox="0 0 16 16" width={16} height={16} className={active ? "rotate-180" : ""}>
@@ -502,7 +502,7 @@ function CardTools({ card, index, onDismiss }: { card: TopicCard; index: number;
       <Popover
         align="right"
         offset={9}
-        panelClassName="w-[191px] -right-[1px]!"
+        panelClassName="w-[187px] -right-[1px]!"
         trigger={({ toggle }) => (
           <button
             type="button"

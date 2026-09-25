@@ -6,6 +6,7 @@ import { routes } from "@/config/routes";
 import { Popover, MenuItem, LinkSelect } from "@/components/ui/Popover";
 import { Breadcrumbs, Info } from "@/components/ui/primitives";
 import { ChevronDown, CloseIcon, ExportIcon, FeedbackIcon, PlusIcon } from "@/components/ui/icons";
+import { TipBulb } from "./bits";
 
 export type AiBrand = { name: string; color: string; you?: boolean };
 
@@ -40,32 +41,18 @@ function BackIcon() {
   );
 }
 
-function BulbArt() {
-  return (
-    <svg viewBox="0 0 40 40" width={38} height={38} aria-hidden>
-      <path
-        d="M20 2l4 3.2 5-.6 1.8 4.7 4.7 1.8-.6 5L38 20l-3.2 4 .6 5-4.7 1.8-1.8 4.7-5-.6L20 38l-4-3.2-5 .6-1.8-4.7-4.7-1.8.6-5L2 20l3.2-4-.6-5 4.7-1.8L11 4.6l5 .6z"
-        fill="#c9a4fb"
-      />
-      <path d="M20 9.5a8 8 0 0 0-4.6 14.6c.8.6 1.2 1.4 1.2 2.3v1.3h6.8v-1.3c0-.9.4-1.7 1.2-2.3A8 8 0 0 0 20 9.5z" fill="#efe4ff" stroke="#4d2a86" strokeWidth={1.3} />
-      <path d="M16.8 30.3h6.4M17.6 32.8h4.8M18.3 27.5l-.8-7 2.5 1.8 2.5-1.8-.8 7" fill="none" stroke="#4d2a86" strokeWidth={1.3} strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M14 14.5a6.5 6.5 0 0 1 4-3.4" fill="none" stroke="#fff" strokeWidth={1.3} strokeLinecap="round" />
-    </svg>
-  );
-}
-
 function LlmTip({ onClose }: { onClose: () => void }) {
   return (
     <div
       role="dialog"
       aria-label="View data for all LLMs at once"
-      className="absolute top-[-2px] left-[131px] z-40 w-[405px] rounded-[7px] border border-[#8f8ee6] bg-[#dfcbf9] pt-[18px] pr-4 pb-[17px] pl-[17px] shadow-[0_2px_8px_rgba(25,27,35,0.12)]"
+      className="absolute top-[-2px] left-[131px] z-40 w-[405px] rounded-[7px] border border-[#8f8ee6] bg-[#dfcbf9] pt-[16px] pr-4 pb-[17px] pl-[17px] shadow-[0_2px_8px_rgba(25,27,35,0.12)]"
     >
       <div className="flex gap-[14px]">
-        <BulbArt />
+        <TipBulb className="mt-[1px]" />
         <div className="flex-1">
           <div className="text-[16px] leading-6 font-semibold text-rk-text">View data for all LLMs at once</div>
-          <p className="mt-[1px] text-[14px] leading-5 text-rk-text-2">You can now see how your and competitor brands perform across all AI platforms.</p>
+          <p className="mt-[3px] text-[14px] leading-5 text-rk-text-2">You can now see how your and competitor brands perform across all AI platforms.</p>
           <button type="button" onClick={onClose} className="mt-[17px] h-7 rounded-md bg-white px-[9px] text-[14px] text-rk-text hover:bg-[#f4f0fb]">
             Got it
           </button>

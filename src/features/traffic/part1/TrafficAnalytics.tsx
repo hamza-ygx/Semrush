@@ -41,7 +41,7 @@ function SortIcon() {
 function SummarySample() {
   return (
     <SampleCard title="Summary" bodyClassName="">
-      <table className="w-[1236px] table-fixed text-[14px] leading-5">
+      <table className="w-[1228px] table-fixed text-[14px] leading-5">
         <colgroup>
           <col className="w-[226px]" />
           {summaryCols.map((c) => (
@@ -149,7 +149,7 @@ function ChannelDistCard() {
               {c.label}
             </Link>
           ) : (
-            <span key={c.label} className="absolute text-center text-[12px] leading-4 text-rk-text" style={style}>
+            <span key={c.label} className="absolute text-center text-[12px] leading-4 text-rk-muted" style={style}>
               {c.label}
             </span>
           );
@@ -175,24 +175,26 @@ function ChannelTrendCard() {
   );
 }
 
-type JRow = { name: string; pct: string; up: boolean; h: number };
+type JRow = { name: string; pct: string; up: boolean; h: number; bw: number };
 
 function JourneyColumn({ rows, side, x, bandTo }: { rows: JRow[]; side: "left" | "right"; x: number; bandTo: number }) {
   const pos = rows.map((r, i) => ({ ...r, y: rows.slice(0, i).reduce((acc, q) => acc + q.h + 8, 0) }));
-  const total = rows.reduce((acc, q) => acc + q.h + 8, 0) - 8;
+  const total = rows.reduce((acc, q) => acc + Math.sqrt(q.bw), 0);
   const boxTop = 193;
   const span = 55;
-  const starts = pos.map((_, i) => boxTop + pos.slice(0, i).reduce((acc, q) => acc + (span * q.h) / total, 0));
+  const starts = pos.map((_, i) => boxTop + pos.slice(0, i).reduce((acc, q) => acc + (span * Math.sqrt(q.bw)) / total, 0));
   return (
     <>
       <svg className="absolute top-0 left-0 overflow-visible" width={1} height={1}>
         {pos.map((r, i) => {
-          const th = (span * r.h) / total;
+          const th = (span * Math.sqrt(r.bw)) / total;
           const a = starts[i];
+          const y0 = r.y + (r.h - r.bw) / 2;
+          const y1 = y0 + r.bw;
           const sx = side === "left" ? x + 4 : x;
           const ex = bandTo;
           const mx = (sx + ex) / 2;
-          return <path key={r.name + r.y} d={`M${sx} ${r.y}C${mx} ${r.y} ${mx} ${a} ${ex} ${a}L${ex} ${a + th}C${mx} ${a + th} ${mx} ${r.y + r.h} ${sx} ${r.y + r.h}Z`} fill="#e3e3f8" />;
+          return <path key={r.name + r.y} d={`M${sx} ${y0}C${mx} ${y0} ${mx} ${a} ${ex} ${a}L${ex} ${a + th}C${mx} ${a + th} ${mx} ${y1} ${sx} ${y1}Z`} fill="#e3e3f8" />;
         })}
         {pos.map((r) => (
           <rect key={r.name + r.y + "b"} x={x} y={r.y} width={4} height={r.h} rx={1} fill="#6167e6" />
@@ -284,7 +286,7 @@ function TopPagesCard() {
               key={t}
               type="button"
               onClick={() => setTab(t)}
-              className={`relative h-[39px] px-[14px] pb-[7px] text-[16px] leading-6 font-medium ${t === tab ? "font-semibold text-rk-text" : "text-rk-text-2 hover:text-rk-text"} first:pl-[13px] last:pr-[4px]`}
+              className={`relative h-[39px] px-[15px] pb-0 text-[16px] leading-6 font-medium text-rk-text ${t === tab ? "font-semibold" : ""} first:pl-[13px] first:pr-[14px] last:pr-[4px] last:pl-[1px]`}
             >
               {t}
               {t === tab && <span className="absolute right-0 -bottom-px left-0 h-[3px] bg-[#8e92ec]" />}
@@ -292,7 +294,7 @@ function TopPagesCard() {
           ))}
         </div>
       </div>
-      <div className="px-5 pt-[20px] pb-[21px]">
+      <div className="px-5 pt-[18px] pb-[21px]">
         <DomainSwitch />
         <table className="mt-[20px] w-[1196px] table-fixed text-[14px] leading-5">
           <colgroup>
@@ -367,7 +369,7 @@ function GeoMap() {
 
 function GeoCard() {
   return (
-    <SampleCard title="Geo Distribution" bodyClassName="px-5 pt-[23px] pb-[20px]">
+    <SampleCard title="Geo Distribution" bodyClassName="px-5 pt-[19px] pb-[20px]">
       <div className="flex items-center gap-[16px]">
         <DomainSwitch />
         <SegTabs items={["Visits", "Unique Visitors"]} />
@@ -404,7 +406,7 @@ function GeoCard() {
               <tr className="h-[34px] border-b border-[#e6e7ea] text-[12px] text-rk-text">
                 <th className="pl-2 text-left font-normal">Country</th>
                 <th className="font-normal">
-                  <span className="flex items-center justify-end gap-[6px] text-rk-muted">
+                  <span className="flex items-center justify-end gap-[6px] pr-[9px] text-rk-muted">
                     All devices
                     <SortIcon />
                   </span>
@@ -423,7 +425,7 @@ function GeoCard() {
                     </span>
                   </td>
                   <td className="pr-[8px] text-right">
-                    <span className="mr-[24px] text-rk-muted">{r.share}</span>
+                    <span className="mr-[32px] text-rk-muted">{r.share}</span>
                     <span className={`inline-block w-[36px] ${r.bold ? "font-semibold" : ""} text-rk-text`}>{r.value}</span>
                   </td>
                   <td className="pr-[8px] text-right text-rk-text">{r.desktop}</td>
@@ -571,7 +573,7 @@ export function TrafficAnalyticsLocked() {
     <TrafficFrame title="Traffic Analytics" pdf locked bottomGap={116}>
       <div className="flex w-[1236px] flex-col gap-4">
         <LockedSummary />
-        <LockedArea charge="$335.35" sampleHref={`${routes.traffic.overview}?sample=1`}>
+        <LockedArea charge="$335.35" sampleHref={`${routes.traffic.overview}?sample=1`} top={42}>
           <div className="flex flex-col gap-4">
             <GreyCard title="Traffic Trend" h={364}>
               <div className="inline-flex h-7 rounded-[6px] border border-[#d7d9de] text-[14px] text-rk-muted">

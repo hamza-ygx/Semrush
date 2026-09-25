@@ -253,7 +253,7 @@ function RefDomainsTable() {
                     )}
                   </td>
                   <td className={`px-3 pt-[11px] text-right ${on ? "bg-[#f3f5f5]" : ""}`}>
-                    <button type="button" aria-label={`Backlinks from ${r.d}`} aria-expanded={on} data-testid={`bl-${r.d}`} onClick={() => setOpen(on ? null : r.d)} className="inline-flex items-center gap-[8px]">
+                    <button type="button" aria-label={`Backlinks from ${r.d}`} aria-expanded={on} data-testid={`bl-${r.d}`} onClick={() => setOpen(on ? null : r.d)} className="inline-flex items-center gap-[12px]">
                       <ChevronRightSm className={`text-rk-text-2 ${on ? "rotate-90" : ""}`} />
                       {r.bl}
                     </button>

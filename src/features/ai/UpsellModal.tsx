@@ -106,32 +106,64 @@ function LeftArt() {
   );
 }
 
+const bubbles: [number, number, number, string, string, number][] = [
+  [12, 63, 12, "#ffc9f3", "#e27ad6", 0.8],
+  [72, 56, 36, "#a8f0d6", "#3fbf95", 0.8],
+  [116, 80, 30, "#a8dcff", "#3fa2e6", 0.85],
+  [180, 69, 25, "#e8d8ff", "#b58af2", 0.9],
+  [205, 46, 20, "#ffe0c8", "#f5a64a", 0.9],
+];
+
+export function PieGlyph() {
+  return (
+    <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden>
+      <g fill="none" stroke="#a15ff3" strokeWidth={1.6} strokeLinejoin="round">
+        <path d="M7 3.2a5.3 5.3 0 1 0 5.8 5.8H7z" />
+        <path d="M9.3 1.5v5.2h5.2a5.2 5.2 0 0 0-5.2-5.2z" />
+      </g>
+    </svg>
+  );
+}
+
+export function SparkUserGlyph() {
+  return (
+    <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden>
+      <g fill="none" stroke="#a15ff3" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="6.5" cy="6" r="2.8" />
+        <path d="M1.5 14.5c.6-2.6 2.6-4 5-4 1.2 0 2.2.3 3 .9" />
+        <path d="M12.5 1.5v4M10.5 3.5h4" />
+      </g>
+    </svg>
+  );
+}
+
 function RightArt() {
   return (
-    <div className="pointer-events-none absolute inset-y-0 right-0 w-[260px]">
-      <div className={`${card} top-[62px] left-[-26px] flex h-[70px] w-[70px] -rotate-[8deg] items-center justify-center`}>
-        <ChatGptIcon width={44} height={44} />
+    <div className="pointer-events-none absolute inset-y-0 right-[-41px] w-[260px]">
+      <div className={`${card} top-[50px] left-[-30px] flex h-[70px] w-[70px] -rotate-[8deg] items-center justify-center`}>
+        <ChatGptIcon width={50} height={50} className="text-[#6c6e79]" />
       </div>
       <div className={`${card} top-[18px] left-[28px] h-[150px] w-[240px] rotate-[3deg] px-4 pt-[18px]`}>
         <div className="text-[14px] text-[#8a8e9b]">Insights</div>
-        {["#c9a4fb", "#c9a4fb"].map((c, i) => (
-          <div key={i} className="mt-[10px] flex h-[36px] items-center gap-3 rounded-lg border border-[#e6e2fb] px-3">
-            <span className="h-[14px] w-[14px] rounded-full border-2" style={{ borderColor: c }} />
-            <Bar w={130} />
+        {[PieGlyph, SparkUserGlyph].map((G, i) => (
+          <div key={i} className="mt-[10px] flex h-[36px] items-center gap-[10px] rounded-lg border border-[#e6e2fb] px-3">
+            <G />
+            <Bar w={150} />
           </div>
         ))}
       </div>
       <div className={`${card} top-[158px] left-[-12px] h-[198px] w-[260px] px-5 pt-[20px]`}>
         <div className="text-[14px] text-[#8a8e9b]">Brand Perfomance</div>
         <svg viewBox="0 0 240 120" width={240} height={120} className="mt-[4px]">
-          <circle cx="16" cy="66" r="10" fill="#ffc9f3" opacity="0.8" />
-          <circle cx="80" cy="54" r="36" fill="#a8f0d6" opacity="0.8" />
-          <circle cx="118" cy="80" r="30" fill="#a8dcff" opacity="0.85" />
-          <circle cx="176" cy="74" r="26" fill="#e8d8ff" opacity="0.9" />
-          <circle cx="206" cy="46" r="20" fill="#ffe0c8" opacity="0.9" />
+          {bubbles.map(([cx, cy, r, fill, mark, op]) => (
+            <g key={cx}>
+              <circle cx={cx} cy={cy} r={r} fill={fill} opacity={op} />
+              <path d={`M${cx - 3} ${cy}h6M${cx} ${cy - 3}v6`} stroke={mark} strokeWidth={0.8} />
+            </g>
+          ))}
         </svg>
       </div>
-      <div className={`${card} top-[316px] left-[16px] h-[160px] w-[240px] -rotate-[4deg] px-5 pt-[18px]`}>
+      <div className={`${card} top-[316px] left-[20px] h-[160px] w-[204px] -rotate-[4deg] px-5 pt-[18px]`}>
         <div className="text-[14px] text-[#8a8e9b]">AI Visibility Overview</div>
         <div className="mt-[6px] flex items-start justify-between">
           <Gauge size={120} />
@@ -165,14 +197,14 @@ export function UpsellModal({ open, onClose }: { open: boolean; onClose: () => v
   if (!open) return null;
   return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(25,27,35,0.37)]"
+      className="fixed top-0 left-0 z-[100] flex h-screen w-screen items-center justify-center bg-[rgba(25,27,35,0.37)]"
       onMouseDown={(e) => e.target === e.currentTarget && onClose()}
     >
       <div role="dialog" aria-modal="true" aria-label="Lead the new era of search" className="relative h-[434px] w-[960px] overflow-hidden rounded-xl bg-white">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_300px_300px_at_0%_0%,#eef4ff,transparent_70%),radial-gradient(ellipse_300px_300px_at_100%_0%,#f6eeff,transparent_70%)]" />
         <LeftArt />
         <RightArt />
-        <button type="button" aria-label="Close" onClick={onClose} className="absolute top-[18px] right-[19px] z-10 flex h-8 w-8 items-center justify-center rounded text-rk-text-2 hover:bg-rk-bg">
+        <button type="button" aria-label="Close" onClick={onClose} className="absolute top-[11px] right-[12px] z-10 flex h-8 w-8 items-center justify-center rounded text-rk-text-2 hover:bg-rk-bg">
           <svg viewBox="0 0 20 20" width={20} height={20}>
             <path d="M3 3l14 14M17 3 3 17" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" />
           </svg>
@@ -183,7 +215,7 @@ export function UpsellModal({ open, onClose }: { open: boolean; onClose: () => v
             <br />
             of search
           </h2>
-          <p className="mt-[27px] text-[16px] leading-6 font-semibold text-rk-text">Stay ahead of the shift—track your visibility across Google and AI search.</p>
+          <p className="mt-[21px] text-[16px] leading-6 font-semibold text-rk-text">Stay ahead of the shift—track your visibility across Google and AI search.</p>
           <ul className="mt-[16px] flex flex-col items-center gap-[8px] text-[16px] leading-6 text-rk-text">
             {["Rank on Google and appear in AI results", "Uncover new growth opportunities", "Stay visible everywhere people search"].map((t) => (
               <li key={t} className="flex items-center gap-[8px]">
@@ -194,7 +226,7 @@ export function UpsellModal({ open, onClose }: { open: boolean; onClose: () => v
               </li>
             ))}
           </ul>
-          <button type="button" onClick={onClose} className={`mt-[36px] h-10 w-[320px] rounded-md text-[16px] font-medium ${aiButton}`}>
+          <button type="button" onClick={onClose} className={`mt-[32px] h-10 w-[320px] rounded-md text-[16px] font-medium ${aiButton}`}>
             Switch to {brand.name} One
           </button>
         </div>

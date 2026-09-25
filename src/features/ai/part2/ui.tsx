@@ -81,7 +81,7 @@ export function ReportCard({
 }) {
   return (
     <section data-testid={testid} className={`mt-6 rounded-lg bg-white shadow-card first:mt-0 ${className}`}>
-      <div className={`border-b border-[#f0f0f0] px-5 ${action ? "pt-[11px]" : "pt-[10px]"} ${subtitle ? "pb-[7px]" : action ? "pb-[11px]" : "pb-[10px]"}`}>
+      <div className={`border-b border-[#f0f0f0] px-5 ${action ? "pt-[11px]" : subtitle ? "pt-[10px]" : "pt-[9px]"} ${subtitle ? "pb-[7px]" : action ? "pb-[11px]" : "pb-[10px]"}`}>
         <div className="flex h-5 items-center justify-between">
           <h2 className="flex items-center gap-[6px] text-[16px] leading-5 font-semibold text-rk-text">
             {title}

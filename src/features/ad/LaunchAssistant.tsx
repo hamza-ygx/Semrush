@@ -155,7 +155,7 @@ export function LaunchAssistant() {
             <HeroArt />
           </div>
         </div>
-        <div className="relative mt-[82px]">
+        <div className="relative mt-[75px]">
           <TryItCard title="See Ads Launch Assistant in action" />
         </div>
       </div>

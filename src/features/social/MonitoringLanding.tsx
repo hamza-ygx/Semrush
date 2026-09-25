@@ -35,9 +35,9 @@ export function MonitoringLanding() {
   return (
     <div className="min-h-full bg-[#f3f5f8] px-8 pt-[33px] pb-[60px]">
       <section className="relative h-[461px] rounded-lg bg-white">
-        <div className="absolute top-[53px] left-[48px] w-[400px]">
+        <div className="absolute top-[51px] left-[48px] w-[400px]">
           <div className="text-[16px] leading-6 font-semibold text-[#b369f6]">Media Monitoring</div>
-          <h1 className="mt-[8px] text-[42px] leading-[44px] font-bold tracking-[-0.003em] text-[#191b23]">
+          <h1 className="mt-[8px] text-[44px] leading-[44px] font-semibold tracking-[-0.01em] text-[#2a2a2e]">
             Track brand
             <br />
             and industry
@@ -45,10 +45,10 @@ export function MonitoringLanding() {
             conversations
           </h1>
           <p className="mt-[20px] max-w-[375px] text-[16px] leading-6 text-[#191b23]">Catch social media buzz, filter the noise, and act on what matters.</p>
-          <button type="button" className="mt-[21px] h-10 rounded-md bg-[#009f81] px-[25px] text-[16px] font-medium text-white hover:bg-[#007c65]">
+          <button type="button" className="mt-[32px] h-[41px] rounded-md bg-[#009f81] px-[25px] text-[16px] font-medium text-white hover:bg-[#007c65]">
             Get free trial
           </button>
-          <p className="mt-[15px] text-[12px] leading-4 text-[#6c6e79]">
+          <p className="mt-[15px] text-[12px] leading-4 text-[#7c7e86]">
             Media Monitoring is a part of the Social Toolkit.
             <br />
             Start your trial to access the full suite.
@@ -64,9 +64,9 @@ export function MonitoringLanding() {
           <Gauge />
         </div>
       </section>
-      <section className="mt-4 rounded-lg bg-white px-[52px] pt-[48px] pb-[60px]">
+      <section className="mt-4 rounded-lg bg-white px-[52px] pt-[45px] pb-[60px]">
         <h2 className="text-center text-[24px] leading-8 font-medium text-[#191b23]">Turn insights into opportunities</h2>
-        <div className="mt-[91px] space-y-20">
+        <div className="mt-[94px] space-y-20">
           {mmFeatures.map((f, i) => (
             <div key={f.title} className={`flex items-start justify-between ${i % 2 ? "flex-row-reverse" : ""}`}>
               <div className="w-[440px]">

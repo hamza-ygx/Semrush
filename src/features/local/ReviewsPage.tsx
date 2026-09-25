@@ -24,7 +24,7 @@ const Arrow = () => (
 );
 
 const Pizza = ({ v }: { v: number }) => (
-  <svg viewBox="0 0 52 44" width={52} height={44} className="rounded-[4px]">
+  <svg viewBox="0 0 52 44" width={53} height={53} preserveAspectRatio="xMidYMid slice" className="rounded-[4px]">
     <rect width="52" height="44" fill={["#efe7dc", "#5a3a2a", "#e8e0d4"][v]} />
     <circle cx="26" cy="22" r="19" fill="#d9822b" />
     <circle cx="26" cy="22" r="15" fill="#e8b04a" />
@@ -41,13 +41,13 @@ const Pizza = ({ v }: { v: number }) => (
 );
 
 function MapsMockup() {
-  const pins: [number, number, string?][] = [
-    [48, -2, "Jet's Pizza"],
-    [126, 90, "Lou Malnati's Pizzer"],
-    [48, 158, "Bob's Pizza"],
-    [133, 190, "Giordano's"],
-    [65, 308, "Pizzeria Portofino"],
-    [185, 280, "Papa Jo"],
+  const pins: [number, number, string, number, number][] = [
+    [53, -9, "Jet's Pizza", 20, 17],
+    [129, 90, "Lou Malnati's Pizzer", 60, 111],
+    [50, 161, "Bob's Pizza", 14, 179],
+    [136, 188, "Giordano's", 103, 207],
+    [65, 308, "Pizzeria Portofino", 10, 327],
+    [182, 262, "Papa Jo", 137, 287],
   ];
   return (
     <div className="relative h-[520px] w-[480px]">
@@ -64,7 +64,7 @@ function MapsMockup() {
           </div>
           <div className="mt-[14px] px-[10px] text-[12px] text-[#1f1f24]">Results ⓘ</div>
           {places.map((p, i) => (
-            <div key={p.n} className="relative h-[114px] border-b border-[#e8eaed] px-[10px] pt-[12px] text-[11px] leading-[17px] text-[#5f6368]">
+            <div key={p.n} className="relative h-[110px] border-b border-[#e8eaed] px-[10px] pt-[12px] text-[11px] leading-[17px] text-[#5f6368]">
               <div className="text-[14px] leading-5 font-semibold text-[#1f1f24]">{p.n}</div>
               <div>
                 {p.r} <span className="text-[#fbbc05]">★★★★★</span> {p.c}
@@ -83,24 +83,24 @@ function MapsMockup() {
             </div>
           ))}
         </div>
-        <div className="relative flex-1 overflow-hidden bg-[#f8f1df]">
+        <div className="relative flex-1 overflow-hidden bg-[#f3eee2]">
           <svg viewBox="0 0 185 410" width={185} height={410} className="absolute inset-0">
-            <g stroke="#b9c3d0" strokeWidth={10}>
-              <path d="M20 0v410M95 0v410M160 0v410M0 60h185M0 150h185M0 250h185M0 330h185" />
+            <rect x="0" y="342" width="185" height="68" fill="#9dd4e6" />
+            <g stroke="#c3cbd8" strokeWidth={8}>
+              <path d="M31 0v410M98 0v410M160 0v410M0 52h185M0 136h185M0 241h185M0 276h185M0 361h185" />
             </g>
-            <g stroke="#fff" strokeWidth={4}>
-              <path d="M20 0v410M95 0v410M160 0v410M0 60h185M0 150h185M0 250h185M0 330h185" />
+            <g stroke="#e4e8ef" strokeWidth={4}>
+              <path d="M31 0v410M98 0v410M160 0v410M0 52h185M0 136h185M0 241h185M0 276h185M0 361h185" />
             </g>
-            <rect x="0" y="345" width="185" height="65" fill="#5ec4e8" />
-          </svg>
-          {pins.map(([x, y, l]) => (
-            <div key={l} className="absolute flex flex-col items-center" style={{ left: x - 12, top: y }}>
-              <span className="flex h-[24px] w-[24px] items-center justify-center rounded-full rounded-br-none bg-[#e8453c] text-[11px] text-white" style={{ transform: "rotate(45deg)" }}>
+                      </svg>
+          {pins.map(([x, y, l, lx, ly]) => (
+            <div key={l}>
+              <span className="absolute flex h-[22px] w-[22px] items-center justify-center rounded-full rounded-br-none bg-[#e8453c] shadow-[0_1px_2px_rgba(0,0,0,0.3)]" style={{ left: x - 11, top: y - 12, transform: "rotate(45deg)" }}>
                 <svg viewBox="0 0 12 12" width={11} height={11} style={{ transform: "rotate(-45deg)" }}>
                   <path d="M3.5 1v4a1.5 1.5 0 0 0 3 0V1M5 1v10M8.5 1c1.5 1 1.5 4 0 5v5" fill="none" stroke="#fff" strokeWidth={1.2} strokeLinecap="round" />
                 </svg>
               </span>
-              <span className="mt-[2px] -ml-[20px] text-[13px] whitespace-nowrap text-[#3c4043]" style={{ marginLeft: l === "Pizzeria Portofino" ? 0 : 60 }}>
+              <span className="absolute text-[13px] leading-4 whitespace-nowrap text-[#3c4043] [text-shadow:0_0_2px_#fff,0_0_2px_#fff]" style={{ left: lx, top: ly }}>
                 {l}
               </span>
             </div>

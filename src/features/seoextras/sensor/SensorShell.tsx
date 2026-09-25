@@ -65,7 +65,7 @@ export function SensorShell({ tab, children }: { tab: SensorTab; children: React
           <h1 className="text-[20px] leading-7 font-semibold text-rk-text">{brand.name} Sensor</h1>
           <div className="flex items-center gap-6">
             <SendFeedback />
-            <button type="button" onClick={() => setSub(true)} className="flex h-7 items-center gap-2 rounded-md bg-rk-btn-dark px-[11px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
+            <button type="button" onClick={() => setSub(true)} className="flex h-7 items-center gap-2 rounded-md bg-rk-btn-dark pr-[8px] pl-[6px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
               <BellIcon />
               Subscribe to notifications
             </button>
