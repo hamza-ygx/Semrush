@@ -62,6 +62,7 @@ export const routes = {
   serp: "/analytics/serp",
   kb: "/kb",
   appsSearch: "/apps/search",
+  multilogin: "/multilogin",
   compareDomains: "/analytics/comparedomains",
   keywordGap: "/analytics/keywordgap",
   backlinkGap: "/analytics/gap/backlinks/report",
