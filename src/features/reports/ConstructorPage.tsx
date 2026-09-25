@@ -4,9 +4,9 @@ import Link from "next/link";
 import { useState, type ComponentType, type SVGProps } from "react";
 import { HelpButtonAndPanel } from "@/components/shell/HelpPanel";
 import { routes } from "@/config/routes";
-import { railTips } from "./data";
+import { railTips, settingsTip } from "./data";
 import { BrushIcon, GearIcon, HomeIcon, ImageIcon, PencilIcon, PieIcon, PlugIcon } from "./ConstructorIcons";
-import { FormattingPanel, IntegrationsPanel, ThemesPanel, WidgetsPanel } from "./ConstructorPanels";
+import { FormattingPanel, IntegrationDetail, IntegrationsPanel, ThemesPanel, WidgetsPanel } from "./ConstructorPanels";
 import { ReportCanvas } from "./ReportCanvas";
 import { TemplateGallery } from "./TemplateGallery";
 
@@ -89,6 +89,8 @@ export function ConstructorPage() {
   const [feedback, setFeedback] = useState(true);
   const [title, setTitle] = useState("Untitled report");
   const [editing, setEditing] = useState(false);
+  const [integration, setIntegration] = useState<string | null>(null);
+  const [settingsHover, setSettingsHover] = useState(false);
   const tipItem = rail.find((r) => r.key === tip);
 
   return (
@@ -123,20 +125,33 @@ export function ConstructorPage() {
               <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" />
             </svg>
           </button>
-          <button type="button" className="flex h-7 items-center gap-[10px] rounded-md bg-gradient-to-r from-[#a45cfd] to-[#7a6cf2] pr-[9px] pl-[10px] text-[15px] font-medium text-white hover:brightness-110">
+          <button type="button" className="flex h-7 items-center gap-2 rounded-md bg-gradient-to-r from-[#a45cfd] to-[#7a6cf2] pr-[9px] pl-[10px] text-[14px] font-medium text-white hover:brightness-110">
             <svg viewBox="0 0 20 20" width={20} height={20}>
               <path d="M8 4c.5 3.4 2.1 5 5.5 5.5-3.4.5-5 2.1-5.5 5.5-.5-3.4-2.1-5-5.5-5.5C5.9 9 7.5 7.4 8 4z" fill="#fff" />
               <path d="M15 2.5c.2 1.3.8 1.9 2 2-1.2.2-1.8.8-2 2-.2-1.2-.8-1.8-2-2 1.2-.1 1.8-.7 2-2z" fill="#fff" />
             </svg>
             Add AI summary
           </button>
-          <button type="button" className="flex h-7 items-center rounded-md bg-[#00a67e] px-[9px] text-[15px] font-medium text-white hover:bg-[#008f6c]">
+          <button type="button" className="flex h-7 items-center rounded-md bg-[#00a67e] px-[9px] text-[14px] font-medium text-white hover:bg-[#008f6c]">
             Generate PDF report
           </button>
-          <button type="button" aria-label="Settings" className="relative flex h-[26px] w-[26px] items-center justify-center rounded-md bg-[#6b6d6d] text-[#191b23] hover:bg-[#7c7e7e]">
+          <button
+            type="button"
+            aria-label="Settings"
+            onMouseEnter={() => setSettingsHover(true)}
+            onMouseLeave={() => setSettingsHover(false)}
+            className="relative flex h-[26px] w-[26px] items-center justify-center rounded-md bg-[#6b6d6d] text-[#191b23] hover:bg-[#7c7e7e]">
             <GearIcon width={17} height={17} />
             <span className="absolute -top-[4px] -right-[4px] h-[9px] w-[9px] rounded-full bg-[#e8811f]" />
           </button>
+          {settingsHover && (
+            <div
+              role="tooltip"
+              className="pointer-events-none absolute top-[52px] right-5 z-40 w-[227px] rounded-md bg-white px-3 pt-[10px] pb-[10px] text-[14px] leading-5 text-rk-text shadow-[0_1px_10px_rgba(25,27,35,0.14)]"
+            >
+              {settingsTip}
+            </div>
+          )}
         </div>
       </header>
 
@@ -166,7 +181,20 @@ export function ConstructorPage() {
       </div>
 
       <aside className="absolute top-12 bottom-0 left-14 w-[288px] border-r border-rk-border bg-white">
-        {panel === "widgets" ? <WidgetsPanel /> : panel === "integrations" ? <IntegrationsPanel /> : panel === "formatting" ? <FormattingPanel /> : <ThemesPanel />}
+        {panel === "widgets" ? (
+          <WidgetsPanel />
+        ) : panel === "integrations" ? (
+          integration ? (
+            <IntegrationDetail key={integration} name={integration} onBack={() => setIntegration(null)} />
+          ) : (
+            <IntegrationsPanel
+              onOpen={(label) => {
+                setIntegration(label);
+                setOnboarding(false);
+              }}
+            />
+          )
+        ) : panel === "formatting" ? <FormattingPanel /> : <ThemesPanel />}
       </aside>
 
       {tipItem && (

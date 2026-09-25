@@ -3,8 +3,23 @@
 import { useState, type ReactNode } from "react";
 import { LogoIcon } from "@/components/icons";
 import { SearchIcon } from "@/components/ui/icons";
-import { integrationGroups, themes, widgetGroups, type IntegrationItem } from "./data";
-import { BrushIcon, ColumnsIcon, DiamondIcon, HeadingIcon, ImageIcon, ScissorsIcon, StarIcon, TextIcon } from "./ConstructorIcons";
+import { defaultWidgets, integrationGroups, integrationWidgets, themes, widgetGroups, widgetKinds, type IntegrationItem, type WidgetKind } from "./data";
+import {
+  BackIcon,
+  BarChartIcon,
+  BrushIcon,
+  ColumnsIcon,
+  DiamondIcon,
+  HashIcon,
+  HeadingIcon,
+  ImageIcon,
+  LineChartIcon,
+  PieSliceIcon,
+  ScissorsIcon,
+  StarIcon,
+  TableIcon,
+  TextIcon,
+} from "./ConstructorIcons";
 import { GaIcon, GoogleGIcon, GscIcon, MatomoIcon, SparkleIcon } from "./ReportIcons";
 import { ScrollArea } from "./ScrollArea";
 
@@ -44,7 +59,7 @@ function integrationIcon(i: IntegrationItem): ReactNode {
   }
 }
 
-export function IntegrationsPanel() {
+export function IntegrationsPanel({ onOpen }: { onOpen: (label: string) => void }) {
   return (
     <ScrollArea className="h-full" vInset={{ right: 3, top: 112, bottom: 360 }} thumbClassName="bg-[#c4c7cf]">
       <div className="px-4 pt-[15px] pb-6">
@@ -57,7 +72,7 @@ export function IntegrationsPanel() {
             <div className="text-[12px] leading-5 font-bold text-rk-text">{g.heading}</div>
             <div className="mt-[7px]">
               {g.items.map((it) => (
-                <button key={it.label} type="button" className="flex h-[34px] w-full items-center gap-[10px] pl-[3px] text-left text-[14px] text-rk-text hover:text-rk-link">
+                <button key={it.label} type="button" onClick={() => onOpen(it.label)} className="flex h-[34px] w-full items-center gap-[10px] pl-[3px] text-left text-[14px] text-rk-text hover:text-rk-link">
                   <span className="flex w-[17px] shrink-0 justify-center">{integrationIcon(it)}</span>
                   <span className="truncate">{it.label}</span>
                   {it.isNew && <NewBadge />}
@@ -195,5 +210,96 @@ export function ThemesPanel() {
         </div>
       </div>
     </ScrollArea>
+  );
+}
+
+const kindIcon: Record<WidgetKind, typeof HashIcon> = { number: HashIcon, line: LineChartIcon, bar: BarChartIcon, table: TableIcon, pie: PieSliceIcon };
+
+export function IntegrationDetail({ name, onBack }: { name: string; onBack: () => void }) {
+  const [tab, setTab] = useState<"widgets" | "groups">("widgets");
+  const [kinds, setKinds] = useState<WidgetKind[]>([]);
+  const [query, setQuery] = useState("");
+  const sections = (integrationWidgets[name] ?? defaultWidgets(name))
+    .map((sec) => ({ ...sec, items: sec.items.filter((w) => (!kinds.length || kinds.includes(w.kind)) && w.label.toLowerCase().includes(query.toLowerCase())) }))
+    .filter((sec) => sec.items.length);
+
+  return (
+    <div className="flex h-full flex-col">
+      <div className="shrink-0">
+        <button type="button" aria-label="Back to integrations" onClick={onBack} className="mt-[17px] ml-4 flex items-center gap-2 text-[16px] leading-6 font-bold text-rk-text hover:text-rk-link">
+          <BackIcon />
+          {name}
+        </button>
+        <div role="tablist" className="mt-[11px] mr-[10px] ml-2 flex gap-[14px] border-b border-[#dcdcdc] pl-2">
+          {(["widgets", "groups"] as const).map((t) => (
+            <button
+              key={t}
+              type="button"
+              role="tab"
+              aria-selected={tab === t}
+              onClick={() => setTab(t)}
+              className={`-mb-px h-[29px] border-b-2 text-[14px] leading-5 capitalize ${tab === t ? "border-[#8e92e8] text-rk-text" : "border-transparent text-rk-text hover:text-rk-link"}`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+      </div>
+      {tab === "groups" ? (
+        <p className="px-4 pt-4 text-[14px] leading-5 text-rk-muted">
+          With Groups, you can add multiple widgets on one topic at the same time. We&apos;ll gradually introduce more widget groups.
+        </p>
+      ) : (
+        <>
+          <div className="shrink-0 px-4 pt-4">
+            <div className="w-[254px]">
+              <label className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-white px-2 text-rk-muted focus-within:border-[#8e92ec]">
+                <SearchIcon width={16} height={16} />
+                <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search" className="min-w-0 flex-1 text-[14px] text-rk-text outline-none placeholder:text-rk-muted" />
+              </label>
+            </div>
+            <div aria-label={`${name} widget filters`} className="mt-3 flex gap-1">
+              {widgetKinds.map(({ kind, label }) => {
+                const Icon = kindIcon[kind];
+                const on = kinds.includes(kind);
+                return (
+                  <button
+                    key={kind}
+                    type="button"
+                    aria-label={label}
+                    aria-pressed={on}
+                    onClick={() => setKinds((k) => (on ? k.filter((x) => x !== kind) : [...k, kind]))}
+                    className={`flex h-8 w-8 items-center justify-center rounded-md border ${on ? "border-[#8e92e8] bg-[#eef0fd] text-rk-text" : "border-[#dcdcdc] text-rk-text-2 hover:bg-rk-bg"}`}
+                  >
+                    <Icon />
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <ScrollArea className="mt-[17px] min-h-0 flex-1" vInset={{ right: 2, top: 1, bottom: 2 }} thumbClassName="bg-[#c4c7cf]">
+            <div className="pr-3 pb-6 pl-[14px]">
+              {sections.map((sec, i) => (
+                <div key={sec.heading} className={i ? "mt-[18px]" : ""}>
+                  <div className="text-[12px] leading-5 font-bold text-rk-text">{sec.heading}</div>
+                  <div className="mt-2">
+                    {sec.items.map((w) => {
+                      const Icon = kindIcon[w.kind];
+                      return (
+                        <button key={w.label} type="button" draggable className="flex h-[34px] w-full cursor-grab items-center gap-[6px] text-left text-[14px] text-rk-text hover:text-rk-link">
+                          <Icon className="shrink-0 text-[#a9abb6]" />
+                          <span className="truncate">{w.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+              {!sections.length && <p className="text-[14px] leading-5 text-rk-muted">No widgets found</p>}
+            </div>
+          </ScrollArea>
+        </>
+      )}
+    </div>
   );
 }

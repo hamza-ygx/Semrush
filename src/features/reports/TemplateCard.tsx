@@ -2,7 +2,28 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { routes } from "@/config/routes";
 import type { Template, TemplateIcon } from "./data";
-import { GaIcon, GoogleGIcon, GscIcon, MegaphoneIcon, SparkleIcon, TrafficBarsIcon } from "./ReportIcons";
+import {
+  AdBarsIcon,
+  DocIcon,
+  FacebookGreenIcon,
+  GaIcon,
+  GbpIcon,
+  GoogleAdsIcon,
+  GoogleGIcon,
+  GscIcon,
+  HeartPulseIcon,
+  LinkedInIcon,
+  LinkIcon,
+  MegaphoneIcon,
+  MetaIcon,
+  PulseIcon,
+  RankCamIcon,
+  RankListIcon,
+  SearchGreenIcon,
+  SparkleIcon,
+  TelescopeIcon,
+  TrafficBarsIcon,
+} from "./ReportIcons";
 
 export const templateIcon: Record<Exclude<TemplateIcon, "plus">, ReactNode> = {
   sparkle: <SparkleIcon />,
@@ -11,6 +32,20 @@ export const templateIcon: Record<Exclude<TemplateIcon, "plus">, ReactNode> = {
   traffic: <TrafficBarsIcon />,
   megaphone: <MegaphoneIcon />,
   google: <GoogleGIcon />,
+  link: <LinkIcon />,
+  pulse: <PulseIcon />,
+  heart: <HeartPulseIcon />,
+  doc: <DocIcon />,
+  list: <RankListIcon />,
+  search: <SearchGreenIcon />,
+  telescope: <TelescopeIcon />,
+  adbars: <AdBarsIcon />,
+  rank: <RankCamIcon />,
+  gads: <GoogleAdsIcon />,
+  meta: <MetaIcon />,
+  facebook: <FacebookGreenIcon />,
+  linkedin: <LinkedInIcon />,
+  gbp: <GbpIcon />,
 };
 
 export function TemplateCard({ t, className = "" }: { t: Template; className?: string }) {

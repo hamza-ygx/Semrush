@@ -67,3 +67,110 @@ export const FirebaseIcon = (p: P) => (
     <path d="M4 16l5.5-6.5L10 19.3z" fill="#f57c00" />
   </svg>
 );
+
+const g = "#009f81";
+const line = { fill: "none", stroke: g, strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+
+export const LinkIcon = (p: P) => (
+  <svg viewBox="0 0 20 20" width={20} height={20} {...p}>
+    <path {...line} d="M8 6.5H6.5a3.5 3.5 0 0 0 0 7H8M12 6.5h1.5a3.5 3.5 0 0 1 0 7H12M7 10h6" />
+  </svg>
+);
+
+export const PulseIcon = (p: P) => (
+  <svg viewBox="0 0 20 20" width={20} height={20} {...p}>
+    <path {...line} d="M3 10.5h3l2-4 3 8 2-4.5h4" />
+  </svg>
+);
+
+export const HeartPulseIcon = (p: P) => (
+  <svg viewBox="0 0 20 20" width={20} height={20} {...p}>
+    <path d="M10 16.5 4 10.8A3.6 3.6 0 0 1 10 5.6a3.6 3.6 0 0 1 6 5.2z" fill="none" stroke="#f0454f" strokeWidth={1.8} strokeLinejoin="round" />
+    <path d="M5 10.2h2.5l1.3-1.8 2.2 3 1.4-1.7H15" fill="none" stroke="#f0454f" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+export const DocIcon = (p: P) => (
+  <svg viewBox="0 0 20 20" width={20} height={20} {...p}>
+    <rect x="4.5" y="3" width="11" height="14" rx="1.3" fill="none" stroke={g} strokeWidth={1.8} />
+    <path d="M7.5 7h5M7.5 10h5M7.5 13h3" stroke={g} strokeWidth={1.6} strokeLinecap="round" />
+  </svg>
+);
+
+export const RankListIcon = (p: P) => (
+  <svg viewBox="0 0 20 20" width={20} height={20} {...p}>
+    <path {...line} d="M9 5h8M9 10h8M9 15h8" />
+    <path d="M4.5 3.5v3M3.6 9h1.8l-1.8 2h1.8M3.6 13.5h1.8l-.9 1 .9 1.2H3.6" fill="none" stroke={g} strokeWidth={1.1} strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+export const SearchGreenIcon = (p: P) => (
+  <svg viewBox="0 0 20 20" width={20} height={20} {...p}>
+    <circle cx="8.5" cy="8.5" r="4" fill="none" stroke={g} strokeWidth={2} />
+    <path d="m11.5 11.5 4 4" stroke={g} strokeWidth={2.2} strokeLinecap="round" />
+  </svg>
+);
+
+export const TelescopeIcon = (p: P) => (
+  <svg viewBox="0 0 20 20" width={20} height={20} {...p}>
+    <path d="M3.5 11.5 14 4.5l2 3-10.5 7z" fill={g} />
+    <path {...line} d="M10 12l-3 4.5M10 12l3 4.5M10 12v-1" />
+  </svg>
+);
+
+export const AdBarsIcon = (p: P) => (
+  <svg viewBox="0 0 20 20" width={20} height={20} {...p}>
+    <rect x="3.5" y="3.5" width="13" height="13" rx="1.5" fill="none" stroke={g} strokeWidth={1.7} />
+    <path d="M7 13.5v-3M10 13.5v-6M13 13.5v-4.5" stroke={g} strokeWidth={1.8} />
+  </svg>
+);
+
+export const RankCamIcon = (p: P) => (
+  <svg viewBox="0 0 20 20" width={20} height={20} {...p}>
+    <rect x="3" y="5.5" width="14" height="10.5" rx="2" fill="none" stroke={g} strokeWidth={1.8} />
+    <path d="M7 5.5V4h6v1.5" fill="none" stroke={g} strokeWidth={1.6} />
+    <circle cx="10" cy="10.7" r="1.7" fill={g} />
+  </svg>
+);
+
+export const GoogleAdsIcon = (p: P) => (
+  <svg viewBox="0 0 20 20" width={20} height={20} {...p}>
+    <path d="M7.6 4.2 3.3 11.7" stroke="#fbbc04" strokeWidth={3.6} strokeLinecap="round" />
+    <path d="M9.2 4.2l4.6 8" stroke="#4285f4" strokeWidth={3.6} strokeLinecap="round" />
+    <circle cx="4.6" cy="14.2" r="2" fill="#34a853" />
+  </svg>
+);
+
+export const MetaIcon = (p: P) => (
+  <svg viewBox="0 0 20 20" width={20} height={20} {...p}>
+    <path
+      d="M3 11.8c0-2.6 1.3-4.8 3-4.8 1.6 0 2.7 1.6 4 3.8 1.3 2.2 2.3 3.6 3.6 3.6 1.3 0 2.2-1.2 2.2-2.8 0-2.3-1.2-4.6-3-4.6-1.2 0-2.1 1-2.8 2.1M9.2 9.6C8 7.8 7.2 7 6 7M3 11.8c0 1.6.8 2.6 2 2.6 1.4 0 2.4-1.5 4.2-4.8"
+      fill="none"
+      stroke="#0a7cff"
+      strokeWidth={1.7}
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+export const FacebookGreenIcon = (p: P) => (
+  <svg viewBox="0 0 20 20" width={20} height={20} {...p}>
+    <circle cx="10" cy="10" r="6.5" fill={g} />
+    <path d="M10.8 16.3v-4.6h1.5l.3-1.8h-1.8V8.8c0-.5.2-.9.9-.9h1V6.3a9 9 0 0 0-1.4-.1c-1.5 0-2.4.9-2.4 2.4v1.3H7.3v1.8h1.6v4.6z" fill="#fff" />
+  </svg>
+);
+
+export const LinkedInIcon = (p: P) => (
+  <svg viewBox="0 0 20 20" width={20} height={20} {...p}>
+    <rect x="3.5" y="3.5" width="13" height="13" rx="1.5" fill="#0a66c2" />
+    <path d="M6.3 8.6v5.2M6.3 6.3v.2M9 13.8V8.6M9 11c0-1.6.9-2.5 2-2.5s1.8.7 1.8 2.2v3.1" fill="none" stroke="#fff" strokeWidth={1.5} strokeLinecap="round" />
+  </svg>
+);
+
+export const GbpIcon = (p: P) => (
+  <svg viewBox="0 0 20 20" width={20} height={20} {...p}>
+    <rect x="4" y="4" width="12" height="12" rx="1.5" fill="#4989f5" />
+    <path d="M4 4.5h12v3a2 2 0 0 1-4 0 2 2 0 0 1-4 0 2 2 0 0 1-4 0z" fill="#3c4ba6" />
+    <circle cx="12.3" cy="12.2" r="1.8" fill="none" stroke="#fff" strokeWidth={1.1} />
+  </svg>
+);

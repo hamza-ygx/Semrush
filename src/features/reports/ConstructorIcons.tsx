@@ -122,3 +122,45 @@ export const ScissorsIcon = (p: P) => (
     </g>
   </svg>
 );
+
+export const HashIcon = (p: P) => (
+  <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
+    <path {...s} strokeWidth={1.4} d="M6.3 2.5 5.2 13.5M10.8 2.5 9.7 13.5M2.8 6h11M2.3 10h11" />
+  </svg>
+);
+
+export const LineChartIcon = (p: P) => (
+  <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
+    <path {...s} strokeWidth={1.4} d="M2.5 2.5v11h11M4.5 11l3-3.5 2 2 4-4.5" />
+  </svg>
+);
+
+export const BarChartIcon = (p: P) => (
+  <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
+    <path {...s} strokeWidth={1.4} d="M2.5 2.5v11h11M5 11.5V8M7.5 11.5V5M10 11.5V9h2v2.5z" />
+  </svg>
+);
+
+export const TableIcon = (p: P) => (
+  <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
+    <g {...s} strokeWidth={1.4}>
+      <rect x="2.5" y="2.5" width="11" height="11" rx="1" />
+      <path d="M2.5 6h11M2.5 9.7h11M8 6v7.5" />
+    </g>
+  </svg>
+);
+
+export const PieSliceIcon = (p: P) => (
+  <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
+    <g {...s} strokeWidth={1.4}>
+      <path d="M7 3.6A5.2 5.2 0 1 0 12.4 9H7z" />
+      <path d="M9 2v5h5a5 5 0 0 0-5-5z" />
+    </g>
+  </svg>
+);
+
+export const BackIcon = (p: P) => (
+  <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
+    <path {...s} strokeWidth={2} d="m10 3.5-4.5 4.5 4.5 4.5" />
+  </svg>
+);

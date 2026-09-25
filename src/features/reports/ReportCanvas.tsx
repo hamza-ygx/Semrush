@@ -2,17 +2,79 @@
 
 import { LogoIcon } from "@/components/icons";
 import { brand } from "@/config/brand";
+import { useEffect, useRef, useState } from "react";
 import { CalendarIcon, WarnIcon } from "./ConstructorIcons";
+import { DatePicker } from "./DatePicker";
+import { comparePeriod, fmtDate, generatedOn, reportPeriod, type Range } from "./dates";
 import { ScrollArea } from "./ScrollArea";
 
-function DateRange({ from, to }: { from: string; to: string }) {
+function DateRange({ label, value, onChange, align }: { label: string; value: Range; onChange: (r: Range) => void; align: string }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: MouseEvent) => ref.current && !ref.current.contains(e.target as Node) && setOpen(false);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
   return (
-    <button type="button" className="flex h-7 items-center gap-2 rounded-md border border-rk-border bg-white px-2 text-[15px] text-rk-text hover:border-rk-border-strong">
-      <CalendarIcon className="text-rk-text-2" />
-      <span className="ml-[1px]">{from}</span>
-      <span className="mx-[9px]">&ndash;</span>
-      <span>{to}</span>
-    </button>
+    <span ref={ref} className="relative ml-2">
+      <button
+        type="button"
+        aria-label={label}
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+        className="flex h-7 items-center rounded-md border border-rk-border bg-white pr-[11px] pl-2 text-[14px] text-rk-text hover:border-rk-border-strong"
+      >
+        <CalendarIcon className="text-rk-text-2" />
+        <span className="ml-2">{fmtDate(value.from)}</span>
+        <span className="ml-4">&ndash;</span>
+        <span className="ml-[7px]">{fmtDate(value.to)}</span>
+      </button>
+      {open && (
+        <DatePicker
+          value={value}
+          className={align}
+          onApply={(r) => {
+            onChange(r);
+            setOpen(false);
+          }}
+        />
+      )}
+    </span>
+  );
+}
+
+function PeriodWarning() {
+  const [tip, setTip] = useState<{ x: number; y: number } | null>(null);
+  return (
+    <span
+      aria-label="Period setting info"
+      className="mr-2 -ml-[1px] flex"
+      onMouseEnter={(e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        setTip({ x: r.left + r.width / 2, y: r.bottom });
+      }}
+      onMouseLeave={() => setTip(null)}
+    >
+      <WarnIcon />
+      {tip && (
+        <span
+          role="tooltip"
+          className="pointer-events-none fixed z-50 w-[228px] -translate-x-1/2 rounded-md bg-white px-3 pt-[11px] pb-[12px] text-[14px] leading-5 text-rk-text shadow-[0_1px_10px_rgba(25,27,35,0.14)]"
+          style={{ left: tip.x, top: tip.y + 11 }}
+        >
+          This global setting affects only Integration widgets.
+        </span>
+      )}
+    </span>
   );
 }
 
@@ -48,6 +110,8 @@ function DropArt() {
 }
 
 export function ReportCanvas({ onChooseTemplate }: { onChooseTemplate: () => void }) {
+  const [period, setPeriod] = useState(reportPeriod);
+  const [compare, setCompare] = useState(comparePeriod);
   return (
     <ScrollArea
       className="h-full bg-[#f9f9f9]"
@@ -56,16 +120,12 @@ export function ReportCanvas({ onChooseTemplate }: { onChooseTemplate: () => voi
       hInset={{ bottom: 3, left: 0, right: 0 }}
     >
       <div className="relative h-[2720px] w-[1037px]">
-        <div className="sticky top-0 z-10 flex h-12 items-center bg-[#f9f9f9] pl-[166px] text-[15px] text-rk-text">
-          <WarnIcon className="mr-2 -ml-[1px]" />
+        <div className="sticky top-0 z-10 flex h-12 items-center bg-[#f9f9f9] pl-[166px] text-[14px] text-rk-text">
+          <PeriodWarning />
           Period
-          <span className="ml-2">
-            <DateRange from="Sep 17, 2026" to="Sep 23, 2026" />
-          </span>
+          <DateRange label="Period" value={period} onChange={setPeriod} align="top-[34px] left-[-53px]" />
           <span className="ml-[17px]">Compare to</span>
-          <span className="ml-2">
-            <DateRange from="Sep 10, 2026" to="Sep 16, 2026" />
-          </span>
+          <DateRange label="Compare to" value={compare} onChange={setCompare} align="top-[34px] right-0" />
         </div>
         <div className="absolute top-[72px] left-[167px] w-[794px] bg-white">
           <div className="relative h-[1404px]">
@@ -74,7 +134,7 @@ export function ReportCanvas({ onChooseTemplate }: { onChooseTemplate: () => voi
               {brand.name}
             </div>
             <div className="absolute top-[520px] w-full text-center text-[40px] leading-[48px] font-bold text-rk-text">Untitled report</div>
-            <div className="absolute top-[1347px] w-full text-center text-[15px] leading-5 text-[#8a8e9b]">Generated on September 24, 2026</div>
+            <div className="absolute top-[1347px] w-full text-center text-[15px] leading-5 text-[#8a8e9b]">Generated on {generatedOn}</div>
           </div>
           <div className="relative flex h-0 items-center justify-center border-t border-dashed border-[#c4c7cf]">
             <span className="bg-white px-3 text-[14px] leading-5 text-rk-text-2">page break</span>
