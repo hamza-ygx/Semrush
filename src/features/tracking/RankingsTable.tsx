@@ -116,7 +116,7 @@ const serpPool = ["People also ask", "Site link", "Related searches", "AI Overvi
 const dash = <span className="text-[#c4c7cf]">—</span>;
 
 const serpHref = (kw: string) =>
-  `/tracking/serp/${encodeURIComponent(kw)}?source_type=tracking&campaign_id=30526913_5175527&date_begin=20260925&domain=${project.domain}&location=Sweden%252C%2520desktop&type=organic&device_group=desktop`;
+  `${routes.tracking.serp(kw)}?source_type=tracking&campaign_id=30526913_5175527&date_begin=20260925&domain=${project.domain}&location=Sweden%252C%2520desktop&type=organic&device_group=desktop`;
 
 type Kw = TrackedKeyword & { potVis?: number };
 

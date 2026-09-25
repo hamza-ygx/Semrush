@@ -40,6 +40,7 @@ export const routes = {
     competitorsDiscovery: `${PT}/top/${PT_ID}`,
     devicesLocations: `${PT}/targets_comparison/${PT_ID}`,
     featuredSnippets: `${PT}/featured_snippets/${PT_ID}`,
+    serp: (keyword: string) => `${PT}/serp/${encodeURIComponent(keyword)}`,
   },
 
   domainOverview: "/analytics/overview",
@@ -58,6 +59,7 @@ export const routes = {
 
   topPages: "/analytics/toppages",
   serp: "/analytics/serp",
+  kb: "/kb",
   compareDomains: "/analytics/comparedomains",
   keywordGap: "/analytics/keywordgap",
   backlinkGap: "/analytics/gap/backlinks/report",

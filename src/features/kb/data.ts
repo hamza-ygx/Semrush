@@ -1,7 +1,7 @@
 import { brand } from "@/config/brand";
 import { routes } from "@/config/routes";
 
-export const kbBase = "/kb";
+export const kbBase = routes.kb;
 
 export type KbSection = { title: string; paragraphs: string[] };
 export type KbArticle = {
