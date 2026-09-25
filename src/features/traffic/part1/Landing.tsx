@@ -252,7 +252,7 @@ function ApiCard() {
 
 export function TrafficHome() {
   return (
-    <AppShell section="traffic" search={{ kind: "none" }}>
+    <AppShell section="traffic" search={{ kind: "none" }} footerPb={37}>
       <div className="mx-auto w-[922px] pt-[25px] pb-[102px]">
         <Hero tag="Get Started" title="Traffic & Market insights that deliver results" subtitle="Instantly reveal what’s working for your competitors and how to grow faster." />
         <SavedLists />
@@ -332,7 +332,7 @@ export function TrafficLanding() {
     },
   ];
   return (
-    <AppShell section="traffic" search={{ kind: "none" }}>
+    <AppShell section="traffic" search={{ kind: "none" }} footerPb={37}>
       <div className="mx-auto w-[922px] pt-[25px] pb-[102px]">
         <Hero
           tag="Traffic Analytics"

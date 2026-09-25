@@ -59,7 +59,7 @@ export function TrendsApi() {
     </li>
   );
   return (
-    <AppShell section="traffic" search={{ kind: "none" }}>
+    <AppShell section="traffic" search={{ kind: "none" }} footerPb={37}>
       <div className="mx-auto w-[980px] pt-[25px] pb-[155px] text-rk-text">
         <section className="relative h-[279px] overflow-hidden rounded-lg bg-white">
           <HeroArt />

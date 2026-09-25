@@ -3,7 +3,7 @@ import { SocialDashboard } from "@/features/social/SocialDashboard";
 
 export default function Page() {
   return (
-    <AppShell section="social" search={{ kind: "none" }} enterprise={false} help="question">
+    <AppShell section="social" search={{ kind: "none" }} enterprise={false} help="question" footerPb={37}>
       <SocialDashboard />
     </AppShell>
   );
