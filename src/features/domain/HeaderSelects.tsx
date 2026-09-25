@@ -29,7 +29,7 @@ export function DeviceSelect() {
   );
 }
 
-const current = "Sep 23, 2026";
+const latest = "Sep 23, 2026";
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const history = Array.from({ length: 36 }, (_, i) => {
   const m = 7 - i;
@@ -37,7 +37,7 @@ const history = Array.from({ length: 36 }, (_, i) => {
   return `${MONTHS[((m % 12) + 12) % 12]} ${y}`;
 });
 
-export function DateSelect() {
+export function DateSelect({ current = latest }: { current?: string }) {
   const [v, setV] = useState(current);
   return (
     <HeaderSelect id="date" label={v === current ? current : v} width={228}>

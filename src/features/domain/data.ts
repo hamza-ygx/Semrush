@@ -52,6 +52,19 @@ export const seoSummary = [
   { label: "Backlinks", value: "374", globe: true, href: routes.backlinks },
 ];
 
+export const seoSummaryWorldwide = [
+  { label: "Authority Score", value: "8", badge: "Low authority", globe: true, href: routes.backlinks },
+  { label: "Organic Traffic", value: "60", delta: "-9.1%", globe: true, href: routes.organic.overview },
+  { label: "Paid Traffic", value: "0", globe: true },
+  { label: "Ref.Domains", value: "266", globe: true, href: routes.referringDomains },
+  { label: "Traffic Share", value: "7%", share: true, flag: "SE", href: routes.organic.competitors },
+  { label: "Organic Keywords", value: "215", delta: "+1.4%", up: true, globe: true, href: routes.organic.positions },
+  { label: "Paid Keywords", value: "0", globe: true },
+  { label: "Backlinks", value: "378", globe: true, href: routes.backlinks },
+];
+
+export const worldwideDate = "Sep 25, 2026";
+
 export const trafficShare = [
   { domain: "rkjh.se", color: "#6167e6", pct: 7.3, traffic: 59 },
   { domain: "jbekonomi.com", color: "#3ed4a4", pct: 47.6, traffic: 386 },
@@ -73,6 +86,13 @@ export const aiCountries = [
   { name: "AE", flag: "AE", visibility: 0, mentions: 0 },
   { name: "AF", flag: "AF", visibility: 0, mentions: 0 },
   { name: "SE", flag: "SE", visibility: 0, mentions: 0 },
+] as const;
+
+export const aiCountriesWorldwide = [
+  { name: "Worldwide", flag: null, visibility: 0, mentions: 0 },
+  { name: "AE", flag: "AE", visibility: 0, mentions: 0 },
+  { name: "AF", flag: "AF", visibility: 0, mentions: 0 },
+  { name: "AL", flag: "AL", visibility: 0, mentions: 0 },
 ] as const;
 
 export const serpDistribution = [

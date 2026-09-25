@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, type ReactNode, type SVGProps } from "react";
 import { useOutsideClose } from "@/components/ui/Popover";
 import { DotsIcon, ExportIcon, GlobeIcon, FlagSE, FlagUK, FlagUS, SearchIcon } from "@/components/ui/icons";
@@ -188,6 +189,12 @@ const FlagAF = (p: SVGProps<SVGSVGElement>) => (
     <circle cx="8" cy="6" r="1.9" fill="none" stroke="#fff" strokeWidth=".8" />
   </svg>
 );
+const FlagAL = (p: SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 16 12" width={16} height={12} {...p}>
+    <path d="M0 0h16v12H0z" fill="#e41e20" />
+    <path d="M8 2.6 6.4 4.2 5 3.6l.4 2.2L4.6 7.4l1.8.4L8 9.6l1.6-1.8 1.8-.4-.8-1.6.4-2.2-1.4.6z" fill="#1b1e1a" />
+  </svg>
+);
 const FlagNO = (p: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 16 12" width={16} height={12} {...p}>
     <rect width="16" height="12" fill="#ba0c2f" />
@@ -222,6 +229,7 @@ const flags: Record<string, (p: SVGProps<SVGSVGElement>) => ReactNode> = {
   UK: FlagUK,
   AE: FlagAE,
   AF: FlagAF,
+  AL: FlagAL,
   NO: FlagNO,
   IN: FlagIN,
   VN: FlagVN,
@@ -317,12 +325,23 @@ export const WorldIcon = (p: SVGProps<SVGSVGElement>) => (
 export function DatabaseSelector<T extends string>({
   items,
   initial,
+  param,
 }: {
   items: readonly T[];
-  initial: T;
+  initial: string;
   more?: string[];
+  param?: string;
 }) {
-  const [value, setValue] = useState<string>(initial);
+  const [value, setDb] = useState<string>(initial);
+  const router = useRouter();
+  const setValue = (code: string) => {
+    setDb(code);
+    if (!param || code === value) return;
+    const url = new URL(window.location.href);
+    if (code === "Worldwide") url.searchParams.delete(param);
+    else url.searchParams.set(param, code.toLowerCase());
+    router.push(url.pathname + url.search);
+  };
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));

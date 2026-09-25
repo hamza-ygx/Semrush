@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { routes } from "@/config/routes";
 import { ChatGptIcon, GeminiIcon, GoogleIcon } from "@/components/ui/icons";
-import { aiSummary, seoSummary, trafficShare } from "../data";
-import { WorldIcon } from "../ui";
+import { aiSummary, seoSummary, seoSummaryWorldwide, trafficShare } from "../data";
+import { Flag, WorldIcon } from "../ui";
+
+type SeoMetric = { label: string; value: string; href?: string; badge?: string; delta?: string; up?: boolean; globe?: boolean; share?: boolean; flag?: string };
 
 const num = "text-[24px] leading-[29px] font-semibold text-rk-number";
 
@@ -108,9 +110,10 @@ export function AiSearchCard() {
   );
 }
 
-export function SeoCard() {
-  const cols = ["w-[153px]", "w-[179px]", "w-[172px]", "flex-1"];
-  const rows = [seoSummary.slice(0, 4), seoSummary.slice(4)];
+export function SeoCard({ worldwide = false }: { worldwide?: boolean }) {
+  const cols = worldwide ? ["w-[152px]", "w-[188px]", "w-[171px]", "flex-1"] : ["w-[153px]", "w-[179px]", "w-[172px]", "flex-1"];
+  const data: SeoMetric[] = worldwide ? seoSummaryWorldwide : seoSummary;
+  const rows = [data.slice(0, 4), data.slice(4)];
   return (
     <section className="relative h-[219px] rounded-lg bg-white shadow-card">
       <CardTag className="bg-[#e7e3fd] text-[#5a50c8]">SEO</CardTag>
@@ -128,6 +131,7 @@ export function SeoCard() {
                   <div className="flex items-center gap-1 text-[14px] leading-5 whitespace-nowrap">
                     {m.label}
                     {m.globe && <WorldIcon className="text-[#a9abaa]" />}
+                    {m.flag && <Flag code={m.flag} width={15} height={11} className="ml-[2px]" />}
                   </div>
                   <div className="mt-1 flex items-center gap-[6px]">
                     {m.share && <ShareTooltip />}
@@ -139,7 +143,7 @@ export function SeoCard() {
                       value
                     )}
                     {m.badge && <span className="ml-[3px] flex h-[27px] items-center rounded-full bg-[#e7e5fb] px-[9px] text-[12px] text-[#5a50c8]">{m.badge}</span>}
-                    {m.delta && <span className="mt-[5px] text-[12px] text-rk-danger">{m.delta}</span>}
+                    {m.delta && <span className={`mt-[5px] text-[12px] ${m.up ? "text-rk-success" : "text-rk-danger"}`}>{m.delta}</span>}
                   </div>
                 </div>
               );

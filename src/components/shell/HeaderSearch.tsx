@@ -26,6 +26,14 @@ const socialRecommended: Tool[] = [
   { name: "Social Content AI", description: "Transform your social media content with AI", href: routes.social.contentInsights },
 ];
 
+const homeRecents = ["rkjh.se", "www.rkjh.se"].map((d) => ({ label: d, href: `${routes.domainOverview}?q=${d}&searchType=domain` }));
+
+const homeRecommended: Tool[] = [
+  { name: "SEO Toolkit", description: "Simplify and enhance every stage of website optimization", href: routes.seoDashboard },
+  { name: "AI Visibility Toolkit", description: "Track how AI describes your brand and competitors", href: routes.ai.overview },
+  { name: "Traffic & Market Toolkit", description: "Analyze traffic on any website and market", href: routes.traffic.home },
+];
+
 const recommended = ["Domain Overview", "Keyword Strategy Builder", "Position Tracking"].map((n) => tools.find((t) => t.name === n)!);
 const searchFirst = ["Keyword Overview", "Keyword Gap", "Keyword Magic Tool"];
 const rank = (n: string) => (searchFirst.includes(n) ? searchFirst.indexOf(n) : searchFirst.length);
@@ -46,6 +54,24 @@ function ToolLine({ name, description, href, onClick }: { name: string; descript
       <span className="text-rk-link">{name}</span>
       <span className="text-rk-muted"> — {description}</span>
     </Link>
+  );
+}
+
+function Suggestions({ history, recs, onPick, className, tight = false }: { history: { label: string; href: string }[]; recs: Tool[]; onPick: () => void; className: string; tight?: boolean }) {
+  return (
+    <div className={className}>
+      {history.map((r) => (
+        <Link key={r.label} href={r.href} onClick={onPick} className="flex items-center gap-2 px-4 py-[10px] text-[16px] leading-5 hover:bg-rk-bg xl:py-[6px] xl:text-[14px]">
+          <ClockIcon className="text-rk-muted" />
+          {r.label}
+        </Link>
+      ))}
+      <div className={`mx-4 ${tight ? "mt-[5px]" : "mt-[6px]"} mb-[13px] border-t border-rk-border xl:mb-[10px]`} />
+      <div className="px-4 pb-[10px] text-[16px] leading-5 text-rk-muted xl:pb-[6px] xl:text-[14px]">Recommendations</div>
+      {recs.map((t) => (
+        <ToolLine key={t.name} {...t} onClick={onPick} />
+      ))}
+    </div>
   );
 }
 
@@ -84,19 +110,7 @@ export function GoToTool({ compact = false, extra = 0 }: { compact?: boolean; ex
               {matches.length === 0 && <div className="px-4 py-[6px] text-rk-muted">No results found</div>}
             </>
           ) : (
-            <div className="-mt-[2px] xl:-mt-[8px]">
-              {history.map((r) => (
-                <Link key={r.label} href={r.href} onClick={close} className="flex items-center gap-2 px-4 py-[10px] text-[16px] leading-5 hover:bg-rk-bg xl:py-[6px] xl:text-[14px]">
-                  <ClockIcon className="text-rk-muted" />
-                  {r.label}
-                </Link>
-              ))}
-              <div className="mx-4 mt-[6px] mb-[13px] border-t border-rk-border xl:mb-[10px]" />
-              <div className="px-4 pb-[10px] text-[16px] leading-5 text-rk-muted xl:pb-[6px] xl:text-[14px]">Recommendations</div>
-              {recs.map((t) => (
-                <ToolLine key={t.name} {...t} onClick={close} />
-              ))}
-            </div>
+            <Suggestions history={history} recs={recs} onPick={close} className="-mt-[2px] xl:-mt-[8px]" />
           )}
         </div>
       )}
@@ -169,6 +183,7 @@ export function AnalyzeSearch({
   const formRef = useOutsideClose<HTMLFormElement>(focusW > 0, () => setFocusW(0));
   const router = useRouter();
   const path = usePathname();
+  const home = path === routes.home || path === routes.homeAlias;
   const h = "h-10 xl:h-8";
   return (
     <form
@@ -181,7 +196,8 @@ export function AnalyzeSearch({
       }}
     >
       {focusW > 0 && (
-        <div className="absolute -top-[6px] -right-4 -bottom-[5px] -left-[17px] -z-10 rounded-b-lg bg-white shadow-popover">
+        <div className={`absolute -top-[6px] -right-4 -left-[17px] -z-10 rounded-b-lg bg-white shadow-popover ${home && !q ? "pt-[58px] pb-[4px]" : "-bottom-[5px]"}`}>
+          {home && !q && <Suggestions history={homeRecents} recs={homeRecommended} onPick={() => setFocusW(0)} className="pl-px" tight />}
           <button type="button" aria-label="Back" onClick={() => setFocusW(0)} className="absolute top-[14px] left-[21px] flex h-6 w-6 items-center justify-center text-rk-text-2 hover:text-rk-text">
             <svg viewBox="0 0 16 16" width={16} height={16}>
               <path d="M13 8H3m4-4L3 8l4 4" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
@@ -196,7 +212,7 @@ export function AnalyzeSearch({
           onFocus={(e) => !scope && !focusW && setFocusW(e.currentTarget.offsetWidth)}
           style={focusW ? { marginLeft: 35, width: focusW - 35 } : undefined}
           placeholder={placeholder}
-          className={`${h} ${inputClassName ?? (scope ? (open ? "w-[161px] xl:w-[345px]" : "w-[197px] xl:w-[345px]") : "w-[463px] xl:w-[480px]")} rounded-l-md border border-rk-border-strong bg-white pr-9 pl-3 text-[16px] outline-none focus:border-[#7a86f2] focus:ring-2 focus:ring-[#b7c0fa] xl:text-[14px]`}
+          className={`${h} ${inputClassName ?? (scope ? (open ? "w-[161px] xl:w-[345px]" : "w-[197px] xl:w-[345px]") : "w-[463px] xl:w-[480px]")} rounded-l-md border border-rk-border-strong bg-white pr-9 pl-3 text-[16px] outline-none ${home ? "focus:border-[#9195eb] focus:ring-[3px] focus:ring-[#8f93e8]" : "focus:border-[#7a86f2] focus:ring-2 focus:ring-[#b7c0fa]"} xl:text-[14px]`}
         />
         {q && (
           <button type="button" aria-label="Clear" onClick={() => setQ("")} className="absolute top-1/2 right-3 -translate-y-1/2 text-rk-text-2">

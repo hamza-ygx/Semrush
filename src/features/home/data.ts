@@ -1,4 +1,5 @@
 import { routes } from "@/config/routes";
+import { allCountries, topCountries } from "@/features/domain/countries";
 
 export type Trend = "up" | "down" | "neutral";
 
@@ -28,4 +29,4 @@ export const project = {
 
 export const deleteTargets = ["SEO projects", "Content", "Traffic & Market", "Advertising", "Social"];
 
-export const monitoringCountries = ["US", "UK", "SE", "DE", "FR", "ES"] as const;
+export const monitoringCountries = [...allCountries, ...topCountries.map((c) => ({ code: c.code, name: c.name }))].sort((a, b) => a.name.localeCompare(b.name));

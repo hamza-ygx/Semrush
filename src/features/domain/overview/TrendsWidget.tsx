@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { routes } from "@/config/routes";
-import { aiCountries, googleCountries, googleMarkers, keywordLegend, serpDistribution } from "../data";
+import { aiCountries, aiCountriesWorldwide, googleCountries, googleMarkers, keywordLegend, serpDistribution } from "../data";
 import { kwLow, kwMid, kwTop, trafficDaily } from "../series";
 import { Plot, VBW, areaUnder, linePath, pts, smoothPath, stepPath, Stroke } from "../charts";
 import { Check, Dot, Flag, GoogleG, Seg } from "../ui";
@@ -306,7 +306,8 @@ function SerpDonut() {
   );
 }
 
-function AiDistribution() {
+function AiDistribution({ worldwide }: { worldwide: boolean }) {
+  const sel = worldwide ? "Worldwide" : "SE";
   return (
     <>
       <h3 className="px-5 text-[16px] leading-6 font-bold">Distribution by Country</h3>
@@ -319,8 +320,8 @@ function AiDistribution() {
           </tr>
         </thead>
         <tbody>
-          {aiCountries.map((c) => (
-            <tr key={c.name} className={`h-[37px] border-b border-rk-border last:border-0 ${c.name === "SE" ? "bg-rk-bg" : ""}`}>
+          {(worldwide ? aiCountriesWorldwide : aiCountries).map((c) => (
+            <tr key={c.name} className={`h-[37px] border-b border-rk-border last:border-0 ${c.name === sel ? "bg-rk-bg" : ""}`}>
               <td className="pl-5">
                 <span className="flex items-center gap-[10px]">
                   {c.flag && <Flag code={c.flag} />}
@@ -341,7 +342,8 @@ function AiDistribution() {
   );
 }
 
-function GoogleDistribution() {
+function GoogleDistribution({ worldwide }: { worldwide: boolean }) {
+  const sel = worldwide ? "Worldwide" : "SE";
   return (
     <>
       <h3 className="px-5 text-[16px] leading-6 font-bold">Distribution by Country</h3>
@@ -358,7 +360,7 @@ function GoogleDistribution() {
             const db = c.name !== "Worldwide" && c.name !== "Other";
             const cell = db ? "text-rk-link" : "";
             return (
-              <tr key={c.name} className={`h-[37px] border-b border-rk-border last:border-0 ${c.name === "SE" ? "bg-rk-bg" : ""}`}>
+              <tr key={c.name} className={`h-[37px] border-b border-rk-border last:border-0 ${c.name === sel ? "bg-rk-bg" : ""}`}>
                 <td className="pl-5">
                   <span className="flex items-center">
                     <span className="flex w-[86px] items-center gap-[10px]">
@@ -381,7 +383,7 @@ function GoogleDistribution() {
   );
 }
 
-export function TrendsWidget() {
+export function TrendsWidget({ worldwide = false }: { worldwide?: boolean }) {
   const [source, setSource] = useState<"AI Search" | "Google Search">("AI Search");
   const [range, setRange] = useState<Range>("2Y");
   const [gran, setGran] = useState<"Days" | "Months">("Days");
@@ -392,7 +394,7 @@ export function TrendsWidget() {
         <div className="px-5">
           <Seg items={["AI Search", "Google Search"] as const} value={source} onChange={setSource} itemClassName="px-[8px]" />
         </div>
-        <div className="mt-[20px]">{source === "AI Search" ? <AiDistribution /> : <GoogleDistribution />}</div>
+        <div className="mt-[20px]">{source === "AI Search" ? <AiDistribution worldwide={worldwide} /> : <GoogleDistribution worldwide={worldwide} />}</div>
         <h3 className="mt-[17px] px-5 text-[16px] leading-6 font-bold">Top Cited Sources</h3>
         <div className={`flex items-center justify-center pb-[18px] pl-[19px] text-[14px] text-rk-muted ${source === "AI Search" ? "h-[173px]" : "h-[136px]"}`}>We have no data to show.</div>
         <h3 className="px-5 text-[16px] leading-6 font-bold">Google SERP Positions Distribution</h3>

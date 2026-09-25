@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { ChevronUpDownIcon } from "@/components/icons";
-import { FlagSE, FlagUK, FlagUS, GlobeIcon } from "@/components/ui/icons";
+import { FlagSE, FlagUK, FlagUS, SearchIcon } from "@/components/ui/icons";
 import { useOutsideClose } from "@/components/ui/Popover";
+import { CountryFlag } from "@/features/domain/countries";
 import { monitoringCountries } from "./data";
 
-const flag = (c: string) => (c === "US" ? <FlagUS /> : c === "UK" ? <FlagUK /> : c === "SE" ? <FlagSE /> : <GlobeIcon />);
+const flag = (c: string) => (c === "US" ? <FlagUS /> : c === "UK" ? <FlagUK /> : c === "SE" ? <FlagSE /> : <CountryFlag code={c} />);
 
 function CollapseIcon() {
   return (
@@ -80,18 +81,23 @@ function Illustration() {
 
 export function DomainsMonitoring() {
   const [open, setOpen] = useState(false);
-  const [country, setCountry] = useState<(typeof monitoringCountries)[number]>("US");
+  const [country, setCountry] = useState("US");
   const [pick, setPick] = useState(false);
+  const [q, setQ] = useState("");
   const [value, setValue] = useState("");
-  const ref = useOutsideClose<HTMLDivElement>(pick, () => setPick(false));
+  const ref = useOutsideClose<HTMLDivElement>(pick, () => {
+    setPick(false);
+    setQ("");
+  });
+  const shown = monitoringCountries.filter((c) => c.name.toLowerCase().includes(q.trim().toLowerCase()));
   return (
-    <section className="mt-6 rounded-lg bg-white shadow-card">
+    <section className="mt-[23px] rounded-lg bg-white shadow-card">
       <div className={`flex h-11 items-center justify-between px-5 ${open ? "border-b border-rk-border" : ""}`}>
         <h2 className="text-[16px] font-bold">Domains for monitoring</h2>
         <button
           type="button"
           onClick={() => setOpen((o) => !o)}
-          className="mr-[6px] flex items-center gap-2 px-1 text-[14px] text-rk-text-2 hover:text-rk-text"
+          className="mr-[3px] flex h-7 items-center gap-2 rounded-md pr-[6px] pl-2 text-[14px] text-rk-text-2 hover:bg-rk-bg hover:text-rk-text"
         >
           {open ? "Close" : "Open"}
           {open ? <CollapseIcon /> : <ChevronUpDownIcon />}
@@ -120,6 +126,8 @@ export function DomainsMonitoring() {
               <div ref={ref} className="relative">
                 <button
                   type="button"
+                  data-testid="monitoring-country"
+                  onMouseDown={(e) => e.nativeEvent.stopImmediatePropagation()}
                   onClick={() => setPick((p) => !p)}
                   className="flex h-7 w-20 items-center gap-2 rounded-r-md border border-l-0 border-rk-border-strong bg-white px-2 text-[14px] text-rk-text hover:bg-rk-bg"
                 >
@@ -130,21 +138,34 @@ export function DomainsMonitoring() {
                   </svg>
                 </button>
                 {pick && (
-                  <div className="absolute top-[calc(100%+4px)] left-0 z-50 w-[120px] rounded-md bg-white py-1 shadow-popover">
-                    {monitoringCountries.map((c) => (
-                      <button
-                        key={c}
-                        type="button"
-                        onClick={() => {
-                          setCountry(c);
-                          setPick(false);
-                        }}
-                        className={`flex w-full items-center gap-2 px-2 py-[6px] text-left text-[14px] leading-5 hover:bg-rk-bg ${c === country ? "bg-[#e9f7ff]" : ""}`}
-                      >
-                        {flag(c)}
-                        {c}
-                      </button>
-                    ))}
+                  <div className="absolute top-[calc(100%+3px)] -left-px z-50 w-[260px] rounded-md bg-white shadow-popover">
+                    <div className="relative">
+                      <SearchIcon className="pointer-events-none absolute top-1/2 left-[10px] -translate-y-1/2 text-[#a9abaa]" />
+                      <input
+                        autoFocus
+                        value={q}
+                        onChange={(e) => setQ(e.target.value)}
+                        placeholder="Search"
+                        className="h-[36px] w-full rounded-md border-2 border-[#8f9cea] pr-2 pl-[32px] text-[14px] outline-none placeholder:text-[#a9abaa]"
+                      />
+                    </div>
+                    <div className="mt-[2px] max-h-[284px] overflow-y-auto pb-1 [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#d6d8d7]">
+                      {shown.map((c) => (
+                        <button
+                          key={c.code}
+                          type="button"
+                          onClick={() => {
+                            setCountry(c.code);
+                            setPick(false);
+                            setQ("");
+                          }}
+                          className={`flex h-8 w-full items-center gap-[10px] border-l-2 pl-[7px] text-left text-[14px] leading-5 text-rk-text ${c.code === country ? "border-rk-text bg-[#eef0fb]" : "border-transparent hover:bg-rk-bg"}`}
+                        >
+                          <CountryFlag code={c.code} />
+                          {c.name}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
