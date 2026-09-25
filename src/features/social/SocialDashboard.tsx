@@ -43,7 +43,7 @@ export function SocialDashboard() {
   return (
     <div className="relative pt-[44px] pb-[180px]">
       <ProjectGoTo />
-      <h1 className="text-center text-[36px] leading-10 font-semibold tracking-[-0.02em] text-rk-text">
+      <h1 className="text-center text-[36px] leading-10 font-semibold tracking-[-0.01em] text-[#2b2b2e]">
         {socialHero.title[0]}
         <br />
         {socialHero.title[1]}

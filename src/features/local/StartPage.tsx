@@ -194,13 +194,13 @@ function BottomCta() {
   const [adv, setAdv] = useState(false);
   const go = () => router.push(routes.local.scan);
   return (
-    <section className="mx-auto mt-[133px] w-[976px] rounded-[16px] bg-[#410f7c] px-[52px] pt-[57px] pb-[67px] text-center">
-      <h2 className="text-[32px] leading-10 font-bold text-white">
+    <section className="mx-auto mt-[137px] w-[976px] rounded-[16px] bg-[#410f7c] px-[52px] pt-[63px] pb-[67px] text-center">
+      <h2 className="text-[32px] leading-10 font-semibold text-white">
         Control your GBP, reviews, and listings,
         <br />
         and get deep insights into local SEO
       </h2>
-      <p className="mt-[11px] text-[16px] leading-6 text-white">Get started with a free audit of your online presence in local listings</p>
+      <p className="mt-[15px] text-[16px] leading-6 text-white">Get started with a free audit of your online presence in local listings</p>
       <form
         className="mt-[41px]"
         onSubmit={(e) => {
@@ -212,7 +212,7 @@ function BottomCta() {
           <MagnifierIcon size={26} sw={1.6} />
           <input placeholder="Enter your business name" aria-label="Enter your business name" className="ml-[9px] h-full flex-1 bg-transparent text-[16px] text-[#191b23] outline-none placeholder:text-[#8f8f94]" />
         </label>
-        <button type="submit" className="mt-[11px] h-[56px] w-full rounded-[6px] bg-[#a35eff] text-[18px] font-semibold text-white hover:bg-[#9048f2]">
+        <button type="submit" className="mt-[11px] h-[56px] w-full rounded-[6px] bg-[#a35eff] text-[18px] font-medium text-white hover:bg-[#9048f2]">
           Get started
         </button>
       </form>
@@ -254,7 +254,7 @@ export function StartPage() {
       <h2 className="mt-[111px] text-center text-[24px] leading-8 font-semibold text-[#2b2a33]">Frequently asked questions</h2>
       <Faq
         items={dashboardFaq}
-        className="mx-auto mt-[43px] flex w-[976px] flex-col gap-[13px]"
+        className="mx-auto mt-[41px] flex w-[976px] flex-col gap-[12.5px]"
         itemClass="rounded-[8px] bg-white shadow-[0_1px_3px_rgba(24,27,40,0.1),0_0_1px_rgba(24,27,40,0.12)]"
         textClass="h-[51px] pl-[20px] [&>span]:ml-[2px] text-[14px] text-[#2b2a33]"
       />

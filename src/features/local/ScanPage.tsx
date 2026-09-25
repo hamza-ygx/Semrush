@@ -159,7 +159,7 @@ function DirectoryTable() {
   const tone = { warn: "text-[#c4501b]", bad: "text-[#d1273b]", ok: "text-[#0f8a5f]" } as const;
   return (
     <>
-      <table className="mt-[31px] w-full text-left text-[14px] leading-5">
+      <table className="mt-[31px] w-[calc(100%-10px)] text-left text-[14px] leading-5">
         <thead>
           <tr className="h-[26px] border-b border-[#dedede] text-[13px] text-[#3a3b40]">
             <th className="w-[206px] pl-[7px] align-top font-normal">Directory</th>
@@ -169,7 +169,7 @@ function DirectoryTable() {
         </thead>
         <tbody className={all ? "" : "[&>tr:nth-child(10)]:opacity-60 [&>tr:nth-child(11)]:opacity-40 [&>tr:nth-child(12)]:opacity-20"}>
           {rows.map((r) => (
-            <tr key={r.name} className="h-[37.5px] border-b border-[#ececee] last:border-0">
+            <tr key={r.name} className="h-[37.5px] border-b border-[#ececee] last:border-0 hover:bg-[#f6f6f7]">
               <td className="pl-[7px] text-[#1f1f24]">
                 <span className="flex items-center gap-[4px]">
                   {r.crown && (

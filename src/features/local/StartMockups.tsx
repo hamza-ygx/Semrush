@@ -271,7 +271,7 @@ export function InsightsMockup() {
           <span className="w-[72px] text-[#6d6e75]">New</span>
           <span>John’s Roofing</span>
         </div>
-        <div className="mt-[49px] flex gap-4 pl-[40px]">
+        <div className="mt-[40px] flex gap-4 pl-[40px]">
           <span className="flex h-[40px] w-[174px] items-center justify-center gap-2 rounded-[6px] bg-[#eceef0] text-[16px] text-[#4a4b50]">✓ Accept</span>
           <span className="flex h-[40px] w-[174px] items-center justify-center gap-2 rounded-[6px] bg-[#eceef0] text-[16px] text-[#4a4b50]">✕ Reject</span>
         </div>

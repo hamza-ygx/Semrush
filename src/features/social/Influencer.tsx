@@ -110,10 +110,10 @@ export function InfluencerAnalytics() {
         6,9K users liked it
       </div>
       <p className="mt-[15px] text-[16px] leading-6 text-[#191b23]">Improve your influencer marketing campaign’s performance. From discovery to clicks.</p>
-      <button type="button" className="mt-[25px] h-10 w-[330px] rounded-md bg-[#00a380] text-[16px] font-semibold text-white hover:bg-[#008c6e]">
+      <button type="button" className="mt-[25px] h-10 w-[330px] rounded-md bg-[#00a380] text-[16px] font-medium text-white hover:bg-[#008c6e]">
         Try it free
       </button>
-      <p className="mt-[12px] w-[330px] text-center text-[14px] leading-5 text-[#6c6e79]">Free 7‑day trial. Unsubscribe anytime</p>
+      <p className="mt-[12px] w-[330px] text-center text-[14px] leading-5 text-[#6c6e79]">Free 7 - day trial. Unsubscribe anytime</p>
       <div className="mt-[36px] space-y-6">
         <FeatureCard word="Influencer discovery" title="Use multiple ways to identify the perfect ambassadors for your brand: search within 30+M database, filtering, keyword search, etc.">
           <DiscoveryMock />
