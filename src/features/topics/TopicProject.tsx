@@ -10,7 +10,7 @@ import { MindMap } from "./MindMap";
 import { cardIdeas, cards, explorerRows, overviewHeadlines, overviewQuestions, topic, type CardIdeas, type IdeaTone, type TopicCard } from "./data";
 
 type P = SVGProps<SVGSVGElement>;
-export type TopicView = "cards" | "explorer" | "overview" | "mindmap";
+type TopicView = "cards" | "explorer" | "overview" | "mindmap";
 
 const blue = "text-[#006dca]";
 const gsearch = (q: string) => `https://www.google.com/search?q=${encodeURIComponent(q)}`;
@@ -232,6 +232,7 @@ function Toggle() {
       onClick={() => setOn((o) => !o)}
       className={`relative h-5 w-9 rounded-full transition-colors ${on ? "bg-[#008ff8]" : "bg-[#a9abaa]"}`}
       aria-pressed={on}
+      aria-label="Trending subtopics first"
     >
       <span className={`absolute top-[2px] h-4 w-4 rounded-full bg-white transition-all ${on ? "left-[18px]" : "left-[2px]"}`} />
     </button>

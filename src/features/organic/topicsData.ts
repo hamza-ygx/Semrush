@@ -1,5 +1,5 @@
 export type Tile = { name: string; r: [number, number, number, number]; traffic: number; keywords: number; color?: string };
-export type TopicGroup = { name: string; traffic: number; volume: string; r: [number, number, number, number]; tiles: Tile[] };
+type TopicGroup = { name: string; traffic: number; volume: string; r: [number, number, number, number]; tiles: Tile[] };
 
 const t = (name: string, r: [number, number, number, number], traffic = 0, keywords = 1, color?: string): Tile => ({ name, r, traffic, keywords, color });
 

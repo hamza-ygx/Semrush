@@ -299,7 +299,7 @@ export function TopicsView({ initial = "redovisningsbyrå halmstad" }: { initial
         {loading ? <Loader /> : <Treemap selected={subtopic} onSelect={select} />}
         {!loading && <div className="h-5" />}
       </div>
-      {!loading && <KeywordsTable subtopic={subtopic} />}
+      {!loading && <KeywordsTable key={subtopic} subtopic={subtopic} />}
     </div>
   );
 }

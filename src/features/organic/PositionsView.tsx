@@ -181,7 +181,7 @@ function SummaryCard() {
   );
 }
 
-export function TrackingBanner({ text = "Create a new project to see your positions.", cta = "Set up Tracking" }: { text?: string; cta?: string }) {
+function TrackingBanner({ text = "Create a new project to see your positions.", cta = "Set up Tracking" }: { text?: string; cta?: string }) {
   const [open, setOpen] = useState(true);
   if (!open) return null;
   return (
@@ -494,7 +494,7 @@ const colDefs: Record<string, { w?: string }> = {
   "Last Update": { w: "w-[73px]" },
 };
 
-export type PositionFilters = {
+type PositionFilters = {
   pos: string | null;
   vol: string | null;
   kd: string | null;
@@ -544,12 +544,12 @@ function matches(r: PositionRow, f: PositionFilters) {
   return true;
 }
 
-export const noFilters: PositionFilters = { pos: null, vol: null, kd: null, intent: [], serp: null, adv: [] };
+const noFilters: PositionFilters = { pos: null, vol: null, kd: null, intent: [], serp: null, adv: [] };
 
 function PositionsTable({ tab, filter, filters }: { tab: string; filter: string; filters: PositionFilters }) {
   const [sort, setSort] = useState<{ key: SortKey; dir: 1 | -1 }>({ key: "pct", dir: -1 });
   const [sel, setSel] = useState<Set<number>>(new Set());
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState({ n: 1, pages: 0 });
   const [shown, setShown] = useState(() => new Set(defaultColumns));
   const vis: Vis = (c) => shown.has(c);
   const rows = useMemo(() => {
@@ -564,8 +564,10 @@ function PositionsTable({ tab, filter, filters }: { tab: string; filter: string;
     }
     return list;
   }, [tab, filter, filters, sort]);
-  const filtered = filters !== noFilters || !!filter;
+  const filtered = !!(filter || filters.pos || filters.vol || filters.kd || filters.intent.length || filters.serp || filters.adv.length);
   const total = tab === "SERP Features" ? 1 : filtered ? rows.length : latest.se;
+  const pages = Math.max(1, Math.ceil(total / 100));
+  const cur = page.pages === pages ? Math.min(page.n, pages) : 1;
   const onSort = (k: SortKey) => setSort((s) => (s.key === k ? { key: k, dir: s.dir === 1 ? -1 : 1 } : { key: k, dir: -1 }));
   const all = rows.length > 0 && rows.every(({ i }) => sel.has(i));
   const { ref: stuckRef, stuck } = useStuck(60);
@@ -660,13 +662,13 @@ function PositionsTable({ tab, filter, filters }: { tab: string; filter: string;
           </tr>
         </thead>
         <tbody>
-          {rows.slice((page - 1) * 100, page * 100).map(({ r, i }) => (
+          {rows.slice((cur - 1) * 100, cur * 100).map(({ r, i }) => (
             <Row key={i} r={r} vis={vis} checked={sel.has(i)} toggle={() => setSel((s) => { const n = new Set(s); if (n.has(i)) n.delete(i); else n.add(i); return n; })} />
           ))}
         </tbody>
       </table>
       <div className="px-5 pt-[21px] pb-5">
-        <Pagination pages={Math.max(1, Math.ceil(total / 100))} onPage={setPage} />
+        <Pagination key={pages} pages={pages} page={cur} onPage={(n) => setPage({ n, pages })} />
       </div>
     </div>
   );

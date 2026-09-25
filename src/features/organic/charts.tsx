@@ -16,7 +16,7 @@ export function useWidth<T extends HTMLElement>(initial = 800) {
   return [ref, w] as const;
 }
 
-export type Pad = { top: number; right: number; bottom: number; left: number };
+type Pad = { top: number; right: number; bottom: number; left: number };
 
 export function StackedBars({
   data,

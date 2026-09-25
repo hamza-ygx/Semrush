@@ -22,7 +22,7 @@ export type Place = {
 };
 
 export const places: Place[] = [
-  { name: "Jb Ekonomipartner AB", rating: "5,0", stars: 5, reviews: 1, kind: "Bokföringstjänster", line2: "Över 7 år i branschen · Halmstad", open: false, line3: "Öppnar tis kl. 10 · 070-743 09 11" },
+  { name: "Jb Ekonomipartner AB", rating: "5,0", stars: 5, reviews: 1, kind: "Bokföringstjänster", line2: "Över 7 år i branschen · Halmstad", open: false, line3: "Öppnar tis kl. 10 · 070-174 06 51" },
   { name: "Palms Redovisningsbyrå AB", rating: "4,8", stars: 5, reviews: 6, kind: "Redovisningsbyrå", line2: "Över 20 år i branschen · Halmstad", open: false, line3: "Öppnar tis kl. 08 · 035-21 04 50" },
   { name: "Accenten Redovisning", rating: "4,6", stars: 4.5, reviews: 9, kind: "Revisor", line2: "Över 10 år i branschen · Halmstad", open: false, line3: "Öppnar tis kl. 08 · 035-18 22 30" },
 ];

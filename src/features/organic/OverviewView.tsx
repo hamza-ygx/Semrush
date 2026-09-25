@@ -308,7 +308,7 @@ function TopKeywordsCard() {
           </tr>
         </thead>
         <tbody>
-          {(tab === "SERP Features" ? topKeywords.filter((k) => k.position === "local") : topKeywords).map((k, i) => (
+          {(tab === "SERP Features" ? topKeywords.filter((k) => k.position === "local") : tab === "Organic" ? topKeywords.filter((k) => k.position !== "local") : topKeywords).map((k, i) => (
             <tr key={i} className="border-b border-rk-border align-top">
               <td className="py-2 pl-5">
                 <KeywordLink keyword={k.keyword} />

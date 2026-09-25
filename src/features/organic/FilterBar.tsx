@@ -19,7 +19,7 @@ export function useStuck(offset = 0) {
   return { ref, stuck };
 }
 
-export const positionFilters = [
+const positionFilters = [
   { label: "Positions", options: ["Top 3", "Top 10", "Top 20", "Top 50", "Top 100", "Custom range"] },
   { label: "Volume", options: ["100,001+", "10,001-100,000", "1,001-10,000", "101-1,000", "11-100", "1-10", "Custom range"] },
   { label: "KD", options: ["Very hard 85-100%", "Hard 70-84%", "Difficult 50-69%", "Possible 30-49%", "Easy 15-29%", "Very easy 0-14%", "Custom range"] },

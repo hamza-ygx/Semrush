@@ -56,7 +56,7 @@ export function ExtLink({
   );
 }
 
-export function SnapshotIcon({ className = "" }: { className?: string }) {
+function SnapshotIcon({ className = "" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 16 16"
@@ -80,7 +80,7 @@ export function SnapshotIcon({ className = "" }: { className?: string }) {
   );
 }
 
-export function PlusCircle() {
+function PlusCircle() {
   return (
     <svg
       viewBox="0 0 16 16"
@@ -191,7 +191,7 @@ export function IntentBadge({ intent }: { intent: Intent }) {
   );
 }
 
-export const kdColor = (kd: number) =>
+const kdColor = (kd: number) =>
   kd < 15
     ? "#00a878"
     : kd < 30
@@ -524,6 +524,7 @@ export function Pagination({
     <div className="flex items-center gap-2 text-[14px]">
       <button
         type="button"
+        aria-label="First page"
         onClick={() => go(1)}
         disabled={p === 1}
         className={`flex h-7 w-7 items-center justify-center rounded-md ${p === 1 ? dis : "border border-rk-border-strong bg-white text-rk-text-2 hover:bg-rk-bg"}`}

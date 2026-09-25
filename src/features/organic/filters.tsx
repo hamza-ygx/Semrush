@@ -6,11 +6,11 @@ import { ChevronDown, ChevronRight, CloseIcon, PlusIcon, SearchIcon } from "@/co
 import { SerpIcon } from "./serpIcons";
 import { Checkbox } from "./ui";
 
-export const InfoI = ({ className = "" }: { className?: string }) => (
+const InfoI = ({ className = "" }: { className?: string }) => (
   <span className={`font-serif text-[16px] leading-none text-[#a9abaa] italic ${className}`}>i</span>
 );
 
-export function FilterPopover({
+function FilterPopover({
   label,
   value,
   width,
@@ -60,7 +60,7 @@ export function FilterPopover({
   );
 }
 
-export function ApplyButton({ onClick, className = "" }: { onClick?: () => void; className?: string }) {
+function ApplyButton({ onClick, className = "" }: { onClick?: () => void; className?: string }) {
   return (
     <button type="button" onClick={onClick} className={`h-7 rounded-md bg-rk-btn-dark px-[9px] text-[14px] font-semibold text-white hover:bg-[#2b2e38] ${className}`}>
       Apply

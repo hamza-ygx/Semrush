@@ -24,8 +24,8 @@ export const testimonials = [
   {
     quote:
       "“This is an amazing tool that can be used by both writers and SEOs to optimize content based on their target SERPs. Instead of having guidelines which are then impossible to verify, you have the data right at your fingertips when and where you need it the most. It’s a great addition to any blogger’s or SEO’s toolkit.”",
-    name: "Marcela De Vivo",
-    role: "Chief Executive Officer at Gryffin",
+    name: "Agency founder",
+    role: "Chief Executive Officer at an SEO agency",
   },
   {
     quote: "“We brief every writer with the recommendations and review drafts against the score before publishing. It keeps the whole team aligned on what good looks like.”",

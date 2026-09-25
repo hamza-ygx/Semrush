@@ -398,7 +398,7 @@ function ChangeRowView({ r, checked, toggle }: { r: ChangeRow; checked: boolean;
     <>
       <tr className="group border-b border-rk-border hover:bg-[#fafafb]">
         <td className={`${td} ${stick} left-0 pl-[25px]`}>
-          <button type="button" aria-label="Expand" onClick={() => setOpen((o) => !o)} className={`${line} text-rk-text-2`}>
+          <button type="button" aria-label="Expand" aria-expanded={open} onClick={() => setOpen((o) => !o)} className={`${line} text-rk-text-2`}>
             <ChevronRight className={open ? "rotate-90" : ""} />
           </button>
         </td>

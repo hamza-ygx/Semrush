@@ -91,6 +91,7 @@ export function RankedUrls({ r }: { r: PositionRow }) {
             type="button"
             role="checkbox"
             aria-checked={on}
+            aria-label="Show position history"
             onClick={() => setOn(!on)}
             className={`ml-[18px] flex h-4 w-4 items-center justify-center rounded-[4px] border ${on ? "border-[#6167e6] bg-[#6167e6]" : "border-rk-border-strong bg-white"}`}
           >
