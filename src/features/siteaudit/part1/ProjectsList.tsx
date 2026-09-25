@@ -48,7 +48,7 @@ export function AuditSettingsPanel({
   const dis = `flex ${h} w-full items-center gap-2 px-2 text-[14px] text-[#a9abb6]`;
   return (
     <div className={`rounded-md bg-white shadow-popover ${className}`}>
-      <div className="pt-[4px] pb-[5px]">
+      <div className={roomy ? "pt-[2px] pb-[4px]" : "pt-[4px] pb-[5px]"}>
         <button type="button" className={`flex ${h} w-full items-center gap-2 px-2 text-[14px] text-rk-text hover:bg-rk-bg`} onClick={onClose}>
           <RefreshIcon strokeWidth={2} />
           Rerun campaign
@@ -64,14 +64,14 @@ export function AuditSettingsPanel({
       </div>
       <div
         onScroll={(e) => setStuck(e.currentTarget.scrollTop > 0)}
-        className={`relative h-[236px] overflow-y-auto border-t border-rk-border [&::-webkit-scrollbar-track]:mt-[40px] ${thinScroll}`}
+        className={`relative ${roomy ? "h-[240px]" : "h-[236px]"} overflow-y-auto border-t border-rk-border [&::-webkit-scrollbar-track]:mt-[40px] ${thinScroll}`}
         data-settings
       >
-        <div className={`sticky top-0 z-10 bg-white px-2 ${roomy ? "pt-[15px] pb-[8px]" : "pt-[13px] pb-[7px]"} text-[14px] font-semibold text-rk-text ${stuck ? "mb-[10px] border-b border-rk-border" : ""}`}>
+        <div className={`sticky top-0 z-10 bg-white px-2 ${roomy ? "pt-[14px] pb-[6px]" : "pt-[13px] pb-[7px]"} text-[14px] font-semibold text-rk-text ${stuck ? "mb-[10px] border-b border-rk-border" : ""}`}>
           Audit settings
         </div>
         {auditSettings.map((s) => (
-          <button key={s} type="button" className={`flex ${roomy ? "h-[32.5px]" : "h-[31.5px]"} w-full items-center px-2 text-left text-[14px] text-rk-text hover:bg-rk-bg`}>
+          <button key={s} type="button" className={`flex ${roomy ? "h-[32px]" : "h-[31.5px]"} w-full items-center px-2 text-left text-[14px] text-rk-text hover:bg-rk-bg`}>
             {s}
           </button>
         ))}

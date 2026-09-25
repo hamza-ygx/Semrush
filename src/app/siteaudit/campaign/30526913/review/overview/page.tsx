@@ -5,7 +5,7 @@ import { Overview } from "@/features/siteaudit/part1/Overview";
 export default function SiteAuditOverviewPage() {
   return (
     <AppShell section="seo">
-      <SiteAuditHeader tab="overview" />
+      <SiteAuditHeader tab="overview" exportReport="Crawled Pages with all Issues" />
       <Overview />
     </AppShell>
   );

@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/primitives";
 import { ChevronDown, ExportIcon, PlusIcon, RefreshIcon, ShareIcon } from "@/components/ui/icons";
 import { AuditSettingsPanel } from "./part1/ProjectsList";
 import { Checkbox, CogIcon, useToggle } from "./part1/ui";
-import { useScrollLock } from "@/features/tracking/Tip";
 
 const c = routes.siteAuditCampaign;
 
@@ -70,8 +69,9 @@ export function ProjectSwitcher() {
   );
 }
 
-function ExportPopover() {
+function ExportPopover({ report }: { report?: string }) {
   const { open, setOpen, ref, toggle } = useToggle();
+  const [rel, setRel] = useState(false);
   return (
     <div ref={ref} className="relative flex">
       <Tb onClick={toggle} testid="sa-export" on={open}>
@@ -86,13 +86,20 @@ function ExportPopover() {
             type="button"
             className="mt-[9px] flex h-7 w-full items-center justify-between rounded-md border border-rk-border-strong bg-white pr-[6px] pl-2 text-rk-text hover:border-[#a9abb6]"
           >
-            Issues
+            {report ?? "Issues"}
             <ChevronDown strokeWidth={2.2} />
           </button>
-          <div className="mt-[15px] flex items-center gap-2 text-[#a9abb6]">
-            <Checkbox disabled className="!border-[#e0e1e9]" />
-            Relative URLs instead of absolute
-          </div>
+          {report ? (
+            <label className="mt-[15px] flex cursor-pointer items-center gap-2 text-rk-text">
+              <Checkbox checked={rel} onChange={() => setRel(!rel)} />
+              Relative URLs instead of absolute
+            </label>
+          ) : (
+            <div className="mt-[15px] flex items-center gap-2 text-[#a9abb6]">
+              <Checkbox disabled className="!border-[#e0e1e9]" />
+              Relative URLs instead of absolute
+            </div>
+          )}
           <div className="mt-5 flex gap-[9px]">
             <Button variant="primary" className="h-7" onClick={() => setOpen(false)}>
               Export to XLSX
@@ -126,7 +133,6 @@ function SettingsMenu() {
 }
 
 function ShareModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  useScrollLock(open);
   return (
     <Modal open={open} onClose={onClose} width={720}>
       <h2 className="flex items-center gap-[13px] text-[24px] leading-8 font-semibold text-rk-text">
@@ -218,7 +224,6 @@ const ico = {
 
 function PdfModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [agree, setAgree] = useState(false);
-  useScrollLock(open);
   return (
     <Modal open={open} onClose={onClose} width={720} className="!mb-[41px] overflow-hidden !p-0">
       <div className="bg-rk-bg px-10 pt-10 pb-10">
@@ -340,7 +345,7 @@ function PdfModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   );
 }
 
-export function SiteAuditActions({ looker, pdf, exportBtn, lookerIcon }: { looker: boolean; pdf: boolean; exportBtn: boolean; lookerIcon: ReactNode }) {
+export function SiteAuditActions({ looker, pdf, exportBtn, lookerIcon, exportReport }: { looker: boolean; pdf: boolean; exportBtn: boolean; lookerIcon: ReactNode; exportReport?: string }) {
   const [modal, setModal] = useState<"share" | "pdf" | null>(null);
   const close = () => setModal(null);
   return (
@@ -361,7 +366,7 @@ export function SiteAuditActions({ looker, pdf, exportBtn, lookerIcon }: { looke
           PDF
         </Tb>
       )}
-      {exportBtn && <ExportPopover />}
+      {exportBtn && <ExportPopover report={exportReport} />}
       <Tb onClick={() => setModal("share")} testid="sa-share">
         <ShareIcon />
         Share

@@ -116,7 +116,7 @@ export function IssueDetail({ id }: { id: number }) {
           <span className={`ml-[9px] rounded-full px-2 text-[12px] leading-5 ${sevTag[issue.severity].cls}`}>{sevTag[issue.severity].label}</span>
           <div className="ml-auto flex gap-[9px]">
             <SendTo />
-            <Link href={c.siteStructure} className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
+            <Link href={`${c.siteStructure}?restrictions=${encodeURIComponent(btoa(JSON.stringify({ triggeredIssue: issue.id })))}`} className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
               <StructureIcon />
               Site Structure
             </Link>

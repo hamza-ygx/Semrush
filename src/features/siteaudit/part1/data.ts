@@ -1,4 +1,5 @@
 import { brand } from "@/config/brand";
+import { routes } from "@/config/routes";
 import { errorsList, issueCounts, issueId, noticesList, warningsList } from "../part2/data";
 
 export const projectColumns = [
@@ -312,12 +313,52 @@ export const severityTabs = [
   { key: "notice", label: "Notices", n: 8 },
 ];
 
+const hreflangFix = {
+  about:
+    'This issue is triggered if:\n- Your country code is not in the ISO_3166-1_alpha-2 format\n- Your language code is not in the ISO 639-1 format\n\nA hreflang (rel="alternate" hreflang="x") attribute helps search engines understand which page should be shown to visitors based on their location. Utilizing this attribute is necessary if you\'re running a multilingual website.',
+  fix: "Make sure that your hreflang attributes are used correctly. Here are a few ways to avoid hreflang implementation issues:\n- Specify the correct ISO 639-1 language code. For language script variations, use the ISO 15924 standard format\n- Specify the correct ISO_3166-1_alpha-2 country code\n- Make sure all pages in a hreflang cluster link to each other",
+};
+
+const fixFor = (text: string) => {
+  const i = issues.find((x) => x.id === issueId(text));
+  return i ? { about: i.about, fix: i.fix } : hreflangFix;
+};
+
 export const overviewIssues = [
-  { sev: "error" as Severity, text: "Issues with hreflang values", pages: "3 pages", id: issueId("Issues with hreflang values") },
-  { sev: "error" as Severity, text: "Slow page (HTML) load speed", pages: "7 pages", id: issueId("Slow page (HTML) load speed") },
-  { sev: "error" as Severity, text: "4xx errors", pages: "3 pages", id: issueId("4xx errors") },
-  { sev: "notice" as Severity, text: "Content not optimized", pages: "1 page", id: issueId("Content not optimized"), ai: true },
-  { sev: "notice" as Severity, text: "Links with no anchor text", pages: "15 pages", id: issueId("Links with no anchor text"), ai: true },
+  { sev: "error" as Severity, text: "Issues with hreflang values", pages: "3 pages", id: issueId("Issues with hreflang values"), fixInfo: hreflangFix },
+  { sev: "error" as Severity, text: "Slow page (HTML) load speed", pages: "7 pages", id: issueId("Slow page (HTML) load speed"), fixInfo: fixFor("Slow page (HTML) load speed") },
+  { sev: "error" as Severity, text: "4xx errors", pages: "3 pages", id: issueId("4xx errors"), fixInfo: fixFor("4xx errors") },
+  { sev: "notice" as Severity, text: "Content not optimized", pages: "1 page", id: issueId("Content not optimized"), ai: true, fixInfo: fixFor("Content not optimized") },
+  { sev: "notice" as Severity, text: "Links with no anchor text", pages: "15 pages", id: issueId("Links with no anchor text"), ai: true, fixInfo: fixFor("Links with no anchor text") },
+];
+
+export const industries: [string, number][] = [
+  ["Top-10% websites", 92],
+  ["Arts & Entertainment", 77],
+  ["Autos & Vehicles", 76],
+  ["Beauty & Fitness", 78],
+  ["Books & Literature", 75],
+  ["Business & Industrial", 77],
+  ["Computers & Electronics", 75],
+  ["Finance", 75],
+  ["Food & Drink", 78],
+  ["Games", 74],
+  ["Health", 77],
+  ["Hobbies & Leisure", 76],
+  ["Home & Garden", 78],
+  ["Internet & Telecom", 75],
+  ["Jobs & Education", 77],
+  ["Law & Government", 76],
+  ["News", 72],
+  ["Online Communities", 74],
+  ["People & Society", 76],
+  ["Pets & Animals", 78],
+  ["Real Estate", 77],
+  ["Reference", 75],
+  ["Science", 76],
+  ["Shopping", 77],
+  ["Sports", 76],
+  ["Travel", 78],
 ];
 
 export const crawledStatus = [
@@ -366,6 +407,7 @@ export type CrawledRow = {
   state?: "Redirected" | "Healthy" | "Broken";
   depth: number;
   reaudit: boolean;
+  id: string;
 };
 
 const site = "https://rkjh.se";
@@ -462,13 +504,13 @@ const middle: [string, string][] = [
   ["zh/faq/", "常见问题"],
 ];
 
-export const crawledRows: CrawledRow[] = [
+const baseRows: Omit<CrawledRow, "id">[] = [
   { ilr: 100, url: `${site}/zh/`, title: `主页 - ${L} ZH`, status: 200, issues: 18, depth: 1, reaudit: true },
   { ilr: 96, url: `${site}/en/`, title: `Home - ${L} EN`, status: 200, issues: 13, depth: 1, reaudit: true },
   { ilr: 91, url: `${site}/`, title: `Redovisningsbyrå i Halmstad | ${L}`, status: 200, issues: 16, depth: 0, reaudit: true },
   { ilr: 87, url: `${site}/framgangssagor/`, title: `Framgångssagor - ${L}`, status: 200, issues: 15, depth: 1, reaudit: true },
   { ilr: 83, url: `${site}/hallbarhet/`, title: `Hållbarhet - ${L}`, status: 200, issues: 13, depth: 1, reaudit: true },
-  ...middle.map(([p, t], i): CrawledRow => ({
+  ...middle.map(([p, t], i): Omit<CrawledRow, "id"> => ({
     ilr: Math.max(1, Math.round(80 - (i * 79) / middle.length)),
     url: `${site}/${p}`,
     title: `${t} - ${L}${p.startsWith("zh/") ? " ZH" : p.startsWith("en/") ? " EN" : ""}`,
@@ -484,6 +526,10 @@ export const crawledRows: CrawledRow[] = [
   { url: `${site}/zh/blogg/`, status: 404, state: "Broken", depth: 2, reaudit: true },
   { url: `${site}/zh/vara-servicestandarder/`, status: 404, state: "Broken", depth: 2, reaudit: true },
 ];
+export const crawledRows: CrawledRow[] = baseRows.map((r, i) => ({ ...r, id: i ? `6a60cf96c96be8027779${(0x3d7 + i * 0x2b).toString(16).padStart(4, "0")}` : "6a60cf96c96be802777903d7" }));
+
+export const pageDetailHref = (id: string) => `${routes.siteAuditCampaign.issues.replace(/\/issues$/, "/page")}/${id}`;
+
 
 export const pageColumns = [
   { key: "ilr", label: "ILR", w: 71, fixed: true, on: true },
@@ -561,3 +607,44 @@ export const structure: Dir = {
     { name: "/project", urls: 10, issues: "152" },
   ],
 };
+
+export const structureAll: Dir[] = [
+  {
+    name: "https://rkjh.se",
+    urls: 97,
+    issues: "1,199",
+    children: [
+      {
+        name: "/blog",
+        urls: 40,
+        issues: "530",
+        children: [
+          { name: "/tjanster", urls: 14, issues: "185" },
+          { name: "/branscher", urls: 12, issues: "165" },
+          {
+            name: "/events",
+            urls: 9,
+            issues: "106",
+            children: [
+              { name: "/2026", urls: 5, issues: "59" },
+              { name: "/2025", urls: 4, issues: "47" },
+            ],
+          },
+          { name: "/kurser", urls: 4, issues: "60" },
+        ],
+      },
+      {
+        name: "/zh",
+        urls: 14,
+        issues: "161",
+        children: [
+          { name: "/services", urls: 6, issues: "72" },
+          { name: "/about-us", urls: 5, issues: "53" },
+          { name: "/careers", urls: 3, issues: "36" },
+        ],
+      },
+      { name: "/project", urls: 10, issues: "152" },
+    ],
+  },
+  { name: "https://www.rkjh.se", urls: 3, issues: "1" },
+];

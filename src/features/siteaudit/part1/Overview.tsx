@@ -5,8 +5,9 @@ import { useState, type ReactNode } from "react";
 import { routes } from "@/config/routes";
 import { ChatGptIcon, CheckIcon, ChevronDown, CloseIcon, GeminiIcon, GoogleIcon } from "@/components/ui/icons";
 import { Info } from "@/components/ui/primitives";
-import { bots, crawledStatus, overviewIssues, thematic, type Bot } from "./data";
-import { ArrowRightIcon, BotIcon, ErrorBolt, ExtIcon, NoticeIcon, AiTag, useToggle } from "./ui";
+import { bots, crawledStatus, industries, overviewIssues, thematic, type Bot } from "./data";
+import { dashedCls, FixPopover } from "./FixPopover";
+import { ArrowRightIcon, BotIcon, ErrorBolt, ExtIcon, NoticeIcon, AiTag, thinScroll, useToggle } from "./ui";
 
 const c = routes.siteAuditCampaign;
 
@@ -62,7 +63,6 @@ function CardTitle({ children, extra }: { children: ReactNode; extra?: ReactNode
   );
 }
 
-const dashedCls = "text-[14px] text-rk-muted underline decoration-[#a9abb6] decoration-dashed decoration-1 underline-offset-[5px] hover:text-rk-text";
 const Dashed = ({ children, href }: { children: ReactNode; href?: string }) =>
   href ? (
     <Link href={href} className={dashedCls}>
@@ -76,31 +76,42 @@ const Dashed = ({ children, href }: { children: ReactNode; href?: string }) =>
 
 function TopBenchmark() {
   const { open, setOpen, ref, toggle } = useToggle();
-  const [v, setV] = useState("Top-10% websites");
+  const [v, setV] = useState(industries[0][0]);
   return (
     <div ref={ref} className="relative">
-      <button type="button" onClick={toggle} className="flex items-center gap-[6px] text-[14px] text-rk-text">
+      <button type="button" onClick={toggle} data-testid="sa-benchmark" className="group flex items-center gap-[6px] text-[14px] text-rk-text">
         <svg viewBox="0 0 12 10" width={12} height={10}>
           <path d="M0 0h12L6 10z" fill="#d1002f" />
         </svg>
-        {v}
-        <ChevronDown width={14} height={14} strokeWidth={2} className={open ? "rotate-180" : ""} />
+        <span className="group-hover:underline group-hover:decoration-1 group-hover:underline-offset-[4px]">{v}</span>
+        <ChevronDown width={14} height={14} strokeWidth={2} />
       </button>
       {open && (
-        <div className="absolute top-[calc(100%+4px)] left-0 z-50 w-[200px] rounded-md bg-white py-1 shadow-popover">
-          {["Top-10% websites", "Top-50% websites"].map((o) => (
-            <button
-              key={o}
-              type="button"
-              onClick={() => {
-                setV(o);
-                setOpen(false);
-              }}
-              className={`block w-full px-2 py-[6px] text-left text-[14px] hover:bg-rk-bg ${o === v ? "bg-[#e9f7ff]" : ""}`}
-            >
-              {o}
+        <div className="absolute top-[calc(100%+6px)] left-[16px] z-50 w-[219px] overflow-hidden rounded-md bg-white shadow-popover">
+          <div className="border-b border-rk-border px-2 pt-[9px] pb-[10px] text-[14px] leading-5">
+            <div className="font-semibold text-rk-text">Site industry:</div>
+            <button type="button" onClick={() => setV(industries[0][0])} className="mt-3 text-rk-link hover:text-rk-link-hover">
+              Reset
             </button>
-          ))}
+          </div>
+          <div className={`h-[240px] overflow-y-auto pt-[4px] ${thinScroll}`}>
+            {industries.map(([o, n]) => (
+              <button
+                key={o}
+                type="button"
+                onClick={() => {
+                  setV(o);
+                  setOpen(false);
+                }}
+                className={`relative flex h-8 w-full items-center justify-between pr-[4px] pl-2 text-left text-[14px] text-rk-text hover:bg-rk-bg ${
+                  o === v ? "bg-[#e9effb] before:absolute before:inset-y-0 before:left-0 before:w-[2px] before:bg-rk-text" : ""
+                }`}
+              >
+                <span className="truncate">{o}</span>
+                <span className="text-rk-muted">{n}%</span>
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </div>
@@ -111,7 +122,7 @@ function HealthCard() {
   const total = crawledStatus.reduce((a, s) => a + s.n, 0);
   return (
     <div className="flex h-[277px] rounded-lg bg-white shadow-card">
-      <div className="w-[280px] border-r border-rk-border px-5 pt-[11px]">
+      <div className="w-1/2 shrink-0 border-r border-rk-border px-5 pt-[11px]">
         <CardTitle>Site Health</CardTitle>
         <div className="mt-[30px]">
           <SegGauge value={82} marker={92} color="#6167e6">
@@ -138,9 +149,9 @@ function HealthCard() {
             <Link href={c.crawledPages} className="text-[20px] leading-8 font-bold text-rk-number">
               100
             </Link>
-            <span className="text-[13px] whitespace-nowrap text-rk-muted">no changes</span>
+            <span className="text-[12px] whitespace-nowrap text-rk-muted">no changes</span>
           </span>
-          <div className="flex h-[15px] w-[121px] gap-px overflow-hidden">
+          <div className="mr-[2px] ml-[15px] flex h-[15px] flex-1 gap-px overflow-hidden">
             {crawledStatus.map((s) => (s.n ? <div key={s.label} style={{ width: `${(s.n / total) * 100}%`, background: s.color }} /> : null))}
           </div>
         </div>
@@ -173,12 +184,71 @@ export function botIcon(b: Bot) {
   return <BotIcon kind={b.startsWith("Perplexity") ? "perplexity" : "claude"} />;
 }
 
+function BotRow({ b }: { b: Bot }) {
+  return (
+    <div className="flex h-[27.75px] items-center justify-between text-[14px]">
+      <span className="flex items-center gap-[4px] whitespace-nowrap">
+        {botIcon(b)}
+        {b}
+      </span>
+      <span className="flex items-center gap-[6px] text-[#007c65]">
+        <CheckIcon width={14} height={14} strokeWidth={2} />
+        <span className="hidden xl:inline">All good</span>
+      </span>
+    </div>
+  );
+}
+
+function MoreBots() {
+  const { open, ref, toggle } = useToggle();
+  return (
+    <div ref={ref} className="relative mt-[3px] self-start">
+      <button type="button" onClick={toggle} data-testid="sa-bots-more" className={dashedCls}>
+        Show more
+      </button>
+      {open && (
+        <div className="absolute top-[calc(100%+6px)] -left-[15px] z-50 w-[251px] rounded-md bg-white pt-[11px] pr-[16px] pb-[13px] pl-[18px] shadow-popover">
+          {bots.slice(4).map((b) => (
+            <BotRow key={b} b={b} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function HowItWorks() {
+  const { open, ref, toggle } = useToggle();
+  return (
+    <div ref={ref} className="relative">
+      <button type="button" onClick={toggle} data-testid="sa-ai-how" className={dashedCls}>
+        How it works
+      </button>
+      {open && (
+        <div className="absolute top-[calc(100%+8px)] left-0 z-50 w-[320px] rounded-md bg-white px-4 pt-[14px] pb-4 text-[14px] leading-5 text-rk-text shadow-popover">
+          <div className="font-semibold">Improve your score:</div>
+          <ul className="mt-[8px] space-y-[8px] pl-4">
+            {["Review and fix AI search issues", "Check your robots.txt file for blocked AI search bots"].map((t) => (
+              <li key={t} className="relative pl-[4px] before:absolute before:top-[8px] before:-left-[8px] before:h-[4px] before:w-[4px] before:rounded-full before:bg-rk-muted">
+                {t}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-[7px]">A higher score means your content is more accessible, better structured, and more likely to be shown in AI search engines.</p>
+          <div className="mt-[16px] font-semibold">How does it work with Site Health?</div>
+          <p className="mt-[8px]">
+            Maintaining Site Health is crucial for AI search engines, but AI SEO requires some additional strategies, including enhanced use of structured data, internal linking, and content optimized for how AI systems read and cite pages.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function AiCard() {
-  const [more, setMore] = useState(false);
-  const list = more ? bots : bots.slice(0, 4);
   return (
     <div className="flex min-h-[277px] rounded-lg bg-white shadow-card">
-      <div className="flex w-[280px] flex-col border-r border-rk-border px-5 pt-[11px] pb-[20px]">
+      <div className="flex w-1/2 shrink-0 flex-col border-r border-rk-border px-5 pt-[11px] pb-[20px]">
         <CardTitle extra={<span className="rounded-full bg-[#f26b1d] px-[5px] text-[11px] leading-[15px] font-semibold text-white">beta</span>}>AI Search Health</CardTitle>
         <div className="mt-[30px]">
           <SegGauge value={91} marker={80} color="#3ae0b2">
@@ -186,34 +256,23 @@ function AiCard() {
             <span className="text-[12px] leading-4 text-rk-muted">no changes</span>
           </SegGauge>
         </div>
-        <div className="mt-[23px] rounded-md bg-[#f4f5f9] px-3 py-[6px] text-[13px] leading-[19px] text-rk-text">Website is better optimized for AI search engines</div>
+        <div className="mt-[23px] rounded-md bg-[#f4f5f9] px-3 py-[8px] text-[12px] leading-4 text-rk-text">Website is better optimized for AI search engines</div>
         <div className="mt-auto flex items-center justify-between">
-          <Dashed>How it works</Dashed>
+          <HowItWorks />
           <Link href={c.issues} className="text-[14px] text-rk-link hover:text-rk-link-hover">
             42 issues
           </Link>
         </div>
       </div>
-      <div className="flex flex-1 flex-col px-5 pt-[11px] pb-[20px]">
+      <div className="flex min-w-0 flex-1 flex-col px-5 pt-[11px] pb-[20px]">
         <CardTitle>Blocked from AI Search</CardTitle>
         <div className="mt-[12px] text-[14px] text-rk-muted">Pages crawled: 100</div>
-        <div className="mt-[15px]">
-          {list.map((b) => (
-            <div key={b} className="flex h-[28.4px] items-center justify-between text-[14px]">
-              <span className="flex items-center gap-[4px]">
-                {botIcon(b)}
-                {b}
-              </span>
-              <span className="flex items-center gap-[6px] text-[#007c65]">
-                <CheckIcon width={14} height={14} strokeWidth={2} />
-                All good
-              </span>
-            </div>
+        <div className="mt-[16px]">
+          {bots.slice(0, 4).map((b) => (
+            <BotRow key={b} b={b} />
           ))}
         </div>
-        <button type="button" onClick={() => setMore(!more)} className="mt-[4px] self-start text-[14px] text-rk-muted underline decoration-[#a9abb6] decoration-dashed decoration-1 underline-offset-[5px] hover:text-rk-text">
-          {more ? "Show less" : "Show more"}
-        </button>
+        <MoreBots />
         <div className="mt-auto pt-3">
           <Dashed>How to unblock pages</Dashed>
         </div>
@@ -264,8 +323,8 @@ function IssuesCard() {
             <Link href={c.issueDetail(i.id)} className="ml-auto text-rk-link hover:text-rk-link-hover">
               {i.pages}
             </Link>
-            <span className="ml-[118px]">
-              <Dashed href={c.issues}>How to fix</Dashed>
+            <span className="ml-[98px]">
+              <FixPopover issue={i.fixInfo} />
             </span>
           </div>
         ))}

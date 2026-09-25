@@ -25,7 +25,7 @@ const LookerIcon = () => (
   </svg>
 );
 
-export function SiteAuditHeader({ tab, looker = true, pdf = true, exportBtn = true }: { tab: SiteAuditTab; looker?: boolean; pdf?: boolean; exportBtn?: boolean }) {
+export function SiteAuditHeader({ tab, looker = true, pdf = true, exportBtn = true, exportReport }: { tab: SiteAuditTab; looker?: boolean; pdf?: boolean; exportBtn?: boolean; exportReport?: string }) {
   return (
     <PageHeader
       crumbs={[{ label: "Home", href: routes.home }, { label: "SEO", href: routes.seoDashboard }, { label: "Site Audit" }]}
@@ -42,7 +42,7 @@ export function SiteAuditHeader({ tab, looker = true, pdf = true, exportBtn = tr
           <ProjectSwitcher />
         </>
       }
-      actions={<SiteAuditActions looker={looker} pdf={pdf} exportBtn={exportBtn} lookerIcon={<LookerIcon />} />}
+      actions={<SiteAuditActions looker={looker} pdf={pdf} exportBtn={exportBtn} exportReport={exportReport} lookerIcon={<LookerIcon />} />}
       meta={
         <>
           <span>www.rkjh.se</span>
@@ -57,7 +57,7 @@ export function SiteAuditHeader({ tab, looker = true, pdf = true, exportBtn = tr
           </span>
         </>
       }
-      tabs={<Tabs tabs={tabs} active={tab} />}
+      tabs={<Tabs tabs={tabs} active={tab} className="max-xl:[&>a]:pb-[8px]" />}
     />
   );
 }

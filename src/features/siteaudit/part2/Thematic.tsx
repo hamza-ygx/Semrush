@@ -26,7 +26,7 @@ export function ThematicPage({
   return (
     <AppShell section="seo">
       <SiteAuditHeader tab="overview" looker={false} exportBtn={false} pdf={pdf} />
-      <div className="px-8 pt-[14px]" style={{ paddingBottom: pb }}>
+      <div className="px-8 pt-[14px] max-xl:pt-[16px]" style={{ paddingBottom: pb }}>
         <Button variant="tertiary" href={routes.siteAuditCampaign.overview} className="h-7 gap-[7px] pr-[9px] pl-[7px] text-rk-text-2">
           <ArrowLeft width={16} height={16} />
           Go to Overview

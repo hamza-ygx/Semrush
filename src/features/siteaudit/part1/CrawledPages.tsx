@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { routes } from "@/config/routes";
 import { CheckIcon } from "@/components/ui/icons";
 import { Info } from "@/components/ui/primitives";
 import { botIcon } from "./Overview";
-import { bots, crawledRows, pageColumns, pageFilterFields, structure, type CrawledRow, type Dir } from "./data";
+import { bots, crawledRows, pageColumns, pageFilterFields, pageDetailHref, structure, structureAll, type CrawledRow, type Dir } from "./data";
 import { AddCondition, AdvancedFilterPanel, Checkbox, CogIcon, ExtIcon, PageSize, ReauditIcon, SearchBox, SelectButton, SortIcon, thinScroll, useToggle, XIcon } from "./ui";
 
 const c = routes.siteAuditCampaign;
@@ -165,6 +166,7 @@ function ValueSelect() {
 }
 
 function AdvancedFilters({ active }: { active: boolean }) {
+  const router = useRouter();
   const { open, setOpen, ref, toggle } = useToggle();
   const [on, setOn] = useState(active);
   return (
@@ -175,7 +177,7 @@ function AdvancedFilters({ active }: { active: boolean }) {
             Advanced filters
             <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-[#7c83ea] px-1 text-[11px] leading-none text-white">1</span>
           </button>
-          <button type="button" aria-label="Clear filters" onClick={() => setOn(false)} className="-ml-px flex h-7 w-[26px] items-center justify-center rounded-r-md border border-[#a3aae9] bg-[#e5e8f5] hover:bg-[#d7dcf0]">
+          <button type="button" aria-label="Clear filters" onClick={() => (active ? router.push(c.siteStructure) : setOn(false))} className="-ml-px flex h-7 w-[26px] items-center justify-center rounded-r-md border border-[#a3aae9] bg-[#e5e8f5] hover:bg-[#d7dcf0]">
             <XIcon size={14} />
           </button>
         </div>
@@ -185,10 +187,10 @@ function AdvancedFilters({ active }: { active: boolean }) {
         </SelectButton>
       )}
       {open && (
-        <AdvancedFilterPanel className="left-0 w-[583px]" onApply={() => setOpen(false)}>
+        <AdvancedFilterPanel className="left-0 w-[583px] max-xl:left-[-43px] max-xl:w-[567px]" onApply={() => setOpen(false)}>
           <div className="mt-[2px] flex items-center">
             <FieldSelect />
-            <span className="mx-[17px] text-[14px]">is</span>
+            <span className="mx-[17px] text-[14px] max-xl:mx-[12px]">is</span>
             <ValueSelect />
           </div>
           <div className="pt-[6px] pb-[7px]">
@@ -200,7 +202,7 @@ function AdvancedFilters({ active }: { active: boolean }) {
   );
 }
 
-function FilterRow({ structureView }: { structureView: boolean }) {
+function FilterRow({ filtered }: { filtered: boolean }) {
   return (
     <div className="flex items-center">
       <Scope />
@@ -209,7 +211,7 @@ function FilterRow({ structureView }: { structureView: boolean }) {
         <BotsFilter />
       </div>
       <div className="ml-[9px]">
-        <AdvancedFilters active={structureView} />
+        <AdvancedFilters key={String(filtered)} active={filtered} />
       </div>
     </div>
   );
@@ -225,13 +227,17 @@ function cell(key: string, r: CrawledRow): ReactNode {
       return r.ilr ?? <Dash />;
     case "url":
       return (
-        <a href={r.url} target="_blank" rel="noreferrer" className="group flex items-start gap-[6px] text-rk-link hover:text-rk-link-hover">
-          <span className="break-all">{r.url}</span>
-          <ExtIcon className="mt-[2px] text-[#8a8e9b]" />
-        </a>
+        <span className="flex items-start gap-[6px]">
+          <Link href={pageDetailHref(r.id)} data-testid="sa-page-link" className="break-all text-rk-link hover:text-rk-link-hover">
+            {r.url}
+          </Link>
+          <a href={r.url} target="_blank" rel="noreferrer" aria-label="Open page" className="mt-[2px] text-[#8a8e9b] hover:text-rk-text-2">
+            <ExtIcon />
+          </a>
+        </span>
       );
     case "title":
-      return r.title ? <span className="line-clamp-3">{r.title}</span> : <Dash />;
+      return r.title ? <span className="line-clamp-3 [overflow-wrap:anywhere]">{r.title}</span> : <Dash />;
     case "status":
       return <span className={`inline-flex h-[22px] items-center rounded-full align-top px-2 text-[13px] ${statusCls[r.status]}`}>{r.status}</span>;
     case "issues":
@@ -310,18 +316,55 @@ function ManageColumns({ on, setOn }: { on: string[]; setOn: (v: string[]) => vo
   );
 }
 
+const narrowW: Record<string, number> = { ilr: 66, title: 136 };
+
+function useHScroll() {
+  const head = useRef<HTMLDivElement>(null);
+  const body = useRef<HTMLDivElement>(null);
+  const [bar, setBar] = useState<{ w: number; x: number } | null>(null);
+  const measure = useCallback(() => {
+    const b = body.current;
+    if (!b) return;
+    if (head.current) head.current.scrollLeft = b.scrollLeft;
+    const max = b.scrollWidth - b.clientWidth;
+    if (max <= 1) return setBar(null);
+    const track = b.clientWidth - 346;
+    const w = Math.max(40, (track * b.clientWidth) / b.scrollWidth);
+    setBar({ w, x: ((track - w) * b.scrollLeft) / max });
+  }, []);
+  useLayoutEffect(() => {
+    const b = body.current;
+    if (!b) return;
+    const ro = new ResizeObserver(measure);
+    ro.observe(b);
+    if (b.firstElementChild) ro.observe(b.firstElementChild);
+    return () => ro.disconnect();
+  }, [measure]);
+  return { head, body, bar, measure };
+}
+
 function PagesTable() {
   const [on, setOn] = useState(pageColumns.filter((p) => p.on).map((p) => p.key));
   const cols = pageColumns.filter((p) => on.includes(p.key));
   const total = cols.reduce((a, p) => a + p.w, 0);
+  const totalN = cols.reduce((a, p) => a + (narrowW[p.key] ?? p.w), 0);
   const wide = total > 1169;
-  const head = (
-    <div className="flex h-[42px] border-y border-rk-border bg-[#f7f7f8] text-[13px] text-rk-text-2" style={wide ? { width: total } : undefined}>
+  const { head, body, bar, measure } = useHScroll();
+  const rowStyle = { "--tw": wide ? `${total}px` : "100%", "--tn": `${totalN}px` } as CSSProperties;
+  const rowCls = "w-[var(--tw)] max-xl:w-[var(--tn)]";
+  const colStyle = (p: (typeof pageColumns)[number]) =>
+    ({ "--w": `${p.w}px`, "--wn": `${narrowW[p.key] ?? p.w}px`, flexGrow: wide ? 0 : p.w }) as CSSProperties;
+  const colCls = "w-[var(--w)] min-w-0 shrink max-xl:w-[var(--wn)] max-xl:shrink-0 max-xl:!grow-0";
+  const stick = (k: string, bg: string) => (k === "ilr" ? `sticky left-0 z-10 ${bg}` : k === "url" ? `sticky left-[71px] max-xl:left-[66px] z-10 ${bg}` : "");
+  const headRow = (
+    <div className={`flex h-[42px] border-y border-rk-border bg-[#f7f7f8] text-[13px] text-rk-text-2 max-xl:h-[40px] max-xl:border-t-0 ${rowCls}`} style={rowStyle}>
       {cols.map((p) => (
         <div
           key={p.key}
-          style={{ width: p.w, flexGrow: wide ? 0 : p.w }}
-          className={`flex shrink-0 items-center gap-1 px-3 whitespace-nowrap ${p.key === "ilr" ? "justify-center bg-[#e9eaee] pl-5" : rightAligned.has(p.key) ? "justify-end" : centered.has(p.key) ? "justify-center" : ""}`}
+          style={colStyle(p)}
+          className={`${colCls} flex items-center gap-1 px-3 whitespace-nowrap ${stick(p.key, p.key === "ilr" ? "" : "bg-[#f7f7f8]")} ${
+            p.key === "ilr" ? "justify-center bg-[#e9eaee] pl-5" : rightAligned.has(p.key) ? "justify-end" : centered.has(p.key) ? "justify-center" : ""
+          }`}
         >
           {p.label}
           {p.key === "ilr" && <SortIcon />}
@@ -329,38 +372,41 @@ function PagesTable() {
       ))}
     </div>
   );
-  const body = crawledRows.map((r) => (
-    <div key={r.url} className="flex border-b border-rk-border text-[14px] leading-5 last:border-b-0" style={wide ? { width: total } : undefined}>
-      {cols.map((p) => (
-        <div
-          key={p.key}
-          style={{ width: p.w, flexGrow: wide ? 0 : p.w }}
-          className={`shrink-0 px-3 ${r.title ? "min-h-[83.4px] pt-[12px] pb-[11px]" : "pt-[12px] pb-[12px]"} ${
-            p.key === "ilr" ? "pl-5 text-right" : rightAligned.has(p.key) ? "text-right" : centered.has(p.key) ? "text-center" : ""
-          } ${p.key === "status" ? "!pt-[10px]" : ""} ${p.key === "blocked" || p.key === "pageviews" ? "!pt-[9px]" : ""}`}
-        >
-          {cell(p.key, r)}
-        </div>
-      ))}
-    </div>
-  ));
   return (
     <div className="rounded-lg bg-white shadow-card">
-      <div className={`${wide ? "" : "sticky top-[61px]"} z-20 rounded-t-lg bg-white`}>
+      <div className="sticky top-[61px] z-20 rounded-t-lg bg-white">
         <div className="flex h-[44px] items-center justify-between pr-5 pl-5">
           <h2 className="text-[16px] leading-6 font-semibold">Crawled Pages</h2>
           <ManageColumns on={on} setOn={setOn} />
         </div>
-        {!wide && head}
-      </div>
-      {wide ? (
-        <div className="overflow-x-auto">
-          {head}
-          {body}
+        <div className="relative">
+          <div ref={head} className="overflow-hidden">
+            {headRow}
+          </div>
+          {bar && (
+            <div className="pointer-events-none absolute bottom-[3px] left-[325px] h-[5px] rounded-full bg-[#c4c7cf]" style={{ width: bar.w, transform: `translateX(${bar.x}px)` }} />
+          )}
         </div>
-      ) : (
-        body
-      )}
+      </div>
+      <div ref={body} onScroll={measure} className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className={rowCls} style={rowStyle}>
+          {crawledRows.map((r) => (
+            <div key={r.url} className="flex border-b border-rk-border text-[14px] leading-5 last:border-b-0">
+              {cols.map((p) => (
+                <div
+                  key={p.key}
+                  style={colStyle(p)}
+                  className={`${colCls} px-3 ${stick(p.key, "bg-white")} ${r.title ? "min-h-[83.4px] pt-[12px] pb-[11px] max-xl:min-h-[83.5px]" : "pt-[12px] pb-[12px]"} ${
+                    p.key === "ilr" ? "pl-5 text-right" : rightAligned.has(p.key) ? "text-right" : centered.has(p.key) ? "text-center" : ""
+                  } ${p.key === "status" ? "!pt-[10px]" : ""} ${p.key === "blocked" || p.key === "pageviews" ? "!pt-[9px]" : ""}`}
+                >
+                  {cell(p.key, r)}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
       <div className="flex h-[63px] items-center gap-2 border-t border-rk-border px-5 pb-[3px] text-[14px]">
         <span>Page:</span>
         <input placeholder="1" className="h-7 w-[70px] rounded-md border border-rk-border px-2 outline-none placeholder:text-[#a9abb6]" />
@@ -398,7 +444,7 @@ const Chev = ({ open }: { open: boolean }) => (
 function TreeRow({ d, depth, open, onToggle }: { d: Dir; depth: number; open: boolean; onToggle?: () => void }) {
   const has = !!d.children;
   return (
-    <div className="flex h-[45px] items-center border-b border-rk-border pr-5 text-[14px]" style={{ paddingLeft: 20 + depth * 24 }} data-dir={d.name}>
+    <div className="flex h-[45px] items-center border-b border-rk-border pr-5 text-[14px] hover:bg-[#f9f9f9]" style={{ paddingLeft: 20 + depth * 24 }} data-dir={d.name}>
       <button type="button" onClick={onToggle} disabled={!has} className="flex items-center gap-2">
         <span className="flex w-4 justify-center">{has && <Chev open={open} />}</span>
         {has ? open ? <FolderOpen /> : <FolderClosed /> : <FolderEmpty />}
@@ -412,8 +458,8 @@ function TreeRow({ d, depth, open, onToggle }: { d: Dir; depth: number; open: bo
   );
 }
 
-function SiteStructure() {
-  const [open, setOpen] = useState<Set<string>>(new Set([structure.name]));
+function SiteStructure({ roots }: { roots: Dir[] }) {
+  const [open, setOpen] = useState<Set<string>>(new Set([roots[0].name]));
   const toggle = (k: string) => {
     const n = new Set(open);
     if (n.has(k)) n.delete(k);
@@ -438,19 +484,19 @@ function SiteStructure() {
         <span className="ml-auto">URLs</span>
         <span className="w-[120px] text-right">Issues</span>
       </div>
-      <div className="[&>div:last-child]:border-b-0">{render(structure, 0, "")}</div>
+      <div className="[&>div:last-child]:border-b-0">{roots.flatMap((r) => render(r, 0, ""))}</div>
     </div>
   );
 }
 
-export function CrawledPages({ view }: { view: "pages" | "structure" }) {
+export function CrawledPages({ view, filtered = false }: { view: "pages" | "structure"; filtered?: boolean }) {
   return (
-    <div className={`px-8 pt-[14px] ${view === "pages" ? "pb-[148px]" : "pb-[140px]"}`}>
+    <div className={`px-8 pt-[14px] max-xl:pt-[15px] ${view === "pages" ? "pb-[148px]" : "pb-[140px]"}`}>
       <ViewSwitch view={view} />
       <div className="sticky top-0 z-30 -mx-8 bg-rk-bg px-8 pt-4 pb-[16px]">
-        <FilterRow structureView={view === "structure"} />
+        <FilterRow filtered={view === "structure" && filtered} />
       </div>
-      {view === "pages" ? <PagesTable /> : <SiteStructure />}
+      {view === "pages" ? <PagesTable /> : <SiteStructure key={filtered ? "f" : "a"} roots={filtered ? [structure] : structureAll} />}
     </div>
   );
 }

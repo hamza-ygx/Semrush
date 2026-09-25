@@ -3,7 +3,8 @@ import { Fragment, type ReactNode } from "react";
 import { routes } from "@/config/routes";
 import { AppShell } from "@/components/shell/AppShell";
 import { SiteAuditHeader } from "../SiteAuditHeader";
-import { BarChart, Dot, InfoI, Ring, Venn } from "./ui";
+import { Dot, InfoI, Ring, Venn } from "./ui";
+import { FluidBarChart } from "./FluidBarChart";
 import {
   C,
   canonicalization,
@@ -69,7 +70,7 @@ function StatsPage({
   return (
     <AppShell section="seo">
       <SiteAuditHeader tab="statistics" looker={false} />
-      <div className="px-8 pt-[14px] pb-[147px]">
+      <div className="px-8 pt-[14px] pb-[147px] max-xl:pb-[163px]">
         <ViewToggle view={view} />
         {children}
       </div>
@@ -245,9 +246,8 @@ export function StatisticsGraph() {
           </GraphCard>
           <GraphCard title="Incoming Internal Links">
             <div className="h-[221px] px-5 pt-[18px]">
-              <BarChart
+              <FluidBarChart
                 data={incomingLinks}
-                width={536}
                 height={188}
                 max={50}
                 ticks={[0, 25, 50]}
