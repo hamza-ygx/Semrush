@@ -1,4 +1,4 @@
-export function monotonePath(pts: [number, number][]) {
+function monotonePath(pts: [number, number][]) {
   const n = pts.length;
   if (n < 2) return "";
   const dx: number[] = [];
@@ -59,8 +59,9 @@ export function TrendChart({
   const max = ticks[ticks.length - 1];
   const min = ticks[0];
   const y = (v: number) => plot.bottom - ((v - min) / (max - min)) * (plot.bottom - plot.top);
-  const n = Math.max(...series.map((s) => s.data.length));
-  const x = (i: number) => x0 + (i * (x1 - x0)) / (n - 1);
+  const lens = series.map((s) => s.data.length).filter(Boolean);
+  const n = lens.length ? Math.max(...lens) : labels.length;
+  const x = (i: number) => x0 + (i * (x1 - x0)) / Math.max(n - 1, 1);
   return (
     <svg viewBox={`0 0 ${width} ${height}`} width="100%" className="block overflow-visible">
       {ticks.map((t) => (

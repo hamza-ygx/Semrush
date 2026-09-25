@@ -153,7 +153,7 @@ function Row({ p }: { p: TopPage }) {
       <td className={num}>{p.prompts}</td>
       <td className={num}>
         {p.refDomains ? (
-          <Link href={routes.backlinks} className="text-rk-link">
+          <Link href={routes.referringDomains} className="text-rk-link">
             {p.refDomains}
           </Link>
         ) : (
@@ -194,7 +194,7 @@ function AllPages() {
     kind === "All URLs"
       ? topPages.filter(
           (p) =>
-            p.url.includes(filter.trim()) &&
+            p.url.toLowerCase().includes(filter.trim().toLowerCase()) &&
             (!src.length || src.includes("Google Search")) &&
             adv.every((c) => {
               const hay = ((c.field === "URL" ? p.url : p.keyword) ?? "").toLowerCase();

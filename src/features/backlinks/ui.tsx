@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode, type SVGProps } from "react";
-import { ChevronDown, ChevronsLeft, ExportIcon, SearchIcon } from "@/components/ui/icons";
+import { useState, type CSSProperties, type ReactNode, type SVGProps } from "react";
+import { useOutsideClose } from "@/components/ui/Popover";
+import { ChevronsLeft, ExportIcon, SearchIcon } from "@/components/ui/icons";
 import { Info } from "@/components/ui/primitives";
 
 type P = SVGProps<SVGSVGElement>;
@@ -84,13 +85,7 @@ export function CardHead({ title, info, count, right, className = "" }: { title:
 
 export function ExportBtn({ label = "Export", className = "", menu = true }: { label?: string; className?: string; menu?: boolean }) {
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (!open) return;
-    const h = (e: MouseEvent) => ref.current && !ref.current.contains(e.target as Node) && setOpen(false);
-    document.addEventListener("mousedown", h);
-    return () => document.removeEventListener("mousedown", h);
-  }, [open]);
+  const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
   return (
     <div ref={ref} className="relative">
       <button
@@ -203,8 +198,9 @@ export function Seg<T extends string>({ options, initial }: { options: readonly 
 export function SelectBtn({ label, options, width = 200 }: { label: string; options: string[]; width?: number }) {
   const [open, setOpen] = useState(false);
   const [val, setVal] = useState<string | null>(null);
+  const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
   return (
-    <div className="relative">
+    <div ref={ref} className="relative">
       <button
         type="button"
         onClick={() => setOpen(!open)}
@@ -234,17 +230,11 @@ export function SelectBtn({ label, options, width = 200 }: { label: string; opti
   );
 }
 
-export const filterOptions = ["Links per ref. domain", "Lost issues", "Link placement", "Ref. page platform", "Ref. page language", "Mobile optimization", "Referring domain", "Authority Score", "Country", "Anchor", "Link type", "Target URL", "Zone"];
+const filterOptions = ["Links per ref. domain", "Lost issues", "Link placement", "Ref. page platform", "Ref. page language", "Mobile optimization", "Referring domain", "Authority Score", "Country", "Anchor", "Link type", "Target URL", "Zone"];
 
 export function AddFilter({ onPick, options = filterOptions, width = 168 }: { onPick?: (o: string) => void; options?: string[]; width?: number }) {
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (!open) return;
-    const h = (e: MouseEvent) => ref.current && !ref.current.contains(e.target as Node) && setOpen(false);
-    document.addEventListener("mousedown", h);
-    return () => document.removeEventListener("mousedown", h);
-  }, [open]);
+  const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
   return (
     <div ref={ref} className="relative">
       <button
@@ -283,13 +273,7 @@ export function AddFilter({ onPick, options = filterOptions, width = 168 }: { on
 export function FilterSelect({ label, options, defaultOpen = false }: { label: string; options: string[]; defaultOpen?: boolean }) {
   const [open, setOpen] = useState(defaultOpen);
   const [val, setVal] = useState<string | null>(null);
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (!open) return;
-    const h = (e: MouseEvent) => ref.current && !ref.current.contains(e.target as Node) && setOpen(false);
-    document.addEventListener("mousedown", h);
-    return () => document.removeEventListener("mousedown", h);
-  }, [open]);
+  const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
   return (
     <div ref={ref} className="relative -ml-[3px]">
       <button
@@ -383,8 +367,9 @@ export function Th({ children, align = "left", sorted, className = "", style }: 
 
 export function AsSelect({ value }: { value: number }) {
   const [open, setOpen] = useState(false);
+  const ref = useOutsideClose<HTMLSpanElement>(open, () => setOpen(false));
   return (
-    <span className="relative inline-flex">
+    <span ref={ref} className="relative inline-flex">
       <button type="button" onClick={() => setOpen(!open)} className="inline-flex items-center gap-[4px] text-rk-link hover:text-rk-link-hover">
         {value}
         <Chevron />
@@ -533,14 +518,5 @@ export function Flag({ code, className = "" }: { code?: string; className?: stri
     <svg viewBox="0 0 16 12" width={16} height={11} preserveAspectRatio="none" className={`inline-block shrink-0 ${className}`}>
       {flagPaths[code]}
     </svg>
-  );
-}
-
-export function Dropdown({ label, className = "" }: { label: string; className?: string }) {
-  return (
-    <button type="button" className={`flex items-center gap-1 text-[14px] leading-5 text-rk-text ${className}`}>
-      {label}
-      <ChevronDown width={14} height={14} />
-    </button>
   );
 }

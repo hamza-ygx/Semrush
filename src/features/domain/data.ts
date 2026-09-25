@@ -3,7 +3,6 @@ import { routes } from "@/config/routes";
 export const domain = "rkjh.se";
 
 export const databases = ["Worldwide", "US", "UK", "SE"] as const;
-export type Db = (typeof databases)[number];
 
 export const moreDatabases = [
   "Afghanistan",
@@ -25,9 +24,7 @@ export const moreDatabases = [
   "United Arab Emirates",
 ];
 
-export const devices = ["Desktop", "Mobile"] as const;
 export const dates = ["Sep 23, 2026", "Sep 15, 2026", "Aug 15, 2026", "Jul 15, 2026", "Jun 15, 2026", "May 15, 2026", "Apr 15, 2026"] as const;
-export const currencies = ["USD", "EUR", "GBP", "SEK", "NOK", "DKK"] as const;
 
 export const aiSummary = {
   visibility: 0,
@@ -239,12 +236,6 @@ export const growthCharts = [
     b: [704, 723, 585, 612, 373, 365],
     right: [0, 180.8, 361.5, 542.3, 723],
   },
-];
-
-export const paidGrowthCharts = [
-  { title: "Paid Traffic", value: "0", delta: "0%" },
-  { title: "Paid Keywords", value: "0", delta: "0%" },
-  { title: "Paid Traffic Cost", value: "0", delta: "0%" },
 ];
 
 export const topPositionChanges = [

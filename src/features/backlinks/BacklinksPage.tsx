@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { AppShell } from "@/components/shell/AppShell";
 import { HeaderLink, PageHeader, SendFeedback } from "@/components/shell/PageHeader";
+import { useOutsideClose } from "@/components/ui/Popover";
 import { Info } from "@/components/ui/primitives";
 import { brand } from "@/config/brand";
 import { routes } from "@/config/routes";
@@ -14,7 +15,7 @@ import { MegaphoneIcon } from "./ui";
 
 const bt = routes.backlinksToolkit;
 
-export type BacklinksTab = "overview" | "backlinks" | "networkGraph" | "anchors" | "pages" | "outboundDomains" | "bulkAnalysis" | "competitors" | "refIps";
+type BacklinksTab = "overview" | "backlinks" | "networkGraph" | "anchors" | "pages" | "outboundDomains" | "bulkAnalysis" | "competitors" | "refIps";
 
 const fixed: { key: BacklinksTab; label: string }[] = [
   { key: "overview", label: "Overview" },
@@ -37,16 +38,10 @@ const liveHref = `${tabHref("backlinks")}&ba_mt=new&ba_date=${encodeURIComponent
 
 function MoreMenu({ items }: { items: { key: BacklinksTab; label: string }[] }) {
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (!open) return;
-    const h = (e: MouseEvent) => ref.current && !ref.current.contains(e.target as Node) && setOpen(false);
-    document.addEventListener("mousedown", h);
-    return () => document.removeEventListener("mousedown", h);
-  }, [open]);
+  const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
   return (
     <div ref={ref} className="relative mb-[12px] self-end">
-      <button type="button" aria-label="More reports" onClick={() => setOpen(!open)} className="flex h-5 w-6 items-center justify-center text-rk-text">
+      <button type="button" aria-label="More reports" aria-expanded={open} onClick={() => setOpen(!open)} className="flex h-5 w-6 items-center justify-center text-rk-text">
         <svg viewBox="0 0 18 18" width={18} height={18}>
           <circle cx="3.5" cy="9" r="1.7" fill="currentColor" />
           <circle cx="9" cy="9" r="1.7" fill="currentColor" />
@@ -87,7 +82,7 @@ function LiveInfo() {
   );
 }
 
-export function BacklinkTabs({ active }: { active: BacklinksTab }) {
+function BacklinkTabs({ active }: { active: BacklinksTab }) {
   const last = extra.find((t) => t.key === active) ?? extra[0];
   const tabs = [...fixed, last];
   return (

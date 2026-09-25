@@ -187,7 +187,7 @@ export const topPages = [
   { url: "http://rkjh.se/kost-2/", v: 1 },
 ];
 
-export type SrcRow = {
+type SrcRow = {
   as: number;
   title?: string;
   url: string;
@@ -320,7 +320,7 @@ export const anchorsRows = [
   { a: "tusentals människor fick sätta livet till i de ständiga striderna om herraväldet", bl: 1, d: 1, first: "Jul 5, 2025", last: "Apr 3, 2026" },
 ];
 
-export type PageRow = { title?: string; url: string; bl: number; d: number; ext: number; int: number; last: string; e404?: boolean };
+type PageRow = { title?: string; url: string; bl: number; d: number; ext: number; int: number; last: string; e404?: boolean };
 
 const pageHead: PageRow[] = [
   { title: "Redovisningsbyrå i Halmstad | Revisionskonsulterna J Hägglund AB", url: "https://rkjh.se/", bl: 240, d: 119, ext: 5, int: 57, last: "3d ago" },
@@ -365,7 +365,7 @@ export const pageRows: PageRow[] = (() => {
   return [...rows, ...pageTail];
 })();
 
-export type OutRow = { as: number; d: string; c: string; links: string; first: string; last: string; lost?: boolean };
+type OutRow = { as: number; d: string; c: string; links: string; first: string; last: string; lost?: boolean };
 
 const outHead: OutRow[] = [
   { as: 32, d: "loopia.com", c: "Online Services", links: "1,320", first: "Feb 23, 2026", last: "1h ago" },
@@ -414,7 +414,7 @@ export const outRows: OutRow[] = [
 
 export const bulk = { as: 8, bl: 375, d: 263, visits: "n/a", follow: 275, nofollow: 100, fPct: "73%", nPct: "27%", text: 353, tPct: "98%", image: 6, iPct: "2%", form: 0, frame: 0 };
 
-export type IpRow = { flag?: string; ip: string; d: number; bl: number; first: string; last: string };
+type IpRow = { flag?: string; ip: string; d: number; bl: number; first: string; last: string };
 
 const ipHead: IpRow[] = [
   { flag: "SG", ip: "118.139.181.85", d: 28, bl: 38, first: "Feb 7, 2026", last: "11h ago" },
@@ -549,8 +549,8 @@ export function asMetrics(d: string, as: number) {
   };
 }
 
-export type RdLink = { target: string; lost?: boolean; broken?: boolean; first: string; last: string; lastLost?: boolean; code?: string };
-export type RdPage = { as: number; url: string; ext: number; int: number; tag?: string; links: RdLink[] };
+type RdLink = { target: string; lost?: boolean; broken?: boolean; first: string; last: string; lastLost?: boolean; code?: string };
+type RdPage = { as: number; url: string; ext: number; int: number; tag?: string; links: RdLink[] };
 
 const egetPages: RdPage[] = [
   {

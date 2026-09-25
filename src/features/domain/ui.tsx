@@ -243,7 +243,7 @@ export function Flag({ code, className = "", width = 16, height = 12 }: { code: 
 const blob = "M35 0C44-1 50 4 52 8c12 0 24 6 25 22 4 8 4 20-1 30-6 12-20 17-34 17-16 0-30-5-36-15-6-4-7-14-4-22-1-10 4-22 14-26 8-4 12-12 19-14z";
 const front = "M9.5 18.6 62 10.2a3 3 0 0 1 3.4 2.5L73 51.4a2 2 0 0 1-1.6 2.3L21.3 66.3a2 2 0 0 1-2.4-1.6L7.2 22a3 3 0 0 1 2.3-3.4z";
 
-export function TiltedWindow({ children, extra }: { children?: ReactNode; extra?: ReactNode }) {
+function TiltedWindow({ children, extra }: { children?: ReactNode; extra?: ReactNode }) {
   return (
     <svg viewBox="-2 -2 84 82" width={84} height={82} className="block">
       <path d={blob} fill="#e5e6e6" />

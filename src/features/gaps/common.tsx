@@ -10,7 +10,7 @@ import { ChevronDown, CloseIcon } from "@/components/ui/icons";
 
 export const D1 = "#6167e6";
 export const D2 = "#2ed9ae";
-export const PAGE_BG = "#f3f5f5";
+const PAGE_BG = "#f3f5f5";
 
 export function CenteredFooter() {
   const link = "text-[16px] leading-6 text-[#6a6c6a] hover:text-rk-text";
@@ -101,7 +101,7 @@ export function Opt({
   );
 }
 
-export function Tip({ children, className = "" }: { children: ReactNode; className?: string }) {
+function Tip({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
     <span
       role="tooltip"

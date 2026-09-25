@@ -8,7 +8,7 @@ import { databases, domain, moreDatabases, worldwideDate } from "./data";
 import { CurrencySelect, DateSelect, DeviceSelect } from "./HeaderSelects";
 import { DatabaseSelector, ExtLink } from "./ui";
 
-export type DomainTab = "overview" | "growth" | "countries";
+type DomainTab = "overview" | "growth" | "countries";
 
 const tabs = [
   { key: "overview", label: "Overview", href: routes.domainOverview },
@@ -49,7 +49,7 @@ export function DomainHeader({ tab, crumbs, db, children }: { tab?: DomainTab; c
       tabs={tab ? <Tabs tabs={tabs} active={tab} className="-mb-px !gap-[17px]" /> : undefined}
     >
       <div className="mt-[7px] flex items-center">
-        <DatabaseSelector items={databases} initial={db ?? "SE"} more={moreDatabases} param={db ? "db" : undefined} />
+        <DatabaseSelector key={db ?? "SE"} items={databases} initial={db ?? "SE"} more={moreDatabases} param={db ? "db" : undefined} />
         <div className="ml-[25px] flex items-center gap-[23px]">
           <DeviceSelect />
           <DateSelect key={db === "Worldwide" ? "ww" : "db"} current={db === "Worldwide" ? worldwideDate : undefined} />

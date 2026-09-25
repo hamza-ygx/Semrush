@@ -84,9 +84,3 @@ export const allCountries = [
   { code: "ES", name: "Spain" },
   { code: "AE", name: "United Arab Emirates" },
 ];
-
-export const shortCode: Record<string, string> = {
-  "United States": "US",
-  "United Kingdom": "UK",
-  Sweden: "SE",
-};

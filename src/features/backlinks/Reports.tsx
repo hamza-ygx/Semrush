@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Fragment, useState } from "react";
+import { useOutsideClose } from "@/components/ui/Popover";
 import { CloseIcon } from "@/components/ui/icons";
 import { Info } from "@/components/ui/primitives";
 import { routes } from "@/config/routes";
@@ -319,6 +320,8 @@ export function BulkAnalysis() {
   const [scope, setScope] = useState("Auto");
   const [scopeOpen, setScopeOpen] = useState(false);
   const [more, setMore] = useState(false);
+  const scopeRef = useOutsideClose<HTMLDivElement>(scopeOpen, () => setScopeOpen(false));
+  const moreRef = useOutsideClose<HTMLTableCellElement>(more, () => setMore(false));
   const count = lines.split("\n").filter((l) => l.trim()).length;
   const pct = "block text-[12px] leading-4 text-rk-muted";
   return (
@@ -343,7 +346,7 @@ export function BulkAnalysis() {
       </div>
       <div className="mt-[12px] flex h-7 w-[600px] items-center">
         <span className="text-[14px] text-rk-text-2">Results scope</span>
-        <div className="relative ml-[12px]">
+        <div ref={scopeRef} className="relative ml-[12px]">
           <button type="button" onClick={() => setScopeOpen(!scopeOpen)} className="flex h-7 items-center gap-[6px] rounded-md border border-[#d6d8d7] bg-white pr-[7px] pl-[8px] text-[14px] text-rk-text">
             {scope}
             <Chevron />
@@ -444,7 +447,7 @@ export function BulkAnalysis() {
                 {bulk.frame}
                 <span className={pct}>0%</span>
               </td>
-              <td className="relative px-3 pt-[9px] align-top">
+              <td ref={moreRef} className="relative px-3 pt-[9px] align-top">
                 <button type="button" onClick={() => setMore(!more)} className="inline-flex items-center gap-[4px] text-rk-link hover:text-rk-link-hover">
                   more
                   <Chevron className={more ? "rotate-180" : ""} />

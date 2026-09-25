@@ -164,7 +164,7 @@ const WorldIcon = () => (
   </svg>
 );
 
-export function CountrySelect() {
+function CountrySelect() {
   const [v, setV] = useState(countries[0].name);
   const [q, setQ] = useState("");
   const list = countries.filter((c) => c.name.toLowerCase().includes(q.trim().toLowerCase()));

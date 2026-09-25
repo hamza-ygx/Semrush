@@ -72,7 +72,7 @@ export const backlinksTrend = {
   [rival]: [88, 89, 101, 110, 91, 98, 101, 102, 101, 106, 130, 216, 216],
 };
 
-export type Opp = { keyword: string; volume: number };
+type Opp = { keyword: string; volume: number };
 export const topOpportunities: Opp[] = [
   { keyword: "vad kostar bokföring", volume: 390 },
   { keyword: "jwk redovisning", volume: 140 },
@@ -291,7 +291,7 @@ export const countries: { name: string; code?: string }[] = [
   { name: "Sweden", code: "se" },
 ];
 
-export type BgBacklink = { pageAs: number; title: string; url: string; tags: string[]; ext: number; int: number; anchor: string; target: string; first: string; last: string };
+type BgBacklink = { pageAs: number; title: string; url: string; tags: string[]; ext: number; int: number; anchor: string; target: string; first: string; last: string };
 
 const bgBacklinks: Record<string, BgBacklink> = {
   "vainu.com": {

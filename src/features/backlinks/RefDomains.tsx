@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useState } from "react";
+import { useOutsideClose } from "@/components/ui/Popover";
 import { AppShell } from "@/components/shell/AppShell";
 import { HeaderLink, PageHeader, SendFeedback } from "@/components/shell/PageHeader";
 import { routes } from "@/config/routes";
@@ -35,13 +36,7 @@ function UrlText({ url, className = "" }: { url: string; className?: string }) {
 
 function AsCell({ d, as }: { d: string; as: number }) {
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLSpanElement>(null);
-  useEffect(() => {
-    if (!open) return;
-    const h = (e: MouseEvent) => ref.current && !ref.current.contains(e.target as Node) && setOpen(false);
-    document.addEventListener("mousedown", h);
-    return () => document.removeEventListener("mousedown", h);
-  }, [open]);
+  const ref = useOutsideClose<HTMLSpanElement>(open, () => setOpen(false));
   const m = asMetrics(d, as);
   const rows = [
     { l: "Backlinks", v: m.backlinks },
@@ -112,12 +107,12 @@ function RowBacklinks({ r, onHide }: { r: RdRow; onHide: () => void }) {
             </tr>
           </thead>
           <tbody>
-            {visible.map((p) =>
+            {visible.map((p, pi) =>
               p.links.map((l, k) => {
                 const last = k === p.links.length - 1;
                 const b = `border-b ${last ? "border-[#f0f0f2]" : "border-[#f5f5f5]"}`;
                 return (
-                  <tr key={`${p.url}-${k}`}>
+                  <tr key={`${pi}-${k}`}>
                     {k === 0 && (
                       <>
                         <td rowSpan={p.links.length} className={`${td} border-b border-[#f0f0f2] !pl-0 pr-[10px] text-right`}>

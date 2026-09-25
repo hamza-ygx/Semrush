@@ -58,6 +58,7 @@ function DbTabs() {
         trigger={({ toggle }) => (
           <button
             type="button"
+            aria-label="More databases"
             onClick={toggle}
             className="flex h-8 w-8 items-center justify-center rounded-r-md border border-[#dfe2e2] bg-white text-rk-text hover:bg-rk-bg"
           >
@@ -357,7 +358,7 @@ export function CompareDomainsReport({ competitors }: { competitors: string[] })
               type="button"
               onClick={() => {
                 const c = domains.slice(1).filter(Boolean);
-                router.push(`${routes.compareDomains}?compareWith=${encodeURIComponent((c.length ? c : [rival]).join(","))}`);
+                router.push(`${routes.compareDomains}?q=${encodeURIComponent(domains[0] || you)}&compareWith=${encodeURIComponent((c.length ? c : [rival]).join(","))}`);
               }}
               className="h-7 rounded-md bg-[#191b1c] px-[9px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]"
             >

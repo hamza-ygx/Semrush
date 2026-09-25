@@ -41,7 +41,7 @@ const ManualIcon = () => (
   </svg>
 );
 
-export function Meta({ label, children }: { label: string; children: ReactNode }) {
+function Meta({ label, children }: { label: string; children: ReactNode }) {
   return (
     <span className="flex items-center gap-[4px] text-[14px] text-rk-text-2">
       {label}

@@ -222,6 +222,12 @@ function GraphPane({ full, onToggleFull }: { full?: boolean; onToggleFull: () =>
   const [zoom, setZoom] = useState(1);
   const [hover, setHover] = useState<number | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(
+    () => () => {
+      if (timer.current) clearTimeout(timer.current);
+    },
+    [],
+  );
   const gx = full ? 110 : 78;
   const gy = full ? 143 : 49;
   const ox = full ? 352 : 320;

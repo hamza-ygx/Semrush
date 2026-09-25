@@ -19,7 +19,7 @@ function MiniPill({ children, className = "", style }: { children: ReactNode; cl
   );
 }
 
-export function FormMock({ big = false }: { big?: boolean }) {
+function FormMock({ big = false }: { big?: boolean }) {
   const g = big
     ? {
         card: 384,

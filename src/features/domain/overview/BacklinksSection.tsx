@@ -46,7 +46,7 @@ function BacklinksTable() {
         </tbody>
       </table>
       <div className="mt-[21px] px-5">
-        <DarkButton href={routes.backlinks}>View details</DarkButton>
+        <DarkButton href={routes.backlinksToolkit.backlinks}>View details</DarkButton>
       </div>
     </Widget>
   );
@@ -66,18 +66,18 @@ function FollowCard() {
         <div className="flex h-7 items-center text-[14px]">
           <Dot color="#a55ff2" />
           <span className="ml-[6px] flex-1">Follow links</span>
-          <Link href={routes.backlinks} className={link}>
+          <Link href={routes.backlinksToolkit.backlinks} className={link}>
             {followSplit.follow}
           </Link>
         </div>
         <div className="flex h-7 items-center text-[14px]">
           <Dot color="#e3d5fb" />
           <span className="ml-[6px] flex-1">Nofollow links</span>
-          <Link href={routes.backlinks} className={link}>
+          <Link href={routes.backlinksToolkit.backlinks} className={link}>
             {followSplit.nofollow}
           </Link>
         </div>
-        <DarkButton href={routes.backlinks} className="mt-[10px]">
+        <DarkButton href={routes.backlinksToolkit.backlinks} className="mt-[10px]">
           View details
         </DarkButton>
       </div>
@@ -95,12 +95,12 @@ function TypesCard() {
             <span className="block h-full bg-[#a55ff2]" style={{ width: `${t.pct}%` }} />
           </span>
           <span className="w-[57px] text-right text-rk-muted">{t.pct}%</span>
-          <Link href={routes.backlinks} className={`flex-1 text-right ${link}`}>
+          <Link href={routes.backlinksToolkit.backlinks} className={`flex-1 text-right ${link}`}>
             {t.count}
           </Link>
         </div>
       ))}
-      <DarkButton href={routes.backlinks} className="mt-[14px]">
+      <DarkButton href={routes.backlinksToolkit.backlinks} className="mt-[14px]">
         View full report
       </DarkButton>
     </Widget>
@@ -136,7 +136,7 @@ function AnchorsCard() {
         </tbody>
       </table>
       <div className="mt-[19px] px-5">
-        <DarkButton href={routes.backlinks}>View details</DarkButton>
+        <DarkButton href={routes.backlinksToolkit.anchors}>View details</DarkButton>
       </div>
     </Widget>
   );
@@ -213,7 +213,7 @@ function IndexedPagesCard() {
                 </Link>
               </td>
               <td className="pt-[8px] pr-5 text-right">
-                <Link href={routes.backlinks} className={link}>
+                <Link href={routes.backlinksToolkit.backlinks} className={link}>
                   {p.backlinks}
                 </Link>
               </td>
@@ -222,7 +222,7 @@ function IndexedPagesCard() {
         </tbody>
       </table>
       <div className="mt-[19px] px-5">
-        <DarkButton href={routes.backlinks}>View details</DarkButton>
+        <DarkButton href={routes.backlinksToolkit.pages}>View details</DarkButton>
       </div>
     </Widget>
   );
