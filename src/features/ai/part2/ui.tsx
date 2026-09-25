@@ -384,7 +384,7 @@ export function StrategyCard({ items }: { items: Opportunity[] }) {
               <h3 className="mt-[3px] text-[14px] leading-5 font-semibold text-rk-text">{o.title}</h3>
               <p className="mt-4 text-[14px] leading-5 text-rk-text">{o.body}</p>
             </div>
-            <div className="border-t border-[#e3e5e5] px-3 pt-[17px] pb-[27px]">
+            <div className="border-t border-[#e3e5e5] pt-[17px] pr-[10px] pb-[27px] pl-3">
               <div className="text-[12px] leading-4 font-semibold text-rk-text">Recommendations:</div>
               <ul className="mt-[7px] space-y-2">
                 {o.recs.map((r) => (

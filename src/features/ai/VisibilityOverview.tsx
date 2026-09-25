@@ -1,33 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode, type Ref } from "react";
 import { brand } from "@/config/brand";
 import { routes } from "@/config/routes";
 import { SendFeedback, HeaderLink } from "@/components/shell/PageHeader";
-import { LinkSelect, MenuItem, Popover } from "@/components/ui/Popover";
+import { MenuItem, Popover } from "@/components/ui/Popover";
 import { Breadcrumbs, Info } from "@/components/ui/primitives";
 import { ChatGptIcon, ChevronDown, CloseIcon, ExportIcon, FlagSE, FlagUK, FlagUS, GeminiIcon, GoogleIcon, SearchIcon } from "@/components/ui/icons";
 import { voChart, voLlms, voNext, voTabs } from "./data";
 import { TipBulb } from "./bits";
 import { aiButton } from "./landing";
-import { Gauge, PieGlyph, SparkUserGlyph } from "./UpsellModal";
+import { Gauge, PieGlyph, SparkUserGlyph, UpsellModal } from "./UpsellModal";
+import { DateSelect, FlagDE, HowItWorksDrawer, MoreCountries, PlatformSelect } from "./VisibilityControls";
 
 function BookIcon() {
   return (
     <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden>
       <path d="M1.5 3h4.2c1 0 2.3.7 2.3 2v8.5c0-1-1.2-1.5-2.3-1.5H1.5zM14.5 3h-4.2C9.3 3 8 3.7 8 5v8.5c0-1 1.2-1.5 2.3-1.5h4.2z" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinejoin="round" />
       <path d="M3.5 6h2.3M3.5 8.5h2.3M10.2 6h2.3M10.2 8.5h2.3" stroke="currentColor" strokeWidth={1.2} />
-    </svg>
-  );
-}
-
-function FlagDE() {
-  return (
-    <svg viewBox="0 0 16 12" width={16} height={12} aria-hidden>
-      <rect width="16" height="4" fill="#191b23" />
-      <rect y="4" width="16" height="4" fill="#dd0000" />
-      <rect y="8" width="16" height="4" fill="#ffce00" />
     </svg>
   );
 }
@@ -93,8 +84,11 @@ function HistoryTip({ onClose }: { onClose: () => void }) {
 function Header({ domain }: { domain: string }) {
   const [region, setRegion] = useState("world");
   const [tip, setTip] = useState(true);
+  const [how, setHow] = useState(false);
+  const [howSeen, setHowSeen] = useState(false);
   return (
     <div className="border-b border-rk-border px-8 pt-4 pb-[19px]">
+      {how && <HowItWorksDrawer onClose={() => setHow(false)} />}
       <div className="flex items-center justify-between">
         <Breadcrumbs items={[{ label: "Home", href: routes.home }, { label: "AI Visibility", href: routes.ai.overview }, { label: "Visibility Overview" }]} />
         <div className="flex items-center gap-5">
@@ -109,11 +103,18 @@ function Header({ domain }: { domain: string }) {
           Visibility Overview: <span className="text-rk-muted">{domain}</span>
         </h1>
         <div className="flex items-center gap-[9px]">
-          <a href="#how-it-works" className="relative flex items-center gap-[7px] text-[14px] text-rk-text-2 hover:text-rk-text">
+          <button
+            type="button"
+            onClick={() => {
+              setHow(true);
+              setHowSeen(true);
+            }}
+            className="relative flex items-center gap-[7px] text-[14px] text-rk-text-2 hover:text-rk-text"
+          >
             <HowIcon />
             How it works
-            <span className="absolute -top-[4px] -right-[5px] h-[10px] w-[10px] rounded-full bg-[#ff8c00]" />
-          </a>
+            {!howSeen && <span className="absolute -top-[4px] -right-[5px] h-[10px] w-[10px] rounded-full bg-[#ff8c00]" />}
+          </button>
           <button type="button" className="ml-[6px] flex h-7 items-center gap-[7px] rounded-md border border-[#c4c7cf] bg-[#f4f5f9] px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-hover">
             <ExportIcon width={16} height={16} />
             Export to PDF
@@ -121,6 +122,7 @@ function Header({ domain }: { domain: string }) {
         </div>
       </div>
       <div className="relative mt-2 flex items-center gap-[13px]">
+        <div className="flex">
         <Segmented
           value={region}
           onChange={setRegion}
@@ -161,34 +163,13 @@ function Header({ domain }: { domain: string }) {
                 </span>
               ),
             },
-            {
-              key: "more",
-              label: (
-                <svg viewBox="0 0 16 4" width={16} height={4} aria-hidden>
-                  <path d="M2 2h.01M8 2h.01M14 2h.01" stroke="currentColor" strokeWidth={3} strokeLinecap="round" />
-                </svg>
-              ),
-            },
           ]}
+          className="rounded-r-none"
         />
-        <Popover
-          panelClassName="min-w-[200px]"
-          trigger={({ toggle }) => (
-            <button type="button" onClick={toggle} className="flex h-7 items-center gap-[6px] rounded-md border border-[#c4c7cf] bg-white pr-[7px] pl-2 text-[14px] text-rk-text hover:bg-rk-bg">
-              All AI platforms
-              <ChevronDown width={16} height={16} />
-            </button>
-          )}
-        >
-          {(close) =>
-            ["All AI platforms", "ChatGPT", "AI Overview", "AI Mode", "Gemini"].map((p) => (
-              <MenuItem key={p} active={p === "All AI platforms"} onClick={close}>
-                {p}
-              </MenuItem>
-            ))
-          }
-        </Popover>
-        <LinkSelect value="Sep 23, 2026" options={["Sep 23, 2026", "Aug 31, 2026", "Jul 31, 2026", "Jun 30, 2026", "May 31, 2026", "Apr 30, 2026"]} />
+        <MoreCountries />
+        </div>
+        <PlatformSelect />
+        <DateSelect />
         {tip && (
           <>
             <span className="absolute top-[4px] left-[483px] h-[13px] w-[13px] rounded-full bg-[#d6c2fb]" />
@@ -200,8 +181,12 @@ function Header({ domain }: { domain: string }) {
   );
 }
 
-function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <section className={`rounded-lg bg-white shadow-card ${className}`}>{children}</section>;
+function Card({ children, className = "", innerRef }: { children: ReactNode; className?: string; innerRef?: Ref<HTMLElement> }) {
+  return (
+    <section ref={innerRef} className={`rounded-lg bg-white shadow-card ${className}`}>
+      {children}
+    </section>
+  );
 }
 
 function CardHead({ children, right }: { children: ReactNode; right?: ReactNode }) {
@@ -232,7 +217,17 @@ function VisibilityGauge() {
 function MainChart() {
   const [tab, setTab] = useState("main");
   const [range, setRange] = useState("6M");
-  const X = (x: number) => x - 354;
+  const [upsell, setUpsell] = useState(false);
+  const [w, setW] = useState(741);
+  const box = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = box.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => setW(el.clientWidth));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const X = (x: number) => 72 + ((x - 426) / 649) * (w - 92);
   const Y = (v: number) => 286 - v * 18.1;
   const line = (vals: number[]) => voChart.xs.map((x, i) => `${i ? "L" : "M"}${X(x)} ${Y(vals[i])}`).join("");
   const metrics = [
@@ -241,11 +236,12 @@ function MainChart() {
     { label: "Cited Pages", color: "#b58af2", value: 1 },
   ];
   return (
-    <Card className="relative h-[330px]">
+    <Card className="relative h-[330px]" innerRef={box}>
+      <UpsellModal open={upsell} onClose={() => setUpsell(false)} />
       <div className="flex h-11 items-center justify-between border-b border-rk-border pr-5 pl-5">
         <Segmented
           value={tab}
-          onChange={setTab}
+          onChange={(k) => (k === "main" ? setTab(k) : setUpsell(true))}
           items={[
             { key: "main", label: "Main Metrics" },
             { key: "aud", label: "Monthly Audience" },
@@ -273,7 +269,7 @@ function MainChart() {
           </div>
         ))}
       </div>
-      <svg width={741} height={330} className="pointer-events-none absolute top-0 left-0" aria-hidden>
+      <svg width={w} height={330} className="pointer-events-none absolute top-0 left-0" aria-hidden>
         {[0, 2, 4, 6, 8].map((v) => (
           <g key={v}>
             <line x1={X(426)} x2={X(1075)} y1={Y(v)} y2={Y(v)} stroke="#e0e1e9" />
@@ -326,7 +322,7 @@ function Distribution() {
                 <LlmIcon k={l.icon} />
                 {l.name}
               </span>
-              <span className="h-[18px] w-[267px] bg-[#eeeff1]" />
+              <span className="h-[18px] w-[267px] bg-[#eeeff1] xl:w-auto xl:flex-1" />
               <span className="w-[60px] text-right text-rk-text-2">{l.share}</span>
               <span className="w-[60px] text-right text-rk-text-2">{l.count}</span>
             </div>

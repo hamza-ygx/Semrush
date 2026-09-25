@@ -251,3 +251,70 @@ export const voTabs = [
   { label: "Source Opportunities" },
   { label: "Cited Pages", count: 1 },
 ];
+
+export const voPlatforms = ["All AI platforms", "ChatGPT", "AI Overview", "AI Mode", "Gemini"] as const;
+
+export const voCurrentDate = "Sep 23, 2026";
+
+export const voHistory = [
+  "August 2026",
+  "July 2026",
+  "June 2026",
+  "May 2026",
+  "April 2026",
+  "March 2026",
+  "February 2026",
+  "January 2026",
+  "December 2025",
+  "November 2025",
+  "October 2025",
+];
+
+export type FlagBands = { dir: "h" | "v"; colors: string[]; mark?: string };
+
+export const voTopCountries: { name: string; code: string }[] = [
+  { name: "United States", code: "us" },
+  { name: "United Kingdom", code: "uk" },
+  { name: "Germany", code: "de" },
+  { name: "France", code: "fr" },
+];
+
+export const voCountries: { name: string; flag: FlagBands }[] = [
+  { name: "Afghanistan", flag: { dir: "v", colors: ["#191b23", "#be0000", "#007a36"] } },
+  { name: "Albania", flag: { dir: "h", colors: ["#e41e20"], mark: "#191b23" } },
+  { name: "Algeria", flag: { dir: "v", colors: ["#006233", "#ffffff"], mark: "#d21034" } },
+  { name: "Andorra", flag: { dir: "v", colors: ["#10069f", "#fedd00", "#d50032"] } },
+  { name: "Angola", flag: { dir: "h", colors: ["#cc092f", "#191b23"], mark: "#ffcb00" } },
+  { name: "Argentina", flag: { dir: "h", colors: ["#74acdf", "#ffffff", "#74acdf"], mark: "#f6b40e" } },
+  { name: "Armenia", flag: { dir: "h", colors: ["#d90012", "#0033a0", "#f2a800"] } },
+  { name: "Australia", flag: { dir: "h", colors: ["#012169"], mark: "#ffffff" } },
+  { name: "Austria", flag: { dir: "h", colors: ["#ed2939", "#ffffff", "#ed2939"] } },
+  { name: "Azerbaijan", flag: { dir: "h", colors: ["#0092bc", "#e4002b", "#00af66"] } },
+  { name: "Belgium", flag: { dir: "v", colors: ["#191b23", "#fdda24", "#ef3340"] } },
+  { name: "Brazil", flag: { dir: "h", colors: ["#009c3b"], mark: "#ffdf00" } },
+  { name: "Bulgaria", flag: { dir: "h", colors: ["#ffffff", "#00966e", "#d62612"] } },
+  { name: "Canada", flag: { dir: "v", colors: ["#d52b1e", "#ffffff", "#d52b1e"], mark: "#d52b1e" } },
+];
+
+export const voHowItWorks = [
+  {
+    q: "What's AI Visibility?",
+    a: "A benchmark score (0–100) showing how often a brand appears in AI-generated answers. The score reflects both the number of topics where the brand is mentioned and how consistently it appears within those topics compared to other brands in the selected country.",
+  },
+  {
+    q: "How can I get more mentions?",
+    a: "Review the topics and prompts where competitors are mentioned but you are not, then create or improve content that answers those questions clearly and is easy for AI platforms to cite.",
+  },
+  {
+    q: "How can I track a specific prompt that's not on the list?",
+    a: "Add the prompt to a Prompt Tracking project. It will be checked across the selected AI platforms on a regular schedule so you can follow mentions and citations over time.",
+  },
+  {
+    q: "How is the data calculated?",
+    a: "We run a large set of prompts for each topic across AI platforms and record which brands are mentioned and which pages are cited. Metrics are aggregated per country and refreshed with every data update.",
+  },
+  {
+    q: "How should I work with the sources in the table?",
+    a: "Sources show the pages AI platforms cite when answering prompts in your topics. Check which domains appear most often and look for opportunities to be featured or cited on them.",
+  },
+];
