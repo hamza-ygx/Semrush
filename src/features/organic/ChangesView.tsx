@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { routes } from "@/config/routes";
 import { ArrowDown, ArrowUp, ChevronDown, ChevronRight, CloseIcon, GearIcon, PlusIcon } from "@/components/ui/icons";
-import { MenuItem, Popover } from "@/components/ui/Popover";
+import { MenuItem, Popover, useOutsideClose } from "@/components/ui/Popover";
+import { AdvancedFilters, CheckFilter, RangeFilter } from "./filters";
 import { useWidth } from "./charts";
 import { changeRows, changesTrend, pageChanges, type ChangeRow } from "./data";
 import { useStuck } from "./FilterBar";
@@ -17,6 +18,13 @@ function Dot({ color }: { color: string }) {
   return <span className="h-3 w-3 rounded-full" style={{ background: color }} />;
 }
 
+const TIP_TOP = 158;
+const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const changesDay = (i: number) => {
+  const d = new Date(Date.UTC(2026, 7, 28 + i));
+  return `${MONTH_NAMES[d.getUTCMonth()]} ${d.getUTCDate()}`;
+};
+
 function TrendChart() {
   const [ref, width] = useWidth<HTMLDivElement>(524);
   const [hover, setHover] = useState<number | null>(null);
@@ -28,7 +36,7 @@ function TrendChart() {
   const yb = (v: number) => 220 - (v / 3) * 82;
   const line = changesTrend.traffic.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${ya(v).toFixed(1)}`).join("");
   return (
-    <div ref={ref} className="relative" onMouseLeave={() => setHover(null)}>
+    <div ref={ref} data-testid="changes-bars" className="relative" onMouseLeave={() => setHover(null)}>
       <svg width={width} height={260} className="block">
         {[75, 50, 25, 0].map((t) => (
           <text key={t} x={56} y={ya(t) + 4} textAnchor="end" fontSize="12" fill="#6c6e79">
@@ -45,8 +53,9 @@ function TrendChart() {
             </text>
           </g>
         ))}
-        {changesTrend.declined.map((v, i) => (v ? <rect key={`d${i}`} x={x(i) - 2} y={yb(v)} width={4} height={yb(0) - yb(v)} rx={1.5} fill="#ff6b70" /> : null))}
-        {changesTrend.improved.map((v, i) => (v ? <rect key={`i${i}`} x={x(i) - 2} y={yb(v)} width={4} height={yb(0) - yb(v)} rx={1.5} fill="#1dc99b" /> : null))}
+        {hover != null && <rect x={x(hover) - 7.5} y={yb(3) - 6} width={15} height={yb(0) - yb(3) + 6} fill="#e0e1e9" opacity={0.45} />}
+        {changesTrend.declined.map((v, i) => (v ? <rect key={`d${i}`} x={x(i)} y={yb(v)} width={4} height={yb(0) - yb(v)} rx={1.5} fill="#ff6b70" /> : null))}
+        {changesTrend.improved.map((v, i) => (v ? <rect key={`i${i}`} x={x(i) - 5} y={yb(v)} width={4} height={yb(0) - yb(v)} rx={1.5} fill="#1dc99b" /> : null))}
         {changesTrend.labels.map((l, i) =>
           l ? (
             <text key={i} x={x(i)} y={yb(0) + 23} textAnchor="middle" fontSize="12" fill="#6c6e79">
@@ -54,16 +63,28 @@ function TrendChart() {
             </text>
           ) : null,
         )}
-        {hover != null && <line x1={x(hover)} x2={x(hover)} y1={30} y2={yb(0)} stroke="#a9abb6" />}
         {changesTrend.traffic.map((_, i) => (
-          <rect key={i} x={x(i) - 7} y={30} width={14} height={yb(0) - 30} fill="transparent" onMouseEnter={() => setHover(i)} />
+          <rect key={i} data-col={i} x={x(i) - 7} y={30} width={14} height={yb(0) - 30} fill="transparent" onMouseEnter={() => setHover(i)} />
         ))}
       </svg>
       {hover != null && (
-        <div className="pointer-events-none absolute top-10 z-10 rounded-md bg-white px-3 py-2 text-[12px] shadow-popover" style={{ left: Math.min(x(hover) + 10, width - 140) }}>
-          <div>Traffic: {changesTrend.traffic[hover]}</div>
-          <div>Improved: {changesTrend.improved[hover]}</div>
-          <div>Declined: {changesTrend.declined[hover]}</div>
+        <div className="pointer-events-none absolute z-10 w-[114px] rounded-md bg-white px-3 pt-[11px] pb-[12px] text-[12px] leading-4 shadow-popover" style={{ top: TIP_TOP, left: x(hover) + 124 > width ? x(hover) - 122 : x(hover) + 5 }}>
+          <div className="text-rk-muted">{changesDay(hover)}</div>
+          <div className="mt-[7px]">
+            {(
+              [
+                ["Traffic", "#6167e6", changesTrend.traffic[hover]],
+                ["Improved", "#1dc99b", changesTrend.improved[hover]],
+                ["Declined", "#ff6b70", changesTrend.declined[hover]],
+              ] as const
+            ).map(([l, c, v]) => (
+              <div key={l} className="flex items-center">
+                <span className="mr-[7px] h-2 w-2 rounded-full" style={{ background: c }} />
+                {l}
+                <b className="ml-auto font-semibold">{v}</b>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
@@ -73,17 +94,17 @@ function TrendChart() {
 function TrendCard() {
   const [mode, setMode] = useState("Daily");
   return (
-    <div className="h-[341px] rounded-lg bg-white shadow-card">
+    <div className="h-[339px] rounded-lg bg-white shadow-card">
       <CardTitle className="h-[38px] pb-[2px]">Position Changes Trend</CardTitle>
       <div className="flex items-center justify-between px-5 pt-[21px]">
         <div className="flex items-center gap-4 text-[14px] leading-5">
-          <span className="flex items-center gap-[6px]">
+          <span className="flex items-center gap-1">
             <Dot color="#6167e6" /> Traffic
           </span>
-          <span className="flex items-center gap-[6px]">
+          <span className="flex items-center gap-1">
             <Dot color="#1dc99b" /> Improved
           </span>
-          <span className="flex items-center gap-[6px]">
+          <span className="flex items-center gap-1">
             <Dot color="#ff6b70" /> Declined
           </span>
           <NotesMenu />
@@ -97,7 +118,7 @@ function TrendCard() {
           ))}
         </div>
       </div>
-      <div className="-mt-[7px]">
+      <div className="-mt-[9px]">
         <TrendChart />
       </div>
     </div>
@@ -106,11 +127,11 @@ function TrendCard() {
 
 function PageChangesCard() {
   return (
-    <div className="relative h-[341px] rounded-lg bg-white shadow-card">
+    <div className="relative h-[339px] rounded-lg bg-white shadow-card">
       <CardTitle className="h-[38px] pb-[2px]" right={<span className="text-[14px] text-rk-muted">Last 28 days</span>}>
         Top Page Changes
       </CardTitle>
-      <table className="mt-[14px] w-full table-fixed text-[14px]">
+      <table className="mt-[16px] w-full table-fixed text-[14px]">
         <colgroup>
           <col />
           <col className="w-[70px]" />
@@ -131,7 +152,7 @@ function PageChangesCard() {
         </thead>
         <tbody>
           {pageChanges.map((p) => (
-            <tr key={p.url} className="h-[37px] border-b border-rk-border">
+            <tr key={p.url} className="h-[36px] border-b border-rk-border">
               <td className="pl-5">
                 <span className="flex items-center gap-1">
                   <Link href={`${routes.organic.positions}${Q}&url=${encodeURIComponent(p.url)}`} className="truncate text-rk-link hover:text-rk-link-hover">
@@ -206,29 +227,58 @@ function PtBanner() {
   );
 }
 
+const rangeGroups = [
+  { items: ["Last 2 days", "Last 14 days", "Last 28 days", "Custom days"] },
+  { title: "Historical Data", sub: "Data will be shown over full months", items: ["Last 3 months", "Last 6 months", "Last 1 year", "Custom"] },
+];
+
 function DateRange() {
+  const [open, setOpen] = useState(false);
+  const [v, setV] = useState("Last 2 days");
+  const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
   return (
-    <Popover
-      align="right"
-      panelClassName="w-[220px]"
-      trigger={({ toggle, open }) => (
-        <button type="button" onClick={toggle} className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-white px-2 text-[14px] text-rk-text hover:bg-rk-bg">
-          <svg viewBox="0 0 16 16" width={16} height={16}>
-            <path d="M2.5 3.5h11v10h-11zM2.5 6.5h11M5.5 2v3M10.5 2v3" fill="none" stroke="currentColor" strokeWidth={1.6} />
-          </svg>
-          Sep 22 – 23, 2026
-          <ChevronDown className={open ? "rotate-180" : ""} />
-        </button>
+    <div ref={ref} className="relative inline-flex">
+      <button
+        type="button"
+        data-testid="changes-range"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+        className={`flex h-7 w-[182px] items-center gap-2 rounded-md border px-[8px] text-[14px] whitespace-nowrap text-rk-text ${open ? "border-[#9aa2ea] bg-white" : "border-rk-border-strong bg-white hover:bg-rk-bg"}`}
+      >
+        <svg viewBox="0 0 16 16" width={16} height={16}>
+          <path d="M2.5 3.5h11v10h-11zM2.5 6.5h11M5.5 2v3M10.5 2v3" fill="none" stroke="currentColor" strokeWidth={1.6} />
+        </svg>
+        Sep 23 – 24, 2026
+        <ChevronDown className="ml-auto" />
+      </button>
+      {open && (
+        <div className="absolute top-[calc(100%+5px)] right-0 z-50 w-[252px] rounded-md bg-white shadow-popover">
+          {rangeGroups.map((g, gi) => (
+            <div key={gi} className={gi ? "border-t border-rk-border pt-[10px] pb-[2px]" : "pt-1 pb-[5px]"}>
+              {g.title && (
+                <div className="px-2 pb-[13px]">
+                  <div className="text-[14px] leading-5 font-semibold">{g.title}</div>
+                  <div className="mt-[5px] text-[14px] leading-5 text-rk-muted">{g.sub}</div>
+                </div>
+              )}
+              {g.items.map((o) => (
+                <button
+                  key={o}
+                  type="button"
+                  onClick={() => {
+                    setV(o);
+                    setOpen(false);
+                  }}
+                  className={`flex h-8 w-full items-center px-2 text-left text-[14px] leading-5 text-rk-text hover:bg-rk-bg ${o === v && gi ? "bg-[#e9f7ff]" : ""}`}
+                >
+                  {o}
+                </button>
+              ))}
+            </div>
+          ))}
+        </div>
       )}
-    >
-      {(close) =>
-        ["Last day", "Last 7 days", "Last 28 days", "Last 3 months", "Custom range"].map((o) => (
-          <MenuItem key={o} onClick={close}>
-            {o}
-          </MenuItem>
-        ))
-      }
-    </Popover>
+    </div>
   );
 }
 
@@ -241,7 +291,7 @@ const segs = [
 
 function ChangeTabs({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   return (
-    <div className="mt-4 flex h-[71px]">
+    <div className="mt-4 flex h-[72px]">
       {segs.map((s, i) => {
         const on = s.key === value;
         return (
@@ -258,7 +308,7 @@ function ChangeTabs({ value, onChange }: { value: string; onChange: (v: string) 
               </span>
               <span className="text-rk-muted">{s.count}</span>
             </span>
-            <span className="mt-[2px] block text-[14px] leading-5 text-rk-muted">{s.sub}</span>
+            <span className="mt-[4px] block text-[14px] leading-5 text-rk-muted">{s.sub}</span>
           </button>
         );
       })}
@@ -266,30 +316,71 @@ function ChangeTabs({ value, onChange }: { value: string; onChange: (v: string) 
   );
 }
 
+const addable = ["Positions", "Position changes", "Volume", "KD", "Intent", "Advanced filters"] as const;
+type Addable = (typeof addable)[number];
+
+function AddedFilter({ kind }: { kind: Addable }) {
+  const [range, setRange] = useState<string | null>(null);
+  const [checks, setChecks] = useState<string[]>([]);
+  if (kind === "Position changes") return <CheckFilter label="Position changes" options={["New", "Improved", "Declined", "Lost"]} value={checks} onChange={setChecks} width={198} compact defaultOpen applyPad="pt-[9px] pb-[9px]" />;
+  if (kind === "Intent") return <CheckFilter label="Intent" options={["Informational", "Navigational", "Commercial", "Transactional"]} value={checks} onChange={setChecks} compact defaultOpen info />;
+  if (kind === "Advanced filters") return <AdvancedFilters fields={["Keyword", "URL"]} compact defaultOpen />;
+  const groups =
+    kind === "Positions"
+      ? [["Top 50", "Top 20", "Top 10", "Top 3"], ["#1", "#4-10", "#11-20", "#21-50", "#51-100"]]
+      : kind === "Volume"
+        ? [["100,001+", "10,001–100,000", "1,001–10,000", "101–1,000", "11–100", "1–10"]]
+        : [["Very hard", "Hard", "Difficult", "Possible", "Easy", "Very easy"]];
+  return <RangeFilter label={kind} groups={groups} value={range} onChange={setRange} compact defaultOpen />;
+}
+
 function ChangesFilterBar({ tab, onTab }: { tab: "All Positions" | "Organic" | "SERP Features"; onTab: (v: "All Positions" | "Organic" | "SERP Features") => void }) {
   const { ref, stuck } = useStuck(0);
+  const [added, setAdded] = useState<Addable[]>([]);
+  const [menu, setMenu] = useState(false);
+  const menuRef = useOutsideClose<HTMLDivElement>(menu, () => setMenu(false));
+  const left = addable.filter((a) => !added.includes(a));
   return (
-    <div ref={ref} className={`sticky top-0 z-30 flex h-[62px] items-center gap-[9px] bg-[#f9f9fa] px-8 ${stuck ? "border-b border-rk-border" : ""}`}>
+    <div ref={ref} className={`sticky top-0 z-30 flex h-[62px] items-center gap-[9px] bg-[#f9f9fa] px-8 pb-[4px] ${stuck ? "border-b border-rk-border" : ""}`}>
       <Segmented options={["All Positions", "Organic", "SERP Features"] as const} value={tab} onChange={onTab} size="s" className="[&>button]:h-[27px] [&>button]:px-[8px]" />
       <SearchInput placeholder="Filter by keyword" width="w-[154px]" />
       <SearchInput placeholder="Filter by URL" width="w-[154px]" />
-      <Popover
-        panelClassName="w-[200px]"
-        trigger={({ toggle }) => (
-          <button type="button" onClick={toggle} className="ml-2 flex items-center gap-2 text-[14px] text-rk-link hover:text-rk-link-hover">
+      {added.map((k) => (
+        <span key={k} data-added-filter={k}>
+          <AddedFilter kind={k} />
+        </span>
+      ))}
+      {left.length > 0 && (
+        <div ref={menuRef} className={`relative inline-flex ${added.length ? "ml-[9px]" : "-ml-[1px]"}`}>
+          <button
+            type="button"
+            aria-expanded={menu}
+            onClick={() => setMenu((o) => !o)}
+            className={`flex h-7 items-center gap-2 rounded-md px-[9px] text-[14px] text-rk-link hover:bg-[#e6edfd] hover:text-rk-link-hover ${menu ? "bg-[#e6edfd]" : ""}`}
+          >
             <PlusIcon />
             Add filter
           </button>
-        )}
-      >
-        {(close) =>
-          ["Intent", "Position", "Traffic", "Volume", "KD %", "CPC", "SERP Features"].map((o) => (
-            <MenuItem key={o} onClick={close}>
-              {o}
-            </MenuItem>
-          ))
-        }
-      </Popover>
+          {menu && (
+            <div className="absolute top-[calc(100%+5px)] left-[2px] z-50 min-w-[129px] rounded-md bg-white pt-[3px] pb-1 shadow-popover">
+              {left.map((o) => (
+                <button
+                  key={o}
+                  type="button"
+                  data-add-filter={o}
+                  onClick={() => {
+                    setAdded((a) => [...a, o]);
+                    setMenu(false);
+                  }}
+                  className="flex h-8 w-full items-center px-2 text-left text-[14px] leading-5 whitespace-nowrap text-rk-text hover:bg-rk-bg"
+                >
+                  {o}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

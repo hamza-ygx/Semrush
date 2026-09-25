@@ -2,8 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { ExportIcon, PlusIcon } from "@/components/ui/icons";
-import { MenuItem, Popover } from "@/components/ui/Popover";
-import { positionRows, topicKeywords } from "./data";
+import { MenuItem, Popover, useOutsideClose } from "@/components/ui/Popover";
+import { brand } from "@/config/brand";
+import { forvarvKeywords, positionRows, topicKeywords } from "./data";
 import { topicGroups, treemapHeight, treemapWidth, type Tile } from "./topicsData";
 import { Checkbox, ExtLink, IntentBadge, Kd, KeywordLink, ext } from "./ui";
 
@@ -105,10 +106,45 @@ function Treemap({ selected, onSelect }: { selected: string; onSelect: (n: strin
   );
 }
 
+function HowItWorks() {
+  const [open, setOpen] = useState(false);
+  const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
+  return (
+    <div ref={ref} className="relative inline-flex">
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+        className={`flex h-7 items-center gap-[6px] rounded-md px-[9px] text-[14px] text-rk-link hover:bg-[#e6edfd] hover:text-rk-link-hover ${open ? "bg-[#e6edfd]" : ""}`}
+      >
+        <svg viewBox="0 0 16 16" width={16} height={16}>
+          <circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" strokeWidth={1.5} />
+          <path d="M6.3 6.3a1.8 1.8 0 1 1 2.4 1.7c-.5.2-.7.6-.7 1.1v.3" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
+          <circle cx="8" cy="11.4" r=".8" fill="currentColor" />
+        </svg>
+        How it works
+      </button>
+      {open && (
+        <div className="absolute top-[calc(100%+5px)] right-0 z-50 w-[342px] rounded-md bg-white pt-[16px] pr-4 pb-[16px] pl-4 text-[14px] leading-5 text-rk-text shadow-popover">
+          <ul className="flex list-disc flex-col gap-2 pl-[16px] marker:text-[#6c6e79]">
+            <li>{brand.name} is looking for domain&apos;s well-performing and non-branded content.</li>
+            <li>AI evaluates this data and categorizes keywords into topics.</li>
+            <li>As a result, you get a list of key topics and related pages.</li>
+          </ul>
+          <button type="button" onClick={() => setOpen(false)} className="mt-[16px] text-rk-link hover:text-rk-link-hover">
+            Learn more
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function KeywordsTable({ subtopic }: { subtopic: string }) {
   const [sel, setSel] = useState<Set<number>>(new Set());
   const rows = useMemo(() => {
     if (subtopic === "redovisningsbyrå halmstad") return topicKeywords;
+    if (subtopic === "fastställd förvärvsinkomst") return forvarvKeywords;
     const words = subtopic.split(" ").filter((w) => w.length > 3);
     const list = positionRows.filter((r) => r.keyword === subtopic || words.some((w) => r.keyword.includes(w)));
     return (list.length ? list : positionRows.slice(10, 14)).slice(0, 10).map((r) => ({ keyword: r.keyword, intent: r.intent, position: r.position, traffic: r.traffic, volume: r.volume, kd: r.kd, url: r.url }));
@@ -242,23 +278,8 @@ export function TopicsView({ initial = "redovisningsbyrå halmstad" }: { initial
               )}
             </div>
           </div>
-          <div className="flex items-center gap-[9px] pt-[2px]">
-            <Popover
-              align="right"
-              panelClassName="w-[320px] p-4 text-[14px] leading-5"
-              trigger={({ toggle }) => (
-                <button type="button" onClick={toggle} className="mr-2 flex items-center gap-[6px] text-[14px] text-rk-link hover:text-rk-link-hover">
-                  <svg viewBox="0 0 16 16" width={16} height={16}>
-                    <circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" strokeWidth={1.5} />
-                    <path d="M6.3 6.3a1.8 1.8 0 1 1 2.4 1.7c-.5.2-.7.6-.7 1.1v.3" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
-                    <circle cx="8" cy="11.4" r=".8" fill="currentColor" />
-                  </svg>
-                  How it works
-                </button>
-              )}
-            >
-              We group the pages that bring rkjh.se organic traffic into topics and subtopics. Tile size reflects the traffic and volume of each topic. Click a subtopic to see its top keywords.
-            </Popover>
+          <div className="flex items-center gap-[9px] -mt-[2px]">
+            <HowItWorks />
             <button type="button" className="flex h-7 items-center gap-[6px] rounded-md border border-rk-border-strong bg-[#f4f5f9] px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-hover">
               <svg viewBox="0 0 16 16" width={14} height={14}>
                 <path d="M9.4 7 14 1.8h-1.1l-4 4.5-3.2-4.5H2l4.8 6.9L2 14.2h1.1l4.2-4.8 3.4 4.8h3.7zm-1.5 1.7-.5-.7L3.5 2.6h1.7l3.1 4.4.5.7 4.1 5.8h-1.7z" fill="currentColor" />

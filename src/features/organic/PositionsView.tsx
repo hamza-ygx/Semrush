@@ -5,18 +5,19 @@ import { useMemo, useState, type ReactNode } from "react";
 import { routes } from "@/config/routes";
 import { ChevronDown, ChevronRight, CloseIcon, ExportIcon, GearIcon, PlusIcon } from "@/components/ui/icons";
 import { MenuItem, Popover } from "@/components/ui/Popover";
-import { monthLabels, positionRows, positionsTrend, summary, type PositionRow } from "./data";
+import { dayLabels, latest, positionRows, positionsTraffic, positionsTrend, type PositionRow } from "./data";
+import { useWidth } from "./charts";
 import { Delta, KwSpark, TrafficSpark, useTrendChart } from "./OverviewView";
 import { Checkbox, ExtLink, HoverTip, IntentBadge, Kd, KeywordLink, NotesMenu, Pagination, PinIcon, Segmented, SerpCell, SortIcon, TimeRange, ext } from "./ui";
 import { FilterBar, useStuck } from "./FilterBar";
 import { AdvancedFilters, CheckFilter, ExportPopover, RangeFilter, SerpFeaturesFilter } from "./filters";
 import { RankedUrls } from "./RankedUrls";
 
-function Metric({ label, value, delta, children, className = "" }: { label: string; value: string; delta: string; children?: ReactNode; className?: string }) {
+function Metric({ label, value, delta, children }: { label: string; value: string; delta: string; children?: ReactNode }) {
   return (
-    <div className={`shrink-0 whitespace-nowrap ${className}`}>
+    <div className="shrink-0 whitespace-nowrap">
       <div className="text-[14px] leading-5">{label}</div>
-      <div className="mt-[1px] flex items-end">
+      <div className="mt-[2px] flex items-end">
         <span className="text-[24px] leading-8 font-bold">{value}</span>
         <span className="mb-[3px]">
           <Delta v={delta} />
@@ -27,53 +28,153 @@ function Metric({ label, value, delta, children, className = "" }: { label: stri
   );
 }
 
+const DAY_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const dayTitle = (i: number) => {
+  const d = new Date(Date.UTC(2026, 7, 25 + i));
+  return `${DAY_MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, 2026`;
+};
+
+type TrendView = "keywords" | "traffic";
+
+function SparkButton({ tip, active, onClick, testId, children }: { tip: string; active: boolean; onClick: () => void; testId: string; children: ReactNode }) {
+  return (
+    <span className="group/spark relative mb-[5px] ml-[5px] flex">
+      <button type="button" data-testid={testId} aria-label={tip} onClick={onClick} className="flex cursor-pointer">
+        {children}
+      </button>
+      <span
+        role="tooltip"
+        className="pointer-events-none invisible absolute bottom-[calc(100%+13px)] left-1/2 z-50 w-[226px] -translate-x-1/2 rounded-md bg-white px-3 py-[10px] text-[14px] leading-5 whitespace-normal text-rk-text opacity-0 shadow-popover transition-opacity delay-150 group-hover/spark:visible group-hover/spark:opacity-100"
+      >
+        {tip}
+      </span>
+      {active && <span className="absolute top-[calc(100%+22px)] left-1/2 h-[11px] w-[11px] -translate-x-1/2 rotate-45 border-t border-l border-rk-border bg-white" />}
+    </span>
+  );
+}
+
+function TrafficArea() {
+  const [ref, width] = useWidth<HTMLDivElement>();
+  const [hover, setHover] = useState<number | null>(null);
+  const pad = { top: 12, right: 36, bottom: 36, left: 70 };
+  const height = 206;
+  const n = positionsTraffic.length;
+  const W = width - pad.left - pad.right;
+  const H = height - pad.top - pad.bottom;
+  const x = (i: number) => pad.left + (W * i) / (n - 1);
+  const y = (v: number) => pad.top + H - (v / 129.5) * H;
+  const line = positionsTraffic.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join("");
+  return (
+    <div ref={ref} data-testid="traffic-trend" className="relative w-full" onMouseLeave={() => setHover(null)}>
+      <svg width={width} height={height} className="block">
+        {[0, 50, 100].map((t) => (
+          <g key={t}>
+            <line x1={pad.left - 8} x2={width - 20} y1={y(t)} y2={y(t)} stroke={t === 0 ? "#c4c7cf" : "#e8e9ee"} />
+            <text x={pad.left - 16} y={y(t) + 4} textAnchor="end" fontSize="12" fill="#6c6e79">
+              {t}
+            </text>
+          </g>
+        ))}
+        <rect x={x(n - 1) - 6} y={pad.top} width={10} height={H} fill="#e0e1e9" opacity={0.8} />
+        <path d={`${line}L${x(n - 1)} ${y(0)}L${x(0)} ${y(0)}Z`} fill="#e0e0f8" />
+        <path d={line} fill="none" stroke="#6167e6" strokeWidth={2.5} strokeLinejoin="round" />
+        {dayLabels.map((l, i) =>
+          l ? (
+            <text key={i} x={x(i)} y={height - pad.bottom + 22} textAnchor="middle" fontSize="12" fill="#6c6e79">
+              {l}
+            </text>
+          ) : null,
+        )}
+        {hover != null && (
+          <>
+            <line x1={x(hover)} x2={x(hover)} y1={pad.top} y2={y(0)} stroke="#a9abb6" />
+            <circle cx={x(hover)} cy={y(positionsTraffic[hover])} r={4} fill="#6167e6" stroke="#fff" strokeWidth={2} />
+          </>
+        )}
+        {positionsTraffic.map((_, i) => (
+          <rect key={i} x={x(i) - W / (n - 1) / 2} y={pad.top} width={W / (n - 1)} height={H} fill="transparent" onMouseEnter={() => setHover(i)} />
+        ))}
+      </svg>
+      {hover != null && (
+        <div className="pointer-events-none absolute top-3 z-30 w-[180px] rounded-md bg-white px-3 py-3 text-[12px] leading-[18px] shadow-popover" style={{ left: x(hover) + 186 > width ? x(hover) - 186 : x(hover) + 6 }}>
+          <div className="leading-4 text-rk-muted">{dayTitle(hover)}</div>
+          <div className="mt-2 flex items-center">
+            <span className="mr-[9px] h-2 w-2 rounded-full bg-[#6167e6]" />
+            Traffic
+            <b className="ml-auto font-semibold">{positionsTraffic[hover]}</b>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function SummaryCard() {
   const t = useTrendChart({
     data: positionsTrend,
-    labels: monthLabels,
+    labels: dayLabels,
     ticks: [0, 100, 200],
-    max: 250,
-    height: 207,
+    max: 245,
+    height: 206,
+    palette: { "21-50": "#95a4f5", "51-100": "#afc0ff" },
     pad: { top: 12, right: 21, bottom: 36, left: 72 },
-    barRatio: 0.6,
+    barRatio: 0.62,
     inset: 10,
+    tipTitle: dayTitle,
+    tipTop: 21,
+    marker: false,
+    testId: "positions-trend",
   });
   const [open, setOpen] = useState(true);
+  const [view, setView] = useState<TrendView>("keywords");
+  const show = (v: TrendView) => {
+    setView(v);
+    setOpen(true);
+  };
   return (
     <div className="rounded-lg bg-white shadow-card">
-      <div className="relative flex h-[92px] border-b border-rk-border px-5 pt-[18px]">
-        <Metric label="Keywords" {...summary.keywords} className="w-[259px]">
-          <KwSpark className="mb-[5px] ml-[5px] h-[20px]" />
+      <div className="relative flex h-[93px] border-b border-rk-border px-5 pt-[19px]">
+        <Metric label="Keywords" {...latest.keywords}>
+          <SparkButton testId="keywords-spark" active={open && view === "keywords"} onClick={() => show("keywords")} tip="This trend displays changes in the number of keywords over the last 12 months. Click it to view all changes.">
+            <KwSpark className="h-[20px]" />
+          </SparkButton>
         </Metric>
         <div className="mx-6 mt-[2px] h-[51px] w-px shrink-0 bg-rk-border" />
-        <Metric label="Traffic" {...summary.traffic} className="w-[241px]">
-          <TrafficSpark className="mb-[5px] ml-[5px]" />
+        <Metric label="Traffic" {...latest.traffic}>
+          <SparkButton testId="traffic-spark" active={open && view === "traffic"} onClick={() => show("traffic")} tip="This trend displays changes in the amount of estimated traffic over the last 12 months. Click it to view all changes.">
+            <TrafficSpark className="" />
+          </SparkButton>
         </Metric>
         <div className="mx-6 mt-[2px] h-[51px] w-px shrink-0 bg-rk-border" />
-        <Metric label="Traffic Cost" {...summary.cost} />
-        <span className="absolute -bottom-[6px] left-[192px] h-[11px] w-[11px] rotate-45 border-t border-l border-rk-border bg-white" />
+        <Metric label="Traffic Cost" {...latest.cost} />
       </div>
       {open ? (
-        <div className="px-5 pt-[20px] pb-[13px]">
+        <div className="px-5 pt-[20px] pb-[11px]">
           <div className="flex items-center justify-between">
-            <h2 className="text-[16px] leading-6 font-semibold">Organic Keywords Trend</h2>
+            <h2 className="text-[16px] leading-6 font-semibold">{view === "keywords" ? "Organic Keywords Trend" : "Estimated Traffic Trend"}</h2>
             <button type="button" aria-label="Close" onClick={() => setOpen(false)} className="-mr-[2px] text-rk-muted hover:text-rk-text">
               <CloseIcon width={14} height={14} />
             </button>
           </div>
           <div className="mt-[22px] flex items-center justify-between">
             <div className="flex items-center">
-              {t.legend}
-              <span className="mx-4 -my-1 h-7 w-px bg-rk-border" />
-              <NotesMenu />
+              {view === "keywords" && (
+                <>
+                  {t.legend}
+                  <span className="mx-4 -my-1 h-7 w-px bg-rk-border" />
+                </>
+              )}
+              <span className={view === "traffic" ? "-mt-[6px]" : ""}>
+                <NotesMenu />
+              </span>
             </div>
             <TimeRange value="1M" />
           </div>
-          <div className="-mx-5 mt-[19px]">{t.chart}</div>
+          <div className="-mx-5 mt-[19px]">{view === "keywords" ? t.chart : <TrafficArea />}</div>
         </div>
       ) : (
         <button type="button" onClick={() => setOpen(true)} className="flex h-12 w-full items-center justify-center gap-1 text-[14px] text-rk-link">
-          Show Organic Keywords Trend <ChevronDown />
+          Show {view === "keywords" ? "Organic Keywords Trend" : "Estimated Traffic Trend"} <ChevronDown />
         </button>
       )}
     </div>
@@ -282,6 +383,17 @@ const serpHref = (r: PositionRow) =>
 
 type Vis = (c: string) => boolean;
 
+const sfList = [
+  { icon: "paa", label: "People also ask" },
+  { icon: "pin", label: "Local pack" },
+  { icon: "related", label: "Related searches" },
+  { icon: "spark", label: "AI Overview" },
+  { icon: "star", label: "Reviews" },
+  { icon: "link", label: "Sitelinks" },
+  { icon: "imagePack", label: "Image pack" },
+  { icon: "play", label: "Video" },
+];
+
 function Row({ r, checked, toggle, vis }: { r: PositionRow; checked: boolean; toggle: () => void; vis: Vis }) {
   const [open, setOpen] = useState(false);
   const cell = "pt-[14px] pb-[13.5px] align-top";
@@ -316,7 +428,7 @@ function Row({ r, checked, toggle, vis }: { r: PositionRow; checked: boolean; to
         {vis("SERP Features") && (
           <td className={`${cell} pl-4`}>
             <span className={line}>
-              <SerpCell count={r.sf} href={serpHref(r)} />
+              <SerpCell count={r.sf} href={serpHref(r)} features={sfList.slice(0, r.sf)} />
             </span>
           </td>
         )}
@@ -453,7 +565,7 @@ function PositionsTable({ tab, filter, filters }: { tab: string; filter: string;
     return list;
   }, [tab, filter, filters, sort]);
   const filtered = filters !== noFilters || !!filter;
-  const total = tab === "SERP Features" ? 1 : filtered ? rows.length : 134;
+  const total = tab === "SERP Features" ? 1 : filtered ? rows.length : latest.se;
   const onSort = (k: SortKey) => setSort((s) => (s.key === k ? { key: k, dir: s.dir === 1 ? -1 : 1 } : { key: k, dir: -1 }));
   const all = rows.length > 0 && rows.every(({ i }) => sel.has(i));
   const { ref: stuckRef, stuck } = useStuck(60);
@@ -560,6 +672,8 @@ function PositionsTable({ tab, filter, filters }: { tab: string; filter: string;
   );
 }
 
+const advFields = ["Keyword", "Keyword type", "CPC", "URL", "Traffic", "Traffic %", "Costs", "Competition", "Results", "Volume", "KD %", "Position", "Previous position", "SERP Features", "Intent"];
+
 const intentOptions = ["Informational", "Navigational", "Commercial", "Transactional"];
 
 export function PositionsView() {
@@ -578,9 +692,9 @@ export function PositionsView() {
         <RangeFilter label="KD" value={filters.kd} onChange={(v) => set({ kd: v })} groups={[Object.keys(kdRanges)]} right={kdRanges} />
         <CheckFilter label="Intent" options={intentOptions} value={filters.intent} onChange={(v) => set({ intent: v })} info />
         <SerpFeaturesFilter value={filters.serp} onChange={(v) => set({ serp: v })} />
-        <AdvancedFilters fields={["Keyword", "URL"]} onApply={(adv) => set({ adv })} />
+        <AdvancedFilters fields={advFields} onApply={(adv) => set({ adv })} />
       </FilterBar>
-      <div className="flex flex-col gap-4 px-8">
+      <div className="flex flex-col gap-4 px-8 pt-px">
         <SummaryCard />
         <TrackingBanner />
         <PositionsTable tab={tab} filter={filter} filters={filters} />

@@ -16,6 +16,7 @@ export function FilterPopover({
   width,
   fit = false,
   compact = false,
+  defaultOpen = false,
   children,
 }: {
   label: string;
@@ -23,9 +24,10 @@ export function FilterPopover({
   width: number;
   fit?: boolean;
   compact?: boolean;
+  defaultOpen?: boolean;
   children: (close: () => void) => ReactNode;
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(defaultOpen);
   const [shift, setShift] = useState(0);
   const close = () => setOpen(false);
   const ref = useOutsideClose<HTMLDivElement>(open, close);
@@ -90,6 +92,7 @@ export function RangeFilter({
   right,
   compact = false,
   width = 240,
+  defaultOpen,
 }: {
   label: string;
   groups: string[][];
@@ -98,9 +101,10 @@ export function RangeFilter({
   right?: Record<string, string>;
   compact?: boolean;
   width?: number;
+  defaultOpen?: boolean;
 }) {
   return (
-    <FilterPopover label={label} value={value} width={width}>
+    <FilterPopover label={label} value={value} width={width} defaultOpen={defaultOpen}>
       {(close) => (
         <>
           <div className={`pt-1 ${compact ? "" : "pb-[9px]"}`}>
@@ -150,6 +154,8 @@ export function CheckFilter({
   icons,
   info = false,
   compact = false,
+  defaultOpen,
+  applyPad,
 }: {
   label: string;
   options: string[];
@@ -159,10 +165,12 @@ export function CheckFilter({
   icons?: Record<string, ReactNode>;
   info?: boolean;
   compact?: boolean;
+  defaultOpen?: boolean;
+  applyPad?: string;
 }) {
   const [picked, setPicked] = useState<string[]>(value);
   return (
-    <FilterPopover label={label} compact={compact} value={value.length ? (value.length > 1 ? `${value.length} selected` : value[0]) : null} width={width}>
+    <FilterPopover label={label} compact={compact} value={value.length ? (value.length > 1 ? `${value.length} selected` : value[0]) : null} width={width} defaultOpen={defaultOpen}>
       {(close) => (
         <>
           <div className="pt-1">
@@ -183,7 +191,7 @@ export function CheckFilter({
               );
             })}
           </div>
-          <div className={`px-2 pt-[13px] ${compact ? "pb-[13px]" : "pb-2"}`}>
+          <div className={`px-2 ${applyPad ?? `pt-[13px] ${compact ? "pb-[13px]" : "pb-2"}`}`}>
             <ApplyButton
               className="w-full"
               onClick={() => {
@@ -200,10 +208,10 @@ export function CheckFilter({
 
 const serpFeatureList: { name: string; icon: string; count: number }[] = [
   { name: "Featured snippet", icon: "crown", count: 0 },
-  { name: "Sitelinks", icon: "link", count: 32 },
-  { name: "AI Overview", icon: "spark", count: 113 },
+  { name: "Sitelinks", icon: "link", count: 33 },
+  { name: "AI Overview", icon: "spark", count: 115 },
   { name: "FAQ", icon: "question", count: 0 },
-  { name: "Reviews", icon: "star", count: 43 },
+  { name: "Reviews", icon: "star", count: 42 },
   { name: "Indented", icon: "indent", count: 0 },
   { name: "Image", icon: "image", count: 0 },
   { name: "Image pack", icon: "imagePack", count: 18 },
@@ -254,7 +262,7 @@ export function SerpFeaturesFilter({ value, onChange }: { value: string | null; 
                           onChange(f.name);
                           close();
                         }}
-                        className={`flex h-8 w-full items-center gap-2 pr-[9px] pl-[9px] text-left text-[14px] leading-5 ${f.count ? "text-rk-text hover:bg-rk-bg" : "text-[#c4c7cf]"}`}
+                        className={`flex h-8 w-full items-center gap-2 pr-[4px] pl-[9px] text-left text-[14px] leading-5 ${f.count ? "text-rk-text hover:bg-rk-bg" : "text-[#c4c7cf]"}`}
                       >
                         <span className={`-mx-[2px] ${f.count ? "text-[#a0a2aa]" : "text-[#d3d5db]"}`}>
                           <SerpIcon name={f.icon} size={20} />
@@ -274,21 +282,22 @@ export function SerpFeaturesFilter({ value, onChange }: { value: string | null; 
   );
 }
 
-function SelectBox({ value, options, onChange, width = "w-[160px]" }: { value: string; options: string[]; onChange: (v: string) => void; width?: string }) {
+function SelectBox({ value, options, onChange, width = "w-[160px]", testId }: { value: string; options: string[]; onChange: (v: string) => void; width?: string; testId?: string }) {
   const [open, setOpen] = useState(false);
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
   return (
     <div ref={ref} className={`relative shrink-0 ${width}`}>
       <button
         type="button"
+        data-testid={testId}
         onClick={() => setOpen((o) => !o)}
-        className="flex h-7 w-full items-center justify-between rounded-md border border-rk-border-strong bg-white pr-[6px] pl-[8px] text-[14px] text-rk-text hover:bg-rk-bg"
+        className={`flex h-7 w-full items-center justify-between rounded-md border bg-white pr-[6px] pl-[8px] text-[14px] text-rk-text ${open ? "border-[#9aa2ea]" : "border-rk-border-strong hover:bg-rk-bg"}`}
       >
         {value}
         <ChevronDown />
       </button>
       {open && (
-        <div className="absolute top-[calc(100%+4px)] left-0 z-10 w-full rounded-md bg-white py-1 shadow-popover">
+        <div className="absolute top-[calc(100%+4px)] left-0 z-10 max-h-[246px] w-full overflow-y-auto rounded-md bg-white py-1 shadow-popover [&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#c4c7cf]">
           {options.map((o) => (
             <button
               key={o}
@@ -297,7 +306,7 @@ function SelectBox({ value, options, onChange, width = "w-[160px]" }: { value: s
                 onChange(o);
                 setOpen(false);
               }}
-              className={`block w-full px-2 py-[6px] text-left text-[14px] leading-5 hover:bg-rk-bg ${o === value ? "bg-[#e9f7ff]" : ""}`}
+              className={`block h-8 w-full border-l-2 pr-2 pl-[6px] text-left text-[14px] leading-5 whitespace-nowrap ${o === value ? "border-rk-text bg-[#ebf1ff]" : "border-transparent hover:bg-rk-bg"}`}
             >
               {o}
             </button>
@@ -315,25 +324,27 @@ export function AdvancedFilters({
   onApply,
   clearAll = true,
   compact = false,
+  defaultOpen,
 }: {
   fields: string[];
   onApply?: (c: Cond[]) => void;
   clearAll?: boolean;
   compact?: boolean;
+  defaultOpen?: boolean;
 }) {
   const blank = (): Cond => ({ mode: "Include", field: fields[0], op: "Containing", text: "" });
   const [conds, setConds] = useState<Cond[]>([blank()]);
   const [applied, setApplied] = useState(0);
   const set = (i: number, c: Partial<Cond>) => setConds(conds.map((x, j) => (j === i ? { ...x, ...c } : x)));
   return (
-    <FilterPopover label="Advanced filters" value={applied ? `${applied}` : null} width={716} fit compact={compact}>
+    <FilterPopover label="Advanced filters" value={applied ? `${applied}` : null} width={716} fit compact={compact} defaultOpen={defaultOpen}>
       {(close) => (
         <>
           <div className={`px-4 ${compact ? "pt-[15px]" : "pt-5"} pb-[17px]`}>
             {conds.map((c, i) => (
               <div key={i} className="mb-3 flex gap-4">
                 <SelectBox value={c.mode} options={["Include", "Exclude"]} onChange={(v) => set(i, { mode: v })} />
-                <SelectBox value={c.field} options={fields} onChange={(v) => set(i, { field: v })} />
+                <SelectBox testId="adv-field" value={c.field} options={fields} onChange={(v) => set(i, { field: v })} />
                 <SelectBox value={c.op} options={["Containing", "Not containing", "Begins with", "Ends with", "Exact match"]} onChange={(v) => set(i, { op: v })} />
                 <input
                   value={c.text}

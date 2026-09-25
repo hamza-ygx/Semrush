@@ -69,8 +69,23 @@ export const googleUpdates = [63, 64, 65, 66, 67, 68, 69, 70, 72, 74, 76, 82, 83
 export const redFlags = [112, 126];
 
 export const positionsTrend: TrendBar[] = [
-  [2,5,17,94,38,3],[2,5,17,97,35,3],[2,4,20,97,36,3],[2,5,17,93,35,1],[2,4,19,90,36,1],[2,4,19,90,36,3],[2,4,19,89,35,3],[2,4,17,87,38,3],[2,4,19,86,38,3],[2,4,19,85,36,3],[2,4,16,87,36,3],[2,4,17,83,36,3],[2,4,17,85,38,3],[2,4,17,82,36,1],[2,4,16,83,35,3],[2,5,13,83,36,3],[2,5,13,83,34,3],[2,5,13,83,34,1],[2,5,13,82,35,3],[2,5,13,82,35,3],[2,5,13,79,32,3],[2,5,13,81,31,0],[2,4,16,79,30,0],[2,4,15,77,32,3],[2,4,16,78,35,1],[2,4,16,79,36,1],[2,4,16,81,35,1],[2,4,16,79,36,1],[2,4,16,81,32,3],[2,4,16,79,34,0],[2,4,16,79,33,0],
+  [2,5,17,98,35,3],[2,4,20,98,36,3],[2,5,17,96,35,1],[2,4,19,93,36,1],[2,4,19,92,36,3],[2,4,19,89,35,3],[2,4,17,88,38,3],[2,4,19,86,38,3],[2,4,19,86,36,3],[2,4,16,88,36,3],[2,4,17,85,36,3],[2,4,17,85,38,3],[2,4,17,87,36,1],[2,4,16,87,35,3],[2,5,13,84,36,3],[2,5,13,84,34,3],[2,5,13,86,34,1],[2,5,13,83,35,3],[2,5,13,83,35,3],[2,5,13,80,32,3],[2,5,13,87,31,0],[2,4,16,83,30,0],[2,4,15,79,32,3],[2,4,16,83,35,1],[2,6,16,81,34,2],[2,4,16,83,35,1],[2,4,16,82,36,1],[2,4,16,81,32,3],[2,4,16,79,34,0],[2,4,16,77,33,0],[2,4,16,81,33,0],
 ];
+
+export const positionsTraffic = [87, 83, 67, 65, 65, 65, 65, 62, 62, 62, 62, 62, 62, 62, 65, 65, 65, 65, 65, 65, 65, 62, 61, 61, 61, 61, 61, 61, 59, 59, 59];
+
+export const dayLabels = Array.from({ length: 31 }, (_, i) => {
+  const d = new Date(Date.UTC(2026, 7, 25 + i));
+  return i % 2 ? "" : `${["Aug", "Sep"][d.getUTCMonth() - 7]} ${d.getUTCDate()}`;
+});
+
+export const latest = {
+  date: "Sep 24, 2026",
+  se: 136,
+  keywords: { value: "136", delta: "-11.11%" },
+  traffic: { value: "59", delta: "-9.23%" },
+  cost: { value: "$365.0", delta: "-2.41%" },
+};
 
 export const monthLabels = ["Aug 24", "", "Aug 26", "", "Aug 28", "", "Aug 30", "", "Sep 1", "", "Sep 3", "", "Sep 5", "", "Sep 7", "", "Sep 9", "", "Sep 11", "", "Sep 13", "", "Sep 15", "", "Sep 17", "", "Sep 19", "", "Sep 21", "", "Sep 23"];
 
@@ -480,14 +495,14 @@ export const positionRows: PositionRow[] = [
 
 export const pageChanges = [
   { url: "https://rkjh.se/en/blog/2020/03/18/who-is-an-entrepreneur-defining-entrepreneurship/", short: "https://rkjh.se/en... trepreneurship/", traffic: 7, diff: -5 },
-  { url: "https://rkjh.se/blog/2018/03/12/skatt-pa-arbetsinkomster-forvarvsinkomstbeskattning/", short: "https://rkjh.se/bl... mstbeskattning/", traffic: 0, diff: -2 },
+  { url: "https://rkjh.se/blog/2018/03/12/skatt-pa-arbetsinkomster-forvarvsinkomstbeskattning/", short: "https://rkjh.se/bl... mstbeskattning/", traffic: 0, diff: -1 },
 ];
 
 export const changesTrend = {
-  labels: ["Aug 27", "", "", "Aug 30", "", "", "Sep 2", "", "", "Sep 5", "", "", "Sep 8", "", "", "Sep 11", "", "", "Sep 14", "", "", "Sep 17", "", "", "Sep 20", "", "", "Sep 23"],
-  traffic: [66, 65, 65, 65, 62, 62, 62, 62, 62, 62, 62, 65, 65, 65, 65, 65, 65, 65, 65, 62, 61, 61, 61, 61, 61, 61, 59, 59],
-  improved: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  declined: [2, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+  labels: ["Aug 28", "", "", "Aug 31", "", "", "Sep 3", "", "", "Sep 6", "", "", "Sep 9", "", "", "Sep 12", "", "", "Sep 15", "", "", "Sep 18", "", "", "Sep 21", "", "", "Sep 24"],
+  traffic: [65, 65, 65, 65, 62, 62, 62, 62, 62, 62, 62, 65, 65, 65, 65, 65, 65, 65, 62, 61, 61, 61, 61, 61, 61, 59, 59, 59],
+  improved: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  declined: [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
 };
 
 export type ChangeRow = {
@@ -512,6 +527,13 @@ export const changeRows: ChangeRow[] = [
   { keyword: "business audit", intent: "I", previous: 13, current: null, diff: "lost", traffic: 0, pct: L, volume: "30", kd: 19, cpc: "0", url: "rkjh.se/blog/tjanster/audit/" },
   { keyword: "business audit", intent: "I", previous: null, current: 19, diff: "new", traffic: 0, pct: L, volume: "30", kd: 18, cpc: "0", url: "rkjh.se/en/blog/tjanster/audit/" },
   { keyword: "vad är återvinning", intent: "I", previous: 75, current: null, diff: "lost", traffic: 0, pct: L, volume: "140", kd: 25, cpc: "0", url: "rkjh.se/blog/2018/03/12/atervinning-och-avfall/" },
+];
+
+export const forvarvKeywords: { keyword: string; intent: Intent; position: number; traffic: number; volume: string; kd: number; url: string }[] = [
+  { keyword: "fastställd förvärvsinkomst", intent: "I", position: 10, traffic: 1, volume: "260", kd: 17, url: "rkjh.se/blog/2018/03/12/skatt-på-arbetsinkomster-förvärvsinkomst/" },
+  { keyword: "vad är förvärvsinkomst", intent: "I", position: 41, traffic: 0, volume: "210", kd: 17, url: "rkjh.se/blog/2018/03/12/skatt-på-arbetsinkomster-förvärvsinkomst/" },
+  { keyword: "fastställd förvärvsinkomst betyder", intent: "I", position: 16, traffic: 0, volume: "30", kd: 14, url: "rkjh.se/blog/2018/03/12/skatt-på-arbetsinkomster-förvärvsinkomst/" },
+  { keyword: "beskattningsbar förvärvsinkomst", intent: "I", position: 37, traffic: 0, volume: "140", kd: 17, url: "rkjh.se/blog/2018/03/12/skatt-på-arbetsinkomster-förvärvsinkomst/" },
 ];
 
 export const topicKeywords: { keyword: string; intent: Intent; position: number; traffic: number; volume: string; kd: number; url: string }[] = [

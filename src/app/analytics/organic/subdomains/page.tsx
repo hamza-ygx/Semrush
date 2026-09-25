@@ -3,7 +3,7 @@ import { SubdomainsView } from "@/features/organic/SubdomainsView";
 
 export default function Page() {
   return (
-    <OrganicPage tab="subdomains" pdf={false}>
+    <OrganicPage tab="subdomains" pdf={false} prev>
       <SubdomainsView />
     </OrganicPage>
   );

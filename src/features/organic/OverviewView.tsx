@@ -119,14 +119,14 @@ export function TrafficSpark({ className = "mt-[3px]" }: { className?: string })
 
 const Sep = () => <div className="mx-6 mt-[19px] h-[76px] w-px shrink-0 bg-rk-border" />;
 
-function TrendTip({ title, values, keys }: { title: string; values: number[]; keys: TrendKey[] }) {
+function TrendTip({ title, values, keys, colors = trendColors }: { title: string; values: number[]; keys: TrendKey[]; colors?: Record<TrendKey, string> }) {
   return (
     <div className="px-3 pt-3 pb-3 text-[12px] leading-[18px] text-rk-text">
       <div className="leading-4 text-rk-muted">{title}</div>
       <div className="mt-2">
         {trendLegend.map((l) => (
           <div key={l.key} className="flex items-center">
-            <span className="mr-[9px] h-2 w-2 rounded-full" style={{ background: trendColors[l.key] }} />
+            <span className="mr-[9px] h-2 w-2 rounded-full" style={{ background: colors[l.key] }} />
             {l.label}
             <b className="ml-auto font-semibold">{values[keys.indexOf(l.key)]}</b>
           </div>
@@ -146,17 +146,17 @@ const monthOf = (i: number, n: number) => {
   return `${MONTH_NAMES[m % 12]} ${Math.floor(m / 12)}`;
 };
 
-function TrendLegend({ keys, on, toggle }: { keys: { key: TrendKey; label: string }[]; on: Record<string, boolean>; toggle: (k: TrendKey) => void }) {
+function TrendLegend({ keys, on, toggle, colors = trendColors }: { keys: { key: TrendKey; label: string }[]; on: Record<string, boolean>; toggle: (k: TrendKey) => void; colors?: Record<TrendKey, string> }) {
   return (
     <div className="flex items-center gap-4">
       {keys.map((k) => (
-        <LegendCheck key={k.key} color={trendColors[k.key]} label={k.label} checked={on[k.key]} onChange={() => toggle(k.key)} />
+        <LegendCheck key={k.key} color={colors[k.key]} label={k.label} checked={on[k.key]} onChange={() => toggle(k.key)} />
       ))}
     </div>
   );
 }
 
-export function useTrendChart({ data, labels, ticks, max, height, pad, notes, googles, flags, barRatio, highlightLast = true, inset = 0, tipTitle, testId }: {
+export function useTrendChart({ data, labels, ticks, max, height, pad, notes, googles, flags, barRatio, highlightLast = true, inset = 0, tipTitle, testId, tipTop = 73, marker = true, palette, labelY }: {
   data: number[][];
   labels: string[];
   ticks: number[];
@@ -171,16 +171,22 @@ export function useTrendChart({ data, labels, ticks, max, height, pad, notes, go
   inset?: number;
   tipTitle?: (i: number) => string;
   testId?: string;
+  tipTop?: number;
+  marker?: boolean;
+  palette?: Partial<Record<TrendKey, string>>;
+  labelY?: number;
 }) {
+  const colors: Record<TrendKey, string> = { ...trendColors, ...palette };
   const [on, setOn] = useState<Record<string, boolean>>(Object.fromEntries(trendLegend.map((l) => [l.key, true])));
   const keys: TrendKey[] = ["top3", "4-10", "11-20", "21-50", "51-100", "serp"];
   const filtered = data.map((d) => d.map((v, i) => (on[keys[i]] ? v : 0)));
   return {
-    legend: <TrendLegend keys={trendLegend} on={on} toggle={(k) => setOn((o) => ({ ...o, [k]: !o[k] }))} />,
+    legend: <TrendLegend colors={colors} keys={trendLegend} on={on} toggle={(k) => setOn((o) => ({ ...o, [k]: !o[k] }))} />,
     chart: (
       <StackedBars
         data={filtered}
-        colors={keys.map((k) => trendColors[k])}
+        colors={keys.map((k) => colors[k])}
+        labelY={labelY}
         height={height}
         max={max}
         ticks={ticks}
@@ -191,7 +197,7 @@ export function useTrendChart({ data, labels, ticks, max, height, pad, notes, go
         tickX={-19}
         inset={inset}
         testId={testId}
-        tip={tipTitle && { width: 180, top: 73, render: (i) => <TrendTip title={tipTitle(i)} values={filtered[i]} keys={keys} />, marker: (x, y) => <GoogleG x={x - 1} y={y} size={22} /> }}
+        tip={tipTitle && { width: 180, top: tipTop, render: (i) => <TrendTip title={tipTitle(i)} values={filtered[i]} keys={keys} colors={colors} />, marker: marker ? (x, y) => <GoogleG x={x - 1} y={y} size={22} /> : undefined }}
         overlay={({ x, y }) => (
           <>
             {notes?.map((n) => (

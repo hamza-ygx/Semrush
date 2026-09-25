@@ -13,7 +13,7 @@ export const topicGroups: TopicGroup[] = [
     volume: "3.75K",
     r: [0, 0, 485, 570],
     tiles: [
-      t("redovisningsbyrå halmstad", [13, 45, 459, 436], 50, 8),
+      t("redovisningsbyrå halmstad", [13, 45, 459, 436], 50, 8, "linear-gradient(75deg, #c5dafe 12%, #e6d2fe 100%)"),
       t("göra bokslut", [13, 484, 113, 73], 0, 11, "#c5d6f5"),
       t("revision halmstad", [129, 484, 111, 35], 1, 2, "#c5d6f5"),
       t("audit requirements", [243, 484, 111, 35], 0, 2, "#c5d6f5"),
@@ -41,7 +41,7 @@ export const topicGroups: TopicGroup[] = [
     volume: "2.9K",
     r: [746, 0, 162, 316],
     tiles: [
-      t("fastighetsskatt", [759, 46, 66, 91], 0, 3, "#d4d7fe"),
+      t("fastställd förvärvsinkomst", [759, 46, 66, 91], 1, 4, "#d4d7fe"),
       t("f tax", [828, 46, 31, 91], 0, 1, "#d4d7fe"),
       t("bolagsskatt", [862, 46, 33, 91], 0, 2, "#d4d7fe"),
       t("förvärvsinkomst", [759, 141, 42, 67], 0, 2, "#d4d7fe"),

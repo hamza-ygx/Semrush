@@ -3,7 +3,7 @@ import { OverviewView } from "@/features/organic/OverviewView";
 
 export default function Page() {
   return (
-    <OrganicPage tab="overview">
+    <OrganicPage tab="overview" prev>
       <OverviewView />
     </OrganicPage>
   );

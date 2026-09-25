@@ -6,7 +6,7 @@ import { HeaderLink, SendFeedback, PageHeader } from "@/components/shell/PageHea
 import { Tabs } from "@/components/ui/primitives";
 import { LinkSelect } from "@/components/ui/Popover";
 import { DesktopIcon, ExportIcon, MobileIcon, SearchIcon } from "@/components/ui/icons";
-import { databases, domain } from "./data";
+import { databases, domain, latest } from "./data";
 import { CountryFlag, organicCountries } from "./flags";
 import { ExtIcon } from "./ui";
 
@@ -50,7 +50,7 @@ function useOutside(open: boolean, close: () => void) {
 
 const scroll = "[&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#c4c7cf]";
 
-function DbSwitcher() {
+function DbSwitcher({ prev }: { prev?: boolean }) {
   const [db, setDb] = useState("SE");
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -76,7 +76,7 @@ function DbSwitcher() {
           >
             <CountryFlag code={d.code} w={16} h={12} />
             <span className="text-rk-text">{d.code}</span>
-            <span className="text-rk-muted">{d.count}</span>
+            <span className="text-rk-muted">{d.code === "SE" && !prev ? latest.se : d.count}</span>
           </button>
         );
       })}
@@ -105,7 +105,7 @@ function DbSwitcher() {
               className="h-[36px] w-full rounded-md border-2 border-[#8890c3] pr-2 pl-[32px] text-[14px] text-rk-text outline-none"
             />
           </div>
-          <div className={`mt-[2px] max-h-[284px] overflow-y-auto pb-1 ${scroll}`}>
+          <div className={`mt-[2px] max-h-[286px] overflow-y-auto ${scroll}`}>
             {shown.map((c, i) => (
               <div key={c.code}>
                 {i === 3 && !query && <div className="-mt-px border-t border-rk-border" />}
@@ -119,7 +119,7 @@ function DbSwitcher() {
                 >
                   <CountryFlag code={c.code} />
                   {c.name}
-                  {c.count != null && <span className="text-[#a9abb6]">{c.count}</span>}
+                  {c.count != null && <span className="text-[#a9abb6]">{c.code === "SE" && !prev ? latest.se : c.count}</span>}
                 </button>
               </div>
             ))}
@@ -132,13 +132,13 @@ function DbSwitcher() {
 }
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const currentDate = "Sep 23, 2026";
 const history = Array.from({ length: 36 }, (_, i) => {
   const m = 7 - i;
   return `${MONTHS[((m % 12) + 12) % 12]} ${2026 + Math.floor(m / 12)}`;
 });
 
-function DateSelect() {
+function DateSelect({ prev }: { prev?: boolean }) {
+  const currentDate = prev ? "Sep 23, 2026" : latest.date;
   const [v, setV] = useState(currentDate);
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), []);
@@ -163,12 +163,15 @@ function DateSelect() {
             <span className="text-[12px] leading-4 text-rk-muted">Actual state of Google Search engine</span>
           </button>
           <div className="h-[34px] border-b border-rk-border px-2 pt-[5px] text-[14px] leading-5 font-semibold text-rk-text">Historical Data:</div>
-          <div className={`max-h-[246px] overflow-y-auto pt-[2px] pb-1 ${scroll}`}>
-            {history.map((h) => (
-              <button key={h} type="button" onClick={() => pick(h)} className={`${row} h-8 items-center ${h === v ? "border-[#323143] bg-[#eef2ff]" : "border-transparent hover:bg-rk-bg"}`}>
-                {h}
-              </button>
-            ))}
+          <div className="relative">
+            <div className={`max-h-[246px] overflow-y-auto pt-[2px] pb-1 ${scroll}`}>
+              {history.map((h) => (
+                <button key={h} type="button" onClick={() => pick(h)} className={`${row} h-8 items-center ${h === v ? "border-[#323143] bg-[#eef2ff]" : "border-transparent hover:bg-rk-bg"}`}>
+                  {h}
+                </button>
+              ))}
+            </div>
+            <div className="pointer-events-none absolute right-2 bottom-0 left-0 h-7 rounded-b-md bg-gradient-to-t from-white to-white/0" />
           </div>
         </div>
       )}
@@ -178,7 +181,43 @@ function DateSelect() {
 
 const devices = ["Desktop", "Mobile"] as const;
 
-export function OrganicHeader({ tab, manual = true, pdf = true, date = true, currency = true }: { tab: OrganicTab; manual?: boolean; pdf?: boolean; date?: boolean; currency?: boolean }) {
+function DeviceSelect() {
+  const [v, setV] = useState<(typeof devices)[number]>("Desktop");
+  const [open, setOpen] = useState(false);
+  const close = useCallback(() => setOpen(false), []);
+  const ref = useOutside(open, close);
+  return (
+    <div ref={ref} data-select="device" className="relative inline-flex">
+      <button type="button" aria-expanded={open} onClick={() => setOpen((o) => !o)} className="group flex items-center gap-1 text-[14px] text-rk-link hover:text-rk-link-hover">
+        {v === "Desktop" ? <DesktopIcon /> : <MobileIcon />}
+        <span className="underline-offset-[3px] group-hover:underline">{v}</span>
+        <svg viewBox="0 0 16 16" width={16} height={16}>
+          <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+      {open && (
+        <div className="absolute top-[calc(100%+6px)] left-0 z-50 w-[94px] rounded-md bg-white py-[3px] shadow-popover">
+          {devices.map((d) => (
+            <button
+              key={d}
+              type="button"
+              onClick={() => {
+                setV(d);
+                close();
+              }}
+              className={`flex h-8 w-full items-center gap-1 border-l-2 pl-[6px] text-left text-[14px] leading-5 text-rk-text ${d === v ? "border-[#323143] bg-[#eef2ff]" : "border-transparent hover:bg-rk-bg"}`}
+            >
+              {d === "Desktop" ? <DesktopIcon /> : <MobileIcon />}
+              {d}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export function OrganicHeader({ tab, manual = true, pdf = true, date = true, currency = true, prev = false }: { tab: OrganicTab; manual?: boolean; pdf?: boolean; date?: boolean; currency?: boolean; prev?: boolean }) {
   return (
     <PageHeader
       crumbs={[
@@ -217,25 +256,16 @@ export function OrganicHeader({ tab, manual = true, pdf = true, date = true, cur
         ) : undefined
       }
       meta={
-        <div className="flex items-center gap-[25px]">
-          <DbSwitcher />
+        <div className="flex items-center gap-[24px]">
+          <DbSwitcher prev={prev} />
           <span className="flex items-center gap-1 text-rk-text-2">
             Device:
-            <LinkSelect
-              value="Desktop"
-              options={devices}
-              renderOption={(v) => (
-                <span className="flex items-center gap-1">
-                  {v === "Desktop" ? <DesktopIcon /> : <MobileIcon />}
-                  {v}
-                </span>
-              )}
-            />
+            <DeviceSelect />
           </span>
           {date && (
             <span className="flex items-center gap-1 text-rk-text-2">
               Date:
-              <DateSelect />
+              <DateSelect prev={prev} />
             </span>
           )}
           {currency && (

@@ -31,7 +31,7 @@ export const positionFilters = [
 export function FilterBar({ onFilter, filters = positionFilters, children }: { onFilter?: (v: string) => void; filters?: { label: string; options: string[] }[]; children?: ReactNode }) {
   const { ref, stuck } = useStuck(0);
   return (
-    <div ref={ref} className={`sticky top-0 z-30 flex h-[59px] items-center gap-[8px] bg-[#f9f9fa] px-8 ${stuck ? "h-[60px] border-b border-rk-border shadow-[0_1px_2px_rgba(25,27,35,0.06)]" : ""}`}>
+    <div ref={ref} className={`sticky top-0 z-30 flex h-[60px] items-center gap-[8px] bg-[#f9f9fa] px-8 pt-[2px] ${stuck ? "h-[60px] border-b border-rk-border shadow-[0_1px_2px_rgba(25,27,35,0.06)]" : ""}`}>
       <SearchInput placeholder="Filter by keyword" width="w-[196px]" onChange={onFilter} />
       {children ?? filters.map((f) => <FilterDropdown key={f.label} label={f.label} options={f.options} />)}
     </div>

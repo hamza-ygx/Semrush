@@ -34,6 +34,7 @@ export function StackedBars({
   inset = 0,
   tip,
   testId,
+  labelY = 22,
 }: {
   data: number[][];
   colors: string[];
@@ -50,6 +51,7 @@ export function StackedBars({
   inset?: number;
   tip?: { render: (i: number) => ReactNode; width: number; top: number; marker?: (x: number, y: number) => ReactNode };
   testId?: string;
+  labelY?: number;
 }) {
   const [ref, width] = useWidth<HTMLDivElement>();
   const n = data.length;
@@ -91,7 +93,7 @@ export function StackedBars({
         })}
         {labels.map((l, i) =>
           l ? (
-            <text key={i} x={x(i)} y={height - pad.bottom + 22} textAnchor="middle" fontSize="12" fill="#6c6e79">
+            <text key={i} x={x(i)} y={height - pad.bottom + labelY} textAnchor="middle" fontSize="12" fill="#6c6e79">
               {l}
             </text>
           ) : null,
@@ -178,17 +180,21 @@ export function BubbleMap({
           Organic Search Traffic (N)
         </text>
         {items.map((it) => (
-          <g key={it.domain} onMouseEnter={() => setHover(it.domain)} onMouseLeave={() => setHover(null)} className="cursor-pointer">
-            <circle cx={x(it.keywords)} cy={y(it.traffic)} r={it.r} fill={it.color} opacity={hover && hover !== it.domain ? 0.3 : 0.5} stroke="#fff" strokeWidth={1} />
+          <g key={it.domain} data-bubble={it.domain} onMouseEnter={() => setHover(it.domain)} onMouseLeave={() => setHover(null)} className="cursor-pointer">
+            <circle cx={x(it.keywords)} cy={y(it.traffic)} r={it.r} fill={it.color} opacity={0.5} stroke="#fff" strokeWidth={1} />
             <path d={`M${x(it.keywords) - 3} ${y(it.traffic)}h6M${x(it.keywords)} ${y(it.traffic) - 3}v6`} stroke={it.color} strokeWidth={1.4} />
           </g>
         ))}
       </svg>
       {h && (
-        <div className="pointer-events-none absolute z-20 rounded-md bg-white px-3 py-2 text-[12px] shadow-popover" style={{ left: Math.min(x(h.keywords) + 12, width - 180), top: Math.max(0, y(h.traffic) - 40) }}>
-          <div className="font-semibold">{h.domain}</div>
-          <div>Keywords: {h.keywords}</div>
-          <div>Traffic: {h.traffic}</div>
+        <div className="pointer-events-none absolute z-20 min-w-[110px] rounded-md bg-white px-3 pt-[12px] pb-[12px] text-[12px] leading-4 shadow-popover" style={{ left: Math.min(x(h.keywords) + 8, width - 180), top: Math.max(0, y(h.traffic) - 40) }}>
+          <div className="text-rk-muted">{h.domain}</div>
+          <div className="mt-2 flex justify-between gap-3">
+            Keywords<b className="font-semibold">{h.keywords}</b>
+          </div>
+          <div className="flex justify-between gap-3">
+            Traffic<b className="font-semibold">{h.traffic}</b>
+          </div>
         </div>
       )}
     </div>

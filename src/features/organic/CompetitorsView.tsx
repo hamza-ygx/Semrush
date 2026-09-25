@@ -5,7 +5,7 @@ import { useState } from "react";
 import { routes } from "@/config/routes";
 import { ExportIcon } from "@/components/ui/icons";
 import { BubbleMap } from "./charts";
-import { bubbles, competitors, summary } from "./data";
+import { bubbles, competitors, latest } from "./data";
 import { BubbleLegend, Delta } from "./OverviewView";
 import { CardTitle, ExtLink, Pagination, SortIcon, domainHref } from "./ui";
 
@@ -48,11 +48,11 @@ export function CompetitorsView() {
   return (
     <div className="flex flex-col gap-4 px-8 pt-4">
       <div className="flex h-[91px] rounded-lg bg-white px-5 pt-[19px] shadow-card">
-        <Metric label="Keywords" {...summary.keywords} className="w-[99px]" />
+        <Metric label="Keywords" {...latest.keywords} className="w-[89px]" />
         <Sep />
-        <Metric label="Traffic" {...summary.traffic} className="w-[82px]" />
+        <Metric label="Traffic" {...latest.traffic} className="w-[81px]" />
         <Sep />
-        <Metric label="Traffic Cost" {...summary.cost} />
+        <Metric label="Traffic Cost" {...latest.cost} />
       </div>
       <div className="h-[324px] rounded-lg bg-white shadow-card">
         <CardTitle>Competitive Positioning Map</CardTitle>

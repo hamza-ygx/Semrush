@@ -10,6 +10,7 @@ export function OrganicPage({
   pdf,
   date,
   currency,
+  prev,
 }: {
   tab: OrganicTab;
   children: ReactNode;
@@ -17,11 +18,12 @@ export function OrganicPage({
   pdf?: boolean;
   date?: boolean;
   currency?: boolean;
+  prev?: boolean;
 }) {
   return (
     <AppShell section="seo" search={{ kind: "analyze", value: "rkjh.se", scope: true }} footer={false}>
       <div className="flex min-h-[calc(100vh-52px)] flex-col">
-        <OrganicHeader tab={tab} manual={manual} pdf={pdf} date={date} currency={currency} />
+        <OrganicHeader tab={tab} manual={manual} pdf={pdf} date={date} currency={currency} prev={prev} />
         {children}
         <div className="mt-auto">
           <SimpleFooter />

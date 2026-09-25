@@ -5,9 +5,10 @@ import { Footer } from "@/components/Footer";
 import { useState, type ReactNode } from "react";
 import { brand } from "@/config/brand";
 import { routes } from "@/config/routes";
-import { Popover, MenuItem } from "@/components/ui/Popover";
-import { ChevronDown, ChevronsLeft, SearchIcon } from "@/components/ui/icons";
+import { Popover, MenuItem, useOutsideClose } from "@/components/ui/Popover";
+import { ChevronDown, ChevronsLeft, PlusIcon, SearchIcon } from "@/components/ui/icons";
 import type { Intent } from "./data";
+import { SerpIcon } from "./serpIcons";
 
 export const kwHref = (q: string) =>
   `${routes.keywordOverview}?q=${encodeURIComponent(q)}&db=se`;
@@ -262,7 +263,7 @@ function SerpGlyph() {
   );
 }
 
-export function SerpCell({ count, href }: { count?: number; href?: string }) {
+export function SerpCell({ count, href, features }: { count?: number; href?: string; features?: { icon: string; label: string }[] }) {
   return (
     <span className="inline-flex items-center">
       {href ? (
@@ -278,12 +279,30 @@ export function SerpCell({ count, href }: { count?: number; href?: string }) {
       {count == null ? (
         <span className="text-[#c4c7cf]">·</span>
       ) : (
-        <button
-          type="button"
-          className="text-rk-text-2 underline decoration-dashed decoration-1 underline-offset-[5px] hover:text-rk-link"
-        >
-          {count}
-        </button>
+        <span className="group/sf relative inline-flex">
+          <button
+            type="button"
+            data-testid="sf-count"
+            className="text-rk-text-2 underline decoration-dashed decoration-1 underline-offset-[5px] hover:text-rk-link"
+          >
+            {count}
+          </button>
+          {features && features.length > 0 && (
+            <span className="invisible absolute top-[calc(100%+4px)] left-[-4px] z-40 w-[200px] rounded-md bg-white pt-[10px] pb-1 text-left text-[14px] leading-5 text-rk-text opacity-0 shadow-popover transition-opacity delay-100 group-hover/sf:visible group-hover/sf:opacity-100">
+              <span className="block px-2 font-semibold">SERP Features on SERP</span>
+              <span className="mt-[7px] block">
+                {features.map((f) => (
+                  <span key={f.label} className="flex h-8 items-center gap-[6px] px-2">
+                    <span className="text-[#a0a2aa]">
+                      <SerpIcon name={f.icon} />
+                    </span>
+                    {f.label}
+                  </span>
+                ))}
+              </span>
+            </span>
+          )}
+        </span>
       )}
     </span>
   );
@@ -660,39 +679,69 @@ export function LegendCheck({
   );
 }
 
-export function NotesMenu() {
+const noteKinds = ["Google Updates (organic)", "Google Updates (paid)", "Google Updates (unconfirmed)", "Sensor", brand.name, "My notes"];
+
+function DarkBox({ checked }: { checked: boolean }) {
   return (
-    <Popover
-      align="right"
-      panelClassName="w-[200px]"
-      trigger={({ toggle }) => (
-        <button
-          type="button"
-          onClick={toggle}
-          className="flex items-center gap-[6px] text-[14px] text-rk-text"
-        >
-          <svg viewBox="0 0 16 16" width={16} height={16}>
-            <path
-              d="M2.5 2.5h11v8.5H6l-3.5 3z"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={1.5}
-              strokeLinejoin="round"
-            />
-          </svg>
-          Notes
-          <ChevronDown />
-        </button>
+    <span className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border ${checked ? "border-rk-btn-dark bg-rk-btn-dark" : "border-rk-border-strong bg-white"}`}>
+      {checked && (
+        <svg viewBox="0 0 16 16" width={12} height={12}>
+          <path d="m3.5 8.5 3 3 6-6.5" fill="none" stroke="#fff" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       )}
-    >
-      {(close) => (
-        <>
-          <MenuItem onClick={close}>Add note</MenuItem>
-          <MenuItem onClick={close}>Show {brand.name} notes</MenuItem>
-          <MenuItem onClick={close}>Show my notes</MenuItem>
-        </>
+    </span>
+  );
+}
+
+export function NotesMenu() {
+  const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
+  const ref = useOutsideClose<HTMLDivElement>(open, close);
+  const [on, setOn] = useState<Record<string, boolean>>(() => Object.fromEntries(noteKinds.map((k) => [k, k !== "Google Updates (unconfirmed)"])));
+  const [visible, setVisible] = useState(true);
+  return (
+    <div ref={ref} className="relative inline-flex">
+      <button type="button" data-testid="notes-menu" aria-expanded={open} onClick={() => setOpen(!open)} className="group flex items-center gap-[6px] text-[14px] text-rk-text">
+        <svg viewBox="0 0 16 16" width={16} height={16}>
+          <path d="M2.5 2.5h11v8.5H6l-3.5 3z" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinejoin="round" />
+        </svg>
+        <span className={`underline-offset-[5px] group-hover:underline ${open ? "underline" : ""}`}>Notes</span>
+        <ChevronDown />
+      </button>
+      {open && (
+        <div className="absolute top-[calc(100%+6px)] right-[-8px] z-50 w-[306px] rounded-md bg-white px-4 pt-[16px] pb-[18px] shadow-popover">
+          <div className="text-[16px] leading-6 font-semibold">Notes management</div>
+          <div className="mt-[9px]">
+            {noteKinds.map((k) => (
+              <button key={k} type="button" onClick={() => setOn({ ...on, [k]: !on[k] })} className="flex h-8 w-full items-center gap-2 text-left text-[14px] leading-5 text-rk-text">
+                <DarkBox checked={on[k]} />
+                {k}
+              </button>
+            ))}
+          </div>
+          <div className="mt-[9px] flex items-center">
+            <button type="button" onClick={close} className="flex h-7 shrink-0 items-center gap-2 rounded-md bg-rk-btn-dark px-[10px] text-[14px] font-semibold whitespace-nowrap text-white hover:bg-[#2b2e38]">
+              <PlusIcon />
+              Compose note
+            </button>
+            <button type="button" disabled className="ml-[25px] h-7 shrink-0 rounded-md border border-[#e0e1e9] bg-[#f7f7f9] px-[8px] text-[14px] whitespace-nowrap text-[#a9abb6]">
+              View all
+            </button>
+            <button
+              type="button"
+              aria-label={visible ? "Hide notes" : "Show notes"}
+              onClick={() => setVisible(!visible)}
+              className="ml-[9px] flex h-7 w-[33px] items-center justify-center rounded-md border border-rk-border-strong bg-[#f4f5f9] text-rk-text-2 hover:bg-rk-hover"
+            >
+              <svg viewBox="0 0 16 16" width={16} height={16}>
+                <path d="M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8z" fill="none" stroke="currentColor" strokeWidth={1.4} />
+                <circle cx="8" cy="8" r="2" fill={visible ? "currentColor" : "none"} stroke="currentColor" strokeWidth={1.4} />
+              </svg>
+            </button>
+          </div>
+        </div>
       )}
-    </Popover>
+    </div>
   );
 }
 

@@ -45,7 +45,7 @@ const features: Record<string, { icon: string; label: string }[]> = {
 
 export function RankedUrls({ r }: { r: PositionRow }) {
   const [on, setOn] = useState(true);
-  const H = 202;
+  const H = 203;
   const pts = historyPath(r.local ? 1 : r.position);
   const d = pts.map(([x, v], i) => `${i ? "L" : "M"}${x * 1000} ${(v * H) / 100}`).join("");
   return (
@@ -61,11 +61,11 @@ export function RankedUrls({ r }: { r: PositionRow }) {
       </div>
       <div className="relative h-[355px]">
         {ticks.map((t) => (
-          <span key={t} className="absolute left-0 w-[71.5px] -translate-y-1/2 text-right text-[12px] leading-4 text-rk-muted" style={{ top: 41.5 + (t * H) / 100 }}>
+          <span key={t} className="absolute left-0 w-[71.5px] -translate-y-1/2 text-right text-[12px] leading-4 text-rk-muted" style={{ top: 43.5 + (t * H) / 100 }}>
             {t}
           </span>
         ))}
-        <div className="absolute top-[41.5px] right-[26px] left-[84.5px]" style={{ height: H }}>
+        <div className="absolute top-[43.5px] right-[26px] left-[84.5px]" style={{ height: H }}>
           <div className="absolute top-0 bottom-0 bg-[#eaeeee]" style={{ left: "91%", width: "7.31%" }} />
           <svg className="absolute inset-0 h-full w-full overflow-visible" viewBox={`0 0 1000 ${H}`} preserveAspectRatio="none">
             {ticks.map((t) => (
@@ -76,8 +76,8 @@ export function RankedUrls({ r }: { r: PositionRow }) {
           {months.map((m, i) => (
             <span
               key={m}
-              className={`absolute top-[214.5px] flex h-[25px] -translate-x-1/2 items-center rounded-sm px-[6px] text-[13px] text-rk-muted ${i === months.length - 1 ? "bg-[#f3f5f5]" : ""}`}
-              style={{ left: `${labelAt(i) * 100 + (i === months.length - 1 ? -0.8 : 0)}%` }}
+              className={`absolute top-[213.5px] flex h-[25px] -translate-x-1/2 items-center rounded-sm px-[6px] whitespace-nowrap text-[13px] text-rk-muted ${i === months.length - 1 ? "bg-[#f3f5f5]" : ""}`}
+              style={{ left: `${labelAt(i) * 100}%` }}
             >
               {m}
             </span>
@@ -106,7 +106,7 @@ export function RankedUrls({ r }: { r: PositionRow }) {
           <ExtLink href={r.url} className="ml-1" />
         </div>
       </div>
-      <div className="mx-5 flex h-[63px] items-center border-t pt-[3px] border-rk-border text-[14px] leading-5 text-rk-text-2">
+      <div className="mx-5 flex h-[63px] items-center border-t pt-[11px] border-rk-border text-[14px] leading-5 text-rk-text-2">
         SERP Features on SERP:
         {features.default.map((f, i) => (
           <span key={f.label} className={`flex items-center gap-1 text-rk-text ${i ? "ml-[10px]" : "ml-[17px]"}`}>
