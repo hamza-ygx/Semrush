@@ -147,7 +147,7 @@ export const trackedKeywords: TrackedKeyword[] = raw.map(([keyword, intent, sf, 
 export const kdColor = (kd: number) =>
   kd < 15 ? "#009f81" : kd < 30 ? "#59ddaa" : kd < 50 ? "#fdc23c" : kd < 70 ? "#ff8c43" : kd < 85 ? "#ff4953" : "#d1002f";
 
-export type Competitor = {
+type Competitor = {
   domain: string;
   legendDiff: string;
   visibility: string;

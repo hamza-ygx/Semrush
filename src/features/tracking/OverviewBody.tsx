@@ -190,7 +190,7 @@ export function OverviewBody({ prediction, kdOptions }: { prediction: boolean; k
         </div>
       )}
       <OverviewChartCard mode={mode} current={current} latest={latest} onMode={onMode} />
-      <RankingsTable />
+      <RankingsTable key={latest ? "latest" : "past"} />
     </div>
   );
 }

@@ -11,7 +11,7 @@ import { Checkbox, Toggle } from "./controls";
 import { BellIcon, ChevronBold, DiamondIcon, HotelIcon, JobIcon, LookerIcon, ManualIcon, PinIcon } from "./icons";
 import { project, trackingTabs, type TrackingTab } from "./data";
 import { useTracking } from "./context";
-import { Tip, useScrollLock } from "./Tip";
+import { Tip } from "./Tip";
 import { Radio } from "./FilterPanels";
 import { Info } from "./ui";
 
@@ -260,7 +260,6 @@ function SerpFeatures() {
 }
 
 function AlertsModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  useScrollLock(open);
   return (
     <Modal open={open} onClose={onClose} width={540} className="!pt-[37px]">
       <AlertBell />
@@ -378,7 +377,7 @@ export function TrackingHeader({ tab }: { tab: TrackingTab }) {
         <SerpFeatures />
         <span className="flex items-center gap-[10px]">
           Share of Voice
-          <Toggle />
+          <Toggle label="Share of Voice" />
         </span>
       </div>
       <div className="mt-[29px] flex gap-[17px]">

@@ -23,7 +23,8 @@ export function FilterBar({
       if (!el) return;
       const r = el.getBoundingClientRect();
       const anchor = (filters ? el.lastElementChild : el.firstElementChild)?.getBoundingClientRect().top ?? r.top;
-      setBox(anchor < 8 ? { left: r.left - 32, width: r.width + 64 } : null);
+      const next = anchor < 8 ? { left: r.left - 32, width: r.width + 64 } : null;
+      setBox((prev) => (prev && next && prev.left === next.left && prev.width === next.width ? prev : next));
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });

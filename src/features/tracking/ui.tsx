@@ -53,10 +53,11 @@ export function DarkButton({ children, className = "", onClick }: { children: Re
   );
 }
 
-export function GrayButton({ children, className = "", onClick }: { children: ReactNode; className?: string; onClick?: () => void }) {
+export function GrayButton({ children, className = "", onClick, label }: { children: ReactNode; className?: string; onClick?: () => void; label?: string }) {
   return (
     <button
       type="button"
+      aria-label={label}
       onClick={onClick}
       className={`inline-flex h-7 items-center gap-[6px] rounded-md border border-rk-border-strong bg-[#f0f1f1] px-[9px] text-[14px] whitespace-nowrap text-rk-text-2 hover:bg-rk-hover ${className}`}
     >

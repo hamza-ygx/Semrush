@@ -343,13 +343,14 @@ function download(rows: KwRow[], format: "xlsx" | "csv" | "csv-semicolon", curre
   const sep = format === "csv" ? "," : format === "csv-semicolon" ? ";" : "\t";
   const head = ["Keyword", "Intent", "Volume", "Keyword Difficulty", `CPC (${currency})`, "SERP Features"];
   const body = rows.map((r) => [r.keyword, r.intents.join(" "), fullVolume(r.volume).replace(/,/g, ""), r.kd ?? "", (parseFloat(r.cpc) * rate).toFixed(2), r.sf ?? ""]);
-  const text = [head, ...body].map((l) => l.map((v) => (String(v).includes(sep) ? `"${v}"` : v)).join(sep)).join("\n");
+  const cell = (v: string | number) => (/["\n\r]/.test(String(v)) || String(v).includes(sep) ? `"${String(v).replace(/"/g, '""')}"` : v);
+  const text = [head, ...body].map((l) => l.map(cell).join(sep)).join("\n");
   const url = URL.createObjectURL(new Blob([text], { type: format === "xlsx" ? "application/vnd.ms-excel" : "text/csv" }));
   const a = document.createElement("a");
   a.href = url;
   a.download = `keyword_magic_tool.${format === "xlsx" ? "xls" : "csv"}`;
   a.click();
-  URL.revokeObjectURL(url);
+  setTimeout(() => URL.revokeObjectURL(url), 0);
 }
 
 function ExportDrop({

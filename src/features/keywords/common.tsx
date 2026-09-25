@@ -51,14 +51,14 @@ const TranslateGlyph = () => (
   </svg>
 );
 
-export const CapIcon = (p: P) => (
+const CapIcon = (p: P) => (
   <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
     <path d="M8 2.5 1 6l7 3.5L15 6z" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinejoin="round" />
     <path d="M4 7.6v3.4c1 1.4 2.3 2 4 2s3-.6 4-2V7.6" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinejoin="round" />
   </svg>
 );
 
-export const ManualIcon = (p: P) => (
+const ManualIcon = (p: P) => (
   <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
     <path d="M1.5 2.5h5.2L8 3.6l1.3-1.1h5.2v10H9.3L8 13.6l-1.3-1.1H1.5z" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinejoin="round" />
     <path d="M8 3.6v10M3.8 5.5h2M3.8 8h2M10.2 5.5h2M10.2 8h2" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" />
@@ -176,7 +176,7 @@ export const SendIcon = (p: P) => (
   </svg>
 );
 
-export const BulbBadge = () => (
+const BulbBadge = () => (
   <svg viewBox="0 0 40 40" width={40} height={40}>
     <path
       d="M20 2.5l4 2.8 4.8-.4 2.1 4.4 4.4 2.1-.4 4.8 2.8 4-2.8 4 .4 4.8-4.4 2.1-2.1 4.4-4.8-.4-4 2.8-4-2.8-4.8.4-2.1-4.4-4.4-2.1.4-4.8-2.8-4 2.8-4-.4-4.8 4.4-2.1 2.1-4.4 4.8.4z"
@@ -225,26 +225,6 @@ export function OnboardingTip({
 export function KdDot({ kd, size = 10 }: { kd: number | null; size?: number }) {
   const c = kd == null ? "#d9d9de" : kd < 15 ? "#009f81" : kd < 30 ? "#3ee1b4" : kd < 50 ? "#fcb40a" : kd < 70 ? "#ff8c43" : "#ff4953";
   return <span className="inline-block shrink-0 rounded-full" style={{ background: c, width: size, height: size }} />;
-}
-
-const intentStyle: Record<string, string> = {
-  C: "bg-[#fcd96b] text-[#8a5a00]",
-  I: "bg-[#c4d8fd] text-[#2b53b8]",
-  N: "bg-[#e7d3fb] text-[#8a3fcf]",
-  T: "bg-[#9ef2c9] text-[#00785f]",
-};
-
-export function IntentBadges({ intents }: { intents: string[] }) {
-  if (!intents.length) return <span className="text-rk-muted">n/a</span>;
-  return (
-    <span className="inline-flex gap-1">
-      {intents.map((i) => (
-        <span key={i} className={`inline-flex h-4 w-4 items-center justify-center rounded-[3px] text-[11px] leading-4 font-semibold ${intentStyle[i]}`}>
-          {i}
-        </span>
-      ))}
-    </span>
-  );
 }
 
 export function SegButtons<T extends string>({

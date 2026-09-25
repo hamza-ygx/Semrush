@@ -11,7 +11,7 @@ import { koSummary, koVariations, serpRanges, serpRows } from "./data";
 import { AddToList, LocationSelect } from "./kmt/KoPopovers";
 import { CountryFlag } from "./flags";
 
-export function KoTabs({ active, q }: { active: "overview" | "bulk"; q: string }) {
+function KoTabs({ active, q }: { active: "overview" | "bulk"; q: string }) {
   const qs = `?q=${encodeURIComponent(q)}&db=se`;
   const tabs = [
     { key: "overview", label: "Overview", href: `${routes.keywordOverview}${qs}` },

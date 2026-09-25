@@ -42,11 +42,10 @@ export function Drop({
     <div ref={ref} className={`relative inline-flex ${className}`}>
       {trigger({
         open,
-        toggle: () =>
-          setOpen((o) => {
-            if (!o) onOpen?.();
-            return !o;
-          }),
+        toggle: () => {
+          if (!open) onOpen?.();
+          setOpen(!open);
+        },
       })}
       {open && (
         <div style={panelStyle} className={`absolute z-50 rounded-md bg-white shadow-popover ${panelClassName}`}>

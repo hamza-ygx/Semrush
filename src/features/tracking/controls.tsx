@@ -195,9 +195,8 @@ export function Checkbox({
 }) {
   const [on, setOn] = useState(initial);
   return (
-    <label className={`inline-flex cursor-pointer items-center gap-2 select-none ${className}`}>
+    <label onClick={() => setOn(!on)} className={`inline-flex cursor-pointer items-center gap-2 select-none ${className}`}>
       <span
-        onClick={() => setOn(!on)}
         style={{ width: size, height: size, background: on ? color : "#fff", borderColor: on ? color : "#a9abaa" }}
         className="flex shrink-0 items-center justify-center rounded-[3px] border"
       >
@@ -208,13 +207,14 @@ export function Checkbox({
   );
 }
 
-export function Toggle({ initial = false }: { initial?: boolean }) {
+export function Toggle({ initial = false, label }: { initial?: boolean; label?: string }) {
   const [on, setOn] = useState(initial);
   return (
     <button
       type="button"
       role="switch"
       aria-checked={on}
+      aria-label={label}
       onClick={() => setOn(!on)}
       className={`relative h-[12px] w-[21px] rounded-full transition-colors ${on ? "bg-[#009f81]" : "bg-[#e0e2e1]"}`}
     >

@@ -28,10 +28,10 @@ function HealthActions() {
         Add
       </GrayButton>
       <GrayButton className="h-[27px] !bg-[#f5f6f6] !px-[8px]">View all</GrayButton>
-      <GrayButton className="h-[27px] w-[32px] justify-center !bg-[#f5f6f6] !px-0">
+      <GrayButton label="Show notes" className="h-[27px] w-[32px] justify-center !bg-[#f5f6f6] !px-0">
         <EyeIcon width={17} height={17} />
       </GrayButton>
-      <GrayButton className="h-[27px] w-[33px] justify-center !bg-[#f5f6f6] !px-0">
+      <GrayButton label="Settings" className="h-[27px] w-[33px] justify-center !bg-[#f5f6f6] !px-0">
         <GearIcon width={17} height={17} />
       </GrayButton>
     </div>

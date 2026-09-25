@@ -4,7 +4,7 @@ import { OverviewBody } from "../OverviewBody";
 export const serpOptions = ["Featured snippet", "Local pack", "Knowledge panel", "Image pack", "Video", "People also ask", "Reviews", "Sitelinks"];
 export const volumeOptions = ["100,001+", "10,001-100,000", "1,001-10,000", "101-1,000", "11-100", "1-10"];
 export const intentOptions = ["Informational", "Navigational", "Commercial", "Transactional"];
-export const kdOptions = ["Very hard 85-100%", "Hard 70-84%", "Difficult 50-69%", "Possible 30-49%", "Easy 15-29%", "Very easy 0-14%"];
+const kdOptions = ["Very hard 85-100%", "Hard 70-84%", "Difficult 50-69%", "Possible 30-49%", "Easy 15-29%", "Very easy 0-14%"];
 
 export function OverviewView({ begin, fresh, prediction = false }: { begin?: string; fresh?: boolean; prediction?: boolean }) {
   return (

@@ -282,6 +282,7 @@ function ScrollThumb({ sx, setSx, viewport, total }: { sx: number; setSx: (v: nu
       onPointerDown={onDown}
       onPointerMove={onMove}
       onPointerUp={() => (start.current = null)}
+      onLostPointerCapture={() => (start.current = null)}
       style={{ left: sx * ratio, width: viewport * ratio }}
       className="absolute bottom-[1px] h-[7px] cursor-pointer rounded-full bg-[#d6d8d7] hover:bg-[#a9abaa]"
     />

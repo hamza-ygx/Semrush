@@ -23,7 +23,7 @@ export const koSummary = {
 
 export const koVariations = [{ keyword: "redovisningsbyrå halmstad", volume: "880", kd: 16 }];
 
-export type SerpRow =
+type SerpRow =
   | { kind: "local" }
   | { kind: "url"; pos: number; url: string; domain: string; pageAs: number; refDomains: number; backlinks: number; traffic: number; urlKeywords: number };
 

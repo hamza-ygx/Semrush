@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import { useState, type CSSProperties, type ReactNode } from "react";
 
 type Place = "top" | "top-end" | "top-start" | "bottom" | "bottom-start" | "bottom-end";
 
@@ -93,19 +93,4 @@ export function Tip({
       )}
     </span>
   );
-}
-
-export function useScrollLock(on: boolean) {
-  useEffect(() => {
-    if (!on) return;
-    const root = document.documentElement;
-    const w = window.innerWidth - root.clientWidth;
-    const prev = [root.style.overflow, document.body.style.paddingRight];
-    root.style.overflow = "hidden";
-    document.body.style.paddingRight = `${w}px`;
-    return () => {
-      root.style.overflow = prev[0];
-      document.body.style.paddingRight = prev[1];
-    };
-  }, [on]);
 }

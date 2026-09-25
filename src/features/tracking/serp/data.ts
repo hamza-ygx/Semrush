@@ -2,7 +2,7 @@ export const serpTabs = ["AI-läge", "Allt", "Bilder", "Korta videor", "Videor",
 
 export type Source = { site: string; title: string; snippet: string[] };
 
-export type AiOverview = {
+type AiOverview = {
   intro: string;
   introChip: string;
   heading: string;
@@ -12,7 +12,7 @@ export type AiOverview = {
 
 export type OrganicResult = { site: string; url: string; path: string; title: string; snippet: string };
 
-export type SerpContent = { overview: AiOverview; results: OrganicResult[] };
+type SerpContent = { overview: AiOverview; results: OrganicResult[] };
 
 const arbetsklader: SerpContent = {
   overview: {

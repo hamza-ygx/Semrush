@@ -88,7 +88,7 @@ function generate(q: string): KmtDataset {
   });
   const questionKw = questionStarts.map((s, i) => (i % 2 ? `${s} ${seed}` : `${s} en ${seed}`));
   const qRows = questionKw.map((k, i) => row(k, i + 12));
-  const groups = modifiers.slice(0, 16).map((m, i) => ({ label: m, count: fmt(Math.max(1, Math.round(total / (2.5 + i * 1.3)))) }));
+  const groups = modifiers.filter((m) => m !== seed).slice(0, 16).map((m, i) => ({ label: m, count: fmt(Math.max(1, Math.round(total / (2.5 + i * 1.3)))) }));
   const sum = (rows: KwRow[]) => rows.reduce((a, r) => a + (parseFloat(r.volume) * (/K$/.test(r.volume) ? 1000 : 1) || 0), 0);
   const avgKd = (rows: KwRow[]) => `${Math.round(rows.reduce((a, r) => a + (r.kd ?? 0), 0) / Math.max(1, rows.filter((r) => r.kd != null).length))}%`;
   const topicTotal = total * 7;
@@ -101,7 +101,7 @@ function generate(q: string): KmtDataset {
     topicQuestionRows: qRows.map((r) => ({ ...r, relevance: 71 })),
     topics: [{ label: "All", count: short(topicTotal), qCount: short(Math.round(topicTotal / 10)) }, ...topicList],
     allGroups: [{ label: seed, count: fmt(Math.round(total * 0.97)) }, ...groups],
-    questionGroups: [{ label: seed, count: fmt(qTotal) }, ...["vad", "hur", "varför", "kostar"].map((w, i) => ({ label: w, count: fmt(Math.max(1, Math.round(qTotal / (2 + i)))) }))],
+    questionGroups: [{ label: seed, count: fmt(qTotal) }, ...["vad", "hur", "varför", "kostar"].filter((w) => w !== seed).map((w, i) => ({ label: w, count: fmt(Math.max(1, Math.round(qTotal / (2 + i)))) }))],
     stats: {
       topics: { all: short(topicTotal), total: fmt(topicTotal), volume: fmt(sum(byVolume) * 6), kd: avgKd(byVolume), pages: Math.ceil(topicTotal / 100) },
       topicQuestions: { all: short(Math.round(topicTotal / 10)), total: fmt(Math.round(topicTotal / 10)), volume: fmt(sum(qRows) * 4), kd: avgKd(qRows), pages: Math.ceil(topicTotal / 1000) },

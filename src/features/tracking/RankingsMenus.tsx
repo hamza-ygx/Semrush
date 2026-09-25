@@ -43,7 +43,7 @@ export function ActionsMenu() {
 
 const potOptions = ["Potential Traffic", "Potential Position", "Potential Visibility"] as const;
 export type PotMetric = (typeof potOptions)[number] | "Hide";
-export const potShort: Record<PotMetric, string> = {
+const potShort: Record<PotMetric, string> = {
   "Potential Traffic": "Pot. Traffic",
   "Potential Position": "Pot. Position",
   "Potential Visibility": "Pot. Visibility",

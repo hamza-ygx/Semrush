@@ -3,12 +3,12 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 
 export const currentBegin = "20260918";
-export const latestBegin = "20260919";
+const latestBegin = "20260919";
 const defaultBegin = "20260917";
 const lastDay = Date.UTC(2026, 8, 25);
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-export function parseDay(v: string) {
+function parseDay(v: string) {
   return new Date(Date.UTC(+v.slice(0, 4), +v.slice(4, 6) - 1, +v.slice(6, 8)));
 }
 
@@ -23,10 +23,6 @@ export function periodLabel(begin: string, dash = "-") {
   const m = (d: Date) => months[d.getUTCMonth()];
   if (a.getUTCMonth() === b.getUTCMonth()) return `${m(a)} ${a.getUTCDate()}${dash}${b.getUTCDate()}, ${b.getUTCFullYear()}`;
   return `${m(a)} ${a.getUTCDate()} - ${m(b)} ${b.getUTCDate()}, ${b.getUTCFullYear()}`;
-}
-
-export function dayLabel(d: Date) {
-  return `${months[d.getUTCMonth()]} ${d.getUTCDate()}`;
 }
 
 type Ctx = { begin: string; setBegin: (v: string) => void; fresh: boolean; latest: boolean };
