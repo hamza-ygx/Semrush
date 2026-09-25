@@ -28,11 +28,11 @@ function Field({ label, children, labelW }: { label: string; children: ReactNode
   );
 }
 
-function Select({ options, placeholder, defaultValue = "" }: { options: string[]; placeholder?: string; defaultValue?: string }) {
+function Select({ options, placeholder, defaultValue = "", label }: { options: string[]; placeholder?: string; defaultValue?: string; label: string }) {
   const [v, setV] = useState(defaultValue);
   return (
     <div className="relative">
-      <select value={v} onChange={(e) => setV(e.target.value)} className={`${input} w-[350px] appearance-none pr-8 ${v ? "text-rk-text" : "text-[#a9abaa]"}`}>
+      <select aria-label={label} value={v} onChange={(e) => setV(e.target.value)} className={`${input} w-[350px] appearance-none pr-8 ${v ? "text-rk-text" : "text-[#a9abaa]"}`}>
         {placeholder && (
           <option value="" disabled>
             {placeholder}
@@ -51,28 +51,34 @@ function Select({ options, placeholder, defaultValue = "" }: { options: string[]
 
 function AccountInfo() {
   const [saved, setSaved] = useState(false);
+  const [resetKey, setResetKey] = useState(0);
   return (
     <form
+      key={resetKey}
       className="flex flex-col gap-6"
       onSubmit={(e) => {
         e.preventDefault();
         setSaved(true);
+      }}
+      onReset={(e) => {
+        e.preventDefault();
+        setResetKey((k) => k + 1);
       }}
     >
       <Field label="Full name" labelW={103}>
         <input aria-label="Full name" className={`${input} w-[350px] text-rk-text`} />
       </Field>
       <Field label="Phone" labelW={103}>
-        <input placeholder="Phone" className={`${input} w-[350px] text-rk-text`} />
+        <input placeholder="Phone" aria-label="Phone" className={`${input} w-[350px] text-rk-text`} />
       </Field>
       <Field label="Company" labelW={103}>
-        <input placeholder="Company" className={`${input} w-[350px] text-rk-text`} />
+        <input placeholder="Company" aria-label="Company" className={`${input} w-[350px] text-rk-text`} />
       </Field>
       <Field label="Country" labelW={103}>
-        <Select options={countries} defaultValue="Sweden" />
+        <Select options={countries} defaultValue="Sweden" label="Country" />
       </Field>
       <Field label="Time zone" labelW={103}>
-        <Select options={timeZones} placeholder="Time zone" />
+        <Select options={timeZones} placeholder="Time zone" label="Time zone" />
       </Field>
       <div className="mt-2 flex items-center gap-3">
         <button type="submit" className={green}>
@@ -118,7 +124,7 @@ function PasswordTab() {
       <Field label="New password" labelW={159}>
         <div className="relative">
           <input type={show ? "text" : "password"} aria-label="New password" className={`${input} w-[240px] pr-9 text-rk-text`} />
-          <button type="button" aria-label="Show password" onClick={() => setShow((s) => !s)} className="absolute top-1/2 right-[9px] -translate-y-1/2 text-[#8b8d8c] hover:text-rk-text">
+          <button type="button" aria-label="Show password" aria-pressed={show} onClick={() => setShow((s) => !s)} className="absolute top-1/2 right-[9px] -translate-y-1/2 text-[#8b8d8c] hover:text-rk-text">
             <EyeIcon />
           </button>
         </div>

@@ -57,10 +57,10 @@ export function AccountShell({ active, search = false, children }: { active: Sid
               <PlusIcon />
               Invite users
             </button>
-            <Link href={routes.home} className="hover:text-rk-link">
+            <Link href={routes.pricing.seo} className="hover:text-rk-link">
               Pricing
             </Link>
-            <Link href={routes.home} className="hover:text-rk-link">
+            <Link href={routes.pricing.enterprise} className="hover:text-rk-link">
               Enterprise
             </Link>
             <MoreMenu />

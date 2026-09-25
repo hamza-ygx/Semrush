@@ -24,7 +24,7 @@ export const proPlan = {
   ],
 };
 
-export type ResearchFeature = { title: string; bullets: string[]; art: "paid" | "keywords" | "history" | "pla" | "ecommerce" };
+type ResearchFeature = { title: string; bullets: string[]; art: "paid" | "keywords" | "history" | "pla" | "ecommerce" };
 
 export const researchConfig = {
   research: {

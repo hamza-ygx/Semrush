@@ -3,7 +3,7 @@ import { routes } from "@/config/routes";
 
 export const registrationDate = "Jul 14, 2026";
 
-export const subRoutes = {
+const subRoutes = {
   billing: `${routes.account.subscription}/billing-info`,
   payments: `${routes.account.subscription}/payments`,
 };
@@ -42,7 +42,7 @@ export type SubscriptionTab = (typeof subscriptionTabs)[number]["key"];
 
 export const toolkits = [`${brand.name} One`, "SEO", "AI Visibility", "Traffic & Market", "Local", "Content", "Social", "Advertising", "AI PR"];
 
-export type UnitRow = { label: string; used?: number; limit?: number; available?: string; buy: boolean };
+type UnitRow = { label: string; used?: number; limit?: number; available?: string; buy: boolean };
 
 export const seoUnits: UnitRow[] = [
   { label: "Users", used: 1, limit: 1, available: "0", buy: false },

@@ -21,7 +21,7 @@ export const ChevronR = ({ className = "" }: { className?: string }) => (
   </svg>
 );
 
-export const ChevronD = ({ className = "", size = 16 }: { className?: string; size?: number }) => (
+const ChevronD = ({ className = "", size = 16 }: { className?: string; size?: number }) => (
   <svg viewBox="0 0 16 16" width={size} height={size} className={className}>
     <path d="m4 6.5 4 4 4-4" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
   </svg>
@@ -34,7 +34,7 @@ export const MagnifierIcon = ({ size = 28, className = "", sw = 2 }: { size?: nu
   </svg>
 );
 
-export const FlagCA = () => (
+const FlagCA = () => (
   <svg viewBox="0 0 16 12" width={16} height={12}>
     <rect width="16" height="12" rx="1.5" fill="#fff" />
     <path d="M0 0h4v12H0zM12 0h4v12h-4z" fill="#d22f27" />
@@ -62,7 +62,7 @@ const FlagUK = () => (
 
 const flags: Record<Example["flag"], () => ReactNode> = { us: FlagUS, ca: FlagCA, uk: FlagUK };
 
-export function Pin({ x, y, s = 1, o = 0.55 }: { x: number; y: number; s?: number; o?: number }) {
+function Pin({ x, y, s = 1, o = 0.55 }: { x: number; y: number; s?: number; o?: number }) {
   return (
     <path
       transform={`translate(${x} ${y}) scale(${s})`}

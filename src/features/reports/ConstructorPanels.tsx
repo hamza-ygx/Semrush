@@ -35,7 +35,7 @@ function Search({ placeholder }: { placeholder: string }) {
   return (
     <label className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-white px-2 text-rk-muted focus-within:border-[#8e92ec]">
       <SearchIcon width={16} height={16} />
-      <input placeholder={placeholder} className="min-w-0 flex-1 text-[14px] text-rk-text outline-none placeholder:text-rk-muted" />
+      <input placeholder={placeholder} aria-label={placeholder} className="min-w-0 flex-1 text-[14px] text-rk-text outline-none placeholder:text-rk-muted" />
     </label>
   );
 }
@@ -255,7 +255,7 @@ export function IntegrationDetail({ name, onBack }: { name: string; onBack: () =
             <div className="w-[254px]">
               <label className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-white px-2 text-rk-muted focus-within:border-[#8e92ec]">
                 <SearchIcon width={16} height={16} />
-                <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search" className="min-w-0 flex-1 text-[14px] text-rk-text outline-none placeholder:text-rk-muted" />
+                <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search" aria-label="Search widgets" className="min-w-0 flex-1 text-[14px] text-rk-text outline-none placeholder:text-rk-muted" />
               </label>
             </div>
             <div aria-label={`${name} widget filters`} className="mt-3 flex gap-1">

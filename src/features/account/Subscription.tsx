@@ -5,6 +5,7 @@ import { useState, type ReactNode } from "react";
 import { brand } from "@/config/brand";
 import { routes } from "@/config/routes";
 import { BookIcon, ChevronDown, ExternalIcon } from "@/components/ui/icons";
+import { useOutsideClose } from "@/components/ui/Popover";
 import { AccountShell, PageTop } from "./AccountShell";
 import { ApiKeyArt, MagnifierArt } from "./art";
 import { seoUnits, subscriptionTabs, toolkits, type SubscriptionTab } from "./data";
@@ -260,8 +261,9 @@ function Placeholder({ tab }: { tab: "billing" | "payments" }) {
 
 function RecurringMenu() {
   const [open, setOpen] = useState(false);
+  const ref = useOutsideClose<HTMLSpanElement>(open, () => setOpen(false));
   return (
-    <span className="relative">
+    <span ref={ref} className="relative">
       Recurring:{" "}
       <button type="button" onClick={() => setOpen((o) => !o)} className="inline-flex items-center gap-1 text-rk-link hover:text-rk-link-hover">
         Active

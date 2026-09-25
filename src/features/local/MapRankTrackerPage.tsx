@@ -217,6 +217,12 @@ export function MapRankTrackerPage() {
     if (heroSearch.current) io.observe(heroSearch.current);
     return () => io.disconnect();
   }, []);
+  useEffect(() => {
+    if (!active) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setActive(false);
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [active]);
   return (
     <div className="pb-[199px]">
       {active && <div aria-hidden data-testid="search-overlay" onClick={() => setActive(false)} className="fixed inset-0 z-[115] bg-white/85" />}

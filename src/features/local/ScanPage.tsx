@@ -37,7 +37,7 @@ function ScanHeader({ roomy = false }: { roomy?: boolean }) {
             className={link}
             onClick={() => {
               try {
-                navigator.clipboard?.writeText(window.location.href);
+                navigator.clipboard?.writeText(window.location.href).catch(() => {});
               } catch {}
               setCopied(true);
             }}

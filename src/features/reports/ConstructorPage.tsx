@@ -106,6 +106,7 @@ export function ConstructorPage() {
         {editing ? (
           <input
             autoFocus
+            aria-label="Report title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             onBlur={() => setEditing(false)}

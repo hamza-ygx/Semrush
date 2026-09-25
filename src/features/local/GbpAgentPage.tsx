@@ -144,6 +144,7 @@ export function GbpAgentPage() {
       <div
         className={`fixed right-0 bottom-0 left-0 z-40 flex h-[88px] items-center justify-center bg-white shadow-[0_-4px_16px_rgba(24,27,40,0.08)] ${bar ? "opacity-100" : "pointer-events-none opacity-0"}`}
         data-testid="agent-sticky"
+        inert={!bar}
       >
         <ActivateButton onClick={open} />
       </div>

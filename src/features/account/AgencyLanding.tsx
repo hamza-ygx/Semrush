@@ -145,7 +145,7 @@ function Faq() {
     <div className="mt-8 flex flex-col gap-2">
       {faq.map((f, i) => (
         <div key={f.q} className="rounded-lg bg-[#f5f6f6]">
-          <button type="button" onClick={() => setOpen(open === i ? null : i)} className="flex w-full items-center justify-between px-5 py-4 text-left text-[16px] font-semibold">
+          <button type="button" aria-expanded={open === i} onClick={() => setOpen(open === i ? null : i)} className="flex w-full items-center justify-between px-5 py-4 text-left text-[16px] font-semibold">
             {f.q}
             <ChevronDown className={open === i ? "rotate-180" : ""} />
           </button>

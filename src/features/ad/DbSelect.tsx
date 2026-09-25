@@ -72,9 +72,9 @@ export function DbSelect({ initial }: { initial: string }) {
                 if (listRef.current) listRef.current.scrollTop = 0;
               }}
               onKeyDown={(e) => {
-                if (e.key === "Enter" && items[0]) {
+                if (e.key === "Enter") {
                   e.preventDefault();
-                  pick(items[0].code);
+                  if (items[0]) pick(items[0].code);
                 }
               }}
               aria-label="Search database"

@@ -174,7 +174,7 @@ const benefits = [
   ["Google Business Profile sync", "Connect your profile once and keep all your listings in sync."],
 ];
 
-export function ListingsHero({ label = "Listing Management" }: { label?: string }) {
+function ListingsHero({ label = "Listing Management" }: { label?: string }) {
   return (
     <section className="relative overflow-hidden bg-[#410f7c] pb-[23px] text-center">
       <HeroMap variant={1} pins={[{ x: 563, y: 60, s: 1.05, o: 0.45 }]} />

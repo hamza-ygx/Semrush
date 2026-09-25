@@ -92,7 +92,7 @@ export function AdsAiAgent() {
             setModal(true);
           }}
         >
-          <input value={msg} onChange={(e) => setMsg(e.target.value)} placeholder="Describe what you need" className="h-full flex-1 bg-transparent text-[16px] outline-none placeholder:text-[#8b8d8c]" />
+          <input value={msg} onChange={(e) => setMsg(e.target.value)} placeholder="Describe what you need" aria-label="Message" className="h-full flex-1 bg-transparent text-[16px] outline-none placeholder:text-[#8b8d8c]" />
           <button type="submit" aria-label="Send" className="text-[#aea1cc] hover:text-[#6f4bfc]">
             <svg viewBox="0 0 20 20" width={20} height={20}>
               <path d="M3 9.5 17 3l-5 14-2.5-5.5zM9.5 11.5 17 3" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinejoin="round" />

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { agentLog, listingRows, reviewCards } from "./data";
 
-export const GbpBadge = ({ size = 24 }: { size?: number }) => (
+const GbpBadge = ({ size = 24 }: { size?: number }) => (
   <svg viewBox="0 0 24 24" width={size} height={size}>
     <path d="M3 3.5h18l1.5 5.5H1.5z" fill="#5b8def" />
     <path d="M7.5 3.5h3v5.5h-4zM13.5 3.5h3l1 5.5h-4z" fill="#8fb4f7" />
