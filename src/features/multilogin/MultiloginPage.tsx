@@ -31,12 +31,12 @@ export function MultiloginPage({ redirectTo }: { redirectTo: string }) {
             <PlusIcon />
             Invite users
           </button>
-          <a href="#" className="hover:text-rk-link">
+          <Link href={routes.pricing.seo} className="hover:text-rk-link">
             Pricing
-          </a>
-          <a href="#" className="hover:text-rk-link">
+          </Link>
+          <Link href={routes.pricing.enterprise} className="hover:text-rk-link">
             Enterprise
-          </a>
+          </Link>
           <MoreMenu />
           <div className="-ml-4">
             <ProfileMenu />

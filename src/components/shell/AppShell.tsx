@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { routes } from "@/config/routes";
 import { useState, useSyncExternalStore, type ReactNode } from "react";
 import { Footer } from "../Footer";
 import { HamburgerIcon, PlusIcon } from "../ui/icons";
@@ -96,13 +98,13 @@ export function AppShell({
               <PlusIcon />
               Invite users
             </button>
-            <a href="#" className="hover:text-rk-link">
+            <Link href={routes.pricing.seo} className="hover:text-rk-link">
               Pricing
-            </a>
+            </Link>
             {enterprise && (
-              <a href="#" className="hover:text-rk-link">
+              <Link href={routes.pricing.enterprise} className="hover:text-rk-link">
                 Enterprise
-              </a>
+              </Link>
             )}
             <MoreMenu />
             <div className="-ml-4">
