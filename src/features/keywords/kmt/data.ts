@@ -65,7 +65,21 @@ export const kmtDatabases: { code: string; name: string }[] = [
 export const kmtLanguages = ["English", "Swedish", "German", "French", "Spanish", "Italian", "Polish", "Dutch", "Portuguese", "Danish", "Norwegian", "Finnish"];
 
 export const volumeRanges = ["100,001+", "10,001–100,000", "1,001–10,000", "101–1,000", "11–100", "1–10"];
-export const kdRanges = ["Very hard 85–100%", "Hard 70–84%", "Difficult 50–69%", "Possible 30–49%", "Easy 15–29%", "Very easy 0–14%"];
+export const kdRanges = [
+  { name: "Very hard", range: "85–100%" },
+  { name: "Hard", range: "70–84%" },
+  { name: "Difficult", range: "50–69%" },
+  { name: "Possible", range: "30–49%" },
+  { name: "Easy", range: "15–29%" },
+  { name: "Very easy", range: "0–14%" },
+];
+
+export const currencies = [
+  { code: "USD", label: "USD, $", rate: 1 },
+  { code: "SEK", label: "SEK", rate: 10.5 },
+] as const;
+
+export type Currency = (typeof currencies)[number]["code"];
 
 export const intentInfo: Record<string, { name: string; text: string }> = {
   I: { name: "Informational", text: "The user wants to find an answer to a specific question." },
@@ -93,7 +107,7 @@ export const sfLabels: Record<SfKind, string> = {
   local: "Local pack",
   sitelinks: "Sitelinks",
   reviews: "Reviews",
-  images: "Image pack",
+  images: "Image",
 };
 
 const sfOrder: SfKind[] = ["ai", "video", "paa", "related", "local", "sitelinks", "reviews", "images"];
@@ -128,14 +142,18 @@ export const subGroups: Record<string, { label: string; count: string }[]> = {
     { label: "intern", count: "4" },
   ],
   "all:redovisning": [
-    { label: "ab", count: "512" },
-    { label: "byrå", count: "498" },
-    { label: "ekonomi", count: "131" },
-    { label: "extern", count: "127" },
-    { label: "revision", count: "119" },
-    { label: "stockholm", count: "104" },
-    { label: "utbildning", count: "92" },
-    { label: "göteborg", count: "80" },
+    { label: "ab", count: "528" },
+    { label: "bokföra", count: "198" },
+    { label: "extern", count: "159" },
+    { label: "ekonomi", count: "135" },
+    { label: "revision", count: "131" },
+    { label: "2", count: "122" },
+    { label: "muntlig", count: "121" },
+    { label: "stockholm", count: "116" },
+    { label: "byrå", count: "102" },
+    { label: "utbildning", count: "95" },
+    { label: "göteborg", count: "86" },
+    { label: "enskild", count: "79" },
   ],
 };
 
@@ -163,3 +181,62 @@ export const koLocations: { name: string; type: string }[] = [
   { name: "Uppsala, Uppsala County", type: "City" },
   { name: "Varberg, Halland County", type: "City" },
 ];
+
+export type QvSerpRow =
+  | { kind: "feature"; feature: SfKind; label: string }
+  | { kind: "url"; pos: number; url: string; pageAs: number; refDomains: number; keywords: number; features?: SfKind[] };
+
+export type QuickViewData = {
+  global: string;
+  countries: { code: string; name: string; value: string }[];
+  kd: number;
+  intent: string;
+  cpc: string;
+  trend: number[];
+  questions: { keyword: string; volume: string }[];
+  related: { keyword: string; volume: string }[];
+  serpTotal: string;
+  serp: QvSerpRow[];
+};
+
+export const quickViews: Record<string, QuickViewData> = {
+  redovisningsbyrå: {
+    global: "2.7K",
+    countries: [
+      { code: "SE", name: "Sweden", value: "1.9K" },
+      { code: "US", name: "United States", value: "260" },
+      { code: "DE", name: "Germany", value: "50" },
+      { code: "NO", name: "Norway", value: "40" },
+      { code: "ID", name: "Indonesia", value: "30" },
+    ],
+    kd: 33,
+    intent: "Commercial",
+    cpc: "10.53",
+    trend: [5, 8, 16, 10, 8, 6.5, 8, 10, 13.5, 24, 17, 12],
+    questions: [
+      { keyword: "vad gör en redovisningsbyrå", volume: "50" },
+      { keyword: "vad kostar redovisningsbyrå", volume: "30" },
+      { keyword: "vad är redovisningsbyrå", volume: "30" },
+    ],
+    related: [
+      { keyword: "redovisningsbyrå enskild firma", volume: "5.4K" },
+      { keyword: "hjälp med bokföring aktiebolag", volume: "170" },
+      { keyword: "revision", volume: "4.4K" },
+    ],
+    serpTotal: "113",
+    serp: [
+      { kind: "feature", feature: "local", label: "Local pack (2 links)" },
+      { kind: "url", pos: 1, url: "redovisningsbyrån.nu/", pageAs: 73, refDomains: 243, keywords: 1265, features: ["images"] },
+      { kind: "feature", feature: "paa", label: "People also ask (1 link)" },
+      { kind: "url", pos: 2, url: "redovisningskollen.se/", pageAs: 69, refDomains: 187, keywords: 842 },
+      { kind: "url", pos: 3, url: "fortnox.se/fortnox-foretagsguide/redovisningsbyra/", pageAs: 41, refDomains: 12, keywords: 96 },
+      { kind: "url", pos: 4, url: "www.bokio.se/redovisningsbyra/", pageAs: 38, refDomains: 9, keywords: 211 },
+      { kind: "url", pos: 5, url: "www.aspia.se/redovisning/", pageAs: 35, refDomains: 21, keywords: 164 },
+      { kind: "url", pos: 6, url: "www.azets.com/sv-se/redovisning", pageAs: 33, refDomains: 14, keywords: 120 },
+      { kind: "url", pos: 7, url: "www.srfkonsult.se/hitta-konsult/", pageAs: 30, refDomains: 18, keywords: 77 },
+      { kind: "url", pos: 8, url: "www.hitta.se/redovisningsbyrå/", pageAs: 27, refDomains: 3, keywords: 52 },
+      { kind: "url", pos: 9, url: "www.verksamt.se/driva/ekonomi", pageAs: 44, refDomains: 36, keywords: 310 },
+      { kind: "url", pos: 10, url: "sv.wikipedia.org/wiki/Redovisningsbyrå", pageAs: 52, refDomains: 11, keywords: 28 },
+    ],
+  },
+};

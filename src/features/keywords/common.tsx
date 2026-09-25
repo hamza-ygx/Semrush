@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
-import type { CSSProperties, ReactNode, SVGProps } from "react";
+import { Fragment, type CSSProperties, type ReactNode, type SVGProps } from "react";
 import { brand } from "@/config/brand";
 import { routes } from "@/config/routes";
 import { Breadcrumbs } from "@/components/ui/primitives";
@@ -254,7 +254,7 @@ export function SegButtons<T extends string>({
   className = "",
   itemClassName = "h-7 px-2 text-[14px]",
 }: {
-  items: { value: T; label: ReactNode }[];
+  items: { value: T; label: ReactNode; wrap?: (button: ReactNode) => ReactNode }[];
   value: T;
   onChange: (v: T) => void;
   className?: string;
@@ -264,7 +264,7 @@ export function SegButtons<T extends string>({
     <div className={`inline-flex rounded-md ${className}`}>
       {items.map((it, i) => {
         const on = it.value === value;
-        return (
+        const button = (
           <button
             key={it.value}
             type="button"
@@ -276,6 +276,7 @@ export function SegButtons<T extends string>({
             {it.label}
           </button>
         );
+        return it.wrap ? <Fragment key={it.value}>{it.wrap(button)}</Fragment> : button;
       })}
     </div>
   );

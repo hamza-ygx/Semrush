@@ -3,9 +3,9 @@
 import { useState, type ReactNode } from "react";
 import { ChevronRight } from "@/components/ui/icons";
 import { EyeIcon, SegButtons } from "../common";
-import { allGroups, kmStats, questionGroups, topics } from "../data";
-import { Drop } from "./ui";
+import { Drop, Tip } from "./ui";
 import { subGroups } from "./data";
+import type { KmtDataset } from "./dataset";
 
 type Mode = "topics" | "groups";
 type Group = { label: string; count: string };
@@ -106,10 +106,25 @@ function GroupRow({
   );
 }
 
-export function Sidebar({ mode, setMode, type, onTip }: { mode: Mode; setMode: (m: Mode) => void; type: "all" | "questions"; onTip: ReactNode }) {
-  const [sel, setSel] = useState<number | string>(0);
-  const groups = type === "questions" ? questionGroups : allGroups;
-  const total = type === "questions" ? kmStats.questions.total : kmStats.groups.total;
+export function Sidebar({
+  data,
+  mode,
+  setMode,
+  type,
+  onTip,
+  sel,
+  setSel,
+}: {
+  data: KmtDataset;
+  mode: Mode;
+  setMode: (m: Mode) => void;
+  type: "all" | "questions";
+  onTip: ReactNode;
+  sel: number | string;
+  setSel: (s: number | string) => void;
+}) {
+  const groups = type === "questions" ? data.questionGroups : data.allGroups;
+  const total = type === "questions" ? data.stats.questions.total : data.stats.groups.total;
   return (
     <div className="sticky top-0 z-30 flex h-screen w-[240px] shrink-0 flex-col self-start border-r border-rk-border bg-white">
       <div className="relative flex h-11 shrink-0 items-center px-3">
@@ -122,6 +137,11 @@ export function Sidebar({ mode, setMode, type, onTip }: { mode: Mode; setMode: (
                   Topics
                   <span className="rounded-full bg-[#009f81] px-[5px] text-[11px] leading-[14px] font-semibold text-white">new</span>
                 </span>
+              ),
+              wrap: (b) => (
+                <Tip tip="Keywords with similar meaning, united under broader topics." gap={12} bleed portal>
+                  {b}
+                </Tip>
               ),
             },
             { value: "groups", label: "Groups" },
@@ -147,15 +167,15 @@ export function Sidebar({ mode, setMode, type, onTip }: { mode: Mode; setMode: (
       )}
       <div className="min-h-0 flex-1 overflow-y-scroll [&::-webkit-scrollbar]:w-[7px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:[border-width:0_2px_0_0] [&::-webkit-scrollbar-thumb]:border-solid [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-[#d4d6da] [&::-webkit-scrollbar-thumb]:bg-clip-padding">
         {mode === "topics" ? (
-          topics.map((t, i) => (
+          data.topics.map((t, i) => (
             <button
               key={t.label}
               type="button"
               onClick={() => setSel(i)}
-              className={`flex w-full items-start justify-between gap-3 pt-3 pb-3 pr-[3px] pl-3 text-left font-[Arial,sans-serif] text-[14px] leading-5 ${sel === i ? "bg-[#e8eaee]" : "hover:bg-rk-bg"}`}
+              className={`flex w-full items-start justify-between gap-[18px] pt-3 pb-3 pr-[3px] pl-3 text-left font-[Arial,sans-serif] text-[14px] leading-5 ${sel === i ? "bg-[#e8eaee]" : "hover:bg-rk-bg"}`}
             >
-              <span className="max-w-[176px]">{i === 0 && type === "questions" ? "All" : t.label}</span>
-              <span className="shrink-0">{i === 0 && type === "questions" ? kmStats.questions.total : t.count}</span>
+              <span className="min-w-0">{t.label}</span>
+              <span className="shrink-0">{type === "questions" ? t.qCount : t.count}</span>
             </button>
           ))
         ) : (

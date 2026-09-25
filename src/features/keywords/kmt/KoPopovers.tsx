@@ -6,11 +6,12 @@ import { CirclePlus, PinIcon } from "../common";
 import { ChevronDownSm, Drop } from "./ui";
 import { koLocations } from "./data";
 
-export function AddToList() {
+export function AddToList({ className = "", gap = 8, wideInput = false }: { className?: string; gap?: number; wideInput?: boolean }) {
   const [name, setName] = useState("");
   return (
     <Drop
-      panelStyle={{ top: "calc(100% + 8px)", left: 0, width: 378 }}
+      className={className}
+      panelStyle={{ top: `calc(100% + ${gap}px)`, left: wideInput ? 1 : 0, width: wideInput ? 379 : 378 }}
       trigger={({ toggle, open }) => (
         <button type="button" aria-label="Add to keyword list" onClick={toggle} className={`flex hover:text-rk-text-2 ${open ? "text-rk-text-2" : "text-rk-faint"}`}>
           <CirclePlus />
@@ -30,20 +31,20 @@ export function AddToList() {
               e.preventDefault();
               if (name.trim()) close();
             }}
-            className="flex items-center gap-[14px] px-2 pt-2 pb-[9px]"
+            className={`flex items-center px-2 pt-2 pb-[9px] ${wideInput ? "gap-[13px]" : "gap-[14px]"}`}
           >
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter a list name"
-              className="h-7 w-[305px] rounded-md border border-rk-border-strong px-2 text-[14px] outline-none placeholder:text-rk-faint focus:border-[#7a86f2]"
+              className={`h-7 rounded-md ${wideInput ? "w-[314px]" : "w-[305px]"} border border-rk-border-strong px-2 text-[14px] outline-none placeholder:text-rk-faint focus:border-[#7a86f2]`}
             />
             <button type="submit" aria-label="Create list" className="text-[#009f81] hover:text-[#007c65]">
               <svg viewBox="0 0 16 16" width={16} height={16}>
                 <path d="m3 8.5 3 3 7-7" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
-            <button type="button" aria-label="Cancel" onClick={close} className="ml-[4px] text-rk-faint hover:text-rk-text-2">
+            <button type="button" aria-label="Cancel" onClick={close} className={`text-rk-faint ${wideInput ? "-ml-[3px]" : "ml-[4px]"} hover:text-rk-text-2`}>
               <svg viewBox="0 0 16 16" width={16} height={16}>
                 <path d="M4.5 4.5l7 7M11.5 4.5l-7 7" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" />
               </svg>

@@ -44,6 +44,8 @@ export const serpRows: SerpRow[] = [
 
 export const serpRanges = ["1-10", "11-20", "21-30", "31-40", "41-50", "51-60", "61-70", "71-80", "81-90", "91-100"];
 
+import type { SfKind } from "./kmt/data";
+
 export type KwRow = {
   keyword: string;
   intents: string[];
@@ -55,6 +57,7 @@ export type KwRow = {
   sfIcon?: boolean;
   added?: boolean;
   results?: string;
+  sfList?: SfKind[];
 };
 
 const r = (keyword: string, intents: string, volume: string, kd: number | null, cpc: string, sf: number | null, sfIcon = false, relevance = 71): KwRow => ({
@@ -202,7 +205,7 @@ const g = (keyword: string, intents: string, volume: string, kd: number | null, 
 });
 
 export const groupRows: KwRow[] = [
-  g("redovisningsbyrå", "C", "1.9K", 33, "10.53", 5, true),
+  { ...g("redovisningsbyrå", "C", "1.9K", 33, "10.53", 5, true), sfList: ["images", "video", "paa", "local", "related"] },
   g("redovisningsekonom utbildning", "I", "1.9K", 27, "0.68", 7, true),
   g("bokföring bostadsrättsförening", "I", "1.6K", 13, "5.49", 4),
   g("outsourcing redovisning", "I", "1.6K", 15, "6.39", 4),
@@ -254,26 +257,26 @@ export const questionRows: KwRow[] = [
 ];
 
 export const topics = [
-  { label: "All", count: "56.4K" },
-  { label: "redovisningsbyråer i sverige", count: "562" },
-  { label: "rådgivning redovisning", count: "115" },
-  { label: "förenklat årsbokslut", count: "695" },
-  { label: "finansiell rapportering", count: "213" },
-  { label: "inventarier och avskrivningar", count: "989" },
-  { label: "rex standard", count: "176" },
-  { label: "revision definition och betydelse", count: "247" },
-  { label: "revisor eller redovisningskonsult", count: "79" },
-  { label: "bokföring enskild firma", count: "1.7K" },
-  { label: "Årsredovisning och mallar", count: "951" },
-  { label: "bokföring för nybörjare", count: "390" },
-  { label: "bokföring i stockholm", count: "151" },
-  { label: "koncern och dotterbolag", count: "409" },
-  { label: "redovisningsekonom utbildning", count: "518" },
-  { label: "moms och skatt", count: "1.2K" },
-  { label: "löneadministration", count: "287" },
-  { label: "bokslut aktiebolag", count: "644" },
-  { label: "k2 och k3 regelverk", count: "301" },
-  { label: "redovisningsprogram", count: "455" },
+  { label: "All", count: "56.4K", qCount: "5.8K" },
+  { label: "redovisningsbyråer i sverige", count: "562", qCount: "12" },
+  { label: "rådgivning redovisning", count: "115", qCount: "1" },
+  { label: "förenklat årsbokslut", count: "695", qCount: "66" },
+  { label: "finansiell rapportering", count: "213", qCount: "17" },
+  { label: "inventarier och avskrivningar", count: "989", qCount: "91" },
+  { label: "rex standard", count: "176", qCount: "6" },
+  { label: "revision definition och betydelse", count: "247", qCount: "46" },
+  { label: "revisor eller redovisningskonsult", count: "79", qCount: "8" },
+  { label: "bokföring enskild firma", count: "1.7K", qCount: "140" },
+  { label: "Årsredovisning och mallar", count: "951", qCount: "88" },
+  { label: "bokföring för nybörjare", count: "390", qCount: "31" },
+  { label: "bokföring i stockholm", count: "151", qCount: "14" },
+  { label: "koncern och dotterbolag", count: "409", qCount: "37" },
+  { label: "redovisningsekonom utbildning", count: "518", qCount: "42" },
+  { label: "moms och skatt", count: "1.2K", qCount: "97" },
+  { label: "löneadministration", count: "287", qCount: "19" },
+  { label: "bokslut aktiebolag", count: "644", qCount: "58" },
+  { label: "k2 och k3 regelverk", count: "301", qCount: "23" },
+  { label: "redovisningsprogram", count: "455", qCount: "44" },
 ];
 
 export const allGroups = [
@@ -344,7 +347,8 @@ export const questionGroups = [
   { label: "skillnad", count: "5" },
   { label: "intern", count: "4" },
   { label: "bokslut", count: "4" },
-  { label: "fungerar", count: "3" },  { label: "vad", count: "3" },
+  { label: "fungerar", count: "3" },
+  { label: "vad", count: "3" },
   { label: "hur", count: "3" },
   { label: "varför", count: "3" },
   { label: "när", count: "3" },
@@ -386,8 +390,27 @@ export const questionGroups = [
   { label: "bokföring", count: "2" },
 ];
 
+export const topicQuestionRows: KwRow[] = [
+  r("vad är redovisningsbyrå", "", "30", null, "0.00", null),
+  r("vad är en redovisningsbyrå", "", "20", null, "0.00", null),
+  r("how much does it cost an acoountant office in sweden", "", "0", null, "0.00", null),
+  r("how much to pay for accounting firm in sweden", "", "0", null, "0.00", null),
+  r("hur har redovisningsbyroer så hög omsättning", "", "0", null, "0.00", null),
+  r("hur många personer jobbar inom redovisning i sverige", "", "0", null, "0.00", null),
+  r("hur mycket kostar en redovisningsbyrå", "", "0", null, "0.00", null),
+  r("hur väljer man redovisningsbyrå", "", "0", null, "0.00", null),
+  r("vad gör en redovisningskonsult", "", "0", null, "0.00", null),
+  r("vad kostar bokföring för enskild firma", "", "0", null, "0.00", null),
+  r("vad kostar en auktoriserad redovisningskonsult", "", "0", null, "0.00", null),
+  r("vilken redovisningsbyrå är bäst", "", "0", null, "0.00", null),
+  r("varför anlita en redovisningsbyrå", "", "0", null, "0.00", null),
+  r("när behöver man en redovisningsbyrå", "", "0", null, "0.00", null),
+  r("what is the best accounting firm in stockholm", "", "0", null, "0.00", null),
+];
+
 export const kmStats = {
-  topics: { all: "56.4K", volume: "503,070", kd: "18%", pages: 565 },
+  topics: { all: "56.4K", total: "56,410", volume: "503,070", kd: "18%", pages: 565 },
+  topicQuestions: { all: "5.8K", total: "5,803", volume: "36,610", kd: "17%", pages: 59 },
   groups: { all: "7.9K", total: "7,905", volume: "64,250", kd: "17%", pages: 80 },
   questions: { all: "207", total: "207", volume: "870", kd: "11%", pages: 3 },
 };

@@ -1,22 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { routes } from "@/config/routes";
-import { LinkSelect } from "@/components/ui/Popover";
 import { FeedbackIcon } from "@/components/ui/icons";
 import { KwHeader, OnboardingTip, SegButtons } from "./common";
-import { groupRows, kmStats, questionRows, topicRows } from "./data";
+import type { KwRow } from "./data";
+import { CurrencySelect } from "./kmt/Currency";
 import { DatabaseSelect } from "./kmt/DatabaseSelect";
 import { Filters, LangSelect } from "./kmt/Filters";
+import { QuickView } from "./kmt/QuickView";
 import { Sidebar } from "./kmt/Sidebar";
 import { KmtTable } from "./kmt/Table";
-import { SparkleLg, useWide } from "./kmt/ui";
+import { SparkleLg, Tip, useWide } from "./kmt/ui";
+import type { Currency } from "./kmt/data";
+import { kmtDataset } from "./kmt/dataset";
 
 type Mode = "topics" | "groups";
 type Type = "all" | "questions";
 
-function Toolbar({ type, setType }: { type: Type; setType: (t: Type) => void }) {
+function Toolbar({ type, setType, currency }: { type: Type; setType: (t: Type) => void; currency: Currency }) {
   const [match, setMatch] = useState("all");
   return (
     <div className="px-8 pt-[15px]">
@@ -24,7 +27,15 @@ function Toolbar({ type, setType }: { type: Type; setType: (t: Type) => void }) 
         <SegButtons
           items={[
             { value: "all", label: "All" },
-            { value: "questions", label: "Questions" },
+            {
+              value: "questions",
+              label: "Questions",
+              wrap: (b) => (
+                <Tip tip="A list of question-based keywords that contain your seed keyword." gap={12} className="-ml-px" bleed portal>
+                  {b}
+                </Tip>
+              ),
+            },
           ]}
           value={type}
           onChange={setType}
@@ -47,7 +58,7 @@ function Toolbar({ type, setType }: { type: Type; setType: (t: Type) => void }) 
         <input placeholder="Enter domain for personalized data" className="min-w-0 flex-1 bg-transparent text-[14px] outline-none placeholder:text-[#a0a2aa]" />
       </label>
       <div className="mt-[13px]">
-        <Filters />
+        <Filters currency={currency} />
       </div>
     </div>
   );
@@ -57,6 +68,20 @@ export function KeywordMagic({ q, initialMode, initialType }: { q: string; initi
   const [mode, setModeState] = useState<Mode>(initialMode);
   const [type, setTypeState] = useState<Type>(initialType);
   const [tip, setTip] = useState(initialMode === "topics");
+  const [loadingFrom, setLoadingFrom] = useState<KwRow[] | null>(null);
+  const [group, setGroup] = useState<number | string>(0);
+  const [currency, setCurrency] = useState<Currency>("USD");
+  const [quick, setQuick] = useState<KwRow | null>(null);
+  const data = useMemo(() => kmtDataset(q), [q]);
+
+  const rowsFor = (m: Mode, t: Type) =>
+    t === "questions" ? (m === "topics" ? data.topicQuestionRows : data.questionRows) : m === "topics" ? data.topicRows : data.groupRows;
+
+  useEffect(() => {
+    if (!loadingFrom) return;
+    const id = window.setTimeout(() => setLoadingFrom(null), 1400);
+    return () => window.clearTimeout(id);
+  }, [loadingFrom]);
 
   const sync = (m: Mode, t: Type) => {
     const u = new URL(window.location.href);
@@ -66,18 +91,23 @@ export function KeywordMagic({ q, initialMode, initialType }: { q: string; initi
     window.history.replaceState(null, "", u.toString());
   };
   const setMode = (m: Mode) => {
+    if (m === mode) return;
+    if (m === "topics") setLoadingFrom(rowsFor(mode, type).map((r) => ({ ...r, relevance: undefined })));
     setModeState(m);
     if (m === "groups") setTip(false);
+    setGroup(0);
     sync(m, type);
   };
   const setType = (t: Type) => {
     setTypeState(t);
+    setGroup(0);
     sync(mode, t);
   };
 
-  const rows = type === "questions" ? questionRows : mode === "topics" ? topicRows : groupRows;
-  const stats = type === "questions" ? kmStats.questions : mode === "topics" ? kmStats.topics : kmStats.groups;
-  const relevance = mode === "topics" && type === "all";
+  const rows = loadingFrom ?? rowsFor(mode, type);
+  const stats =
+    type === "questions" ? (mode === "topics" ? data.stats.topicQuestions : data.stats.questions) : mode === "topics" ? data.stats.topics : data.stats.groups;
+  const relevance = mode === "topics";
 
   const wide = useWide();
 
@@ -103,19 +133,19 @@ export function KeywordMagic({ q, initialMode, initialType }: { q: string; initi
         meta={
           <>
             <DatabaseSelect />
-            <span className="flex items-center gap-1">
-              Currency:
-              <LinkSelect value="USD" options={["USD", "EUR", "SEK"] as const} />
-            </span>
+            <CurrencySelect value={currency} onChange={setCurrency} />
           </>
         }
       />
-      <Toolbar type={type} setType={setType} />
+      <Toolbar type={type} setType={setType} currency={currency} />
       <div className="mx-8 mt-4 flex rounded-lg bg-white shadow-card">
         <Sidebar
+          data={data}
           mode={mode}
           setMode={setMode}
           type={type}
+          sel={group}
+          setSel={setGroup}
           onTip={
             tip && (
               <>
@@ -140,10 +170,21 @@ export function KeywordMagic({ q, initialMode, initialType }: { q: string; initi
           .filter((w) => wide === null || wide === w)
           .map((w) => (
             <div key={`${w ? "w" : "n"}-${mode}-${type}`} className={`min-w-0 flex-1 ${wide === null ? (w ? "hidden xl:block" : "xl:hidden") : ""}`}>
-              <KmtTable rows={rows} stats={stats} relevance={relevance} plus={mode === "topics" || type === "questions"} wide={w} />
+              <KmtTable
+                rows={rows}
+                stats={stats}
+                relevance={relevance}
+                plus={mode === "topics" || type === "questions"}
+                wide={w}
+                loading={!!loadingFrom}
+                currency={currency}
+                groupSelected={group !== 0}
+                onQuick={setQuick}
+              />
             </div>
           ))}
       </div>
+      {quick && <QuickView row={quick} onClose={() => setQuick(null)} />}
     </>
   );
 }

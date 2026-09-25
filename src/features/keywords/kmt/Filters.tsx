@@ -3,7 +3,7 @@
 import { useState, type ReactNode } from "react";
 import { MenuItem, Popover } from "@/components/ui/Popover";
 import { ApplyButton, Check, ChevronDownSm, Drop, ItalicInfo } from "./ui";
-import { intentInfo, kdRanges, kmtLanguages, volumeRanges } from "./data";
+import { intentInfo, kdRanges, kmtLanguages, volumeRanges, type Currency } from "./data";
 
 const inputCls = "h-7 w-full border border-rk-border-strong bg-white px-2 text-[14px] outline-none placeholder:text-rk-faint focus:border-[#7a86f2]";
 
@@ -57,6 +57,31 @@ function RangeFilter({ label, items }: { label: string; items: string[] }) {
             {items.map((i) => (
               <MenuItem key={i} onClick={close} className="px-[9px]">
                 {i}
+              </MenuItem>
+            ))}
+          </div>
+          <div className="border-t border-rk-border">
+            <CustomRange close={close} pad="px-[10px] pt-[10px] pb-2" />
+          </div>
+        </>
+      )}
+    </FilterDrop>
+  );
+}
+
+function KdFilter() {
+  return (
+    <FilterDrop label="KD %" width={193}>
+      {(close) => (
+        <>
+          <div className="py-1">
+            {kdRanges.map((k) => (
+              <MenuItem key={k.name} onClick={close} className="px-[9px]">
+                <span className="flex w-full items-center">
+                  {k.name}
+                  <ItalicInfo className="ml-[6px] text-rk-faint" />
+                  <span className="ml-auto text-rk-text-2">{k.range}</span>
+                </span>
               </MenuItem>
             ))}
           </div>
@@ -185,13 +210,13 @@ function AdvancedFilters() {
   );
 }
 
-export function Filters() {
+export function Filters({ currency = "USD" }: { currency?: Currency }) {
   return (
     <div className="flex items-center gap-2">
       <RangeFilter label="Volume" items={volumeRanges} />
-      <RangeFilter label="KD %" items={kdRanges} />
+      <KdFilter />
       <IntentFilter />
-      <FilterDrop label="CPC (USD)" width={192}>
+      <FilterDrop label={`CPC (${currency})`} width={192}>
         {(close) => <CustomRange close={close} pad="px-[9px] pt-[6px] pb-2" />}
       </FilterDrop>
       <KeywordsFilter label="Include keywords" include />

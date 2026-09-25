@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
+import { useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { useOutsideClose } from "@/components/ui/Popover";
 
 const wideQuery = "(min-width: 1280px)";
@@ -63,6 +64,8 @@ export function Tip({
   width = 226,
   align = "center",
   gap = 10,
+  bleed = false,
+  portal = false,
 }: {
   children: ReactNode;
   tip: ReactNode;
@@ -70,24 +73,39 @@ export function Tip({
   width?: number;
   align?: "center" | "right";
   gap?: number;
+  bleed?: boolean;
+  portal?: boolean;
 }) {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState<CSSProperties | null>(null);
+  const ref = useRef<HTMLSpanElement>(null);
+  const open = () => {
+    const r = ref.current?.getBoundingClientRect();
+    if (!portal || !r) return setShow({ width, bottom: `calc(100% + ${gap}px)`, ...(align === "center" ? { left: "50%", marginLeft: -width / 2 } : { right: 0 }) });
+    setShow({
+      width,
+      top: r.top + window.scrollY - gap,
+      left: align === "center" ? r.left + window.scrollX + r.width / 2 - width / 2 : r.right + window.scrollX - width,
+      transform: "translateY(-100%)",
+    });
+  };
+  const body = show && (
+    <span
+      role="tooltip"
+      style={show}
+      className={`pointer-events-none absolute rounded-md bg-white px-3 py-3 text-left text-[14px] leading-5 font-normal whitespace-normal text-rk-text shadow-popover ${portal ? "z-[65]" : "z-50"}`}
+    >
+      {tip}
+      {bleed && <span aria-hidden className="absolute top-0 left-0 h-px w-screen" />}
+      <span
+        className="absolute -bottom-[5px] h-[10px] w-[10px] rotate-45 bg-white shadow-[2px_2px_2px_rgba(25,27,35,0.08)]"
+        style={align === "center" ? { left: "50%", marginLeft: -5 } : { right: 14 }}
+      />
+    </span>
+  );
   return (
-    <span className={`relative inline-flex ${className}`} onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
+    <span ref={ref} className={`relative inline-flex ${className}`} onMouseEnter={open} onMouseLeave={() => setShow(null)}>
       {children}
-      {show && (
-        <span
-          role="tooltip"
-          style={{ width, bottom: `calc(100% + ${gap}px)`, ...(align === "center" ? { left: "50%", marginLeft: -width / 2 } : { right: 0 }) }}
-          className="pointer-events-none absolute z-50 rounded-md bg-white px-3 py-3 text-left text-[14px] leading-5 font-normal whitespace-normal text-rk-text shadow-popover"
-        >
-          {tip}
-          <span
-            className="absolute -bottom-[5px] h-[10px] w-[10px] rotate-45 bg-white shadow-[2px_2px_2px_rgba(25,27,35,0.08)]"
-            style={align === "center" ? { left: "50%", marginLeft: -5 } : { right: 14 }}
-          />
-        </span>
-      )}
+      {body && (portal ? createPortal(body, document.body) : body)}
     </span>
   );
 }

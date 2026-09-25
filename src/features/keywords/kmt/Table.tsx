@@ -4,10 +4,11 @@ import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { routes } from "@/config/routes";
 import { ChevronsLeft, ExportIcon, GearIcon, RefreshIcon } from "@/components/ui/icons";
-import { CirclePlus, KdDot, SendIcon, SerpIcon, SfIcon, SortIcon } from "../common";
+import { KdDot, SendIcon, SerpIcon, SfIcon, SortIcon } from "../common";
 import type { KwRow } from "../data";
+import { AddToList } from "./KoPopovers";
 import { ApplyButton, Check, Drop, ItalicInfo, Tip } from "./ui";
-import { intentInfo, kdInfo, kmtColumns, sfFeatures, sfLabels, type KmtColumn, type SfKind } from "./data";
+import { currencies, intentInfo, kdInfo, kmtColumns, sfFeatures, sfLabels, type Currency, type KmtColumn, type SfKind } from "./data";
 
 type Stats = { all: string; total?: string; volume: string; kd: string; pages: number };
 
@@ -21,6 +22,12 @@ const intentStyle: Record<string, string> = {
   N: "bg-[#e7d3fb] text-[#8a3fcf] group-hover/i:bg-[#b57cf0] group-hover/i:text-white",
   T: "bg-[#9ef2c9] text-[#00785f] group-hover/i:bg-[#2bc48d] group-hover/i:text-white",
 };
+
+const RefreshGlyph = () => (
+  <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#9a9ca4]">
+    <path d="M14.4 8.4A6.5 6.5 0 1 1 12.6 3.5M13.2 1V4H10.2" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
 
 const fullVolume = (v: string) => (/K$/.test(v) ? Math.round(parseFloat(v) * 1000).toLocaleString("en-US") : v);
 
@@ -51,7 +58,7 @@ function Intents({ intents, selected }: { intents: string[]; selected: boolean }
   );
 }
 
-const sfGlyph: Record<SfKind, ReactNode> = {
+export const sfGlyph: Record<SfKind, ReactNode> = {
   ai: <path d="M8 .5C8.9 5 11 7.1 15.5 8 11 8.9 8.9 11 8 15.5 7.1 11 5 8.9.5 8 5 7.1 7.1 5 8 .5z" fill="currentColor" />,
   video: (
     <>
@@ -68,7 +75,7 @@ const sfGlyph: Record<SfKind, ReactNode> = {
 };
 
 function SfCount({ row }: { row: KwRow }) {
-  const feats = sfFeatures(row.sf ?? 0, !!row.sfIcon);
+  const feats = row.sfList ?? sfFeatures(row.sf ?? 0, !!row.sfIcon);
   return (
     <Drop
       panelStyle={{ top: "calc(100% + 7px)", right: 2, width: 200 }}
@@ -112,6 +119,8 @@ function Row({
   wide,
   selected,
   toggle,
+  rate,
+  onQuick,
 }: {
   row: KwRow;
   relevance: boolean;
@@ -120,8 +129,12 @@ function Row({
   wide: boolean;
   selected: boolean;
   toggle: () => void;
+  rate: number;
+  onQuick?: (r: KwRow) => void;
 }) {
   const noData = row.kd == null && row.sf == null;
+  const tailCols = cols.filter((c) => c === "sf" || c === "results" || c === "updated");
+  const merged = wide && noData && cols.includes("sf");
   const cut = row.keyword.lastIndexOf(" ") + 1;
   const td = "pt-3 pb-[11px] align-top leading-5";
   const kd = row.kd;
@@ -134,14 +147,26 @@ function Row({
       </td>
       <td className={`${td} pr-4 pl-2`}>
         <span className="flex items-start gap-1">
-          {row.added || plus || wide ? <CirclePlus className="mt-[2px] shrink-0 text-rk-faint" /> : <span className="mt-[2px] h-4 w-4 shrink-0 rounded-full bg-[#e8e9ed]" />}
-          <Link href={`${routes.keywordOverview}?q=${encodeURIComponent(row.keyword)}&db=se`} className="text-rk-link hover:underline">
-            {row.keyword.slice(0, cut)}
+          {row.added || plus || wide ? (
+            <AddToList className="mt-[2px] shrink-0" gap={10} wideInput />
+          ) : (
+            <span className="mt-[2px] h-4 w-4 shrink-0 rounded-full bg-[#e8e9ed]" />
+          )}
+          <span className="group/kw">
+            {cut > 0 && (
+              <Link href={`${routes.keywordOverview}?q=${encodeURIComponent(row.keyword)}&db=se`} className="text-rk-link group-hover/kw:underline group-has-[button:hover]/kw:no-underline">
+                {row.keyword.slice(0, cut)}
+              </Link>
+            )}
             <span className="whitespace-nowrap">
-              {row.keyword.slice(cut)}
-              <SerpIcon className="ml-[6px] inline-block align-[-3px] text-[#9a9ca5]" />
+              <Link href={`${routes.keywordOverview}?q=${encodeURIComponent(row.keyword)}&db=se`} className="text-rk-link group-hover/kw:underline group-has-[button:hover]/kw:no-underline">
+                {row.keyword.slice(cut)}
+              </Link>
+              <button type="button" aria-label="Keyword quick view" onClick={() => onQuick?.(row)} className="ml-[6px] inline-block align-[-3px] text-[#9a9ca5] hover:text-rk-text-2">
+                <SerpIcon />
+              </button>
             </span>
-          </Link>
+          </span>
         </span>
       </td>
       {cols.includes("intent") && (
@@ -149,7 +174,7 @@ function Row({
           <Intents intents={row.intents} selected={selected} />
         </td>
       )}
-      {relevance && <td className={`${td} pr-2 text-right`}>{row.relevance}</td>}
+      {relevance && <td className={`${td} pr-2 text-right`}>{row.relevance ?? "n/a"}</td>}
       <td className={`${td} pr-2 text-right`}>{wide ? fullVolume(row.volume) : row.volume}</td>
       {cols.includes("trend") && (
         <td className={`${td} pl-4`}>
@@ -170,9 +195,17 @@ function Row({
           </span>
         </td>
       )}
-      {cols.includes("cpc") && <td className={`${td} pr-2 text-right`}>{row.cpc}</td>}
+      {cols.includes("cpc") && <td className={`${td} pr-2 text-right`}>{(parseFloat(row.cpc) * rate).toFixed(2)}</td>}
       {cols.includes("density") && <td className={`${td} pr-2 text-right`}>{noData ? "n/a" : ((row.keyword.length % 9) / 10 + 0.1).toFixed(2)}</td>}
-      {cols.includes("sf") && (
+      {merged && (
+        <td colSpan={tailCols.length} className={`${td} pr-5 text-right whitespace-nowrap`}>
+          <span className="inline-flex items-center gap-[6px] text-rk-text-2">
+            For metrics, refresh
+            <RefreshGlyph />
+          </span>
+        </td>
+      )}
+      {!merged && cols.includes("sf") && (
         <td className={`${td} pl-[9px] whitespace-nowrap ${noData ? "overflow-hidden" : ""}`}>
           {noData ? (
             <span className="ml-[21px] text-rk-muted">For new keywords</span>
@@ -189,14 +222,12 @@ function Row({
           )}
         </td>
       )}
-      {cols.includes("results") && <td className={`${td} pr-5 text-right`}>{noData ? "n/a" : `${(((row.keyword.length * 37) % 90) / 10 + 0.4).toFixed(1)}M`}</td>}
-      {cols.includes("updated") && (
+      {!merged && cols.includes("results") && <td className={`${td} pr-5 text-right`}>{noData ? "n/a" : `${(((row.keyword.length * 37) % 90) / 10 + 0.4).toFixed(1)}M`}</td>}
+      {!merged && cols.includes("updated") && (
         <td className={`${td} pr-5 text-right whitespace-nowrap`}>
           <span className="inline-flex items-center gap-[6px]">
             {noData ? "n/a" : "1 month"}
-            <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#9a9ca4]">
-              <path d="M14.4 8.4A6.5 6.5 0 1 1 12.6 3.5M13.2 1V4H10.2" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            <RefreshGlyph />
           </span>
         </td>
       )}
@@ -308,14 +339,142 @@ function SendKeywords({ count }: { count: number }) {
   );
 }
 
-function ManageColumns({ cols, setCols, reset }: { cols: KmtColumn[]; setCols: (c: KmtColumn[]) => void; reset: (() => void) | null }) {
+function download(rows: KwRow[], format: "xlsx" | "csv" | "csv-semicolon", currency: Currency, rate: number) {
+  const sep = format === "csv" ? "," : format === "csv-semicolon" ? ";" : "\t";
+  const head = ["Keyword", "Intent", "Volume", "Keyword Difficulty", `CPC (${currency})`, "SERP Features"];
+  const body = rows.map((r) => [r.keyword, r.intents.join(" "), fullVolume(r.volume).replace(/,/g, ""), r.kd ?? "", (parseFloat(r.cpc) * rate).toFixed(2), r.sf ?? ""]);
+  const text = [head, ...body].map((l) => l.map((v) => (String(v).includes(sep) ? `"${v}"` : v)).join(sep)).join("\n");
+  const url = URL.createObjectURL(new Blob([text], { type: format === "xlsx" ? "application/vnd.ms-excel" : "text/csv" }));
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `keyword_magic_tool.${format === "xlsx" ? "xls" : "csv"}`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function ExportDrop({
+  total,
+  rows,
+  picked,
+  groupSelected,
+  currency,
+  rate,
+  wide,
+}: {
+  total: string;
+  rows: KwRow[];
+  picked: KwRow[];
+  groupSelected: boolean;
+  currency: Currency;
+  rate: number;
+  wide: boolean;
+}) {
+  const [scope, setScope] = useState<"all" | "group" | "selected">("all");
+  const [keep, setKeep] = useState(false);
+  const options = [
+    { key: "all" as const, label: "All", count: `(${total})`, disabled: false },
+    { key: "group" as const, label: "This group", count: "", disabled: !groupSelected },
+    { key: "selected" as const, label: "Selected", count: `(${picked.length})`, disabled: picked.length === 0 },
+  ];
+  const formats = [
+    { key: "xlsx" as const, label: "XLSX" },
+    { key: "csv" as const, label: "CSV" },
+    { key: "csv-semicolon" as const, label: "CSV Semicolon" },
+  ];
+  return (
+    <Drop
+      className={wide ? "ml-2" : "ml-3"}
+      panelStyle={{ top: "calc(100% + 8px)", right: 2, width: 280 }}
+      panelClassName="px-4 pt-[14px] pb-4 text-left font-normal"
+      trigger={({ toggle, open }) =>
+        wide ? (
+          <button
+            type="button"
+            aria-label="Export"
+            onClick={toggle}
+            className={`flex h-7 w-8 items-center justify-center rounded-md border border-[#d6d7db] text-rk-text-2 hover:bg-rk-hover ${open ? "bg-rk-hover" : "bg-[#f8f8f9]"}`}
+          >
+            <ExportIcon />
+          </button>
+        ) : (
+          <button type="button" onClick={toggle} className="flex h-7 items-center gap-[6px] rounded-md border border-rk-border-strong bg-[#f4f5f9] px-[14px] font-normal text-rk-text-2 hover:bg-rk-hover">
+            <ExportIcon />
+            Export
+          </button>
+        )
+      }
+    >
+      {(close) => (
+        <>
+          <div className="text-[16px] leading-6 font-semibold text-rk-text">Export data</div>
+          <div className="mt-[12px]">
+            {options.map((o) => (
+              <button
+                key={o.key}
+                type="button"
+                role="radio"
+                aria-checked={scope === o.key}
+                disabled={o.disabled}
+                onClick={() => setScope(o.key)}
+                className={`flex h-7 w-full items-center gap-2 text-[14px] ${o.disabled ? "text-[#c4c7cf]" : "text-rk-text"}`}
+              >
+                <span className={o.disabled ? "opacity-40" : ""}>
+                  <Radio on={scope === o.key && !o.disabled} />
+                </span>
+                <span>
+                  {o.label}
+                  {o.count && <span className={o.disabled ? "" : "text-rk-muted"}> {o.count}</span>}
+                </span>
+              </button>
+            ))}
+          </div>
+          <div className="mt-[12px] border-t border-rk-border pt-[11px]">
+            <label className="flex h-7 items-center gap-2 text-[14px] text-rk-text">
+              <Check checked={keep} onChange={() => setKeep((k) => !k)} label="Keep grouping" />
+              Keep grouping
+            </label>
+          </div>
+          <div className="mt-[11px] flex gap-2">
+            {formats.map((f, i) => (
+              <button
+                key={f.key}
+                type="button"
+                onClick={() => {
+                  download(scope === "selected" ? picked : rows, f.key, currency, rate);
+                  close();
+                }}
+                className={`h-7 rounded-md px-2 text-[14px] ${
+                  i === 0 ? "bg-rk-btn-dark font-semibold text-white hover:bg-[#2b2e38]" : "border border-[#d6d7db] bg-white text-rk-text-2 hover:bg-rk-hover"
+                }`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </Drop>
+  );
+}
+
+function ManageColumns({
+  cols,
+  setCols,
+  reset,
+  currency,
+}: {
+  cols: KmtColumn[];
+  setCols: (c: KmtColumn[]) => void;
+  reset: (() => void) | null;
+  currency: Currency;
+}) {
   return (
     <Drop
       className="ml-2"
       panelStyle={{ top: "calc(100% + 6px)", right: 0, width: 221 }}
       panelClassName="pt-[9px] pb-2 text-left font-normal"
       trigger={({ open, toggle }) => (
-        <Tip tip="Manage columns" width={138} gap={11}>
+        <Tip tip="Manage columns" width={138} gap={11} bleed>
           <button
             type="button"
             aria-label="Manage columns"
@@ -337,15 +496,16 @@ function ManageColumns({ cols, setCols, reset }: { cols: KmtColumn[]; setCols: (
             {kmtColumns.map((c) => {
               const locked = c.locked || lockedCols.includes(c.key as KmtColumn);
               const on = locked || cols.includes(c.key as KmtColumn);
+              const label = c.key === "cpc" ? `CPC (${currency})` : c.label;
               return (
                 <label key={c.key} className={`flex h-8 items-center gap-2 px-2 text-[14px] ${locked ? "text-rk-faint" : "cursor-pointer text-rk-text hover:bg-rk-bg"}`}>
                   <Check
                     checked={on}
                     disabled={locked}
-                    label={c.label}
+                    label={label}
                     onChange={() => setCols(on ? cols.filter((k) => k !== c.key) : [...cols, c.key as KmtColumn])}
                   />
-                  {c.label}
+                  {label}
                 </label>
               );
             })}
@@ -362,13 +522,22 @@ export function KmtTable({
   relevance,
   plus,
   wide,
+  loading = false,
+  currency = "USD",
+  groupSelected = false,
+  onQuick,
 }: {
   rows: KwRow[];
   stats: Stats;
   relevance: boolean;
   plus: boolean;
   wide: boolean;
+  loading?: boolean;
+  currency?: Currency;
+  groupSelected?: boolean;
+  onQuick?: (r: KwRow) => void;
 }) {
+  const rate = currencies.find((c) => c.code === currency)?.rate ?? 1;
   const [userCols, setUserCols] = useState<KmtColumn[] | null>(null);
   const [sel, setSel] = useState<string[]>([]);
   const defaults = wide ? wideCols : narrowCols;
@@ -392,7 +561,12 @@ export function KmtTable({
   const pickedVolume = picked.reduce((a, r) => a + (parseInt(fullVolume(r.volume).replace(/,/g, ""), 10) || 0), 0);
   const pickedKd = picked.length ? Math.round(picked.reduce((a, r) => a + (r.kd ?? 0), 0) / picked.length) : 0;
   return (
-    <div className="min-w-0 flex-1">
+    <div className="relative min-w-0 flex-1">
+      {loading && (
+        <svg viewBox="0 0 50 50" width={50} height={50} role="progressbar" aria-label="Loading" className="absolute top-[255px] left-[calc(50%-35px)] z-10 animate-spin text-[#d1d3d8]">
+          <path d="M25 3a22 22 0 1 0 22 22" fill="none" stroke="currentColor" strokeWidth={5} strokeLinecap="round" />
+        </svg>
+      )}
       <table className="w-full table-fixed border-collapse text-[14px]">
         <colgroup>
           <col className="w-[44px]" />
@@ -444,17 +618,18 @@ export function KmtTable({
                       Update
                       <span className="ml-1 rounded-full border border-[#d6d7db] px-[6px] text-[12px] leading-[16px]">0/1,000</span>
                     </button>
-                    <ManageColumns cols={cols} setCols={setUserCols} reset={userCols ? () => setUserCols(null) : null} />
-                    <button type="button" aria-label="Export" className="ml-2 flex h-7 w-8 items-center justify-center rounded-md border border-[#d6d7db] bg-[#f8f8f9] text-rk-text-2 hover:bg-rk-hover">
-                      <ExportIcon />
-                    </button>
+                    <ManageColumns cols={cols} setCols={setUserCols} reset={userCols ? () => setUserCols(null) : null} currency={currency} />
                   </>
-                ) : (
-                  <button type="button" className="ml-3 flex h-7 items-center gap-[6px] rounded-md border border-rk-border-strong bg-[#f4f5f9] px-[14px] font-normal text-rk-text-2 hover:bg-rk-hover">
-                    <ExportIcon />
-                    Export
-                  </button>
-                )}
+                ) : null}
+                <ExportDrop
+                  total={stats.total ?? stats.all}
+                  rows={rows}
+                  picked={picked}
+                  groupSelected={groupSelected}
+                  currency={currency}
+                  rate={rate}
+                  wide={wide}
+                />
               </div>
             </th>
           </tr>
@@ -479,7 +654,7 @@ export function KmtTable({
             </Th>
             {cols.includes("trend") && <Th className="pl-4 text-left">Trend</Th>}
             {cols.includes("kd") && <Th className="pr-[9px] text-right">KD %</Th>}
-            {cols.includes("cpc") && <Th className="pr-2 text-right">CPC (USD)</Th>}
+            {cols.includes("cpc") && <Th className="pr-2 text-right">CPC ({currency})</Th>}
             {cols.includes("density") && <Th className="pr-2 text-right">Com.</Th>}
             {cols.includes("sf") && <Th className={`text-left ${wide ? "pl-3" : "pl-[22px]"}`}>SF</Th>}
             {cols.includes("results") && <Th className="pr-5 text-right">Results</Th>}
@@ -501,7 +676,7 @@ export function KmtTable({
             </tr>
           )}
         </thead>
-        <tbody>
+        <tbody className={loading ? "pointer-events-none opacity-30" : ""}>
           {rows.map((row) => (
             <Row
               key={row.keyword}
@@ -512,6 +687,8 @@ export function KmtTable({
               wide={wide}
               selected={sel.includes(row.keyword)}
               toggle={() => toggle(row.keyword)}
+              rate={rate}
+              onQuick={onQuick}
             />
           ))}
         </tbody>
