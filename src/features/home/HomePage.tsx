@@ -16,6 +16,7 @@ export function HomePage() {
         inputClassName: "w-[342px] xl:w-[480px] xl:text-[14px]",
         action: routes.domainOverview,
       }}
+      footerPb={37}
     >
       <div className="px-8 pb-[98px] xl:pb-0">
         <ToolCards />

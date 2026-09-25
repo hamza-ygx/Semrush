@@ -127,23 +127,38 @@ export function AnalyzeSearch({
   const [sc, setSc] = useState<(typeof scopes)[number]>("Root Domain");
   const [open, setOpen] = useState(false);
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
+  const [focusW, setFocusW] = useState(0);
+  const formRef = useOutsideClose<HTMLFormElement>(focusW > 0, () => setFocusW(0));
   const router = useRouter();
   const path = usePathname();
   const h = "h-10 xl:h-8";
   return (
     <form
+      ref={formRef}
       className="relative z-50 flex"
       onSubmit={(e) => {
         e.preventDefault();
+        setFocusW(0);
         router.push(action ?? path);
       }}
     >
-      <div className={`relative ${open ? "ml-9" : ""}`}>
+      {focusW > 0 && (
+        <div className="absolute -top-[6px] -right-4 -bottom-[5px] -left-[17px] -z-10 rounded-b-lg bg-white shadow-popover">
+          <button type="button" aria-label="Back" onClick={() => setFocusW(0)} className="absolute top-[14px] left-[21px] flex h-6 w-6 items-center justify-center text-rk-text-2 hover:text-rk-text">
+            <svg viewBox="0 0 16 16" width={16} height={16}>
+              <path d="M13 8H3m4-4L3 8l4 4" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
+      )}
+      <div className={`relative ${open ? "ml-9 xl:ml-0" : ""}`}>
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
+          onFocus={(e) => !scope && !focusW && setFocusW(e.currentTarget.offsetWidth)}
+          style={focusW ? { marginLeft: 35, width: focusW - 35 } : undefined}
           placeholder={placeholder}
-          className={`${h} ${inputClassName ?? (scope ? (open ? "w-[161px]" : "w-[197px]") : "w-[463px] xl:w-[480px]")} rounded-l-md border border-rk-border-strong bg-white pr-9 pl-3 text-[16px] outline-none focus:border-[#7a86f2] xl:text-[14px]`}
+          className={`${h} ${inputClassName ?? (scope ? (open ? "w-[161px] xl:w-[345px]" : "w-[197px] xl:w-[345px]") : "w-[463px] xl:w-[480px]")} rounded-l-md border border-rk-border-strong bg-white pr-9 pl-3 text-[16px] outline-none focus:border-[#7a86f2] focus:ring-2 focus:ring-[#b7c0fa] xl:text-[14px]`}
         />
         {q && (
           <button type="button" aria-label="Clear" onClick={() => setQ("")} className="absolute top-1/2 right-3 -translate-y-1/2 text-rk-text-2">
@@ -157,14 +172,14 @@ export function AnalyzeSearch({
             type="button"
             aria-label="Search type"
             onClick={() => setOpen((o) => !o)}
-            className={`${h} flex w-[144px] items-center justify-between border border-l-0 border-rk-border-strong bg-white px-3 text-[16px] whitespace-nowrap text-rk-text`}
+            className={`${h} flex w-[144px] items-center justify-between border border-l-0 border-rk-border-strong bg-white px-3 text-[16px] whitespace-nowrap text-rk-text xl:w-[133px] xl:text-[14px]`}
           >
             {sc}
             <ChevronDown className="text-rk-muted" />
           </button>
           {open && (
-            <div className="absolute -top-[6px] -right-4 -left-4 -z-10 rounded-b-lg bg-white pt-[58px] pb-1 shadow-popover">
-              <button type="button" aria-label="Back" onClick={() => setOpen(false)} className="absolute top-[14px] left-5 flex h-6 w-6 items-center justify-center text-rk-muted hover:text-rk-text">
+            <div className="absolute -top-[6px] -right-4 -left-4 -z-10 rounded-b-lg bg-white pt-[58px] pb-1 shadow-popover xl:top-[44px] xl:rounded-t-none xl:pt-0 xl:pb-0">
+              <button type="button" aria-label="Back" onClick={() => setOpen(false)} className="absolute top-[14px] left-5 flex h-6 w-6 items-center justify-center text-rk-muted hover:text-rk-text xl:hidden">
                 <svg viewBox="0 0 16 16" width={16} height={16}>
                   <path d="M13 8H3m4-4L3 8l4 4" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -177,7 +192,7 @@ export function AnalyzeSearch({
                     setSc(s);
                     setOpen(false);
                   }}
-                  className={`flex h-10 w-full items-center justify-between border-l-2 pr-4 pl-[14px] text-left text-[16px] ${s === sc ? "border-rk-text bg-[#ebf1ff]" : "border-transparent hover:bg-rk-bg"}`}
+                  className={`flex h-10 w-full items-center justify-between border-l-2 pr-4 pl-[14px] text-left text-[16px] xl:h-8 xl:text-[14px] ${s === sc ? "border-rk-text bg-[#ebf1ff]" : "border-transparent hover:bg-rk-bg"}`}
                 >
                   <span className="text-rk-text">{q || value}</span>
                   <span className="text-[#6468b5]">{s}</span>

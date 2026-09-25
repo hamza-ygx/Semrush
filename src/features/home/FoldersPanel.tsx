@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useState } from "react";
 import { routes } from "@/config/routes";
 import { PlusIcon, RkjhFavicon, ShareUserIcon } from "@/components/icons";
+import { CreateFolderModal } from "./CreateFolderModal";
 import { DeleteFolderModal } from "./DeleteFolderModal";
 import { FolderMenu } from "./FolderMenu";
+import { ShareFoldersModal } from "./ShareFoldersModal";
 import { project, type Metric } from "./data";
 
 const trendColor = {
@@ -41,16 +43,18 @@ function MetricCell({ label, value, sub, trend, gauge, href }: Metric) {
 export function FoldersPanel() {
   const [deleting, setDeleting] = useState(false);
   const [deleted, setDeleted] = useState(false);
+  const [creating, setCreating] = useState(false);
+  const [sharing, setSharing] = useState(false);
   return (
     <section className="mt-6 rounded-lg bg-white shadow-card">
       <div className="flex h-[56px] items-center justify-between border-b border-rk-border px-5">
         <h2 className="text-[16px] font-bold">Folders</h2>
         <div className="flex gap-2">
-          <button type="button" className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-white px-2 text-[14px] text-rk-text-2 hover:bg-rk-bg">
+          <button type="button" onClick={() => setSharing(true)} className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-white px-2 text-[14px] text-rk-text-2 hover:bg-rk-bg">
             <ShareUserIcon />
             Share
           </button>
-          <button type="button" className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-white px-2 pr-[10px] text-[14px] text-rk-text-2 hover:bg-rk-bg">
+          <button type="button" onClick={() => setCreating(true)} className="flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-white px-2 pr-[10px] text-[14px] text-rk-text-2 hover:bg-rk-bg">
             <PlusIcon />
             Create Folder
           </button>
@@ -78,6 +82,8 @@ export function FoldersPanel() {
           </div>
         )}
       </div>
+      <CreateFolderModal open={creating} onClose={() => setCreating(false)} />
+      <ShareFoldersModal open={sharing} onClose={() => setSharing(false)} />
       <DeleteFolderModal
         open={deleting}
         onClose={() => setDeleting(false)}

@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
+import { helpArticleSlugs, kbHref } from "@/features/kb/data";
 import { CloseIcon, SearchIcon } from "../ui/icons";
 
 const articles = ["Audit your website", "Conduct keyword research", "Track your rankings", "Create winning content", "Optimize backlinks", "Run competitive analysis"];
@@ -23,7 +25,7 @@ export function HelpButtonAndPanel({ variant = "question" }: { variant?: "questi
   return (
     <>
       {open && (
-        <aside className="fixed top-0 right-0 bottom-0 z-[60] flex w-[403px] flex-col bg-white shadow-popover">
+        <aside className="fixed top-0 right-0 bottom-0 z-[60] flex w-[400px] flex-col xl:w-[403px] bg-white shadow-popover">
           <div className="flex h-[49px] shrink-0 items-center justify-between border-b border-rk-border px-6">
             <h2 className="text-[16px] font-semibold">Help &amp; Support</h2>
             <button type="button" aria-label="Close help" onClick={() => setOpen(false)} className="text-[#a9abb6] hover:text-rk-text">
@@ -38,9 +40,9 @@ export function HelpButtonAndPanel({ variant = "question" }: { variant?: "questi
             <h3 className="mt-[29px] mb-[14px] text-[14px] font-semibold">Getting Started Articles</h3>
             <div className="grid grid-cols-2 gap-[15px]">
               {articles.map((a) => (
-                <a key={a} href="#" className="h-[82px] rounded-lg border border-rk-border px-4 pt-[15px] text-[14px] leading-5 text-rk-text hover:shadow-card">
+                <Link key={a} href={kbHref(helpArticleSlugs[a])} onClick={() => setOpen(false)} className="h-[82px] rounded-lg border border-rk-border px-4 pt-[15px] text-[14px] leading-5 text-rk-text hover:shadow-card">
                   {a}
-                </a>
+                </Link>
               ))}
             </div>
             <h3 className="mt-[21px] mb-[8px] text-[14px] font-semibold">Resources</h3>
@@ -59,10 +61,11 @@ export function HelpButtonAndPanel({ variant = "question" }: { variant?: "questi
       )}
       <button
         type="button"
+        data-testid="help-toggle"
         aria-label={open ? "Close help" : "Help"}
         onClick={() => setOpen((o) => !o)}
         className={`fixed z-[110] flex items-center justify-center rounded-full font-bold hover:brightness-95 ${
-          variant === "question" ? "right-[21px] bottom-[21px] h-[52px] w-[52px] text-[28px] shadow-card" : "right-5 bottom-5 h-12 w-12 shadow-[0_1px_6px_rgba(0,0,0,0.06),0_2px_32px_rgba(0,0,0,0.16)]"
+          variant === "question" ? "right-[21px] bottom-[21px] h-[52px] w-[52px] text-[28px] shadow-card transition-transform hover:scale-110" : "right-5 bottom-5 h-12 w-12 shadow-[0_1px_6px_rgba(0,0,0,0.06),0_2px_32px_rgba(0,0,0,0.16)]"
         } ${variant === "chat-dark" ? "bg-[#0a0a0b] text-white" : "bg-rk-help text-rk-text"}`}
       >
         {open ? (

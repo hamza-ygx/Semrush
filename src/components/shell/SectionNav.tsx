@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { NavBadge, navHeading } from "./navExtras";
 import { brand } from "@/config/brand";
 import { sectionNavs, type NavItem } from "@/config/routes";
-import { ExternalIcon } from "../ui/icons";
 
 export function isActive(item: NavItem, path: string) {
   if (item.href === path) return true;
@@ -17,10 +16,10 @@ export function SectionNav({ section = "seo" }: { section?: string }) {
   const nav = sectionNavs[section];
   if (!nav) return null;
   return (
-    <aside data-testid="section-nav" className="h-full w-[212px] shrink-0 overflow-y-auto [scrollbar-gutter:stable] border-r border-rk-border bg-rk-bg pb-[calc(20*var(--u))]">
+    <aside data-testid="section-nav" className="h-full w-[212px] shrink-0 overflow-y-auto border-r border-rk-border bg-rk-bg pb-[calc(20*var(--u))]">
       <div className="px-[19px] pt-[calc(16*var(--u))] pb-[calc(9*var(--u))] text-[14px] leading-5 font-semibold">{nav.title}</div>
       {nav.groups.map((g, gi) => (
-        <div key={gi} className={g.heading ? "mt-[calc(18*var(--u))]" : gi > 0 ? "mt-[calc(12*var(--u))]" : ""}>
+        <div key={gi} className={g.heading ? (gi > 0 ? "mt-[calc(18*var(--u))]" : "mt-[calc(5*var(--u))]") : gi > 0 ? "mt-[calc(12*var(--u))]" : ""}>
           {g.heading && <div className="mb-[calc(8*var(--u))] px-[19px] text-[13px] leading-[18px] text-rk-muted">{navHeading(g.heading)}</div>}
           {g.items.map((it) => (
             <Link
@@ -31,17 +30,8 @@ export function SectionNav({ section = "seo" }: { section?: string }) {
                 isActive(it, path) ? "bg-rk-hover" : "hover:bg-rk-hover"
               }`}
             >
-              {it.external ? (
-                <span className="flex items-center justify-between gap-2">
-                  {it.label}
-                  <ExternalIcon className="text-rk-muted" />
-                </span>
-              ) : (
-                <>
-                  {it.label}
-                  <NavBadge href={it.href} className="align-[1px]" />
-                </>
-              )}
+              {it.label}
+              <NavBadge href={it.href} className="align-[1px]" />
             </Link>
           ))}
         </div>

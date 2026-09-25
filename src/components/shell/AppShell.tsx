@@ -50,6 +50,7 @@ export function AppShell({
   project = false,
   projectWidth,
   minWidth,
+  footerPb,
 }: {
   section?: Section;
   search?: HeaderSearchConfig;
@@ -60,6 +61,7 @@ export function AppShell({
   project?: boolean;
   projectWidth?: number;
   minWidth?: number;
+  footerPb?: number;
 }) {
   const collapsed = useSyncExternalStore(subscribe, readCollapsed, () => false);
   const [drawer, setDrawer] = useState(false);
@@ -112,7 +114,7 @@ export function AppShell({
         <main className="flex-1">{children}</main>
         {footer && (
           <div className="pt-[34px]">
-            <Footer />
+            <Footer compactPb={footerPb} />
           </div>
         )}
       </div>

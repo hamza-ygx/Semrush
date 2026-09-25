@@ -53,9 +53,9 @@ export function IntegrationsPanel() {
           <Search placeholder="Search" />
         </div>
         {integrationGroups.map((g, gi) => (
-          <div key={g.heading} className={gi === 0 ? "mt-[18px]" : "mt-[12px]"}>
+          <div key={g.heading} className={gi === 0 ? "mt-[18px]" : "mt-[13px]"}>
             <div className="text-[12px] leading-5 font-bold text-rk-text">{g.heading}</div>
-            <div className="mt-[4px]">
+            <div className="mt-[7px]">
               {g.items.map((it) => (
                 <button key={it.label} type="button" className="flex h-[34px] w-full items-center gap-[10px] pl-[3px] text-left text-[14px] text-rk-text hover:text-rk-link">
                   <span className="flex w-[17px] shrink-0 justify-center">{integrationIcon(it)}</span>

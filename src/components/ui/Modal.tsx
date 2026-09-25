@@ -24,6 +24,7 @@ export function Modal({
   children,
   width = 635,
   className = "",
+  closeClassName = "top-[12px] right-[12px] text-rk-text-2 hover:bg-rk-bg",
 }: {
   open: boolean;
   onClose: () => void;
@@ -31,6 +32,7 @@ export function Modal({
   children: ReactNode;
   width?: number;
   className?: string;
+  closeClassName?: string;
 }) {
   useEffect(() => {
     if (!open) return;
@@ -52,7 +54,7 @@ export function Modal({
           type="button"
           aria-label="Close"
           onClick={onClose}
-          className="absolute top-[12px] right-[12px] flex h-8 w-8 items-center justify-center rounded text-rk-text-2 hover:bg-rk-bg"
+          className={`absolute flex h-8 w-8 items-center justify-center rounded ${closeClassName}`}
         >
           <svg viewBox="0 0 20 20" width={20} height={20}>
             <path d="M1.5 1.5l17 17M18.5 1.5l-17 17" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" />

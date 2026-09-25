@@ -126,7 +126,7 @@ function Scheduling() {
 
 export function ReportsLanding() {
   return (
-    <AppShell section="reports">
+    <AppShell section="reports" footerPb={37}>
       <div className="relative">
         <div className="absolute inset-x-0 top-0 h-[723px] bg-[#410f7c]" />
         <div className="relative mx-auto max-w-[931px] pt-[65px] pb-[114px]">

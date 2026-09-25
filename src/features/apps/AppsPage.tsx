@@ -103,7 +103,7 @@ export function AppsPage() {
         </div>
       </div>
       <div className="border-t border-rk-border pt-10">
-        <Footer />
+        <Footer compactPb={37} />
       </div>
     </AppShell>
   );
