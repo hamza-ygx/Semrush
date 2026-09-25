@@ -12,6 +12,8 @@ import {
   googleUpdates,
   intents,
   keywordsSpark,
+  metricChanges,
+  type MetricChange,
   linkingFeatures,
   monthLabels,
   notLinkingFeatures,
@@ -32,7 +34,7 @@ import {
   type TrendKey,
 } from "./data";
 import { SerpIcon } from "./serpIcons";
-import { CardTitle, DarkButton, ExtLink, KeywordLink, LegendCheck, NotesMenu, PinIcon, Segmented, SortIcon, TimeRange, domainHref } from "./ui";
+import { CardTitle, DarkButton, ExtLink, HoverTip, KeywordLink, LegendCheck, NotesMenu, PinIcon, Segmented, SortIcon, TimeRange, domainHref } from "./ui";
 
 const Q = "?db=se&q=rkjh.se&searchType=domain";
 
@@ -44,13 +46,44 @@ export function Delta({ v }: { v: string }) {
   return <span className={`ml-1 text-[12px] ${v.startsWith("-") ? "text-rk-danger" : "text-rk-muted"}`}>{v}</span>;
 }
 
-function MetricBlock({ label, value, delta, children, className = "" }: { label: string; value: string; delta: string; children?: ReactNode; className?: string }) {
+function ChangeTip({ tip, delta }: { tip: MetricChange; delta: string }) {
+  const row = "flex h-6 items-center justify-between gap-[13px]";
+  return (
+    <span className="block text-left">
+      <span className={row}>
+        Current (September 2026)<b className="font-semibold">{tip.current}</b>
+      </span>
+      <span className={row}>
+        Previous (August 2026)<b className="font-semibold">{tip.previous}</b>
+      </span>
+      <span className="my-[2px] block border-t border-rk-border" />
+      <span className={row}>
+        Difference
+        <b className={`font-semibold ${delta.startsWith("-") ? "text-rk-danger" : ""}`}>
+          {tip.diff}&nbsp; ({delta.replace("-", "")})
+        </b>
+      </span>
+    </span>
+  );
+}
+
+function MetricBlock({ id, label, value, delta, tip, children, className = "", onClick }: { id: string; label: string; value: string; delta: string; tip: MetricChange; children?: ReactNode; className?: string; onClick?: () => void }) {
   return (
     <div className={`shrink-0 whitespace-nowrap ${className}`}>
       <div className="text-[14px] leading-5 text-rk-text">{label}</div>
       <div className="mt-[2px] flex items-baseline">
-        <span className="text-[24px] leading-8 font-bold text-rk-text">{value}</span>
-        <Delta v={delta} />
+        {onClick ? (
+          <button type="button" onClick={onClick} className="text-[24px] leading-8 font-bold text-rk-text">
+            {value}
+          </button>
+        ) : (
+          <span className="text-[24px] leading-8 font-bold text-rk-text">{value}</span>
+        )}
+        <HoverTip label={<ChangeTip tip={tip} delta={delta} />} className="[&>[role=tooltip]]:!bottom-[calc(100%+8px)] [&>[role=tooltip]]:!ml-[3px] [&>[role=tooltip]]:!pt-[10px] [&>[role=tooltip]]:!pb-[10px] [&>[role=tooltip]]:!pr-3 [&>[role=tooltip]]:!pl-[13px]">
+          <span data-testid={`metric-delta-${id}`} className="cursor-default">
+            <Delta v={delta} />
+          </span>
+        </HoverTip>
       </div>
       {children}
     </div>
@@ -86,6 +119,33 @@ export function TrafficSpark({ className = "mt-[3px]" }: { className?: string })
 
 const Sep = () => <div className="mx-6 mt-[19px] h-[76px] w-px shrink-0 bg-rk-border" />;
 
+function TrendTip({ title, values, keys }: { title: string; values: number[]; keys: TrendKey[] }) {
+  return (
+    <div className="px-3 pt-3 pb-3 text-[12px] leading-[18px] text-rk-text">
+      <div className="leading-4 text-rk-muted">{title}</div>
+      <div className="mt-2">
+        {trendLegend.map((l) => (
+          <div key={l.key} className="flex items-center">
+            <span className="mr-[9px] h-2 w-2 rounded-full" style={{ background: trendColors[l.key] }} />
+            {l.label}
+            <b className="ml-auto font-semibold">{values[keys.indexOf(l.key)]}</b>
+          </div>
+        ))}
+      </div>
+      <div className="mt-2 flex border-t border-rk-border pt-[7px]">
+        Total
+        <b className="ml-auto font-semibold">{values.reduce((a, b) => a + b, 0)}</b>
+      </div>
+    </div>
+  );
+}
+
+const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const monthOf = (i: number, n: number) => {
+  const m = 2026 * 12 + 8 - (n - 1 - i);
+  return `${MONTH_NAMES[m % 12]} ${Math.floor(m / 12)}`;
+};
+
 function TrendLegend({ keys, on, toggle }: { keys: { key: TrendKey; label: string }[]; on: Record<string, boolean>; toggle: (k: TrendKey) => void }) {
   return (
     <div className="flex items-center gap-4">
@@ -96,7 +156,7 @@ function TrendLegend({ keys, on, toggle }: { keys: { key: TrendKey; label: strin
   );
 }
 
-export function useTrendChart({ data, labels, ticks, max, height, pad, notes, googles, flags, barRatio, highlightLast = true, inset = 0 }: {
+export function useTrendChart({ data, labels, ticks, max, height, pad, notes, googles, flags, barRatio, highlightLast = true, inset = 0, tipTitle, testId }: {
   data: number[][];
   labels: string[];
   ticks: number[];
@@ -109,6 +169,8 @@ export function useTrendChart({ data, labels, ticks, max, height, pad, notes, go
   barRatio?: number;
   highlightLast?: boolean;
   inset?: number;
+  tipTitle?: (i: number) => string;
+  testId?: string;
 }) {
   const [on, setOn] = useState<Record<string, boolean>>(Object.fromEntries(trendLegend.map((l) => [l.key, true])));
   const keys: TrendKey[] = ["top3", "4-10", "11-20", "21-50", "51-100", "serp"];
@@ -128,6 +190,8 @@ export function useTrendChart({ data, labels, ticks, max, height, pad, notes, go
         highlightLast={highlightLast}
         tickX={-19}
         inset={inset}
+        testId={testId}
+        tip={tipTitle && { width: 180, top: 73, render: (i) => <TrendTip title={tipTitle(i)} values={filtered[i]} keys={keys} />, marker: (x, y) => <GoogleG x={x - 1} y={y} size={22} /> }}
         overlay={({ x, y }) => (
           <>
             {notes?.map((n) => (
@@ -161,31 +225,33 @@ function SummaryCard() {
     googles: googleUpdates,
     flags: redFlags,
     barRatio: 0.55,
+    tipTitle: (i) => monthOf(i, overviewTrend.length),
+    testId: "trend-chart",
   });
   const [open, setOpen] = useState(true);
   return (
     <Card>
-      <div className="relative flex h-[115px] border-b border-rk-border px-5 pt-[19px]">
-        <MetricBlock label="Keywords" {...summary.keywords} className="w-[161px]">
+      <div className={`relative flex h-[115px] px-5 pt-[19px] ${open ? "border-b border-rk-border" : ""}`}>
+        <MetricBlock id="keywords" label="Keywords" {...summary.keywords} tip={metricChanges.keywords} className="w-[161px]" onClick={() => setOpen(true)}>
           <KwSpark />
         </MetricBlock>
         <Sep />
-        <MetricBlock label="Traffic" {...summary.traffic} className="w-[160px]">
+        <MetricBlock id="traffic" label="Traffic" {...summary.traffic} tip={metricChanges.traffic} className="w-[160px]">
           <TrafficSpark />
         </MetricBlock>
         <Sep />
-        <MetricBlock label="Traffic Cost" value={summary.cost.value} delta={summary.cost.delta} className="w-[131px]" />
+        <MetricBlock id="cost" label="Traffic Cost" value={summary.cost.value} delta={summary.cost.delta} tip={metricChanges.cost} className="w-[131px]" />
         <Sep />
-        <MetricBlock label="Branded Traffic" value={summary.branded.value} delta={summary.branded.delta} className="w-[103px]" />
+        <MetricBlock id="branded" label="Branded Traffic" value={summary.branded.value} delta={summary.branded.delta} tip={metricChanges.branded} className="w-[103px]" />
         <Sep />
-        <MetricBlock label="Non-Branded Traffic" value={summary.nonBranded.value} delta={summary.nonBranded.delta} />
-        <span className="absolute -bottom-[6px] left-[94px] h-[11px] w-[11px] rotate-45 border-t border-l border-rk-border bg-white" />
+        <MetricBlock id="non-branded" label="Non-Branded Traffic" value={summary.nonBranded.value} delta={summary.nonBranded.delta} tip={metricChanges.nonBranded} />
+        {open && <span className="absolute -bottom-[6px] left-[94px] h-[11px] w-[11px] rotate-45 border-t border-l border-rk-border bg-white" />}
       </div>
       {open ? (
         <div className="px-5 pt-[19px] pb-3">
           <div className="flex items-center justify-between">
             <h2 className="text-[16px] leading-6 font-semibold">Organic Keywords Trend</h2>
-            <button type="button" aria-label="Close" onClick={() => setOpen(false)} className="-mr-[2px] text-rk-muted hover:text-rk-text">
+            <button type="button" aria-label="Close" data-testid="trend-close" onClick={() => setOpen(false)} className="-mr-[2px] text-rk-muted hover:text-rk-text">
               <CloseIcon width={14} height={14} />
             </button>
           </div>
@@ -199,11 +265,7 @@ function SummaryCard() {
           </div>
           <div className="-mx-5 mt-[18px]">{t.chart}</div>
         </div>
-      ) : (
-        <button type="button" onClick={() => setOpen(true)} className="flex h-12 w-full items-center justify-center gap-1 text-[14px] text-rk-link">
-          Show Organic Keywords Trend <ChevronDown />
-        </button>
-      )}
+      ) : null}
     </Card>
   );
 }

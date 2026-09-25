@@ -5,9 +5,9 @@ import { useState, type ReactNode } from "react";
 import { brand } from "@/config/brand";
 import { routes } from "@/config/routes";
 import { SendFeedback } from "@/components/shell/PageHeader";
-import { Modal } from "@/components/ui/Modal";
-import { MenuItem, Popover } from "@/components/ui/Popover";
-import { DesktopIcon, FlagUK, FlagUS, MobileIcon } from "@/components/ui/icons";
+import { Popover } from "@/components/ui/Popover";
+import { DesktopIcon, MobileIcon } from "@/components/ui/icons";
+import { CountryFlag } from "@/features/organic/flags";
 import { NoHelpButton } from "../landing";
 
 export type SensorTab = "overview" | "personal" | "deviations" | "winners";
@@ -25,38 +25,67 @@ const BellIcon = () => (
   </svg>
 );
 
-function SubscribeModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+function SubscribePopover() {
+  const [mode, setMode] = useState<"email" | "push">("email");
   const [done, setDone] = useState(false);
   return (
-    <Modal
-      open={open}
-      onClose={() => {
-        setDone(false);
-        onClose();
-      }}
-      width={480}
-      title="Subscribe to notifications"
-    >
-      {done ? (
-        <p className="text-[14px] leading-5 text-rk-text-2">You’re subscribed. We’ll email you when SERP volatility reaches a high level.</p>
-      ) : (
-        <>
-          <p className="text-[14px] leading-5 text-rk-text-2">Get an email when SERP volatility in the selected category reaches a high level.</p>
-          <label className="mt-4 flex items-center gap-2 text-[14px]">
-            <input type="checkbox" defaultChecked className="h-4 w-4 accent-[#008ff8]" />
-            All categories · United States · Desktop
-          </label>
-          <button type="button" onClick={() => setDone(true)} className="mt-6 h-8 rounded-md bg-[#009f81] px-3 text-[14px] font-medium text-white hover:bg-[#008a70]">
-            Subscribe
-          </button>
-        </>
+    <Popover
+      align="right"
+      offset={5}
+      panelClassName="!right-[-32px] w-[298px] !py-0"
+      trigger={({ toggle }) => (
+        <button
+          type="button"
+          data-testid="sensor-subscribe"
+          onClick={() => {
+            setDone(false);
+            toggle();
+          }}
+          className="flex h-7 items-center gap-2 rounded-md bg-rk-btn-dark pr-[8px] pl-[6px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]"
+        >
+          <BellIcon />
+          Subscribe to notifications
+        </button>
       )}
-    </Modal>
-  );
+    >
+      <div className="px-4 pt-[17px] pb-[15px] text-[14px] leading-5 text-rk-text">
+        <div className="text-[16px] font-semibold">Sensor notifications</div>
+        {done ? (
+          <p className="mt-3 text-rk-text-2">You’re subscribed. We’ll notify you when SERP volatility reaches a high level.</p>
+        ) : (
+          <>
+            <div className="mt-[18px] flex flex-col gap-2">
+              {(
+                [
+                  ["email", "Email notification"],
+                  ["push", "Browser Push Notification"],
+                ] as const
+              ).map(([k, l]) => (
+                <label key={k} className="flex cursor-pointer items-center gap-2">
+                  <input type="radio" name="sensor-notify" checked={mode === k} onChange={() => setMode(k)} className="sr-only" />
+                  <span className={`h-4 w-4 rounded-full ${mode === k ? "border-[5px] border-rk-text" : "border border-[#c4c7cf]"}`} />
+                  {l}
+                </label>
+              ))}
+            </div>
+            {mode === "email" && <input type="email" placeholder="Enter your email" className="mt-[17px] h-7 w-full rounded-md border border-[#d3d5d8] px-2 text-[14px] outline-none placeholder:text-[#a9abb6] focus:border-[#8f9cea]" />}
+            <p className="mt-[8px] text-[12px] leading-4 text-rk-muted">
+              We’ll notify you about any significant fluctuations in rankings.{" "}
+              <a href="https://www.iubenda.com/privacy-policy" target="_blank" rel="noreferrer" className="text-rk-link hover:text-rk-link-hover">
+                Privacy Policy
+              </a>
+            </p>
+            <button type="button" onClick={() => setDone(true)} className="mt-[16px] h-7 rounded-md bg-[#009f81] px-2 text-[14px] font-semibold text-white hover:bg-[#008a70]">
+              Subscribe
+            </button>
+          </>
+        )}
+      </div>
+    </Popover>
+  )
 }
 
 export function SensorShell({ tab, children }: { tab: SensorTab; children: ReactNode }) {
-  const [sub, setSub] = useState(false);
   return (
     <div>
       <NoHelpButton />
@@ -65,10 +94,7 @@ export function SensorShell({ tab, children }: { tab: SensorTab; children: React
           <h1 className="text-[20px] leading-7 font-semibold text-rk-text">{brand.name} Sensor</h1>
           <div className="flex items-center gap-6">
             <SendFeedback />
-            <button type="button" onClick={() => setSub(true)} className="flex h-7 items-center gap-2 rounded-md bg-rk-btn-dark pr-[8px] pl-[6px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]">
-              <BellIcon />
-              Subscribe to notifications
-            </button>
+            <SubscribePopover />
           </div>
         </div>
         <nav className="mt-[25px] flex gap-4">
@@ -81,15 +107,27 @@ export function SensorShell({ tab, children }: { tab: SensorTab; children: React
         </nav>
       </div>
       {children}
-      <SubscribeModal open={sub} onClose={() => setSub(false)} />
     </div>
   );
 }
 
 const countries = [
-  { name: "United States", flag: <FlagUS width={16} height={12} /> },
-  { name: "United Kingdom", flag: <FlagUK width={16} height={12} /> },
+  { code: "US", name: "United States" },
+  { code: "UK", name: "United Kingdom" },
+  { code: "DE", name: "Germany" },
+  { code: "IT", name: "Italy" },
+  { code: "ES", name: "Spain" },
+  { code: "FR", name: "France" },
+  { code: "AU", name: "Australia" },
 ];
+
+export const sensorScroll = "overflow-y-auto [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#c4c7cf]";
+
+export const Chevron = ({ size = 14 }: { size?: number }) => (
+  <svg viewBox="0 0 16 16" width={size} height={size}>
+    <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
 
 export function SensorControls({ extra }: { extra?: ReactNode }) {
   const [country, setCountry] = useState(countries[0]);
@@ -97,32 +135,35 @@ export function SensorControls({ extra }: { extra?: ReactNode }) {
   return (
     <div className="flex h-7 items-center">
       <Popover
-        panelClassName="w-[180px]"
+        offset={6}
+        panelClassName={`w-[192px] max-h-[246px] !pt-[3px] !pb-1 ${sensorScroll}`}
         trigger={({ toggle }) => (
-          <button type="button" onClick={toggle} className="flex h-7 items-center gap-[7px] rounded-md border border-rk-border bg-white pr-[7px] pl-[8px] text-[14px] text-rk-text hover:bg-rk-bg">
-            {country.flag}
+          <button type="button" data-testid="sensor-country" onClick={toggle} className="flex h-7 items-center gap-[7px] rounded-md border border-rk-border bg-white pr-[7px] pl-[8px] text-[14px] text-rk-text hover:bg-rk-bg">
+            <CountryFlag code={country.code} w={16} h={12} />
             {country.name}
-            <svg viewBox="0 0 16 16" width={14} height={14}>
-              <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            <Chevron />
           </button>
         )}
       >
-        {(close) =>
-          countries.map((c) => (
-            <MenuItem
-              key={c.name}
-              active={c.name === country.name}
-              onClick={() => {
-                setCountry(c);
-                close();
-              }}
-            >
-              {c.flag}
-              {c.name}
-            </MenuItem>
-          ))
-        }
+        {(close) => (
+          <>
+            <div className="flex h-8 items-center px-2 text-[14px] font-semibold text-rk-text">Google:</div>
+            {countries.map((c) => (
+              <button
+                key={c.code}
+                type="button"
+                onClick={() => {
+                  setCountry(c);
+                  close();
+                }}
+                className={`flex h-8 w-full items-center gap-[6px] border-l-2 pl-[6px] text-left text-[14px] leading-5 text-rk-text ${c.code === country.code ? "border-[#323143] bg-[#ebf1ff]" : "border-transparent hover:bg-rk-bg"}`}
+              >
+                <CountryFlag code={c.code} />
+                {c.name}
+              </button>
+            ))}
+          </>
+        )}
       </Popover>
       <div className="ml-[8px] flex h-7 text-[14px] text-rk-text">
         {(["Desktop", "Mobile"] as const).map((d, i) => (

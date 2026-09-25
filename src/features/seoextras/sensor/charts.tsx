@@ -57,21 +57,27 @@ function XAxis({ y, at = xAt }: { y: number; at?: (i: number) => number }) {
   );
 }
 
-function Tooltip({ i, x, y, label, value, color }: { i: number; x: number; y: number; label: string; value: string; color: string }) {
+const longDate = (i: number) => new Date(Date.UTC(2026, 7, 26 + i)).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", timeZone: "UTC" });
+
+function Tooltip({ i, x, y, label, value, color, valueColor }: { i: number; x: number; y: number; label: string; value: string; color: string; valueColor?: string }) {
   const left = x > 560;
   return (
-    <foreignObject x={left ? x - 158 : x + 12} y={y - 30} width={146} height={52} className="pointer-events-none overflow-visible">
-      <div className="rounded-md bg-white px-3 py-[6px] text-[12px] leading-4 shadow-popover">
-        <div className="text-rk-muted">{sensorDates[i]}, 2026</div>
-        <div className="mt-[3px] flex items-center gap-[6px] text-rk-text">
+    <foreignObject x={left ? x - 168 : x + 10} y={y - 21} width={158} height={67} className="pointer-events-none overflow-visible">
+      <div className="h-[67px] rounded-md bg-white px-3 pt-[11px] shadow-popover">
+        <div className="text-[12px] leading-4 whitespace-nowrap text-rk-muted">{longDate(i)}</div>
+        <div className="mt-[7px] flex h-5 items-center gap-[8px] text-[13px] text-rk-text">
           <span className="h-2 w-2 rounded-full" style={{ background: color }} />
           {label}
-          <b className="ml-auto font-semibold">{value}</b>
+          <b className="ml-auto text-[14px] font-semibold" style={valueColor ? { color: valueColor } : undefined}>
+            {value}
+          </b>
         </div>
       </div>
     </foreignObject>
   );
 }
+
+const bandName = (v: number) => (v < 2 ? "Low" : v < 5 ? "Normal" : v < 8 ? "High" : "Very High");
 
 export function VolatilityChart({ data, top = 145, bottom = 373 }: { data: (number | null)[]; top?: number; bottom?: number }) {
   const uid = useId().replace(/:/g, "");
@@ -112,12 +118,13 @@ export function VolatilityChart({ data, top = 145, bottom = 373 }: { data: (numb
         </g>
       ))}
       <line x1={lastX} x2={lastX} y1={top} y2={bottom} stroke="#8a8e9b" strokeDasharray="4 3" />
-      {data.map((v, i) => (v == null ? null : <circle key={i} cx={xAt(i)} cy={y(v)} r={hover === i ? 5.5 : 4} fill={bandColor(v)} />))}
+      {hover != null && data[hover] != null && <rect x={xAt(hover) - 5.5} y={top} width={12} height={bottom - top} fill="#b9bbbb" opacity={0.7} />}
+      {data.map((v, i) => (v == null ? null : <circle key={i} cx={xAt(i)} cy={y(v)} r={hover === i ? 5 : 4} fill={bandColor(v)} stroke={hover === i ? "#fff" : "none"} strokeOpacity={0.5} />))}
       <XAxis y={bottom + 39} />
       {data.map((v, i) =>
-        v == null ? null : <rect key={`h${i}`} x={xAt(i) - DX / 2} y={top} width={DX} height={bottom - top} fill="transparent" pointerEvents="all" onMouseEnter={() => setHover(i)} />,
+        v == null ? null : <rect key={`h${i}`} data-testid={`vol-hit-${i}`} x={xAt(i) - DX / 2} y={top} width={DX} height={bottom - top} fill="transparent" pointerEvents="all" onMouseEnter={() => setHover(i)} />,
       )}
-      {hover != null && data[hover] != null && <Tooltip i={hover} x={xAt(hover)} y={y(data[hover]!)} label="Volatility" value={data[hover]!.toFixed(1)} color={bandColor(data[hover]!)} />}
+      {hover != null && data[hover] != null && <Tooltip i={hover} x={xAt(hover)} y={y(data[hover]!)} label={bandName(data[hover]!)} value={data[hover]!.toFixed(1)} color={bandColor(data[hover]!)} valueColor={bandColor(data[hover]!)} />}
     </svg>
   );
 }

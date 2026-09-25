@@ -32,6 +32,8 @@ export function StackedBars({
   overlay,
   tickX = -12,
   inset = 0,
+  tip,
+  testId,
 }: {
   data: number[][];
   colors: string[];
@@ -46,6 +48,8 @@ export function StackedBars({
   overlay?: (g: { x: (i: number) => number; y: (v: number) => number; step: number; w: number }) => ReactNode;
   tickX?: number;
   inset?: number;
+  tip?: { render: (i: number) => ReactNode; width: number; top: number; marker?: (x: number, y: number) => ReactNode };
+  testId?: string;
 }) {
   const [ref, width] = useWidth<HTMLDivElement>();
   const n = data.length;
@@ -57,7 +61,7 @@ export function StackedBars({
   const y = (v: number) => pad.top + H - (v / max) * H;
   const [hover, setHover] = useState<number | null>(null);
   return (
-    <div ref={ref} className="relative w-full" onMouseLeave={() => setHover(null)}>
+    <div ref={ref} data-testid={testId} className="relative w-full" onMouseLeave={() => setHover(null)}>
       <svg width={width} height={height} className="block">
         {ticks.map((t) => (
           <g key={t}>
@@ -68,11 +72,12 @@ export function StackedBars({
           </g>
         ))}
         {highlightLast && <rect x={x(n - 1) - Math.min(step, 11) / 2} y={pad.top} width={Math.min(step, 11)} height={H} fill="#e0e1e9" opacity={0.8} />}
-        {hover != null && <rect x={x(hover) - step / 2} y={pad.top - 12} width={step} height={H + 12} fill="#e0e1e9" opacity={0.6} />}
+        {hover != null && !tip && <rect x={x(hover) - step / 2} y={pad.top - 12} width={step} height={H + 12} fill="#e0e1e9" opacity={0.6} />}
+        {hover != null && tip && <line x1={x(hover) + 0.5} x2={x(hover) + 0.5} y1={0} y2={y(0)} stroke="#e0e0e0" />}
         {data.map((d, i) => {
           let acc = 0;
           return (
-            <g key={i} onMouseEnter={() => setHover(i)}>
+            <g key={i} data-col={i} onMouseEnter={() => setHover(i)}>
               <rect x={x(i) - step / 2} y={pad.top} width={step} height={H} fill="transparent" />
               {d.map((v, k) => {
                 if (!v) return null;
@@ -92,8 +97,14 @@ export function StackedBars({
           ) : null,
         )}
         {overlay?.({ x, y, step, w: width })}
+        {hover != null && tip?.marker?.(x(hover), y(0))}
       </svg>
-      {hover != null && (
+      {hover != null && tip && (
+        <div className="pointer-events-none absolute z-30 rounded-md bg-white shadow-popover" style={{ top: tip.top, width: tip.width, left: x(hover) + 6 + tip.width > width + 40 ? x(hover) - 6 - tip.width : x(hover) + 6 }}>
+          {tip.render(hover)}
+        </div>
+      )}
+      {hover != null && !tip && (
         <div className="pointer-events-none absolute top-2 z-20 rounded-md bg-white px-3 py-2 text-[12px] shadow-popover" style={{ left: Math.min(x(hover) + 12, width - 150) }}>
           <div className="font-semibold">{labels[hover] || `#${hover + 1}`}</div>
           <div>Total: {data[hover].reduce((a, b) => a + b, 0)}</div>

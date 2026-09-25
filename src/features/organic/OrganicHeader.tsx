@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { routes } from "@/config/routes";
 import { HeaderLink, SendFeedback, PageHeader } from "@/components/shell/PageHeader";
 import { Tabs } from "@/components/ui/primitives";
-import { LinkSelect, MenuItem, Popover } from "@/components/ui/Popover";
-import { DesktopIcon, ExportIcon, FlagSE, FlagUK, FlagUS, MobileIcon } from "@/components/ui/icons";
-import { databases, domain, moreDatabases } from "./data";
+import { LinkSelect } from "@/components/ui/Popover";
+import { DesktopIcon, ExportIcon, MobileIcon, SearchIcon } from "@/components/ui/icons";
+import { databases, domain } from "./data";
+import { CountryFlag, organicCountries } from "./flags";
 import { ExtIcon } from "./ui";
 
 export type OrganicTab = "overview" | "positions" | "changes" | "competitors" | "topics" | "subdomains" | "pages";
@@ -22,8 +23,6 @@ const tabs = [
   { key: "subdomains", label: "Subdomains", href: routes.organic.subdomains + q },
 ];
 
-const flags = { se: FlagSE, us: FlagUS, uk: FlagUK };
-
 function UserManualIcon() {
   return (
     <svg viewBox="0 0 16 16" width={16} height={16}>
@@ -33,12 +32,38 @@ function UserManualIcon() {
   );
 }
 
+function useOutside(open: boolean, close: () => void) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: MouseEvent) => ref.current && !ref.current.contains(e.target as Node) && close();
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open, close]);
+  return ref;
+}
+
+const scroll = "[&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#c4c7cf]";
+
 function DbSwitcher() {
   const [db, setDb] = useState("SE");
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const close = useCallback(() => {
+    setOpen(false);
+    setQuery("");
+  }, []);
+  const ref = useOutside(open, close);
+  const extra = databases.some((d) => d.code === db) ? null : organicCountries.find((c) => c.code === db);
+  const shown = organicCountries.filter((c) => c.name.toLowerCase().includes(query.trim().toLowerCase()));
   return (
-    <div className="flex h-7 items-stretch rounded-md border border-rk-border-strong bg-white text-[14px]">
-      {databases.map((d, i) => {
-        const Flag = flags[d.flag];
+    <div ref={ref} className="relative flex h-7 items-stretch rounded-md border border-rk-border-strong bg-white text-[14px]">
+      {[...databases, ...(extra ? [{ code: extra.code, count: extra.count ?? 0 }] : [])].map((d, i) => {
         const on = d.code === db;
         return (
           <button
@@ -49,34 +74,104 @@ function DbSwitcher() {
               i > 0 && !on ? "border-l-rk-border-strong" : ""
             }`}
           >
-            <Flag />
+            <CountryFlag code={d.code} w={16} h={12} />
             <span className="text-rk-text">{d.code}</span>
             <span className="text-rk-muted">{d.count}</span>
           </button>
         );
       })}
-      <Popover
-        align="left"
-        panelClassName="w-[220px]"
-        trigger={({ toggle }) => (
-          <button type="button" aria-label="More databases" onClick={toggle} className="flex h-full w-8 items-center justify-center rounded-r-md border-l border-rk-border-strong text-rk-text hover:bg-rk-bg">
-            <svg viewBox="0 0 16 16" width={16} height={16}>
-              <circle cx="3" cy="8" r="1.6" fill="currentColor" />
-              <circle cx="8" cy="8" r="1.6" fill="currentColor" />
-              <circle cx="13" cy="8" r="1.6" fill="currentColor" />
-            </svg>
-          </button>
-        )}
+      <button
+        type="button"
+        aria-label="More databases"
+        aria-expanded={open}
+        onClick={() => (open ? close() : setOpen(true))}
+        className="flex h-full w-8 items-center justify-center rounded-r-md border-l border-rk-border-strong text-rk-text hover:bg-rk-bg"
       >
-        {(close) =>
-          moreDatabases.map((d) => (
-            <MenuItem key={d.code} onClick={close} className="justify-between">
-              <span>{d.name}</span>
-              <span className="text-rk-muted">{d.count}</span>
-            </MenuItem>
-          ))
-        }
-      </Popover>
+        <svg viewBox="0 0 16 16" width={16} height={16}>
+          <circle cx="3" cy="8" r="1.6" fill="currentColor" />
+          <circle cx="8" cy="8" r="1.6" fill="currentColor" />
+          <circle cx="13" cy="8" r="1.6" fill="currentColor" />
+        </svg>
+      </button>
+      {open && (
+        <div data-testid="db-picker" className="absolute top-[calc(100%+5px)] right-[-225px] z-50 w-[260px] rounded-md bg-white shadow-popover">
+          <div className="relative">
+            <SearchIcon width={16} height={16} className="pointer-events-none absolute top-1/2 left-[10px] -translate-y-1/2 text-[#a9abb6]" />
+            <input
+              autoFocus
+              aria-label="Search database"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="h-[36px] w-full rounded-md border-2 border-[#8890c3] pr-2 pl-[32px] text-[14px] text-rk-text outline-none"
+            />
+          </div>
+          <div className={`mt-[2px] max-h-[284px] overflow-y-auto pb-1 ${scroll}`}>
+            {shown.map((c, i) => (
+              <div key={c.code}>
+                {i === 3 && !query && <div className="-mt-px border-t border-rk-border" />}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDb(c.code);
+                    close();
+                  }}
+                  className={`flex h-8 w-full items-center gap-[6px] border-l-2 pl-[7px] text-left text-[14px] leading-5 text-rk-text ${c.code === db ? "border-[#323143] bg-[#ebf1ff]" : "border-transparent hover:bg-rk-bg"}`}
+                >
+                  <CountryFlag code={c.code} />
+                  {c.name}
+                  {c.count != null && <span className="text-[#a9abb6]">{c.count}</span>}
+                </button>
+              </div>
+            ))}
+            {!shown.length && <div className="px-3 py-2 text-[14px] text-rk-muted">Nothing found</div>}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const currentDate = "Sep 23, 2026";
+const history = Array.from({ length: 36 }, (_, i) => {
+  const m = 7 - i;
+  return `${MONTHS[((m % 12) + 12) % 12]} ${2026 + Math.floor(m / 12)}`;
+});
+
+function DateSelect() {
+  const [v, setV] = useState(currentDate);
+  const [open, setOpen] = useState(false);
+  const close = useCallback(() => setOpen(false), []);
+  const ref = useOutside(open, close);
+  const pick = (d: string) => {
+    setV(d);
+    close();
+  };
+  const row = "flex w-full border-l-2 pr-2 pl-[6px] text-left text-[14px] leading-5 whitespace-nowrap text-rk-text";
+  return (
+    <div ref={ref} className="relative inline-flex">
+      <button type="button" data-select="date" aria-expanded={open} onClick={() => setOpen((o) => !o)} className="group flex items-center gap-1 text-[14px] text-rk-link hover:text-rk-link-hover">
+        <span className="underline-offset-[3px] group-hover:underline">{v}</span>
+        <svg viewBox="0 0 16 16" width={16} height={16}>
+          <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+      {open && (
+        <div className="absolute top-[calc(100%+5px)] left-0 z-50 w-[228px] rounded-md bg-white shadow-popover">
+          <button type="button" onClick={() => pick(currentDate)} className={`${row} h-[48px] flex-col justify-center rounded-t-md ${v === currentDate ? "border-[#323143] bg-[#eef2ff]" : "border-transparent hover:bg-rk-bg"}`}>
+            <span>{currentDate}</span>
+            <span className="text-[12px] leading-4 text-rk-muted">Actual state of Google Search engine</span>
+          </button>
+          <div className="h-[34px] border-b border-rk-border px-2 pt-[5px] text-[14px] leading-5 font-semibold text-rk-text">Historical Data:</div>
+          <div className={`max-h-[246px] overflow-y-auto pt-[2px] pb-1 ${scroll}`}>
+            {history.map((h) => (
+              <button key={h} type="button" onClick={() => pick(h)} className={`${row} h-8 items-center ${h === v ? "border-[#323143] bg-[#eef2ff]" : "border-transparent hover:bg-rk-bg"}`}>
+                {h}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -140,7 +235,7 @@ export function OrganicHeader({ tab, manual = true, pdf = true, date = true, cur
           {date && (
             <span className="flex items-center gap-1 text-rk-text-2">
               Date:
-              <LinkSelect value="Sep 23, 2026" options={["Sep 23, 2026", "Sep 22, 2026", "Sep 21, 2026", "Sep 15, 2026", "Sep 8, 2026", "Aug 15, 2026", "Jul 15, 2026"] as const} />
+              <DateSelect />
             </span>
           )}
           {currency && (
