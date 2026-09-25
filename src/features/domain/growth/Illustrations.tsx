@@ -72,46 +72,38 @@ const Bar = ({ w }: { w: number }) => <span className="block h-[5px] rounded-ful
 export function CountriesIllustration() {
   return (
     <Frame>
-      <div className="flex h-[36px] items-center gap-[18px] border-b border-[#e6e7ec] px-3 text-[10px] text-rk-muted">
-        <span className="flex items-center gap-[5px]">
-          <span className="h-[9px] w-[9px] rounded-full bg-[#6167e6]" />
-          <FlagUS width={14} height={10} />
-          <Bar w={28} />
+      <div className="flex h-[40px] items-center border-b border-[#e6e7ec] px-3 text-[10px] text-rk-muted">
+        <span className="h-[9px] w-[9px] rounded-full bg-[#6167e6]" />
+        <FlagUS width={14} height={10} className="ml-[5px]" />
+        <span className="ml-[6px]">
+          <Bar w={26} />
         </span>
-        <span className="flex items-center gap-[5px]">
-          <span className="h-[9px] w-[9px] rounded-full bg-[#2cd4a5]" />
-          <FlagUK width={14} height={10} />
-          <Bar w={28} />
+        <span className="ml-[23px] h-[9px] w-[9px] rounded-full bg-[#2cd4a5]" />
+        <FlagUK width={14} height={10} className="ml-[6px]" />
+        <span className="ml-[4px]">
+          <Bar w={26} />
         </span>
-        <span className="flex items-center gap-[5px]">
-          <span className="h-[9px] w-[9px] rounded-full bg-[#c4c7cf]" />
-          Add country
-        </span>
+        <span className="ml-[24px] h-[9px] w-[9px] rounded-full bg-[#c4c7cf]" />
+        <span className="ml-[6px]">Add country</span>
       </div>
       {[
         [<Up key="a" />, <Down key="b" />, <Up key="c" />],
         [<Down key="a" />, <Up key="b" />, <Down key="c" />],
       ].map((arrows, r) => (
-        <div key={r} className="flex h-[31px] items-center gap-[10px] border-b border-[#e6e7ec] px-[9px]">
-          <Bar w={68} />
-          <span className="flex items-center gap-[4px]">
-            <Bar w={38} />
-            {arrows[0]}
-          </span>
-          <span className="flex items-center gap-[4px]">
-            <Bar w={38} />
-            {arrows[1]}
-          </span>
-          <span className="flex items-center gap-[4px]">
-            <Bar w={38} />
-            {arrows[2]}
-          </span>
+        <div key={r} className="flex h-[32px] items-center border-b border-[#e6e7ec] pl-[9px]">
+          <Bar w={57} />
+          {arrows.map((a, i) => (
+            <span key={i} className={`flex items-center gap-[9px] ${i ? "ml-[20px]" : "ml-[18px]"}`}>
+              <Bar w={34} />
+              {a}
+            </span>
+          ))}
         </div>
       ))}
-      <svg viewBox="0 0 275 100" width={275} height={100} className="mt-[4px] ml-3">
-        <path d="M0 30h275M0 66h275M0 102h275" stroke="#e6e7ec" />
-        <path d="M2 43c8-4 14-2 22-6s14 2 20 2 10-6 18-6 12 4 18 2 12-6 20-4 10 6 18 2 12-4 20-4 12 6 20 4 16-6 24-6 12 6 20 4 14-6 22-8 14 2 20 0 12-4 20-2" fill="none" stroke="#6167e6" strokeWidth={3} strokeLinecap="round" />
-        <path d="M2 57c8 0 12 4 20 2s12-2 16 4 12 8 20 8 10-4 16-4 12 6 20 2 10-6 18-2 12 6 20 4 14-8 20-4 10 8 18 6 12-8 20-4 14 8 22 4 10-6 16-2 14 6 22 2" fill="none" stroke="#2cd4a5" strokeWidth={3} strokeLinecap="round" />
+      <svg viewBox="0 0 275 100" width={275} height={100} className="ml-3">
+        <path d="M0 26.5h275M0 60h275M0 93.5h275" stroke="#e6e7ec" />
+        <polyline points="0.5,41.5 15.5,39 30.5,35 45.5,36.5 60.5,35 73,38 85.5,33 105.5,33 118,31.5 130.5,34 145.5,33 160.5,31.5 175.5,34 185.5,37 200.5,36 210.5,32.5 225.5,31.5 240.5,26.5 250.5,25 258,29 265.5,25 273,25.5" fill="none" stroke="#6167e6" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" />
+        <polyline points="0.5,54 8,52.5 20.5,58 30.5,53 40.5,58 55.5,63 65.5,64 75.5,69 90.5,69 100.5,64 118,62 130.5,64 150.5,61.5 160.5,66.5 175.5,64 190.5,64 200.5,71.5 208,66.5 218,73 230.5,66.5 240.5,69 255.5,76.5 263,73 273,76.5" fill="none" stroke="#2cd4a5" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </Frame>
   );

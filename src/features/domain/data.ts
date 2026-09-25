@@ -52,6 +52,22 @@ export const seoSummary = [
   { label: "Backlinks", value: "374", globe: true, href: routes.backlinks },
 ];
 
+export const trafficShare = [
+  { domain: "rkjh.se", color: "#6167e6", pct: 7.3, traffic: 59 },
+  { domain: "jbekonomi.com", color: "#3ed4a4", pct: 47.6, traffic: 386 },
+  { domain: "ellox.se", color: "#c28bf5", pct: 5.8, traffic: 47 },
+  { domain: "accenten.se", color: "#ffb200", pct: 19, traffic: 154 },
+  { domain: "palmsredovisning.se", color: "#ff6b70", pct: 20.3, traffic: 165 },
+];
+
+export const googleCountries = [
+  { name: "Worldwide", flag: null, bar: 1, traffic: 60, keywords: 214 },
+  { name: "SE", flag: "SE", bar: 0.98, traffic: 59, keywords: 136 },
+  { name: "IN", flag: "IN", bar: 0.02, traffic: 1, keywords: 2 },
+  { name: "US", flag: "US", bar: 0, traffic: 0, keywords: 21 },
+  { name: "Other", flag: null, bar: 0, traffic: 0, keywords: 55 },
+];
+
 export const aiCountries = [
   { name: "Worldwide", flag: null, visibility: 0, mentions: 0 },
   { name: "AE", flag: "AE", visibility: 0, mentions: 0 },
@@ -164,7 +180,7 @@ export const indexedPages = [
   { title: "-", url: "http://rkjh.se/kost-2/", domains: 1, backlinks: 2 },
 ];
 
-export const periods = ["Past 3 Months", "Past 6 Months", "Past Quarter", "Past Season", "Past Year"] as const;
+export const periods = ["Past 3 Months", "Past 6 Months", "Season over Season", "Quarter over Quarter", "Year over Year"] as const;
 
 export const growthSummary = [
   { period: "October – March", color: "#a55ff2", rank: "642K", traffic: "7", backlinks: "302", refDomains: "155", paid: "0" },
@@ -232,21 +248,6 @@ export const trafficByCountry = [
   { country: "Norway", flag: "NO", aPct: "0%", a: "0", bPct: "0%", b: "0", diff: "0%" },
   { country: "Vietnam", flag: "VN", aPct: "0%", a: "0", bPct: "0%", b: "0", diff: "0%" },
   { country: "Other", flag: null, aPct: "0%", a: "0", bPct: "0%", b: "0", diff: "0%" },
-];
-
-export const countryOptions = [
-  "United States",
-  "United Kingdom",
-  "Canada",
-  "Australia",
-  "Germany",
-  "France",
-  "Spain",
-  "Italy",
-  "Norway",
-  "Denmark",
-  "Finland",
-  "India",
 ];
 
 export type TopPage = {

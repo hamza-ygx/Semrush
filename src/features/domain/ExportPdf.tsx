@@ -45,6 +45,17 @@ function ExportModal({ onClose }: { onClose: () => void }) {
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [onClose]);
+  useEffect(() => {
+    const root = document.documentElement;
+    const gap = window.innerWidth - root.clientWidth;
+    const prev = { overflow: root.style.overflow, padding: document.body.style.paddingRight };
+    root.style.overflow = "hidden";
+    document.body.style.paddingRight = `${gap}px`;
+    return () => {
+      root.style.overflow = prev.overflow;
+      document.body.style.paddingRight = prev.padding;
+    };
+  }, []);
   return createPortal(
     <div className="fixed top-0 left-0 z-[100] h-screen w-screen overflow-y-auto bg-[rgba(25,27,35,0.38)] py-10" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
       <div role="dialog" aria-modal="true" aria-label="Export settings" className="relative mx-auto w-[720px] overflow-hidden rounded-xl bg-white shadow-popover">
@@ -104,7 +115,7 @@ function ExportModal({ onClose }: { onClose: () => void }) {
               <Gem />
             </span>
           </button>
-          <div className="mt-[31px] text-center">
+          <div className="mt-[33px] text-center">
             <button type="button" className="text-[14px] leading-5 text-rk-muted underline decoration-dashed underline-offset-[4px] hover:text-rk-text">
               View report balance
             </button>

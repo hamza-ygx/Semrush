@@ -10,9 +10,9 @@ import { periods } from "../data";
 const periodType: Record<(typeof periods)[number], string> = {
   "Past 3 Months": "past_months_3",
   "Past 6 Months": "past_months_6",
-  "Past Quarter": "past_quarter",
-  "Past Season": "past_season",
-  "Past Year": "past_year",
+  "Season over Season": "season",
+  "Quarter over Quarter": "quarter",
+  "Year over Year": "year",
 };
 
 export function GrowthControls({ active }: { active?: string }) {
@@ -27,16 +27,17 @@ export function GrowthControls({ active }: { active?: string }) {
       <div ref={ref} className="relative">
         <button
           type="button"
+          data-testid="growth-period"
+          aria-haspopup="listbox"
+          aria-expanded={open}
           onClick={() => setOpen((o) => !o)}
-          className={`flex h-7 w-[179px] items-center justify-between rounded-md border bg-white pr-[10px] pl-[9px] text-[14px] text-rk-text ${
-            open ? "border-[#7a86f2] ring-2 ring-[#d7dcfc]" : "border-[#d3d5db]"
-          }`}
+          className={`flex h-7 w-[179px] items-center justify-between rounded-md border pr-[10px] pl-[8px] text-[14px] text-rk-text ${open ? "border-[#a9b8ea] bg-[#f8faff]" : "border-[#d3d5db] bg-white"}`}
         >
           {value}
-          <ChevronDown width={14} height={14} className="text-rk-text" />
+          <ChevronDown width={18} height={18} className="-mr-[2px] text-rk-text [&_path]:stroke-[2]" />
         </button>
         {open && (
-          <div className="absolute top-[calc(100%+4px)] left-0 z-50 w-[179px] rounded-md bg-white py-1 shadow-popover">
+          <div role="listbox" className="absolute top-[calc(100%+5px)] left-0 z-50 w-[179px] rounded-md bg-white py-1 shadow-popover">
             {periods.map((p) => (
               <button
                 key={p}
@@ -46,7 +47,9 @@ export function GrowthControls({ active }: { active?: string }) {
                   setOpen(false);
                   go(p);
                 }}
-                className={`block w-full px-[9px] py-[6px] text-left text-[14px] leading-5 hover:bg-rk-bg ${p === value ? "bg-[#eef2fd]" : ""}`}
+                role="option"
+                aria-selected={p === value}
+                className={`block h-8 w-full border-l-2 pl-[7px] text-left text-[14px] leading-5 text-rk-text ${p === value ? "border-rk-text bg-[#ecf0fd]" : "border-transparent hover:bg-rk-bg"}`}
               >
                 {p}
               </button>

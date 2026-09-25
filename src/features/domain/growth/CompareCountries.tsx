@@ -3,13 +3,22 @@
 import { useState } from "react";
 import { routes } from "@/config/routes";
 import { useOutsideClose } from "@/components/ui/Popover";
-import { ChevronDown, CloseIcon } from "@/components/ui/icons";
-import { countryOptions } from "../data";
+import { ChevronDown, CloseIcon, SearchIcon } from "@/components/ui/icons";
+import { CountryFlag, allCountries } from "../countries";
 import { Flag, Widget } from "../ui";
 import { EmptyState } from "./EmptyState";
 import { CountriesIllustration } from "./Illustrations";
 
-const codes: Record<string, string> = { Sweden: "SE", "United States": "US", "United Kingdom": "UK", Norway: "NO", India: "IN" };
+const top = [
+  { code: "US", name: "United States" },
+  { code: "UK", name: "United Kingdom" },
+  { code: "DE", name: "Germany" },
+  { code: "FR", name: "France" },
+];
+
+const options = [...top, ...allCountries.filter((c) => !top.some((t) => t.code === c.code)), { code: "SE", name: "Sweden" }].sort((x, y) => x.name.localeCompare(y.name));
+
+const codes: Record<string, string> = Object.fromEntries(options.map((c) => [c.name, c.code]));
 
 const metrics: Record<string, [string, string, string, string]> = {
   Sweden: ["59", "134", "0", "0"],
@@ -18,37 +27,57 @@ const metrics: Record<string, [string, string, string, string]> = {
 
 function AddCountry({ taken, onPick }: { taken: string[]; onPick: (c: string) => void }) {
   const [open, setOpen] = useState(false);
-  const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
+  const [q, setQ] = useState("");
+  const close = () => {
+    setOpen(false);
+    setQ("");
+  };
+  const ref = useOutsideClose<HTMLDivElement>(open, close);
+  const match = (c: { name: string }) => !taken.includes(c.name) && c.name.toLowerCase().includes(q.trim().toLowerCase());
+  const row = (c: { code: string; name: string }, key: string) => (
+    <button
+      key={key}
+      type="button"
+      onClick={() => {
+        onPick(c.name);
+        close();
+      }}
+      className="flex h-8 w-full items-center gap-[9px] pl-[10px] text-left text-[14px] leading-5 text-rk-text hover:bg-rk-bg"
+    >
+      <CountryFlag code={c.code} />
+      {c.name}
+    </button>
+  );
+  const topRows = top.filter(match);
   return (
     <div ref={ref} className="relative">
       <button
         type="button"
-        onClick={() => setOpen((o) => !o)}
-        className={`flex h-7 w-[174px] items-center justify-between rounded-md border bg-white pr-[10px] pl-[9px] text-[14px] text-rk-muted ${
-          open ? "border-[#7a86f2] ring-2 ring-[#d7dcfc]" : "border-[#d3d5db]"
-        }`}
+        data-testid="add-country"
+        aria-expanded={open}
+        onClick={() => (open ? close() : setOpen(true))}
+        className={`flex h-7 w-[174px] items-center justify-between rounded-md border pr-[10px] pl-[8px] text-[14px] text-rk-muted ${open ? "border-[#a9b8ea] bg-[#f8faff]" : "border-[#d3d5db] bg-white"}`}
       >
         Add country
-        <ChevronDown width={14} height={14} className="text-rk-text" />
+        <ChevronDown width={18} height={18} className="-mr-[2px] text-rk-text [&_path]:stroke-[2]" />
       </button>
       {open && (
-        <div className="absolute top-[calc(100%+4px)] left-0 z-50 max-h-[280px] w-[220px] overflow-auto rounded-md bg-white py-1 shadow-popover">
-          {countryOptions
-            .filter((c) => !taken.includes(c))
-            .map((c) => (
-              <button
-                key={c}
-                type="button"
-                onClick={() => {
-                  onPick(c);
-                  setOpen(false);
-                }}
-                className="flex w-full items-center gap-2 px-[9px] py-[6px] text-left text-[14px] leading-5 hover:bg-rk-bg"
-              >
-                <Flag code={codes[c] ?? null} />
-                {c}
-              </button>
-            ))}
+        <div className="absolute top-[calc(100%+3px)] left-0 z-50 w-[259px] rounded-md bg-white shadow-popover">
+          <div className="relative">
+            <SearchIcon className="pointer-events-none absolute top-1/2 left-[10px] -translate-y-1/2 text-[#a9abb6]" />
+            <input
+              autoFocus
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Search"
+              className="h-[34px] w-full rounded-md border-2 border-[#8f9cea] pr-2 pl-[32px] text-[14px] outline-none placeholder:text-[#a9abb6]"
+            />
+          </div>
+          <div className="mt-[3px] max-h-[243px] overflow-y-auto pb-1 [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#c4c7cf]">
+            {topRows.map((c) => row(c, `top-${c.code}`))}
+            {topRows.length > 0 && <div className="border-t border-rk-border" />}
+            {options.filter(match).map((c) => row(c, c.code))}
+          </div>
         </div>
       )}
     </div>
@@ -62,7 +91,7 @@ export function CompareCountries() {
     <>
       <div className="flex items-center gap-[8.7px]">
         {picked.map((c) => (
-          <div key={c} className="flex h-7 w-[174px] overflow-hidden rounded-md border border-[#a3a8ea] bg-[#eef2fd] text-[14px]">
+          <div key={c} className="-mr-[1.5px] flex h-7 w-[175px] shrink-0 overflow-hidden rounded-md border border-[#a3a8ea] bg-[#eef2fd] text-[14px]">
             <span className="flex flex-1 items-center gap-[10px] pl-[10px]">
               <Flag code={codes[c] ?? null} width={15} height={11} />
               {c}

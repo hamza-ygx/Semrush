@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { routes } from "@/config/routes";
-import { aiCountries, googleMarkers, keywordLegend, serpDistribution } from "../data";
+import { aiCountries, googleCountries, googleMarkers, keywordLegend, serpDistribution } from "../data";
 import { kwLow, kwMid, kwTop, trafficDaily } from "../series";
 import { Plot, VBW, areaUnder, linePath, pts, smoothPath, stepPath, Stroke } from "../charts";
 import { Check, Dot, Flag, GoogleG, Seg } from "../ui";
@@ -12,6 +12,7 @@ import { ExportDropdown, NotesMenu } from "./menus";
 const SPAN_DAYS = 730;
 const END = Date.UTC(2026, 8, 23);
 const DAY = 86400000;
+const MONDAY_OFFSET = (new Date(END).getUTCDay() + 6) % 7;
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 const ranges = ["1M", "6M", "1Y", "2Y", "All time"] as const;
@@ -64,18 +65,32 @@ const at = (data: number[], f: number) => data[Math.round(f * (data.length - 1))
 
 type HoverProps = { hover: number | null; onHover: (f: number | null) => void };
 
-function HoverArea({ testId, rightW, onHover, children }: { testId: string; rightW: number; onHover: (f: number | null) => void; children: ReactNode }) {
+function isoDay(f: number, days: number) {
+  return new Date(END - Math.round((1 - f) * days) * DAY).toISOString().slice(0, 10);
+}
+
+function HoverArea({ testId, rightW, days, onHover, onY, children }: { testId: string; rightW: number; days?: number; onHover: (f: number | null) => void; onY?: (y: number) => void; children: ReactNode }) {
   return (
     <div
       data-testid={testId}
+      className="relative"
       onMouseMove={(e) => {
         const r = e.currentTarget.getBoundingClientRect();
         const f = (e.clientX - r.left) / (r.width - rightW);
+        onY?.(e.clientY - r.top);
         onHover(f >= 0 && f <= 1 ? f : null);
       }}
       onMouseLeave={() => onHover(null)}
     >
       {children}
+      {days && (
+        <div className="absolute top-0 left-0 h-[33px] overflow-hidden" style={{ right: rightW }}>
+          {Array.from({ length: Math.floor(days / 7) + 1 }, (_, w) => {
+            const i = days - MONDAY_OFFSET - 7 * w;
+            return <span key={i} data-day={isoDay(i / days, days)} className="absolute inset-y-0" style={{ left: `${((i - 3.5) / days) * 100}%`, width: `${700 / days}%` }} />;
+          })}
+        </div>
+      )}
     </div>
   );
 }
@@ -116,6 +131,7 @@ function IncompleteBand({ h }: { h: number }) {
 
 function TrafficChart({ range, gran, hover, onHover }: { range: Range; gran: "Days" | "Months" } & HoverProps) {
   const [on, setOn] = useState({ organic: true, paid: true, branded: true });
+  const [y, setY] = useState(28);
   const H = 83;
   const days = rangeDays[range];
   const raw = slice(trafficDaily, days);
@@ -135,7 +151,7 @@ function TrafficChart({ range, gran, hover, onHover }: { range: Range; gran: "Da
           <NotesMenu />
         </span>
       </div>
-      <HoverArea testId="traffic-chart" rightW={70} onHover={onHover}>
+      <HoverArea testId="traffic-chart" rightW={70} days={days} onHover={onHover} onY={setY}>
       <Plot
         className="mt-[27px]"
         height={H}
@@ -157,7 +173,7 @@ function TrafficChart({ range, gran, hover, onHover }: { range: Range; gran: "Da
                   ...(on.organic ? [{ y: H - (at(data, hover) / max) * H, color: "#6167e6" }] : []),
                 ]}
               />
-              <div className="pointer-events-none absolute -top-[27px] z-20 w-[170px] rounded-md bg-white pt-[9px] pr-3 pb-[9px] pl-[11px] shadow-popover" style={{ left: `calc(${hover * 100}% + 10px)` }}>
+              <div className="pointer-events-none absolute z-20 w-[170px] rounded-md bg-white pt-[9px] pr-3 pb-[9px] pl-[11px] shadow-popover" style={{ left: `calc(${hover * 100}% + 10px)`, top: y - 58 }}>
                 <div className="mb-[3px] text-[12px] leading-5 text-rk-muted">{dateAt(hover, days)}</div>
                 <TipRow color="#6167e6" label="Organic Traffic" value={Math.round(at(data, hover))} />
                 <TipRow color="#3ed4a4" label="Paid Traffic" value={0} />
@@ -326,12 +342,6 @@ function AiDistribution() {
 }
 
 function GoogleDistribution() {
-  const rows = [
-    { name: "Worldwide", flag: null, share: "100%", traffic: "59" },
-    { name: "SE", flag: "SE", share: "98%", traffic: "59" },
-    { name: "IN", flag: "IN", share: "2%", traffic: "1" },
-    { name: "US", flag: "US", share: "0%", traffic: "0" },
-  ];
   return (
     <>
       <h3 className="px-5 text-[16px] leading-6 font-bold">Distribution by Country</h3>
@@ -339,23 +349,32 @@ function GoogleDistribution() {
         <thead>
           <tr className="h-[33px] border-b border-rk-border text-[12px] text-rk-text-2">
             <th className="pl-5 text-left font-normal">Countries</th>
-            <th className="w-[90px] text-right font-normal">Traffic Share</th>
-            <th className="w-[76px] pr-[9px] text-right font-normal">Traffic</th>
+            <th className="w-[80px] text-right font-normal">Traffic</th>
+            <th className="w-[99px] pr-[9px] text-right font-normal">Keywords</th>
           </tr>
         </thead>
         <tbody>
-          {rows.map((c) => (
-            <tr key={c.name} className={`h-[37px] border-b border-rk-border last:border-0 ${c.name === "SE" ? "bg-rk-bg" : ""}`}>
-              <td className="pl-5">
-                <span className="flex items-center gap-[10px]">
-                  {c.flag && <Flag code={c.flag} />}
-                  {c.name}
-                </span>
-              </td>
-              <td className="text-right">{c.share}</td>
-              <td className="pr-[9px] text-right text-rk-link">{c.traffic}</td>
-            </tr>
-          ))}
+          {googleCountries.map((c) => {
+            const db = c.name !== "Worldwide" && c.name !== "Other";
+            const cell = db ? "text-rk-link" : "";
+            return (
+              <tr key={c.name} className={`h-[37px] border-b border-rk-border last:border-0 ${c.name === "SE" ? "bg-rk-bg" : ""}`}>
+                <td className="pl-5">
+                  <span className="flex items-center">
+                    <span className="flex w-[86px] items-center gap-[10px]">
+                      {c.flag && <Flag code={c.flag} />}
+                      {c.name}
+                    </span>
+                    <span className="relative h-2 w-[44px] overflow-hidden rounded-full bg-[#f0f0f2]">
+                      {c.bar > 0 && <span className="absolute inset-y-0 left-0 rounded-full bg-[#6167e6]" style={{ width: `${Math.max(c.bar * 100, 3)}%` }} />}
+                    </span>
+                  </span>
+                </td>
+                <td className={`text-right ${cell}`}>{db ? <Link href={routes.organic.overview}>{c.traffic}</Link> : c.traffic}</td>
+                <td className={`pr-[9px] text-right ${cell}`}>{db ? <Link href={routes.organic.positions}>{c.keywords}</Link> : c.keywords}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </>
@@ -375,7 +394,7 @@ export function TrendsWidget() {
         </div>
         <div className="mt-[20px]">{source === "AI Search" ? <AiDistribution /> : <GoogleDistribution />}</div>
         <h3 className="mt-[17px] px-5 text-[16px] leading-6 font-bold">Top Cited Sources</h3>
-        <div className="flex h-[173px] items-center justify-center pb-[18px] pl-[19px] text-[14px] text-rk-muted">We have no data to show.</div>
+        <div className={`flex items-center justify-center pb-[18px] pl-[19px] text-[14px] text-rk-muted ${source === "AI Search" ? "h-[173px]" : "h-[136px]"}`}>We have no data to show.</div>
         <h3 className="px-5 text-[16px] leading-6 font-bold">Google SERP Positions Distribution</h3>
         <div className="mt-[16px] flex items-center pl-5">
           <SerpDonut />

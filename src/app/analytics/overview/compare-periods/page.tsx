@@ -14,7 +14,7 @@ export default async function GrowthReportPage({ searchParams }: { searchParams:
   return (
     <AppShell section="seo" search={{ kind: "analyze", value: domain, scope: true }} footer={false}>
       <DomainHeader tab="growth" />
-      <div className="px-8 pt-[17px]">
+      <div className={`px-8 ${active ? "pt-[17px]" : "pt-[15.5px]"}`}>
         <GrowthControls key={active ?? "empty"} active={active} />
         {active ? (
           <GrowthReport />
