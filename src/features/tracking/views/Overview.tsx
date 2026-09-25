@@ -9,7 +9,7 @@ export const kdOptions = ["Very hard 85-100%", "Hard 70-84%", "Difficult 50-69%"
 export function OverviewView({ begin, fresh, prediction = false }: { begin?: string; fresh?: boolean; prediction?: boolean }) {
   return (
     <TrackingPage tab="overview" begin={begin} fresh={fresh}>
-      <OverviewBody prediction={prediction} serpOptions={serpOptions} volumeOptions={volumeOptions} intentOptions={intentOptions} kdOptions={kdOptions} />
+      <OverviewBody prediction={prediction} kdOptions={kdOptions} />
     </TrackingPage>
   );
 }

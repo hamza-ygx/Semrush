@@ -202,3 +202,19 @@ export const serpFeatureBars: { tracking: number; notTracking: number }[] = [
   { tracking: 0, notTracking: 0 },
   { tracking: 0, notTracking: 0 },
 ];
+
+const latestExtra: TrackedKeyword[] = [
+  { keyword: "beskattningsbar förvärvsinkomst", intent: "n/a", sf: 6, kd: 16, potTraffic: 0, volume: 110 },
+  { keyword: "betala lön till utlandet", intent: "I", sf: 4, kd: 13, potTraffic: 0, volume: 50 },
+];
+const latestLow = ["anstånd deklaration dödsbo", "arbetsgivaravgift på förmån"];
+const latestDropped = ["vad är utpressning", "tillväxtbolag"];
+const latestSf: Record<string, number> = { "avdrag deklaration dödsbo": 4 };
+
+export const latestKeywords: (TrackedKeyword & { potVis: number })[] = [...trackedKeywords.filter((k) => !latestDropped.includes(k.keyword)), ...latestExtra]
+  .map((k) => ({ ...k, sf: latestSf[k.keyword] ?? k.sf, potVis: latestLow.includes(k.keyword) ? 0.003 : 0.006 }))
+  .sort((a, b) => b.potVis - a.potVis || a.keyword.localeCompare(b.keyword, "sv"));
+
+export const onSerp: Record<string, string[]> = {
+  "arbetskläder avdragsgillt": ["People also ask", "Site link", "Related searches", "AI Overview"],
+};

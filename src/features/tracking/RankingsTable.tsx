@@ -3,13 +3,23 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent, type ReactNode } from "react";
 import { routes } from "@/config/routes";
-import { ChevronRight, GearIcon, PlusIcon } from "@/components/ui/icons";
-import { Select, Segmented } from "./controls";
-import { SortAscIcon, SparkleIcon } from "./icons";
+import { ChevronRight, PlusIcon } from "@/components/ui/icons";
+import { Checkbox, Select, Segmented } from "./controls";
+import { SortAscIcon, SortIcon, SparkleIcon } from "./icons";
 import { GrayButton, Panel } from "./ui";
-import { kdColor, project, trackedKeywords, type TrackedKeyword } from "./data";
+import { TipBox } from "./Tip";
+import { ActionsMenu, PotMetricSelect, SfCount, TableSettingsMenu, type PotMetric } from "./RankingsMenus";
+import { periodLabel, useTracking } from "./context";
+import { kdColor, latestKeywords, onSerp, project, trackedKeywords, type TrackedKeyword } from "./data";
 
-type Col = { key: string; w: number; label: ReactNode; align?: "left" | "right" | "center"; sep?: boolean; head?: string };
+type Col = {
+  key: string;
+  w: number;
+  label: ReactNode;
+  align?: "left" | "right" | "center";
+  sep?: boolean;
+  head?: string;
+};
 
 const cols: Col[] = [
   { key: "intent", w: 50, label: "Intent" },
@@ -70,10 +80,47 @@ const cols: Col[] = [
   { key: "url", w: 264, label: "URL", sep: true },
 ];
 
-const total = cols.reduce((a, c) => a + c.w, 0);
+const potHead = (label: string, sorted?: boolean) => (
+  <span className="flex w-full items-start justify-between">
+    <SparkleIcon width={18} height={18} className="-mt-[3px]" />
+    <span className="flex items-start gap-[6px] text-right">
+      <span>
+        Your
+        <br />
+        {label}
+      </span>
+      {sorted && <SortIcon width={16} height={16} className="mt-px text-rk-text-2" />}
+    </span>
+  </span>
+);
+
+const latestCols: Col[] = cols.map((c) => {
+  if (c.key === "pt") return { ...c, w: 112, label: potHead("Pot. Visibility") };
+  if (c.key === "pg")
+    return {
+      ...c,
+      w: 126,
+      head: "bg-[#e6d3fd]",
+      label: potHead("Pot. Growth", true),
+    };
+  if (c.key === "p17") return { ...c, label: "Pos. Sep 19" };
+  if (c.key === "p24") return { ...c, w: 83, head: "", label: "Pos. Sep 25" };
+  if (c.key === "vis") return { ...c, w: 64 };
+  if (c.key === "d2") return { ...c, w: 50 };
+  return c;
+});
+
+const width = (cs: Col[]) => cs.reduce((a, c) => a + c.w, 0);
+
+const serpPool = ["People also ask", "Site link", "Related searches", "AI Overview", "Reviews", "Video", "Image pack"];
 const dash = <span className="text-[#c4c7cf]">—</span>;
 
-function cell(k: TrackedKeyword, key: string): ReactNode {
+const serpHref = (kw: string) =>
+  `/tracking/serp/${encodeURIComponent(kw)}?source_type=tracking&campaign_id=30526913_5175527&date_begin=20260925&domain=${project.domain}&location=Sweden%252C%2520desktop&type=organic&device_group=desktop`;
+
+type Kw = TrackedKeyword & { potVis?: number };
+
+function cell(k: Kw, key: string): ReactNode {
   switch (key) {
     case "intent":
       return k.intent === "n/a" ? (
@@ -84,13 +131,15 @@ function cell(k: TrackedKeyword, key: string): ReactNode {
     case "sf":
       return (
         <span className="-mx-1 flex items-center justify-center gap-[6px] whitespace-nowrap">
-          <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#8a8e9b]">
-            <path d="M2.5 13.5v-11h11v5M2.5 5.5h11" fill="none" stroke="currentColor" strokeWidth={1.5} />
-            <circle cx="10" cy="10.5" r="2.5" fill="none" stroke="currentColor" strokeWidth={1.5} />
-            <path d="m12 12.5 2 2" stroke="currentColor" strokeWidth={1.6} />
-          </svg>
+          <a href={serpHref(k.keyword)} target="_blank" rel="noreferrer" aria-label={`SERP snapshot for ${k.keyword}`} data-testid="pt-serp-link" className="text-[#8a8e9b] hover:text-rk-link">
+            <svg viewBox="0 0 16 16" width={16} height={16}>
+              <path d="M2.5 13.5v-11h11v5M2.5 5.5h11" fill="none" stroke="currentColor" strokeWidth={1.5} />
+              <circle cx="10" cy="10.5" r="2.5" fill="none" stroke="currentColor" strokeWidth={1.5} />
+              <path d="m12 12.5 2 2" stroke="currentColor" strokeWidth={1.6} />
+            </svg>
+          </a>
           <span className="h-[20px] border-l border-[#e0e1e9]" />
-          <span className="dotted-underline text-rk-muted [text-underline-offset:3px]">{k.sf}</span>
+          <SfCount n={k.sf} features={onSerp[k.keyword] ?? serpPool.slice(0, k.sf)} />
         </span>
       );
     case "kd":
@@ -101,8 +150,10 @@ function cell(k: TrackedKeyword, key: string): ReactNode {
         </span>
       );
     case "pt":
+      if (k.potVis !== undefined) return <span className="text-rk-text">{k.potVis}%</span>;
       return k.potTraffic ? <span className="text-rk-text">{k.potTraffic.toFixed(2)}</span> : <span className="text-rk-muted">0</span>;
     case "pg":
+      if (k.potVis !== undefined) return <span className="text-[#8a3fcf]">+{k.potVis}</span>;
       return k.potTraffic ? <span className="text-[#8a3fcf]">+{k.potTraffic.toFixed(2)}</span> : <span className="text-rk-muted">0</span>;
     case "p17":
     case "p24":
@@ -121,42 +172,100 @@ function cell(k: TrackedKeyword, key: string): ReactNode {
 
 const alignCls = (a?: string) => (a === "right" ? "justify-end text-right" : a === "center" ? "justify-center text-center" : "");
 
-function Row({ k }: { k: TrackedKeyword }) {
-  const [open, setOpen] = useState(false);
+function PositionsChart({ period }: { period: string }) {
+  const ticks = ["99", "99.5", "100", "100.5", "101"];
+  const days = ["Sep 19", "Sep 20", "Sep 21", "Sep 22", "Sep 23", "Sep 24", "Sep 25"];
+  const y = (i: number) => 66 + i * 46.5;
   return (
-    <div className="group flex hover:bg-[#f7f8f9]">
-      <div className="relative flex w-[268px] shrink-0 pt-[14px] pr-[17px] pb-[13px]">
-        <button type="button" aria-label="Expand" onClick={() => setOpen(!open)} className="absolute top-[15px] left-[20px] text-rk-muted">
-          <ChevronRight width={16} height={16} strokeWidth={2} className={open ? "rotate-90" : ""} />
-        </button>
-        <span className="absolute top-[15px] left-[44px] h-[16px] w-[16px] rounded-[3px] border border-[#d6d8dd] bg-white" />
-        <div className="ml-[75.6px] min-w-0">
-          <Link href={`${routes.keywordOverview}?q=${encodeURIComponent(k.keyword)}&db=se`} className="block text-[14px] leading-[16.5px] text-rk-link decoration-[#b3c5f5] underline-offset-[3px] hover:underline">
-            {k.keyword}
-          </Link>
-          <button
-            type="button"
-            className="invisible mt-[7px] flex h-[19px] items-center gap-[4px] rounded-full border border-rk-border-strong bg-white px-[10px] text-[12px] text-rk-text-2 group-hover:visible hover:bg-rk-bg"
-          >
-            <PlusIcon width={11} height={11} strokeWidth={2} />
-            add tag
-          </button>
-        </div>
+    <div className="relative h-[342px] bg-white text-rk-text">
+      <div className="absolute top-[17px] left-[47px] flex items-baseline gap-[9px] text-[16px] leading-6">
+        <span className="font-semibold">Positions</span>
+        <span className="text-[14px] text-rk-muted">{period}</span>
       </div>
-      <div className="relative min-w-0 flex-1 overflow-hidden border-t border-[#eceef2] group-first:border-t-0">
-        <div className="flex h-full" style={{ width: total, transform: "translateX(calc(var(--sx) * -1px))" }}>
-          {cols.map((c) => (
-            <div key={c.key} style={{ width: c.w }} className={`flex shrink-0 items-start px-2 pt-[11.5px] text-[14px] leading-5 whitespace-nowrap ${alignCls(c.align)} ${c.sep ? "border-l border-[#eceef2]" : ""}`}>
-              {cell(k, c.key)}
-            </div>
-          ))}
-        </div>
+      <div className="absolute top-[17px] right-[48px]">
+        <Checkbox checked color="#191b23" label={<span className="text-[14px] text-rk-text">Smart zoom</span>} className="!gap-[8px]" />
+      </div>
+      {ticks.map((t, i) => (
+        <span key={t} style={{ top: y(i) - 9 }} className="absolute right-[calc(100%-90px)] text-[12px] leading-[18px] text-rk-muted">
+          {t}
+        </span>
+      ))}
+      <div className="absolute top-0 right-[74px] bottom-0 left-[106px]">
+        {ticks.map((t, i) => (
+          <span key={t} style={{ top: y(i) }} className={`absolute right-0 left-0 border-t ${i === 4 ? "border-[#e0e1e9]" : "border-[#eef0f2]"}`} />
+        ))}
+        <span style={{ top: y(2) - 1.5 }} className="absolute right-0 left-0 h-[3px] bg-[#5c5fd6]" />
+        {[0, 100].map((l) => (
+          <span key={l} style={{ top: y(2) - 3.5, left: `calc(${l}% - 3.5px)` }} className="absolute h-[7px] w-[7px] rounded-full bg-[#5c5fd6]" />
+        ))}
+        {days.map((d, i) => (
+          <span key={d} style={{ left: `${(i * 100) / 6}%`, top: 261 }} className="absolute -translate-x-1/2 text-[12px] leading-[18px] whitespace-nowrap text-rk-muted">
+            {d}
+          </span>
+        ))}
+      </div>
+      <div className="absolute top-[302px] left-[51px] flex items-center text-[14px] leading-5">
+        <Checkbox checked color="#5c5fd6" label={project.domain} className="!gap-[4px]" />
+        <span className="ml-[32px] text-rk-muted">100</span>
+        <span className="mx-[6px] text-rk-muted">→</span>
+        <span>100</span>
       </div>
     </div>
   );
 }
 
-function ScrollThumb({ sx, setSx, viewport }: { sx: number; setSx: (v: number) => void; viewport: number }) {
+function Row({ k, cs, period }: { k: Kw; cs: Col[]; period: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <div className={`group flex ${open ? "bg-[#f3f5f5]" : "hover:bg-[#f7f8f9]"}`}>
+        <div className="relative flex w-[268px] shrink-0 pt-[14px] pr-[17px] pb-[13px]">
+          <button type="button" aria-label="Expand" onClick={() => setOpen(!open)} className="absolute top-[15px] left-[20px] text-rk-muted">
+            <ChevronRight width={16} height={16} strokeWidth={2} className={open ? "rotate-90" : ""} />
+          </button>
+          <span className="absolute top-[15px] left-[44px] h-[16px] w-[16px] rounded-[3px] border border-[#d6d8dd] bg-white" />
+          <div className="ml-[75.6px] min-w-0">
+            <Link
+              href={`${routes.keywordOverview}?q=${encodeURIComponent(k.keyword)}&db=se`}
+              className="block text-[14px] leading-[16.5px] text-rk-link decoration-[#b3c5f5] underline-offset-[3px] hover:underline"
+            >
+              {k.keyword}
+            </Link>
+            <button
+              type="button"
+              className={`mt-[7px] flex h-[19px] items-center gap-[4px] rounded-full border border-rk-border-strong bg-white px-[10px] text-[12px] text-rk-text-2 group-hover:visible hover:bg-rk-bg ${open ? "visible" : "invisible"}`}
+            >
+              <PlusIcon width={11} height={11} strokeWidth={2} />
+              add tag
+            </button>
+          </div>
+        </div>
+        <div className="relative min-w-0 flex-1 overflow-x-clip border-t border-[#eceef2] group-first:border-t-0 has-[[data-open]]:z-30">
+          <div
+            className="flex h-full"
+            style={{
+              width: width(cs),
+              transform: "translateX(calc(var(--sx) * -1px))",
+            }}
+          >
+            {cs.map((c) => (
+              <div
+                key={c.key}
+                style={{ width: c.w }}
+                className={`flex shrink-0 items-start px-2 pt-[11.5px] text-[14px] leading-5 whitespace-nowrap ${alignCls(c.align)} ${c.sep ? "border-l border-[#eceef2]" : ""}`}
+              >
+                {cell(k, c.key)}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      {open && <PositionsChart period={period} />}
+    </>
+  );
+}
+
+function ScrollThumb({ sx, setSx, viewport, total }: { sx: number; setSx: (v: number) => void; viewport: number; total: number }) {
   const start = useRef<{ x: number; sx: number } | null>(null);
   const ratio = viewport / total;
   const max = total - viewport;
@@ -179,7 +288,35 @@ function ScrollThumb({ sx, setSx, viewport }: { sx: number; setSx: (v: number) =
   );
 }
 
+function KeywordHead({ shaded }: { shaded: boolean }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <div
+      data-testid="pt-kw-head"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      className={`absolute inset-y-0 right-0 left-[68px] pt-[12px] pl-[8px] ${shaded || hover ? "bg-[#e9ebeb]" : ""}`}
+    >
+      <span className="flex items-center gap-[6px]">
+        Keyword
+        {hover && <SortIcon width={16} height={16} className="text-rk-muted" />}
+      </span>
+      {hover && (
+        <TipBox gap={8} className="w-[225px] !py-[10px] !pr-4 !pl-[13px]">
+          A search term from the current tracking campaign
+        </TipBox>
+      )}
+    </div>
+  );
+}
+
 export function RankingsTable() {
+  const { latest, begin } = useTracking();
+  const [pot, setPot] = useState<PotMetric>(latest ? "Potential Visibility" : "Potential Traffic");
+  const cs = latest ? latestCols : cols;
+  const total = width(cs);
+  const rows: Kw[] = latest ? latestKeywords : trackedKeywords;
+  const period = periodLabel(begin, "–");
   const [sx, setSx] = useState(0);
   const [viewport, setViewport] = useState(794);
   const vpRef = useRef<HTMLDivElement>(null);
@@ -193,20 +330,9 @@ export function RankingsTable() {
     });
     ro.observe(el);
     return () => ro.disconnect();
-  }, []);
+  }, [total]);
   return (
-    <Panel
-      title="Rankings Overview"
-      count={`1-${project.keywords} (${project.keywords})`}
-      headerClassName="h-[44px] !pr-[20px]"
-      className="mt-4"
-      right={
-        <GrayButton className="h-[27px] bg-white">
-          <GearIcon />
-          Table settings
-        </GrayButton>
-      }
-    >
+    <Panel title="Rankings Overview" count={`1-${project.keywords} (${project.keywords})`} headerClassName="h-[44px] !pr-[20px]" className="mt-4" right={<TableSettingsMenu />}>
       <div className="flex items-center gap-[8px] px-5 pt-[20px] pb-[20px]">
         <button type="button" className="h-7 rounded-md bg-[#009f81] px-[9px] text-[14px] font-medium text-white hover:bg-[#007c65]">
           Buy more keywords
@@ -215,39 +341,42 @@ export function RankingsTable() {
           <PlusIcon width={14} height={14} />
           Add keywords
         </GrayButton>
-        <GrayButton className="!bg-[#f4f5f9]">Actions</GrayButton>
-        <Select
-          label={
-            <span className="flex items-center gap-[8px] text-rk-text">
-              <SparkleIcon width={18} height={18} />
-              Pot. Traffic
-            </span>
-          }
-          options={["Pot. Traffic", "Pot. Growth"]}
-          placeholder={false}
-          className="ml-[6px] w-[134px]"
-        />
+        <ActionsMenu />
+        <PotMetricSelect value={pot} onChange={setPot} className="ml-[6px]" />
         <Segmented className="ml-[6px]" items={["Positions", "Est. Traffic", "Visibility", `All for ${project.domain}`] as const} value={`All for ${project.domain}`} />
       </div>
-      <div style={{ "--sx": sx } as CSSProperties} onWheel={(e) => (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) && setSx(Math.max(0, Math.min(total - viewport, sx + (e.deltaX || e.deltaY))))}>
+      <div
+        style={{ "--sx": sx } as CSSProperties}
+        onWheel={(e) => (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) && setSx(Math.max(0, Math.min(total - viewport, sx + (e.deltaX || e.deltaY))))}
+      >
         <div className="sticky top-[81px] z-20 flex h-[56px] bg-[#f7f8f9] text-[12px] leading-[18px] text-rk-text">
           <div className="relative w-[268px] shrink-0">
             <span className="absolute top-[18px] left-[44px] h-[16px] w-[16px] rounded-[3px] border border-[#d6d8dd] bg-white" />
-            <div className="absolute inset-y-0 right-0 left-[68px] bg-[#e9ebeb] pt-[12px] pl-[8px]">Keyword</div>
+            <KeywordHead shaded={!latest} />
           </div>
           <div ref={vpRef} className="relative min-w-0 flex-1 overflow-hidden">
-            <div className="flex h-full" style={{ width: total, transform: "translateX(calc(var(--sx) * -1px))" }}>
-              {cols.map((c) => (
-                <div key={c.key} style={{ width: c.w }} className={`flex shrink-0 items-start px-2 pt-[12px] whitespace-nowrap ${alignCls(c.align)} ${c.head ?? ""} ${c.sep ? "border-l border-[#eceef2]" : ""}`}>
+            <div
+              className="flex h-full"
+              style={{
+                width: total,
+                transform: "translateX(calc(var(--sx) * -1px))",
+              }}
+            >
+              {cs.map((c) => (
+                <div
+                  key={c.key}
+                  style={{ width: c.w }}
+                  className={`flex shrink-0 items-start px-2 pt-[12px] whitespace-nowrap ${alignCls(c.align)} ${c.head ?? ""} ${c.sep ? "border-l border-[#eceef2]" : ""}`}
+                >
                   {c.label}
                 </div>
               ))}
             </div>
-            {viewport < total && <ScrollThumb sx={sx} setSx={setSx} viewport={viewport} />}
+            {viewport < total && <ScrollThumb sx={sx} setSx={setSx} viewport={viewport} total={total} />}
           </div>
         </div>
-        {trackedKeywords.map((k) => (
-          <Row key={k.keyword} k={k} />
+        {rows.map((k) => (
+          <Row key={k.keyword} k={k} cs={cs} period={period} />
         ))}
       </div>
       <div className="flex h-[66px] items-center gap-[8px] border-t border-[#eceef2] px-5 pb-[5px] text-[14px] text-rk-text">

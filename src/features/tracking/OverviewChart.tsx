@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { MenuItem, Popover } from "@/components/ui/Popover";
+import { brand } from "@/config/brand";
+import { Popover } from "@/components/ui/Popover";
+import { PlusIcon } from "@/components/ui/icons";
+import { Box } from "./FilterPanels";
 import { Checkbox, Segmented } from "./controls";
-import { ChevronBold, NoteIcon, SparkleIcon } from "./icons";
+import { ChevronBold, EyeIcon, NoteIcon, SparkleIcon } from "./icons";
 import { Info } from "./ui";
 import { Tip } from "./Tip";
 import { project } from "./data";
@@ -22,6 +25,7 @@ const pastLabels = [
   { d: 25, l: "Sep 20" },
   { d: 28.4, l: "Sep 24" },
 ];
+const latestLabels = ["Aug 28", "Sep 1", "Sep 5", "Sep 9", "Sep 13", "Sep 17", "Sep 21", "Sep 25"].map((l, i) => ({ d: pastLabels[i].d, l }));
 const currentLabels = ["Aug 28", "Aug 31", "Sep 3", "Sep 6", "Sep 9", "Sep 12", "Sep 15", "Sep 18", "Sep 21"].map((l, i) => ({ d: 1 + i * 3, l })).concat({ d: 27.3, l: "Sep 24" });
 const pgLabels = ["Aug 28", "Sep 1", "Sep 5", "Sep 9", "Sep 13", "Sep 17", "Sep 21", "Sep 25"];
 
@@ -31,14 +35,22 @@ function ModeSwitch({ mode, onMode }: { mode: ChartMode; onMode: (m: ChartMode) 
   const pg = mode === "pg";
   return (
     <div className="flex">
-      <button
-        type="button"
-        data-testid="pt-mode-ca"
-        onClick={() => onMode("ca")}
-        className={`${seg} ${pg ? "border-rk-border-strong bg-white hover:bg-rk-bg" : "z-10 border-[#8e9ff0] bg-[#e9edfc]"}`}
+      <Tip
+        tip="Competitive Analysis provides a more detailed overview of tracking results that you can compare to other domains."
+        gap={11}
+        focus={false}
+        className={pg ? "" : "z-10"}
+        boxClassName="w-[227px] !py-3 !pr-2 !pl-3"
       >
-        Competitive Analysis
-      </button>
+        <button
+          type="button"
+          data-testid="pt-mode-ca"
+          onClick={() => onMode("ca")}
+          className={`${seg} rounded-l-md ${pg ? "border-rk-border-strong bg-white hover:bg-rk-bg" : "z-10 border-[#8e9ff0] bg-[#e9edfc]"}`}
+        >
+          Competitive Analysis
+        </button>
+      </Tip>
       <Tip
         tip="Potential Growth shows how much your domain can grow in 3 months if you put work into the analyzed keywords."
         gap={11}
@@ -60,22 +72,46 @@ function ModeSwitch({ mode, onMode }: { mode: ChartMode; onMode: (m: ChartMode) 
   );
 }
 
-function Notes() {
+function Notes({ align = "right", panelClassName = "" }: { align?: "left" | "right"; panelClassName?: string }) {
+  const [on, setOn] = useState([true, true, true]);
   return (
     <Popover
-      align="right"
-      panelClassName="w-[180px]"
+      align={align}
+      offset={7}
+      panelClassName={`w-[304px] !pt-[15px] !pb-[16px] whitespace-nowrap ${panelClassName}`}
       trigger={({ toggle }) => (
-        <button type="button" onClick={toggle} className="flex items-center gap-[4px] text-[14px] text-rk-text">
+        <button type="button" onClick={toggle} data-testid="pt-notes" className="flex items-center gap-[4px] text-[14px] text-rk-text [&:hover>span]:underline [&:hover>span]:underline-offset-[5px]">
           <NoteIcon width={17} height={17} />
-          Notes
+          <span>Notes</span>
           <ChevronBold width={16} height={16} />
         </button>
       )}
     >
-      <MenuItem>Add note</MenuItem>
-      <MenuItem>View all notes</MenuItem>
-      <MenuItem>Hide notes</MenuItem>
+      {(close) => (
+        <div className="px-4 text-[14px] leading-5 text-rk-text">
+          <div className="text-[16px] leading-6 font-semibold">Notes management</div>
+          <div className="mt-[9px]">
+            {["Google Updates (organic)", "My notes", brand.name].map((t, i) => (
+              <button key={t} type="button" onClick={() => setOn(on.map((v, j) => (j === i ? !v : v)))} className="flex h-8 w-full items-center gap-2 text-left">
+                <Box on={on[i]} />
+                {t}
+              </button>
+            ))}
+          </div>
+          <div className="mt-[11px] flex items-center">
+            <button type="button" onClick={close} className="flex h-7 items-center gap-[10px] rounded-md bg-rk-btn-dark px-[9px] font-medium text-white hover:bg-[#2b2e38]">
+              <PlusIcon width={14} height={14} strokeWidth={2} />
+              Compose note
+            </button>
+            <button type="button" disabled className="ml-[25px] h-7 rounded-md border border-rk-border-strong bg-[#f4f5f9] px-2 text-rk-muted">
+              View all
+            </button>
+            <button type="button" aria-label="Show notes" className="ml-2 flex h-7 w-[34px] items-center justify-center rounded-md border border-rk-border-strong bg-[#f4f5f9] text-rk-text-2 hover:bg-rk-hover">
+              <EyeIcon width={16} height={16} />
+            </button>
+          </div>
+        </div>
+      )}
     </Popover>
   );
 }
@@ -93,19 +129,22 @@ function HowItWorks() {
   );
 }
 
-function CompetitiveChart({ metric, current }: { metric: (typeof metrics)[number]; current: boolean }) {
+function CompetitiveChart({ metric, current: cur, latest }: { metric: (typeof metrics)[number]; current: boolean; latest: boolean }) {
+  const current = cur && !latest;
   const x = current ? (d: number) => 77.3 + d * 33.67 : (d: number) => 77 + d * 32.45;
   const right = current ? 1032 : x(29);
+  const shade = latest ? x(23) : x(22);
   const ticks = metric === "Avg. Position" ? ["0", "25", "50", "75", "100"] : metric === "Visibility" || metric === "Share of Voice" ? ["1%", "0.5%", "0%", "-0.5%", "-1%"] : ["1", "0.5", "0", "-0.5", "-1"];
   const y = (i: number) => 191.6 + i * 43.4;
-  const labels = current ? currentLabels : pastLabels;
+  const labels = latest ? latestLabels : current ? currentLabels : pastLabels;
+  const end = latest ? 29 : 16.8;
   return (
     <svg width="100%" height={418} className="pointer-events-none absolute top-0 left-0 overflow-visible">
-      <rect x={x(22)} y={y(0)} width={right - x(22)} height={y(4) - y(0)} fill="#f0f1f2" />
-      <line x1={x(22)} x2={x(22)} y1={y(0)} y2={y(4)} stroke="#c4c7cf" strokeDasharray="3 3" />
+      <rect x={shade} y={y(0)} width={right - shade} height={y(4) - y(0)} fill="#f0f1f2" />
+      <line x1={shade} x2={shade} y1={y(0)} y2={y(4)} stroke="#c4c7cf" strokeDasharray="3 3" />
       {!current && <line x1={right} x2={right} y1={y(0)} y2={y(4)} stroke="#c4c7cf" strokeDasharray="3 3" />}
-      <text transform={`translate(${x(22) - 7} ${y(2)}) rotate(-90)`} textAnchor="middle" fontSize={12} fill="#484a54">
-        Last 8 days
+      <text transform={`translate(${shade - 7} ${y(2)}) rotate(-90)`} textAnchor="middle" fontSize={12} fill="#484a54">
+        {latest ? "Last 7 days" : "Last 8 days"}
       </text>
       {ticks.map((t, i) => (
         <g key={t}>
@@ -128,9 +167,9 @@ function CompetitiveChart({ metric, current }: { metric: (typeof metrics)[number
         </>
       ) : (
         <>
-          <line x1={x(0)} x2={x(16.8)} y1={y(2)} y2={y(2)} stroke="#5c5fd6" strokeWidth={3} />
+          <line x1={x(0)} x2={x(end)} y1={y(2)} y2={y(2)} stroke="#5c5fd6" strokeWidth={3} />
           <circle cx={x(0)} cy={y(2)} r={3.5} fill="#5c5fd6" />
-          <circle cx={x(16.8)} cy={y(2)} r={3.5} fill="#5c5fd6" />
+          <circle cx={x(end)} cy={y(2)} r={3.5} fill="#5c5fd6" />
         </>
       )}
     </svg>
@@ -231,7 +270,7 @@ function GrowthSide() {
   );
 }
 
-export function OverviewChartCard({ mode = "ca", current = false, onMode }: { mode?: ChartMode; current?: boolean; onMode?: (m: ChartMode) => void }) {
+export function OverviewChartCard({ mode = "ca", current = false, latest = false, onMode }: { mode?: ChartMode; current?: boolean; latest?: boolean; onMode?: (m: ChartMode) => void }) {
   const [metric, setMetric] = useState<(typeof metrics)[number]>("Visibility");
   const pg = mode === "pg";
   return (
@@ -250,7 +289,7 @@ export function OverviewChartCard({ mode = "ca", current = false, onMode }: { mo
           <div className="absolute top-[64px] left-5 flex items-center">
             <Checkbox checked color="#191b23" label={<span className="text-[14px] text-rk-text">Smart zoom</span>} className="!gap-[8px]" />
             <span className="mx-[16px] h-[22px] border-l border-[#e0e1e9]" />
-            <Notes />
+            <Notes align="left" panelClassName="!-left-[188px]" />
           </div>
           <GrowthChart />
           <GrowthSide />
@@ -268,9 +307,9 @@ export function OverviewChartCard({ mode = "ca", current = false, onMode }: { mo
           <div className="absolute top-[134px] right-5 flex items-center">
             <Checkbox checked color="#191b23" label={<span className="text-[14px] text-rk-text">Smart zoom</span>} className="!gap-[8px]" />
             <span className="mx-[16px] h-[22px] border-l border-[#e0e1e9]" />
-            {!current && <Notes />}
+            {(!current || latest) && <Notes />}
           </div>
-          <CompetitiveChart metric={metric} current={current} />
+          <CompetitiveChart metric={metric} current={current} latest={latest} />
         </>
       )}
     </section>

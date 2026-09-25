@@ -9,7 +9,7 @@ const today = Date.UTC(2026, 8, 25);
 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const presets = [
-  ["Past 2 days", 1],
+  ["Past 2 days", 2],
   ["Past 7 days", 7],
   ["Past 30 days", 30],
   ["Past 60 days", 60],
@@ -18,7 +18,12 @@ const presets = [
   ["All time", 365],
 ] as const;
 
-function Month({ year, month, left, from, to, pick }: { year: number; month: number; left: number; from: number; to: number; pick: (t: number) => void }) {
+function presetRange(n: number) {
+  if (n === 0) return [Date.UTC(2026, 7, 1), Date.UTC(2026, 8, 0)] as const;
+  return [today - (n - 1) * DAY, today] as const;
+}
+
+function Month({ year, month, left, from, to, pick, mark }: { year: number; month: number; left: number; from: number; to: number; pick: (t: number) => void; mark?: number }) {
   const first = new Date(Date.UTC(year, month, 1)).getUTCDay();
   const count = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
   return (
@@ -54,7 +59,7 @@ function Month({ year, month, left, from, to, pick }: { year: number; month: num
                   : disabled
                     ? "text-[#c4c7cf]"
                     : "rounded-[4px] text-rk-text hover:bg-rk-bg"
-            }`}
+            } ${t === mark ? "rounded-[4px] !bg-white shadow-[inset_0_0_0_1px_#7c84a8]" : ""}`}
           >
             {i + 1}
           </button>
@@ -65,7 +70,7 @@ function Month({ year, month, left, from, to, pick }: { year: number; month: num
 }
 
 export function DatePickerPanel({ close }: { close: () => void }) {
-  const { begin, setBegin } = useTracking();
+  const { begin, setBegin, latest } = useTracking();
   const [a, b] = periodRange(begin);
   const [from, setFrom] = useState(a.getTime());
   const [to, setTo] = useState(b.getTime());
@@ -101,7 +106,7 @@ export function DatePickerPanel({ close }: { close: () => void }) {
           <ChevronRight strokeWidth={2} />
         </button>
         <Month year={prev.y} month={prev.m} left={16} from={from} to={to} pick={pick} />
-        <Month year={view.y} month={view.m} left={256} from={from} to={to} pick={pick} />
+        <Month year={view.y} month={view.m} left={256} from={from} to={to} pick={pick} mark={latest && to === today ? today - DAY : undefined} />
       </div>
       <div className="relative flex-1 border-l border-rk-border pt-[15px]">
         {presets.map(([l, n]) => (
@@ -109,12 +114,12 @@ export function DatePickerPanel({ close }: { close: () => void }) {
             key={l}
             type="button"
             onClick={() => {
-              const end = n === 0 ? Date.UTC(2026, 8, 0) : today - DAY;
-              setFrom(n === 0 ? Date.UTC(2026, 7, 1) : end - n * DAY);
-              setTo(end);
+              const [f, t] = presetRange(n);
+              setFrom(f);
+              setTo(t);
               setPending(false);
             }}
-            className="block h-7 w-full pl-[24px] text-left text-[14px] text-rk-muted hover:text-rk-text"
+            className={`mx-4 block h-7 w-[122px] rounded-[4px] pl-2 text-left text-[14px] hover:text-rk-text ${presetRange(n)[0] === from && presetRange(n)[1] === to ? "bg-rk-bg text-rk-text" : "text-rk-muted"}`}
           >
             {l}
           </button>

@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { FilterBar } from "./FilterBar";
+import { AdvancedPanel, IntentPanel, SerpFilterPanel, VolumePanel } from "./FilterPanels";
 import { DomainChip, Select, SearchInput } from "./controls";
 import { OverviewChartCard, type ChartMode } from "./OverviewChart";
 import { RankingsTable } from "./RankingsTable";
-import { TipBox } from "./Tip";
+import { Tip, TipBox } from "./Tip";
 import { Info } from "./ui";
 import { ChevronBold, XBoldIcon } from "./icons";
 import { currentBegin, useTracking } from "./context";
@@ -14,7 +15,15 @@ import { project } from "./data";
 const competitors = ["verksamt.se", "www.skatteverket.se", "www.fortnox.se", "www.bokio.se"];
 
 function AddDomain({ disabled }: { disabled?: boolean }) {
-  return <Select label="Add domain" className="w-[120px]" options={competitors} disabled={disabled} />;
+  const select = <Select label="Add domain" className="w-[120px]" options={competitors} disabled={disabled} />;
+  if (!disabled) return select;
+  return (
+    <span data-testid="pt-add-domain" className="inline-flex">
+      <Tip tip="To compare domains, switch from Potential Growth to Competitive Analysis." gap={12} focus={false} boxClassName="w-[226px] !py-3 !pr-2">
+        {select}
+      </Tip>
+    </span>
+  );
 }
 
 function YouField() {
@@ -91,23 +100,11 @@ function TagsPanel({ close }: { close: () => void }) {
   );
 }
 
-export function OverviewBody({
-  prediction,
-  serpOptions,
-  volumeOptions,
-  intentOptions,
-  kdOptions,
-}: {
-  prediction: boolean;
-  serpOptions: string[];
-  volumeOptions: string[];
-  intentOptions: string[];
-  kdOptions: string[];
-}) {
-  const { begin, setBegin } = useTracking();
-  const [mode, setMode] = useState<ChartMode>(prediction ? "pg" : "ca");
+export function OverviewBody({ prediction, kdOptions }: { prediction: boolean; kdOptions: string[] }) {
+  const { begin, setBegin, latest } = useTracking();
+  const [mode, setMode] = useState<ChartMode>(prediction || latest ? "pg" : "ca");
   const [toast, setToast] = useState(false);
-  const current = begin === currentBegin;
+  const current = begin === currentBegin || latest;
   const pg = mode === "pg";
 
   useEffect(() => {
@@ -160,12 +157,28 @@ export function OverviewBody({
               tip={`Filter keywords by ${project.domain} positions and their changes. E.g.: All keywords in top 10, new keywords in top 3, etc...`}
               panel={(close) => <TopPositionsPanel close={close} />}
             />
-            <Select label="SERP Features" options={serpOptions} className="w-[138px]" />
-            <Select label="Tags" testid="pt-f-tags" className="w-[72px]" offset={4} panelClassName="!py-0" panel={(close) => <TagsPanel close={close} />} />
-            <Select label="Intent" options={intentOptions} className="w-[78px]" />
-            <Select label="Volume" options={volumeOptions} className="w-[90px]" />
+            <Select
+              label="SERP Features"
+              testid="pt-f-serp"
+              className="w-[138px]"
+              panelClassName="!py-0 overflow-hidden"
+              tip="Use this filter to view keywords that have certain SERP feature on a SERP (featured snippet, local pack, etc...) or where domain ranks in a certain SERP feature"
+              tipProps={{ shift: -57, arrow: 116, gap: 8, boxClassName: "w-[228px] !pr-[14px] !pl-[13px]" }}
+              panel={(close) => <SerpFilterPanel close={close} />}
+            />
+            <Select label="Tags" testid="pt-f-tags" className="w-[74px]" offset={4} panelClassName="!py-0" panel={(close) => <TagsPanel close={close} />} />
+            <Select label="Intent" testid="pt-f-intent" className="w-[79px]" panelClassName="!py-0" panel={(close) => <IntentPanel close={close} />} />
+            <Select
+              label="Volume"
+              testid="pt-f-volume"
+              className="w-[91px]"
+              panelClassName="!py-0"
+              tip="Filter keywords by volume"
+              tipProps={{ place: "top", gap: 14, boxClassName: "w-auto whitespace-nowrap" }}
+              panel={(close) => <VolumePanel close={close} />}
+            />
             <Select label="KD %" options={kdOptions} className="w-[79px]" />
-            <Select label="Advanced filters" options={["Include keywords", "Exclude keywords", "URL"]} className="w-[149px]" />
+            <Select label="Advanced filters" testid="pt-f-adv" className="w-[149px]" offset={5} panelClassName="!py-0 !-left-[31px]" panel={(close) => <AdvancedPanel close={close} />} />
           </>
         }
       />
@@ -176,7 +189,7 @@ export function OverviewBody({
           </TipBox>
         </div>
       )}
-      <OverviewChartCard mode={mode} current={current} onMode={onMode} />
+      <OverviewChartCard mode={mode} current={current} latest={latest} onMode={onMode} />
       <RankingsTable />
     </div>
   );

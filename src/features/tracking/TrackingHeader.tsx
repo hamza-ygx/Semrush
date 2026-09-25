@@ -12,6 +12,8 @@ import { BellIcon, ChevronBold, DiamondIcon, HotelIcon, JobIcon, LookerIcon, Man
 import { project, trackingTabs, type TrackingTab } from "./data";
 import { useTracking } from "./context";
 import { Tip, useScrollLock } from "./Tip";
+import { Radio } from "./FilterPanels";
+import { Info } from "./ui";
 
 type Action = "looker" | "pdf" | "export" | "share";
 
@@ -43,18 +45,53 @@ function ActionButton({ kind }: { kind: Action }) {
         PDF
       </button>
     );
-  if (kind === "export")
-    return (
-      <button type="button" className={btn}>
-        <ExportIcon />
-        Export
-      </button>
-    );
+  if (kind === "export") return <ExportMenu />;
   return (
     <button type="button" className={btn}>
       <ShareIcon />
       Share
     </button>
+  );
+}
+
+function ExportMenu() {
+  const [type, setType] = useState(0);
+  const item = "flex h-8 w-full items-center px-2 text-left text-[14px] text-rk-text hover:bg-rk-bg";
+  return (
+    <Popover
+      align="right"
+      offset={5}
+      className="[&>div:last-child]:right-[2px]"
+      panelClassName="w-[126px] !pt-[4px] !pb-[5px]"
+      trigger={({ toggle, open }) => (
+        <button type="button" onClick={toggle} data-testid="pt-export" className={`${btn} ${open ? "!bg-rk-hover" : ""}`}>
+          <ExportIcon />
+          Export
+        </button>
+      )}
+    >
+      {(close) => (
+        <>
+          {["Standard", "Extended"].map((t, i) => (
+            <button key={t} type="button" onClick={() => setType(i)} className="flex h-[31px] w-full items-center gap-[6px] px-2 text-left text-[14px] text-rk-text hover:bg-rk-bg">
+              <Radio on={type === i} />
+              {t}
+              <Info className="-mt-[6px] ml-[4px]" />
+            </button>
+          ))}
+          <div className="my-[5px] border-t border-rk-border" />
+          {["Excel", "CSV", "CSV Semicolon", "Google Sheets"].map((t) => (
+            <button key={t} type="button" onClick={close} className={item}>
+              {t}
+            </button>
+          ))}
+          <div className="mt-[5px] border-t border-rk-border" />
+          <button type="button" onClick={close} className="mt-[8px] block px-2 text-[12px] leading-4 text-rk-link hover:text-rk-link-hover">
+            Schedule export
+          </button>
+        </>
+      )}
+    </Popover>
   );
 }
 
@@ -300,7 +337,7 @@ export function TrackingCrumbs() {
 }
 
 export function TrackingHeader({ tab }: { tab: TrackingTab }) {
-  const { fresh } = useTracking();
+  const { fresh, latest } = useTracking();
   return (
     <div className="border-b border-rk-border px-8 pt-4">
       <div className="flex items-center justify-between">
@@ -325,7 +362,7 @@ export function TrackingHeader({ tab }: { tab: TrackingTab }) {
       </div>
       <div className="mt-[7px] flex items-center gap-[24px] text-[14px] leading-5">
         <TargetDropdown />
-        <span>Updated: {fresh ? "0 hours ago" : "17 hours ago"}</span>
+        <span>Updated: {fresh ? "0 hours ago" : latest ? "2 hours ago" : "17 hours ago"}</span>
         <span>
           Keywords:{" "}
           <Link href={routes.tracking.overview} className="text-rk-link hover:text-rk-link-hover">

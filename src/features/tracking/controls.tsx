@@ -20,7 +20,9 @@ export function Select({
   panelClassName = "min-w-[180px]",
   offset = 4,
   disabled,
+  tipProps,
 }: {
+  tipProps?: { place?: "top" | "top-start"; shift?: number; arrow?: number; gap?: number; boxClassName?: string };
   testid?: string;
   tip?: ReactNode;
   panelClassName?: string;
@@ -47,7 +49,7 @@ export function Select({
             disabled={disabled}
             data-testid={testid}
             className={`flex h-7 items-center gap-[6px] rounded-md border bg-white pr-[7px] pl-[9px] text-[14px] whitespace-nowrap ${
-              disabled ? "border-[#e6e7ec] text-[#c4c7cf]" : `hover:bg-rk-bg ${placeholder && !value ? "text-[#8a8e9b]" : "text-rk-text"} ${open ? "border-[#8e9ff0]" : "border-rk-border-strong"}`
+              disabled ? "pointer-events-none border-[#e6e7ec] text-[#c4c7cf]" : `hover:bg-rk-bg ${placeholder && !value ? "text-[#8a8e9b]" : "text-rk-text"} ${open ? "border-[#8e9ff0]" : "border-rk-border-strong"}`
             } ${className}`}
           >
             <span className="flex-1 text-left">{value ?? label}</span>
@@ -55,7 +57,7 @@ export function Select({
           </button>
         );
         return tip ? (
-          <Tip tip={tip} place="top-start" shift={-24} gap={7} arrow={110} focus={false} boxClassName="w-[226px]">
+          <Tip tip={tip} place="top-start" shift={-24} gap={7} arrow={110} focus={false} boxClassName="w-[226px]" {...tipProps}>
             {btn}
           </Tip>
         ) : (

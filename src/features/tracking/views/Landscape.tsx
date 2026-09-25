@@ -10,6 +10,7 @@ import { EmptyTable, WorldMapCard } from "../illustrations";
 import { DarkButton, GrayButton, Info, Panel } from "../ui";
 import { days, project, serpFeatureBars, trackedKeywords } from "../data";
 import { SerpFeatureIcon } from "../serpIcons";
+import { CompetitorGrowth, SummaryPeriod } from "../period";
 
 function PotentialSpark() {
   return (
@@ -69,7 +70,7 @@ function SummaryCard() {
       <div className="pt-[24px] pr-5 pl-6 text-[14px] leading-5 text-rk-text">
         <p>
           Traffic performance of <b className="font-semibold">{project.domain}</b>{" "}
-          <ExternalLinkIcon className="-mt-[3px] inline text-[#a9abb6]" /> for the Sweden (Google) • Swedish (Desktop) target was stable between Sep 17, 2026 - Sep 24, 2026.
+          <ExternalLinkIcon className="-mt-[3px] inline text-[#a9abb6]" /> for the Sweden (Google) • Swedish (Desktop) target was stable between <SummaryPeriod />.
         </p>
         <ul className="mt-[12px] flex flex-col gap-[8px]">
           <li className="relative pl-[23px]">
@@ -81,7 +82,7 @@ function SummaryCard() {
           </li>
           <li className="relative pl-[23px]">
             <span className="absolute top-[8px] left-[3px] h-[5px] w-[5px] rounded-full bg-rk-muted" />
-            You have a potential competitor verksamt.se. Their Visibility has grown by 12.94%.{" "}
+            You have a potential competitor verksamt.se. Their Visibility has grown by <CompetitorGrowth />.{" "}
             <Link href={routes.tracking.competitorsDiscovery} className="text-rk-link hover:text-rk-link-hover">
               View report
             </Link>
