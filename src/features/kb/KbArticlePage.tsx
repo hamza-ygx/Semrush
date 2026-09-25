@@ -10,6 +10,7 @@ import { ChevronDown, ChevronRight } from "@/components/ui/icons";
 import { kbArticles, kbHref, kbNav, type KbArticle } from "./data";
 
 const nav = ["Product", "Pricing", "Solutions", "Resources", "Enterprise"] as const;
+const navHrefs: Partial<Record<(typeof nav)[number], string>> = { Pricing: routes.pricing.one, Enterprise: routes.pricing.enterprise };
 const muted = "text-[#7d8290]";
 
 function SiteHeader() {
@@ -20,18 +21,31 @@ function SiteHeader() {
         {brand.name}
       </Link>
       <nav className="absolute left-[516px] flex items-center gap-[31px] text-[17px] font-medium text-[#171a22]">
-        {nav.map((n) => (
-          <button key={n} type="button" className="flex items-center gap-[7px] hover:text-[#6e45f5]">
-            {n}
-            {n === "Enterprise" ? (
-              <svg viewBox="0 0 12 12" width={11} height={11}>
-                <path d="M3 9 9 3M4 3h5v5" fill="none" stroke="currentColor" strokeWidth={1.6} />
-              </svg>
-            ) : n !== "Pricing" ? (
-              <ChevronDown width={13} height={13} strokeWidth={2.2} />
-            ) : null}
-          </button>
-        ))}
+        {nav.map((n) => {
+          const cls = "flex items-center gap-[7px] hover:text-[#6e45f5]";
+          const body = (
+            <>
+              {n}
+              {n === "Enterprise" ? (
+                <svg viewBox="0 0 12 12" width={11} height={11}>
+                  <path d="M3 9 9 3M4 3h5v5" fill="none" stroke="currentColor" strokeWidth={1.6} />
+                </svg>
+              ) : n !== "Pricing" ? (
+                <ChevronDown width={13} height={13} strokeWidth={2.2} />
+              ) : null}
+            </>
+          );
+          const href = navHrefs[n];
+          return href ? (
+            <Link key={n} href={href} className={cls}>
+              {body}
+            </Link>
+          ) : (
+            <button key={n} type="button" className={cls}>
+              {body}
+            </button>
+          );
+        })}
       </nav>
       <span className="flex h-[35px] w-[35px] items-center justify-center rounded-full bg-[#ba96ec] text-[16px] font-medium text-[#171a22]">C</span>
     </header>

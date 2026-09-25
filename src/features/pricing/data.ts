@@ -28,11 +28,11 @@ export type Plan = {
 };
 
 export type CompareValue = string | boolean;
-export type CompareRow = { label: string; tag?: string; underline?: boolean; values: CompareValue[] };
+type CompareRow = { label: string; tag?: string; underline?: boolean; values: CompareValue[] };
 export type CompareGroup = { title: string; rows: CompareRow[] };
 export type CompareTable = { columns: string[]; highlight?: number; accent?: number; labelWidth?: number; collapsed?: number; headSize?: number; groups: CompareGroup[] };
 
-export type Toolkit = {
+type Toolkit = {
   slug: ToolkitSlug;
   title: string;
   desc: string[];

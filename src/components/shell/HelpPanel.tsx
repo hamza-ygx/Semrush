@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { routes } from "@/config/routes";
 import { helpArticleSlugs, kbHref } from "@/features/kb/data";
 import { ChevronDown, CloseIcon, SearchIcon } from "../ui/icons";
 import { SupportChat } from "./SupportChat";
@@ -15,7 +16,7 @@ const res = (d: string) => (
 );
 
 const resources = [
-  { label: "Help Center", icon: res("M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z") },
+  { label: "Help Center", href: routes.kb, icon: res("M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z") },
   { label: "Online Demo", icon: res("M7 9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM2.5 17c.4-3 2-4.5 4.5-4.5 1.3 0 2.4.4 3.1 1.1M10 4h11.5v10H15M15 14l2 4") },
   { label: "Blog", icon: res("M3 4h18v16H3zM6 8h5v5H6zM14 8h4M14 11h4M6 16h12") },
   { label: "Academy", icon: res("M2 9l10-5 10 5-10 5zM6 11v5c1.5 1.3 3.6 2 6 2s4.5-.7 6-2v-5M22 9v6") },
@@ -23,6 +24,12 @@ const resources = [
 
 export function HelpButtonAndPanel({ variant = "question" }: { variant?: "question" | "chat" | "chat-dark" }) {
   const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
   return (
     <>
       {open && variant !== "question" && <SupportChat onClose={() => setOpen(false)} />}
@@ -49,10 +56,17 @@ export function HelpButtonAndPanel({ variant = "question" }: { variant?: "questi
             </div>
             <h3 className="mt-[21px] mb-[8px] text-[14px] font-semibold">Resources</h3>
             {resources.map((r) => (
-              <a key={r.label} href="#" className="flex h-10 items-center gap-[19px] text-[14px] text-rk-text hover:text-rk-link">
-                {r.icon}
-                {r.label}
-              </a>
+              r.href ? (
+                <Link key={r.label} href={r.href} onClick={() => setOpen(false)} className="flex h-10 items-center gap-[19px] text-[14px] text-rk-text hover:text-rk-link">
+                  {r.icon}
+                  {r.label}
+                </Link>
+              ) : (
+                <a key={r.label} href="#" className="flex h-10 items-center gap-[19px] text-[14px] text-rk-text hover:text-rk-link">
+                  {r.icon}
+                  {r.label}
+                </a>
+              )
             ))}
           </div>
           <a href="#" className="flex h-[46px] shrink-0 items-center gap-4 border-t border-rk-border px-6 text-[14px] hover:text-rk-link">

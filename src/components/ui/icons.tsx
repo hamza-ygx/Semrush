@@ -71,13 +71,6 @@ export const GearIcon = (p: P) => (
     />
   </svg>
 );
-export const KebabIcon = (p: P) => (
-  <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
-    <circle cx="8" cy="3" r="1.4" fill="currentColor" />
-    <circle cx="8" cy="8" r="1.4" fill="currentColor" />
-    <circle cx="8" cy="13" r="1.4" fill="currentColor" />
-  </svg>
-);
 export const DotsIcon = (p: P) => (
   <svg viewBox="0 0 16 16" width={16} height={16} {...p}>
     <circle cx="3" cy="8" r="1.5" fill="currentColor" />

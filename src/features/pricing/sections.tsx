@@ -6,7 +6,7 @@ import { routes } from "@/config/routes";
 import { AddonIcon, Check, Chevron, LlmChip, LongArrow, PlusThin, Sparkle } from "./icons";
 import { addons, enterprise, faq, testimonials, type CompareTable as Table, type CompareValue, type Plan } from "./data";
 
-export function Marked({ text }: { text: string }) {
+function Marked({ text }: { text: string }) {
   const parts = text.split(/(\[\[.*?\]\])/g).filter(Boolean);
   return (
     <>

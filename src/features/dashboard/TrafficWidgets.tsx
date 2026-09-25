@@ -11,7 +11,7 @@ import { CloseX, LinkDropdown, WidgetCard, WTitle } from "./ui";
 
 const ranges = [gaRange, "Last 7 days", "Last 90 days"] as const;
 
-export function GaIcon({ size = 16 }: { size?: number }) {
+function GaIcon({ size = 16 }: { size?: number }) {
   return (
     <svg viewBox="0 0 16 16" width={size} height={size} className="shrink-0">
       <rect x="10.5" y="1" width="4" height="14" rx="2" fill="#f9ab00" />

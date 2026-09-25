@@ -1,7 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useState, type CSSProperties } from "react";
 import { brand } from "@/config/brand";
+import { routes } from "@/config/routes";
 import { CookieSettingsModal } from "./CookieSettingsModal";
 import { ChevronDownIcon, TranslateIcon } from "./icons";
 import { useOutsideClose } from "./ui/Popover";
@@ -64,12 +66,12 @@ export function Footer({ compactPb = 40 }: { compactPb?: number }) {
           <LanguagePicker wide className={link} chevron="text-[#8b8d8c]" />
         </div>
         <div className="flex min-w-0 gap-2">
-          <a
-            href="#"
+          <Link
+            href={routes.pricing.one}
             className="flex h-[30px] shrink-0 items-center rounded-md border border-[#d6d8d7] bg-[#e0e2e1] px-3 text-[14px] text-[#484a49] hover:bg-[#d6d8d7]"
           >
             See plans and pricing
-          </a>
+          </Link>
           <a
             href="#"
             title={`Get started with ${brand.name}`}

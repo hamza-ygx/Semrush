@@ -50,38 +50,59 @@ const moreEntries: Entry[] = [
   { label: "Hire a digital agency", icon: <AgencyIcon /> },
 ];
 
+/** Menu entries that have a built page; everything else stays an inert placeholder link. */
+const entryHrefs: Record<string, string> = {
+  "Help Center": routes.kb,
+  "Top Websites": routes.traffic.trendingWebsites,
+  "Hire a Trusted Agency": routes.account.agencyPartners,
+  "Hire a digital agency": routes.account.agencyPartners,
+};
+
 const languages = ["English", "Deutsch", "Español", "Français", "Italiano", "Nederlands", "Polski", "Português (Brasil)", "Svenska", "Tiếng Việt", "Türkçe", "中文", "日本語", "한국어"];
 
-function Row({ children, onEnter, active, hasSub, tall }: { children: ReactNode; onEnter?: () => void; active?: boolean; hasSub?: boolean; tall?: boolean }) {
-  return (
-    <a
-      href="#"
-      onMouseEnter={onEnter}
-      onClick={(e) => e.preventDefault()}
-      className={`flex ${tall ? "h-[32.5px]" : "h-8"} items-center gap-2 px-[9px] text-[14px] text-rk-text hover:bg-rk-bg ${active ? "bg-rk-bg" : ""}`}
-    >
+function Row({ children, onEnter, active, hasSub, tall, href, onNavigate }: { children: ReactNode; onEnter?: () => void; active?: boolean; hasSub?: boolean; tall?: boolean; href?: string; onNavigate?: () => void }) {
+  const cls = `flex ${tall ? "h-[32.5px]" : "h-8"} items-center gap-2 px-[9px] text-[14px] text-rk-text hover:bg-rk-bg ${active ? "bg-rk-bg" : ""}`;
+  const body = (
+    <>
       <span className="flex min-w-0 flex-1 items-center gap-2 whitespace-nowrap">{children}</span>
       {hasSub && <ChevronRight className="text-rk-text" />}
+    </>
+  );
+  return href ? (
+    <Link href={href} onMouseEnter={onEnter} onClick={onNavigate} className={cls}>
+      {body}
+    </Link>
+  ) : (
+    <a href="#" onMouseEnter={onEnter} onClick={(e) => e.preventDefault()} className={cls}>
+      {body}
     </a>
   );
 }
 
-function SubPanel({ items, top, width = 234, selected }: { items: string[]; top: number; width?: number; selected?: string }) {
+function SubPanel({ items, top, width = 234, selected, onNavigate }: { items: string[]; top: number; width?: number; selected?: string; onNavigate?: () => void }) {
   return (
     <div style={{ top, width, right: "calc(100% + 5px)" }} className="absolute rounded-md bg-white py-1 shadow-popover">
-      {items.map((s) => (
-        <a
-          key={s}
-          href="#"
-          onClick={(e) => e.preventDefault()}
-          className={`relative flex h-8 items-center px-[9px] text-[14px] whitespace-nowrap text-rk-text hover:bg-rk-bg ${s === selected ? "bg-[#ebf0ff]" : ""}`}
-        >
-          {s === selected && <span className="absolute top-0 bottom-0 left-0 w-[2px] bg-rk-text" />}
-          <span title={s} className="truncate">
-            {s}
-          </span>
-        </a>
-      ))}
+      {items.map((s) => {
+        const cls = `relative flex h-8 items-center px-[9px] text-[14px] whitespace-nowrap text-rk-text hover:bg-rk-bg ${s === selected ? "bg-[#ebf0ff]" : ""}`;
+        const body = (
+          <>
+            {s === selected && <span className="absolute top-0 bottom-0 left-0 w-[2px] bg-rk-text" />}
+            <span title={s} className="truncate">
+              {s}
+            </span>
+          </>
+        );
+        const href = entryHrefs[s];
+        return href ? (
+          <Link key={s} href={href} onClick={onNavigate} className={cls}>
+            {body}
+          </Link>
+        ) : (
+          <a key={s} href="#" onClick={(e) => e.preventDefault()} className={cls}>
+            {body}
+          </a>
+        );
+      })}
     </div>
   );
 }
@@ -109,13 +130,13 @@ export function MoreMenu() {
             if (e === "divider") return <div key={i} className="my-[5px] border-t border-rk-border" />;
             return (
               <div key={i} className="relative">
-                <Row hasSub={!!e.sub} active={sub === i} onEnter={() => setSub(e.sub ? i : null)}>
+                <Row hasSub={!!e.sub} active={sub === i} onEnter={() => setSub(e.sub ? i : null)} href={entryHrefs[e.label]} onNavigate={() => setOpen(false)}>
                   {e.icon}
                   <span title={e.label} className="truncate">
                     {e.label}
                   </span>
                 </Row>
-                {sub === i && e.sub && <SubPanel items={e.sub} top={-4} width={238} />}
+                {sub === i && e.sub && <SubPanel items={e.sub} top={-4} width={238} onNavigate={() => setOpen(false)} />}
               </div>
             );
           })}

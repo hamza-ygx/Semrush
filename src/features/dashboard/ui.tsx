@@ -45,17 +45,6 @@ export function Label({ children, info = true, className = "" }: { children: Rea
   );
 }
 
-export function Num({ children, href, className = "", color = "text-rk-number" }: { children: ReactNode; href?: string; className?: string; color?: string }) {
-  const cls = `text-[20px] leading-6 font-semibold ${color} ${className}`;
-  return href ? (
-    <Link href={href} className={`${cls} hover:opacity-80`}>
-      {children}
-    </Link>
-  ) : (
-    <span className={cls}>{children}</span>
-  );
-}
-
 export function Delta({ v }: { v: string }) {
   const up = v.startsWith("+");
   const zero = !up && !v.startsWith("-");

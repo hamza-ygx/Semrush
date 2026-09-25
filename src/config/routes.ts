@@ -248,7 +248,7 @@ export const unbuiltRoutes = [
 export type NavItem = { label: string; href: string; match?: string[]; external?: boolean };
 export type NavGroup = { heading?: string; items: NavItem[] };
 
-export const seoNav: NavGroup[] = [
+const seoNav: NavGroup[] = [
   { items: [{ label: "Dashboard", href: routes.seoDashboard }] },
   {
     heading: "Site Performance",
@@ -310,7 +310,7 @@ export const seoNav: NavGroup[] = [
 
 const T = routes.traffic;
 
-export const aiNav: NavGroup[] = [
+const aiNav: NavGroup[] = [
   {
     heading: "AI Analysis",
     items: [
@@ -338,7 +338,7 @@ export const aiNav: NavGroup[] = [
   },
 ];
 
-export const trafficNav: NavGroup[] = [
+const trafficNav: NavGroup[] = [
   { items: [{ label: "Get Started", href: T.home }] },
   {
     items: [
@@ -398,7 +398,7 @@ export const trafficNav: NavGroup[] = [
   },
 ];
 
-export const localNav: NavGroup[] = [
+const localNav: NavGroup[] = [
   { items: [{ label: "Dashboard", href: routes.local.start, match: ["/local-business"] }] },
   {
     items: [
@@ -411,7 +411,7 @@ export const localNav: NavGroup[] = [
   { heading: "Competitive Analysis", items: [{ label: "Map Rank Tracker", href: routes.local.mapRankTracker }] },
 ];
 
-export const contentNav: NavGroup[] = [
+const contentNav: NavGroup[] = [
   { items: [{ label: "Dashboard", href: routes.content.dashboard }] },
   {
     items: [
@@ -425,7 +425,7 @@ export const contentNav: NavGroup[] = [
   { items: [{ label: "My Content", href: routes.content.myContent }] },
 ];
 
-export const adNav: NavGroup[] = [
+const adNav: NavGroup[] = [
   { items: [{ label: "Get Started", href: routes.ad.home }] },
   {
     items: [
@@ -438,7 +438,7 @@ export const adNav: NavGroup[] = [
   },
 ];
 
-export const aiprNav: NavGroup[] = [
+const aiprNav: NavGroup[] = [
   {
     items: [
       { label: "Dashboard", href: routes.aipr.dashboard },
@@ -468,7 +468,7 @@ export const aiprNav: NavGroup[] = [
   },
 ];
 
-export const socialNav: NavGroup[] = [
+const socialNav: NavGroup[] = [
   { items: [{ label: "Dashboard", href: routes.social.dashboard }] },
   {
     heading: "Core",
