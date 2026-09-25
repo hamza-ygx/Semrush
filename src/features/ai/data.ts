@@ -23,7 +23,7 @@ export const bpInsights = [
   },
 ];
 
-export type Bubble = { name: string; color: string; x: number; y: number; r: number; you?: boolean };
+type Bubble = { name: string; color: string; x: number; y: number; r: number; you?: boolean };
 
 export const sovBubbles: Bubble[] = [
   { name: "Ac lens", color: "#2bd9a8", x: 14.7, y: 86.5, r: 49 },
@@ -47,7 +47,7 @@ export const shareOfVoice = [
   { name: "Other", color: "", value: 62, delta: "up" },
 ];
 
-export type Driver = { name: string; values: (number | null)[]; total: number; brands: number };
+type Driver = { name: string; values: (number | null)[]; total: number; brands: number };
 
 export const drivers: Driver[] = [
   { name: "Online Conversion Growth", values: [61, 39, 40, 33, 18], total: 286, brands: 60 },

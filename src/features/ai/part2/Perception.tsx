@@ -279,7 +279,7 @@ function FeatureTable() {
         <Fragment key={r.title}>
           <div className="flex border-b border-[#f0f0f0] text-[14px] leading-5 text-rk-text">
             <div className="sticky left-0 flex w-[250px] bg-white pt-[11px] pr-2 pb-[13px] pl-5">
-              <button type="button" aria-label="Expand row" onClick={() => setOpen(open === i ? null : i)} className="mt-[2px] mr-[10px] h-4">
+              <button type="button" aria-label="Expand row" aria-expanded={open === i} onClick={() => setOpen(open === i ? null : i)} className="mt-[2px] mr-[10px] h-4">
                 <Chevron open={open === i} />
               </button>
               <div>

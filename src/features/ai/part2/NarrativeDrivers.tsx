@@ -317,7 +317,7 @@ function BreakdownTable() {
           <Fragment key={r.q}>
             <div data-testid={`q-row-${i}`} className={`flex border-b border-[#ebebeb] text-[14px] leading-5 text-rk-text ${bg}`}>
               <div className={`sticky left-0 flex w-[315px] pt-3 pr-[72px] pb-3 pl-5 ${bg}`}>
-                <button type="button" aria-label="Expand question" onClick={() => toggle(i)} className="mt-[2px] mr-[10px] h-4">
+                <button type="button" aria-label="Expand question" aria-expanded={isOpen} onClick={() => toggle(i)} className="mt-[2px] mr-[10px] h-4">
                   <Chevron open={isOpen} />
                 </button>
                 <span>{r.q}</span>

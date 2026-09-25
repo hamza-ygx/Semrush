@@ -22,12 +22,13 @@ function Info({ className = "" }: { className?: string }) {
   return <InfoIcon width={14} height={14} className={`inline-block shrink-0 text-[#a9abaa] ${className}`} />;
 }
 
-function Check({ color, checked = true, onClick, size = 16 }: { color: string; checked?: boolean; onClick?: () => void; size?: number }) {
+function Check({ color, checked = true, onClick, size = 16, label }: { color: string; checked?: boolean; onClick?: () => void; size?: number; label?: string }) {
   return (
     <button
       type="button"
       role="checkbox"
       aria-checked={checked}
+      aria-label={label}
       onClick={onClick}
       className="flex shrink-0 items-center justify-center rounded-[3px] border text-white"
       style={{ width: size, height: size, background: checked ? color : "#fff", borderColor: checked ? color : "#a9abaa" }}
@@ -41,9 +42,9 @@ function Check({ color, checked = true, onClick, size = 16 }: { color: string; c
   );
 }
 
-function Toggle({ on, onClick }: { on: boolean; onClick: () => void }) {
+function Toggle({ on, onClick, label }: { on: boolean; onClick: () => void; label?: string }) {
   return (
-    <button type="button" role="switch" aria-checked={on} onClick={onClick} className={`relative h-[14px] w-[21px] shrink-0 rounded-full ${on ? "bg-[#009f81]" : "bg-[#d6d8d7]"}`}>
+    <button type="button" role="switch" aria-checked={on} aria-label={label} onClick={onClick} className={`relative h-[14px] w-[21px] shrink-0 rounded-full ${on ? "bg-[#009f81]" : "bg-[#d6d8d7]"}`}>
       <span className={`absolute top-[3px] h-2 w-2 rounded-full bg-white ${on ? "left-[10px]" : "left-[3px]"}`} />
     </button>
   );
@@ -168,7 +169,7 @@ function Donut({ parts, r, inner, size }: { parts: { value: number; color: strin
       {parts.map((p, i) => {
         if (!p.value) return null;
         const a0 = starts[i];
-        const a1 = a0 + (p.value / total) * Math.PI * 2;
+        const a1 = a0 + Math.min((p.value / total) * Math.PI * 2, Math.PI * 2 - 1e-4);
         const large = a1 - a0 > Math.PI ? 1 : 0;
         const d = `M${pt(r, a0)} A${r},${r} 0 ${large} 1 ${pt(r, a1)} L${pt(inner, a1)} A${inner},${inner} 0 ${large} 0 ${pt(inner, a0)}Z`;
         return <path key={i} d={d} fill={p.color} stroke="#fff" strokeWidth={1.5} />;
@@ -185,7 +186,7 @@ function OverallSentiment() {
       <div className="mt-[24px] ml-[26px] space-y-[9px] text-[14px] leading-5">
         {mmSentimentBreakdown.map((s, i) => (
           <div key={s.label} className="flex items-center">
-            <Check color={s.color} checked={on[i]} onClick={() => setOn((o) => o.map((v, j) => (j === i ? !v : v)))} />
+            <Check color={s.color} checked={on[i]} label={s.label} onClick={() => setOn((o) => o.map((v, j) => (j === i ? !v : v)))} />
             <span className="ml-2 w-[88px] text-rk-text">{s.label}</span>
             <span className="w-[44px] text-right text-[#6a6c6a]">{s.pct}</span>
             <span className="w-[66px] text-right text-rk-text">{s.count}</span>
@@ -212,7 +213,7 @@ function Sources() {
         <div className="mt-[9px] space-y-[9px] border-t border-[#e9eaea] pt-[8px]">
           {mmSources.map((s, i) => (
             <div key={s.label} className="flex items-center text-[14px] leading-5">
-              <Check color={s.color} checked={on[i]} onClick={() => setOn((o) => o.map((v, j) => (j === i ? !v : v)))} />
+              <Check color={s.color} checked={on[i]} label={s.label} onClick={() => setOn((o) => o.map((v, j) => (j === i ? !v : v)))} />
               <span className="ml-2 flex-1 text-rk-text">{s.label}</span>
               <span className="text-rk-text">{s.count}</span>
             </div>
@@ -408,7 +409,7 @@ function DomainReach() {
       <div className="mt-[26px] space-y-[9px]">
         {mmReach.map((r, i) => (
           <div key={r.label} className="flex items-center text-[14px] leading-5 tracking-[0.02em] text-rk-text">
-            <Check color={r.color} checked={on[i]} onClick={() => setOn((o) => o.map((v, j) => (j === i ? !v : v)))} />
+            <Check color={r.color} checked={on[i]} label={r.label} onClick={() => setOn((o) => o.map((v, j) => (j === i ? !v : v)))} />
             <span className="ml-2 w-[88px]">{r.label}</span>
             {r.count}
           </div>
@@ -621,7 +622,7 @@ export function MediaMonitoring() {
         {mmQueries.map((q, i) => (
           <div key={q.name} className="h-[91px] w-[254px] rounded-lg bg-white px-4 pt-[17px] shadow-[0_0_0_1px_rgba(25,27,35,0.03)]">
             <div className="flex items-center gap-2 text-[14px] leading-5 font-semibold text-rk-text">
-              <Toggle on={queries[i]} onClick={() => setQueries((qs) => qs.map((v, j) => (j === i ? !v : v)))} />
+              <Toggle on={queries[i]} label={q.name} onClick={() => setQueries((qs) => qs.map((v, j) => (j === i ? !v : v)))} />
               {q.name}
             </div>
             <div className="mt-[11px] w-fit text-[14px] leading-5 text-rk-text underline decoration-dotted decoration-2 underline-offset-[5px]">{q.count} mentions</div>

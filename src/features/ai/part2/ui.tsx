@@ -6,7 +6,7 @@ import { MenuItem, Popover } from "@/components/ui/Popover";
 import { ArrowDown, ArrowUp, ExportIcon } from "@/components/ui/icons";
 import type { AiNote, Insight, Opportunity, Timeframe } from "./data";
 
-export function YouBadge() {
+function YouBadge() {
   return <span className="rounded-[9px] bg-[#e4e3fa] px-[8px] text-[12px] leading-[17px] font-normal text-[#5a50c8]">you</span>;
 }
 
@@ -14,7 +14,7 @@ export function Dot({ color, size = 12, className = "" }: { color: string; size?
   return <span className={`inline-block shrink-0 rounded-full ${className}`} style={{ background: color, width: size, height: size }} />;
 }
 
-export function SparkleIcon() {
+function SparkleIcon() {
   return (
     <svg viewBox="0 0 16 16" width={18} height={18} aria-hidden className="shrink-0">
       <path d="M6 4.5c.5 3 1.7 4.4 5 5-3.3.6-4.5 2-5 5-.5-3-1.7-4.4-5-5 3.3-.6 4.5-2 5-5z" fill="#7a3fe0" />
@@ -52,7 +52,7 @@ export function BulbIcon() {
   );
 }
 
-export function WarnIcon() {
+function WarnIcon() {
   return (
     <svg viewBox="0 0 16 16" width={18} height={18} aria-hidden className="shrink-0">
       <path d="M8 1.8 15 14H1z" fill="none" stroke="#484a49" strokeWidth={1.4} strokeLinejoin="round" />
@@ -183,7 +183,7 @@ export function TimeTabs() {
   );
 }
 
-export type Line = { name: string; color: string; data: number[]; bold?: boolean };
+type Line = { name: string; color: string; data: number[]; bold?: boolean };
 
 export function TrendChart({
   lines,

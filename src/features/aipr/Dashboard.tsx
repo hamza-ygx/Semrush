@@ -199,7 +199,7 @@ function StatCard({ s }: { s: (typeof emailStats)[number] }) {
   );
 }
 
-export function PrExample({ domain }: { domain: string }) {
+function PrExample({ domain }: { domain: string }) {
   const brandName = domain === "warbyparker.com" ? "Warby Parker Inc." : domain.replace(/\..*$/, "");
   return (
     <div className="pb-[114px]">

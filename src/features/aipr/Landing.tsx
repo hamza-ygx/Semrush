@@ -20,7 +20,7 @@ export function TrialButton({ label = "Start free 7-day trial", className = "" }
   );
 }
 
-export function FeatureRow({ f, flip }: { f: Feature; flip: boolean }) {
+function FeatureRow({ f, flip }: { f: Feature; flip: boolean }) {
   const text = (
     <div className="mt-4 w-[505px] shrink-0">
       <h2 className="text-[34px] leading-10 font-medium tracking-[-0.025em] text-rk-text">{f.title}</h2>

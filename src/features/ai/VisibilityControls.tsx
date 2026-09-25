@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
-import { Popover } from "@/components/ui/Popover";
+import { useState, type ReactNode } from "react";
+import { Popover, useOutsideClose } from "@/components/ui/Popover";
 import { ChevronDown, CloseIcon, FlagUK, FlagUS, SearchIcon } from "@/components/ui/icons";
 import { voCountries, voCurrentDate, voHistory, voHowItWorks, voPlatforms, voTopCountries, type FlagBands } from "./data";
 
@@ -170,13 +170,9 @@ export function DateSelect() {
 
 export function HowItWorksDrawer({ onClose }: { onClose: () => void }) {
   const [open, setOpen] = useState<number | null>(null);
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [onClose]);
+  const ref = useOutsideClose<HTMLElement>(true, onClose);
   return (
-    <aside role="dialog" aria-label="How it works" className="fixed top-0 right-0 bottom-0 z-[90] flex w-[380px] flex-col bg-white shadow-[-4px_0_16px_rgba(25,27,35,0.08)]">
+    <aside ref={ref} role="dialog" aria-label="How it works" className="fixed top-0 right-0 bottom-0 z-[90] flex w-[380px] flex-col bg-white shadow-[-4px_0_16px_rgba(25,27,35,0.08)]">
       <div className="flex h-12 shrink-0 items-center justify-between border-b border-[#dadada] pr-[18px] pl-5">
         <h2 className="text-[16px] leading-6 font-semibold text-rk-text">How it works</h2>
         <button type="button" aria-label="Close" onClick={onClose} className="text-rk-text-2 hover:text-rk-text">

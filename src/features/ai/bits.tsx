@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Info } from "@/components/ui/primitives";
 
-export function SparkleIcon({ className = "" }: { className?: string }) {
+function SparkleIcon({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 16 16" width={16} height={16} className={className} aria-hidden>
       <path d="M5.5 5.2 6.5 8l2.8 1-2.8 1-1 2.8-1-2.8L1.7 9l2.8-1z" fill="#7a3fe0" />
@@ -39,7 +39,7 @@ export function AiRefreshIcon({ className = "" }: { className?: string }) {
   );
 }
 
-export function ArrowDownThin() {
+function ArrowDownThin() {
   return (
     <svg viewBox="0 0 16 16" width={16} height={16} aria-hidden>
       <path d="M8 2.5v11M3.8 9.3 8 13.5l4.2-4.2" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />

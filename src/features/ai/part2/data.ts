@@ -8,14 +8,6 @@ export type AiNote = { title: string; text: string };
 export type Timeframe = "short" | "medium" | "urgent";
 export type Opportunity = { timeframe: Timeframe; title: string; body: string; recs: string[] };
 
-export const platformSeries = [
-  { key: "google", label: "Google AI Mode", color: "#bcb0ec", on: true },
-  { key: "chatgpt", label: "ChatGPT", color: "#cfdbff", on: true },
-  { key: "gemini", label: "Gemini", color: "#5b5bc5", on: true },
-  { key: "perplexity", label: "Perplexity", color: "#a5a8e6", on: false },
-] as const;
-
-export const trendDates = ["Jun 24", "Jul 1", "Jul 8", "Jul 15", "Jul 22", "Jul 29", "Aug 5", "Aug 12", "Aug 19", "Aug 26", "Sep 2", "Sep 9", "Sep 16"];
 export const trendTicks = [
   { label: "Jul 14", at: 0.238 },
   { label: "Aug 6", at: 0.51 },
@@ -128,8 +120,8 @@ export const mentionsByCategory: number[][] = [
 
 export const featureNote: AiNote = { title: "Owns try-on experience", text: "69% mention virtual try-on, 100% like home try-on. Push try-on and returns harder." };
 
-export type Cell = [number, number] | null;
-export type FeatureRow = { title: string; category: string; answers: number; cells: Cell[] };
+type Cell = [number, number] | null;
+type FeatureRow = { title: string; category: string; answers: number; cells: Cell[] };
 
 const SE = "Shopping Experience Access And Omnichannel";
 
@@ -304,7 +296,7 @@ export const breakdownNote: AiNote = { title: "Own the mission", text: "#1 in mi
 
 export type QCell = { pres: string; avg: string; sent: number | null; delta: number | null } | null;
 export type PlatformCell = { pos: number; change: number | "new"; sent: number; delta: number } | null;
-export type QuestionRow = { q: string; cells: QCell[]; platforms?: { name: "Google AI Mode" | "ChatGPT" | "Gemini"; cells: PlatformCell[] }[] };
+type QuestionRow = { q: string; cells: QCell[]; platforms?: { name: "Google AI Mode" | "ChatGPT" | "Gemini"; cells: PlatformCell[] }[] };
 
 const c = (pres: string, avg: string, sent: number | null = null, delta: number | null = null): QCell => ({ pres, avg, sent, delta });
 const none = (pres = "0/4"): QCell => ({ pres, avg: "-", sent: null, delta: null });

@@ -8,7 +8,7 @@ import { Breadcrumbs, Info } from "@/components/ui/primitives";
 import { ChevronDown, CloseIcon, ExportIcon, FeedbackIcon, PlusIcon } from "@/components/ui/icons";
 import { TipBulb } from "./bits";
 
-export type AiBrand = { name: string; color: string; you?: boolean };
+type AiBrand = { name: string; color: string; you?: boolean };
 
 export const sampleBrands: AiBrand[] = [
   { name: "Warby parker", color: "#6167e6", you: true },
@@ -18,8 +18,8 @@ export const sampleBrands: AiBrand[] = [
   { name: "Eyebuydirect", color: "#ff6973" },
 ];
 
-export const aiPlatforms = ["All AI Platforms", "ChatGPT", "Google AI Overview", "Google AI Mode", "Gemini", "Perplexity"] as const;
-export const sampleDates = ["Sep 17, 2026", "Sep 10, 2026", "Sep 3, 2026", "Aug 27, 2026", "Aug 20, 2026"] as const;
+const aiPlatforms = ["All AI Platforms", "ChatGPT", "Google AI Overview", "Google AI Mode", "Gemini", "Perplexity"] as const;
+const sampleDates = ["Sep 17, 2026", "Sep 10, 2026", "Sep 3, 2026", "Aug 27, 2026", "Aug 20, 2026"] as const;
 
 const aiGradient = "bg-[linear-gradient(90deg,#a55ff7_0%,#8d65f0_55%,#7069dc_100%)] hover:brightness-95";
 
