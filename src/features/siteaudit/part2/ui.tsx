@@ -322,7 +322,7 @@ export const LearnMore = ({
 
 const sevColor = { Errors: "#ff6b70", Warnings: "#ea8e0e", Notices: "#b0bbf5" };
 
-export function IssuesCard({ title, groups, info = false, className = "" }: { title: string; groups: IssueGroup[]; info?: boolean; className?: string }) {
+export function IssuesCard({ title, groups, info = false, className = "", counts }: { title: string; groups: IssueGroup[]; info?: boolean; className?: string; counts?: Record<string, number> }) {
   return (
     <div className={`rounded-md bg-white pb-3 shadow-card ${className}`}>
       <div className="flex h-10 items-center gap-2 border-b border-rk-border px-5">
@@ -335,18 +335,21 @@ export function IssuesCard({ title, groups, info = false, className = "" }: { ti
             <div className={`col-span-3 px-5 pb-[9px] text-[14px] leading-5 font-semibold ${gi ? "pt-[17px]" : "pt-[7px]"}`}>{g.severity}</div>
             <div className="col-span-3 h-[3px]" style={{ background: sevColor[g.severity] }} />
             {g.items.map((name, i) => {
-              const n = issueCounts[name] ?? 0;
+              const na = !!counts && !(name in counts);
+              const n = (counts ?? issueCounts)[name] ?? 0;
               return (
                 <div key={name} className={`col-span-3 grid min-h-[45px] grid-cols-subgrid items-center px-5 py-[12px] ${i < g.items.length - 1 ? "border-b border-rk-border" : ""}`}>
                   <span className="min-w-0 pr-6 text-[14px] leading-5">{name}</span>
                   <LearnMore className="justify-self-start">{n ? "How to fix" : "Learn more"}</LearnMore>
                   <span className="-my-1 flex justify-end">
-                    {n ? (
+                    {na ? (
+                      <span className="text-[14px] whitespace-nowrap text-rk-muted">n/a</span>
+                    ) : n ? (
                       <Link
                         href={routes.siteAuditCampaign.issueDetail(issueId(name))}
                         className="flex h-7 items-center rounded-md border border-rk-border-strong bg-[#f5f6f6] px-2 text-[14px] whitespace-nowrap text-rk-text-2 hover:bg-rk-hover"
                       >
-                        {n} issues
+                        {n} {counts && n === 1 ? "issue" : "issues"}
                       </Link>
                     ) : (
                       <span className="text-[14px] whitespace-nowrap text-rk-success">No issues</span>

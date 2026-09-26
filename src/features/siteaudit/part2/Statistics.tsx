@@ -15,6 +15,10 @@ import {
   markupTypes,
   statTiles,
 } from "./data";
+import type { SiteAuditHead } from "../load";
+import type { Seg, TileLive } from "../live";
+
+export type StatisticsLive = { tiles: Record<string, TileLive>; httpStatus: Seg[]; crawlDepth: Seg[]; pages: number };
 
 const TileIcon = () => (
   <svg viewBox="0 0 16 16" width={16} height={16}>
@@ -62,14 +66,16 @@ function ViewToggle({ view }: { view: "tile" | "graph" }) {
 
 function StatsPage({
   view,
+  head,
   children,
 }: {
   view: "tile" | "graph";
+  head?: SiteAuditHead;
   children: ReactNode;
 }) {
   return (
     <AppShell section="seo">
-      <SiteAuditHeader tab="statistics" looker={false} />
+      <SiteAuditHeader tab="statistics" looker={false} head={head} />
       <div className="px-8 pt-[14px] pb-[147px] max-xl:pb-[163px]">
         <ViewToggle view={view} />
         {children}
@@ -78,11 +84,12 @@ function StatsPage({
   );
 }
 
-export function StatisticsTile() {
+export function StatisticsTile({ head, live }: { head?: SiteAuditHead; live?: StatisticsLive | null }) {
+  const tiles: { title: string; value: string; caption: string; rows: readonly (readonly [string, string])[] }[] = statTiles.map((t) => live?.tiles[t.title] ?? t);
   return (
-    <StatsPage view="tile">
+    <StatsPage view="tile" head={head}>
       <div className="mt-4 grid grid-cols-3 gap-4">
-        {statTiles.map((t) => (
+        {tiles.map((t) => (
           <div
             key={t.title}
             className="rounded-md bg-white shadow-card px-5 pt-5 pb-[18px]"
@@ -161,21 +168,23 @@ function DonutLegend({ items }: { items: { label: string; value: number; color: 
   );
 }
 
-export function StatisticsGraph() {
+export function StatisticsGraph({ head, live }: { head?: SiteAuditHead; live?: StatisticsLive | null }) {
+  const status: Seg[] = live?.httpStatus ?? httpStatus;
+  const depth: Seg[] = live?.crawlDepth ?? crawlDepth;
   return (
-    <StatsPage view="graph">
+    <StatsPage view="graph" head={head}>
       <div className="mt-[17px] grid grid-cols-2 items-start gap-4">
         <div className="flex flex-col gap-4">
           <GraphCard title="HTTP Status Code">
             <div className="flex h-[221px] items-center gap-6 px-5">
-              <Ring segments={httpStatus} size={180} thickness={28} />
-              <DonutLegend items={httpStatus} />
+              <Ring segments={status} size={180} thickness={28} />
+              <DonutLegend items={status} />
             </div>
           </GraphCard>
           <GraphCard title="Pages Crawl Depth">
             <div className="flex h-[221px] items-center gap-6 px-5">
-              <Ring segments={crawlDepth} size={180} thickness={28} />
-              <DonutLegend items={crawlDepth} />
+              <Ring segments={depth} size={180} thickness={28} />
+              <DonutLegend items={depth} />
             </div>
           </GraphCard>
           <GraphCard title="Markup Types">
@@ -230,7 +239,7 @@ export function StatisticsGraph() {
               <div className="space-y-2">
                 {[
                   ["Pages in sitemap", 170, C.blue],
-                  ["Crawled pages", 100, C.green],
+                  ["Crawled pages", live?.pages ?? 100, C.green],
                 ].map(([l, v, c]) => (
                   <div
                     key={l}

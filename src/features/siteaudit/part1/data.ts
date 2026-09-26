@@ -402,12 +402,15 @@ export type CrawledRow = {
   ilr?: number;
   url: string;
   title?: string;
-  status: 200 | 301 | 404;
+  status: number | null;
   issues?: number;
   state?: "Redirected" | "Healthy" | "Broken";
   depth: number;
   reaudit: boolean;
   id: string;
+  ms?: number | null;
+  words?: number | null;
+  outlinks?: number | null;
 };
 
 const site = "https://rkjh.se";

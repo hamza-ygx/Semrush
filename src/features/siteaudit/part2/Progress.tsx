@@ -9,6 +9,9 @@ import { SiteAuditHeader } from "../SiteAuditHeader";
 import { DateSelect } from "./DateSelect";
 import { InfoI } from "./ui";
 import { errorsList, noticesList, warningsList } from "./data";
+import type { SiteAuditHead } from "../load";
+
+export type ProgressLive = { health: number; time: string; date: string };
 
 const general = ["Pages crawled", "Site Health", "Total issues", "Total errors", "Total warnings", "Total notices"];
 
@@ -57,7 +60,7 @@ function Check({ label }: { label: string }) {
   );
 }
 
-function Chart({ show }: { show: boolean }) {
+function Chart({ show, health = 82, time = "16:11:34" }: { show: boolean; health?: number; time?: string }) {
   const W = 1128;
   const top = 35;
   const H = 355;
@@ -76,9 +79,9 @@ function Chart({ show }: { show: boolean }) {
         </g>
       ))}
       <line x1={cx} x2={cx} y1={y(100)} y2={y(0)} stroke="#e0e2e1" strokeDasharray="3 3" />
-      {show && <circle cx={cx} cy={y(82)} r={1.5} fill="#1b1e1a" />}
+      {show && <circle cx={cx} cy={y(health)} r={1.5} fill="#1b1e1a" />}
       <text x={cx} y={y(0) + 19} textAnchor="middle" fontSize={12} fill="#6a6c6a">
-        16:11:34
+        {time}
       </text>
       <text transform={`translate(${left + plotW + 48} ${top + H / 2}) rotate(90)`} textAnchor="middle" fontSize={12} fill="#6a6c6a">
         Site Health (%)
@@ -87,21 +90,21 @@ function Chart({ show }: { show: boolean }) {
   );
 }
 
-export function Progress() {
+export function Progress({ head, live }: { head?: SiteAuditHead; live?: ProgressLive | null }) {
   const [sel, setSel] = useState<string[]>(["Site Health"]);
   const toggle = (k: string) => setSel((s) => (s.includes(k) ? s.filter((x) => x !== k) : [...s, k]));
   const btn = "flex h-[30px] items-center gap-1 rounded-md border border-rk-border-strong bg-[#f5f6f6] px-[9px] text-[14px] hover:bg-rk-hover";
   return (
     <AppShell section="seo">
-      <SiteAuditHeader tab="progress" looker={false} pdf={false} exportBtn={false} />
+      <SiteAuditHeader tab="progress" looker={false} pdf={false} exportBtn={false} head={head} />
       <div className="px-8 pt-[16px] pb-[147px]">
         <div className="rounded-md bg-white px-5 pt-[16px] pb-[25px] shadow-card">
           <div className="flex items-center">
             <span className="text-[14px] font-semibold tracking-[0.01em] uppercase">Historical chart for audits</span>
             <span className="mr-[9px] ml-[6px] text-[14px] text-rk-muted uppercase">From:</span>
-            <DateSelect />
+            <DateSelect label={live?.date} />
             <span className="mr-[6px] ml-[9px] text-[14px] text-rk-muted uppercase">To:</span>
-            <DateSelect />
+            <DateSelect label={live?.date} />
             <InfoI className="ml-2" />
             <div className="ml-auto flex items-center gap-2">
               <span className="mr-[1px] flex items-center gap-[6px] text-[14px]">
@@ -137,7 +140,7 @@ export function Progress() {
             </div>
           </div>
           <div className="mt-[20px] rounded-md border border-[#ececec] pb-[13px]">
-            <Chart show={sel.includes("Site Health")} />
+            <Chart show={sel.includes("Site Health")} health={live?.health} time={live?.time} />
             <div className="mt-[3px] flex flex-wrap items-center gap-2 px-5">
               <HelpCircle />
               <span className="text-[14px] text-rk-muted uppercase">Legend:</span>

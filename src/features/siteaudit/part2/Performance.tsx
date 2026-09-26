@@ -1,20 +1,25 @@
 import { ThematicPage, Panel } from "./Thematic";
 import { BarChart, Dot, IssuesCard, Ring } from "./ui";
 import { C, jsCssFiles, jsCssSize, loadSpeed, performanceIssues } from "./data";
+import type { SiteAuditHead } from "../load";
+import type { Seg } from "../live";
 
-export function Performance() {
+export type PerformanceLive = { loadSpeed: Seg[]; avgLoad: { value: string; pages: number }; pages: number; counts: Record<string, number> };
+
+export function Performance({ head, demo, live }: { head?: SiteAuditHead; demo?: boolean; live?: PerformanceLive | null }) {
+  const speed: Seg[] = live?.loadSpeed ?? loadSpeed;
   return (
-    <ThematicPage title="Site Performance" score={89}>
+    <ThematicPage title="Site Performance" score={89} head={head} demo={demo}>
       <div className="grid grid-cols-[400px_1fr] items-start gap-4">
         <div className="flex flex-col gap-4">
           <Panel title="Page (HTML) Load Speed">
             <div className="flex h-[220px] items-center gap-6 px-5">
-              <Ring segments={loadSpeed} size={180} thickness={28} sep={false}>
-                <span className="text-[24px] leading-7 font-semibold">97</span>
+              <Ring segments={speed} size={180} thickness={28} sep={false}>
+                <span className="text-[24px] leading-7 font-semibold">{live ? live.avgLoad.pages : 97}</span>
                 <span className="text-[12px] leading-4 text-rk-muted">pages</span>
               </Ring>
               <div className="w-[106px] space-y-2 text-[14px] leading-5">
-                {loadSpeed.map((s) => (
+                {speed.map((s) => (
                   <div key={s.label} className="flex items-center">
                     <Dot color={s.color} className="mr-2" />
                     <span className="flex-1">{s.label}</span>
@@ -27,10 +32,10 @@ export function Performance() {
           <div className="rounded-md bg-white shadow-card">
             <div className="border-b border-rk-border px-5 pt-[9px] pb-[8px]">
               <h3 className="text-[16px] leading-6 font-semibold">Avg. Page (HTML) Load Speed</h3>
-              <p className="mt-[7px] text-[14px] leading-5 text-rk-muted">of 100 pages</p>
+              <p className="mt-[7px] text-[14px] leading-5 text-rk-muted">of {live?.pages ?? 100} pages</p>
             </div>
             <div className="flex h-[68px] items-center px-5">
-              <span className="w-[148px] text-[24px] leading-7 font-semibold">1.88 sec</span>
+              <span className="w-[148px] text-[24px] leading-7 font-semibold">{live?.avgLoad.value ?? "1.88 sec"}</span>
               <svg width={208} height={40} className="block">
                 <line x1={0} x2={208} y1={33} y2={33} stroke={C.blue} strokeWidth={1.5} opacity={0.7} />
                 <circle cx={104} cy={13} r={3} fill={C.blue} />
@@ -48,7 +53,7 @@ export function Performance() {
             </div>
           </Panel>
         </div>
-        <IssuesCard title="Performance Issues" groups={performanceIssues} />
+        <IssuesCard title="Performance Issues" groups={performanceIssues} counts={live?.counts} />
       </div>
     </ThematicPage>
   );

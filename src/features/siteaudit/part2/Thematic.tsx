@@ -3,7 +3,9 @@ import { routes } from "@/config/routes";
 import { AppShell } from "@/components/shell/AppShell";
 import { Button } from "@/components/ui/primitives";
 import { ArrowLeft } from "@/components/ui/icons";
+import { DemoTag } from "@/features/tracking/ui";
 import { SiteAuditHeader } from "../SiteAuditHeader";
+import type { SiteAuditHead } from "../load";
 import { InfoI, ScoreRing } from "./ui";
 
 export function ThematicPage({
@@ -13,6 +15,8 @@ export function ThematicPage({
   info = false,
   pdf = false,
   pb = 166,
+  head,
+  demo = false,
   children,
 }: {
   title: string;
@@ -21,11 +25,13 @@ export function ThematicPage({
   info?: boolean;
   pdf?: boolean;
   pb?: number;
+  head?: SiteAuditHead;
+  demo?: boolean;
   children: ReactNode;
 }) {
   return (
     <AppShell section="seo">
-      <SiteAuditHeader tab="overview" looker={false} exportBtn={false} pdf={pdf} />
+      <SiteAuditHeader tab="overview" looker={false} exportBtn={false} pdf={pdf} head={head} />
       <div className="px-8 pt-[14px] max-xl:pt-[16px]" style={{ paddingBottom: pb }}>
         <Button variant="tertiary" href={routes.siteAuditCampaign.overview} className="h-7 gap-[7px] pr-[9px] pl-[7px] text-rk-text-2">
           <ArrowLeft width={16} height={16} />
@@ -46,6 +52,7 @@ export function ThematicPage({
             </>
           )}
           {info && <InfoI />}
+          {demo && <DemoTag className="!ml-0" />}
         </h1>
         {children}
       </div>

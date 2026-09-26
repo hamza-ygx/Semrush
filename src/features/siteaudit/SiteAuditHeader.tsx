@@ -2,7 +2,9 @@ import { routes } from "@/config/routes";
 import { HelpCenter, PageHeader, SendFeedback } from "@/components/shell/PageHeader";
 import { DesktopIcon, WarningIcon } from "@/components/ui/icons";
 import { Tabs } from "@/components/ui/primitives";
+import { DemoTag } from "@/features/tracking/ui";
 import { ProjectSwitcher, SiteAuditActions } from "./HeaderActions";
+import type { SiteAuditHead } from "./load";
 
 const c = routes.siteAuditCampaign;
 
@@ -25,7 +27,23 @@ const LookerIcon = () => (
   </svg>
 );
 
-export function SiteAuditHeader({ tab, looker = true, pdf = true, exportBtn = true, exportReport }: { tab: SiteAuditTab; looker?: boolean; pdf?: boolean; exportBtn?: boolean; exportReport?: string }) {
+export function SiteAuditHeader({
+  tab,
+  looker = true,
+  pdf = true,
+  exportBtn = true,
+  exportReport,
+  head = {},
+}: {
+  tab: SiteAuditTab;
+  looker?: boolean;
+  pdf?: boolean;
+  exportBtn?: boolean;
+  exportReport?: string;
+  head?: SiteAuditHead;
+}) {
+  const { live, demo, projectId } = head;
+  const full = live ? live.limit != null && live.pages >= live.limit : true;
   return (
     <PageHeader
       crumbs={[{ label: "Home", href: routes.home }, { label: "SEO", href: routes.seoDashboard }, { label: "Site Audit" }]}
@@ -39,21 +57,22 @@ export function SiteAuditHeader({ tab, looker = true, pdf = true, exportBtn = tr
       title={
         <>
           Site Audit:
-          <ProjectSwitcher />
+          <ProjectSwitcher domain={live?.domain} />
+          {demo && <DemoTag className="!ml-0" />}
         </>
       }
-      actions={<SiteAuditActions looker={looker} pdf={pdf} exportBtn={exportBtn} exportReport={exportReport} lookerIcon={<LookerIcon />} />}
+      actions={<SiteAuditActions looker={looker} pdf={pdf} exportBtn={exportBtn} exportReport={exportReport} lookerIcon={<LookerIcon />} projectId={projectId} domain={live?.domain} />}
       meta={
         <>
-          <span>www.rkjh.se</span>
-          <span>Updated: Wed, Jul 22, 2026</span>
+          <span>{live?.domain ?? "www.rkjh.se"}</span>
+          <span>Updated: {live?.updated ?? "Wed, Jul 22, 2026"}</span>
           <span className="flex items-center gap-1">
             <DesktopIcon />
             Desktop
           </span>
           <span>JS rendering: Disabled</span>
           <span className="flex items-center gap-1">
-            Pages crawled: <WarningIcon /> 100/100
+            Pages crawled: {full && <WarningIcon />} {live ? `${live.pages}/${live.limit ?? live.pages}` : "100/100"}
           </span>
         </>
       }

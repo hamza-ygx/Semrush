@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/primitives";
 import { ChevronDown, ExportIcon, PlusIcon, RefreshIcon, ShareIcon } from "@/components/ui/icons";
 import { AuditSettingsPanel } from "./part1/ProjectsList";
 import { Checkbox, CogIcon, useToggle } from "./part1/ui";
+import { useRerun } from "./useRerun";
 
 const c = routes.siteAuditCampaign;
 
@@ -30,7 +31,7 @@ const Favicon = () => (
   </svg>
 );
 
-export function ProjectSwitcher() {
+export function ProjectSwitcher({ domain = "www.rkjh.se" }: { domain?: string }) {
   const { open, setOpen, ref, toggle } = useToggle();
   return (
     <div ref={ref} className="relative flex">
@@ -40,7 +41,7 @@ export function ProjectSwitcher() {
         data-testid="sa-project"
         className="flex items-center gap-1 text-rk-link hover:text-rk-link-hover hover:underline hover:decoration-1 hover:underline-offset-[5px]"
       >
-        www.rkjh.se
+        {domain}
         <ChevronDown />
       </button>
       {open && (
@@ -50,8 +51,8 @@ export function ProjectSwitcher() {
               <Favicon />
             </span>
             <span>
-              <span className="block text-rk-text">www.rkjh.se</span>
-              <span className="-mt-[1px] block pl-[2px] text-rk-muted">www.rkjh.se</span>
+              <span className="block text-rk-text">{domain}</span>
+              <span className="-mt-[1px] block pl-[2px] text-rk-muted">{domain}</span>
             </span>
           </Link>
           <div className="mt-[8px] border-t border-rk-border" />
@@ -114,7 +115,7 @@ function ExportPopover({ report }: { report?: string }) {
   );
 }
 
-function SettingsMenu() {
+function SettingsMenu({ onRerun }: { onRerun?: () => void }) {
   const { open, setOpen, ref, toggle } = useToggle();
   return (
     <div ref={ref} className="relative flex">
@@ -127,16 +128,16 @@ function SettingsMenu() {
       >
         <CogIcon />
       </button>
-      {open && <AuditSettingsPanel roomy onClose={() => setOpen(false)} className="absolute top-[calc(100%+7px)] right-0 z-50 w-[300px]" />}
+      {open && <AuditSettingsPanel roomy onClose={() => setOpen(false)} onRerun={onRerun} className="absolute top-[calc(100%+7px)] right-0 z-50 w-[300px]" />}
     </div>
   );
 }
 
-function ShareModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+function ShareModal({ open, onClose, domain }: { open: boolean; onClose: () => void; domain: string }) {
   return (
     <Modal open={open} onClose={onClose} width={720}>
       <h2 className="flex items-center gap-[13px] text-[24px] leading-8 font-semibold text-rk-text">
-        Share www.rkjh.se
+        Share {domain}
         <span className="mt-[3px] flex h-5 items-center gap-1 rounded-full bg-[#d7f5ea] px-[7px] text-[12px] leading-4 font-medium text-[#007c65]">
           <svg viewBox="0 0 16 16" width={14} height={14}>
             <path d="m3 8.5 3 3 7-7" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
@@ -345,14 +346,31 @@ function PdfModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   );
 }
 
-export function SiteAuditActions({ looker, pdf, exportBtn, lookerIcon, exportReport }: { looker: boolean; pdf: boolean; exportBtn: boolean; lookerIcon: ReactNode; exportReport?: string }) {
+export function SiteAuditActions({
+  looker,
+  pdf,
+  exportBtn,
+  lookerIcon,
+  exportReport,
+  projectId,
+  domain = "www.rkjh.se",
+}: {
+  looker: boolean;
+  pdf: boolean;
+  exportBtn: boolean;
+  lookerIcon: ReactNode;
+  exportReport?: string;
+  projectId?: string | null;
+  domain?: string;
+}) {
   const [modal, setModal] = useState<"share" | "pdf" | null>(null);
   const close = () => setModal(null);
+  const rerun = useRerun(projectId);
   return (
     <>
-      <Button variant="primary" className="h-7 px-2">
-        <RefreshIcon />
-        Rerun campaign
+      <Button variant="primary" className="h-7 px-2" onClick={rerun.enabled ? rerun.run : undefined}>
+        <RefreshIcon className={rerun.busy ? "animate-spin" : undefined} />
+        {rerun.busy ? "Crawling..." : rerun.error ? "Crawl failed, retry" : "Rerun campaign"}
       </Button>
       {looker && (
         <Tb className="hidden xl:inline-flex">
@@ -371,8 +389,8 @@ export function SiteAuditActions({ looker, pdf, exportBtn, lookerIcon, exportRep
         <ShareIcon />
         Share
       </Tb>
-      <SettingsMenu />
-      <ShareModal open={modal === "share"} onClose={close} />
+      <SettingsMenu onRerun={rerun.enabled ? rerun.run : undefined} />
+      <ShareModal open={modal === "share"} onClose={close} domain={domain} />
       <PdfModal open={modal === "pdf"} onClose={close} />
     </>
   );

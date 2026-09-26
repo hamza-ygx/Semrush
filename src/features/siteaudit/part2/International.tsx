@@ -1,6 +1,7 @@
 import { ThematicPage, Panel } from "./Thematic";
 import { Dot, IssuesCard, Ring } from "./ui";
 import { hreflangIssues, hreflangUsage } from "./data";
+import type { SiteAuditHead } from "../load";
 
 const Confetti = () => (
   <svg viewBox="0 0 84 84" width={84} height={84}>
@@ -14,9 +15,9 @@ const Confetti = () => (
   </svg>
 );
 
-export function International() {
+export function International({ head, demo }: { head?: SiteAuditHead; demo?: boolean }) {
   return (
-    <ThematicPage title="International SEO" score={90}>
+    <ThematicPage title="International SEO" score={90} head={head} demo={demo}>
       <div className="grid grid-cols-[248px_1fr] gap-4">
         <Panel title="Hreflang Implementation">
           <div className="flex justify-center pt-5">

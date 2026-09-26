@@ -4,7 +4,7 @@ import { Popover } from "@/components/ui/Popover";
 import { ChevronDown } from "@/components/ui/icons";
 import { crawlDate } from "./data";
 
-export function DateSelect({ className = "" }: { className?: string }) {
+export function DateSelect({ className = "", label = crawlDate }: { className?: string; label?: string }) {
   return (
     <Popover
       offset={5}
@@ -17,7 +17,7 @@ export function DateSelect({ className = "" }: { className?: string }) {
             open ? "border-[#8fa6f2] bg-white" : "border-rk-border-strong bg-white hover:bg-rk-bg"
           } ${className}`}
         >
-          {crawlDate}
+          {label}
           <ChevronDown width={16} height={16} className="text-rk-text" />
         </button>
       )}
@@ -28,7 +28,7 @@ export function DateSelect({ className = "" }: { className?: string }) {
           onClick={close}
           className="flex h-8 w-full items-center border-l-2 border-[#3f444c] bg-[#e9effa] pl-[6px] text-left text-[14px] text-rk-text"
         >
-          {crawlDate}
+          {label}
         </button>
       )}
     </Popover>

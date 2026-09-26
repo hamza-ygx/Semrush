@@ -4,7 +4,9 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { routes } from "@/config/routes";
 import { PlusIcon, RefreshIcon, SearchIcon, WarningIcon } from "@/components/ui/icons";
+import type { ProjectLive } from "../live";
 import { auditSettings, projectColumns, projectRow } from "./data";
+import { useRerun } from "../useRerun";
 import { Checkbox, CogIcon, PageSize, SortAscIcon, SparkleIcon, thinScroll, useToggle, XIcon } from "./ui";
 
 const TRACK = 851;
@@ -35,10 +37,12 @@ function Thumb({ left, top, onDrag }: { left: number; top: number; onDrag: (dx: 
 
 export function AuditSettingsPanel({
   onClose,
+  onRerun,
   className = "absolute top-[22px] left-0 z-50 w-[294px]",
   roomy = false,
 }: {
   onClose?: () => void;
+  onRerun?: () => void;
   className?: string;
   roomy?: boolean;
 }) {
@@ -49,7 +53,14 @@ export function AuditSettingsPanel({
   return (
     <div className={`rounded-md bg-white shadow-popover ${className}`}>
       <div className={roomy ? "pt-[2px] pb-[4px]" : "pt-[4px] pb-[5px]"}>
-        <button type="button" className={`flex ${h} w-full items-center gap-2 px-2 text-[14px] text-rk-text hover:bg-rk-bg`} onClick={onClose}>
+        <button
+          type="button"
+          className={`flex ${h} w-full items-center gap-2 px-2 text-[14px] text-rk-text hover:bg-rk-bg`}
+          onClick={() => {
+            onRerun?.();
+            onClose?.();
+          }}
+        >
           <RefreshIcon strokeWidth={2} />
           Rerun campaign
         </button>
@@ -84,20 +95,24 @@ export function AuditSettingsPanel({
   );
 }
 
-function GearMenu() {
+function GearMenu({ onRerun }: { onRerun?: () => void }) {
   const { open, setOpen, ref, toggle } = useToggle();
   return (
     <div ref={ref} className="relative mt-[5px] inline-flex">
       <button type="button" aria-label="Project settings" onClick={toggle} className="text-[#8b8d8c] hover:text-rk-text-2" data-gear>
         <CogIcon />
       </button>
-      {open && <AuditSettingsPanel onClose={() => setOpen(false)} />}
+      {open && <AuditSettingsPanel onClose={() => setOpen(false)} onRerun={onRerun} />}
     </div>
   );
 }
 
-export function ProjectsList() {
+export function ProjectsList({ live, projectId }: { live?: ProjectLive | null; projectId?: string | null }) {
   const ref = useRef<HTMLDivElement>(null);
+  const rerun = useRerun(projectId);
+  const domain = live?.domain ?? "www.rkjh.se";
+  const row = { ...projectRow, ...live?.row };
+  const full = live ? live.limit != null && live.pages >= live.limit : true;
   const [sl, setSl] = useState(0);
   const [track, setTrack] = useState(TRACK);
   useEffect(() => {
@@ -131,10 +146,10 @@ export function ProjectsList() {
           <div className="flex h-[43px] items-center border-b border-rk-border bg-[#f7f7f8] pl-5 text-[13px] text-rk-text-2">Project</div>
           <div className="h-[89px] border-b border-rk-border pt-[11px] pl-5">
             <Link href={routes.siteAuditCampaign.overview} className="block text-[14px] leading-5 font-semibold text-rk-link hover:text-rk-link-hover">
-              www.rkjh.se
+              {domain}
             </Link>
-            <div className="text-[14px] leading-5 text-rk-muted">www.rkjh.se</div>
-            <GearMenu />
+            <div className="text-[14px] leading-5 text-rk-muted">{domain}</div>
+            <GearMenu onRerun={rerun.enabled ? rerun.run : undefined} />
           </div>
         </div>
         <div className="relative min-w-0 flex-1">
@@ -157,20 +172,21 @@ export function ProjectsList() {
                 {projectColumns.map((c) => (
                   <div key={c.key} style={{ width: c.w }} className={`shrink-0 px-3 whitespace-nowrap ${c.align === "left" ? "" : "text-right"}`}>
                     {c.key === "update" ? (
-                      "9w ago"
+                      (live?.ago ?? "9w ago")
                     ) : c.key === "crawled" ? (
                       <span className="flex items-center gap-[6px]">
-                        <WarningIcon width={17} height={17} />
+                        {full && <WarningIcon width={17} height={17} />}
                         <span>
-                          100<span className="text-rk-muted">/100</span>
+                          {live ? live.pages : 100}
+                          <span className="text-rk-muted">/{live ? (live.limit ?? live.pages) : 100}</span>
                         </span>
                       </span>
                     ) : (
                       <>
                         <Link href={routes.siteAuditCampaign.overview} className="text-rk-link hover:text-rk-link-hover">
-                          {projectRow[c.key][0]}
+                          {row[c.key][0]}
                         </Link>
-                        <div className="text-rk-muted">{projectRow[c.key][1]}</div>
+                        <div className="text-rk-muted">{row[c.key][1]}</div>
                       </>
                     )}
                   </div>

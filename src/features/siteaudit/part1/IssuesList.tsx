@@ -5,6 +5,7 @@ import { useState, type ReactNode } from "react";
 import { routes } from "@/config/routes";
 import { SearchIcon } from "@/components/ui/icons";
 import { Info } from "@/components/ui/primitives";
+import type { IssuesLive } from "../live";
 import { categoryTabs, issues, moreCategories, severityTabs, type Issue, type Severity } from "./data";
 import { EyeIcon, HelpCircleIcon, SendIcon, SparkleIcon, useToggle, XIcon } from "./ui";
 import { Tip } from "@/features/tracking/Tip";
@@ -50,9 +51,9 @@ function Seg({ on, onClick, children, className = "", label }: { on?: boolean; o
 
 const N = ({ n }: { n: number }) => <span className="text-rk-muted">{n}</span>;
 
-function MoreCats({ active, onPick }: { active: string; onPick: (k: string) => void }) {
+function MoreCats({ active, onPick, items }: { active: string; onPick: (k: string) => void; items: { key: string; n: number }[] }) {
   const { open, setOpen, ref, toggle } = useToggle();
-  const on = moreCategories.some((m) => m.key === active);
+  const on = items.some((m) => m.key === active);
   return (
     <div ref={ref} className="relative -ml-px flex last:rounded-r-md" data-morecats-btn>
       <Seg on={on} onClick={toggle} label="More categories" className="!ml-0 rounded-r-md px-[9px]">
@@ -64,7 +65,7 @@ function MoreCats({ active, onPick }: { active: string; onPick: (k: string) => v
       </Seg>
       {open && (
         <div className="absolute top-[calc(100%+6px)] right-0 z-50 w-[188px] rounded-md bg-white py-1 shadow-popover" data-more-cats>
-          {moreCategories.map((m) => (
+          {items.map((m) => (
             <button
               key={m.key}
               type="button"
@@ -220,13 +221,14 @@ function IssueRow({ issue }: { issue: Issue }) {
   );
 }
 
-export function IssuesList() {
+export function IssuesList({ live }: { live?: IssuesLive | null }) {
+  const all = live?.issues ?? issues;
   const [cat, setCat] = useState("all");
   const [sev, setSev] = useState("all");
   const [withIssues, setWithIssues] = useState(true);
   const [q, setQ] = useState("");
 
-  const list = issues.filter(
+  const list = all.filter(
     (i) => (cat === "all" || i.cats.includes(cat)) && (sev === "all" || i.severity === sev) && (!q || `${i.count} ${i.unit} ${i.text}`.toLowerCase().includes(q.toLowerCase())),
   );
 
@@ -239,16 +241,16 @@ export function IssuesList() {
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search" className="min-w-0 flex-1 text-[14px] outline-none placeholder:text-rk-muted" />
           </label>
           <div className="ml-[8px] flex">
-            {categoryTabs.map((t) => (
+            {(live?.categoryTabs ?? categoryTabs).map((t) => (
               <Seg key={t.key} on={cat === t.key} onClick={() => setCat(t.key)}>
                 {t.ai && <SparkleIcon />}
                 {t.label} <N n={t.n} />
               </Seg>
             ))}
-            <MoreCats active={cat} onPick={setCat} />
+            <MoreCats active={cat} onPick={setCat} items={live?.moreCategories ?? moreCategories} />
           </div>
           <div className="ml-[9px] flex">
-            {severityTabs.map((t) => (
+            {(live?.severityTabs ?? severityTabs).map((t) => (
               <Seg key={t.key} on={sev === t.key} onClick={() => setSev(t.key)}>
                 {t.label} <N n={t.n} />
               </Seg>

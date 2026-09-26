@@ -2,6 +2,7 @@ import Link from "next/link";
 import { routes } from "@/config/routes";
 import { Button } from "@/components/ui/primitives";
 import { LinkSelect } from "@/components/ui/Popover";
+import type { SiteAuditHead } from "../load";
 import { ThematicPage, SubCard } from "./Thematic";
 import { Dot, InfoI, Ring } from "./ui";
 import { C, markupTypes, structuredItems } from "./data";
@@ -33,10 +34,10 @@ function Legend({ rows }: { rows: { label: string; pct: string; value: number; c
   );
 }
 
-export function Markup() {
+export function Markup({ head, demo }: { head?: SiteAuditHead; demo?: boolean }) {
   const max = Math.max(...structuredItems.map((i) => i.valid + i.invalid));
   return (
-    <ThematicPage title="Markup" score={100} info>
+    <ThematicPage title="Markup" score={100} info head={head} demo={demo}>
       <div className="rounded-md bg-white pt-5 shadow-card">
         <div className="grid grid-cols-3 gap-6 px-5">
           <SubCard className="h-[387px] px-5 pt-[22px]">

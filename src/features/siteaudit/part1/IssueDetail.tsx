@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { routes } from "@/config/routes";
 import { ArrowLeft, ChevronsLeft } from "@/components/ui/icons";
-import { issueById, ratioRows } from "./data";
+import type { IssueDetailLive } from "../live";
+import { issueById, ratioRows, type Issue } from "./data";
 import { EyeButton, FixPanel, SendTo } from "./IssuesList";
 import { AddCondition, AdvancedFilterPanel, Checkbox, EyeIcon, ExtIcon, HelpCircleIcon, PageSize, SearchBox, SelectButton, SortAscIcon, useToggle } from "./ui";
 
@@ -74,7 +75,7 @@ function AdvancedFilters() {
   );
 }
 
-function FixToggle({ id }: { id: number }) {
+function FixToggle({ issue }: { issue: Issue }) {
   const { open, ref, toggle } = useToggle();
   return (
     <div ref={ref} className="relative">
@@ -82,19 +83,25 @@ function FixToggle({ id }: { id: number }) {
         <HelpCircleIcon className="text-rk-text-2" />
         <span className="underline decoration-[#a9abaa] decoration-dashed decoration-1 underline-offset-[5px] hover:text-rk-text">How to fix</span>
       </button>
-      {open && <FixPanel issue={issueById(id)} className="top-[calc(100%+6px)] left-0" />}
+      {open && <FixPanel issue={issue} className="top-[calc(100%+6px)] left-0" />}
     </div>
   );
 }
 
-export function IssueDetail({ id }: { id: number }) {
-  const issue = issueById(id);
+export function IssueDetail({ id, live }: { id: number; live?: IssueDetailLive | null }) {
+  const issue = live?.issue ?? issueById(id);
   const [tab, setTab] = useState<"issues" | "hidden">("issues");
   const [sel, setSel] = useState<Set<number>>(new Set());
-  const ratio = issue.id === 112;
+  const [page, setPage] = useState(1);
+  const ratio = !live && issue.id === 112;
   const title = issue.title ?? `${issue.count} ${issue.unit} ${issue.text}`;
-  const pages = Math.max(1, Math.ceil(issue.count / 10));
-  const rows = tab === "issues" ? ratioRows.slice(0, Math.min(10, issue.count)) : [];
+  const pages = Math.max(1, Math.ceil((live ? live.rows.length : issue.count) / 10));
+  const liveRows = live?.rows.slice((page - 1) * 10, page * 10).map((r) => ({ title: r.detail ? `${live.label ?? "Detail"}: ${r.detail}` : r.title, url: r.url, ratio: "" }));
+  const rows = tab === "issues" ? (liveRows ?? ratioRows.slice(0, Math.min(10, issue.count))) : [];
+  const go = (n: number) => {
+    setPage(Math.min(pages, Math.max(1, n)));
+    setSel(new Set());
+  };
   const all = rows.length > 0 && sel.size === rows.length;
   const toggle = (i: number) => {
     const n = new Set(sel);
@@ -128,13 +135,13 @@ export function IssueDetail({ id }: { id: number }) {
         </div>
 
         <div className="flex h-[37px] items-start justify-between px-5 pt-[16px]">
-          <FixToggle id={issue.id} />
+          <FixToggle issue={issue} />
           <div className="flex items-center text-[14px]">
             Failed:&nbsp;<span className="text-rk-danger">{issue.count}</span>
             <span className="ml-[10px]">Successful:&nbsp;</span>
-            <span className="text-[#007c65]">2</span>
+            <span className="text-[#007c65]">{live?.successful ?? 2}</span>
             <div className="ml-[13px] flex h-[6px] w-[100px] gap-px overflow-hidden rounded-full">
-              <div className="h-full rounded-l-full bg-[#ff6b70]" style={{ width: `${(issue.count / (issue.count + 2)) * 100}%` }} />
+              <div className="h-full rounded-l-full bg-[#ff6b70]" style={{ width: `${(issue.count / Math.max(1, issue.count + (live?.successful ?? 2))) * 100}%` }} />
               <div className="h-full flex-1 rounded-r-full bg-[#00c78f]" />
             </div>
           </div>
@@ -178,7 +185,7 @@ export function IssueDetail({ id }: { id: number }) {
         </div>
 
         {rows.map((r, i) => (
-          <div key={r.url} className="flex h-[65px] border-b border-rk-border text-[14px] leading-5">
+          <div key={r.url + i} className="flex h-[65px] border-b border-rk-border text-[14px] leading-5">
             <div className="flex w-12 shrink-0 justify-end pt-[15px] pr-[4px]">
               <Checkbox checked={sel.has(i)} onChange={() => toggle(i)} />
             </div>
@@ -191,7 +198,7 @@ export function IssueDetail({ id }: { id: number }) {
             </div>
             <div className="flex w-[312px] shrink-0 items-start pt-[12px]">
               {ratio && <span className="w-[56px] pr-[12px] text-right">{r.ratio}</span>}
-              <span className="ml-[12px] whitespace-nowrap">Jul 22, 2026, 4:11</span>
+              <span className="ml-[12px] whitespace-nowrap">{live?.discovered ?? "Jul 22, 2026, 4:11"}</span>
               <span className="ml-[4px] rounded-full bg-[#ffd7df] px-2 text-[13px] leading-5 text-[#d1002f]">New</span>
               <span className="mt-[-2px] mr-5 ml-auto">
                 <EyeButton />
@@ -202,17 +209,21 @@ export function IssueDetail({ id }: { id: number }) {
         {!rows.length && <div className="border-b border-rk-border py-10 text-center text-[14px] text-rk-muted">{tab === "hidden" ? "No hidden issues" : "No issues found"}</div>}
 
         <div className="flex h-[64px] items-center px-5 pb-[2px] text-[14px]">
-          <button type="button" aria-label="First page" disabled className="flex h-7 w-7 items-center justify-center rounded-md border border-rk-border text-[#d6d8d7]">
+          <button type="button" aria-label="First page" disabled={!live || page === 1} onClick={() => go(1)} className={`flex h-7 w-7 items-center justify-center rounded-md border border-rk-border ${!live || page === 1 ? "text-[#d6d8d7]" : "text-rk-text-2 hover:bg-rk-bg"}`}>
             <ChevronsLeft />
           </button>
-          <button type="button" disabled className="ml-2 h-7 rounded-md border border-rk-border px-2 text-[#d6d8d7]">
+          <button type="button" disabled={!live || page === 1} onClick={() => go(page - 1)} className={`ml-2 h-7 rounded-md border border-rk-border px-2 ${!live || page === 1 ? "text-[#d6d8d7]" : "text-rk-text hover:bg-rk-bg"}`}>
             Prev
           </button>
-          <button type="button" className="ml-2 h-7 rounded-md bg-rk-btn-dark px-2 font-semibold text-white hover:bg-[#2b2e38]">
+          <button type="button" onClick={live ? () => go(page + 1) : undefined} className="ml-2 h-7 rounded-md bg-rk-btn-dark px-2 font-semibold text-white hover:bg-[#2b2e38]">
             Next
           </button>
           <span className="ml-4">Page:</span>
-          <input defaultValue="1" className="ml-[6px] h-7 w-[68px] rounded-md border border-rk-border-strong px-2 outline-none" />
+          {live ? (
+            <input key={page} defaultValue={page} onBlur={(e) => go(Number(e.target.value) || 1)} onKeyDown={(e) => e.key === "Enter" && go(Number(e.currentTarget.value) || 1)} className="ml-[6px] h-7 w-[68px] rounded-md border border-rk-border-strong px-2 outline-none" />
+          ) : (
+            <input defaultValue="1" className="ml-[6px] h-7 w-[68px] rounded-md border border-rk-border-strong px-2 outline-none" />
+          )}
           <span className="ml-[9px]">of</span>
           <span className="ml-[5px] text-rk-link">{pages}</span>
           <div className="ml-4">

@@ -2,6 +2,7 @@
 
 import { Fragment, useLayoutEffect, useRef, useState } from "react";
 import { ChevronRight, ExternalIcon } from "@/components/ui/icons";
+import type { SiteAuditHead } from "../load";
 import { ThematicPage, SubCard } from "./Thematic";
 import { Dot, InfoI, LearnMore, Ring } from "./ui";
 import { C, vitalsMetrics, vitalsPages, vitalsStatus, type VitalsRow } from "./data";
@@ -107,9 +108,9 @@ function StackedChart() {
   );
 }
 
-export function WebVitals() {
+export function WebVitals({ head, demo }: { head?: SiteAuditHead; demo?: boolean }) {
   return (
-    <ThematicPage title="Core Web Vitals" score={10} info pdf>
+    <ThematicPage title="Core Web Vitals" score={10} info pdf head={head} demo={demo}>
       <div className="rounded-md bg-white pt-[19px] shadow-card">
         <div className="flex items-center gap-2 px-5 text-[14px] leading-5">
           <LighthouseIcon />

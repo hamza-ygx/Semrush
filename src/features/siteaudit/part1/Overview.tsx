@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { routes } from "@/config/routes";
-import { ChatGptIcon, CheckIcon, ChevronDown, CloseIcon, GeminiIcon, GoogleIcon } from "@/components/ui/icons";
+import { ChatGptIcon, CheckIcon, ChevronDown, CloseIcon, GeminiIcon, GoogleIcon, WarningIcon } from "@/components/ui/icons";
 import { Info } from "@/components/ui/primitives";
+import type { OverviewLive } from "../live";
 import { bots, crawledStatus, industries, overviewIssues, thematic, type Bot } from "./data";
 import { dashedCls, FixPopover } from "./FixPopover";
 import { ArrowRightIcon, BotIcon, ErrorBolt, ExtIcon, NoticeIcon, AiTag, thinScroll, useToggle } from "./ui";
@@ -118,15 +119,17 @@ function TopBenchmark() {
   );
 }
 
-function HealthCard() {
-  const total = crawledStatus.reduce((a, s) => a + s.n, 0);
+function HealthCard({ live }: { live?: OverviewLive | null }) {
+  const status = live?.status ?? crawledStatus;
+  const health = live?.health ?? 82;
+  const total = status.reduce((a, s) => a + s.n, 0);
   return (
     <div className="flex h-[277px] rounded-lg bg-white shadow-card">
       <div className="w-1/2 shrink-0 border-r border-rk-border px-5 pt-[11px]">
         <CardTitle>Site Health</CardTitle>
         <div className="mt-[30px]">
-          <SegGauge value={82} marker={92} color="#6167e6">
-            <span className="text-[24px] leading-7 font-bold text-rk-text">82%</span>
+          <SegGauge value={health} marker={92} color="#6167e6">
+            <span className="text-[24px] leading-7 font-bold text-rk-text">{health}%</span>
             <span className="text-[12px] leading-4 text-rk-muted">no changes</span>
           </SegGauge>
         </div>
@@ -135,7 +138,7 @@ function HealthCard() {
             <span className="h-3 w-3 rounded-full bg-rk-accent" />
             Your site
           </span>
-          82%
+          {health}%
         </div>
         <div className="mt-[7px] flex items-center justify-between text-[14px]">
           <TopBenchmark />
@@ -147,16 +150,16 @@ function HealthCard() {
         <div className="mt-[11px] flex items-center justify-between">
           <span className="flex items-baseline gap-[6px]">
             <Link href={c.crawledPages} className="text-[20px] leading-8 font-bold text-rk-number">
-              100
+              {live?.pages ?? 100}
             </Link>
             <span className="text-[12px] whitespace-nowrap text-rk-muted">no changes</span>
           </span>
           <div className="mr-[2px] ml-[15px] flex h-[15px] flex-1 gap-px overflow-hidden">
-            {crawledStatus.map((s) => (s.n ? <div key={s.label} style={{ width: `${(s.n / total) * 100}%`, background: s.color }} /> : null))}
+            {status.map((s) => (s.n ? <div key={s.label} style={{ width: `${(s.n / total) * 100}%`, background: s.color }} /> : null))}
           </div>
         </div>
         <div className="mt-[6px] w-[155px]">
-          {crawledStatus.map((s) => (
+          {status.map((s) => (
             <div key={s.label} className="flex h-[27.75px] items-center justify-between text-[14px]">
               <span className="flex items-center gap-[10px]">
                 <span className="h-3 w-3 rounded-full" style={{ background: s.color }} />
@@ -245,7 +248,7 @@ function HowItWorks() {
   );
 }
 
-function AiCard() {
+function AiCard({ pages = 100 }: { pages?: number }) {
   return (
     <div className="flex min-h-[277px] rounded-lg bg-white shadow-card">
       <div className="flex w-1/2 shrink-0 flex-col border-r border-rk-border px-5 pt-[11px] pb-[20px]">
@@ -266,7 +269,7 @@ function AiCard() {
       </div>
       <div className="flex min-w-0 flex-1 flex-col px-5 pt-[11px] pb-[20px]">
         <CardTitle>Blocked from AI Search</CardTitle>
-        <div className="mt-[12px] text-[14px] text-rk-muted">Pages crawled: 100</div>
+        <div className="mt-[12px] text-[14px] text-rk-muted">Pages crawled: {pages}</div>
         <div className="mt-[16px]">
           {bots.slice(0, 4).map((b) => (
             <BotRow key={b} b={b} />
@@ -292,32 +295,33 @@ function MiniChart() {
   );
 }
 
-function CountsCard() {
+function CountsCard({ live }: { live?: OverviewLive | null }) {
   return (
     <div className="h-[310px] w-[374px] shrink-0 rounded-lg bg-white px-5 pt-[20px] shadow-card">
       <CardTitle>Errors</CardTitle>
       <Link href={c.issues} className="mt-[7px] block text-[24px] leading-8 font-bold text-rk-danger">
-        16
+        {live ? live.errors.toLocaleString("en-US") : "16"}
       </Link>
       <MiniChart />
       <div className="mt-[27px]">
         <CardTitle>Warnings</CardTitle>
       </div>
       <Link href={c.issues} className="mt-[7px] block text-[24px] leading-8 font-bold text-rk-warning">
-        1,099
+        {live ? live.warnings.toLocaleString("en-US") : "1,099"}
       </Link>
       <MiniChart />
     </div>
   );
 }
 
-function IssuesCard() {
+function IssuesCard({ live }: { live?: OverviewLive | null }) {
+  const list: { sev: string; text: string; pages: string; id: number; ai?: boolean; fixInfo: { about: string; fix: string } }[] = live?.top ?? overviewIssues;
   return (
     <div className="flex min-w-0 flex-1 flex-col">
       <div className="rounded-lg bg-white shadow-card">
-        {overviewIssues.map((i, k) => (
+        {list.map((i, k) => (
           <div key={i.text} className={`flex h-[53px] items-center pr-[31px] pl-5 text-[14px] ${k ? "border-t border-rk-border" : ""}`}>
-            <span className="w-[23px] shrink-0">{i.sev === "error" ? <ErrorBolt /> : <NoticeIcon />}</span>
+            <span className="w-[23px] shrink-0">{i.sev === "error" ? <ErrorBolt /> : i.sev === "warning" ? <WarningIcon className="shrink-0" /> : <NoticeIcon />}</span>
             <span className="text-rk-text">{i.text}</span>
             {i.ai && <AiTag className="ml-2" />}
             <Link href={c.issueDetail(i.id)} className="ml-auto text-rk-link hover:text-rk-link-hover">
@@ -350,7 +354,7 @@ function Ring({ v }: { v: number }) {
 
 const tileBtn = "inline-flex h-7 items-center gap-2 rounded-md border border-rk-border-strong bg-[#f5f6f6] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover";
 
-function Thematic() {
+function Thematic({ scores }: { scores?: Record<string, number> }) {
   return (
     <div className="mt-4 rounded-lg bg-white px-5 pt-[7px] pb-[20px] shadow-card">
       <h2 className="text-[16px] leading-[24px] font-semibold">Thematic Reports</h2>
@@ -364,8 +368,8 @@ function Thematic() {
             {"v" in t ? (
               <>
                 <div className="mt-[2px] flex h-8 items-center gap-[7px]">
-                  <Ring v={t.v} />
-                  <span className="text-[24px] font-bold text-rk-number">{t.v}%</span>
+                  <Ring v={scores?.[t.key] ?? t.v} />
+                  <span className="text-[24px] font-bold text-rk-number">{scores?.[t.key] ?? t.v}%</span>
                 </div>
                 <Link href={c[t.key]} className={`${tileBtn} mt-[13px]`}>
                   View details
@@ -437,18 +441,18 @@ function BrandPresence() {
   );
 }
 
-export function Overview() {
+export function Overview({ live }: { live?: OverviewLive | null }) {
   return (
     <div className="px-8 pt-4 pb-[149px]">
       <div className="grid grid-cols-2 gap-4">
-        <HealthCard />
-        <AiCard />
+        <HealthCard live={live} />
+        <AiCard pages={live?.pages} />
       </div>
       <div className="mt-[17px] flex gap-4">
-        <CountsCard />
-        <IssuesCard />
+        <CountsCard live={live} />
+        <IssuesCard live={live} />
       </div>
-      <Thematic />
+      <Thematic scores={live?.scores} />
       <BrandPresence />
     </div>
   );

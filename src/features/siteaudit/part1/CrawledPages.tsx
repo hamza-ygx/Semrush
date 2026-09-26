@@ -217,7 +217,7 @@ function FilterRow({ filtered }: { filtered: boolean }) {
   );
 }
 
-const statusCls = { 200: "bg-[#d2f7ea] text-[#007c65]", 301: "bg-[#e8e7fb] text-[#5a50c8]", 404: "bg-[#ffdcbc] text-[#a2470b]" };
+const statusCls = (s: number | null) => (s == null || s >= 400 ? "bg-[#ffdcbc] text-[#a2470b]" : s >= 300 ? "bg-[#e8e7fb] text-[#5a50c8]" : "bg-[#d2f7ea] text-[#007c65]");
 
 const Dash = () => <span className="inline-block h-[2px] w-[10px] bg-[#6a6c6a] align-middle" />;
 
@@ -239,12 +239,12 @@ function cell(key: string, r: CrawledRow): ReactNode {
     case "title":
       return r.title ? <span className="line-clamp-3 [overflow-wrap:anywhere]">{r.title}</span> : <Dash />;
     case "status":
-      return <span className={`inline-flex h-[22px] items-center rounded-full align-top px-2 text-[13px] ${statusCls[r.status]}`}>{r.status}</span>;
+      return <span className={`inline-flex h-[22px] items-center rounded-full align-top px-2 text-[13px] ${statusCls(r.status)}`}>{r.status ?? "—"}</span>;
     case "issues":
       if (r.issues)
         return (
           <Link href={c.issues} className="text-rk-link hover:text-rk-link-hover">
-            {r.issues} issues
+            {r.issues} {r.issues === 1 ? "issue" : "issues"}
           </Link>
         );
       return (
@@ -263,6 +263,12 @@ function cell(key: string, r: CrawledRow): ReactNode {
       );
     case "depth":
       return `${r.depth} ${r.depth === 1 ? "click" : "clicks"}`;
+    case "load":
+      return r.ms != null ? `${(r.ms / 1000).toFixed(2)} s` : <Dash />;
+    case "words":
+      return r.words != null ? r.words.toLocaleString("en-US") : <Dash />;
+    case "outlinks":
+      return r.outlinks != null ? r.outlinks.toLocaleString("en-US") : <Dash />;
     case "reaudit":
       return r.reaudit ? (
         <button type="button" aria-label="Reaudit" className="text-[#2d6be3] hover:text-rk-link-hover">
@@ -343,7 +349,10 @@ function useHScroll() {
   return { head, body, bar, measure };
 }
 
-function PagesTable() {
+function PagesTable({ live }: { live?: CrawledRow[] | null }) {
+  const [page, setPage] = useState(1);
+  const pageCount = live ? Math.max(1, Math.ceil(live.length / 100)) : 1;
+  const shown = live ? live.slice((page - 1) * 100, page * 100) : crawledRows;
   const [on, setOn] = useState(pageColumns.filter((p) => p.on).map((p) => p.key));
   const cols = pageColumns.filter((p) => on.includes(p.key));
   const total = cols.reduce((a, p) => a + p.w, 0);
@@ -390,7 +399,7 @@ function PagesTable() {
       </div>
       <div ref={body} onScroll={measure} className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div className={rowCls} style={rowStyle}>
-          {crawledRows.map((r) => (
+          {shown.map((r) => (
             <div key={r.url} className="flex border-b border-rk-border text-[14px] leading-5 last:border-b-0">
               {cols.map((p) => (
                 <div
@@ -409,8 +418,12 @@ function PagesTable() {
       </div>
       <div className="flex h-[63px] items-center gap-2 border-t border-rk-border px-5 pb-[3px] text-[14px]">
         <span>Page:</span>
-        <input placeholder="1" className="h-7 w-[70px] rounded-md border border-rk-border px-2 outline-none placeholder:text-[#a9abaa]" />
-        <span className="ml-[2px]">of 1</span>
+        <input
+          placeholder="1"
+          onKeyDown={live ? (e) => e.key === "Enter" && setPage(Math.min(pageCount, Math.max(1, Number(e.currentTarget.value) || 1))) : undefined}
+          className="h-7 w-[70px] rounded-md border border-rk-border px-2 outline-none placeholder:text-[#a9abaa]"
+        />
+        <span className="ml-[2px]">of {pageCount}</span>
         <div className="ml-[6px]">
           <PageSize value={100} />
         </div>
@@ -459,7 +472,7 @@ function TreeRow({ d, depth, open, onToggle }: { d: Dir; depth: number; open: bo
 }
 
 function SiteStructure({ roots }: { roots: Dir[] }) {
-  const [open, setOpen] = useState<Set<string>>(new Set([roots[0].name]));
+  const [open, setOpen] = useState<Set<string>>(new Set(roots.length ? [roots[0].name] : []));
   const toggle = (k: string) => {
     const n = new Set(open);
     if (n.has(k)) n.delete(k);
@@ -489,14 +502,14 @@ function SiteStructure({ roots }: { roots: Dir[] }) {
   );
 }
 
-export function CrawledPages({ view, filtered = false }: { view: "pages" | "structure"; filtered?: boolean }) {
+export function CrawledPages({ view, filtered = false, live }: { view: "pages" | "structure"; filtered?: boolean; live?: { rows?: CrawledRow[]; structure?: Dir[] } | null }) {
   return (
     <div className={`px-8 pt-[14px] max-xl:pt-[15px] ${view === "pages" ? "pb-[148px]" : "pb-[140px]"}`}>
       <ViewSwitch view={view} />
       <div className="sticky top-0 z-30 -mx-8 bg-rk-bg px-8 pt-4 pb-[16px]">
         <FilterRow filtered={view === "structure" && filtered} />
       </div>
-      {view === "pages" ? <PagesTable /> : <SiteStructure key={filtered ? "f" : "a"} roots={filtered ? [structure] : structureAll} />}
+      {view === "pages" ? <PagesTable live={live?.rows} /> : <SiteStructure key={filtered ? "f" : "a"} roots={live?.structure ?? (filtered ? [structure] : structureAll)} />}
     </div>
   );
 }

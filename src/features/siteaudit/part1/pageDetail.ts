@@ -146,7 +146,21 @@ function issuesFor(r: CrawledRow): DetailIssue[] {
   return list.map((i) => ({ ...i, sev: i.sev as Severity, id: safeId(i.name) }));
 }
 
-export function pageDetail(id: string) {
+export type PageDetailData = {
+  row: CrawledRow;
+  title: string;
+  ilr: number | null;
+  incoming: number | null;
+  outgoing: number | null;
+  external: number | null;
+  canonical: string;
+  markup: string[];
+  structured: [string, number][];
+  issues: DetailIssue[];
+  total: number;
+};
+
+export function pageDetail(id: string): PageDetailData | null {
   const r = crawledRows.find((x) => x.id === id);
   if (!r) return null;
   const k = Math.max(0, crawledRows.indexOf(r));

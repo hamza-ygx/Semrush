@@ -5,6 +5,9 @@ import { SiteAuditHeader } from "../SiteAuditHeader";
 import { DateSelect } from "./DateSelect";
 import { InfoI, LearnMore } from "./ui";
 import { compareGeneral, errorsList, issueCounts, issueId, noticesList, warningsList } from "./data";
+import type { SiteAuditHead } from "../load";
+
+export type CompareLive = { general: { label: string; a: string; b: string; fixed: string | null }[]; counts: Record<string, number>; date: string };
 
 const TrendIcon = () => (
   <svg viewBox="0 0 16 16" width={18} height={18} className="text-[#5a5d66]">
@@ -40,7 +43,7 @@ function Row({ label, href, a, b, fixed, learn }: { label: string; href: string;
   );
 }
 
-function Section({ title, color, items }: { title: string; color: string; items: string[] }) {
+function Section({ title, color, items, counts }: { title: string; color: string; items: string[]; counts?: Record<string, number> }) {
   return (
     <>
       <div className="flex h-[47px] items-end gap-2 px-5 pb-[10px]">
@@ -49,17 +52,17 @@ function Section({ title, color, items }: { title: string; color: string; items:
       </div>
       <div className="h-1" style={{ background: color }} />
       {items.map((name) => {
-        const n = String(issueCounts[name] ?? 0);
+        const n = counts ? (name in counts ? String(counts[name]) : "n/a") : String(issueCounts[name] ?? 0);
         return <Row key={name} label={name} href={routes.siteAuditCampaign.issueDetail(issueId(name))} a={n} b={n} fixed="—" learn />;
       })}
     </>
   );
 }
 
-export function CompareCrawls() {
+export function CompareCrawls({ head, live }: { head?: SiteAuditHead; live?: CompareLive | null }) {
   return (
     <AppShell section="seo">
-      <SiteAuditHeader tab="compare" looker={false} exportBtn={false} />
+      <SiteAuditHeader tab="compare" looker={false} exportBtn={false} head={head} />
       <div className="px-8 pt-[15px] pb-[60px]">
         <div className="overflow-hidden rounded-md bg-white shadow-card">
           <div className="grid h-[72px] grid-cols-[1fr_212px_213px_93px_94px] items-center pt-[15px] text-[16px]">
@@ -68,22 +71,22 @@ export function CompareCrawls() {
               <InfoI />
             </div>
             <div className="flex justify-center">
-              <DateSelect />
+              <DateSelect label={live?.date} />
             </div>
             <div className="relative flex justify-center">
               <span className="absolute top-[5px] -left-[10px] text-[14px] font-semibold">vs</span>
-              <DateSelect />
+              <DateSelect label={live?.date} />
             </div>
             <span className="text-center">Fixed</span>
             <span className="text-center">New</span>
           </div>
           <div className="h-1 bg-[#a9a9a9]" />
-          {compareGeneral.map((r) => (
+          {(live?.general ?? compareGeneral).map((r) => (
             <Row key={r.label} label={r.label} href={r.label === "Pages crawled" ? routes.siteAuditCampaign.crawledPages : r.label === "Site Health" ? routes.siteAuditCampaign.overview : routes.siteAuditCampaign.issues} a={r.a} b={r.b} fixed={r.fixed} />
           ))}
-          <Section title="Errors" color="#f43744" items={errorsList} />
-          <Section title="Warnings" color="#f58a1f" items={warningsList} />
-          <Section title="Notices" color="#a3b4f7" items={noticesList} />
+          <Section title="Errors" color="#f43744" items={errorsList} counts={live?.counts} />
+          <Section title="Warnings" color="#f58a1f" items={warningsList} counts={live?.counts} />
+          <Section title="Notices" color="#a3b4f7" items={noticesList} counts={live?.counts} />
         </div>
       </div>
     </AppShell>

@@ -1,5 +1,6 @@
 import { AppShell } from "@/components/shell/AppShell";
 import { SiteAuditHeader } from "../SiteAuditHeader";
+import type { SiteAuditHead } from "../load";
 import { Ring } from "./ui";
 
 const Y = "#fdc23c";
@@ -70,10 +71,10 @@ function Illustration() {
   );
 }
 
-export function JsImpact() {
+export function JsImpact({ head }: { head?: SiteAuditHead }) {
   return (
     <AppShell section="seo">
-      <SiteAuditHeader tab="js" looker={false} pdf={false} exportBtn={false} />
+      <SiteAuditHeader tab="js" looker={false} pdf={false} exportBtn={false} head={head} />
       <div className="flex gap-[39px] px-8 pt-[24px] pb-[166px]">
         <Illustration />
         <div className="pt-[2px]">

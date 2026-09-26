@@ -6,12 +6,12 @@ import { routes } from "@/config/routes";
 import { ChevronDown, WarningIcon } from "@/components/ui/icons";
 import { Info } from "@/components/ui/primitives";
 import { FixPopover } from "./FixPopover";
-import { incomingLinks, pageDetail, type DetailIssue } from "./pageDetail";
+import { incomingLinks, type DetailIssue, type PageDetailData } from "./pageDetail";
 import { ErrorBolt, ExtIcon, NoticeIcon, useToggle } from "./ui";
 
 const c = routes.siteAuditCampaign;
 
-type Detail = NonNullable<ReturnType<typeof pageDetail>>;
+type Detail = PageDetailData;
 
 const BackIcon = () => (
   <svg viewBox="0 0 16 16" width={16} height={16}>
@@ -39,8 +39,9 @@ function Metric({ label, short, children }: { label: string; short?: string; chi
 
 const Big = ({ children }: { children: ReactNode }) => <div className="text-[20px] leading-6 font-semibold text-rk-text">{children}</div>;
 
-function Incoming({ n }: { n: number }) {
+function Incoming({ n }: { n: number | null }) {
   const { open, ref, toggle } = useToggle();
+  if (n == null) return <Big>n/a</Big>;
   return (
     <div ref={ref} className="relative">
       <button type="button" onClick={toggle} data-testid="sa-incoming" className="flex items-center gap-[4px] text-[20px] leading-6 font-semibold text-rk-muted">
@@ -122,7 +123,7 @@ function IssueRow({ issue, first }: { issue: DetailIssue; first: boolean }) {
                 {/^\d{3}$/.test(r.value) ? (
                   <span className="flex h-5 items-center rounded-full bg-[#ffdcc4] px-2 text-[12px] leading-4 text-[#a2470b]">{r.value}</span>
                 ) : (
-                  <span className="text-rk-text">{r.value}</span>
+                  <span className="max-w-full truncate text-rk-text">{r.value}</span>
                 )}
               </span>
               <span className="w-[270px] text-right text-rk-danger">{r.tag}</span>
@@ -135,7 +136,8 @@ function IssueRow({ issue, first }: { issue: DetailIssue; first: boolean }) {
 }
 
 export function PageDetail({ d }: { d: Detail }) {
-  const statusCls = d.row.status === 200 ? "bg-[#d2f7ea] text-[#007c65]" : d.row.status === 301 ? "bg-[#e8e7fb] text-[#5a50c8]" : "bg-[#ffdcbc] text-[#a2470b]";
+  const s = d.row.status;
+  const statusCls = s != null && s < 300 ? "bg-[#d2f7ea] text-[#007c65]" : s != null && s < 400 ? "bg-[#e8e7fb] text-[#5a50c8]" : "bg-[#ffdcbc] text-[#a2470b]";
   return (
     <div className="px-8 pt-4 pb-[140px]">
       <div className="flex items-center">
@@ -152,9 +154,9 @@ export function PageDetail({ d }: { d: Detail }) {
       <div className="mt-[24px] grid grid-cols-6 gap-x-5 gap-y-[20px] rounded-lg bg-white px-5 pt-[19px] pb-[18px] shadow-card">
         <Metric label="Internal Link Rank">
           <div className="flex items-center gap-[10px]">
-            <Big>{d.ilr}</Big>
+            <Big>{d.ilr ?? "n/a"}</Big>
             <span className="mt-[2px] h-[7px] w-[80px] rounded-full bg-[#edefef]">
-              <span className="block h-full rounded-full bg-rk-accent" style={{ width: `${d.ilr}%` }} />
+              <span className="block h-full rounded-full bg-rk-accent" style={{ width: `${d.ilr ?? 0}%` }} />
             </span>
           </div>
         </Metric>
@@ -162,10 +164,10 @@ export function PageDetail({ d }: { d: Detail }) {
           <Incoming n={d.incoming} />
         </Metric>
         <Metric label="Outgoing Internal Links" short="Outgoing Internal ...">
-          <Big>{d.outgoing}</Big>
+          <Big>{d.outgoing ?? "n/a"}</Big>
         </Metric>
         <Metric label="Outgoing External Links" short="Outgoing External...">
-          <Big>{d.external}</Big>
+          <Big>{d.external ?? "n/a"}</Big>
         </Metric>
         <Metric label="Canonicalization">
           <div className="pt-[1px]">{d.canonical}</div>
@@ -179,11 +181,15 @@ export function PageDetail({ d }: { d: Detail }) {
         </Metric>
         <Metric label="Structured Data Items" short="Structured Data It...">
           <div className="space-y-[4px] pt-[1px]">
-            {d.structured.map(([k, n]) => (
-              <div key={k}>
-                {k} <span className="text-rk-muted">({n})</span>
-              </div>
-            ))}
+            {d.structured.length ? (
+              d.structured.map(([k, n]) => (
+                <div key={k}>
+                  {k} <span className="text-rk-muted">({n})</span>
+                </div>
+              ))
+            ) : (
+              <div>n/a</div>
+            )}
           </div>
         </Metric>
       </div>
