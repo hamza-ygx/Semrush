@@ -19,9 +19,10 @@ export const accountRoutes = {
   queriesApi: "/accounts/queries/api",
   apiKeysActive: "/accounts/api-keys/active",
   apiKeysInactive: "/accounts/api-keys/inactive",
+  dataSources: "/accounts/data-sources",
 };
 
-export type SideKey = "profile" | "subscription" | "users" | "notifications" | "queryLog" | "activity" | "apiKeys" | "apps" | "agency";
+export type SideKey = "profile" | "subscription" | "users" | "notifications" | "queryLog" | "activity" | "apiKeys" | "apps" | "agency" | "dataSources";
 
 export const sideItems: { key: SideKey; label: string; href?: string }[] = [
   { key: "profile", label: "Profile settings", href: routes.account.profile },

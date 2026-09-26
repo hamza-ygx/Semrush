@@ -61,7 +61,7 @@ const entryHrefs: Record<string, string> = {
 
 const languages = ["English", "Deutsch", "Español", "Français", "Italiano", "Nederlands", "Polski", "Português (Brasil)", "Svenska", "Tiếng Việt", "Türkçe", "中文", "日本語", "한국어"];
 
-function Row({ children, onEnter, active, hasSub, tall, href, onNavigate }: { children: ReactNode; onEnter?: () => void; active?: boolean; hasSub?: boolean; tall?: boolean; href?: string; onNavigate?: () => void }) {
+function Row({ children, onEnter, active, hasSub, tall, href, onNavigate, post }: { children: ReactNode; onEnter?: () => void; active?: boolean; hasSub?: boolean; tall?: boolean; href?: string; onNavigate?: () => void; post?: string }) {
   const cls = `flex ${tall ? "h-[32.5px]" : "h-8"} items-center gap-2 px-[9px] text-[14px] text-rk-text hover:bg-rk-bg ${active ? "bg-rk-bg" : ""}`;
   const body = (
     <>
@@ -69,6 +69,14 @@ function Row({ children, onEnter, active, hasSub, tall, href, onNavigate }: { ch
       {hasSub && <ChevronRight className="text-rk-text" />}
     </>
   );
+  if (post)
+    return (
+      <form method="post" action={post}>
+        <button type="submit" onMouseEnter={onEnter} className={`${cls} w-full text-left`}>
+          {body}
+        </button>
+      </form>
+    );
   return href ? (
     <Link href={href} onMouseEnter={onEnter} onClick={onNavigate} className={cls}>
       {body}
@@ -177,7 +185,9 @@ export function ProfileMenu() {
           <Row tall href={accountRoutes.users} onEnter={() => setLang(false)} onNavigate={() => setOpen(false)}>
             Manage users
           </Row>
-          <Row tall onEnter={() => setLang(false)}>Log out</Row>
+          <Row tall post={routes.signOut} onEnter={() => setLang(false)}>
+            Log out
+          </Row>
           <div className="my-1 border-t border-rk-border" />
           <div className="relative">
             <Row tall hasSub active={lang} onEnter={() => setLang(true)}>

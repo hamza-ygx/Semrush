@@ -61,6 +61,8 @@ export const routes = {
   topPages: "/analytics/toppages",
   serp: "/analytics/serp",
   kb: "/kb",
+  login: "/login",
+  signOut: "/auth/signout",
   company: {
     contacts: "/company/contacts",
     about: "/company/about",

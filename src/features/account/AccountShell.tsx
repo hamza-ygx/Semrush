@@ -9,7 +9,10 @@ import { HelpButtonAndPanel } from "@/components/shell/HelpPanel";
 import { CenteredFooter } from "@/features/gaps/common";
 import { ArrowLeft, ChevronRight, PlusIcon } from "@/components/ui/icons";
 import { routes } from "@/config/routes";
+import { supabaseEnv } from "@/lib/supabase/env";
 import { accountRoutes, sideItems, type SideKey } from "./data";
+
+const navItems = supabaseEnv ? [...sideItems, { key: "dataSources" as const, label: "Data sources", href: accountRoutes.dataSources }] : sideItems;
 
 function Sidebar({ active }: { active: SideKey }) {
   const [beta, setBeta] = useState(false);
@@ -25,7 +28,7 @@ function Sidebar({ active }: { active: SideKey }) {
       </Link>
       <div className="mt-[20px] mb-[7px] px-3 text-[14px] leading-5 font-semibold">My profile</div>
       <nav className="flex flex-col">
-        {sideItems.map((it) =>
+        {navItems.map((it) =>
           it.href ? (
             <Link key={it.key} href={it.href} className={`${item} ${it.key === active ? "bg-[#d1d3d6]" : "hover:bg-rk-hover"}`}>
               {it.label}
