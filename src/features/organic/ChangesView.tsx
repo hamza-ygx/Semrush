@@ -156,7 +156,8 @@ function PageChangesCard() {
               <td className="pl-5">
                 <span className="flex items-center gap-1">
                   <Link href={`${routes.organic.positions}${Q}&url=${encodeURIComponent(p.url)}`} className="truncate text-rk-link hover:text-rk-link-hover">
-                    {p.short}
+                    <span className="xl:hidden">{p.short}</span>
+                    <span className="hidden xl:inline">{p.wide}</span>
                   </Link>
                   <ExtLink href={p.url} />
                 </span>
@@ -214,7 +215,7 @@ function PtBanner() {
   return (
     <div className="relative mt-8 h-[123px] rounded-lg border border-[#c9d3fb] bg-[#eaf0ff]">
       <Stopwatch />
-      <div className="absolute top-[18px] left-[170px] w-[800px] text-[14px] leading-5">
+      <div className="absolute top-[18px] left-[170px] w-[800px] text-[14px] leading-5 xl:w-[945px]">
         Track positions for your specific keywords on a daily basis. Target different devices and locations. Monitor how your competitors are ranking for your target keywords.
       </div>
       <Link href={routes.positionTracking} className="absolute top-[69px] left-[170px] inline-flex h-[26px] items-center rounded-md bg-rk-btn-dark px-2 text-[14px] font-semibold text-white hover:bg-[#2b2e38]">

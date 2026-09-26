@@ -7,7 +7,7 @@ const link = "text-[16px] leading-5 text-[#6a6c6a] hover:text-rk-text";
 export function AnalyticsFooter({ gap = 138, bottom = 39 }: { gap?: number; bottom?: number }) {
   return (
     <>
-      <div className="hidden pt-[34px] xl:block">
+      <div className="mt-auto hidden pt-[34px] xl:block">
         <Footer />
       </div>
       <footer className="flex flex-col items-center xl:hidden" style={{ paddingTop: gap, paddingBottom: bottom }}>

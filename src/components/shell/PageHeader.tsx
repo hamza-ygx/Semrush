@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Breadcrumbs } from "../ui/primitives";
+import { routes } from "@/config/routes";
 import { BookIcon, FeedbackIcon } from "../ui/icons";
 
 export function HeaderLink({ href = "#", icon, children }: { href?: string; icon?: ReactNode; children: ReactNode }) {
@@ -13,7 +14,11 @@ export function HeaderLink({ href = "#", icon, children }: { href?: string; icon
 }
 
 export const SendFeedback = () => <HeaderLink icon={<FeedbackIcon />}>Send feedback</HeaderLink>;
-export const HelpCenter = ({ label = "Help center" }: { label?: string }) => <HeaderLink icon={<BookIcon />}>{label}</HeaderLink>;
+export const HelpCenter = ({ label = "Help center" }: { label?: string }) => (
+  <HeaderLink href={routes.kb} icon={<BookIcon />}>
+    {label}
+  </HeaderLink>
+);
 
 /**
  * Report header: breadcrumbs row (with right-hand links), title row (with actions),

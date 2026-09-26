@@ -5,10 +5,10 @@ import { ExportIcon, PlusIcon } from "@/components/ui/icons";
 import { MenuItem, Popover, useOutsideClose } from "@/components/ui/Popover";
 import { brand } from "@/config/brand";
 import { forvarvKeywords, positionRows, topicKeywords } from "./data";
-import { topicGroups, treemapHeight, treemapWidth, type Tile } from "./topicsData";
+import { topicGroups, treemapHeight, treemapWidth, wideTopicGroups, wideTreemapWidth, type Tile } from "./topicsData";
 import { Checkbox, ExtLink, IntentBadge, Kd, KeywordLink, ext } from "./ui";
 
-const pct = (v: number) => `${(v / treemapWidth) * 100}%`;
+const pctOf = (total: number) => (v: number) => `${(v / total) * 100}%`;
 
 function Sparkle() {
   return (
@@ -45,9 +45,9 @@ function Loader() {
   );
 }
 
-function TileView({ tile, selected, onSelect }: { tile: Tile; selected: boolean; onSelect: () => void }) {
+function TileView({ tile, selected, onSelect, pct, minName }: { tile: Tile; selected: boolean; onSelect: () => void; pct: (v: number) => string; minName: number }) {
   const [x, y, w, h] = tile.r;
-  const showName = w >= 60 && h >= 34;
+  const showName = w >= minName && h >= 34;
   const showStats = w >= 100 && h >= 60;
   return (
     <button
@@ -76,10 +76,11 @@ function TileView({ tile, selected, onSelect }: { tile: Tile; selected: boolean;
   );
 }
 
-function Treemap({ selected, onSelect }: { selected: string; onSelect: (n: string) => void }) {
+function TreemapLayer({ groups, width, minName, selected, onSelect, className }: { groups: typeof topicGroups; width: number; minName: number; selected: string; onSelect: (n: string) => void; className: string }) {
+  const pct = pctOf(width);
   return (
-    <div className="relative mx-5 mt-5" style={{ height: treemapHeight }}>
-      {topicGroups.map((g) => {
+    <div className={`absolute inset-0 ${className}`}>
+      {groups.map((g) => {
         const [x, y, w, h] = g.r;
         return (
           <div key={g.name} className="absolute rounded-md bg-[#f0f3ff]" style={{ left: pct(x), top: y, width: pct(w), height: h }}>
@@ -99,9 +100,20 @@ function Treemap({ selected, onSelect }: { selected: string; onSelect: (n: strin
           </div>
         );
       })}
-      {topicGroups.flatMap((g) => g.tiles).map((t) => (
-        <TileView key={t.name} tile={t} selected={t.name === selected} onSelect={() => onSelect(t.name)} />
-      ))}
+      {groups
+        .flatMap((g) => g.tiles)
+        .map((t) => (
+          <TileView key={t.name} tile={t} pct={pct} minName={minName} selected={t.name === selected} onSelect={() => onSelect(t.name)} />
+        ))}
+    </div>
+  );
+}
+
+function Treemap({ selected, onSelect }: { selected: string; onSelect: (n: string) => void }) {
+  return (
+    <div className="relative mx-5 mt-5" style={{ height: treemapHeight }}>
+      <TreemapLayer groups={topicGroups} width={treemapWidth} minName={60} selected={selected} onSelect={onSelect} className="xl:hidden" />
+      <TreemapLayer groups={wideTopicGroups} width={wideTreemapWidth} minName={55} selected={selected} onSelect={onSelect} className="hidden xl:block" />
     </div>
   );
 }

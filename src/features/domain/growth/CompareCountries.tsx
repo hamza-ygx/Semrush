@@ -50,13 +50,13 @@ function AddCountry({ taken, onPick }: { taken: string[]; onPick: (c: string) =>
   );
   const topRows = top.filter(match);
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className="relative xl:min-w-0 xl:flex-1">
       <button
         type="button"
         data-testid="add-country"
         aria-expanded={open}
         onClick={() => (open ? close() : setOpen(true))}
-        className={`flex h-7 w-[174px] items-center justify-between rounded-md border pr-[10px] pl-[8px] text-[14px] text-rk-muted ${open ? "border-[#a9b8ea] bg-[#f8faff]" : "border-[#d4d6d5] bg-white"}`}
+        className={`flex h-7 w-[174px] items-center justify-between rounded-md border pr-[10px] xl:w-full pl-[8px] text-[14px] text-rk-muted ${open ? "border-[#a9b8ea] bg-[#f8faff]" : "border-[#d4d6d5] bg-white"}`}
       >
         Add country
         <ChevronDown width={18} height={18} className="-mr-[2px] text-rk-text [&_path]:stroke-[2]" />
@@ -91,7 +91,7 @@ export function CompareCountries() {
     <>
       <div className="flex items-center gap-[8.7px]">
         {picked.map((c) => (
-          <div key={c} className="-mr-[1.5px] flex h-7 w-[175px] shrink-0 overflow-hidden rounded-md border border-[#a3a8ea] bg-[#eef2fd] text-[14px]">
+          <div key={c} className="-mr-[1.5px] flex h-7 w-[175px] shrink-0 overflow-hidden xl:w-auto xl:min-w-0 xl:flex-1 rounded-md border border-[#a3a8ea] bg-[#eef2fd] text-[14px]">
             <span className="flex flex-1 items-center gap-[10px] pl-[10px]">
               <Flag code={codes[c] ?? null} width={15} height={11} />
               {c}

@@ -7,11 +7,13 @@ import { CompareCountries } from "@/features/domain/growth/CompareCountries";
 export default function CompareByCountriesPage() {
   return (
     <AppShell section="seo" search={{ kind: "analyze", value: domain, scope: true }} footer={false}>
-      <DomainHeader tab="countries" />
-      <div className="px-8 pt-[15.5px]">
-        <CompareCountries />
+      <div className="flex min-h-[calc(100vh-52px)] flex-col">
+        <DomainHeader tab="countries" />
+        <div className="px-8 pt-[15.5px]">
+          <CompareCountries />
+        </div>
+        <AnalyticsFooter />
       </div>
-      <AnalyticsFooter />
     </AppShell>
   );
 }

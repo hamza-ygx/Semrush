@@ -1,10 +1,6 @@
-import { OrganicPage } from "@/features/organic/OrganicPage";
-import { PagesView } from "@/features/organic/PagesView";
+import { redirect } from "next/navigation";
+import { routes } from "@/config/routes";
 
 export default function Page() {
-  return (
-    <OrganicPage tab="pages" pdf={false}>
-      <PagesView />
-    </OrganicPage>
-  );
+  redirect(`${routes.topPages}?db=se&q=rkjh.se&searchType=domain`);
 }

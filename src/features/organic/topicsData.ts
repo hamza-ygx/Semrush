@@ -134,3 +134,153 @@ export const topicGroups: TopicGroup[] = [
     ],
   },
 ];
+
+export const wideTreemapWidth = 1124;
+
+const g1 = "#e2d2fe";
+const g3 = "#dfd3fe";
+const g4 = "#d6d5fd";
+const g5 = "#d3dafc";
+const g6 = "#d6d6fe";
+const g7 = "#d1d7ff";
+const g8 = "#dad5ff";
+const g9 = "#d5d6ff";
+
+export const wideTopicGroups: TopicGroup[] = [
+  {
+    name: "Accounting & Auditing",
+    traffic: 51,
+    volume: "3.75K",
+    r: [0, 0, 533, 570],
+    tiles: [
+      t("redovisningsbyrå halmstad", [12, 44, 433, 513], 50, 8),
+      t("göra bokslut", [447, 44, 74, 105], 0, 11, g1),
+      t("revision halmstad", [447, 151, 36, 103], 1, 2, g1),
+      t("audit requirements", [485, 151, 36, 103], 0, 2, g1),
+      t("fastighetsredovisning", [447, 256, 36, 104], 0, 3, g1),
+      t("business audit", [485, 256, 36, 104], 0, 2, g1),
+      t("revisionerna", [447, 362, 36, 104], 0, 1, g1),
+      t("jhm revision", [485, 362, 36, 104], 0, 1, g1),
+      t("bokslut aktiebolag", [447, 468, 36, 89], 0, 1, g1),
+      t("revisor halmstad", [485, 468, 36, 89], 0, 1, g1),
+    ],
+  },
+  {
+    name: "Entrepreneurship & Business Development",
+    traffic: 12,
+    volume: "3.1K",
+    r: [549, 0, 249, 270],
+    tiles: [
+      t("entrepreneur", [562, 44, 163, 212], 12, 1),
+      t("starta holdingbolag", [727, 44, 58, 106], 0, 2),
+      t("exempel på affärsplan", [727, 152, 58, 51], 0, 1),
+      t("vad är en entreprenör", [727, 205, 58, 51], 0, 2),
+    ],
+  },
+  {
+    name: "Tax & Financial Planning",
+    traffic: 0,
+    volume: "2.9K",
+    r: [549, 284, 249, 286],
+    tiles: [
+      t("fastställd förvärvsinkomst", [562, 330, 81, 67], 1, 4, g3),
+      t("f tax", [562, 399, 81, 33], 0, 1, g3),
+      t("förvärvsinkomst", [562, 434, 81, 30], 0, 2, g3),
+      t("deklaration", [562, 466, 81, 30], 0, 2, g3),
+      t("skatteverket deklaration", [562, 498, 81, 59], 0, 1, g3),
+      t("bolagsskatt", [645, 330, 59, 44], 0, 2, g3),
+      t("kommunalskatt", [645, 376, 59, 43], 0, 1, g3),
+      t("bolagsform", [645, 421, 59, 73], 0, 1, g3),
+      t("direktavdrag", [645, 496, 59, 61], 0, 1, g3),
+      t("utdelning", [706, 330, 38, 67], 0, 1, g3),
+      t("gränsbelopp", [746, 330, 39, 67], 0, 1, g3),
+      t("momsregistrering", [706, 399, 79, 33], 0, 1, g3),
+      t("preliminärskatt", [706, 434, 79, 30], 0, 1, g3),
+      t("skattetabell", [706, 466, 38, 91], 0, 1, g3),
+      t("skattesats", [746, 466, 39, 91], 0, 1, g3),
+    ],
+  },
+  {
+    name: "Business Development",
+    traffic: 0,
+    volume: "1.4K",
+    r: [814, 0, 148, 200],
+    tiles: [
+      t("affärsutveckling", [827, 44, 39, 61], 0, 1, g4),
+      t("affärsplan", [868, 44, 39, 61], 0, 1, g4),
+      t("tillväxtstrategi", [909, 44, 40, 61], 0, 1, g4),
+      t("strategisk affärsutveckling", [827, 106, 59, 40], 0, 1, g4),
+      t("budgetering", [827, 148, 59, 39], 0, 1, g4),
+      t("företagsekonomi", [888, 106, 29, 81], 0, 1, g4),
+      t("likviditetsplanering", [919, 106, 30, 81], 0, 1, g4),
+    ],
+  },
+  {
+    name: "Miscellaneous Services",
+    traffic: 0,
+    volume: "980",
+    r: [977, 0, 147, 200],
+    tiles: [
+      t("iso 18541", [990, 44, 39, 61], 0, 1, g5),
+      t("lagerbolag", [1030, 44, 40, 61], 0, 1, g5),
+      t("köpa aktiebolag", [1071, 44, 40, 61], 0, 1, g5),
+      t("ocr nummer", [990, 106, 60, 40], 0, 1, g5),
+      t("glasögon avdrag", [990, 148, 60, 39], 0, 1, g5),
+      t("hot och utpressning", [1051, 106, 29, 81], 0, 1, g5),
+      t("översättning", [1081, 106, 30, 81], 0, 1, g5),
+    ],
+  },
+  {
+    name: "Personal Finance & Employee Benefits",
+    traffic: 0,
+    volume: "1.1K",
+    r: [813, 216, 167, 152],
+    tiles: [
+      t("bilförmån", [827, 261, 68, 30], 0, 1, g6),
+      t("beräkna bilförmån", [827, 293, 68, 29], 0, 1, g6),
+      t("förmånsberäkning bil", [897, 261, 34, 61], 0, 1, g6),
+      t("räkna ut förmånsvärde bil", [933, 261, 34, 61], 0, 1, g6),
+      t("skatt på arbetsinkomst", [827, 324, 68, 31], 0, 1, g6),
+      t("beskattningsbar förvärvsinkomst", [897, 324, 70, 31], 0, 1, g6),
+    ],
+  },
+  {
+    name: "Sustainability & Environment",
+    traffic: 0,
+    volume: "640",
+    r: [995, 216, 129, 128],
+    tiles: [
+      t("begränsad miljöpåverkan", [1008, 261, 51, 32], 0, 2, g7),
+      t("klimatpåverkan företag", [1008, 295, 51, 32], 0, 1, g7),
+      t("hållbar utveckling", [1060, 261, 25, 66], 0, 2, g7),
+      t("minska klimatpåverkan", [1086, 261, 25, 66], 0, 1, g7),
+    ],
+  },
+  {
+    name: "International & Legal Business",
+    traffic: 0,
+    volume: "720",
+    r: [814, 383, 166, 187],
+    tiles: [
+      t("utländsk filial", [827, 428, 33, 63], 0, 1, g8),
+      t("export sverige", [862, 428, 33, 63], 0, 1, g8),
+      t("internationell skatt", [897, 428, 34, 63], 0, 1, g8),
+      t("dubbelbeskattning", [933, 428, 34, 63], 0, 1, g8),
+      t("bolagsordning", [827, 493, 68, 64], 0, 1, g8),
+      t("aktieägaravtal", [897, 493, 70, 64], 0, 1, g8),
+    ],
+  },
+  {
+    name: "Legal, Risk & Compliance",
+    traffic: 0,
+    volume: "510",
+    r: [995, 355, 129, 215],
+    tiles: [
+      t("penningtvättslagen", [1008, 400, 51, 33], 0, 1, g9),
+      t("gdpr företag", [1008, 435, 51, 50], 0, 1, g9),
+      t("årsredovisningslagen", [1060, 400, 25, 85], 0, 1, g9),
+      t("bokföringslagen", [1086, 400, 25, 85], 0, 1, g9),
+      t("intern kontroll", [1008, 487, 103, 70], 0, 1, g9),
+    ],
+  },
+];

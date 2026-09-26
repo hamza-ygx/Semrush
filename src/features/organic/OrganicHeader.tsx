@@ -9,6 +9,7 @@ import { DesktopIcon, ExportIcon, MobileIcon, SearchIcon } from "@/components/ui
 import { databases, domain, latest } from "./data";
 import { CountryFlag, organicCountries } from "./flags";
 import { ExtIcon } from "./ui";
+import { startDbLoading, useDbLoading } from "./dbLoading";
 
 export type OrganicTab = "overview" | "positions" | "changes" | "competitors" | "topics" | "subdomains" | "pages";
 
@@ -51,8 +52,12 @@ function useOutside(open: boolean, close: () => void) {
 const scroll = "[&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#d6d8d7]";
 
 function DbSwitcher({ prev }: { prev?: boolean }) {
-  const [db, setDb] = useState("SE");
+  const [db, setDbState] = useState("SE");
   const [open, setOpen] = useState(false);
+  const setDb = (code: string) => {
+    if (code !== db) startDbLoading();
+    setDbState(code);
+  };
   const [query, setQuery] = useState("");
   const close = useCallback(() => {
     setOpen(false);
@@ -69,6 +74,7 @@ function DbSwitcher({ prev }: { prev?: boolean }) {
           <button
             key={d.code}
             type="button"
+            data-db={d.code}
             onClick={() => setDb(d.code)}
             className={`-my-px flex items-center gap-[7px] border pr-[5px] pl-[9px] ${i === 0 ? "-ml-px rounded-l-md" : "-ml-px"} ${on ? "z-10 border-[#8f9cea] bg-[#e8eefc]" : "border-transparent hover:bg-rk-bg"} ${
               i > 0 && !on ? "border-l-rk-border-strong" : ""
@@ -179,6 +185,12 @@ function DateSelect({ prev }: { prev?: boolean }) {
   );
 }
 
+function Currency() {
+  const loading = useDbLoading();
+  if (loading) return <span className="text-rk-text">USD</span>;
+  return <LinkSelect value="USD" options={["USD", "EUR", "SEK", "GBP"] as const} panelClassName="min-w-[100px]" />;
+}
+
 const devices = ["Desktop", "Mobile"] as const;
 
 function DeviceSelect() {
@@ -230,7 +242,9 @@ export function OrganicHeader({ tab, manual = true, pdf = true, date = true, cur
         <>
           {manual && (
             <span className="-mr-[7px] flex">
-              <HeaderLink icon={<UserManualIcon />}>User manual</HeaderLink>
+              <HeaderLink href={routes.kb} icon={<UserManualIcon />}>
+                User manual
+              </HeaderLink>
             </span>
           )}
           <SendFeedback />
@@ -271,7 +285,7 @@ export function OrganicHeader({ tab, manual = true, pdf = true, date = true, cur
           {currency && (
             <span className="flex items-center gap-1 text-rk-text-2">
               Currency:
-              <LinkSelect value="USD" options={["USD", "EUR", "SEK", "GBP"] as const} panelClassName="min-w-[100px]" />
+              <Currency />
             </span>
           )}
         </div>

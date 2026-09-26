@@ -73,13 +73,13 @@ export function Footer({ compactPb = 40 }: { compactPb?: number }) {
           >
             See plans and pricing
           </Link>
-          <a
-            href="#"
+          <Link
+            href={routes.pricing.one}
             title={`Get started with ${brand.name}`}
             className="flex h-[30px] min-w-0 items-center rounded-md bg-[#009f81] px-3 text-[14px] font-medium text-white hover:bg-[#007c65]"
           >
             <span className="truncate">Get started with {brand.name}</span>
-          </a>
+          </Link>
         </div>
       </div>
       <div className="mt-[14px] hidden items-center justify-between gap-6 xl:flex">

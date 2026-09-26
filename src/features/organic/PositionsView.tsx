@@ -12,6 +12,7 @@ import { Checkbox, ExtLink, HoverTip, IntentBadge, Kd, KeywordLink, NotesMenu, P
 import { FilterBar, useStuck } from "./FilterBar";
 import { AdvancedFilters, CheckFilter, ExportPopover, RangeFilter, SerpFeaturesFilter } from "./filters";
 import { RankedUrls } from "./RankedUrls";
+import { useDbLoading } from "./dbLoading";
 
 function Metric({ label, value, delta, children }: { label: string; value: string; delta: string; children?: ReactNode }) {
   return (
@@ -96,7 +97,12 @@ function TrafficArea() {
         ))}
       </svg>
       {hover != null && (
-        <div className="pointer-events-none absolute top-3 z-30 w-[180px] rounded-md bg-white px-3 py-3 text-[12px] leading-[18px] shadow-popover" style={{ left: x(hover) + 186 > width ? x(hover) - 186 : x(hover) + 6 }}>
+        <div
+          className="pointer-events-none absolute top-3 z-30 w-[180px] rounded-md bg-white px-3 py-3 text-[12px] leading-[18px] shadow-popover"
+          style={{
+            left: x(hover) + 186 > width ? x(hover) - 186 : x(hover) + 6,
+          }}
+        >
           <div className="leading-4 text-rk-muted">{dayTitle(hover)}</div>
           <div className="mt-2 flex items-center">
             <span className="mr-[9px] h-2 w-2 rounded-full bg-[#6167e6]" />
@@ -105,6 +111,74 @@ function TrafficArea() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+const skel = "bg-[#f2f2f2]";
+const barSkel = [3, 9, 5, 2, 2, 9, 5, 2, 3, 9, 5, 2];
+
+function MetricSkeleton({ label, spark }: { label: string; spark?: "bars" | "wave" }) {
+  return (
+    <div className="shrink-0">
+      <div className="text-[14px] leading-5">{label}</div>
+      <div className="mt-[2px] flex h-8 items-end pb-[3px]">
+        <span className={`h-[27px] w-[77px] rounded-[4px] ${skel}`} />
+        {spark === "bars" && (
+          <span className="ml-[5px] flex h-[17px] w-[160px] items-end gap-[3.4px]">
+            {barSkel.map((h, i) => (
+              <span key={i} className={`w-[10px] ${skel}`} style={{ height: h * 1.6 }} />
+            ))}
+          </span>
+        )}
+        {spark === "wave" && (
+          <svg width={160} height={18} className="ml-[5px] block">
+            <path d="M0 18V14L40 4 80 12 120 4 160 12V18Z" fill="#f2f2f2" />
+          </svg>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function WaveSkeleton() {
+  const [ref, width] = useWidth<HTMLDivElement>();
+  const p = 176.6;
+  let d = "M0 0";
+  for (let x = 0; x < width + p; x += p) d += `C${x + p * 0.25} 0 ${x + p * 0.25} 46 ${x + p / 2} 46C${x + p * 0.75} 46 ${x + p * 0.75} 0 ${x + p} 0`;
+  return (
+    <div ref={ref} className="w-full overflow-hidden">
+      <svg width={width} height={87} className="block">
+        <path d={`${d}V87H0Z`} fill="#f3f3f5" />
+      </svg>
+    </div>
+  );
+}
+
+const Sep = () => <div className="mx-6 mt-[2px] h-[51px] w-px shrink-0 bg-rk-border" />;
+
+function SummarySkeleton({ view }: { view: TrendView }) {
+  return (
+    <div className="rounded-lg bg-white shadow-card">
+      <div className="relative flex h-[93px] border-b border-rk-border px-5 pt-[19px]">
+        <MetricSkeleton label="Keywords" spark="bars" />
+        <Sep />
+        <MetricSkeleton label="Traffic" spark="wave" />
+        <Sep />
+        <MetricSkeleton label="Traffic Cost" />
+        <span className="absolute top-[calc(100%-6px)] h-[11px] w-[11px] rotate-45 border-t border-l border-rk-border bg-white" style={{ left: view === "keywords" ? 177 : 467 }} />
+      </div>
+      <div className="px-5 pt-[20px] pb-[36px]">
+        <div className="flex items-center justify-between">
+          <h2 className="text-[16px] leading-6 font-semibold">{view === "keywords" ? "Organic Keywords Trend" : "Estimated Traffic Trend"}</h2>
+          <span className="-mr-[2px] text-rk-muted">
+            <CloseIcon width={14} height={14} />
+          </span>
+        </div>
+        <div className="mt-[156px]">
+          <WaveSkeleton />
+        </div>
+      </div>
     </div>
   );
 }
@@ -127,21 +201,33 @@ function SummaryCard() {
   });
   const [open, setOpen] = useState(true);
   const [view, setView] = useState<TrendView>("keywords");
+  const loading = useDbLoading();
   const show = (v: TrendView) => {
     setView(v);
     setOpen(true);
   };
+  if (loading && open) return <SummarySkeleton view={view} />;
   return (
     <div className="rounded-lg bg-white shadow-card">
       <div className="relative flex h-[93px] border-b border-rk-border px-5 pt-[19px]">
         <Metric label="Keywords" {...latest.keywords}>
-          <SparkButton testId="keywords-spark" active={open && view === "keywords"} onClick={() => show("keywords")} tip="This trend displays changes in the number of keywords over the last 12 months. Click it to view all changes.">
+          <SparkButton
+            testId="keywords-spark"
+            active={open && view === "keywords"}
+            onClick={() => show("keywords")}
+            tip="This trend displays changes in the number of keywords over the last 12 months. Click it to view all changes."
+          >
             <KwSpark className="h-[20px]" />
           </SparkButton>
         </Metric>
         <div className="mx-6 mt-[2px] h-[51px] w-px shrink-0 bg-rk-border" />
         <Metric label="Traffic" {...latest.traffic}>
-          <SparkButton testId="traffic-spark" active={open && view === "traffic"} onClick={() => show("traffic")} tip="This trend displays changes in the amount of estimated traffic over the last 12 months. Click it to view all changes.">
+          <SparkButton
+            testId="traffic-spark"
+            active={open && view === "traffic"}
+            onClick={() => show("traffic")}
+            tip="This trend displays changes in the amount of estimated traffic over the last 12 months. Click it to view all changes."
+          >
             <TrafficSpark className="" />
           </SparkButton>
         </Metric>
@@ -206,7 +292,9 @@ function TrackingBanner({ text = "Create a new project to see your positions.", 
             <rect x="27.5" y="64" width="22" height="16" rx="2" fill="#fff" />
             <rect x="52.5" y="64" width="22" height="16" rx="2" fill="#fff" />
             <rect x="77.5" y="64" width="20" height="16" rx="2" fill="#fff" />
-            <text x="30.5" y="74" fontSize="8" fontWeight="700" fill="#45dba7">Aa</text>
+            <text x="30.5" y="74" fontSize="8" fontWeight="700" fill="#45dba7">
+              Aa
+            </text>
             <path d="M31 77h14M57 76h14" stroke="#c6ede0" strokeWidth="1.2" />
             <circle cx="59" cy="71" r="3.3" fill="none" stroke="#45dba7" strokeWidth="1.3" />
             <path d="M64.5 69.5h7M64.5 72.5h7" stroke="#c6ede0" strokeWidth="1.2" />
@@ -277,13 +365,34 @@ function AddToList() {
 
 export function IconBtn({ children, label, onClick }: { children: ReactNode; label: string; onClick?: () => void }) {
   return (
-    <button type="button" aria-label={label} onClick={onClick} className="flex h-7 w-7 items-center justify-center rounded-md border border-rk-border-strong bg-[#f5f6f6] text-rk-text-2 hover:bg-rk-hover">
+    <button
+      type="button"
+      aria-label={label}
+      onClick={onClick}
+      className="flex h-7 w-7 items-center justify-center rounded-md border border-rk-border-strong bg-[#f5f6f6] text-rk-text-2 hover:bg-rk-hover"
+    >
       {children}
     </button>
   );
 }
 
-const allColumns = ["Keyword", "Intent", "Prev. position", "Position", "SERP Features", "Traffic", "Traffic %", "Volume", "KD %", "CPC", "URL", "Costs", "Competitive Density", "Results", "Last Update"];
+const allColumns = [
+  "Keyword",
+  "Intent",
+  "Prev. position",
+  "Position",
+  "SERP Features",
+  "Traffic",
+  "Traffic %",
+  "Volume",
+  "KD %",
+  "CPC",
+  "URL",
+  "Costs",
+  "Competitive Density",
+  "Results",
+  "Last Update",
+];
 const lockedColumns = ["Keyword", "Position"];
 const defaultColumns = ["Keyword", "Intent", "Position", "SERP Features", "Traffic", "Traffic %", "Volume", "KD %", "URL", "Last Update"];
 
@@ -373,7 +482,13 @@ export function ExportMenu() {
         </IconBtn>
       )}
     >
-      {(close) => ["Excel", "CSV", "CSV Semicolon"].map((c) => <MenuItem key={c} onClick={close}>{c}</MenuItem>)}
+      {(close) =>
+        ["Excel", "CSV", "CSV Semicolon"].map((c) => (
+          <MenuItem key={c} onClick={close}>
+            {c}
+          </MenuItem>
+        ))
+      }
     </Popover>
   );
 }
@@ -527,7 +642,12 @@ const inRange = (n: number, v: string | null) => {
   return n >= a && n <= b;
 };
 
-const intentCode: Record<string, string> = { Informational: "I", Navigational: "N", Commercial: "C", Transactional: "T" };
+const intentCode: Record<string, string> = {
+  Informational: "I",
+  Navigational: "N",
+  Commercial: "C",
+  Transactional: "T",
+};
 
 function matches(r: PositionRow, f: PositionFilters) {
   if (!inRange(r.local ? 1 : r.position, f.pos)) return false;
@@ -544,10 +664,77 @@ function matches(r: PositionRow, f: PositionFilters) {
   return true;
 }
 
-const noFilters: PositionFilters = { pos: null, vol: null, kd: null, intent: [], serp: null, adv: [] };
+const noFilters: PositionFilters = {
+  pos: null,
+  vol: null,
+  kd: null,
+  intent: [],
+  serp: null,
+  adv: [],
+};
+
+const loadingCols: [string, string][] = [
+  ["Keyword", "pl-2 text-left"],
+  ["Intent", "pl-[34px] text-left"],
+  ["Position", "pr-2 text-right"],
+  ["SF", "pl-2 text-left"],
+  ["Traffic", "pr-2 text-right"],
+  ["Traffic %", "bg-[#ececf0] pl-[21px] text-left"],
+  ["Volume", "pr-2 text-right"],
+  ["KD %", "pr-2 text-right"],
+  ["URL", "pl-2 text-left"],
+  ["Updated", "pr-5 text-right"],
+];
+
+function LoadingTable() {
+  return (
+    <table className="w-full table-fixed text-[14px]">
+      <colgroup>
+        <col className="w-[44px]" />
+        {loadingCols.map(([l], i) => (
+          <col key={l} className={i < 9 ? "w-[100.6px]" : ""} />
+        ))}
+      </colgroup>
+      <thead>
+        <tr className="h-[41px] border-y border-rk-border bg-[#f8f8fa]">
+          <th className="pl-5 text-left font-normal">
+            <Checkbox checked={false} onChange={() => {}} />
+          </th>
+          {loadingCols.map(([l, c]) => (
+            <th key={l} className={`text-[12px] font-normal whitespace-nowrap ${c}`}>
+              {l === "Traffic %" ? (
+                <span className="inline-flex items-center gap-[2px]">
+                  {l}
+                  <SortIcon className="text-rk-text-2" />
+                </span>
+              ) : (
+                l
+              )}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {Array.from({ length: 5 }, (_, i) => (
+          <tr key={i} className="h-[45px] border-b border-rk-border">
+            <td />
+            {loadingCols.map(([l]) => (
+              <td key={l} className="pt-[13px] pl-2 align-top">
+                <span className="block h-2 w-[84.6px] rounded-full bg-[#eceeee]" />
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
 
 function PositionsTable({ tab, filter, filters }: { tab: string; filter: string; filters: PositionFilters }) {
-  const [sort, setSort] = useState<{ key: SortKey; dir: 1 | -1 }>({ key: "pct", dir: -1 });
+  const [sort, setSort] = useState<{ key: SortKey; dir: 1 | -1 }>({
+    key: "pct",
+    dir: -1,
+  });
   const [sel, setSel] = useState<Set<number>>(new Set());
   const [page, setPage] = useState({ n: 1, pages: 0 });
   const [shown, setShown] = useState(() => new Set(defaultColumns));
@@ -571,12 +758,14 @@ function PositionsTable({ tab, filter, filters }: { tab: string; filter: string;
   const onSort = (k: SortKey) => setSort((s) => (s.key === k ? { key: k, dir: s.dir === 1 ? -1 : 1 } : { key: k, dir: -1 }));
   const all = rows.length > 0 && rows.every(({ i }) => sel.has(i));
   const { ref: stuckRef, stuck } = useStuck(60);
+  const loading = useDbLoading();
   return (
     <div className="rounded-lg bg-white shadow-card">
-      <div ref={stuckRef} className={`sticky top-[60px] z-20 flex h-[43px] focus-within:z-[31] hover:z-[31] items-center justify-between rounded-t-lg bg-white px-5 ${stuck ? "border-b border-rk-border" : ""}`}>
-        <div className="text-[14px]">
-          Organic Search Positions: <b>{total}</b>
-        </div>
+      <div
+        ref={stuckRef}
+        className={`sticky top-[60px] z-20 flex h-[43px] focus-within:z-[31] hover:z-[31] items-center justify-between rounded-t-lg bg-white px-5 ${stuck ? "border-b border-rk-border" : ""}`}
+      >
+        <div className="text-[14px]">Organic Search Positions: {loading ? <span className="ml-[3px] inline-block h-2 w-12 rounded-full bg-[#eceeee] align-middle" /> : <b>{total}</b>}</div>
         <div className="flex items-center gap-2">
           <AddToList />
           <ColumnsMenu shown={shown} onChange={setShown} />
@@ -597,79 +786,100 @@ function PositionsTable({ tab, filter, filters }: { tab: string; filter: string;
           />
         </div>
       </div>
-      <table className="w-full table-fixed text-[14px]">
-        <colgroup>
-          <col className="w-[42px]" />
-          <col className="w-[31px]" />
-          {allColumns
-            .filter((c) => vis(c) && colDefs[c])
-            .map((c) => (
-              <col key={c} className={colDefs[c].w} />
-            ))}
-        </colgroup>
-        <thead>
-          <tr className="h-[41px] border-y border-rk-border bg-[#f8f8fa] text-left">
-            <th className="pl-5" />
-            <th className="font-normal">
-              <Checkbox checked={all} onChange={() => setSel(all ? new Set() : new Set(rows.map(({ i }) => i)))} />
-            </th>
-            <Th sort={sort} onSort={onSort} className="text-left">
-              Keyword
-            </Th>
-            {vis("Intent") && (
+      {loading ? (
+        <LoadingTable />
+      ) : (
+        <table className="w-full table-fixed text-[14px]">
+          <colgroup>
+            <col className="w-[42px]" />
+            <col className="w-[31px]" />
+            {allColumns
+              .filter((c) => vis(c) && colDefs[c])
+              .map((c) => (
+                <col key={c} className={colDefs[c].w} />
+              ))}
+          </colgroup>
+          <thead>
+            <tr className="h-[41px] border-y border-rk-border bg-[#f8f8fa] text-left">
+              <th className="pl-5" />
+              <th className="font-normal">
+                <Checkbox checked={all} onChange={() => setSel(all ? new Set() : new Set(rows.map(({ i }) => i)))} />
+              </th>
               <Th sort={sort} onSort={onSort} className="text-left">
-                Intent
+                Keyword
               </Th>
-            )}
-            <Th k="position" sort={sort} onSort={onSort} className="text-right">
-              Position
-            </Th>
-            {vis("SERP Features") && (
-              <Th sort={sort} onSort={onSort} className="pl-4 text-left">
-                SF
+              {vis("Intent") && (
+                <Th sort={sort} onSort={onSort} className="text-left">
+                  Intent
+                </Th>
+              )}
+              <Th k="position" sort={sort} onSort={onSort} className="text-right">
+                Position
               </Th>
-            )}
-            {vis("Traffic") && (
-              <Th k="traffic" sort={sort} onSort={onSort} className="pr-2 text-right">
-                Traffic
-              </Th>
-            )}
-            {vis("Traffic %") && (
-              <Th k="pct" sort={sort} onSort={onSort} className="pl-2 text-left">
-                <span className="w-[37px] truncate">Traffic %</span>
-              </Th>
-            )}
-            {vis("Volume") && (
-              <Th k="volume" sort={sort} onSort={onSort} className="text-right">
-                Volume
-              </Th>
-            )}
-            {vis("KD %") && (
-              <Th k="kd" sort={sort} onSort={onSort} className="text-right">
-                KD %
-              </Th>
-            )}
-            {vis("URL") && (
-              <Th sort={sort} onSort={onSort} className="pl-[17px] text-left">
-                URL
-              </Th>
-            )}
-            {vis("Last Update") && (
-              <Th sort={sort} onSort={onSort} className="pr-5 text-right">
-                Updated
-              </Th>
-            )}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.slice((cur - 1) * 100, cur * 100).map(({ r, i }) => (
-            <Row key={i} r={r} vis={vis} checked={sel.has(i)} toggle={() => setSel((s) => { const n = new Set(s); if (n.has(i)) n.delete(i); else n.add(i); return n; })} />
-          ))}
-        </tbody>
-      </table>
-      <div className="px-5 pt-[21px] pb-5">
-        <Pagination key={pages} pages={pages} page={cur} onPage={(n) => setPage({ n, pages })} />
-      </div>
+              {vis("SERP Features") && (
+                <Th sort={sort} onSort={onSort} className="pl-4 text-left">
+                  SF
+                </Th>
+              )}
+              {vis("Traffic") && (
+                <Th k="traffic" sort={sort} onSort={onSort} className="pr-2 text-right">
+                  Traffic
+                </Th>
+              )}
+              {vis("Traffic %") && (
+                <Th k="pct" sort={sort} onSort={onSort} className="pl-2 text-left">
+                  <span className="w-[37px] truncate">Traffic %</span>
+                </Th>
+              )}
+              {vis("Volume") && (
+                <Th k="volume" sort={sort} onSort={onSort} className="text-right">
+                  Volume
+                </Th>
+              )}
+              {vis("KD %") && (
+                <Th k="kd" sort={sort} onSort={onSort} className="text-right">
+                  KD %
+                </Th>
+              )}
+              {vis("URL") && (
+                <Th sort={sort} onSort={onSort} className="pl-[17px] text-left">
+                  URL
+                </Th>
+              )}
+              {vis("Last Update") && (
+                <Th sort={sort} onSort={onSort} className="pr-5 text-right">
+                  Updated
+                </Th>
+              )}
+            </tr>
+          </thead>
+            <tbody>
+              {rows.slice((cur - 1) * 100, cur * 100).map(({ r, i }) => (
+                <Row
+                  key={i}
+                  r={r}
+                  vis={vis}
+                  checked={sel.has(i)}
+                  toggle={() =>
+                    setSel((s) => {
+                      const n = new Set(s);
+                      if (n.has(i)) n.delete(i);
+                      else n.add(i);
+                      return n;
+                    })
+                  }
+                />
+              ))}
+            </tbody>
+        </table>
+      )}
+      {loading ? (
+        <div className="h-5" />
+      ) : (
+        <div className="px-5 pt-[21px] pb-5">
+          <Pagination key={pages} pages={pages} page={cur} onPage={(n) => setPage({ n, pages })} />
+        </div>
+      )}
     </div>
   );
 }
@@ -689,7 +899,16 @@ export function PositionsView() {
         <Segmented options={["All Positions", "Organic", "SERP Features"] as const} value={tab} onChange={setTab} size="s" />
       </div>
       <FilterBar onFilter={setFilter}>
-        <RangeFilter label="Positions" compact value={filters.pos} onChange={(v) => set({ pos: v })} groups={[["Top 50", "Top 20", "Top 10", "Top 3"], ["#1", "#4-10", "#11-20", "#21-50", "#51-100"]]} />
+        <RangeFilter
+          label="Positions"
+          compact
+          value={filters.pos}
+          onChange={(v) => set({ pos: v })}
+          groups={[
+            ["Top 50", "Top 20", "Top 10", "Top 3"],
+            ["#1", "#4-10", "#11-20", "#21-50", "#51-100"],
+          ]}
+        />
         <RangeFilter label="Volume" value={filters.vol} onChange={(v) => set({ vol: v })} groups={[["100,001+", "10,001–100,000", "1,001–10,000", "101–1,000", "11–100", "1–10"]]} />
         <RangeFilter label="KD" value={filters.kd} onChange={(v) => set({ kd: v })} groups={[Object.keys(kdRanges)]} right={kdRanges} />
         <CheckFilter label="Intent" options={intentOptions} value={filters.intent} onChange={(v) => set({ intent: v })} info />

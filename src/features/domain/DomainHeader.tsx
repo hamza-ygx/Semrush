@@ -16,7 +16,11 @@ const tabs = [
   { key: "countries", label: "Compare by countries", href: routes.domainCompareCountries },
 ];
 
-export const UserManual = () => <HeaderLink icon={<ManualIcon />}>User manual</HeaderLink>;
+export const UserManual = () => (
+  <HeaderLink href={routes.kb} icon={<ManualIcon />}>
+    User manual
+  </HeaderLink>
+);
 
 export { ExportPdf };
 

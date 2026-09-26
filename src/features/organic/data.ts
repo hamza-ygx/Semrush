@@ -484,8 +484,8 @@ export const positionRows: PositionRow[] = [
 ];
 
 export const pageChanges = [
-  { url: "https://rkjh.se/en/blog/2020/03/18/who-is-an-entrepreneur-defining-entrepreneurship/", short: "https://rkjh.se/en... trepreneurship/", traffic: 7, diff: -5 },
-  { url: "https://rkjh.se/blog/2018/03/12/skatt-pa-arbetsinkomster-forvarvsinkomstbeskattning/", short: "https://rkjh.se/bl... mstbeskattning/", traffic: 0, diff: -1 },
+  { url: "https://rkjh.se/en/blog/2020/03/18/who-is-an-entrepreneur-defining-entrepreneurship/", short: "https://rkjh.se/en... trepreneurship/", wide: "https://rkjh.se/en/bl...g-entrepreneurship/", traffic: 7, diff: -5 },
+  { url: "https://rkjh.se/blog/2018/03/12/skatt-pa-arbetsinkomster-forvarvsinkomstbeskattning/", short: "https://rkjh.se/bl... mstbeskattning/", wide: "https://rkjh.se/blog/... inkomstbeskattning/", traffic: 0, diff: -1 },
 ];
 
 export const changesTrend = {

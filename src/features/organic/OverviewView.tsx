@@ -665,7 +665,7 @@ function TopPagesCard() {
         </tbody>
       </table>
       <div className="px-5 pt-[17px]">
-        <DarkButton href={routes.organic.pages + Q}>View all 45 pages</DarkButton>
+        <DarkButton href={routes.topPages + Q}>View all 45 pages</DarkButton>
       </div>
     </Card>
   );
