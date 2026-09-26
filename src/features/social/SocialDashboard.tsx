@@ -2,8 +2,10 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { DrawnAvatar } from "@/features/aipr/illustrations";
 import { AudienceArt, CalendarArt, EngagementArt, InfluencersArt, MentionsChartArt, PeopleArt } from "./art";
-import { socialFeatures, socialHero, testimonials, type SocialFeature } from "./data";
+import { socialFeatures, socialHero, testimonials, toolFeature, type SocialFeature, type SocialTool } from "./data";
 import { ProjectGoTo } from "./HeaderTools";
+import { ScrollToTool } from "./ScrollToTool";
+import { UpsellBanner } from "./Upsell";
 
 const arts: Record<SocialFeature["art"], () => ReactNode> = {
   audience: () => <AudienceArt />,
@@ -17,11 +19,13 @@ const arts: Record<SocialFeature["art"], () => ReactNode> = {
   ),
 };
 
-function Feature({ f, flip }: { f: SocialFeature; flip: boolean }) {
+function Feature({ f, flip, index }: { f: SocialFeature; flip: boolean; index: number }) {
   return (
     <div className={`flex items-center justify-between ${flip ? "flex-row-reverse" : ""}`}>
       <div className="w-[408px]">
-        <h3 className="text-[24px] leading-7 font-semibold text-rk-text">{f.title}</h3>
+        <h3 data-feature={index} className="text-[24px] leading-7 font-semibold text-rk-text">
+          {f.title}
+        </h3>
         <ul className="mt-3 space-y-2 text-[16px] leading-6 text-rk-text">
           {f.bullets.map((b) => (
             <li key={b} className="relative pl-[14px]">
@@ -39,9 +43,10 @@ function Feature({ f, flip }: { f: SocialFeature; flip: boolean }) {
   );
 }
 
-export function SocialDashboard() {
+export function SocialDashboard({ tool }: { tool?: SocialTool }) {
+  const features = tool ? socialFeatures.slice(0, 3) : socialFeatures;
   return (
-    <div className="relative pt-[44px] pb-[180px]">
+    <div className={`relative pt-[44px] ${tool ? "pb-[120px]" : "pb-[180px]"}`}>
       <ProjectGoTo />
       <h1 className="text-center text-[36px] leading-10 font-semibold tracking-[-0.01em] text-[#2b2b2e]">
         {socialHero.title[0]}
@@ -57,38 +62,52 @@ export function SocialDashboard() {
       <div className="relative z-10 mt-[49px] flex justify-center">
         <PeopleArt />
       </div>
-      <div className="mx-auto -mt-[24px] w-[959px] rounded-lg bg-white px-12 pt-[43px] pb-10">
+      <div className={`mx-auto -mt-[24px] w-[959px] rounded-lg bg-white px-12 pt-[43px] ${tool ? "pb-12" : "pb-10"}`}>
         <h2 className="text-center text-[24px] leading-8 font-medium tracking-[-0.004em] text-rk-text">{socialHero.subtitle}</h2>
         <div className="mt-[56px] space-y-[57px]">
-          {socialFeatures.map((f, i) => (
-            <Feature key={f.title} f={f} flip={i % 2 === 1} />
+          {features.map((f, i) => (
+            <Feature key={f.title} f={f} flip={i % 2 === 1} index={i} />
           ))}
         </div>
-        <h2 className="mt-[96px] text-center text-[24px] leading-8 font-medium text-rk-text">What our users say</h2>
-        <div className="-mx-2 mt-10 flex gap-[17px]">
-          {testimonials.map((col, ci) => (
-            <div key={ci} className="flex flex-1 flex-col gap-[17px]">
-              {col.map((t) => (
-                <figure key={t.quote} className="rounded-xl bg-[#f3f5f5] px-[23px] pt-[23px] pb-[24px]">
-                  <blockquote className="text-[16px] leading-6 text-rk-text">{t.quote}</blockquote>
-                  <figcaption className={`mt-6 flex items-center gap-4 text-[16px] leading-6 ${t.avatar ? "" : ""}`}>
-                    {t.avatar && <DrawnAvatar size={72} tone={t.avatar.tone} hair={t.avatar.hair} bg={t.avatar.bg} />}
-                    <div>
-                      <div className="font-semibold text-rk-text">{t.title}</div>
-                      {t.company && <div className="text-[#6a6c6a]">{t.company}</div>}
-                    </div>
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-          ))}
-        </div>
-        <div className="mt-[33px] flex justify-center">
-          <button type="button" className="h-10 rounded-md bg-rk-btn-dark px-[13px] text-[16px] font-semibold text-white hover:bg-[#2b2e38]">
-            Get started
-          </button>
-        </div>
+        {!tool && <Testimonials />}
       </div>
+      {tool && (
+        <>
+          <UpsellBanner />
+          <ScrollToTool index={toolFeature[tool]} />
+        </>
+      )}
     </div>
+  );
+}
+
+function Testimonials() {
+  return (
+    <>
+      <h2 className="mt-[96px] text-center text-[24px] leading-8 font-medium text-rk-text">What our users say</h2>
+      <div className="-mx-2 mt-10 flex gap-[17px]">
+        {testimonials.map((col, ci) => (
+          <div key={ci} className="flex flex-1 flex-col gap-[17px]">
+            {col.map((t) => (
+              <figure key={t.quote} className="rounded-xl bg-[#f3f5f5] px-[23px] pt-[23px] pb-[24px]">
+                <blockquote className="text-[16px] leading-6 text-rk-text">{t.quote}</blockquote>
+                <figcaption className={`mt-6 flex items-center gap-4 text-[16px] leading-6 ${t.avatar ? "" : ""}`}>
+                  {t.avatar && <DrawnAvatar size={72} tone={t.avatar.tone} hair={t.avatar.hair} bg={t.avatar.bg} />}
+                  <div>
+                    <div className="font-semibold text-rk-text">{t.title}</div>
+                    {t.company && <div className="text-[#6a6c6a]">{t.company}</div>}
+                  </div>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        ))}
+      </div>
+      <div className="mt-[33px] flex justify-center">
+        <button type="button" className="h-10 rounded-md bg-rk-btn-dark px-[13px] text-[16px] font-semibold text-white hover:bg-[#2b2e38]">
+          Get started
+        </button>
+      </div>
+    </>
   );
 }

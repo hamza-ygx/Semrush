@@ -183,49 +183,82 @@ export function CalendarArt() {
   );
 }
 
+const engIcons: Record<string, ReactNode> = {
+  Reactions: <path d="M5 8.5v6H3v-6zM7.5 14.5h5.2c.8 0 1.4-.5 1.6-1.3l1-4c.2-1-.5-1.7-1.4-1.7H11l.5-2.8c.2-1-.6-1.7-1.3-1.7L7.5 8.2z" />,
+  Shares: <path d="M4 14c0-4 2.5-6.3 7-6.3h2M10.5 4.8 13.5 7.7l-3 2.9" />,
+  Comments: <path d="M3.5 3.5h11v8.5H8l-3 2.5V12H3.5z" />,
+  Clicks: <path d="m4.5 3.5 9.5 4-4 1.5-1.5 4.5z" />,
+};
+
+const engRows: [string, string, string, boolean, string][] = [
+  ["Reactions", "8,725", "+0.2%", true, "M0 14 12 6 24 14 H40 L52 6 L64 14 H70 L82 6 H96 L108 14 L125 7"],
+  ["Shares", "683", "+2.7%", true, "M0 12 12 5 24 12 H125"],
+  ["Comments", "155", "−4.3%", false, "M0 10 12 5 24 10 H125"],
+  ["Clicks", "16,355", "+1%", true, "M0 10 12 4 24 10 H70 M95 18 L108 12 L125 18"],
+];
+
 export function EngagementArt() {
-  const bars = [30, 26, 28, 26, 22, 24, 28, 20, 18, 36];
+  const bars: [number, number][] = [
+    [9, 44],
+    [6, 39],
+    [13, 36],
+    [0, 44],
+    [13, 31],
+    [18, 28],
+    [18, 33],
+    [10, 34],
+    [8, 32],
+    [6, 49],
+  ];
   return (
     <div className="relative h-[260px] w-[407px] translate-y-[31px]">
-      <div className="absolute top-[-36px] left-[176px] h-[230px] w-[230px] rounded-full bg-[#d8f8e8]" />
-      <div className="absolute top-0 left-0 h-[220px] w-[297px] rounded-lg bg-white px-[15px] pt-[14px] shadow-[0_4px_20px_rgba(25,27,35,0.12)]">
-        <div className="text-[14px] font-semibold text-rk-text">Daily Engagement</div>
-        {[
-          ["Reactions", "8,725", "+0.2%", true],
-          ["Shares", "683", "+2.7%", true],
-          ["Comments", "155", "−4.3%", false],
-        ].map(([l, v, d, up]) => (
-          <div key={l as string} className="mt-[8px] flex items-center gap-3">
-            <span className="h-[30px] w-[30px] rounded-full bg-[#f0f1f5]" />
-            <div className="leading-4">
-              <div className="text-[12px] text-[#6a6c6a]">{l}</div>
-              <div className="text-[14px] font-semibold text-rk-text">
-                {v} <span className={`text-[11px] font-normal ${up ? "text-[#009f81]" : "text-[#d1002f]"}`}>{d}</span>
+      <div className="absolute top-[-34px] left-[160px] h-[260px] w-[250px] rounded-full bg-[#d8f8e8]" />
+      <div className="absolute top-0 left-0 h-[231px] w-[297px] rounded-lg border border-[#eceef2] bg-white pl-[15px] pt-[14px] shadow-[0_4px_20px_rgba(25,27,35,0.08)]">
+        <div className="text-[14px] leading-5 font-semibold text-rk-text">Daily Engagement</div>
+        <div className="mt-[14px] flex flex-col gap-[15px]">
+          {engRows.map(([l, v, d, up, path]) => (
+            <div key={l} className="relative flex h-[30px] items-center gap-[15px]">
+              <span className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-[#f0f1f5] text-[#6c6e79]">
+                <svg viewBox="0 0 18 18" width={17} height={17} fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinejoin="round" strokeLinecap="round">
+                  {engIcons[l]}
+                </svg>
+              </span>
+              <div className="leading-[16px]">
+                <div className="text-[12.5px] text-[#6c6e79]">{l}</div>
+                <div className="mt-[3px] text-[15px] font-semibold tracking-[0.02em] text-rk-text">
+                  {v} <span className={`text-[12px] font-normal tracking-normal ${up ? "text-[#009f81]" : "text-[#d1002f]"}`}>{d}</span>
+                </div>
               </div>
+              <svg viewBox="0 0 125 34" width={125} height={34} className="absolute top-[-8px] left-[142px]">
+                <path d={`${path} V34 H0Z`} fill="#e7f3fd" />
+                <path d={path} fill="none" stroke="#5bb0f5" strokeWidth={1.6} />
+              </svg>
             </div>
-            <svg viewBox="0 0 120 14" width={120} height={14} className="ml-auto">
-              <path d="M0 12 L15 4 L30 12 L45 12 L60 4 L75 12 L90 4 L105 4 L120 12 L120 14 L0 14Z" fill="#e1f0fd" stroke="#5bb0f5" strokeWidth={1.4} />
-            </svg>
-          </div>
-        ))}
-      </div>
-      <div className="absolute top-[52px] left-[183px] h-[190px] w-[196px] rounded-lg bg-white px-[15px] pt-[14px] shadow-[0_4px_20px_rgba(25,27,35,0.14)]">
-        <div className="text-[14px] font-semibold text-rk-text">Daily Reach</div>
-        <div className="mt-[8px] flex gap-4 text-[12px] text-rk-text">
-          <span className="flex items-center gap-[5px]">
-            <i className="h-[14px] w-[14px] rounded-[3px] bg-[#2d9cf0]" />
-            Organic
-          </span>
-          <span className="flex items-center gap-[5px]">
-            <i className="h-[14px] w-[14px] rounded-[3px] bg-[#45d6a0]" />
-            Paid
-          </span>
+          ))}
         </div>
-        <div className="mt-[12px] flex h-[100px] items-end gap-[4px]">
-          {bars.map((h, i) => (
-            <div key={i} className="flex w-[13px] flex-col">
-              <i className="bg-[#2d9cf0]" style={{ height: 6 + (i % 3) * 3 }} />
-              <i className="bg-[#45d6a0]" style={{ height: h * 2 }} />
+      </div>
+      <div className="absolute top-[52px] left-[184px] h-[141px] w-[196px] rounded-lg bg-white px-[15px] pt-[13px] shadow-[0_4px_20px_rgba(25,27,35,0.14)]">
+        <div className="text-[14px] leading-5 font-semibold text-rk-text">Daily Reach</div>
+        <div className="mt-[8px] flex gap-[22px] text-[12.5px] text-rk-text">
+          {[
+            ["Organic", "#2d9cf0"],
+            ["Paid", "#45d6a0"],
+          ].map(([l, c]) => (
+            <span key={l} className="flex items-center gap-[8px]">
+              <i className="flex h-[14px] w-[14px] items-center justify-center rounded-[3px]" style={{ background: c }}>
+                <svg viewBox="0 0 10 10" width={9} height={9}>
+                  <path d="m2 5 2 2 4-4.5" fill="none" stroke="#fff" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </i>
+              {l}
+            </span>
+          ))}
+        </div>
+        <div className="mt-[12px] flex h-[62px] items-end gap-[5px]">
+          {bars.map(([t, g], i) => (
+            <div key={i} className="flex w-[13px] flex-col gap-px">
+              {t > 0 && <i className="bg-[#2d9cf0]" style={{ height: t / 1.6 }} />}
+              <i className="bg-[#45d6a0]" style={{ height: g * 1.1 }} />
             </div>
           ))}
         </div>

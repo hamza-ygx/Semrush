@@ -22,7 +22,7 @@ const reportsNav: NavGroup[] = [
       { label: "Create report", href: routes.reports.constructor },
       { label: "Templates", href: `${routes.reports.constructor}?view=templates` },
       { label: "Themes", href: `${routes.reports.constructor}?view=themes` },
-      { label: "About My Reports Suite", href: `${routes.reports.myReports}?view=about` },
+      { label: "About My Reports Suite", href: routes.reports.suite },
     ],
   },
 ];
@@ -31,7 +31,7 @@ const appsNav: NavGroup[] = [
   {
     items: [
       { label: "Store", href: routes.apps },
-      { label: "My Apps", href: `${routes.apps}?view=my-apps` },
+      { label: "My Apps", href: routes.appsMyApps },
     ],
   },
   {

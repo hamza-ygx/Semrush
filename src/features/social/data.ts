@@ -8,6 +8,11 @@ export const socialHero = {
   subtitle: "Easily Grow Your Brand’s Visibility On Social Media",
 };
 
+export const socialTools = ["tracker", "poster", "content-insights", "analytics"] as const;
+export type SocialTool = (typeof socialTools)[number];
+export const toolFeature: Record<SocialTool, number> = { tracker: 0, poster: 1, "content-insights": 2, analytics: 2 };
+export const socialToolHref = (tool: SocialTool) => `${routes.social.dashboard}?tool=${tool}`;
+
 export type SocialFeature = { title: string; bullets: string[]; cta: string; href: string; art: "audience" | "calendar" | "engagement" | "influencers" | "mentions" };
 
 export const socialFeatures: SocialFeature[] = [
@@ -19,7 +24,7 @@ export const socialFeatures: SocialFeature[] = [
       "Monitor the top social media accounts in your niche and jump on best trends early",
     ],
     cta: "Analyze competitors",
-    href: routes.social.tracker,
+    href: socialToolHref("tracker"),
     art: "audience",
   },
   {
@@ -30,7 +35,7 @@ export const socialFeatures: SocialFeature[] = [
       "Effortlessly share any type of social content on all of your social profiles",
     ],
     cta: "Drive engagement",
-    href: routes.social.poster,
+    href: socialToolHref("poster"),
     art: "calendar",
   },
   {
@@ -40,8 +45,8 @@ export const socialFeatures: SocialFeature[] = [
       "Track your KPIs with easy-to-understand data visualization",
       "Stay up-to-date with automated reporting delivered straight to your inbox",
     ],
-    cta: "Get insights",
-    href: routes.social.analytics,
+    cta: "Amplify your success",
+    href: socialToolHref("analytics"),
     art: "engagement",
   },
   {
@@ -67,6 +72,18 @@ export const socialFeatures: SocialFeature[] = [
     art: "mentions",
   },
 ];
+
+
+export const upsell = {
+  title: ["Unlock", "our most", "advanced plan"],
+  text: "Get every social tool in one place: scheduling, competitor tracking, analytics, and reporting for your whole team.",
+  bullets: ["Unlimited scheduled posts", "Track up to 100 competitor profiles", "Automated PDF reports"],
+  cta: "Upgrade now",
+  chips: [
+    { title: "Social media management", text: "Create and schedule engaging posts, track performance" },
+    { title: "Competitor insights", text: "Benchmark your profiles against rivals" },
+  ],
+};
 
 export const testimonials: { quote: string; title: string; company: string; avatar?: { tone: string; hair: string; bg: string } }[][] = [
   [

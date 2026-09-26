@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Footer } from "@/components/Footer";
 import { AppShell } from "@/components/shell/AppShell";
 import { LogoIcon } from "@/components/icons";
 import { brand } from "@/config/brand";
@@ -9,17 +10,14 @@ import { FirebaseIcon, GaIcon, GoogleGIcon, GscIcon, MatomoIcon, SparkleIcon } f
 import { ReportMock } from "./ReportMock";
 import { TemplateCard } from "./TemplateCard";
 
-function Card({ title, sub, children, cta }: { title: string; sub: ReactNode; children: ReactNode; cta?: { label: string; href: string } }) {
+function Card({ title, sub, children, cta, wideSub = false }: { title: string; sub: ReactNode; children: ReactNode; cta?: { label: string; href: string }; wideSub?: boolean }) {
   return (
     <section className="rounded-lg border border-rk-border bg-white px-6 pt-8 pb-8 text-center">
       <h2 className="text-[32px] leading-10 font-semibold tracking-[-0.01em] text-[#2b2e38]">{title}</h2>
-      <p className="mx-auto mt-8 max-w-[600px] text-[16px] leading-6 text-rk-text">{sub}</p>
+      <p className={`mx-auto mt-8 text-[16px] ${wideSub ? "max-w-[860px]" : "max-w-[600px]"} leading-6 text-rk-text`}>{sub}</p>
       <div className="mt-8 text-left">{children}</div>
       {cta && (
-        <Link
-          href={cta.href}
-          className="mt-[33px] inline-flex h-10 items-center rounded-md bg-[#009f81] px-[13px] text-[16px] font-medium text-white hover:bg-[#007c65]"
-        >
+        <Link href={cta.href} className="mt-[33px] inline-flex h-10 items-center rounded-md bg-[#009f81] px-[13px] text-[16px] font-medium text-white hover:bg-[#007c65]">
           {cta.label}
         </Link>
       )}
@@ -34,9 +32,7 @@ const integrationIcon = (name: string) => {
   if (name === "Matomo") return <MatomoIcon width={26} height={26} />;
   if (name === "Firebase") return <FirebaseIcon width={26} height={26} />;
   if (name.startsWith("Google")) return <GoogleGIcon width={26} height={26} />;
-  return (
-    <span className="flex h-[26px] w-[26px] items-center justify-center rounded-md bg-[#eef0f3] text-[12px] font-bold text-rk-text-2">{name.charAt(0)}</span>
-  );
+  return <span className="flex h-[26px] w-[26px] items-center justify-center rounded-md bg-[#eef0f3] text-[12px] font-bold text-rk-text-2">{name.charAt(0)}</span>;
 };
 
 function Integrations() {
@@ -124,72 +120,78 @@ function Scheduling() {
   );
 }
 
-export function ReportsLanding() {
-  return (
-    <AppShell section="reports" footerPb={37}>
-      <div className="relative">
-        <div className="absolute inset-x-0 top-0 h-[723px] bg-[#410f7c]" />
-        <div className="relative mx-auto max-w-[931px] pt-[65px] pb-[114px]">
-          <h1 className="text-center text-[48px] leading-[56px] font-bold tracking-[-0.01em] text-white">
-            Turn Marketing Data Into
-            <br />
-            Reports That Speak for You
-          </h1>
-          <p className="mt-[10px] text-center text-[16px] leading-6 text-white">
-            Track what matters, prove your impact, make informed decisions, and save hours on reporting
-          </p>
-          <div className="mt-[41px] grid grid-cols-4 gap-3">
+export function ReportsLanding({ bare = false }: { bare?: boolean }) {
+  const content = (
+    <div className="relative">
+      <div className="absolute inset-x-0 top-0 h-[723px] bg-[#410f7c]" />
+      <div className="relative mx-auto max-w-[931px] pt-[65px] pb-[114px]">
+        <h1 className="text-center text-[48px] leading-[56px] font-bold tracking-[-0.01em] text-white">
+          Turn Marketing Data Into
+          <br />
+          Reports That Speak for You
+        </h1>
+        <p className="mt-[10px] text-center text-[16px] leading-6 text-white">Track what matters, prove your impact, make informed decisions, and save hours on reporting</p>
+        <div className="mt-[41px] grid grid-cols-4 gap-3">
+          {landingTemplates.map((t) => (
+            <TemplateCard key={t.title} t={t} className="h-[222px]" />
+          ))}
+        </div>
+        <div className="mt-[33px] text-center">
+          <Link href={routes.reports.constructor} className="inline-flex h-10 items-center rounded-md border border-[#ab92c8] bg-white/10 px-3 text-[16px] font-medium text-white hover:bg-white/20">
+            Check all templates
+          </Link>
+        </div>
+
+        <div className="mt-[57px] flex flex-col gap-[15px]">
+          <Card
+            title="From Setup to Sharing: Reporting Made Easy"
+            sub="Build reports in minutes, customize them as needed, and keep your reports updated automatically—all without switching platforms."
+            cta={{ label: "Get started", href: routes.reports.constructor }}
+          >
+            <ReportMock />
+          </Card>
+          <Card
+            title="Connect 35+ Top Marketing Tools in One Report"
+            wideSub
+            sub={`Pull data from AI/LLM, SEO, paid ads, analytics, social media, and more. No spreadsheets, no copy–paste—just one report with ${brand.name}, Google Analytics, Search Console, and your ad platforms side by side.`}
+            cta={{ label: "Connect your tools", href: routes.reports.constructor }}
+          >
+            <Integrations />
+          </Card>
+          <Card
+            title="Turn Data Into Insights With AI"
+            sub="Add an AI summary to any report to explain what changed, why it matters, and what to do next."
+            cta={{ label: "Try AI summary", href: routes.reports.constructor }}
+          >
+            <AiSummary />
+          </Card>
+          <Card title="Share Reports Automatically" sub="Schedule PDF reports or share live links with clients and teammates—branded with your logo and colors.">
+            <Scheduling />
+          </Card>
+        </div>
+
+        <section className="mt-4 rounded-md bg-[#410f7c] px-6 pt-8 pb-8">
+          <h2 className="text-center text-[32px] leading-10 font-bold tracking-[-0.01em] text-white">Start with a template. Share results faster.</h2>
+          <p className="mt-8 text-center text-[16px] leading-6 text-white">Skip the setup. Choose a report, customize it, and deliver real insights in no time.</p>
+          <div className="mt-8 grid grid-cols-4 gap-3">
             {landingTemplates.map((t) => (
-              <TemplateCard key={t.title} t={t} className="h-[222px]" />
+              <TemplateCard key={t.title} t={t} className="h-[223px]" />
             ))}
           </div>
-          <div className="mt-[33px] text-center">
-            <Link
-              href={routes.reports.constructor}
-              className="inline-flex h-10 items-center rounded-md border border-[#ab92c8] bg-white/10 px-3 text-[16px] font-medium text-white hover:bg-white/20"
-            >
-              Check all templates
-            </Link>
-          </div>
-
-          <div className="mt-[57px] flex flex-col gap-[15px]">
-            <Card
-              title="From Setup to Sharing: Reporting Made Easy"
-              sub="Build reports in minutes, customize them as needed, and keep your reports updated automatically—all without switching platforms."
-              cta={{ label: "Get started", href: routes.reports.constructor }}
-            >
-              <ReportMock />
-            </Card>
-            <Card
-              title="Connect 35+ Top Marketing Tools in One Report"
-              sub={`Combine data from ${brand.name}, Google Analytics, Search Console, ad platforms, and social networks in a single report.`}
-              cta={{ label: "Connect your tools", href: routes.reports.constructor }}
-            >
-              <Integrations />
-            </Card>
-            <Card
-              title="Turn Data Into Insights With AI"
-              sub="Add an AI summary to any report to explain what changed, why it matters, and what to do next."
-              cta={{ label: "Try AI summary", href: routes.reports.constructor }}
-            >
-              <AiSummary />
-            </Card>
-            <Card title="Share Reports Automatically" sub="Schedule PDF reports or share live links with clients and teammates—branded with your logo and colors.">
-              <Scheduling />
-            </Card>
-          </div>
-
-          <section className="mt-4 rounded-md bg-[#410f7c] px-6 pt-8 pb-8">
-            <h2 className="text-center text-[32px] leading-10 font-bold tracking-[-0.01em] text-white">Start with a template. Share results faster.</h2>
-            <p className="mt-8 text-center text-[16px] leading-6 text-white">Skip the setup. Choose a report, customize it, and deliver real insights in no time.</p>
-            <div className="mt-8 grid grid-cols-4 gap-3">
-              {landingTemplates.map((t) => (
-                <TemplateCard key={t.title} t={t} className="h-[223px]" />
-              ))}
-            </div>
-          </section>
-        </div>
+        </section>
       </div>
+    </div>
+  );
+  if (bare)
+    return (
+      <div className="flex min-h-screen flex-col bg-rk-bg">
+        {content}
+        <Footer />
+      </div>
+    );
+  return (
+    <AppShell section="reports" footerPb={37}>
+      {content}
     </AppShell>
   );
 }

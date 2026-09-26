@@ -30,7 +30,26 @@ export type AppLogo =
 
 export type App = { name: string; description: string; price: string; logo: AppLogo; tags: string[]; href?: string; badge?: "Free trial" | "Free plan" | null; toolkit?: boolean };
 
-const a = (name: string, description: string, price: string, logo: AppLogo, tags: string[], href?: string): App => ({ name, description, price, logo, tags, href });
+export const appsBase = routes.apps;
+export const myAppsHref = routes.appsMyApps;
+export const influencerAppSlug = "influencer-marketing-platform";
+
+export const appSlug = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
+export const appDetailHref = routes.appDetail;
+
+const a = (name: string, description: string, price: string, logo: AppLogo, tags: string[], href?: string): App => ({
+  name,
+  description,
+  price,
+  logo,
+  tags,
+  href: href ?? appDetailHref(appSlug(name)),
+});
 
 export const apps = {
   callrail: a("CallRail", "Know which ads, keywords, and campaigns drive phone leads", "$125/mo", "callrail", ["Advertising", "SMB", "LeadGen"]),
@@ -49,7 +68,7 @@ export const apps = {
     "$249/mo",
     "influencer",
     ["Social Media", "Brand"],
-    routes.social.influencer,
+    appDetailHref(influencerAppSlug),
   ),
   exploding: a("Exploding Topics", "Discover trending topics before they take off", "$99/mo", "exploding", ["Content", "Competitors"]),
   llmGap: a("LLM Gap Analyzer", "Outrank the competitors currently winning in Google AI and ChatGPT.", "$49/mo", "llmgap", ["SEO", "AI Apps"]),
@@ -129,3 +148,58 @@ export const searchResults: App[] = [
   a("TrendFeed", "Discover, create and curate trending content for hundreds of industries", "$25/mo", "trendfeed", ["Content", "Social Media"]),
   plan(apps.backlinkBuilder, "$169/mo"),
 ];
+
+export type AppFeature = { word: string; title: string };
+export type AppDetail = { app: App; slug: string; likes: string; features: AppFeature[] };
+
+const details: Record<string, { likes: string; features: AppFeature[] }> = {
+  callrail: {
+    likes: "4,1K",
+    features: [
+      { word: "Call tracking", title: "See which ads, keywords, and campaigns make your phone ring and turn calls into revenue." },
+      { word: "Lead attribution", title: "Connect every call and form to its marketing source to prove the ROI of each channel." },
+    ],
+  },
+  "serp-gap-analyzer": {
+    likes: "2,3K",
+    features: [
+      { word: "SERP opportunities", title: "Find the keywords where the results are weak and your pages can win the top spots." },
+      { word: "AI Search visibility", title: "See where your brand shows up in AI answers and which pages need a refresh." },
+    ],
+  },
+  "exploding-topics": {
+    likes: "3,8K",
+    features: [
+      { word: "Trend discovery", title: "Spot fast-growing topics months before they hit the mainstream, across every industry." },
+      { word: "Topic insights", title: "Check search growth, seasonality, and related trends before you invest in content." },
+    ],
+  },
+  "llm-gap-analyzer": {
+    likes: "1,2K",
+    features: [
+      { word: "LLM visibility", title: "Compare how often you and your competitors appear in Google AI Overviews and ChatGPT." },
+      { word: "Content gaps", title: "Find the prompts where competitors win and get a plan to close the gap." },
+    ],
+  },
+  "crazy-egg": {
+    likes: "2,9K",
+    features: [
+      { word: "Heatmaps", title: "See where visitors click, scroll, and drop off on every page of your website." },
+      { word: "A/B testing", title: "Test new layouts and copy to turn more of your existing traffic into customers." },
+    ],
+  },
+};
+
+const fallbackFeatures = (app: App): AppFeature[] => [
+  { word: app.name, title: app.description },
+  { word: "Easy setup", title: `Connect ${app.name} to your account in minutes and start getting results right away.` },
+];
+
+const allApps = [...Object.values(apps), ...searchResults].filter((x) => !x.toolkit && x.href?.startsWith(`${appsBase}/`));
+
+export function findAppDetail(slug: string): AppDetail | null {
+  const app = allApps.find((x) => x.href === appDetailHref(slug));
+  if (!app) return null;
+  const d = details[slug];
+  return { app, slug, likes: d?.likes ?? "1,0K", features: d?.features ?? fallbackFeatures(app) };
+}

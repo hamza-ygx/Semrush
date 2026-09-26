@@ -81,11 +81,14 @@ function Feedback({ onClose }: { onClose: () => void }) {
   );
 }
 
-export function ConstructorPage() {
-  const [panel, setPanel] = useState<Panel>("integrations");
-  const [gallery, setGallery] = useState(true);
-  const [onboarding, setOnboarding] = useState(true);
+export function ConstructorPage({ view }: { view?: string }) {
+  const themesView = view === "themes";
+  const [panel, setPanel] = useState<Panel>(themesView ? "themes" : "integrations");
+  const [gallery, setGallery] = useState(!themesView);
+  const [onboarding, setOnboarding] = useState(!themesView);
   const [tip, setTip] = useState<Panel | null>(null);
+  const [tipFading, setTipFading] = useState(false);
+  const [themesSeen, setThemesSeen] = useState(themesView);
   const [feedback, setFeedback] = useState(true);
   const [title, setTitle] = useState("Untitled report");
   const [editing, setEditing] = useState(false);
@@ -167,8 +170,13 @@ export function ConstructorPage() {
               onClick={() => {
                 setPanel(key);
                 setOnboarding(false);
+                setTipFading(true);
+                if (key === "themes") setThemesSeen(true);
               }}
-              onMouseEnter={() => setTip(key)}
+              onMouseEnter={() => {
+                setTip(key);
+                setTipFading(false);
+              }}
               onMouseLeave={() => setTip(null)}
               className={`relative flex h-14 w-14 items-center justify-center ${on ? "bg-white text-[#ff642d]" : "text-[#6a6c6a] hover:text-rk-text"} ${key === "themes" ? "h-[55px]" : ""}`}
             >
@@ -200,7 +208,7 @@ export function ConstructorPage() {
 
       {tipItem && (
         <div
-          className="pointer-events-none absolute left-[62px] z-40 w-[216px] rounded-md bg-white px-3 py-[11px] opacity-[0.78] shadow-[0_2px_10px_rgba(25,27,35,0.12)]"
+          className={`pointer-events-none absolute left-[62px] z-40 w-[216px] rounded-md bg-white px-3 py-[11px] shadow-[0_2px_10px_rgba(25,27,35,0.12)] ${tipFading ? "opacity-[0.78]" : ""}`}
           style={{ top: Math.max(58, tipItem.center - 44) }}
         >
           <div className="text-[14px] leading-5 font-semibold text-rk-text-2">{railTips[tipItem.key].title}</div>
@@ -212,7 +220,7 @@ export function ConstructorPage() {
         <ReportCanvas onChooseTemplate={() => setGallery(true)} />
       </div>
 
-      {panel === "themes" && feedback && <Feedback onClose={() => setFeedback(false)} />}
+      {(panel === "themes" || themesSeen) && feedback && <Feedback onClose={() => setFeedback(false)} />}
       {onboarding && !gallery && panel === "integrations" && <Onboarding onClose={() => setOnboarding(false)} />}
       {gallery && <TemplateGallery onClose={() => setGallery(false)} />}
       <HelpButtonAndPanel />

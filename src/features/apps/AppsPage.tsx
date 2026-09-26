@@ -2,10 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Footer } from "@/components/Footer";
-import { AppShell } from "@/components/shell/AppShell";
-import { routes } from "@/config/routes";
 import { AppLogo } from "./AppLogo";
+import { AppsShell, SeeAllLink } from "./AppsChrome";
 import { apps, filters, sections, type App, type Filter, type Section } from "./data";
 
 export function AppCard({ app }: { app: App }) {
@@ -40,14 +38,7 @@ function AppSection({ section, onSeeAll }: { section: Section; onSeeAll?: () => 
     <section className={`rounded-xl px-5 pt-4 pb-8 ${section.gray ? "bg-rk-bg" : "mt-[10px] mb-[2px]"}`}>
       <div className="flex items-end justify-between gap-6">
         <h2 className="text-[24px] leading-8 font-semibold tracking-[-0.01em] text-rk-text">{section.title}</h2>
-        {onSeeAll && (
-          <button type="button" onClick={onSeeAll} className="mb-[-3px] flex shrink-0 items-center gap-1 text-[14px] leading-5 text-rk-link hover:text-rk-link-hover">
-            See all
-            <svg viewBox="0 0 16 16" width={16} height={16}>
-              <path d="M2.5 8h10.5M9 4l4 4-4 4" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-        )}
+        {onSeeAll && <SeeAllLink onClick={onSeeAll} />}
       </div>
       <div className="mt-[19px] grid grid-cols-3 gap-x-4 gap-y-4">
         {section.apps.map((app, i) => (
@@ -67,18 +58,7 @@ export function AppsPage() {
     window.scrollTo({ top: 0 });
   };
   return (
-    <AppShell
-      section="apps"
-      footer={false}
-      help="none"
-      search={{
-        kind: "analyze",
-        value: "",
-        placeholder: "Enter website or keyword",
-        inputClassName: "w-[342px] xl:w-[480px] xl:text-[14px]",
-        action: routes.domainOverview,
-      }}
-    >
+    <AppsShell>
       <div className="bg-white px-8 pt-[41px] pb-[110px]">
         <h1 className="text-[36px] leading-[44px] font-bold tracking-[-0.01em] text-rk-text">Find the best solution for your marketing task</h1>
         <div className="mt-[34px] flex flex-wrap gap-x-[13px] gap-y-3">
@@ -103,9 +83,6 @@ export function AppsPage() {
           )}
         </div>
       </div>
-      <div className="border-t border-rk-border pt-10">
-        <Footer compactPb={37} />
-      </div>
-    </AppShell>
+    </AppsShell>
   );
 }

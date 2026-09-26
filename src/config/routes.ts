@@ -227,9 +227,12 @@ export const routes = {
   reports: {
     myReports: "/my_reports",
     constructor: "/my_reports/constructor",
+    suite: "/my_reports/suite",
   },
 
   apps: "/apps",
+  appsMyApps: "/apps/my-apps",
+  appDetail: (slug: string) => `/apps/${slug}`,
 
   account: {
     profile: "/accounts/profile/account-info",
@@ -247,11 +250,6 @@ export const routes = {
 export const unbuiltRoutes = [
   routes.seoquake,
   routes.ai.promptTracking,
-  routes.content.myContent,
-  routes.social.poster,
-  routes.social.tracker,
-  routes.social.contentInsights,
-  routes.social.analytics,
 ];
 
 export type NavItem = { label: string; href: string; match?: string[]; external?: boolean };
