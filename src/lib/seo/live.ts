@@ -158,16 +158,19 @@ export async function liveRankHistory(keywords: string[], domain?: string | null
   const db = await liveDb();
   const project = db && (await findProject(db, domain));
   if (!db || !project || !keywords.length) return null;
-  const since = new Date(Date.now() - (days + 3) * 86_400_000).toISOString().slice(0, 10);
-  const { data } = await db.from("gsc_query_daily").select("date, query, impressions, position").eq("project_id", project.id).in("query", keywords.slice(0, 500)).gte("date", since).limit(50000);
-  const out = new Map<string, Map<string, { w: number; p: number }>>();
-  for (const r of data ?? []) {
-    const byDate = out.get(r.query) ?? new Map();
-    const e = byDate.get(r.date) ?? { w: 0, p: 0 };
-    e.w += r.impressions;
-    e.p += r.position * r.impressions;
-    byDate.set(r.date, e);
-    out.set(r.query, byDate);
+  const { data: last } = await db.from("gsc_daily").select("date").eq("project_id", project.id).order("date", { ascending: false }).limit(1);
+  const anchor = last?.[0]?.date ? new Date(last[0].date as string).getTime() : Date.now();
+  const since = new Date(anchor - (days + 3) * 86_400_000).toISOString().slice(0, 10);
+  const out = new Map<string, Map<string, number | null>>();
+  const unique = [...new Set(keywords)];
+  for (let i = 0; i < unique.length; i += 200) {
+    const { data, error } = await db.rpc("rank_history", { p_project: project.id, p_queries: unique.slice(i, i + 200), p_since: since });
+    if (error) return null;
+    for (const r of (data ?? []) as { query: string; day: string; avg_position: number | null }[]) {
+      const byDate = out.get(r.query) ?? new Map<string, number | null>();
+      byDate.set(r.day, r.avg_position);
+      out.set(r.query, byDate);
+    }
   }
-  return new Map([...out].map(([q, m]) => [q, new Map([...m].map(([d, e]) => [d, e.w ? e.p / e.w : null]))]));
+  return out;
 }

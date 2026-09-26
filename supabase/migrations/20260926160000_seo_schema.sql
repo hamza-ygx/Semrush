@@ -116,3 +116,17 @@ insert into seo.projects (domain, name, gsc_property) values ('www.rkjh.se', 'ww
 
 alter role authenticator set pgrst.db_schemas = 'public, graphql_public, seo';
 notify pgrst, 'reload config';
+
+create or replace function seo.rank_history(p_project uuid, p_queries text[], p_since date)
+returns table (query text, day date, avg_position double precision, clicks bigint, impressions bigint)
+language sql stable security invoker set search_path = ''
+as $$
+  select d.query, d.date,
+         sum(d.position * d.impressions) / nullif(sum(d.impressions), 0),
+         sum(d.clicks), sum(d.impressions)
+  from seo.gsc_query_daily d
+  where d.project_id = p_project and d.query = any(p_queries) and d.date >= p_since
+  group by d.query, d.date
+$$;
+revoke all on function seo.rank_history(uuid, text[], date) from public, anon;
+grant execute on function seo.rank_history(uuid, text[], date) to authenticated;
