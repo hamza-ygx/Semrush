@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { account, brand } from "@/config/brand";
 import { routes } from "@/config/routes";
+import { accountRoutes } from "@/features/account/data";
 import { useOutsideClose } from "../ui/Popover";
 import { ChevronDown, ChevronRight, LanguageIcon } from "../ui/icons";
 
@@ -173,7 +174,9 @@ export function ProfileMenu() {
           <Link href={routes.account.subscription} onMouseEnter={() => setLang(false)} onClick={() => setOpen(false)} className="flex h-[32.5px] items-center gap-2 px-[9px] text-[14px] text-rk-text hover:bg-rk-bg">
             Subscription info
           </Link>
-          <Row tall onEnter={() => setLang(false)}>Manage users</Row>
+          <Row tall href={accountRoutes.users} onEnter={() => setLang(false)} onNavigate={() => setOpen(false)}>
+            Manage users
+          </Row>
           <Row tall onEnter={() => setLang(false)}>Log out</Row>
           <div className="my-1 border-t border-rk-border" />
           <div className="relative">

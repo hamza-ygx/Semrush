@@ -90,3 +90,50 @@ export function AppsEmptyArt({ width = 346, height = 266 }: { width?: number; he
     </svg>
   );
 }
+
+export function ApiKeysEmptyArt() {
+  const rows = [104, 134, 164, 194];
+  return (
+    <svg viewBox="0 0 300 229" width={300} height={229} aria-hidden className="shrink-0">
+      <rect x="0.5" y="0.5" width="299" height="228" rx="6" fill="#fff" stroke="#e4e5e8" />
+      <path d="M6.5.5h287a6 6 0 0 1 6 6V16H.5V6.5a6 6 0 0 1 6-6z" fill="#e3e3e8" />
+      {[280, 287, 294].map((x) => (
+        <circle key={x} cx={x} cy="8" r="1.6" fill="#fff" />
+      ))}
+      <rect x="16.5" y="32.5" width="268" height="45" rx="5" fill="#fff" stroke="#e4e5e8" />
+      <g fill="none" stroke="#9b9da6" strokeWidth={1.2} strokeLinecap="round">
+        <circle cx="45" cy="52" r="3.6" />
+        <path d="M42.5 54.6 36 61.2M38.5 58.6l1.8 1.8M36.8 60.3l1.6 1.6" />
+      </g>
+      <rect x="59" y="45" width="121" height="6" rx="3" fill="#e5e7ea" />
+      <rect x="59" y="58" width="59" height="7" rx="3.5" fill="#e5e7ea" />
+      <rect x="220" y="45" width="52" height="18" rx="3" fill="#008ffb" />
+      {rows.map((y, i) => (
+        <g key={y}>
+          <rect x="22" y={y - 3.5} width="137" height="7" rx="3.5" fill="#e5e7ea" />
+          <rect x="175" y={y - 3.5} width="79" height="7" rx="3.5" fill="#e5e7ea" />
+          <circle cx="274" cy={y} r="3.8" fill={i === 3 ? "#fea3b3" : "#8ac8bb"} />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+export function InactiveKeysArt() {
+  return (
+    <svg viewBox="0 0 76 76" width={76} height={76} aria-hidden>
+      <circle cx="38" cy="38" r="38" fill="#e8e8ec" />
+      <g transform="rotate(-12 38 38)">
+        <rect x="9" y="17" width="56" height="42" rx="3" fill="#fff" stroke="#4a4a55" strokeWidth={1.6} />
+        <path d="M9 26V20a3 3 0 0 1 3-3h50a3 3 0 0 1 3 3v6z" fill="#4a4a55" />
+        <circle cx="15" cy="22" r="1.6" fill="#fff" />
+        <circle cx="20" cy="22" r="1.6" fill="#fff" />
+        <rect x="34" y="28" width="7" height="26" fill="#4a4a55" />
+        <rect x="18" y="42" width="8" height="12" fill="#e2e2e6" stroke="#4a4a55" strokeWidth={1.2} />
+        <rect x="47" y="36" width="8" height="18" fill="#fff" stroke="#4a4a55" strokeWidth={1.2} />
+        <path d="M48 44l6-5M48 50l6-5" stroke="#8a8a94" strokeWidth={1.2} />
+        <path d="M13 50c3-6 6-10 9-12s6 0 9 2M44 36c2-3 5-4 8-3" fill="none" stroke="#4a4a55" strokeWidth={1.2} strokeLinecap="round" />
+      </g>
+    </svg>
+  );
+}

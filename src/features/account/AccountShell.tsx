@@ -5,11 +5,11 @@ import { useState, type ReactNode } from "react";
 import { Footer } from "@/components/Footer";
 import { GoToTool } from "@/components/shell/HeaderSearch";
 import { MoreMenu, ProfileMenu } from "@/components/shell/HeaderMenus";
-import { InviteUsersModal } from "@/components/shell/InviteUsersModal";
+import { HelpButtonAndPanel } from "@/components/shell/HelpPanel";
 import { CenteredFooter } from "@/features/gaps/common";
 import { ArrowLeft, ChevronRight, PlusIcon } from "@/components/ui/icons";
 import { routes } from "@/config/routes";
-import { sideItems, type SideKey } from "./data";
+import { accountRoutes, sideItems, type SideKey } from "./data";
 
 function Sidebar({ active }: { active: SideKey }) {
   const [beta, setBeta] = useState(false);
@@ -44,19 +44,32 @@ function Sidebar({ active }: { active: SideKey }) {
   );
 }
 
-export function AccountShell({ active, search = false, children }: { active: SideKey; search?: boolean; children: ReactNode }) {
-  const [invite, setInvite] = useState(false);
+export function AccountShell({
+  active,
+  search = false,
+  help = false,
+  minWidth,
+  footerPb,
+  children,
+}: {
+  active: SideKey;
+  search?: boolean;
+  help?: boolean;
+  minWidth?: number;
+  footerPb?: number;
+  children: ReactNode;
+}) {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen" style={minWidth ? { minWidth } : undefined}>
       <Sidebar active={active} />
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="flex h-[52px] shrink-0 items-center justify-between border-b border-rk-border pr-[33px] pl-8">
           <div>{search && <GoToTool />}</div>
           <nav className="flex items-center gap-10 text-[14px] text-rk-text xl:gap-[29px]">
-            <button type="button" onClick={() => setInvite(true)} className="flex items-center gap-[7px] hover:text-rk-link">
+            <Link href={accountRoutes.users} className="flex items-center gap-[7px] hover:text-rk-link">
               <PlusIcon />
               Invite users
-            </button>
+            </Link>
             <Link href={routes.pricing.seo} className="hover:text-rk-link">
               Pricing
             </Link>
@@ -73,14 +86,23 @@ export function AccountShell({ active, search = false, children }: { active: Sid
         <div className="hidden pt-[34px] xl:block">
           <Footer />
         </div>
-        <div className="xl:hidden">
+        <div className="xl:hidden" style={footerPb ? { paddingBottom: footerPb } : undefined}>
           <CenteredFooter />
         </div>
       </div>
-      <InviteUsersModal open={invite} onClose={() => setInvite(false)} />
+      {help && <HelpButtonAndPanel variant="chat" />}
     </div>
   );
 }
+
+const spacing = {
+  profile: { title: "mt-[6px]", meta: "mt-[6px]", tabs: "mt-[33px] gap-4", tab: "pb-[8px]" },
+  plain: { title: "mt-[6px]", meta: "mt-[6px]", tabs: "mt-[33px] gap-4", tab: "pb-[8px]" },
+  sub: { title: "mt-[11px]", meta: "mt-[5px]", tabs: "mt-[32px] gap-4", tab: "pb-[9px]" },
+  corp: { title: "mt-[8px]", meta: "mt-[8px]", tabs: "mt-[31px] gap-[16.75px]", tab: "pb-[8px]" },
+  keys: { title: "mt-[7px]", meta: "mt-[6px]", tabs: "mt-[34px] gap-[16.75px]", tab: "pb-[8px]" },
+  log: { title: "mt-[7px]", meta: "mt-[6px]", tabs: "mt-[31px] gap-[16.75px]", tab: "pb-[9px]" },
+};
 
 export function PageTop({
   crumb,
@@ -89,6 +111,8 @@ export function PageTop({
   tabs,
   activeTab,
   links,
+  actions,
+  className,
   variant = "profile",
 }: {
   crumb: string;
@@ -97,9 +121,12 @@ export function PageTop({
   tabs?: readonly { key: string; label: string; href: string }[];
   activeTab?: string;
   links?: ReactNode;
-  variant?: "profile" | "sub" | "plain";
+  actions?: ReactNode;
+  className?: string;
+  variant?: keyof typeof spacing;
 }) {
-  const pad = variant === "sub" ? "px-6 pt-5" : "px-8 pt-4";
+  const sp = spacing[variant];
+  const pad = className ?? (variant === "sub" ? "px-6 pt-5" : "px-8 pt-4");
   return (
     <div className={`border-b border-[#e0e2e2] ${pad} ${tabs ? "" : "pb-[21px]"}`}>
       <div className={`flex items-center justify-between ${variant === "sub" ? "max-w-[1009px]" : ""}`}>
@@ -112,14 +139,17 @@ export function PageTop({
         </nav>
         {links}
       </div>
-      <h1 className={`${variant === "sub" ? "mt-[11px]" : "mt-[6px]"} flex items-center gap-2 text-[20px] leading-7 font-semibold`}>{title}</h1>
-      {meta && <div className={`${variant === "sub" ? "mt-[5px]" : "mt-[6px]"} flex items-center text-[14px] leading-5 text-rk-text`}>{meta}</div>}
+      <div className="flex items-start justify-between">
+        <h1 className={`${sp.title} flex items-center gap-2 text-[20px] leading-7 font-semibold`}>{title}</h1>
+        {actions}
+      </div>
+      {meta && <div className={`${sp.meta} flex items-center text-[14px] leading-5 text-rk-text`}>{meta}</div>}
       {tabs && (
-        <div className={`${variant === "sub" ? "mt-[32px]" : "mt-[33px]"} flex gap-4`}>
+        <div className={`${sp.tabs} flex`}>
           {tabs.map((t) => {
             const on = t.key === activeTab;
             return (
-              <Link key={t.key} href={t.href} className={`relative ${variant === "sub" ? "pb-[9px]" : "pb-[8px]"} text-[16px] leading-6 whitespace-nowrap text-rk-text`}>
+              <Link key={t.key} href={t.href} className={`relative ${sp.tab} text-[16px] leading-6 whitespace-nowrap text-rk-text`}>
                 {t.label}
                 {on && <span className="absolute right-0 bottom-0 left-0 h-[3px] rounded-t-sm bg-rk-tab" />}
               </Link>
