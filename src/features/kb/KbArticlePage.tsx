@@ -2,55 +2,13 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { brand } from "@/config/brand";
 import { routes } from "@/config/routes";
-import { LogoIcon } from "@/components/icons";
 import { HelpButtonAndPanel } from "@/components/shell/HelpPanel";
+import { SiteHeader } from "@/features/marketing/SiteHeader";
 import { ChevronDown, ChevronRight } from "@/components/ui/icons";
 import { kbArticles, kbHref, kbNav, type KbArticle } from "./data";
 
-const nav = ["Product", "Pricing", "Solutions", "Resources", "Enterprise"] as const;
-const navHrefs: Partial<Record<(typeof nav)[number], string>> = { Pricing: routes.pricing.one, Enterprise: routes.pricing.enterprise };
 const muted = "text-[#7d8290]";
-
-function SiteHeader() {
-  return (
-    <header className="relative flex h-[84px] items-center justify-between bg-white pr-[66px] pl-[62px]">
-      <Link href={routes.home} className="flex items-center gap-2 text-[20px] leading-6 font-bold tracking-[-0.02em] text-[#171a22]">
-        <LogoIcon width={28} height={28} />
-        {brand.name}
-      </Link>
-      <nav className="absolute left-[516px] flex items-center gap-[31px] text-[17px] font-medium text-[#171a22]">
-        {nav.map((n) => {
-          const cls = "flex items-center gap-[7px] hover:text-[#6e45f5]";
-          const body = (
-            <>
-              {n}
-              {n === "Enterprise" ? (
-                <svg viewBox="0 0 12 12" width={11} height={11}>
-                  <path d="M3 9 9 3M4 3h5v5" fill="none" stroke="currentColor" strokeWidth={1.6} />
-                </svg>
-              ) : n !== "Pricing" ? (
-                <ChevronDown width={13} height={13} strokeWidth={2.2} />
-              ) : null}
-            </>
-          );
-          const href = navHrefs[n];
-          return href ? (
-            <Link key={n} href={href} className={cls}>
-              {body}
-            </Link>
-          ) : (
-            <button key={n} type="button" className={cls}>
-              {body}
-            </button>
-          );
-        })}
-      </nav>
-      <span className="flex h-[35px] w-[35px] items-center justify-center rounded-full bg-[#ba96ec] text-[16px] font-medium text-[#171a22]">C</span>
-    </header>
-  );
-}
 
 function SideNav({ slug }: { slug: string }) {
   const [open, setOpen] = useState<Record<string, boolean>>({ "Getting Started": true });
@@ -61,10 +19,17 @@ function SideNav({ slug }: { slug: string }) {
         const isOpen = open[n.label];
         return (
           <div key={n.label} className="mb-[12px]">
-            <button type="button" onClick={() => expandable && setOpen((o) => ({ ...o, [n.label]: !o[n.label] }))} className={`flex items-center text-left whitespace-nowrap ${muted} hover:text-[#171a22]`}>
-              <span className="flex w-[18px] shrink-0 justify-start">{expandable && (isOpen ? <ChevronDown width={13} height={13} strokeWidth={2} /> : <ChevronRight width={13} height={13} strokeWidth={2} />)}</span>
-              {n.label}
-            </button>
+            {n.slug && !n.children ? (
+              <Link href={kbHref(n.slug)} className={`flex items-center text-left whitespace-nowrap ${n.slug === slug ? "text-[#171a22]" : `${muted} hover:text-[#171a22]`}`}>
+                <span className="flex w-[18px] shrink-0 justify-start">{expandable && <ChevronRight width={13} height={13} strokeWidth={2} />}</span>
+                {n.label}
+              </Link>
+            ) : (
+              <button type="button" onClick={() => expandable && setOpen((o) => ({ ...o, [n.label]: !o[n.label] }))} className={`flex items-center text-left whitespace-nowrap ${muted} hover:text-[#171a22]`}>
+                <span className="flex w-[18px] shrink-0 justify-start">{expandable && (isOpen ? <ChevronDown width={13} height={13} strokeWidth={2} /> : <ChevronRight width={13} height={13} strokeWidth={2} />)}</span>
+                {n.label}
+              </button>
+            )}
             {isOpen && n.children && (
               <div className="mt-[12px] flex flex-col gap-[12px] pl-[28px]">
                 {n.children.map((c) => (
@@ -142,11 +107,11 @@ export function KbArticlePage({ slug }: { slug: string }) {
             </button>
           </form>
           <div className={`mt-[39px] flex gap-[11px] text-[15px] leading-5 ${muted}`}>
-            <Link href={kbHref(kbArticles[0].slug)} className="hover:text-[#171a22]">
+            <Link href={routes.kb} className="hover:text-[#171a22]">
               Knowledge Base
             </Link>
             <span>/</span>
-            <span>Getting Started</span>
+            <span>{a.category ?? "Getting Started"}</span>
             <span>/</span>
             <span className="text-[#8d929c]">{a.title}</span>
           </div>

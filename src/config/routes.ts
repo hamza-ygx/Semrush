@@ -61,6 +61,15 @@ export const routes = {
   topPages: "/analytics/toppages",
   serp: "/analytics/serp",
   kb: "/kb",
+  company: {
+    contacts: "/company/contacts",
+    about: "/company/about",
+    legal: "/company/legal",
+    privacyPolicy: "/company/legal/privacy-policy",
+    legalDoc: (slug: string) => `/company/legal/${slug}`,
+  },
+  blog: "/blog",
+  blogPost: (slug: string) => `/blog/${slug}`,
   appsSearch: "/apps/search",
   multilogin: "/multilogin",
   pricing: {

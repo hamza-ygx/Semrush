@@ -674,15 +674,15 @@ export const footerColumns: { title: string; links: { label: string; href: strin
   {
     title: "Company",
     links: [
-      { label: "About Us", href: "#" },
+      { label: "About Us", href: routes.company.about },
       { label: `${B} Questions`, href: "#" },
       { label: "News", href: "#" },
       { label: "Careers", href: "#" },
       { label: "Partners", href: routes.account.agencyPartners },
       { label: `${B} Select`, href: "#" },
       { label: "Global Issues Index", href: "#" },
-      { label: "Do not sell my personal info", href: "#" },
-      { label: "Contact Us", href: "#" },
+      { label: "Do not sell my personal info", href: `${routes.company.privacyPolicy}#your-rights` },
+      { label: "Contact Us", href: routes.company.contacts },
     ],
   },
   {
@@ -696,7 +696,7 @@ export const footerColumns: { title: string; links: { label: string; href: strin
   {
     title: "Community",
     links: [
-      { label: `${B} Blog`, href: "#" },
+      { label: `${B} Blog`, href: routes.blog },
       { label: "Webinars", href: "#" },
       { label: "Ambassador Program", href: "#" },
     ],

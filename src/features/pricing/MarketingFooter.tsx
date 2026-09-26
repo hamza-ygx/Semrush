@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { brand } from "@/config/brand";
+import { routes } from "@/config/routes";
 import { LogoIcon } from "@/components/icons";
 import { CookieSettingsModal } from "@/components/CookieSettingsModal";
 import { useOutsideClose } from "@/components/ui/Popover";
@@ -93,10 +94,10 @@ export function MarketingFooter() {
             © 2026 <b className="font-semibold">{brand.legalName}.</b> All rights reserved.
           </span>
           <div className="ml-[0px] flex items-center gap-[21px]">
-            <a href="#" className="hover:text-[#6a3fd0]">
+            <a href={routes.company.privacyPolicy} className="hover:text-[#6a3fd0]">
               Privacy Policy
             </a>
-            <a href="#" className="hover:text-[#6a3fd0]">
+            <a href={routes.company.legalDoc("terms-of-service")} className="hover:text-[#6a3fd0]">
               Terms of Service
             </a>
             <button type="button" onClick={() => setCookies(true)} className="hover:text-[#6a3fd0]">

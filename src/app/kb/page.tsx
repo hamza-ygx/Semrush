@@ -1,6 +1,5 @@
-import { redirect } from "next/navigation";
-import { kbArticles, kbHref } from "@/features/kb/data";
+import { KbIndexPage } from "@/features/kb/KbIndexPage";
 
 export default function Page() {
-  redirect(kbHref(kbArticles[0].slug));
+  return <KbIndexPage />;
 }

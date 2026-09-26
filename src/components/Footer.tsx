@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, type CSSProperties } from "react";
 import { brand } from "@/config/brand";
 import { routes } from "@/config/routes";
+import { marketingRoutes } from "@/features/marketing/routes";
 import { CookieSettingsModal } from "./CookieSettingsModal";
 import { ChevronDownIcon, TranslateIcon } from "./icons";
 import { useOutsideClose } from "./ui/Popover";
@@ -51,7 +52,7 @@ export function Footer({ compactPb = 40 }: { compactPb?: number }) {
       <div className="flex flex-col items-center gap-6 text-[16px] leading-6 text-[#6c6e79] xl:hidden">
         <LanguagePicker className="hover:text-rk-text" chevron="text-[#a9abaa]" />
         <div className="flex gap-7">
-          <a href="#" className="hover:text-rk-text">Contact us</a>
+          <Link href={marketingRoutes.contacts} className="hover:text-rk-text">Contact us</Link>
           <button type="button" onClick={() => setCookies(true)} className="hover:text-rk-text">
             Cookie settings
           </button>
@@ -60,9 +61,9 @@ export function Footer({ compactPb = 40 }: { compactPb?: number }) {
       </div>
       <div className="hidden h-8 items-center justify-between gap-6 xl:flex">
         <div className="flex shrink-0 items-center gap-5">
-          <a href="#" className={link}>Contact us</a>
-          <a href="#" className={link}>About us</a>
-          <a href="#" className={link}>Blog</a>
+          <Link href={marketingRoutes.contacts} className={link}>Contact us</Link>
+          <Link href={marketingRoutes.about} className={link}>About us</Link>
+          <Link href={marketingRoutes.blog} className={link}>Blog</Link>
           <LanguagePicker wide className={link} chevron="text-[#8b8d8c]" />
         </div>
         <div className="flex min-w-0 gap-2">
@@ -86,9 +87,9 @@ export function Footer({ compactPb = 40 }: { compactPb?: number }) {
           <button type="button" onClick={() => setCookies(true)} className={link}>
             Cookie settings
           </button>
-          <a href="#" className={link}>Legal info</a>
-          <a href="#" className={link}>Privacy policy</a>
-          <a href="#" className={link}>Do not sell my personal info</a>
+          <Link href={marketingRoutes.legal} className={link}>Legal info</Link>
+          <Link href={marketingRoutes.privacyPolicy} className={link}>Privacy policy</Link>
+          <Link href={`${marketingRoutes.privacyPolicy}#your-rights`} className={link}>Do not sell my personal info</Link>
         </div>
         <span title={`© 2026 ${brand.legalName}. All rights reserved.`} className="min-w-0 truncate text-[14px] leading-5 text-[#484a49]">
           © 2026 {brand.legalName}. All rights reserved.
