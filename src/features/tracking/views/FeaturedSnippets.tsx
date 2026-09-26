@@ -1,3 +1,4 @@
+import type { Snap } from "../context";
 import { TrackingPage } from "../TrackingPage";
 import { FilterBar } from "../FilterBar";
 import { Checkbox, DomainChip, Select, SearchInput } from "../controls";
@@ -53,14 +54,14 @@ function SummaryCard() {
   );
 }
 
-function TrendCard() {
+function TrendCard({ days }: { days: number }) {
   return (
     <section className={`${card} relative h-[233px] w-[415.6px]`}>
       <div className="h-[63px] border-b-2 border-[#edefef] px-5 pt-[8px]">
         <h2 className="flex items-center gap-[6px] text-[16px] leading-6 font-semibold text-rk-text">
           Featured snippets trend <Info className="ml-[1px]" />
         </h2>
-        <div className="mt-[4px] text-[14px] leading-5 text-rk-muted">over last 8 days</div>
+        <div className="mt-[4px] text-[14px] leading-5 text-rk-muted">over last {days} days</div>
       </div>
       <div className="absolute top-[91px] left-5 flex items-center gap-[14px] text-[14px] text-rk-text">
         <Checkbox checked color="#3ddc9c" label="You ranked" className="!gap-[8px]" />
@@ -80,7 +81,7 @@ const headCols = [
   { label: "Volume", w: 85.9, sorted: true },
   { label: "Est. Traffic potential", w: 157.9 },
   { label: "You", w: 66 },
-  { label: "Featured snippet URL", w: 251.5 },
+  { label: "Featured snippet URL", w: 251.5, grow: true },
 ];
 
 function SnippetsTable() {
@@ -93,11 +94,11 @@ function SnippetsTable() {
         <FeaturedTiles />
       </div>
       <div className="mt-[37px] flex h-[40px] border-y border-[#e0e2e1] bg-[#f5f6f6] text-[12px] text-rk-text">
-        <div className="flex flex-1 items-center gap-[6px] pl-5">
+        <div className="flex min-w-0 flex-[2_1_499.7px] items-center gap-[6px] pl-5">
           Keyword <SortAscIcon width={14} height={14} className="text-rk-muted" />
         </div>
         {headCols.map((c) => (
-          <div key={c.label} style={{ width: c.w }} className={`flex shrink-0 items-center gap-[6px] border-l border-[#e0e2e1] pl-[12px] whitespace-nowrap ${c.sorted ? "bg-[#e4e5e5]" : ""}`}>
+          <div key={c.label} style={{ flex: `${c.grow ? 1 : 0} 0 ${c.w}px` }} className={`flex items-center gap-[6px] border-l border-[#e0e2e1] pl-[12px] whitespace-nowrap ${c.sorted ? "bg-[#e4e5e5]" : ""}`}>
             {c.label} <SortAscIcon width={14} height={14} className="text-rk-muted" />
           </div>
         ))}
@@ -114,9 +115,9 @@ function SnippetsTable() {
   );
 }
 
-export function FeaturedSnippetsView() {
+export function FeaturedSnippetsView(snap: Snap) {
   return (
-    <TrackingPage tab="featuredSnippets">
+    <TrackingPage tab="featuredSnippets" {...snap}>
       <div className="px-8 pt-[17px]">
         <FilterBar
           top={<DomainChip />}
@@ -132,7 +133,7 @@ export function FeaturedSnippetsView() {
         />
         <div className="mt-[15px] flex gap-3">
           <SummaryCard />
-          <TrendCard />
+          <TrendCard days={snap.end === "20260925" ? 9 : 8} />
         </div>
         <SnippetsTable />
       </div>

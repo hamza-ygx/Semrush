@@ -176,6 +176,29 @@ export const competitors: Competitor[] = [
   { domain: "www.far.se", legendDiff: "-0.07", visibility: "6.178%", visNum: 6.18, visDiff: "-0.071", traffic: "9.95", trafficDiff: "-2.20", keywords: 15, avgPos: "86.02", spread: "31.83", color: "#27c28a", x: 15, y: 86 },
 ];
 
+const lateLegend: [string, string, number, number, number][] = [
+  ["www.skatteverket.se", "+4.87", 51.1, 54, 42],
+  ["verksamt.se", "+12.9", 15.45, 34, 71],
+  ["www.fortnox.se", "+0.32", 14.46, 44, 60],
+  ["www.bokio.se", "+1.09", 11.84, 21, 82],
+  ["www.spiris.se", "-2.17", 11.26, 40, 64],
+  ["bjornlunden.com", "+0.53", 11.26, 30, 75],
+  ["sv.wikipedia.org", "+3.83", 8.45, 26, 80],
+  ["www.speedledger.se", "+0.41", 8.12, 17, 86],
+  ["www4.skatteverket.se", "-0.35", 7.21, 44, 67],
+  ["www.far.se", "-0.04", 6.14, 15, 87],
+];
+
+export const lateCompetitors: Competitor[] = lateLegend.map(([domain, legendDiff, visNum, x, y], i) => ({
+  ...competitors.find((c) => c.domain === domain)!,
+  legendDiff,
+  visNum,
+  visibility: `${visNum}%`,
+  x,
+  y,
+  color: competitors[i].color,
+}));
+
 export const serpFeatureBars: { tracking: number; notTracking: number }[] = [
   { tracking: 0, notTracking: 0 },
   { tracking: 5, notTracking: 0 },

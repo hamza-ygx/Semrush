@@ -140,7 +140,7 @@ export const routes = {
     perception: "/ai-seo/perception",
     narrativeDrivers: "/ai-seo/narrative-drivers",
     questions: "/ai-seo/questions",
-    promptTracking: "/ai-seo/prompt-tracking",
+    promptTracking: "/position-tracking?target=ai",
   },
 
   traffic: {
@@ -249,7 +249,6 @@ export const routes = {
 
 export const unbuiltRoutes = [
   routes.seoquake,
-  routes.ai.promptTracking,
 ];
 
 export type NavItem = { label: string; href: string; match?: string[]; external?: boolean };

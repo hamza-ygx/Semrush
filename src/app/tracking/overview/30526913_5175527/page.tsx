@@ -1,7 +1,7 @@
 import { OverviewView } from "@/features/tracking/views/Overview";
-import type { TrackingParams } from "@/features/tracking/context";
+import { snapFrom, type TrackingSearch } from "@/features/tracking/params";
 
-export default async function Page({ searchParams }: { searchParams: TrackingParams }) {
-  const { date_begin, date_end, prediction } = await searchParams;
-  return <OverviewView begin={date_begin ?? "latest"} fresh={!!date_end} prediction={prediction === "true"} />;
+export default async function Page({ searchParams }: { searchParams: TrackingSearch }) {
+  const p = await searchParams;
+  return <OverviewView {...snapFrom(p, "latest")} prediction={p.prediction === "true"} />;
 }

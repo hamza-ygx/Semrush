@@ -1,3 +1,4 @@
+import type { Snap } from "../context";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { routes } from "@/config/routes";
@@ -59,6 +60,7 @@ function SummaryCard() {
     <Panel
       title="Summary"
       info={false}
+      className="min-w-0 flex-[1_1_621px]"
       headerClassName="h-[45px]"
       right={
         <GrayButton>
@@ -111,10 +113,10 @@ function RankingsDistributionCard() {
           ))}
           <Checkbox label="Out of top 100" size={16} className="!gap-[4px]" />
         </div>
-        <svg width="100%" height={430} className="absolute top-0 left-0 overflow-visible" style={{ top: 0 }}>
+        <svg height={430} className="absolute top-0 left-0 w-[calc(100%-41px)] overflow-visible">
           {[4, 3, 2, 1, 0].map((v) => (
             <g key={v}>
-              <line x1={87} x2={662} y1={y(v) - 40} y2={y(v) - 40} stroke="#e7e8e8" />
+              <line x1={87} x2="100%" y1={y(v) - 40} y2={y(v) - 40} stroke="#e7e8e8" />
               <text x={74} y={y(v) - 36} textAnchor="end" fontSize={12} fill="#6a6c6a">
                 {v}
               </text>
@@ -124,7 +126,7 @@ function RankingsDistributionCard() {
             Keywords
           </text>
           {days.map((d, i) => (
-            <text key={d} x={122 + i * 72.5} y={426} textAnchor="middle" fontSize={12} fill="#6a6c6a">
+            <text key={d} x={`${((122 + i * 72.5) / 6.62).toFixed(3)}%`} y={426} textAnchor="middle" fontSize={12} fill="#6a6c6a">
               {d}
             </text>
           ))}
@@ -397,8 +399,10 @@ export function CannibalizationHealthCard({
   x1 = 1002,
   dataEnd = 1,
   buttons,
+  nine,
   className = "h-[331px]",
 }: {
+  nine?: boolean;
   header?: ReactNode;
   x0?: number;
   x1?: number;
@@ -407,7 +411,8 @@ export function CannibalizationHealthCard({
   className?: string;
 }) {
   const W = x1 - x0;
-  const E = W * dataEnd;
+  const E = nine ? 0.797 : dataEnd;
+  const labels = nine ? [...days, "Sep 25"] : days;
   return (
     <Panel title="Cannibalization Health" headerClassName="h-[45px]" right={header} className={className}>
       <div className="relative h-[280px] px-5">
@@ -436,17 +441,17 @@ export function CannibalizationHealthCard({
             <div className="-mt-[3px] text-[12px] leading-4 text-rk-text-2">high rate</div>
           </div>
         </div>
-        <svg width={W + 40} height={100} className="absolute top-[140px] overflow-visible" style={{ left: x0 + 20 }}>
-          <path d={`M0 9.5H${E}V52H0Z`} fill="#e1e0f9" />
-          {dataEnd < 1 && <line x1={0} x2={W} y1={52} y2={52} stroke="#e0e2e1" />}
-          <line x1={0} x2={E} y1={9.5} y2={9.5} stroke="#5c5fd6" strokeWidth={2} />
+        <svg height={100} className="absolute top-[140px] overflow-visible" style={{ left: x0 + 20, width: `calc(100% - ${1061 - W}px)` }}>
+          <rect x={0} y={9.5} width={`${E * 100}%`} height={42.5} fill="#e1e0f9" />
+          {E < 1 && <line x1={0} x2="100%" y1={52} y2={52} stroke="#e0e2e1" />}
+          <line x1={0} x2={`${E * 100}%`} y1={9.5} y2={9.5} stroke="#5c5fd6" strokeWidth={2} />
           <circle cx={0} cy={9.5} r={3} fill="#5c5fd6" />
-          <circle cx={E} cy={9.5} r={3} fill="#5c5fd6" />
+          <circle cx={`${E * 100}%`} cy={9.5} r={3} fill="#5c5fd6" />
           <text x={-17} y={13.5} textAnchor="end" fontSize={12} fill="#6a6c6a">
             100
           </text>
-          {days.map((d, i) => (
-            <text key={d} x={(i * W) / 7} y={75} textAnchor="middle" fontSize={12} fill="#6a6c6a">
+          {labels.map((d, i) => (
+            <text key={d} x={`${((i * 100) / (labels.length - 1)).toFixed(4)}%`} y={75} textAnchor="middle" fontSize={12} fill="#6a6c6a">
               {d}
             </text>
           ))}
@@ -461,13 +466,13 @@ export function CannibalizationHealthCard({
   );
 }
 
-export function LandscapeView({ begin, fresh }: { begin?: string; fresh?: boolean }) {
+export function LandscapeView(snap: Snap) {
   return (
-    <TrackingPage tab="landscape" begin={begin} fresh={fresh}>
+    <TrackingPage tab="landscape" {...snap}>
       <div className="px-8 pt-[17px]">
         <FilterBar top={<DomainChip />} />
-        <div className="mt-[15px] grid grid-cols-[425fr_621fr] gap-4">
-          <section className="h-[331px] rounded-md border border-[#e5e6e6] bg-white px-5 shadow-[0_1px_2px_rgba(25,27,35,0.05)]">
+        <div className="mt-[15px] flex gap-4">
+          <section className="h-[331px] min-w-0 flex-[1_1_425px] rounded-md border border-[#e5e6e6] bg-white px-5 shadow-[0_1px_2px_rgba(25,27,35,0.05)]">
             <MetricBlock first label="Visibility" value="0%" sub="0.00" delta="+0.57%" sparkLeft={145} />
             <MetricBlock label="Estimated Traffic" value="0" sub="0.00" grey delta="+1.38" sparkLeft={152} />
             <MetricBlock

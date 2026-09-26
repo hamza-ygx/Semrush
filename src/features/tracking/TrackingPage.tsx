@@ -2,13 +2,13 @@ import type { ReactNode } from "react";
 import { AppShell } from "@/components/shell/AppShell";
 import { TrackingHeader } from "./TrackingHeader";
 import { TrackingFooter } from "./TrackingFooter";
-import { TrackingProvider } from "./context";
+import { TrackingProvider, type Snap } from "./context";
 import type { TrackingTab } from "./data";
 
-export function TrackingPage({ tab, begin, fresh, children }: { tab: TrackingTab; begin?: string; fresh?: boolean; children: ReactNode }) {
+export function TrackingPage({ tab, children, ...snap }: Snap & { tab: TrackingTab; children: ReactNode }) {
   return (
     <AppShell section="seo" search={{ kind: "goto" }} footer={false}>
-      <TrackingProvider begin={begin} fresh={fresh}>
+      <TrackingProvider {...snap}>
         <TrackingHeader tab={tab} />
         {children}
       </TrackingProvider>

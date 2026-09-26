@@ -312,12 +312,12 @@ function KeywordHead({ shaded }: { shaded: boolean }) {
 }
 
 export function RankingsTable() {
-  const { latest, begin } = useTracking();
+  const { latest, begin, end } = useTracking();
   const [pot, setPot] = useState<PotMetric>(latest ? "Potential Visibility" : "Potential Traffic");
   const cs = latest ? latestCols : cols;
   const total = width(cs);
   const rows: Kw[] = latest ? latestKeywords : trackedKeywords;
-  const period = periodLabel(begin, "–");
+  const period = periodLabel(begin, "–", end);
   const [sx, setSx] = useState(0);
   const [viewport, setViewport] = useState(794);
   const vpRef = useRef<HTMLDivElement>(null);

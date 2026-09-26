@@ -156,7 +156,7 @@ export function DomainChip({ domain = "www.rkjh.se", size = "m" }: { domain?: st
 }
 
 export function DateRange({ label, className = "" }: { label?: string; className?: string }) {
-  const { begin } = useTracking();
+  const { begin, end } = useTracking();
   return (
     <Popover
       align="right"
@@ -171,7 +171,7 @@ export function DateRange({ label, className = "" }: { label?: string; className
           className={`flex h-7 items-center gap-[8px] rounded-md border bg-white pr-[9px] pl-[10px] text-[14px] text-rk-text hover:bg-rk-bg ${open ? "border-[#8e9ff0]" : "border-rk-border-strong"}`}
         >
           <CalendarIcon width={16} height={16} />
-          {label ?? periodLabel(begin)}
+          {label ?? periodLabel(begin, "-", end)}
         </button>
       )}
     >

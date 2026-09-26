@@ -1,3 +1,4 @@
+import type { Snap } from "../context";
 import { TrackingPage } from "../TrackingPage";
 import { FilterBar } from "../FilterBar";
 import { DomainChip, Segmented, Select, SearchInput } from "../controls";
@@ -28,9 +29,9 @@ function AddDomain() {
   return <Select label="Add domain" className="w-[120px]" options={["verksamt.se", "www.skatteverket.se", "www.fortnox.se", "www.bokio.se"]} />;
 }
 
-export function RankingsDistributionView() {
+export function RankingsDistributionView(snap: Snap) {
   return (
-    <TrackingPage tab="rankingsDistribution">
+    <TrackingPage tab="rankingsDistribution" {...snap}>
       <div className="px-8 pt-[17px]">
         <FilterBar
           top={

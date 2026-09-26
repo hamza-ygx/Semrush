@@ -1,15 +1,15 @@
 export function EmptyTable({ size = 92 }: { size?: number }) {
   return (
     <svg viewBox="0 0 92 92" width={size} height={size} className="block">
-      <circle cx="46" cy="48" r="44" fill="#e0e2e1" />
-      <g transform="rotate(8 46 46)">
-        <rect x="16" y="20" width="62" height="52" rx="5" fill="#fff" stroke="#1b1e1a" strokeWidth="2" />
-        <path d="M17 25a4 4 0 0 1 4-4h52a4 4 0 0 1 4 4v8H17z" fill="#6a6c6a" />
-        <circle cx="23" cy="27" r="2" fill="#fff" />
-        <circle cx="29" cy="27" r="2" fill="#fff" />
-        <path d="M22 52h50M46 40v28" stroke="#1b1e1a" strokeWidth="1.6" />
+      <path transform="translate(46 47) scale(1.08) translate(-46 -47)" d="M40 4c6 3 10-1 15 2s5 8 11 10 11 3 12 9-3 9 1 14 7 8 5 14-7 6-8 12 1 10-4 13-10 1-14 5-6 7-12 7-9-5-15-5-11 3-15-1-2-9-6-13-10-4-12-9 2-10 0-15-7-8-4-13 8-5 10-10 1-11 6-14 9 1 14-2 6-7 12-6z" fill="#e4e5ea" />
+      <g transform="rotate(-14 48 48)">
+        <rect x="14" y="27" width="66" height="49" rx="5" fill="#fff" stroke="#6b6d74" strokeWidth="1.4" />
+        <rect x="17.5" y="22" width="66" height="49" rx="5" fill="#fff" stroke="#5d5f66" strokeWidth="1.6" />
+        <path d="M17.5 27a5 5 0 0 1 5-5h56a5 5 0 0 1 5 5v5h-66z" fill="#5d5f66" />
+        <circle cx="24" cy="27" r="2" fill="#fff" />
+        <circle cx="30" cy="27" r="2" fill="#fff" />
+        <path d="M40 32v39M61 32v39M17.5 51h66" stroke="#6b6d74" strokeWidth="1.3" />
       </g>
-      <path d="M12 60c4 10 14 18 26 20" fill="none" stroke="#d6d8d7" strokeWidth="3" strokeLinecap="round" />
     </svg>
   );
 }

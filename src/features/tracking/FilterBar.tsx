@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { DateRange } from "./controls";
 
 export function FilterBar({
@@ -43,7 +43,7 @@ export function FilterBar({
           <DateRange />
         </div>
         {top && filters && (
-          <div style={{ maxWidth: maxWidth[0] }} className="flex flex-wrap items-center gap-2">
+          <div style={{ "--fmw": `${maxWidth[0]}px` } as CSSProperties} className="flex max-w-[var(--fmw)] flex-wrap items-center gap-2 xl:max-w-none">
             {filters}
           </div>
         )}
@@ -54,7 +54,7 @@ export function FilterBar({
           className="fixed top-0 z-40 bg-[#f5f6f6] px-8 py-[9px] shadow-[0_2px_4px_rgba(25,27,35,0.08),0_1px_0_rgba(25,27,35,0.04)]"
         >
           <div className="flex items-start justify-between gap-2">
-            <div style={{ maxWidth: maxWidth[1] }} className="flex flex-wrap items-center gap-2">
+            <div style={{ "--fmw": `${maxWidth[1]}px` } as CSSProperties} className="flex max-w-[var(--fmw)] flex-wrap items-center gap-2 xl:max-w-none">
               {filters ?? top}
             </div>
             <DateRange />

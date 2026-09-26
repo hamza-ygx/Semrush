@@ -1,3 +1,4 @@
+import type { Snap } from "../context";
 import type { ReactNode } from "react";
 import { PlusIcon } from "@/components/ui/icons";
 import { TrackingPage } from "../TrackingPage";
@@ -68,9 +69,9 @@ function MultiPositionsCard() {
   );
 }
 
-export function DevicesLocationsView() {
+export function DevicesLocationsView(snap: Snap) {
   return (
-    <TrackingPage tab="devicesLocations">
+    <TrackingPage tab="devicesLocations" {...snap}>
       <div className="flex flex-col items-center px-8 pt-[26px] pb-[14px] text-center">
         <h2 className="text-[24px] leading-8 font-medium text-rk-text">Try the Multitargeting feature in the Position Tracking tool</h2>
         <p className="mt-[14px] text-[16px] leading-6 text-rk-text">Track your domain rankings in multiple locations and languages, and on multiple devices.</p>

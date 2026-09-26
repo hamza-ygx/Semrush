@@ -6,14 +6,15 @@ import { routes } from "@/config/routes";
 import { HeaderLink, SendFeedback } from "@/components/shell/PageHeader";
 import { MenuItem, Popover } from "@/components/ui/Popover";
 import { Modal } from "@/components/ui/Modal";
-import { CheckIcon, ChevronRight, DesktopIcon, ExportIcon, GearIcon, PlusIcon, ShareIcon } from "@/components/ui/icons";
+import { CheckIcon, ChevronRight, DesktopIcon, ExportIcon, GearIcon, PlusIcon } from "@/components/ui/icons";
 import { Checkbox, Toggle } from "./controls";
-import { BellIcon, ChevronBold, DiamondIcon, HotelIcon, JobIcon, LookerIcon, ManualIcon, PinIcon } from "./icons";
+import { BellIcon, ChevronBold, DiamondIcon, HotelIcon, JobIcon, ManualIcon, PinIcon } from "./icons";
 import { project, trackingTabs, type TrackingTab } from "./data";
 import { useTracking } from "./context";
 import { Tip } from "./Tip";
 import { Radio } from "./FilterPanels";
 import { Info } from "./ui";
+import { LookerMenu, PdfButton, ShareButton } from "./HeaderModals";
 
 type Action = "looker" | "pdf" | "export" | "share";
 
@@ -32,26 +33,10 @@ const actionsByTab: Record<TrackingTab, Action[]> = {
 const btn = "flex h-7 items-center gap-[7px] rounded-md border border-rk-border-strong bg-[#f0f1f1] px-[9px] text-[14px] text-rk-text-2 hover:bg-rk-hover";
 
 function ActionButton({ kind }: { kind: Action }) {
-  if (kind === "looker")
-    return (
-      <button type="button" className={btn}>
-        <LookerIcon />
-        Looker Studio
-      </button>
-    );
-  if (kind === "pdf")
-    return (
-      <button type="button" className={`${btn} !px-[7px]`}>
-        PDF
-      </button>
-    );
+  if (kind === "looker") return <LookerMenu className={btn} />;
+  if (kind === "pdf") return <PdfButton className={`${btn} !px-[7px]`} />;
   if (kind === "export") return <ExportMenu />;
-  return (
-    <button type="button" className={btn}>
-      <ShareIcon />
-      Share
-    </button>
-  );
+  return <ShareButton className={btn} />;
 }
 
 function ExportMenu() {
@@ -336,7 +321,7 @@ export function TrackingCrumbs() {
 }
 
 export function TrackingHeader({ tab }: { tab: TrackingTab }) {
-  const { fresh, latest } = useTracking();
+  const { fresh, latest, hours } = useTracking();
   return (
     <div className="border-b border-rk-border px-8 pt-4">
       <div className="flex items-center justify-between">
@@ -361,7 +346,7 @@ export function TrackingHeader({ tab }: { tab: TrackingTab }) {
       </div>
       <div className="mt-[7px] flex items-center gap-[24px] text-[14px] leading-5">
         <TargetDropdown />
-        <span>Updated: {fresh ? "0 hours ago" : latest ? "2 hours ago" : "17 hours ago"}</span>
+        <span>Updated: {hours !== undefined ? `${hours} hours ago` : fresh ? "0 hours ago" : latest ? "2 hours ago" : "17 hours ago"}</span>
         <span>
           Keywords:{" "}
           <Link href={routes.tracking.overview} className="text-rk-link hover:text-rk-link-hover">

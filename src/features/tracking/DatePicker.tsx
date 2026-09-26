@@ -70,8 +70,8 @@ function Month({ year, month, left, from, to, pick, mark }: { year: number; mont
 }
 
 export function DatePickerPanel({ close }: { close: () => void }) {
-  const { begin, setBegin, latest } = useTracking();
-  const [a, b] = periodRange(begin);
+  const { begin, end, setBegin, latest } = useTracking();
+  const [a, b] = periodRange(begin, end);
   const [from, setFrom] = useState(a.getTime());
   const [to, setTo] = useState(b.getTime());
   const [pending, setPending] = useState(false);

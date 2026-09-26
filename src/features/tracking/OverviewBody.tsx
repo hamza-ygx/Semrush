@@ -9,7 +9,7 @@ import { RankingsTable } from "./RankingsTable";
 import { Tip, TipBox } from "./Tip";
 import { Info } from "./ui";
 import { ChevronBold, XBoldIcon } from "./icons";
-import { currentBegin, useTracking } from "./context";
+import { currentBegin, periodRange, useTracking } from "./context";
 import { project } from "./data";
 
 const competitors = ["verksamt.se", "www.skatteverket.se", "www.fortnox.se", "www.bokio.se"];
@@ -101,7 +101,9 @@ function TagsPanel({ close }: { close: () => void }) {
 }
 
 export function OverviewBody({ prediction, kdOptions }: { prediction: boolean; kdOptions: string[] }) {
-  const { begin, setBegin, latest } = useTracking();
+  const { begin, end, setBegin, latest } = useTracking();
+  const [a, b] = periodRange(begin, end);
+  const nine = !latest && begin !== currentBegin && (b.getTime() - a.getTime()) / 864e5 === 8;
   const [mode, setMode] = useState<ChartMode>(prediction || latest ? "pg" : "ca");
   const [toast, setToast] = useState(false);
   const current = begin === currentBegin || latest;
@@ -189,7 +191,7 @@ export function OverviewBody({ prediction, kdOptions }: { prediction: boolean; k
           </TipBox>
         </div>
       )}
-      <OverviewChartCard mode={mode} current={current} latest={latest} onMode={onMode} />
+      <OverviewChartCard mode={mode} current={current} latest={latest} nine={nine} onMode={onMode} />
       <RankingsTable key={latest ? "latest" : "past"} />
     </div>
   );

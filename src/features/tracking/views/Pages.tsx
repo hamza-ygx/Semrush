@@ -1,3 +1,4 @@
+import type { Snap } from "../context";
 import { TrackingPage } from "../TrackingPage";
 import { FilterBar } from "../FilterBar";
 import { DomainChip, Segmented, Select, SearchInput } from "../controls";
@@ -13,7 +14,7 @@ const groups = [
   { label: "Total volume", w: 131, sub: true },
 ];
 
-function PagesTable() {
+function PagesTable({ day }: { day: string }) {
   return (
     <Panel title="Pages" count="0 (0)" headerClassName="h-[41px]" divider={false} className="mt-[15px] h-[379px]">
       <div className="flex h-[82px] border-y border-[#edefef] bg-[#f7f8f9] text-[12px] leading-4 text-rk-text">
@@ -24,7 +25,7 @@ function PagesTable() {
             {g.sub && (
               <div className="flex h-[41px] items-center">
                 <span className={`flex h-full flex-1 items-center justify-end gap-[4px] pr-[9px] ${g.sorted ? "bg-[#e3e5e5]" : ""}`}>
-                  Sep 24 {g.sorted && <SortIcon width={14} height={14} className="text-rk-muted" />}
+                  {day} {g.sorted && <SortIcon width={14} height={14} className="text-rk-muted" />}
                 </span>
                 <span className={`flex h-full items-center justify-end ${gi === groups.length - 1 ? "w-[48px] pr-[20px]" : "w-[36px] pr-[8px]"} ${g.sorted ? "bg-[#f7f8f9]" : ""}`}>Diff</span>
               </div>
@@ -37,9 +38,9 @@ function PagesTable() {
   );
 }
 
-export function PagesView() {
+export function PagesView(snap: Snap) {
   return (
-    <TrackingPage tab="pages">
+    <TrackingPage tab="pages" {...snap}>
       <div className="px-8 pt-[17px]">
         <FilterBar
           top={<DomainChip />}
@@ -58,7 +59,7 @@ export function PagesView() {
             </>
           }
         />
-        <PagesTable />
+        <PagesTable day={snap.end === "20260925" ? "Sep 25" : "Sep 24"} />
       </div>
     </TrackingPage>
   );

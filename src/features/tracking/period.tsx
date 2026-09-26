@@ -6,12 +6,12 @@ const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
 const full = (d: Date) => `${months[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
 
 export function SummaryPeriod() {
-  const { begin } = useTracking();
-  const [a, b] = periodRange(begin);
+  const { begin, end } = useTracking();
+  const [a, b] = periodRange(begin, end);
   return <>{`${full(a)} - ${full(b)}`}</>;
 }
 
 export function CompetitorGrowth() {
-  const { latest } = useTracking();
-  return <>{latest ? "6.82%" : "12.94%"}</>;
+  const { latest, begin } = useTracking();
+  return <>{latest ? "6.82%" : begin === "20260920" ? "4.21%" : "12.94%"}</>;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { brand } from "@/config/brand";
 import { Popover } from "@/components/ui/Popover";
 import { PlusIcon } from "@/components/ui/icons";
@@ -129,22 +129,30 @@ function HowItWorks() {
   );
 }
 
-function CompetitiveChart({ metric, current: cur, latest }: { metric: (typeof metrics)[number]; current: boolean; latest: boolean }) {
+const nineLabels = Array.from({ length: 15 }, (_, i) => {
+  const d = 1 + i * 2;
+  const t = Date.UTC(2026, 7, 27 + d);
+  const m = new Date(t).getUTCMonth() === 7 ? "Aug" : "Sep";
+  return { d, l: `${m} ${new Date(t).getUTCDate()}` };
+});
+
+function CompetitiveChart({ metric, current: cur, latest, nine, k }: { metric: (typeof metrics)[number]; current: boolean; latest: boolean; nine: boolean; k: number }) {
   const current = cur && !latest;
-  const x = current ? (d: number) => 77.3 + d * 33.67 : (d: number) => 77 + d * 32.45;
-  const right = current ? 1032 : x(29);
-  const shade = latest ? x(23) : x(22);
+  const sx = (v: number) => 77 + (v - 77) * k;
+  const x = nine ? (d: number) => 78 + d * ((1018 - 78) / 29) * k : current ? (d: number) => sx(77.3 + d * 33.67) : (d: number) => sx(77 + d * 32.45);
+  const right = current ? sx(1032) : x(29);
+  const shade = nine ? x(21) : latest ? x(23) : x(22);
   const ticks = metric === "Avg. Position" ? ["0", "25", "50", "75", "100"] : metric === "Visibility" || metric === "Share of Voice" ? ["1%", "0.5%", "0%", "-0.5%", "-1%"] : ["1", "0.5", "0", "-0.5", "-1"];
   const y = (i: number) => 191.6 + i * 43.4;
-  const labels = latest ? latestLabels : current ? currentLabels : pastLabels;
-  const end = latest ? 29 : 16.8;
+  const labels = nine ? nineLabels : latest ? latestLabels : current ? currentLabels : pastLabels;
+  const end = nine ? 15 : latest ? 29 : 16.8;
   return (
     <svg width="100%" height={418} className="pointer-events-none absolute top-0 left-0 overflow-visible">
       <rect x={shade} y={y(0)} width={right - shade} height={y(4) - y(0)} fill="#f0f1f2" />
       <line x1={shade} x2={shade} y1={y(0)} y2={y(4)} stroke="#d6d8d7" strokeDasharray="3 3" />
-      {!current && <line x1={right} x2={right} y1={y(0)} y2={y(4)} stroke="#d6d8d7" strokeDasharray="3 3" />}
+      {!current && !nine && <line x1={right} x2={right} y1={y(0)} y2={y(4)} stroke="#d6d8d7" strokeDasharray="3 3" />}
       <text transform={`translate(${shade - 7} ${y(2)}) rotate(-90)`} textAnchor="middle" fontSize={12} fill="#484a49">
-        {latest ? "Last 7 days" : "Last 8 days"}
+        {nine ? "Last 9 days" : latest ? "Last 7 days" : "Last 8 days"}
       </text>
       {ticks.map((t, i) => (
         <g key={t}>
@@ -155,15 +163,15 @@ function CompetitiveChart({ metric, current: cur, latest }: { metric: (typeof me
         </g>
       ))}
       {labels.map((l) => (
-        <text key={l.l} x={x(l.d)} y={y(4) + 27} textAnchor="middle" fontSize={12} fill="#6a6c6a">
+        <text key={l.l} x={nine && l.d === 29 ? right : x(l.d)} y={y(4) + 27} textAnchor={nine && l.d === 29 ? "end" : "middle"} fontSize={12} fill="#6a6c6a">
           {l.l}
         </text>
       ))}
       {current ? (
         <>
-          <line x1={x(0)} x2={963} y1={y(2)} y2={y(2)} stroke="#5c5fd6" strokeWidth={3} />
+          <line x1={x(0)} x2={sx(963)} y1={y(2)} y2={y(2)} stroke="#5c5fd6" strokeWidth={3} />
           <circle cx={x(0)} cy={y(2)} r={3.5} fill="#5c5fd6" />
-          <circle cx={995} cy={y(2)} r={3.5} fill="#5c5fd6" />
+          <circle cx={sx(995)} cy={y(2)} r={3.5} fill="#5c5fd6" />
         </>
       ) : (
         <>
@@ -270,11 +278,32 @@ function GrowthSide() {
   );
 }
 
-export function OverviewChartCard({ mode = "ca", current = false, latest = false, onMode }: { mode?: ChartMode; current?: boolean; latest?: boolean; onMode?: (m: ChartMode) => void }) {
+export function OverviewChartCard({
+  mode = "ca",
+  current = false,
+  latest = false,
+  nine = false,
+  onMode,
+}: {
+  mode?: ChartMode;
+  current?: boolean;
+  latest?: boolean;
+  nine?: boolean;
+  onMode?: (m: ChartMode) => void;
+}) {
   const [metric, setMetric] = useState<(typeof metrics)[number]>("Visibility");
+  const [k, setK] = useState(1);
+  const ref = useRef<HTMLElement>(null);
   const pg = mode === "pg";
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => setK(Math.max(1, (el.offsetWidth - 45 - 77) / (1018 - 77))));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
   return (
-    <section className="relative mt-[15px] h-[418px] rounded-md border border-[#e5e6e6] bg-white shadow-[0_1px_2px_rgba(25,27,35,0.05)]">
+    <section ref={ref} className="relative mt-[15px] h-[418px] rounded-md border border-[#e5e6e6] bg-white shadow-[0_1px_2px_rgba(25,27,35,0.05)]">
       <div className="flex h-[45px] items-center gap-[16px] border-b-2 border-[#edefef] px-5">
         <ModeSwitch mode={mode} onMode={(m) => onMode?.(m)} />
         {pg ? (
@@ -309,7 +338,7 @@ export function OverviewChartCard({ mode = "ca", current = false, latest = false
             <span className="mx-[16px] h-[22px] border-l border-[#e0e2e1]" />
             {(!current || latest) && <Notes />}
           </div>
-          <CompetitiveChart metric={metric} current={current} latest={latest} />
+          <CompetitiveChart metric={metric} current={current} latest={latest} nine={nine} k={k} />
         </>
       )}
     </section>

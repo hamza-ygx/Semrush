@@ -1,3 +1,4 @@
+import type { Snap } from "../context";
 import { PlusIcon, GearIcon } from "@/components/ui/icons";
 import { TrackingPage } from "../TrackingPage";
 import { FilterBar } from "../FilterBar";
@@ -38,9 +39,9 @@ function HealthActions() {
   );
 }
 
-export function CannibalizationView() {
+export function CannibalizationView(snap: Snap) {
   return (
-    <TrackingPage tab="cannibalization">
+    <TrackingPage tab="cannibalization" {...snap}>
       <div className="px-8 pt-[17px]">
         <FilterBar
           top={<DomainChip />}
@@ -52,7 +53,7 @@ export function CannibalizationView() {
             </>
           }
         />
-        <CannibalizationHealthCard header={<HealthActions />} x0={244} x1={1002} dataEnd={0.891} buttons={false} className="mt-[15px] h-[282px]" />
+        <CannibalizationHealthCard header={<HealthActions />} x0={244} x1={1002} dataEnd={0.891} nine={snap.end === "20260925"} buttons={false} className="mt-[15px] h-[282px]" />
         <Panel title="Cannibalization" count="0 (0)" info={false} className="mt-[15px] h-[428px]" headerClassName="h-[41px]">
           <div className="px-5 pt-[20px] pb-[20px]">
             <Segmented items={["Pages", "Keywords"] as const} value="Pages" />

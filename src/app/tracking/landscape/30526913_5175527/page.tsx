@@ -1,7 +1,6 @@
 import { LandscapeView } from "@/features/tracking/views/Landscape";
-import type { TrackingParams } from "@/features/tracking/context";
+import { snapFrom, type TrackingSearch } from "@/features/tracking/params";
 
-export default async function Page({ searchParams }: { searchParams: TrackingParams }) {
-  const { date_begin, date_end } = await searchParams;
-  return <LandscapeView begin={date_begin ?? "latest"} fresh={!!date_end} />;
+export default async function Page({ searchParams }: { searchParams: TrackingSearch }) {
+  return <LandscapeView {...snapFrom(await searchParams, "latest")} />;
 }

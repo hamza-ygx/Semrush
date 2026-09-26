@@ -2,11 +2,10 @@
 
 import { Popover } from "@/components/ui/Popover";
 import { CalendarIcon } from "./icons";
-import { project } from "./data";
 
 const options = ["Last 2 days", "Last 7 days", "Last 30 days", "Last 60 days", "Last 90 days"];
 
-export function ProjectsDate() {
+export function ProjectsDate({ label, onPick }: { label: string; onPick?: () => void }) {
   return (
     <Popover
       offset={5}
@@ -20,13 +19,21 @@ export function ProjectsDate() {
           className={`flex h-7 items-center gap-[8.5px] rounded-md border bg-white px-[8px] text-[14px] whitespace-nowrap text-[#6a6c6a] ${open ? "border-[#8e9ff0]" : "border-rk-border-strong"}`}
         >
           <CalendarIcon className="text-[#8b8d8c]" />
-          {project.periodLong}
+          {label}
         </button>
       )}
     >
       {(close) =>
         options.map((o) => (
-          <button key={o} type="button" onClick={close} className="flex h-8 w-full items-center px-2 text-left text-[14px] text-rk-text-2 hover:bg-rk-bg">
+          <button
+            key={o}
+            type="button"
+            onClick={() => {
+              close();
+              onPick?.();
+            }}
+            className="flex h-8 w-full items-center px-2 text-left text-[14px] text-rk-text-2 hover:bg-rk-bg"
+          >
             {o}
           </button>
         ))

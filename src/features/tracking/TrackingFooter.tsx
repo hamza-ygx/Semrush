@@ -5,7 +5,7 @@ import { ChevronDownIcon, TranslateIcon } from "@/components/icons";
 export function TrackingFooter() {
   return (
     <>
-      <div className="hidden pt-[34px] xl:block">
+      <div className="hidden pt-[216px] xl:block">
         <Footer />
       </div>
     <footer className="flex flex-col items-center pt-[230px] pb-[39px] text-[16px] leading-6 text-rk-text-2 xl:hidden">

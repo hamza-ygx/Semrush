@@ -70,8 +70,8 @@ export function NothingFound({ title = "Nothing found", text = "Try changing you
   return (
     <div className={`flex flex-col items-center text-center ${className}`}>
       {icon ?? <EmptyTable size={80} />}
-      <div className="mt-[17px] text-[16px] leading-6 font-semibold text-rk-text-2">{title}</div>
-      <div className="mt-[4px] text-[14px] leading-5 text-rk-text-2">{text}</div>
+      <div className="mt-[17px] text-[16px] leading-6 font-semibold text-[#5c5e5d]">{title}</div>
+      <div className="mt-[4px] text-[14px] leading-5 text-rk-muted">{text}</div>
     </div>
   );
 }
