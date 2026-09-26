@@ -1,10 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, type ReactNode } from "react";
+import { useState, useSyncExternalStore, type ReactNode } from "react";
 import { routes } from "@/config/routes";
 import { MenuItem, Popover } from "@/components/ui/Popover";
 import { FlagSE, FlagUK, FlagUS } from "@/components/ui/icons";
+import { addRecent, emptyRecent, readRecent, subscribeRecent } from "./recent";
 
 const dbs = [
   { code: "US", flag: <FlagUS width={16} height={12} /> },
@@ -85,11 +87,16 @@ export function TopicLanding() {
   const [q, setQ] = useState("");
   const [db, setDb] = useState(dbs[0]);
   const [domain, setDomain] = useState(false);
-  const go = () => router.push(`${routes.topicResearchProject.cards}?new=1`);
+  const recent = useSyncExternalStore(subscribeRecent, readRecent, () => emptyRecent);
+  const hasRecent = recent.length > 0;
+  const go = () => {
+    addRecent(q);
+    router.push(`${routes.topicResearchProject.cards}?new=1`);
+  };
   return (
-    <div className="mx-auto w-[719px] pt-[41px]">
+    <div className={`mx-auto ${hasRecent ? "w-[982px] pt-[42px] pb-[101px]" : "w-[719px] pt-[41px]"}`}>
       <form
-        className="rounded-md bg-white px-[26px] pt-[33px] pb-10 text-center shadow-[0_1px_2px_rgba(25,27,35,0.12)]"
+        className={`rounded-md bg-white pt-[33px] pb-10 text-center shadow-[0_1px_2px_rgba(25,27,35,0.12)] ${hasRecent ? "px-[125px]" : "px-[26px]"}`}
         onSubmit={(e) => {
           e.preventDefault();
           go();
@@ -97,7 +104,7 @@ export function TopicLanding() {
       >
         <h1 className="text-[36px] leading-[44px] font-semibold">Topic Research</h1>
         <p className="mx-auto mt-[18px] max-w-[645px] text-[16px] leading-6 text-[#333]">Win your readers’ hearts and minds with a topic finder that helps you generate ideas for engaging content.</p>
-        <div className="mt-[31px] flex">
+        <div className={`flex ${hasRecent ? "mt-[32px]" : "mt-[31px]"}`}>
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -135,7 +142,7 @@ export function TopicLanding() {
           </Popover>
         </div>
         {domain && <input placeholder="Enter domain" className="mt-3 h-10 w-full rounded-md border border-[#d6d8d7] px-3 text-[16px] outline-none placeholder:text-[#8b8d8c]" />}
-        <div className="mt-[14px] flex items-start justify-between">
+        <div className={`flex items-start justify-between ${hasRecent ? "mt-[13px]" : "mt-[14px]"}`}>
           <button type="button" onClick={() => setDomain((d) => !d)} className="mt-[3px] ml-[1px] flex items-center gap-[6px] text-[16px] text-[#006dca] hover:underline">
             <span className="text-[20px] leading-5">{domain ? "−" : "+"}</span>
             {domain ? "Remove domain" : "Enter domain to find content on"}
@@ -145,10 +152,29 @@ export function TopicLanding() {
           </button>
         </div>
       </form>
-      <div className="mt-4 rounded-md bg-white pt-[37px] pb-10 text-center shadow-[0_1px_2px_rgba(25,27,35,0.12)]">
-        <h2 className="mx-auto max-w-[640px] text-[24px] leading-[28px] font-semibold">Get Thousands of Untapped, Instant Ideas for Valuable Content</h2>
-        <Illustration />
-      </div>
+      {hasRecent ? (
+        <div className="mt-4 rounded-md bg-white px-[111px] pt-[35px] pb-10 shadow-[0_1px_2px_rgba(25,27,35,0.12)]">
+          <h2 className="text-center text-[32px] leading-[44px] font-semibold">Recent searches</h2>
+          <ul className="mt-[33px]">
+            {recent.map((r) => (
+              <li key={r} className="flex h-9 items-center justify-between border-b border-[#e0e1e5] px-[9px] text-[14px]">
+                {r}
+                <Link
+                  href={routes.topicResearchProject.cards}
+                  className="flex h-[26px] items-center rounded-md border border-[#d6d8d7] bg-[#eef0f0] px-2 text-[14px] text-[#555857] hover:bg-[#e0e2e1]"
+                >
+                  View content ideas
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <div className="mt-4 rounded-md bg-white pt-[37px] pb-10 text-center shadow-[0_1px_2px_rgba(25,27,35,0.12)]">
+          <h2 className="mx-auto max-w-[640px] text-[24px] leading-[28px] font-semibold">Get Thousands of Untapped, Instant Ideas for Valuable Content</h2>
+          <Illustration />
+        </div>
+      )}
     </div>
   );
 }

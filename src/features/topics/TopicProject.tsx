@@ -7,6 +7,7 @@ import { Breadcrumbs } from "@/components/ui/primitives";
 import { MenuItem, Popover } from "@/components/ui/Popover";
 import { CloseIcon, FeedbackIcon } from "@/components/ui/icons";
 import { MindMap } from "./MindMap";
+import { addRecent } from "./recent";
 import { cardIdeas, cards, explorerRows, overviewHeadlines, overviewQuestions, topic, type CardIdeas, type IdeaTone, type TopicCard } from "./data";
 
 type P = SVGProps<SVGSVGElement>;
@@ -797,6 +798,9 @@ function OverviewView() {
 
 export function TopicProject({ view, initialLoading = false }: { view: TopicView; initialLoading?: boolean }) {
   const [loading, setLoading] = useState(initialLoading);
+  useEffect(() => {
+    addRecent(topic);
+  }, []);
   useEffect(() => {
     if (!loading) return;
     const t = setTimeout(() => setLoading(false), 2500);

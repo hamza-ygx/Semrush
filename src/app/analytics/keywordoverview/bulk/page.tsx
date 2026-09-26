@@ -9,8 +9,12 @@ export default async function KeywordOverviewBulkPage({ searchParams }: { search
   return (
     <WidePage>
       <AppShell section="seo" search={{ kind: "analyze", value: q }} footer={false}>
-        <KoBulk q={q} />
-        <CenteredFooter className="pt-[152px] pb-[25px]" />
+        <div className="flex flex-col xl:min-h-[calc(100vh-52px)]">
+          <KoBulk q={q} />
+          <div className="mt-auto">
+            <CenteredFooter className="pt-[152px] pb-[25px]" />
+          </div>
+        </div>
       </AppShell>
     </WidePage>
   );

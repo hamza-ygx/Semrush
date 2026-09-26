@@ -9,6 +9,7 @@ import { Popover } from "@/components/ui/Popover";
 import { ChevronDown, ChevronRight, ChevronsLeft, CloseIcon, ExportIcon, ExternalIcon, PlusIcon } from "@/components/ui/icons";
 import { HeaderLink, SendFeedback } from "@/components/shell/PageHeader";
 import { Info } from "@/components/ui/primitives";
+import { useWide } from "@/features/keywords/kmt/ui";
 import { Checkbox, D1, D2, Dot, DomainField, DomainPicker, OPEN_BORDER, Opt, ScopeSelect, Segmented, SelectButton, YouTag } from "./common";
 import { bgAuthority, bgBacklinkFor, bgMonthLabels, bgRefDomains, bgRows, bgTabs, rival, you, type BgRow, type BgTab } from "./data";
 import { useStuck } from "./KeywordGapReport";
@@ -360,7 +361,7 @@ function Prospects() {
           </div>
           <div className="flex w-[137px] items-center gap-[5px] pr-5 pl-[16px]">
             <Dot color={D2} size={11} />
-            <span className="truncate">{rival}</span>
+            <span className="truncate xl:overflow-visible">{rival}</span>
           </div>
         </div>
       </div>
@@ -445,6 +446,7 @@ function Prospects() {
 
 export function BacklinkGap({ q, competitors, chartsOpen }: { q: string; competitors: string[]; chartsOpen: boolean }) {
   const router = useRouter();
+  const wide = useWide();
   const [domains, setDomains] = useState<string[]>(() => [q, ...competitors, "", "", ""].slice(0, 5));
   const [charts, setCharts] = useState(chartsOpen);
   const set = (i: number, v: string) => setDomains((d) => d.map((x, j) => (j === i ? v : x)));
@@ -465,7 +467,7 @@ export function BacklinkGap({ q, competitors, chartsOpen }: { q: string; competi
       <div className="px-8 pt-[17px]">
         <div className="flex gap-2">
           {domains.map((d, i) => (
-            <div key={i} className="w-[165px]">
+            <div key={i} className="w-[165px] xl:w-auto xl:min-w-[165px] xl:flex-1">
               <ScopeSelect testId={`bg-scope-${i}`} options={["Root Domain", "Subdomain", "URL"]} className="mb-[9px]" />
               <DomainField
                 value={d}
@@ -473,7 +475,7 @@ export function BacklinkGap({ q, competitors, chartsOpen }: { q: string; competi
                 color={colors[i]}
                 you={i === 0}
                 placeholder="Add domain"
-                truncate={i === 0 ? undefined : 9}
+                truncate={i === 0 || wide ? undefined : 9}
                 wide
                 className="h-[28px]!"
               />

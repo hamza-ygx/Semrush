@@ -101,15 +101,26 @@ function Summary() {
   );
 }
 
-const cols = [68, 255, 59, 120, 76, 80, 119, 99, 140, 95];
+const cols = [
+  "w-[68px]",
+  "w-[255px] xl:w-[294px]",
+  "w-[59px] xl:w-[89px]",
+  "w-[120px] xl:w-[122px]",
+  "w-[76px] xl:w-[74px]",
+  "w-[80px] xl:w-[81px]",
+  "w-[119px] xl:w-[120px]",
+  "w-[99px]",
+  "w-[140px] xl:w-[141px]",
+  "w-[95px]",
+];
 const Colgroup = () => (
   <colgroup>
-    {cols.map((w, i) => (
-      <col key={i} style={{ width: w }} />
+    {cols.map((c, i) => (
+      <col key={i} className={c} />
     ))}
   </colgroup>
 );
-const tableW = cols.reduce((a, b) => a + b, 0);
+const tableW = "w-[1111px] xl:w-[1183px]";
 
 function Row({ p }: { p: TopPage }) {
   const num = "pt-[12px] pr-3 text-right align-top";
@@ -122,7 +133,7 @@ function Row({ p }: { p: TopPage }) {
       </td>
       <td className="pt-[12px] pb-[45px] pl-4 align-top">
         <span className="block max-w-[146.5px] leading-[19.4px] break-all tabular-nums">
-          <Link href={routes.organic.pages} className="text-rk-link hover:text-rk-link-hover">
+          <Link href={`${routes.organic.positions}?db=se&q=rkjh.se&searchType=domain`} className="text-rk-link hover:text-rk-link-hover">
             {p.url}
           </Link>
           <a href={`https://${p.url}`} target="_blank" rel="noreferrer" aria-label="Open page" className="ml-[4px] inline-block align-[-3px] text-[#a9abaa] hover:text-rk-muted">
@@ -246,7 +257,7 @@ function AllPages() {
           <AdvancedFilters compact clearAll={false} fields={["Top Keyword", "URL"]} onApply={setAdv} />
         </div>
         <div ref={head} className="overflow-hidden border-b border-rk-border">
-          <table className="table-fixed bg-[#f9f9f9]" style={{ width: tableW }}>
+          <table className={`table-fixed bg-[#f9f9f9] ${tableW}`}>
             <Colgroup />
             <thead>
               <tr>
@@ -254,7 +265,8 @@ function AllPages() {
                 <th className={`${th} pl-4 text-left`}>URL</th>
                 <th className={`${thr} bg-[#e9ebee]`}>
                   <span className="inline-flex items-center">
-                    Tr..
+                    <span className="xl:hidden">Tr..</span>
+                    <span className="hidden xl:inline">Traffic</span>
                     <SortIcon className="ml-[1px] text-rk-muted" />
                   </span>
                 </th>
@@ -276,7 +288,7 @@ function AllPages() {
           if (head.current) head.current.scrollLeft = e.currentTarget.scrollLeft;
         }}
       >
-        <table className="table-fixed" style={{ width: tableW }}>
+        <table className={`table-fixed ${tableW}`}>
           <Colgroup />
           <tbody>
             {rows.map((p, i) => (

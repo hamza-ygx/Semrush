@@ -18,7 +18,7 @@ export function KoBulk({ q }: { q: string }) {
       <KoHeader q={q} active="bulk" />
       <div className="px-8 pt-4">
         <DomainInput />
-        <div className="mt-[18px] w-[600px]">
+        <div className="mt-5 w-[600px] focus-within:mt-[18px]">
           <div className="flex h-5 items-center justify-between pr-[10px] text-[14px]">
             <span className="flex items-center gap-1">
               <span className="text-rk-text-2 underline decoration-dotted decoration-2 underline-offset-[5px]">Keywords</span>
@@ -29,16 +29,17 @@ export function KoBulk({ q }: { q: string }) {
               Clear all
             </button>
           </div>
-          <div className="mt-[7px] flex h-[138px] rounded-md border-2 border-[#8d95ec] bg-white ring-2 ring-[#8d95ec]">
-            <div className="w-[28px] shrink-0 pt-[7px] pr-[5px] text-right text-[14px] leading-5 text-rk-faint">
+          <div className="group mt-[7px] flex h-[134px] rounded-md focus-within:h-[138px] border border-[#dcdede] bg-white focus-within:border-2 focus-within:border-[#8d95ec] focus-within:ring-2 focus-within:ring-[#8d95ec]">
+            <div className="w-[29px] shrink-0 pt-[6px] pr-[5px] group-focus-within:w-[28px] group-focus-within:pt-[7px] text-right text-[14px] leading-5 text-rk-faint">
               {lines.map((_, i) => (
                 <div key={i}>{i + 1}.</div>
               ))}
             </div>
             <textarea
+              autoFocus
               value={text}
               onChange={(e) => setText(e.target.value)}
-              className="flex-1 resize-none bg-transparent pt-[7px] pr-3 pl-[11px] text-[14px] leading-5 outline-none"
+              className="flex-1 resize-none bg-transparent pt-[6px] pr-3 pl-[11px] text-[14px] leading-5 outline-none focus:pt-[7px]"
             />
           </div>
           <div className="mt-[10px] flex items-center justify-between text-[14px]">

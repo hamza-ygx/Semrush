@@ -124,10 +124,10 @@ function Builder({
       </div>
       <div className="mt-[7px] text-[16px] leading-6 text-rk-muted">{captions[mode]}</div>
       {tip}
-      <div className="mt-[17px] text-left">
+      <div className="mt-[17px] text-left xl:mx-auto xl:w-[734px]">
         {mode === "domain" && (
           <>
-            <label className={`flex h-10 items-center gap-2 rounded-md bg-white px-[14px] ${focus ? "border-2 border-[#a98be5] ring-2 ring-[#eadcff]" : "border border-[#d7d5df]"}`}>
+            <label className={`flex h-10 items-center gap-2 rounded-md bg-white px-[14px] ${focus ? "border-2 border-[#a98be5] ring-2 ring-[#eadcff] xl:border xl:border-[#d7d5df] xl:px-[13px] xl:ring-0 xl:focus-within:border-2 xl:focus-within:border-[#a98be5] xl:focus-within:px-[12px] xl:focus-within:ring-2" : "border border-[#d7d5df]"}`}>
               <SparkleIcon />
               <input autoFocus={focus} placeholder="Enter domain" className="min-w-0 flex-1 text-[16px] outline-none placeholder:text-rk-muted" />
             </label>
@@ -197,7 +197,7 @@ const Bar = ({ w, c = "#ececef", h = 8 }: { w: number; c?: string; h?: number })
 
 function PagesIllustration() {
   return (
-    <div className="mx-auto mt-[48px] w-[442px] rounded-xl bg-[#f7f7f8] px-6 pt-6 pb-[23px] text-left">
+    <div className="mx-auto mt-[48px] w-[442px] rounded-xl bg-[#f7f7f8] px-6 pt-6 pb-[23px] text-left xl:mt-0 xl:w-[443px]">
       <div className="inline-flex h-6 text-[11px] leading-[22px]">
         <span className="rounded-l-md border border-[#b9bef6] bg-[#eef1fd] px-3 text-rk-text-2">Pages to improve</span>
         <span className="-ml-px rounded-r-md border border-[#b9bef6] bg-white px-3 text-rk-text-2">Topics to create content</span>
@@ -249,7 +249,7 @@ const Bubble = ({ x, y, r }: { x: number; y: number; r: number }) => (
 
 function TopicsIllustration() {
   return (
-    <div className="mx-auto mt-[49px] w-[442px] rounded-xl bg-[#f7f7f8] px-6 pt-6 pb-6 text-left">
+    <div className="mx-auto mt-[49px] w-[442px] rounded-xl bg-[#f7f7f8] px-6 pt-6 pb-6 text-left xl:mt-[47px] xl:w-[443px]">
       <div className="relative h-[116px] overflow-hidden rounded-md bg-white shadow-[0_0_0_1px_#ececef]">
         <div className="absolute top-[14px] left-[16px] text-[12px] font-semibold text-rk-text-2">Topical Overview</div>
         <span className="absolute top-[16px] right-[16px] rounded-md border border-[#e0e1e5] bg-[#f4f4f6] px-3 py-[2px] text-[12px] text-[#8e9099]">Export</span>
@@ -320,7 +320,7 @@ function TopicsIllustration() {
 
 const bullets = {
   domain: [
-    "Automatically generates keyword lists to improve on-page optimization",
+    "Automatically generates keyword lists to improve on\u2011page optimization",
     "Identifies content gaps and suggests high-impact topics with ready-to-use keywords",
     "Improves SEO with data-driven insights",
   ],
@@ -415,7 +415,7 @@ export function StrategyBuilder() {
     setTip(false);
   };
   return (
-    <div className="mx-auto w-[986px] pt-[25px]">
+    <div className="mx-auto w-[986px] pt-[25px] xl:w-[989px]">
       <Builder
         mode={mode}
         setMode={change}
@@ -423,8 +423,7 @@ export function StrategyBuilder() {
         headingClass="text-[36px] leading-[44px] font-semibold"
         subtitle={
           <>
-            Drive more traffic with a ready-made strategy
-            <br />
+            Drive more traffic with a ready-made strategy <br className="xl:hidden" />
             based on your website or a keyword.
           </>
         }
@@ -452,13 +451,19 @@ export function StrategyBuilder() {
         }
       />
 
-      <div className="mt-4 rounded-lg bg-white px-6 pt-[70px] pb-10 shadow-card">
-        <h3 className="text-[24px] leading-8 font-semibold">Domain<Hy />based strategy</h3>
-        <Bullets items={bullets.domain} />
+      <div className="mt-4 rounded-lg bg-white px-6 pt-[70px] pb-10 shadow-card xl:grid xl:grid-cols-[1fr_443px] xl:gap-x-[4px] xl:px-[49px] xl:pt-10 xl:pb-10">
+        <div className="xl:pt-[30px] xl:pr-5">
+          <h3 className="text-[24px] leading-8 font-semibold">Domain<Hy />based strategy</h3>
+          <Bullets items={bullets.domain} />
+        </div>
         <PagesIllustration />
-        <h3 className="mt-[78px] text-[24px] leading-8 font-semibold">Seed keyword<Hy />based strategy</h3>
-        <Bullets items={bullets.seed} />
-        <TopicsIllustration />
+        <div className="xl:order-4 xl:self-center xl:pl-[48px]">
+          <h3 className="mt-[78px] text-[24px] leading-8 font-semibold xl:mt-0">Seed keyword<Hy />based strategy</h3>
+          <Bullets items={bullets.seed} />
+        </div>
+        <div className="xl:order-3">
+          <TopicsIllustration />
+        </div>
       </div>
 
       <h3 className="mt-[38px] text-[24px] leading-8 font-semibold">How it works</h3>

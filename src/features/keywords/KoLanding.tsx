@@ -53,7 +53,7 @@ export function KoLanding() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Enter keywords separated by commas"
-            className="mt-[7px] h-[42px] w-full rounded-md border-2 border-[#8d95ec] bg-white px-3 text-[16px] outline-none ring-2 ring-[#8d95ec] placeholder:text-rk-muted"
+            className="mt-[9px] h-10 w-full rounded-md border border-[#e0e0e0] bg-white px-[13px] text-[16px] outline-none placeholder:text-rk-muted focus:mt-[7px] focus:h-[42px] focus:border-2 focus:border-[#8d95ec] focus:px-3 focus:ring-2 focus:ring-[#8d95ec]"
           />
           <div className="mt-[15px] flex items-center gap-3">
             <label className="flex h-10 w-[320px] items-center gap-[10px] rounded-md border border-[#d7c5fb] px-3">
@@ -97,7 +97,7 @@ export function KoLanding() {
         </form>
       </div>
 
-      <div className="mt-4 rounded-lg bg-white px-12 pt-[38px] pb-12 shadow-card">
+      <div className="mt-4 rounded-lg bg-white px-12 pt-[38px] pb-12 shadow-card xl:mt-[18px] xl:pt-[37px]">
         <div className="grid grid-cols-2 gap-x-[33px] text-[16px] leading-6">
           <div>
             <h2 className="text-[24px] leading-8 font-bold">What Is Keyword Overview?</h2>
@@ -111,7 +111,7 @@ export function KoLanding() {
           <div>
             <h2 className="text-[24px] leading-8 font-bold">Why Use a Keyword Checker?</h2>
             <p className="mt-[13px]">
-              You should use a keyword checker to gain in-depth insights into each keyword’s difficulty, search volume, and competition, allowing you to make data-driven marketing
+              You should use a keyword checker to gain in-depth insights into each keyword&apos;s difficulty, search volume, and competition, allowing you to make data-driven marketing
               decisions.
             </p>
             <p className="mt-3">
