@@ -150,7 +150,8 @@ const intentTone: Record<Intent, string> = {
   T: "bg-[#c8f5e3] text-[#007c65]",
 };
 
-export function IntentBadge({ intent }: { intent: Intent }) {
+export function IntentBadge({ intent }: { intent: Intent | null }) {
+  if (!intent) return <span>n/a</span>;
   return <span className={`inline-flex h-5 w-5 items-center justify-center rounded text-[12px] leading-none font-semibold ${intentTone[intent]}`}>{intent}</span>;
 }
 

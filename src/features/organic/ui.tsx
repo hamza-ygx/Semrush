@@ -180,7 +180,8 @@ const intentName: Record<Intent, string> = {
   T: "Transactional",
 };
 
-export function IntentBadge({ intent }: { intent: Intent }) {
+export function IntentBadge({ intent }: { intent: Intent | null }) {
+  if (!intent) return <span>n/a</span>;
   return (
     <span
       title={intentName[intent]}
@@ -204,7 +205,8 @@ const kdColor = (kd: number) =>
             ? "#ff4953"
             : "#c3180f";
 
-export function Kd({ kd }: { kd: number }) {
+export function Kd({ kd }: { kd: number | null }) {
+  if (kd == null) return <span>n/a</span>;
   return (
     <span className="inline-flex items-center justify-end gap-[6px]">
       {kd}
@@ -263,7 +265,7 @@ function SerpGlyph() {
   );
 }
 
-export function SerpCell({ count, href, features }: { count?: number; href?: string; features?: { icon: string; label: string }[] }) {
+export function SerpCell({ count, href, features }: { count?: number | null; href?: string; features?: { icon: string; label: string }[] }) {
   return (
     <span className="inline-flex items-center">
       {href ? (
@@ -276,7 +278,9 @@ export function SerpCell({ count, href, features }: { count?: number; href?: str
         <SerpGlyph />
       )}
       <span className="mx-2 h-5 w-px bg-rk-border" />
-      {count == null ? (
+      {count === null ? (
+        <span>n/a</span>
+      ) : count === undefined ? (
         <span className="text-[#d6d8d7]">·</span>
       ) : (
         <span className="group/sf relative inline-flex">
@@ -306,6 +310,10 @@ export function SerpCell({ count, href, features }: { count?: number; href?: str
       )}
     </span>
   );
+}
+
+export function DemoTag({ className = "" }: { className?: string }) {
+  return <span className={`ml-[10px] inline-flex h-5 items-center rounded-[4px] bg-[#f0f1f1] px-[6px] text-[12px] leading-4 font-normal text-rk-muted ${className}`}>Demo data</span>;
 }
 
 export function PinIcon({ className = "" }: { className?: string }) {

@@ -34,6 +34,7 @@ import {
   type TrendKey,
 } from "./data";
 import { SerpIcon } from "./serpIcons";
+import { useOrganicLive, useOrganicQ } from "./context";
 import { CardTitle, DarkButton, ExtLink, HoverTip, KeywordLink, LegendCheck, NotesMenu, PinIcon, Segmented, SortIcon, TimeRange, domainHref } from "./ui";
 
 const Q = "?db=se&q=rkjh.se&searchType=domain";
@@ -48,13 +49,14 @@ export function Delta({ v }: { v: string }) {
 
 function ChangeTip({ tip, delta }: { tip: MetricChange; delta: string }) {
   const row = "flex h-6 items-center justify-between gap-[13px]";
+  const live = useOrganicLive();
   return (
     <span className="block text-left">
       <span className={row}>
-        Current (September 2026)<b className="font-semibold">{tip.current}</b>
+        Current ({live?.months.current ?? "September 2026"})<b className="font-semibold">{tip.current}</b>
       </span>
       <span className={row}>
-        Previous (August 2026)<b className="font-semibold">{tip.previous}</b>
+        Previous ({live?.months.previous ?? "August 2026"})<b className="font-semibold">{tip.previous}</b>
       </span>
       <span className="my-[2px] block border-t border-rk-border" />
       <span className={row}>
@@ -101,11 +103,12 @@ export function KwSpark({ className = "mt-[3px]" }: { className?: string }) {
   );
 }
 
-export function TrafficSpark({ className = "mt-[3px]" }: { className?: string }) {
+export function TrafficSpark({ className = "mt-[3px]", data }: { className?: string; data?: number[] }) {
   const w = 158;
   const h = 19;
-  const max = Math.max(...trafficSpark);
-  const pts = trafficSpark.map((v, i) => [(i / (trafficSpark.length - 1)) * (w - 4), h - 1 - (v / max) * (h - 5)]);
+  const values = data && data.length > 1 ? data : trafficSpark;
+  const max = Math.max(...values) || 1;
+  const pts = values.map((v, i) => [(i / (values.length - 1)) * (w - 4), h - 1 - (v / max) * (h - 5)]);
   const d = pts.map(([x, y], i) => `${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`).join("");
   const [lx, ly] = pts[pts.length - 1];
   return (
@@ -235,22 +238,25 @@ function SummaryCard() {
     testId: "trend-chart",
   });
   const [open, setOpen] = useState(true);
+  const live = useOrganicLive();
+  const sum = live ? { ...summary, ...live.summary } : summary;
+  const tips = live ? { ...metricChanges, ...live.tips } : metricChanges;
   return (
     <Card>
       <div className={`relative flex h-[115px] px-5 pt-[19px] ${open ? "border-b border-rk-border" : ""}`}>
-        <MetricBlock id="keywords" label="Keywords" {...summary.keywords} tip={metricChanges.keywords} className="w-[161px]" onClick={() => setOpen(true)}>
+        <MetricBlock id="keywords" label="Keywords" {...sum.keywords} tip={tips.keywords} className="w-[161px]" onClick={() => setOpen(true)}>
           <KwSpark />
         </MetricBlock>
         <Sep />
-        <MetricBlock id="traffic" label="Traffic" {...summary.traffic} tip={metricChanges.traffic} className="w-[160px]">
-          <TrafficSpark />
+        <MetricBlock id="traffic" label="Traffic" {...sum.traffic} tip={tips.traffic} className="w-[160px]">
+          <TrafficSpark data={live?.trafficSpark} />
         </MetricBlock>
         <Sep />
-        <MetricBlock id="cost" label="Traffic Cost" value={summary.cost.value} delta={summary.cost.delta} tip={metricChanges.cost} className="w-[131px]" />
+        <MetricBlock id="cost" label="Traffic Cost" value={sum.cost.value} delta={sum.cost.delta} tip={tips.cost} className="w-[131px]" />
         <Sep />
-        <MetricBlock id="branded" label="Branded Traffic" value={summary.branded.value} delta={summary.branded.delta} tip={metricChanges.branded} className="w-[103px]" />
+        <MetricBlock id="branded" label="Branded Traffic" value={sum.branded.value} delta={sum.branded.delta} tip={tips.branded} className="w-[103px]" />
         <Sep />
-        <MetricBlock id="non-branded" label="Non-Branded Traffic" value={summary.nonBranded.value} delta={summary.nonBranded.delta} tip={metricChanges.nonBranded} />
+        <MetricBlock id="non-branded" label="Non-Branded Traffic" value={sum.nonBranded.value} delta={sum.nonBranded.delta} tip={tips.nonBranded} />
         {open && <span className="absolute -bottom-[6px] left-[94px] h-[11px] w-[11px] rotate-45 border-t border-l border-rk-border bg-white" />}
       </div>
       {open ? (
@@ -278,8 +284,13 @@ function SummaryCard() {
 
 const th = "text-[12px] leading-4 font-normal text-rk-text";
 
+type TopKw = { keyword: string; position: number | "local"; sf: number | null; volume: string; traffic: string };
+
 function TopKeywordsCard() {
   const [tab, setTab] = useState<"All Positions" | "Organic" | "SERP Features">("All Positions");
+  const live = useOrganicLive();
+  const q = useOrganicQ();
+  const list: TopKw[] = live ? live.rows.slice(0, 5).map((r) => ({ keyword: r.keyword, position: r.position, sf: r.sf, volume: r.volume, traffic: r.pct })) : topKeywords;
   return (
     <Card className="h-[416px]">
       <CardTitle>Top Keywords</CardTitle>
@@ -308,16 +319,20 @@ function TopKeywordsCard() {
           </tr>
         </thead>
         <tbody>
-          {(tab === "SERP Features" ? topKeywords.filter((k) => k.position === "local") : tab === "Organic" ? topKeywords.filter((k) => k.position !== "local") : topKeywords).map((k, i) => (
+          {(tab === "SERP Features" ? list.filter((k) => k.position === "local") : tab === "Organic" ? list.filter((k) => k.position !== "local") : list).map((k, i) => (
             <tr key={i} className="border-b border-rk-border align-top">
               <td className="py-2 pl-5">
                 <KeywordLink keyword={k.keyword} />
               </td>
               <td className="py-2 text-right">{k.position === "local" ? <PinIcon className="ml-auto text-rk-link" /> : k.position}</td>
               <td className="py-2 text-right">
-                <button type="button" className="text-rk-text-2 underline decoration-dashed decoration-1 underline-offset-[5px]">
-                  {k.sf}
-                </button>
+                {k.sf == null ? (
+                  "n/a"
+                ) : (
+                  <button type="button" className="text-rk-text-2 underline decoration-dashed decoration-1 underline-offset-[5px]">
+                    {k.sf}
+                  </button>
+                )}
               </td>
               <td className="py-2 text-right">{k.volume}</td>
               <td className="py-2 pr-5 text-right">{k.traffic}</td>
@@ -326,7 +341,7 @@ function TopKeywordsCard() {
         </tbody>
       </table>
       <div className="px-5 pt-5">
-        <DarkButton href={routes.organic.positions + Q}>View all 134 keywords</DarkButton>
+        <DarkButton href={routes.organic.positions + q}>View all {live ? live.keywords.toLocaleString("en-US") : 134} keywords</DarkButton>
       </div>
     </Card>
   );
@@ -405,7 +420,9 @@ function NothingFound() {
 
 function ChangesCard() {
   const [tab, setTab] = useState<"New" | "Lost" | "Improved" | "Declined">("New");
-  const rows = topChanges[tab];
+  const live = useOrganicLive();
+  const q = useOrganicQ();
+  const rows: readonly { keyword: string; previous: number | null; current: number | null; volume: string; traffic: string }[] = live?.moves ? live.moves.top[tab] : topChanges[tab];
   return (
     <Card className="h-[335px]">
       <CardTitle>Top Position Changes in Organic</CardTitle>
@@ -451,7 +468,7 @@ function ChangesCard() {
           </table>
           {rows.length < 3 && <div className="pt-[26px] text-center text-[13px] text-rk-muted">No more results</div>}
           <div className="px-5 pt-[17px]">
-            <DarkButton href={`${routes.organic.changes}?sortField=traffic&db=se&q=rkjh.se&searchType=domain`}>View keyword{rows.length > 1 ? "s" : ""}</DarkButton>
+            <DarkButton href={`${routes.organic.changes}?sortField=traffic&${q.slice(1)}`}>View keyword{rows.length > 1 ? "s" : ""}</DarkButton>
           </div>
         </>
       ) : (
@@ -627,6 +644,9 @@ function SerpFeaturesCard() {
 }
 
 function TopPagesCard() {
+  const live = useOrganicLive();
+  const q = useOrganicQ();
+  const pages: { url: string; short?: string; traffic: string; keywords: number }[] = live ? live.pages.slice(0, 5).map((p) => ({ url: p.url, traffic: p.pct, keywords: p.keywords })) : topPages;
   return (
     <Card className="h-[344px]">
       <CardTitle>Top Pages</CardTitle>
@@ -648,11 +668,11 @@ function TopPagesCard() {
           </tr>
         </thead>
         <tbody>
-          {topPages.map((p) => (
+          {pages.map((p) => (
             <tr key={p.url} className="h-[37px] border-b border-rk-border">
               <td className="pl-5">
                 <span className="flex items-center gap-1">
-                  <Link href={`${routes.organic.positions}${Q}&url=${encodeURIComponent(p.url)}`} className="truncate text-rk-link hover:text-rk-link-hover">
+                  <Link href={`${routes.organic.positions}${q}&url=${encodeURIComponent(p.url)}`} className="truncate text-rk-link hover:text-rk-link-hover">
                     {p.short ?? p.url}
                   </Link>
                   <ExtLink href={p.url} />
@@ -665,13 +685,16 @@ function TopPagesCard() {
         </tbody>
       </table>
       <div className="px-5 pt-[17px]">
-        <DarkButton href={routes.topPages + Q}>View all 45 pages</DarkButton>
+        <DarkButton href={routes.topPages + q}>View all {live ? live.pageCount : 45} pages</DarkButton>
       </div>
     </Card>
   );
 }
 
 function TopSubdomainsCard() {
+  const live = useOrganicLive();
+  const q = useOrganicQ();
+  const subs = live ? live.subdomains.slice(0, 5) : [{ host: "rkjh.se", pct: "100.00", keywords: 134 }];
   return (
     <Card className="h-[344px]">
       <CardTitle>Top Subdomains</CardTitle>
@@ -693,22 +716,24 @@ function TopSubdomainsCard() {
           </tr>
         </thead>
         <tbody>
-          <tr className="h-[37px] border-b border-rk-border">
-            <td className="pl-5">
-              <span className="flex items-center gap-1">
-                <Link href={routes.organic.positions + Q} className="text-rk-link hover:text-rk-link-hover">
-                  rkjh.se
-                </Link>
-                <ExtLink href="rkjh.se" />
-              </span>
-            </td>
-            <td className="text-right">100.00</td>
-            <td className="pr-5 text-right">134</td>
-          </tr>
+          {subs.map((s) => (
+            <tr key={s.host} className="h-[37px] border-b border-rk-border">
+              <td className="pl-5">
+                <span className="flex items-center gap-1">
+                  <Link href={routes.organic.positions + q} className="text-rk-link hover:text-rk-link-hover">
+                    {s.host}
+                  </Link>
+                  <ExtLink href={s.host} />
+                </span>
+              </td>
+              <td className="text-right">{s.pct}</td>
+              <td className="pr-5 text-right">{s.keywords}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
       <div className="px-5 pt-[17px]">
-        <DarkButton href={routes.organic.subdomains + Q}>View subdomain</DarkButton>
+        <DarkButton href={routes.organic.subdomains + q}>View subdomain{subs.length > 1 ? "s" : ""}</DarkButton>
       </div>
     </Card>
   );

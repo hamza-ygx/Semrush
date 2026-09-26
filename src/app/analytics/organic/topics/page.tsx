@@ -1,11 +1,11 @@
 import { OrganicPage } from "@/features/organic/OrganicPage";
 import { TopicsView } from "@/features/organic/TopicsView";
+import { organicProps, qOf, type SearchParams } from "@/features/organic/load";
 
-export default async function Page({ searchParams }: { searchParams: Promise<{ subtopic?: string | string[] }> }) {
-  const raw = (await searchParams).subtopic;
-  const subtopic = Array.isArray(raw) ? raw[0] : raw;
+export default async function Page({ searchParams }: { searchParams: SearchParams }) {
+  const subtopic = qOf((await searchParams).subtopic);
   return (
-    <OrganicPage tab="topics" manual={false} pdf={false} date={false} currency={false}>
+    <OrganicPage tab="topics" manual={false} pdf={false} date={false} currency={false} {...await organicProps(searchParams, "base", "header")}>
       <TopicsView initial={subtopic || undefined} />
     </OrganicPage>
   );

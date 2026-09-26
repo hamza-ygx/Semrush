@@ -7,6 +7,7 @@ import { growthCharts, growthLabels, growthPositions, growthRow, growthSummary, 
 import { Plot, VBW, areaUnder, linePath, pts, smoothPath, Stroke } from "../charts";
 import { DarkButton, Dot, ExportButton, Flag, Seg, WorldIcon } from "../ui";
 import { WorldMap } from "../WorldMap";
+import type { GrowthLive } from "../live";
 
 const A = "#a55ff2";
 const B = "#6167e6";
@@ -57,7 +58,7 @@ function Badge({ delta }: { delta: string }) {
   return <span className={`ml-[8px] inline-flex h-[21px] items-center rounded-full px-[8px] text-[13px] ${tone}`}>{delta}</span>;
 }
 
-function GrowthChart({ c }: { c: ChartDef }) {
+function GrowthChart({ c, labels = growthLabels }: { c: ChartDef; labels?: string[] }) {
   const H = 136;
   const maxV = c.right[c.right.length - 1] || 1;
   const growth = c.a.map((a, i) => (a ? ((c.b[i] - a) / a) * 100 : 0));
@@ -86,7 +87,7 @@ function GrowthChart({ c }: { c: ChartDef }) {
         gap={16}
         xGap={10}
         bottomH={34}
-        x={growthLabels.map((l, i) => ({ at: xAt(i), label: l }))}
+        x={labels.map((l, i) => ({ at: xAt(i), label: l }))}
         labelClass="text-[13px] leading-4 text-rk-muted"
         overlay={
           c.kind === "bar"
@@ -112,7 +113,7 @@ function GrowthChart({ c }: { c: ChartDef }) {
   );
 }
 
-function SummaryTable() {
+function SummaryTable({ live }: { live: GrowthLive | null }) {
   const th = "h-8 text-[12px] font-normal text-rk-text-2";
   const cols = [`${brand.name} Rank`, "Org. Traffic", "Backlinks", "Ref. Domains", "Paid Traffic"];
   return (
@@ -129,7 +130,7 @@ function SummaryTable() {
           </tr>
         </thead>
         <tbody>
-          {growthSummary.map((r) => (
+          {(live ? growthSummary.map((r, i) => ({ ...r, period: live.periods[i], traffic: i ? live.summary.b : live.summary.a })) : growthSummary).map((r) => (
             <tr key={r.period} className="h-[37px] border-b border-rk-border">
               <td className="pl-5">
                 <span className="flex items-center gap-[8px]">
@@ -147,7 +148,7 @@ function SummaryTable() {
           <tr className="h-[37px]">
             <td className="pl-5">Growth</td>
             <td className="text-right text-rk-success">{growthRow.rank}</td>
-            <td className="text-right text-rk-success">{growthRow.traffic}</td>
+            <td className={`text-right ${live && live.summary.growth.startsWith("-") ? "text-rk-danger" : "text-rk-success"}`}>{live ? live.summary.growth : growthRow.traffic}</td>
             <td className="text-right text-rk-success">{growthRow.backlinks}</td>
             <td className="text-right text-rk-success">{growthRow.refDomains}</td>
             <td className="pr-5 text-right text-rk-muted">{growthRow.paid}</td>
@@ -158,9 +159,10 @@ function SummaryTable() {
   );
 }
 
-function ChartsCard() {
+function ChartsCard({ live }: { live: GrowthLive | null }) {
   const [tab, setTab] = useState<"Organic" | "Paid" | "Backlinks">("Organic");
-  const list = tab === "Organic" ? organic : tab === "Paid" ? paid : backlinks;
+  const organicList = live ? organic.map((c, i) => (i === 0 ? { ...c, ...live.traffic } : c)) : organic;
+  const list = tab === "Organic" ? organicList : tab === "Paid" ? paid : backlinks;
   return (
     <section className="mt-[17px] rounded-lg bg-white shadow-card">
       <header className="flex h-[44px] items-center justify-between border-b border-rk-border px-5">
@@ -181,8 +183,8 @@ function ChartsCard() {
       <div className="px-5 pt-[20px] pb-[20px]">
         <div className="flex gap-[18px] text-[14px] leading-5">
           {[
-            [A, "October – March"],
-            [B, "April – September"],
+            [A, live ? live.periods[0] : "October – March"],
+            [B, live ? live.periods[1] : "April – September"],
             [G, "Growth"],
           ].map(([c, l]) => (
             <span key={l} className="flex items-center gap-[6px]">
@@ -193,7 +195,7 @@ function ChartsCard() {
         </div>
         <div className="mt-[20px] flex flex-col gap-[16px]">
           {list.map((c) => (
-            <GrowthChart key={c.title} c={c} />
+            <GrowthChart key={c.title} c={c} labels={live?.labels} />
           ))}
         </div>
       </div>
@@ -346,11 +348,11 @@ function CountryCard() {
   );
 }
 
-export function GrowthReport() {
+export function GrowthReport({ live = null }: { live?: GrowthLive | null }) {
   return (
     <>
-      <SummaryTable />
-      <ChartsCard />
+      <SummaryTable live={live} />
+      <ChartsCard live={live} />
       <BottomCard />
       <CountryCard />
     </>

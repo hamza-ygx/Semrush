@@ -362,14 +362,14 @@ export const competitors: Competitor[] = [
 
 export type PositionRow = {
   keyword: string;
-  intent: Intent;
+  intent: Intent | null;
   position: number;
   local?: boolean;
-  sf: number;
+  sf: number | null;
   traffic: number;
   pct: string;
   volume: string;
-  kd: number;
+  kd: number | null;
   url: string;
   updated: string;
 };
@@ -499,16 +499,18 @@ export type ChangeRow = {
   updated?: string;
   results?: string;
   keyword: string;
-  intent: Intent;
+  intent: Intent | null;
   previous: number | null;
   current: number | null;
-  diff: "lost" | "new";
+  diff: "lost" | "new" | "improved" | "declined";
+  change?: number;
   traffic: number;
   pct: string;
   volume: string;
-  kd: number;
+  kd: number | null;
   cpc: string;
   url: string;
+  cells?: { pct: string; change: string };
 };
 
 export const changeRows: ChangeRow[] = [

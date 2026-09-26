@@ -8,11 +8,13 @@ import { kwLow, kwMid, kwTop, trafficDaily } from "../series";
 import { Plot, VBW, areaUnder, linePath, pts, smoothPath, stepPath, Stroke } from "../charts";
 import { Check, Dot, Flag, GoogleG, Seg } from "../ui";
 import { ExportDropdown, NotesMenu } from "./menus";
+import { compact, ticksFor } from "@/features/organic/live";
+import type { DomainLive } from "../live";
 
 const SPAN_DAYS = 730;
 const END = Date.UTC(2026, 8, 23);
 const DAY = 86400000;
-const MONDAY_OFFSET = (new Date(END).getUTCDay() + 6) % 7;
+const mondayOffset = (end: number) => (new Date(end).getUTCDay() + 6) % 7;
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 const ranges = ["1M", "6M", "1Y", "2Y", "All time"] as const;
@@ -24,20 +26,20 @@ function slice(data: number[], days: number) {
   return data.slice(data.length - n);
 }
 
-function monthly(data: number[]) {
-  const per = data.length / 24;
-  return Array.from({ length: 24 }, (_, i) => {
+function monthly(data: number[], buckets = 24) {
+  const per = data.length / buckets;
+  return Array.from({ length: buckets }, (_, i) => {
     const s = data.slice(Math.round(i * per), Math.round((i + 1) * per));
     return s.reduce((a, b) => a + b, 0) / Math.max(s.length, 1);
   });
 }
 
-function xLabels(days: number) {
-  const start = END - days * DAY;
+function xLabels(days: number, end = END) {
+  const start = end - days * DAY;
   const out: { at: number; label: string }[] = [];
   const step = days > 400 ? 3 : days > 100 ? 1 : 0;
   if (step === 0) {
-    for (let t = start + 3 * DAY; t < END; t += 7 * DAY) {
+    for (let t = start + 3 * DAY; t < end; t += 7 * DAY) {
       const d = new Date(t);
       out.push({ at: (t - start) / (days * DAY), label: `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}` });
     }
@@ -50,14 +52,14 @@ function xLabels(days: number) {
       y++;
     }
     const t = Date.UTC(y, m, 1);
-    if (t >= END) break;
+    if (t >= end) break;
     if (m % step === 0) out.push({ at: (t - start) / (days * DAY), label: `${MONTHS[m]} ${y}` });
   }
   return out.filter((l) => l.at > 0.06 && l.at < 0.97);
 }
 
-function dateAt(f: number, days: number) {
-  const d = new Date(END - Math.round((1 - f) * days) * DAY);
+function dateAt(f: number, days: number, end = END) {
+  const d = new Date(end - Math.round((1 - f) * days) * DAY);
   return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
 }
 
@@ -65,11 +67,11 @@ const at = (data: number[], f: number) => data[Math.round(f * (data.length - 1))
 
 type HoverProps = { hover: number | null; onHover: (f: number | null) => void };
 
-function isoDay(f: number, days: number) {
-  return new Date(END - Math.round((1 - f) * days) * DAY).toISOString().slice(0, 10);
+function isoDay(f: number, days: number, end = END) {
+  return new Date(end - Math.round((1 - f) * days) * DAY).toISOString().slice(0, 10);
 }
 
-function HoverArea({ testId, rightW, days, onHover, onY, children }: { testId: string; rightW: number; days?: number; onHover: (f: number | null) => void; onY?: (y: number) => void; children: ReactNode }) {
+function HoverArea({ testId, rightW, days, end = END, onHover, onY, children }: { testId: string; rightW: number; days?: number; end?: number; onHover: (f: number | null) => void; onY?: (y: number) => void; children: ReactNode }) {
   return (
     <div
       data-testid={testId}
@@ -86,8 +88,8 @@ function HoverArea({ testId, rightW, days, onHover, onY, children }: { testId: s
       {days && (
         <div className="absolute top-0 left-0 h-[33px] overflow-hidden" style={{ right: rightW }}>
           {Array.from({ length: Math.floor(days / 7) + 1 }, (_, w) => {
-            const i = days - MONDAY_OFFSET - 7 * w;
-            return <span key={i} data-day={isoDay(i / days, days)} className="absolute inset-y-0" style={{ left: `${((i - 3.5) / days) * 100}%`, width: `${700 / days}%` }} />;
+            const i = days - mondayOffset(end) - 7 * w;
+            return <span key={i} data-day={isoDay(i / days, days, end)} className="absolute inset-y-0" style={{ left: `${((i - 3.5) / days) * 100}%`, width: `${700 / days}%` }} />;
           })}
         </div>
       )}
@@ -129,16 +131,26 @@ function IncompleteBand({ h }: { h: number }) {
   );
 }
 
-function TrafficChart({ range, gran, hover, onHover }: { range: Range; gran: "Days" | "Months" } & HoverProps) {
+function liveSlice(live: DomainLive, days: number) {
+  const values = live.series.values;
+  const n = Math.min(values.length, days + 1);
+  return values.slice(values.length - n);
+}
+
+function TrafficChart({ range, gran, hover, onHover, live, end }: { range: Range; gran: "Days" | "Months"; live: DomainLive | null; end: number } & HoverProps) {
   const [on, setOn] = useState({ organic: true, paid: true, branded: true });
   const [y, setY] = useState(28);
   const H = 83;
   const days = rangeDays[range];
-  const raw = slice(trafficDaily, days);
-  const data = gran === "Months" && days > 300 ? monthly(raw) : raw;
-  const max = 125;
-  const p = pts(data, max, H);
+  const raw = live ? liveSlice(live, days) : slice(trafficDaily, days);
+  const from = live ? Math.max(0, 1 - (raw.length - 1) / days) : 0;
+  const months = gran === "Months" && days > 300;
+  const data = months ? monthly(raw, live ? Math.max(2, Math.round((24 * raw.length) / (days + 1))) : 24) : raw;
+  const ticks = live ? ticksFor(Math.max(1, ...data)) : [0, 42, 83, 125];
+  const max = live ? ticks[3] : 125;
+  const p = pts(data, max, H, from);
   const zero = pts([0, 0], max, H);
+  const valueAt = (f: number) => (f < from ? null : at(data, from < 1 ? (f - from) / (1 - from) : 1));
   return (
     <div>
       <h3 className="text-[16px] leading-6 font-bold">Traffic</h3>
@@ -151,17 +163,17 @@ function TrafficChart({ range, gran, hover, onHover }: { range: Range; gran: "Da
           <NotesMenu />
         </span>
       </div>
-      <HoverArea testId="traffic-chart" rightW={70} days={days} onHover={onHover} onY={setY}>
+      <HoverArea testId="traffic-chart" rightW={70} days={days} end={end} onHover={onHover} onY={setY}>
       <Plot
         className="mt-[27px]"
         height={H}
         ticks={[0, 1 / 3, 2 / 3, 1]}
-        right={["0", "42", "83", "125"]}
+        right={live ? ticks.map((t) => compact(t)) : ["0", "42", "83", "125"]}
         rightW={70}
         gap={14}
         bottomH={26}
         xGap={10}
-        x={xLabels(days)}
+        x={xLabels(days, end)}
         overlay={
           hover != null && (
             <>
@@ -170,12 +182,12 @@ function TrafficChart({ range, gran, hover, onHover }: { range: Range; gran: "Da
                 dots={[
                   ...(on.paid ? [{ y: H, color: "#3ed4a4" }] : []),
                   ...(on.branded ? [{ y: H, color: "#c28bf5" }] : []),
-                  ...(on.organic ? [{ y: H - (at(data, hover) / max) * H, color: "#6167e6" }] : []),
+                  ...(on.organic && valueAt(hover) != null ? [{ y: H - (valueAt(hover)! / max) * H, color: "#6167e6" }] : []),
                 ]}
               />
               <div className="pointer-events-none absolute z-20 w-[170px] rounded-md bg-white pt-[9px] pr-3 pb-[9px] pl-[11px] shadow-popover" style={{ left: `calc(${hover * 100}% + 10px)`, top: y - 58 }}>
-                <div className="mb-[3px] text-[12px] leading-5 text-rk-muted">{dateAt(hover, days)}</div>
-                <TipRow color="#6167e6" label="Organic Traffic" value={Math.round(at(data, hover))} />
+                <div className="mb-[3px] text-[12px] leading-5 text-rk-muted">{dateAt(hover, days, end)}</div>
+                <TipRow color="#6167e6" label="Organic Traffic" value={valueAt(hover) == null ? "n/a" : Math.round(valueAt(hover)!)} />
                 <TipRow color="#3ed4a4" label="Paid Traffic" value={0} />
                 <TipRow color="#c28bf5" label="Branded Traffic" value={0} />
               </div>
@@ -185,7 +197,7 @@ function TrafficChart({ range, gran, hover, onHover }: { range: Range; gran: "Da
       >
         <IncompleteBand h={H} />
         {on.paid && <Stroke d={linePath(zero)} color="#3ed4a4" width={3} />}
-        {on.organic && <Stroke d={gran === "Months" && days > 300 ? smoothPath(p) : stepPath(p)} color="#6167e6" width={2.5} />}
+        {on.organic && <Stroke d={months ? smoothPath(p) : stepPath(p)} color="#6167e6" width={2.5} />}
         {on.branded && <Stroke d={linePath(zero)} color="#c28bf5" width={3} />}
       </Plot>
       </HoverArea>
@@ -193,7 +205,7 @@ function TrafficChart({ range, gran, hover, onHover }: { range: Range; gran: "Da
   );
 }
 
-function KeywordsChart({ range, hover, onHover }: { range: Range } & HoverProps) {
+function KeywordsChart({ range, hover, onHover, end }: { range: Range; end: number } & HoverProps) {
   const [kind, setKind] = useState<"Organic" | "Paid">("Organic");
   const [on, setOn] = useState<Record<string, boolean>>(Object.fromEntries(keywordLegend.map((l) => [l.label, true])));
   const H = 167;
@@ -235,13 +247,13 @@ function KeywordsChart({ range, hover, onHover }: { range: Range } & HoverProps)
         gap={14}
         bottomH={27}
         xGap={10}
-        x={xLabels(days)}
+        x={xLabels(days, end)}
         overlay={
           <>
             {range === "2Y" || range === "All time"
               ? googleMarkers.map((m) => <GoogleG key={m} className="absolute -bottom-[6px] -translate-x-1/2" width={12} height={12} style={{ left: `${m * 100}%` }} />)
               : null}
-            {hover != null && <KeywordsTip f={hover} days={days} series={series} on={on} H={H} max={max} />}
+            {hover != null && <KeywordsTip f={hover} days={days} end={end} series={series} on={on} H={H} max={max} />}
           </>
         }
       >
@@ -260,7 +272,7 @@ function KeywordsChart({ range, hover, onHover }: { range: Range } & HoverProps)
   );
 }
 
-function KeywordsTip({ f, days, series, on, H, max }: { f: number; days: number; series: Record<string, number[]>; on: Record<string, boolean>; H: number; max: number }) {
+function KeywordsTip({ f, days, end, series, on, H, max }: { f: number; days: number; end: number; series: Record<string, number[]>; on: Record<string, boolean>; H: number; max: number }) {
   const v = (k: string) => at(series[k], f);
   const bands: Record<string, number> = {
     "Top 3": v("Top 3") - v("4-10"),
@@ -278,7 +290,7 @@ function KeywordsTip({ f, days, series, on, H, max }: { f: number; days: number;
     <>
       <Crosshair f={f} dots={lines.map((k) => ({ y: H - (v(k) / max) * H, color: keywordLegend.find((l) => l.label === k)!.color }))} />
       <div className="pointer-events-none absolute -top-[56px] z-20 w-[218px] rounded-md bg-white pt-[10px] pr-[12px] pb-[8px] pl-[12px] shadow-popover" style={{ left: `calc(${f * 100}% - 226px)` }}>
-        <div className="mb-[4px] text-[12px] leading-5 text-rk-muted">{dateAt(f, days)}</div>
+        <div className="mb-[4px] text-[12px] leading-5 text-rk-muted">{dateAt(f, days, end)}</div>
         {keywordLegend.map((l) => (
           <TipRow key={l.label} color={l.color} label={l.label} value={vals[l.label]} />
         ))}
@@ -342,8 +354,9 @@ function AiDistribution({ worldwide }: { worldwide: boolean }) {
   );
 }
 
-function GoogleDistribution({ worldwide }: { worldwide: boolean }) {
+function GoogleDistribution({ worldwide, live }: { worldwide: boolean; live: DomainLive | null }) {
   const sel = worldwide ? "Worldwide" : "SE";
+  const rows = live ? live.countries : googleCountries;
   return (
     <>
       <h3 className="px-5 text-[16px] leading-6 font-bold">Distribution by Country</h3>
@@ -356,7 +369,7 @@ function GoogleDistribution({ worldwide }: { worldwide: boolean }) {
           </tr>
         </thead>
         <tbody>
-          {googleCountries.map((c) => {
+          {rows.map((c) => {
             const db = c.name !== "Worldwide" && c.name !== "Other";
             const cell = db ? "text-rk-link" : "";
             return (
@@ -383,7 +396,8 @@ function GoogleDistribution({ worldwide }: { worldwide: boolean }) {
   );
 }
 
-export function TrendsWidget({ worldwide = false }: { worldwide?: boolean }) {
+export function TrendsWidget({ worldwide = false, live = null }: { worldwide?: boolean; live?: DomainLive | null }) {
+  const end = live ? Date.parse(`${live.to}T00:00:00Z`) : END;
   const [source, setSource] = useState<"AI Search" | "Google Search">("AI Search");
   const [range, setRange] = useState<Range>("2Y");
   const [gran, setGran] = useState<"Days" | "Months">("Days");
@@ -394,7 +408,7 @@ export function TrendsWidget({ worldwide = false }: { worldwide?: boolean }) {
         <div className="px-5">
           <Seg items={["AI Search", "Google Search"] as const} value={source} onChange={setSource} itemClassName="px-[8px]" />
         </div>
-        <div className="mt-[20px]">{source === "AI Search" ? <AiDistribution worldwide={worldwide} /> : <GoogleDistribution worldwide={worldwide} />}</div>
+        <div className="mt-[20px]">{source === "AI Search" ? <AiDistribution worldwide={worldwide} /> : <GoogleDistribution worldwide={worldwide} live={live} />}</div>
         <h3 className="mt-[17px] px-5 text-[16px] leading-6 font-bold">Top Cited Sources</h3>
         <div className={`flex items-center justify-center pb-[18px] pl-[19px] text-[14px] text-rk-muted ${source === "AI Search" ? "h-[173px]" : "h-[136px]"}`}>We have no data to show.</div>
         <h3 className="px-5 text-[16px] leading-6 font-bold">Google SERP Positions Distribution</h3>
@@ -429,10 +443,10 @@ export function TrendsWidget({ worldwide = false }: { worldwide?: boolean }) {
           </div>
         </div>
         <div className="mt-[21px]">
-          <TrafficChart range={range} gran={gran} hover={hover} onHover={setHover} />
+          <TrafficChart range={range} gran={gran} hover={hover} onHover={setHover} live={live} end={end} />
         </div>
         <div className="mt-[21px]">
-          <KeywordsChart range={range} hover={hover} onHover={setHover} />
+          <KeywordsChart range={range} hover={hover} onHover={setHover} end={end} />
         </div>
       </div>
     </section>

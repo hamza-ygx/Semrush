@@ -37,7 +37,7 @@ const history = Array.from({ length: 36 }, (_, i) => {
   return `${MONTHS[((m % 12) + 12) % 12]} ${y}`;
 });
 
-export function DateSelect({ current = latest }: { current?: string }) {
+export function DateSelect({ current = latest, history: months = history }: { current?: string; history?: string[] }) {
   const [v, setV] = useState(current);
   return (
     <HeaderSelect id="date" label={v === current ? current : v} width={228}>
@@ -56,7 +56,7 @@ export function DateSelect({ current = latest }: { current?: string }) {
           </HeaderOption>
           <div className="flex h-8 items-center border-b border-rk-border px-2 text-[14px] font-semibold">Historical data:</div>
           <div className="max-h-[240px] overflow-y-auto pt-[4px] pb-1 [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#d6d8d7]">
-            {history.map((h) => (
+            {months.map((h) => (
               <HeaderOption
                 key={h}
                 active={h === v}

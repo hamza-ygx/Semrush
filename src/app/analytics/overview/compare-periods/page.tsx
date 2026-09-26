@@ -7,18 +7,21 @@ import { EmptyState } from "@/features/domain/growth/EmptyState";
 import { GrowthControls } from "@/features/domain/growth/GrowthControls";
 import { GrowthReport } from "@/features/domain/growth/GrowthReport";
 import { PeriodsIllustration } from "@/features/domain/growth/Illustrations";
+import { loadDomainLive } from "@/features/domain/load";
+import { buildGrowthLive } from "@/features/domain/live";
 
 export default async function GrowthReportPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const { periodType } = await searchParams;
   const active = typeof periodType === "string" ? periodType : undefined;
+  const { live, organic, demo } = await loadDomainLive(searchParams);
   return (
-    <AppShell section="seo" search={{ kind: "analyze", value: domain, scope: true }} footer={false}>
+    <AppShell section="seo" search={{ kind: "analyze", value: live?.domain ?? domain, scope: true }} footer={false}>
       <div className="flex min-h-[calc(100vh-52px)] flex-col">
-        <DomainHeader tab="growth" />
+        <DomainHeader tab="growth" live={live} demo={demo} />
         <div className={`px-8 ${active ? "pt-[17px]" : "pt-[15.5px]"}`}>
           <GrowthControls key={active ?? "empty"} active={active} />
           {active ? (
-            <GrowthReport />
+            <GrowthReport live={organic && buildGrowthLive(organic)} />
           ) : (
             <EmptyState
               illustration={<PeriodsIllustration />}

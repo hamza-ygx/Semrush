@@ -3,6 +3,7 @@ import { routes } from "@/config/routes";
 import { ChatGptIcon, GeminiIcon, GoogleIcon } from "@/components/ui/icons";
 import { aiSummary, seoSummary, seoSummaryWorldwide, trafficShare } from "../data";
 import { Flag, WorldIcon } from "../ui";
+import type { DomainLive } from "../live";
 
 type SeoMetric = { label: string; value: string; href?: string; badge?: string; delta?: string; up?: boolean; globe?: boolean; share?: boolean; flag?: string };
 
@@ -110,9 +111,10 @@ export function AiSearchCard() {
   );
 }
 
-export function SeoCard({ worldwide = false }: { worldwide?: boolean }) {
+export function SeoCard({ worldwide = false, live = null }: { worldwide?: boolean; live?: DomainLive | null }) {
   const cols = worldwide ? ["w-[152px]", "w-[188px]", "w-[171px]", "flex-1"] : ["w-[153px]", "w-[179px]", "w-[172px]", "flex-1"];
-  const data: SeoMetric[] = worldwide ? seoSummaryWorldwide : seoSummary;
+  const base: SeoMetric[] = worldwide ? seoSummaryWorldwide : seoSummary;
+  const data = live ? base.map((m) => (m.label === "Organic Traffic" ? { ...m, ...live.seo.traffic } : m.label === "Organic Keywords" ? { ...m, ...live.seo.keywords } : m)) : base;
   const rows = [data.slice(0, 4), data.slice(4)];
   return (
     <section className="relative h-[219px] rounded-lg bg-white shadow-card">

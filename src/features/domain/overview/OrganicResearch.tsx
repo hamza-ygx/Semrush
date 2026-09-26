@@ -1,15 +1,17 @@
 import Link from "next/link";
 import { routes } from "@/config/routes";
-import { competitors, domain, intents, positionDistribution, selfPoint, topKeywords } from "../data";
+import { competitors, domain, intents, positionDistribution as mockDistribution, selfPoint, topKeywords } from "../data";
 import { Plot, VBW } from "../charts";
 import { DarkButton, Dot, ExtLink, IntentBadge, LocalPinIcon, SerpIcon, SortIcon, SparkleIcon, Widget } from "../ui";
+import type { DomainLive } from "../live";
 
 const th = "h-[33px] border-b border-rk-border text-[12px] font-normal text-rk-text-2";
 const row = "h-[37px] border-b border-rk-border";
 
-function TopKeywords() {
+function TopKeywords({ live }: { live: DomainLive | null }) {
+  const rows = live ? live.topKeywords : topKeywords;
   return (
-    <Widget title="Top Organic Keywords" count="133" className="h-[359px]" bodyClassName="flex flex-col pt-[18px]">
+    <Widget title="Top Organic Keywords" count={live ? live.keywords.toLocaleString("en-US") : "133"} className="h-[359px]" bodyClassName="flex flex-col pt-[18px]">
       <table className="w-full table-fixed text-[14px] leading-5">
         <thead>
           <tr className={th}>
@@ -27,7 +29,7 @@ function TopKeywords() {
           </tr>
         </thead>
         <tbody>
-          {topKeywords.map((k, i) => (
+          {rows.map((k, i) => (
             <tr key={k.keyword} className={`${row} last:border-b`}>
               <td className="pl-5">
                 <span className="flex items-center gap-[6px]">
@@ -134,8 +136,9 @@ function KeywordsByIntent() {
   );
 }
 
-function PositionDistribution() {
+function PositionDistribution({ live }: { live: DomainLive | null }) {
   const H = 192;
+  const positionDistribution = live ? live.distribution : mockDistribution;
   const n = positionDistribution.length;
   const w = VBW / n;
   return (
@@ -273,15 +276,15 @@ function PositioningMap() {
   );
 }
 
-export function OrganicResearch() {
+export function OrganicResearch({ live = null }: { live?: DomainLive | null }) {
   return (
     <>
       <h2 className="mt-[22px] text-[20px] leading-7 font-semibold">Organic Research</h2>
       <div className="mt-[15px] grid grid-cols-2 gap-4">
-        <TopKeywords />
+        <TopKeywords live={live} />
         <KeyTopics />
         <KeywordsByIntent />
-        <PositionDistribution />
+        <PositionDistribution live={live} />
         <Competitors />
         <PositioningMap />
       </div>

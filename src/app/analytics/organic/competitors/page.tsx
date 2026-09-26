@@ -1,9 +1,10 @@
 import { OrganicPage } from "@/features/organic/OrganicPage";
 import { CompetitorsView } from "@/features/organic/CompetitorsView";
+import { organicProps, type SearchParams } from "@/features/organic/load";
 
-export default function Page() {
+export default async function Page({ searchParams }: { searchParams: SearchParams }) {
   return (
-    <OrganicPage tab="competitors">
+    <OrganicPage tab="competitors" {...await organicProps(searchParams, "base", "header")}>
       <CompetitorsView />
     </OrganicPage>
   );

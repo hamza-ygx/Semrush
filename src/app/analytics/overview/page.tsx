@@ -8,21 +8,24 @@ import { MarketTrends } from "@/features/domain/overview/MarketTrends";
 import { OrganicResearch } from "@/features/domain/overview/OrganicResearch";
 import { AiSearchCard, SeoCard } from "@/features/domain/overview/Summary";
 import { TrendsWidget } from "@/features/domain/overview/TrendsWidget";
+import { loadDomainLive } from "@/features/domain/load";
+import { qOf, type SearchParams } from "@/features/organic/load";
 
-export default async function DomainOverviewPage({ searchParams }: { searchParams: Promise<{ db?: string }> }) {
-  const { db } = await searchParams;
+export default async function DomainOverviewPage({ searchParams }: { searchParams: SearchParams }) {
+  const db = qOf((await searchParams).db);
   const worldwide = !db;
+  const { live, demo } = await loadDomainLive(searchParams);
   return (
-    <AppShell section="seo" search={{ kind: "analyze", value: domain, scope: true }} footer={false}>
-      <DomainHeader tab="overview" db={db ? db.toUpperCase() : "Worldwide"} />
+    <AppShell section="seo" search={{ kind: "analyze", value: live?.domain ?? domain, scope: true }} footer={false}>
+      <DomainHeader tab="overview" db={db ? db.toUpperCase() : "Worldwide"} live={live} demo={demo} />
       <div className="px-8 pt-[15.5px]">
         <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-4">
           <AiSearchCard />
-          <SeoCard worldwide={worldwide} />
+          <SeoCard worldwide={worldwide} live={live} />
         </div>
-        <TrendsWidget worldwide={worldwide} />
+        <TrendsWidget worldwide={worldwide} live={live} />
         <MarketTrends />
-        <OrganicResearch />
+        <OrganicResearch live={live} />
         <AdvertisingResearch />
         <BacklinksSection />
       </div>

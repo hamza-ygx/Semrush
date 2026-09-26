@@ -9,6 +9,19 @@ import { topPages, type TopPage } from "./data";
 import { tpCited, tpPages, tpTraffic } from "./series";
 import { Plot, linePath, pts, smoothPath, Stroke, VBW } from "./charts";
 import { Check, ExtIcon, IntentBadge, Seg, SerpIcon, SortIcon } from "./ui";
+import { addDays } from "@/features/organic/live";
+import type { TopPagesLive } from "./live";
+
+const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+function monthTicks(start: string, n: number) {
+  const out: { at: number; label: string }[] = [];
+  for (let i = 0; i < n; i++) {
+    const d = addDays(start, i);
+    if (d.endsWith("-01")) out.push({ at: i / Math.max(1, n - 1), label: `${MON[+d.slice(5, 7) - 1]} ${d.slice(0, 4)}` });
+  }
+  return out;
+}
 
 const MONTHS = ["Oct 2025", "Nov 2025", "Dec 2025", "Jan 2026", "Feb 2026", "Mar 2026", "Apr 2026", "May 2026", "Jun 2026", "Jul 2026", "Aug 2026", "Sep 2026"];
 const monthAt = [0, 0.0866, 0.171, 0.258, 0.345, 0.423, 0.51, 0.594, 0.681, 0.765, 0.852, 0.94];
@@ -31,14 +44,22 @@ function Metric({ label, value, delta, tone = "danger", className = "" }: { labe
   );
 }
 
-function Summary() {
+function Summary({ live }: { live: TopPagesLive | null }) {
   const [open, setOpen] = useState(true);
   const [range, setRange] = useState<"6M" | "1Y" | "2Y" | "All time">("1Y");
   const [on, setOn] = useState({ traffic: true, pages: true, cited: true });
   const H = 124;
   const cut = range === "6M" ? Math.round(tpTraffic.length / 2) : 0;
   const s = (a: number[]) => a.slice(cut);
-  const labels = range === "6M" ? MONTHS.slice(6).map((l, i) => ({ at: (monthAt[i + 6] - 0.5) / 0.5, label: l })) : MONTHS.map((l, i) => ({ at: monthAt[i], label: l }));
+  const liveCut = live && range === "6M" ? Math.max(0, live.chart.values.length - 183) : 0;
+  const liveTraffic = live ? live.chart.values.slice(liveCut) : [];
+  const liveStart = live ? addDays(live.chart.start, liveCut) : "";
+  const labels = live
+    ? monthTicks(liveStart, liveTraffic.length).filter((l) => l.at > 0.02 && l.at < 0.98)
+    : range === "6M"
+      ? MONTHS.slice(6).map((l, i) => ({ at: (monthAt[i + 6] - 0.5) / 0.5, label: l }))
+      : MONTHS.map((l, i) => ({ at: monthAt[i], label: l }));
+  const trafficPath = live ? smoothPath(pts(liveTraffic, live.chart.max, H, Math.max(0, 1 - (liveTraffic.length - 1) / (range === "6M" ? 182 : 364)))) : smoothPath(pts(s(tpTraffic), 132, H));
   return (
     <section className="rounded-lg bg-white shadow-card">
       <header className={`flex h-[42px] items-center justify-between px-5 ${open ? "border-b border-rk-border" : ""}`}>
@@ -51,8 +72,8 @@ function Summary() {
       {open && (
         <div className="px-5 pt-[21px] pb-[20px]">
           <div className="flex">
-            <Metric label="Organic Traffic" value="59" delta="-9.23%" className="w-[122px]" />
-            <Metric label="Organic Pages" value="45" delta="-18.18%" className="w-[146px] border-l border-rk-border pl-[25px]" />
+            <Metric label="Organic Traffic" value={live?.traffic.value ?? "59"} delta={live?.traffic.delta ?? "-9.23%"} tone={live && !live.traffic.delta.startsWith("-") ? "muted" : "danger"} className="w-[122px]" />
+            <Metric label="Organic Pages" value={live?.pages.value ?? "45"} delta={live?.pages.delta ?? "-18.18%"} tone={live && !live.pages.delta.startsWith("-") ? "muted" : "danger"} className="w-[146px] border-l border-rk-border pl-[25px]" />
             <Metric label="Cited Pages" value="1" delta="no changes" tone="muted" className="border-l border-rk-border pl-[25px]" />
           </div>
           <div className="mt-[23.5px] flex items-center justify-between">
@@ -78,7 +99,7 @@ function Summary() {
               height={H}
               ticks={[0, 1 / 3, 2 / 3, 1]}
               left={["0", "36", "71", "107"]}
-              right={["0", "44", "88", "132"]}
+              right={live ? live.chart.right : ["0", "44", "88", "132"]}
               leftW={80}
               rightW={80}
               gap={15}
@@ -90,8 +111,8 @@ function Summary() {
             >
               <rect x={VBW * 0.989} width={VBW * 0.011} y={0} height={H} fill="#e9ecee" />
               {on.cited && <Stroke d={smoothPath(pts(s(tpCited), 107, H))} color="#c28bf5" width={2.5} />}
-              {on.pages && <Stroke d={smoothPath(pts(s(tpPages), 107, H))} color="#3ed4a4" width={2.5} />}
-              {on.traffic && <Stroke d={smoothPath(pts(s(tpTraffic), 132, H))} color="#6167e6" width={2.5} />}
+              {on.pages && !live && <Stroke d={smoothPath(pts(s(tpPages), 107, H))} color="#3ed4a4" width={2.5} />}
+              {on.traffic && <Stroke d={trafficPath} color="#6167e6" width={2.5} />}
               <path d={linePath([[0, H], [VBW, H]])} stroke="#d6d8d7" vectorEffect="non-scaling-stroke" />
             </Plot>
           </div>
@@ -150,7 +171,7 @@ function Row({ p }: { p: TopPage }) {
           0
         )}
       </td>
-      <td className={num}>{p.diff ? <span className="text-rk-danger">{p.diff} ↓</span> : 0}</td>
+      <td className={num}>{p.diff ? p.diff > 0 ? <span className="text-rk-success">{p.diff} ↑</span> : <span className="text-rk-danger">{p.diff} ↓</span> : 0}</td>
       <td className={num}>{p.pct}</td>
       <td className={num}>
         {p.keywords ? (
@@ -161,9 +182,11 @@ function Row({ p }: { p: TopPage }) {
           0
         )}
       </td>
-      <td className={num}>{p.prompts}</td>
+      <td className={num}>{p.prompts ?? "n/a"}</td>
       <td className={num}>
-        {p.refDomains ? (
+        {p.refDomains == null ? (
+          "n/a"
+        ) : p.refDomains ? (
           <Link href={routes.referringDomains} className="text-rk-link">
             {p.refDomains}
           </Link>
@@ -195,15 +218,16 @@ const sourceIcons: Record<string, ReactNode> = {
   Gemini: <GeminiIcon width={16} height={16} />,
 };
 
-function AllPages() {
+function AllPages({ live }: { live: TopPagesLive | null }) {
   const [filter, setFilter] = useState("");
   const [kind, setKind] = useState<"All URLs" | "New" | "Lost">("All URLs");
   const head = useRef<HTMLDivElement>(null);
   const [src, setSrc] = useState<string[]>([]);
   const [adv, setAdv] = useState<{ mode: string; field: string; op: string; text: string }[]>([]);
+  const source = live ? (kind === "New" ? live.newRows : kind === "Lost" ? live.lostRows : live.rows) : topPages;
   const rows =
-    kind === "All URLs"
-      ? topPages.filter(
+    kind === "All URLs" || live
+      ? source.filter(
           (p) =>
             p.url.toLowerCase().includes(filter.trim().toLowerCase()) &&
             (!src.length || src.includes("Google Search")) &&
@@ -220,10 +244,10 @@ function AllPages() {
     <section className="mt-5 rounded-lg bg-white shadow-card">
       <header className="flex h-[43px] items-center justify-between border-b border-rk-border px-5">
         <h3 className="flex items-center gap-[10px] text-[16px] leading-6 font-bold">
-          All Pages <span className="font-normal text-rk-muted">66</span>
+          All Pages <span className="font-normal text-rk-muted">{live ? live.count : 66}</span>
         </h3>
         <ExportPopover
-          total={66}
+          total={live ? live.count : 66}
           trigger={(open, toggle) => (
             <button
               type="button"
@@ -313,11 +337,11 @@ function AllPages() {
   );
 }
 
-export function TopPagesReport() {
+export function TopPagesReport({ live = null }: { live?: TopPagesLive | null }) {
   return (
     <>
-      <Summary />
-      <AllPages />
+      <Summary live={live} />
+      <AllPages live={live} />
     </>
   );
 }

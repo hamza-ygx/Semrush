@@ -11,8 +11,8 @@ import { changeRows, changesTrend, pageChanges, type ChangeRow } from "./data";
 import { useStuck } from "./FilterBar";
 import { ExportMenu, IconBtn } from "./PositionsView";
 import { CardTitle, Checkbox, DarkButton, ExtLink, IntentBadge, Kd, KeywordLink, NotesMenu, SearchInput, Segmented, SerpCell, SortIcon, ext } from "./ui";
-
-const Q = "?db=se&q=rkjh.se&searchType=domain";
+import { useOrganicLive, useOrganicQ } from "./context";
+import { ticksFor } from "./live";
 
 function Dot({ color }: { color: string }) {
   return <span className="h-3 w-3 rounded-full" style={{ background: color }} />;
@@ -28,24 +28,29 @@ const changesDay = (i: number) => {
 function TrendChart() {
   const [ref, width] = useWidth<HTMLDivElement>(524);
   const [hover, setHover] = useState<number | null>(null);
-  const n = changesTrend.traffic.length;
+  const live = useOrganicLive()?.moves?.trend;
+  const trend = live ?? changesTrend;
+  const title = (i: number) => (live ? live.titles[i] : changesDay(i));
+  const aTicks = live ? ticksFor(Math.max(1, ...trend.traffic)).reverse() : [75, 50, 25, 0];
+  const bTicks = live ? ticksFor(Math.max(3, ...trend.improved, ...trend.declined)).reverse() : [3, 2, 1, 0];
+  const n = trend.traffic.length;
   const left = 80;
   const right = width - 33;
   const x = (i: number) => left + 2 + ((right - left - 2) * i) / (n - 1);
-  const ya = (v: number) => 107 - (v / 75) * 67;
-  const yb = (v: number) => 220 - (v / 3) * 82;
-  const line = changesTrend.traffic.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${ya(v).toFixed(1)}`).join("");
+  const ya = (v: number) => 107 - (v / aTicks[0]) * 67;
+  const yb = (v: number) => 220 - (v / bTicks[0]) * 82;
+  const line = trend.traffic.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${ya(v).toFixed(1)}`).join("");
   return (
     <div ref={ref} data-testid="changes-bars" className="relative" onMouseLeave={() => setHover(null)}>
       <svg width={width} height={260} className="block">
-        {[75, 50, 25, 0].map((t) => (
+        {aTicks.map((t) => (
           <text key={t} x={56} y={ya(t) + 4} textAnchor="end" fontSize="12" fill="#6a6c6a">
             {t}
           </text>
         ))}
         <path d={`${line}L${x(n - 1)} ${ya(0)}L${x(0)} ${ya(0)}Z`} fill="#dcdcf8" opacity={0.75} />
         <path d={line} fill="none" stroke="#6167e6" strokeWidth={2.5} />
-        {[3, 2, 1, 0].map((t) => (
+        {bTicks.map((t) => (
           <g key={t}>
             <line x1={left} x2={right + 8} y1={yb(t)} y2={yb(t)} stroke={t === 0 ? "#d6d8d7" : "#edefef"} />
             <text x={56} y={yb(t) + 4} textAnchor="end" fontSize="12" fill="#6a6c6a">
@@ -53,29 +58,29 @@ function TrendChart() {
             </text>
           </g>
         ))}
-        {hover != null && <rect x={x(hover) - 7.5} y={yb(3) - 6} width={15} height={yb(0) - yb(3) + 6} fill="#e0e2e1" opacity={0.45} />}
-        {changesTrend.declined.map((v, i) => (v ? <rect key={`d${i}`} x={x(i)} y={yb(v)} width={4} height={yb(0) - yb(v)} rx={1.5} fill="#ff6b70" /> : null))}
-        {changesTrend.improved.map((v, i) => (v ? <rect key={`i${i}`} x={x(i) - 5} y={yb(v)} width={4} height={yb(0) - yb(v)} rx={1.5} fill="#1dc99b" /> : null))}
-        {changesTrend.labels.map((l, i) =>
+        {hover != null && <rect x={x(hover) - 7.5} y={yb(bTicks[0]) - 6} width={15} height={yb(0) - yb(bTicks[0]) + 6} fill="#e0e2e1" opacity={0.45} />}
+        {trend.declined.map((v, i) => (v ? <rect key={`d${i}`} x={x(i)} y={yb(v)} width={4} height={yb(0) - yb(v)} rx={1.5} fill="#ff6b70" /> : null))}
+        {trend.improved.map((v, i) => (v ? <rect key={`i${i}`} x={x(i) - 5} y={yb(v)} width={4} height={yb(0) - yb(v)} rx={1.5} fill="#1dc99b" /> : null))}
+        {trend.labels.map((l, i) =>
           l ? (
             <text key={i} x={x(i)} y={yb(0) + 23} textAnchor="middle" fontSize="12" fill="#6a6c6a">
               {l}
             </text>
           ) : null,
         )}
-        {changesTrend.traffic.map((_, i) => (
+        {trend.traffic.map((_, i) => (
           <rect key={i} data-col={i} x={x(i) - 7} y={30} width={14} height={yb(0) - 30} fill="transparent" onMouseEnter={() => setHover(i)} />
         ))}
       </svg>
       {hover != null && (
         <div className="pointer-events-none absolute z-10 w-[114px] rounded-md bg-white px-3 pt-[11px] pb-[12px] text-[12px] leading-4 shadow-popover" style={{ top: TIP_TOP, left: x(hover) + 124 > width ? x(hover) - 122 : x(hover) + 5 }}>
-          <div className="text-rk-muted">{changesDay(hover)}</div>
+          <div className="text-rk-muted">{title(hover)}</div>
           <div className="mt-[7px]">
             {(
               [
-                ["Traffic", "#6167e6", changesTrend.traffic[hover]],
-                ["Improved", "#1dc99b", changesTrend.improved[hover]],
-                ["Declined", "#ff6b70", changesTrend.declined[hover]],
+                ["Traffic", "#6167e6", trend.traffic[hover]],
+                ["Improved", "#1dc99b", trend.improved[hover]],
+                ["Declined", "#ff6b70", trend.declined[hover]],
               ] as const
             ).map(([l, c, v]) => (
               <div key={l} className="flex items-center">
@@ -126,6 +131,9 @@ function TrendCard() {
 }
 
 function PageChangesCard() {
+  const live = useOrganicLive()?.moves;
+  const q = useOrganicQ();
+  const list = live ? live.pages.map((p) => ({ ...p, short: p.url, wide: p.url })) : pageChanges;
   return (
     <div className="relative h-[339px] rounded-lg bg-white shadow-card">
       <CardTitle className="h-[38px] pb-[2px]" right={<span className="text-[14px] text-rk-muted">Last 28 days</span>}>
@@ -151,11 +159,11 @@ function PageChangesCard() {
           </tr>
         </thead>
         <tbody>
-          {pageChanges.map((p) => (
+          {list.map((p) => (
             <tr key={p.url} className="h-[36px] border-b border-rk-border">
               <td className="pl-5">
                 <span className="flex items-center gap-1">
-                  <Link href={`${routes.organic.positions}${Q}&url=${encodeURIComponent(p.url)}`} className="truncate text-rk-link hover:text-rk-link-hover">
+                  <Link href={`${routes.organic.positions}${q}&url=${encodeURIComponent(p.url)}`} className="truncate text-rk-link hover:text-rk-link-hover">
                     <span className="xl:hidden">{p.short}</span>
                     <span className="hidden xl:inline">{p.wide}</span>
                   </Link>
@@ -176,7 +184,7 @@ function PageChangesCard() {
         </tbody>
       </table>
       <div className="absolute bottom-[21px] left-5">
-        <DarkButton href={`${routes.topPages}${Q}`}>View full report</DarkButton>
+        <DarkButton href={`${routes.topPages}${q}`}>View full report</DarkButton>
       </div>
     </div>
   );
@@ -234,6 +242,7 @@ const rangeGroups = [
 ];
 
 function DateRange() {
+  const live = useOrganicLive()?.moves;
   const [open, setOpen] = useState(false);
   const [v, setV] = useState("Last 2 days");
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
@@ -244,12 +253,12 @@ function DateRange() {
         data-testid="changes-range"
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
-        className={`flex h-7 w-[182px] items-center gap-2 rounded-md border px-[8px] text-[14px] whitespace-nowrap text-rk-text ${open ? "border-[#9aa2ea] bg-white" : "border-rk-border-strong bg-white hover:bg-rk-bg"}`}
+        className={`flex h-7 ${live ? "min-w-[182px]" : "w-[182px]"} items-center gap-2 rounded-md border px-[8px] text-[14px] whitespace-nowrap text-rk-text ${open ? "border-[#9aa2ea] bg-white" : "border-rk-border-strong bg-white hover:bg-rk-bg"}`}
       >
         <svg viewBox="0 0 16 16" width={16} height={16}>
           <path d="M2.5 3.5h11v10h-11zM2.5 6.5h11M5.5 2v3M10.5 2v3" fill="none" stroke="currentColor" strokeWidth={1.6} />
         </svg>
-        Sep 23 – 24, 2026
+        {live ? live.label : "Sep 23 – 24, 2026"}
         <ChevronDown className="ml-auto" />
       </button>
       {open && (
@@ -291,6 +300,8 @@ const segs = [
 ];
 
 function ChangeTabs({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const live = useOrganicLive()?.moves;
+  const counts: Record<string, number> | null = live ? { all: live.counts.all, improved: live.counts.improved, declined: live.counts.declined, serp: 0 } : null;
   return (
     <div className="mt-4 flex h-[72px]">
       {segs.map((s, i) => {
@@ -307,7 +318,7 @@ function ChangeTabs({ value, onChange }: { value: string; onChange: (v: string) 
                 {s.icon}
                 {s.title}
               </span>
-              <span className="text-rk-muted">{s.count}</span>
+              <span className="text-rk-muted">{counts ? counts[s.key] : s.count}</span>
             </span>
             <span className="mt-[4px] block text-[14px] leading-5 text-rk-muted">{s.sub}</span>
           </button>
@@ -423,13 +434,22 @@ function ChangeRowView({ r, checked, toggle }: { r: ChangeRow; checked: boolean;
           <span className={`${line} justify-end ${r.current == null ? "pr-2 text-[#a9abaa]" : ""}`}>{r.current ?? "·"}</span>
         </td>
         <td className={`${td} pl-[15px]`}>
-          <span className={`${line} ${r.diff === "lost" ? "text-rk-danger" : "text-rk-success"}`}>{r.diff}</span>
+          <span className={`${line} ${r.diff === "lost" || r.diff === "declined" ? "text-rk-danger" : "text-rk-success"}`}>
+            {r.change == null ? (
+              r.diff
+            ) : (
+              <>
+                {r.change > 0 ? <ArrowUp /> : <ArrowDown />}
+                {Math.abs(r.change)}
+              </>
+            )}
+          </span>
         </td>
         <td className={`${td} pr-[9px]`}>
-          <span className={`${line} justify-end`}>{r.traffic}</span>
+          <span className={`${line} justify-end`}>{r.cells ? r.cells.pct : r.traffic}</span>
         </td>
         <td className={`${td} pr-[6px]`}>
-          <span className={`${line} justify-end`}>{r.pct}</span>
+          <span className={`${line} justify-end`}>{r.cells ? r.cells.change : r.pct}</span>
         </td>
         <td className={`${td} pl-9`}>
           <span className={line}>
@@ -453,19 +473,19 @@ function ChangeRowView({ r, checked, toggle }: { r: ChangeRow; checked: boolean;
           </a>
         </td>
         <td className={`${td} pr-5`}>
-          <span className={`${line} justify-end`}>Sep 23</span>
+          <span className={`${line} justify-end`}>{r.updated ?? "Sep 23"}</span>
         </td>
         <td className={`${td} pr-5`}>
-          <span className={`${line} justify-end`}>{r.volume === "30" ? "1.2M" : "4.6M"}</span>
+          <span className={`${line} justify-end`}>{r.results ?? (r.volume === "30" ? "1.2M" : "4.6M")}</span>
         </td>
         <td className={`${td} pr-5`}>
-          <span className={`${line} justify-end`}>0.0{r.kd % 9}</span>
+          <span className={`${line} justify-end`}>{r.kd == null ? "n/a" : `0.0${r.kd % 9}`}</span>
         </td>
       </tr>
       {open && (
         <tr className="border-b border-rk-border bg-[#f7f7f9]">
           <td colSpan={cols.length} className="py-4 pl-[100px] text-[14px] text-rk-text-2">
-            {r.diff === "lost" ? `Lost position ${r.previous}` : `New at position ${r.current}`} ·{" "}
+            {r.diff === "lost" ? `Lost position ${r.previous}` : r.diff === "new" ? `New at position ${r.current}` : `Moved from position ${r.previous} to ${r.current}`} ·{" "}
             <Link href={`${routes.keywordOverview}?q=${encodeURIComponent(r.keyword)}&db=se`} className="text-rk-link">
               Open in Keyword Overview
             </Link>
@@ -480,9 +500,10 @@ function ChangesTable({ tab, filter }: { tab: string; filter: string }) {
   const scroller = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState({ left: 0, ratio: 0.71 });
   const [sel, setSel] = useState<Set<number>>(new Set());
-  const rows = changeRows
-    .map((r, i) => ({ r, i }))
-    .filter(() => tab !== "SERP Features" && filter === "all");
+  const live = useOrganicLive()?.moves;
+  const rows = live
+    ? live.rows.map((r, i) => ({ r, i })).filter(({ r }) => tab !== "SERP Features" && (filter === "all" || r.diff === filter))
+    : changeRows.map((r, i) => ({ r, i })).filter(() => tab !== "SERP Features" && filter === "all");
   const all = rows.length > 0 && rows.every(({ i }) => sel.has(i));
   const onScroll = () => {
     const el = scroller.current;

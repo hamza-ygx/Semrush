@@ -267,8 +267,8 @@ export type TopPage = {
   diff?: number;
   pct: string;
   keywords: number;
-  prompts: number;
-  refDomains: number;
+  prompts: number | null;
+  refDomains: number | null;
   keyword?: string;
   intent?: Intent;
 };

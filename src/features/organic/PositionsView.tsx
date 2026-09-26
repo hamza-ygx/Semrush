@@ -13,6 +13,8 @@ import { FilterBar, useStuck } from "./FilterBar";
 import { AdvancedFilters, CheckFilter, ExportPopover, RangeFilter, SerpFeaturesFilter } from "./filters";
 import { RankedUrls } from "./RankedUrls";
 import { useDbLoading } from "./dbLoading";
+import { useOrganicLive } from "./context";
+import { niceTop, ticksFor } from "./live";
 
 function Metric({ label, value, delta, children }: { label: string; value: string; delta: string; children?: ReactNode }) {
   return (
@@ -57,18 +59,24 @@ function SparkButton({ tip, active, onClick, testId, children }: { tip: string; 
 function TrafficArea() {
   const [ref, width] = useWidth<HTMLDivElement>();
   const [hover, setHover] = useState<number | null>(null);
+  const live = useOrganicLive()?.trend;
+  const traffic = live ? live.traffic : positionsTraffic;
+  const labels = live ? live.labels : dayLabels;
+  const title = (i: number) => (live ? live.titles[i] : dayTitle(i));
+  const top = live ? niceTop(Math.max(...traffic, 1), 2) * 1.295 : 129.5;
+  const ticks = live ? ticksFor(Math.max(...traffic, 1), 2) : [0, 50, 100];
   const pad = { top: 12, right: 36, bottom: 36, left: 70 };
   const height = 206;
-  const n = positionsTraffic.length;
+  const n = traffic.length;
   const W = width - pad.left - pad.right;
   const H = height - pad.top - pad.bottom;
   const x = (i: number) => pad.left + (W * i) / (n - 1);
-  const y = (v: number) => pad.top + H - (v / 129.5) * H;
-  const line = positionsTraffic.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join("");
+  const y = (v: number) => pad.top + H - (v / top) * H;
+  const line = traffic.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join("");
   return (
     <div ref={ref} data-testid="traffic-trend" className="relative w-full" onMouseLeave={() => setHover(null)}>
       <svg width={width} height={height} className="block">
-        {[0, 50, 100].map((t) => (
+        {ticks.map((t) => (
           <g key={t}>
             <line x1={pad.left - 8} x2={width - 20} y1={y(t)} y2={y(t)} stroke={t === 0 ? "#d6d8d7" : "#e9eaea"} />
             <text x={pad.left - 16} y={y(t) + 4} textAnchor="end" fontSize="12" fill="#6a6c6a">
@@ -79,7 +87,7 @@ function TrafficArea() {
         <rect x={x(n - 1) - 6} y={pad.top} width={10} height={H} fill="#e0e2e1" opacity={0.8} />
         <path d={`${line}L${x(n - 1)} ${y(0)}L${x(0)} ${y(0)}Z`} fill="#e0e0f8" />
         <path d={line} fill="none" stroke="#6167e6" strokeWidth={2.5} strokeLinejoin="round" />
-        {dayLabels.map((l, i) =>
+        {labels.map((l, i) =>
           l ? (
             <text key={i} x={x(i)} y={height - pad.bottom + 22} textAnchor="middle" fontSize="12" fill="#6a6c6a">
               {l}
@@ -89,10 +97,10 @@ function TrafficArea() {
         {hover != null && (
           <>
             <line x1={x(hover)} x2={x(hover)} y1={pad.top} y2={y(0)} stroke="#a9abaa" />
-            <circle cx={x(hover)} cy={y(positionsTraffic[hover])} r={4} fill="#6167e6" stroke="#fff" strokeWidth={2} />
+            <circle cx={x(hover)} cy={y(traffic[hover])} r={4} fill="#6167e6" stroke="#fff" strokeWidth={2} />
           </>
         )}
-        {positionsTraffic.map((_, i) => (
+        {traffic.map((_, i) => (
           <rect key={i} x={x(i) - W / (n - 1) / 2} y={pad.top} width={W / (n - 1)} height={H} fill="transparent" onMouseEnter={() => setHover(i)} />
         ))}
       </svg>
@@ -103,11 +111,11 @@ function TrafficArea() {
             left: x(hover) + 186 > width ? x(hover) - 186 : x(hover) + 6,
           }}
         >
-          <div className="leading-4 text-rk-muted">{dayTitle(hover)}</div>
+          <div className="leading-4 text-rk-muted">{title(hover)}</div>
           <div className="mt-2 flex items-center">
             <span className="mr-[9px] h-2 w-2 rounded-full bg-[#6167e6]" />
             Traffic
-            <b className="ml-auto font-semibold">{positionsTraffic[hover]}</b>
+            <b className="ml-auto font-semibold">{traffic[hover]}</b>
           </div>
         </div>
       )}
@@ -184,17 +192,20 @@ function SummarySkeleton({ view }: { view: TrendView }) {
 }
 
 function SummaryCard() {
+  const liveAll = useOrganicLive();
+  const live = liveAll?.trend;
+  const peak = live ? Math.max(1, ...live.bars.map((b) => b.reduce((a, v) => a + v, 0))) : 0;
   const t = useTrendChart({
-    data: positionsTrend,
-    labels: dayLabels,
-    ticks: [0, 100, 200],
-    max: 245,
+    data: live ? live.bars : positionsTrend,
+    labels: live ? live.labels : dayLabels,
+    ticks: live ? ticksFor(peak, 2).slice(0, 3) : [0, 100, 200],
+    max: live ? niceTop(peak, 2) * 1.225 : 245,
     height: 206,
     palette: { "21-50": "#95a4f5", "51-100": "#afc0ff" },
     pad: { top: 12, right: 21, bottom: 36, left: 72 },
     barRatio: 0.62,
     inset: 10,
-    tipTitle: dayTitle,
+    tipTitle: live ? (i) => live.titles[i] : dayTitle,
     tipTop: 21,
     marker: false,
     testId: "positions-trend",
@@ -210,7 +221,7 @@ function SummaryCard() {
   return (
     <div className="rounded-lg bg-white shadow-card">
       <div className="relative flex h-[93px] border-b border-rk-border px-5 pt-[19px]">
-        <Metric label="Keywords" {...latest.keywords}>
+        <Metric label="Keywords" {...(liveAll?.summary.keywords ?? latest.keywords)}>
           <SparkButton
             testId="keywords-spark"
             active={open && view === "keywords"}
@@ -221,14 +232,14 @@ function SummaryCard() {
           </SparkButton>
         </Metric>
         <div className="mx-6 mt-[2px] h-[51px] w-px shrink-0 bg-rk-border" />
-        <Metric label="Traffic" {...latest.traffic}>
+        <Metric label="Traffic" {...(liveAll?.summary.traffic ?? latest.traffic)}>
           <SparkButton
             testId="traffic-spark"
             active={open && view === "traffic"}
             onClick={() => show("traffic")}
             tip="This trend displays changes in the amount of estimated traffic over the last 12 months. Click it to view all changes."
           >
-            <TrafficSpark className="" />
+            <TrafficSpark className="" data={liveAll?.trafficSpark} />
           </SparkButton>
         </Metric>
         <div className="mx-6 mt-[2px] h-[51px] w-px shrink-0 bg-rk-border" />
@@ -320,6 +331,7 @@ function TrackingBanner({ text = "Create a new project to see your positions.", 
 type SortKey = "position" | "traffic" | "pct" | "volume" | "kd";
 
 const num = (v: string) => {
+  if (v === "n/a") return -1;
   if (v.startsWith("<")) return 0.001;
   const m = parseFloat(v);
   return v.endsWith("K") ? m * 1000 : v.endsWith("M") ? m * 1e6 : m;
@@ -543,7 +555,7 @@ function Row({ r, checked, toggle, vis }: { r: PositionRow; checked: boolean; to
         {vis("SERP Features") && (
           <td className={`${cell} pl-4`}>
             <span className={line}>
-              <SerpCell count={r.sf} href={serpHref(r)} features={sfList.slice(0, r.sf)} />
+              <SerpCell count={r.sf} href={serpHref(r)} features={sfList.slice(0, r.sf ?? 0)} />
             </span>
           </td>
         )}
@@ -651,8 +663,8 @@ const intentCode: Record<string, string> = {
 
 function matches(r: PositionRow, f: PositionFilters) {
   if (!inRange(r.local ? 1 : r.position, f.pos)) return false;
-  if (!inRange(num(r.volume), f.vol)) return false;
-  if (!inRange(r.kd, f.kd)) return false;
+  if (f.vol && (r.volume === "n/a" || !inRange(num(r.volume), f.vol))) return false;
+  if (f.kd && (r.kd == null || !inRange(r.kd, f.kd))) return false;
   if (f.intent.length && !f.intent.some((i) => intentCode[i] === r.intent)) return false;
   for (const c of f.adv) {
     const hay = (c.field === "URL" ? r.url : r.keyword).toLowerCase();
@@ -739,20 +751,22 @@ function PositionsTable({ tab, filter, filters }: { tab: string; filter: string;
   const [page, setPage] = useState({ n: 1, pages: 0 });
   const [shown, setShown] = useState(() => new Set(defaultColumns));
   const vis: Vis = (c) => shown.has(c);
+  const live = useOrganicLive();
+  const source = live ? live.rows : positionRows;
   const rows = useMemo(() => {
-    let list = positionRows.map((r, i) => ({ r, i }));
+    let list = source.map((r, i) => ({ r, i }));
     if (tab === "SERP Features") list = list.filter(({ r }) => r.local);
     if (tab === "Organic") list = list.filter(({ r }) => !r.local);
     if (filter) list = list.filter(({ r }) => r.keyword.includes(filter.toLowerCase()));
     list = list.filter(({ r }) => matches(r, filters));
     if (sort.key !== "pct" || sort.dir !== -1) {
-      const val = (r: PositionRow) => (sort.key === "position" ? r.position : sort.key === "traffic" ? r.traffic : sort.key === "pct" ? num(r.pct) : sort.key === "volume" ? num(r.volume) : r.kd);
+      const val = (r: PositionRow) => (sort.key === "position" ? r.position : sort.key === "traffic" ? r.traffic : sort.key === "pct" ? num(r.pct) : sort.key === "volume" ? num(r.volume) : (r.kd ?? -1));
       list = [...list].sort((a, b) => (val(a.r) - val(b.r)) * sort.dir);
     }
     return list;
-  }, [tab, filter, filters, sort]);
+  }, [source, tab, filter, filters, sort]);
   const filtered = !!(filter || filters.pos || filters.vol || filters.kd || filters.intent.length || filters.serp || filters.adv.length);
-  const total = tab === "SERP Features" ? 1 : filtered ? rows.length : latest.se;
+  const total = live ? (filtered || tab !== "All Positions" ? rows.length : live.keywords) : tab === "SERP Features" ? 1 : filtered ? rows.length : latest.se;
   const pages = Math.max(1, Math.ceil(total / 100));
   const cur = page.pages === pages ? Math.min(page.n, pages) : 1;
   const onSort = (k: SortKey) => setSort((s) => (s.key === k ? { key: k, dir: s.dir === 1 ? -1 : 1 } : { key: k, dir: -1 }));

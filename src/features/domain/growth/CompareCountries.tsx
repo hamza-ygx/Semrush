@@ -84,7 +84,7 @@ function AddCountry({ taken, onPick }: { taken: string[]; onPick: (c: string) =>
   );
 }
 
-export function CompareCountries() {
+export function CompareCountries({ metrics: live }: { metrics?: Record<string, [string, string, string, string]> }) {
   const [picked, setPicked] = useState<string[]>(["Sweden"]);
   const [compared, setCompared] = useState<string[] | null>(null);
   return (
@@ -137,7 +137,7 @@ export function CompareCountries() {
             </thead>
             <tbody>
               {compared.map((c) => {
-                const m = metrics[c] ?? ["0", "0", "0", "0"];
+                const m = (live ?? metrics)[c] ?? ["0", "0", "0", "0"];
                 return (
                   <tr key={c} className="h-[44px] border-b border-rk-border last:border-0">
                     <td className="pl-5">

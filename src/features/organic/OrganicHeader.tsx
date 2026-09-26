@@ -8,14 +8,14 @@ import { LinkSelect } from "@/components/ui/Popover";
 import { DesktopIcon, ExportIcon, MobileIcon, SearchIcon } from "@/components/ui/icons";
 import { databases, domain, latest } from "./data";
 import { CountryFlag, organicCountries } from "./flags";
-import { ExtIcon } from "./ui";
+import { DemoTag, ExtIcon } from "./ui";
 import { startDbLoading, useDbLoading } from "./dbLoading";
+import { useOrganicDemo, useOrganicLive, useOrganicQ } from "./context";
+import { historyMonths } from "./live";
 
 export type OrganicTab = "overview" | "positions" | "changes" | "competitors" | "topics" | "subdomains" | "pages";
 
-const q = "?db=se&q=rkjh.se&searchType=domain";
-
-const tabs = [
+const tabsFor = (q: string) => [
   { key: "overview", label: "Overview", href: routes.organic.overview + q },
   { key: "positions", label: "Positions", href: routes.organic.positions + q },
   { key: "changes", label: "Position Changes", href: `${routes.organic.changes}?sortField=traffic&${q.slice(1)}` },
@@ -52,6 +52,8 @@ function useOutside(open: boolean, close: () => void) {
 const scroll = "[&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#d6d8d7]";
 
 function DbSwitcher({ prev }: { prev?: boolean }) {
+  const live = useOrganicLive();
+  const countOf = (code: string, fallback?: number) => (live ? (code === "SE" ? live.keywords : (live.dbCounts[code] ?? 0)) : code === "SE" && !prev ? latest.se : fallback);
   const [db, setDbState] = useState("SE");
   const [open, setOpen] = useState(false);
   const setDb = (code: string) => {
@@ -82,7 +84,7 @@ function DbSwitcher({ prev }: { prev?: boolean }) {
           >
             <CountryFlag code={d.code} w={16} h={12} />
             <span className="text-rk-text">{d.code}</span>
-            <span className="text-rk-muted">{d.code === "SE" && !prev ? latest.se : d.count}</span>
+            <span className="text-rk-muted">{countOf(d.code, d.count)}</span>
           </button>
         );
       })}
@@ -125,7 +127,7 @@ function DbSwitcher({ prev }: { prev?: boolean }) {
                 >
                   <CountryFlag code={c.code} />
                   {c.name}
-                  {c.count != null && <span className="text-[#a9abaa]">{c.code === "SE" && !prev ? latest.se : c.count}</span>}
+                  {(live ? countOf(c.code) : c.count) != null && <span className="text-[#a9abaa]">{countOf(c.code, c.count)}</span>}
                 </button>
               </div>
             ))}
@@ -144,7 +146,9 @@ const history = Array.from({ length: 36 }, (_, i) => {
 });
 
 function DateSelect({ prev }: { prev?: boolean }) {
-  const currentDate = prev ? "Sep 23, 2026" : latest.date;
+  const live = useOrganicLive();
+  const currentDate = live ? live.date : prev ? "Sep 23, 2026" : latest.date;
+  const months = live ? historyMonths(live.to) : history;
   const [v, setV] = useState(currentDate);
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), []);
@@ -171,7 +175,7 @@ function DateSelect({ prev }: { prev?: boolean }) {
           <div className="h-[34px] border-b border-rk-border px-2 pt-[5px] text-[14px] leading-5 font-semibold text-rk-text">Historical Data:</div>
           <div className="relative">
             <div className={`max-h-[246px] overflow-y-auto pt-[2px] pb-1 ${scroll}`}>
-              {history.map((h) => (
+              {months.map((h) => (
                 <button key={h} type="button" onClick={() => pick(h)} className={`${row} h-8 items-center ${h === v ? "border-[#323143] bg-[#eef2ff]" : "border-transparent hover:bg-rk-bg"}`}>
                   {h}
                 </button>
@@ -230,6 +234,10 @@ function DeviceSelect() {
 }
 
 export function OrganicHeader({ tab, manual = true, pdf = true, date = true, currency = true, prev = false }: { tab: OrganicTab; manual?: boolean; pdf?: boolean; date?: boolean; currency?: boolean; prev?: boolean }) {
+  const live = useOrganicLive();
+  const demo = useOrganicDemo();
+  const q = useOrganicQ();
+  const name = live?.domain ?? domain;
   return (
     <PageHeader
       crumbs={[
@@ -254,11 +262,12 @@ export function OrganicHeader({ tab, manual = true, pdf = true, date = true, cur
         <>
           Organic Rankings:
           <span className="-ml-[3px] flex items-center gap-1 text-rk-muted">
-            {domain}
-            <a href={`https://${domain}`} target="_blank" rel="noreferrer" aria-label="Open rkjh.se" className="text-[#a9abaa] hover:text-rk-link">
+            {name}
+            <a href={`https://${name}`} target="_blank" rel="noreferrer" aria-label={`Open ${name}`} className="text-[#a9abaa] hover:text-rk-link">
               <ExtIcon />
             </a>
           </span>
+          {demo && <DemoTag className="!ml-[2px]" />}
         </>
       }
       actions={
@@ -290,7 +299,7 @@ export function OrganicHeader({ tab, manual = true, pdf = true, date = true, cur
           )}
         </div>
       }
-      tabs={<Tabs tabs={tabs} active={tab} className="[&>a]:tracking-[0.1px]" />}
+      tabs={<Tabs tabs={tabsFor(q)} active={tab} className="[&>a]:tracking-[0.1px]" />}
       className="bg-rk-bg"
     />
   );
