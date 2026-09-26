@@ -61,7 +61,7 @@ export async function liveAudit(domain?: string | null): Promise<LiveAudit | nul
 }
 
 export type LiveDay = { date: string; clicks: number; impressions: number; ctr: number; position: number };
-export type LiveQuery = { query: string; page: string; clicks: number; impressions: number; position: number; ctr: number };
+export type LiveQuery = { query: string; page: string; clicks: number; impressions: number; position: number; ctr: number; pages: { page: string; impressions: number }[] };
 
 export type LiveSearch = {
   project: LiveProject;
@@ -87,9 +87,9 @@ function aggregate(rows: Row[]) {
     q.set(r.query, e);
   }
   return [...q.values()].map((e) => {
-    const page = [...e.pages].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "";
+    const pages = [...e.pages].sort((a, b) => b[1] - a[1]).map(([page, impressions]) => ({ page, impressions }));
     const position = e.impressions ? e.posSum / e.impressions : 0;
-    return { query: e.query, page, clicks: e.clicks, impressions: e.impressions, position, ctr: e.impressions ? e.clicks / e.impressions : 0 };
+    return { query: e.query, page: pages[0]?.page ?? "", pages, clicks: e.clicks, impressions: e.impressions, position, ctr: e.impressions ? e.clicks / e.impressions : 0 };
   });
 }
 
