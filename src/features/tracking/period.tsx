@@ -1,12 +1,14 @@
 "use client";
 
 import { periodRange, useTracking } from "./context";
+import { fullDate } from "./live";
 
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const full = (d: Date) => `${months[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
 
 export function SummaryPeriod() {
-  const { begin, end } = useTracking();
+  const { begin, end, live } = useTracking();
+  if (live) return <>{`${fullDate(live.from)} - ${fullDate(live.to)}`}</>;
   const [a, b] = periodRange(begin, end);
   return <>{`${full(a)} - ${full(b)}`}</>;
 }

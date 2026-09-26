@@ -86,3 +86,7 @@ export function ExtLink({ href, children, className = "" }: { href: string; chil
     </a>
   );
 }
+
+export function DemoTag({ className = "" }: { className?: string }) {
+  return <span className={`ml-[10px] inline-flex h-5 items-center rounded-[4px] bg-[#f0f1f1] px-[6px] text-[12px] leading-4 font-normal text-rk-muted ${className}`}>Demo data</span>;
+}

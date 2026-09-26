@@ -11,6 +11,7 @@ import { ProjectsDate } from "./ProjectsDate";
 import { periodLabel } from "./context";
 import { Info } from "./ui";
 import { project } from "./data";
+import { dayLabel, fmtPct, rangeLabel, signed, type TrackingLive } from "./live";
 
 export type Target = "all" | "ai" | "seo";
 
@@ -21,6 +22,8 @@ const targets = [
 ] as const;
 
 const labelOf = (t: Target) => targets.find(([k]) => k === t)![1];
+
+const liveValues = (l: TrackingLive) => [fmtPct(l.vis), signed(l.vis - l.prevVis), String(l.improved), String(l.declined), String(project.keywords)];
 
 const numCols = [
   { label: "Visibility", ai: "Visibility", w: 132.1, value: "0", link: true },
@@ -103,7 +106,7 @@ function CreateProjectModal({ open, onClose }: { open: boolean; onClose: () => v
   );
 }
 
-export function ProjectsCard({ target: initial, begin, end, hours }: { target: Target; begin?: string; end?: string; hours?: number }) {
+export function ProjectsCard({ target: initial, begin, end, hours, live }: { target: Target; begin?: string; end?: string; hours?: number; live?: TrackingLive | null }) {
   const [target, setTarget] = useState<Target>(initial);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
@@ -132,6 +135,7 @@ export function ProjectsCard({ target: initial, begin, end, hours }: { target: T
   const q = query.trim().toLowerCase();
   const rows = target !== "ai" && (!q || project.domain.includes(q)) ? [project] : [];
   const ai = target === "ai";
+  const values = live ? liveValues(live) : numCols.map((c) => c.value);
 
   return (
     <section className={`rounded-md border border-[#e5e6e6] bg-white shadow-[0_1px_2px_rgba(25,27,35,0.05)] ${rows.length ? "h-[259px]" : ""}`}>
@@ -146,7 +150,7 @@ export function ProjectsCard({ target: initial, begin, end, hours }: { target: T
           />
         </label>
         <Segmented key={target} items={targets.map(([, l]) => l)} value={labelOf(target)} onChange={(l) => pick(targets.find(([, x]) => x === l)![0])} className="ml-[24.3px]" />
-        <ProjectsDate label={periodLabel(begin ?? "", " – ", end)} onPick={load} />
+        <ProjectsDate label={live ? rangeLabel(live.from, live.to, " – ") : periodLabel(begin ?? "", " – ", end)} onPick={load} />
         <button
           type="button"
           onClick={() => setCreating(true)}
@@ -187,7 +191,7 @@ export function ProjectsCard({ target: initial, begin, end, hours }: { target: T
               <div className="text-rk-text-2">{p.domain}</div>
             </div>
           </div>
-          {numCols.map((c) =>
+          {numCols.map((c, ci) =>
             loading ? (
               <div key={c.label} style={{ flex: `1 1 ${c.w}px` }} className="min-w-0 -mt-[10.9px] flex items-center justify-end pr-[7px]">
                 <Spinner />
@@ -196,10 +200,10 @@ export function ProjectsCard({ target: initial, begin, end, hours }: { target: T
               <div key={c.label} style={{ flex: `1 1 ${c.w}px` }} className="min-w-0 pr-[8px] text-right">
                 {c.link ? (
                   <Link href={routes.tracking.overview} className="text-rk-link hover:text-rk-link-hover">
-                    {c.value}
+                    {values[ci]}
                   </Link>
                 ) : (
-                  c.value
+                  values[ci]
                 )}
               </div>
             ),
@@ -209,7 +213,7 @@ export function ProjectsCard({ target: initial, begin, end, hours }: { target: T
               <Spinner />
             </div>
           ) : (
-            <div className="min-w-0 flex-[1_1_116px] pl-[17.5px]">{hours !== undefined ? `${hours}h ago` : p.updated}</div>
+            <div className="min-w-0 flex-[1_1_116px] pl-[17.5px]">{live ? dayLabel(live.to) : hours !== undefined ? `${hours}h ago` : p.updated}</div>
           )}
         </div>
       ))}

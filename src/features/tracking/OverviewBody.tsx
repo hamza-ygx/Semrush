@@ -49,6 +49,7 @@ function GreyChip() {
 const row = "flex h-8 w-full items-center justify-between px-2 text-left text-[14px] text-rk-text hover:bg-rk-bg";
 
 function TopPositionsPanel({ close }: { close: () => void }) {
+  const { live } = useTracking();
   return (
     <div className="w-[203px] pt-[9px] pb-[1px]">
       <div className="flex items-center gap-[6px] px-2 text-[14px] leading-5 font-semibold text-rk-text">
@@ -73,7 +74,7 @@ function TopPositionsPanel({ close }: { close: () => void }) {
       <div className="my-1 border-t border-rk-border" />
       <button type="button" onClick={close} className={row}>
         Out of top 100
-        <span className="pr-[1px] text-rk-muted">{project.keywords}</span>
+        <span className="pr-[1px] text-rk-muted">{live ? live.total - live.ranking : project.keywords}</span>
       </button>
     </div>
   );

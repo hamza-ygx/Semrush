@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { SortIcon } from "./icons";
 import { ExtLink, Panel } from "./ui";
 
-export type DomainCol = { label: ReactNode; w: number; sorted?: boolean; value?: ReactNode; bar?: boolean };
+export type DomainCol = { label: ReactNode; w: number; sorted?: boolean; value?: ReactNode; bar?: boolean; fill?: number };
 
 export function DomainTable({ title, count, cols, domain = "www.rkjh.se", className = "" }: { title: string; count?: string; cols: DomainCol[]; domain?: string; className?: string }) {
   return (
@@ -27,7 +27,11 @@ export function DomainTable({ title, count, cols, domain = "www.rkjh.se", classN
         {cols.map((c, i) => (
           <div key={i} style={{ width: c.w }} className={`flex shrink-0 items-center justify-end gap-[16px] ${i === cols.length - 1 ? "pr-[19.5px]" : "pr-[7.5px]"}`}>
             {c.value ?? "0"}
-            {c.bar && <span className="h-[7px] w-[80px] shrink-0 rounded-full bg-[#e0e2e1]" />}
+            {c.bar && (
+              <span className="h-[7px] w-[80px] shrink-0 overflow-hidden rounded-full bg-[#e0e2e1]">
+                {!!c.fill && <span className="block h-full rounded-full bg-[#5c5fd6]" style={{ width: `${c.fill}%` }} />}
+              </span>
+            )}
           </div>
         ))}
       </div>

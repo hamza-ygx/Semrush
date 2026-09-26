@@ -13,7 +13,8 @@ import { project, trackingTabs, type TrackingTab } from "./data";
 import { useTracking } from "./context";
 import { Tip } from "./Tip";
 import { Radio } from "./FilterPanels";
-import { Info } from "./ui";
+import { DemoTag, Info } from "./ui";
+import { dayLabel } from "./live";
 import { LookerMenu, PdfButton, ShareButton } from "./HeaderModals";
 
 type Action = "looker" | "pdf" | "export" | "share";
@@ -321,7 +322,7 @@ export function TrackingCrumbs() {
 }
 
 export function TrackingHeader({ tab }: { tab: TrackingTab }) {
-  const { fresh, latest, hours } = useTracking();
+  const { fresh, latest, hours, live, demo } = useTracking();
   return (
     <div className="border-b border-rk-border px-8 pt-4">
       <div className="flex items-center justify-between">
@@ -335,6 +336,7 @@ export function TrackingHeader({ tab }: { tab: TrackingTab }) {
         <h1 className="flex items-center text-[20px] leading-7 font-semibold">
           Position Tracking:
           <ProjectDropdown />
+          {demo && <DemoTag />}
         </h1>
         <div className="flex items-center gap-2">
           {actionsByTab[tab].map((a) => (
@@ -346,7 +348,7 @@ export function TrackingHeader({ tab }: { tab: TrackingTab }) {
       </div>
       <div className="mt-[7px] flex items-center gap-[24px] text-[14px] leading-5">
         <TargetDropdown />
-        <span>Updated: {hours !== undefined ? `${hours} hours ago` : fresh ? "0 hours ago" : latest ? "2 hours ago" : "17 hours ago"}</span>
+        <span>Updated: {live ? dayLabel(live.to) : hours !== undefined ? `${hours} hours ago` : fresh ? "0 hours ago" : latest ? "2 hours ago" : "17 hours ago"}</span>
         <span>
           Keywords:{" "}
           <Link href={routes.tracking.overview} className="text-rk-link hover:text-rk-link-hover">

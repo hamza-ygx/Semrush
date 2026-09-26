@@ -9,8 +9,9 @@ import { SortAscIcon, SortIcon, SparkleIcon } from "./icons";
 import { GrayButton, Panel } from "./ui";
 import { TipBox } from "./Tip";
 import { ActionsMenu, PotMetricSelect, SfCount, TableSettingsMenu, type PotMetric } from "./RankingsMenus";
-import { periodLabel, useTracking } from "./context";
+import { usePeriodLabel, useTracking } from "./context";
 import { kdColor, latestKeywords, onSerp, project, trackedKeywords, type TrackedKeyword } from "./data";
+import { dayLabel, fmtPct, signed, signedInt, type LiveKw, type TrackingLive } from "./live";
 
 type Col = {
   key: string;
@@ -110,6 +111,14 @@ const latestCols: Col[] = cols.map((c) => {
   return c;
 });
 
+const liveCols = (cs: Col[], live: TrackingLive): Col[] =>
+  cs.map((c) => {
+    if (c.key === "p17") return { ...c, label: `Pos. ${dayLabel(live.from)}` };
+    if (c.key !== "p24") return c;
+    const label = `Pos. ${dayLabel(live.to)}`;
+    return c.head ? { ...c, label: <span className="flex items-center gap-[6px]">{label} <SortAscIcon width={14} height={14} className="text-rk-muted" /></span> } : { ...c, label };
+  });
+
 const width = (cs: Col[]) => cs.reduce((a, c) => a + c.w, 0);
 
 const serpPool = ["People also ask", "Site link", "Related searches", "AI Overview", "Reviews", "Video", "Image pack"];
@@ -119,6 +128,39 @@ const serpHref = (kw: string) =>
   `${routes.tracking.serp(kw)}?source_type=tracking&campaign_id=30526913_5175527&date_begin=20260925&domain=${project.domain}&location=Sweden%252C%2520desktop&type=organic&device_group=desktop`;
 
 type Kw = TrackedKeyword & { potVis?: number };
+
+const diffCls = (v: number) => (v > 0 ? "text-rk-success" : v < 0 ? "text-rk-danger" : "text-rk-muted");
+const pos = (p: number | null) => (p == null ? dash : <span className="text-rk-text">{p}</span>);
+const diff = (v: number, text: string) => (v ? <span className={diffCls(v)}>{text}</span> : <span className="text-rk-muted">0</span>);
+
+function liveCell(k: Kw, l: LiveKw, key: string): ReactNode {
+  switch (key) {
+    case "p17":
+      return pos(l.first);
+    case "p24":
+      return pos(l.last);
+    case "d1":
+      return l.first != null && l.last != null ? diff(l.first - l.last, signedInt(l.first - l.last)) : l.last != null ? <span className="text-rk-success">new</span> : l.first != null ? <span className="text-rk-danger">lost</span> : dash;
+    case "vis":
+      return l.vis ? <span className="text-rk-text">{fmtPct(l.vis)}</span> : <span className="text-rk-muted">0</span>;
+    case "d2":
+      return diff(l.vis - l.prevVis, signed(l.vis - l.prevVis));
+    case "tr":
+      return l.traffic ? <span className="text-rk-text">{l.traffic}</span> : <span className="text-rk-muted">0</span>;
+    case "d3":
+      return diff(l.traffic - l.prevTraffic, signedInt(l.traffic - l.prevTraffic));
+    case "url":
+      return l.url ? (
+        <a href={l.url} target="_blank" rel="noreferrer" className="block min-w-0 truncate text-rk-link hover:text-rk-link-hover">
+          {l.url.replace(/^https?:\/\//, "")}
+        </a>
+      ) : (
+        dash
+      );
+    default:
+      return cell(k, key);
+  }
+}
 
 function cell(k: Kw, key: string): ReactNode {
   switch (key) {
@@ -172,9 +214,42 @@ function cell(k: Kw, key: string): ReactNode {
 
 const alignCls = (a?: string) => (a === "right" ? "justify-end text-right" : a === "center" ? "justify-center text-center" : "");
 
-function PositionsChart({ period }: { period: string }) {
-  const ticks = ["99", "99.5", "100", "100.5", "101"];
-  const days = ["Sep 19", "Sep 20", "Sep 21", "Sep 22", "Sep 23", "Sep 24", "Sep 25"];
+function liveTicks(vals: number[]) {
+  if (!vals.length) return [99, 99.5, 100, 100.5, 101];
+  const lo = Math.max(0, Math.floor(Math.min(...vals)) - 1);
+  const step = Math.max(0.5, Math.ceil((Math.ceil(Math.max(...vals)) + 1 - lo) / 4));
+  return [0, 1, 2, 3, 4].map((i) => lo + i * step);
+}
+
+function LivePositions({ series, days, ticks, y }: { series: (number | null)[]; days: string[]; ticks: number[]; y: (i: number) => number }) {
+  const n = days.length;
+  const vy = (v: number) => y(0) + ((v - ticks[0]) / (ticks[4] - ticks[0])) * (y(4) - y(0));
+  const segs: string[][] = [];
+  series.forEach((v, i) => {
+    if (v == null) return segs.push([]);
+    if (!segs.length) segs.push([]);
+    segs[segs.length - 1].push(`${((i * 100) / Math.max(1, n - 1)).toFixed(2)},${vy(v).toFixed(1)}`);
+  });
+  return (
+    <>
+      <svg viewBox="0 0 100 342" preserveAspectRatio="none" className="absolute inset-0 h-full w-full overflow-visible">
+        {segs
+          .filter((sg) => sg.length > 1)
+          .map((sg, i) => (
+            <path key={i} d={`M${sg.join("L")}`} fill="none" stroke="#5c5fd6" strokeWidth={3} vectorEffect="non-scaling-stroke" />
+          ))}
+      </svg>
+      {series.map((v, i) =>
+        v == null ? null : <span key={i} style={{ top: vy(v) - 3.5, left: `calc(${(i * 100) / Math.max(1, n - 1)}% - 3.5px)` }} className="absolute h-[7px] w-[7px] rounded-full bg-[#5c5fd6]" />,
+      )}
+    </>
+  );
+}
+
+function PositionsChart({ period, live }: { period: string; live?: { series: (number | null)[]; days: string[]; first: number | null; last: number | null } }) {
+  const vals = (live?.series ?? []).filter((v): v is number => v != null);
+  const ticks = live ? liveTicks(vals).map((t) => String(+t.toFixed(1))) : ["99", "99.5", "100", "100.5", "101"];
+  const days = live ? live.days.map(dayLabel) : ["Sep 19", "Sep 20", "Sep 21", "Sep 22", "Sep 23", "Sep 24", "Sep 25"];
   const y = (i: number) => 66 + i * 46.5;
   return (
     <div className="relative h-[342px] bg-white text-rk-text">
@@ -194,27 +269,34 @@ function PositionsChart({ period }: { period: string }) {
         {ticks.map((t, i) => (
           <span key={t} style={{ top: y(i) }} className={`absolute right-0 left-0 border-t ${i === 4 ? "border-[#e0e2e1]" : "border-[#eef0f2]"}`} />
         ))}
-        <span style={{ top: y(2) - 1.5 }} className="absolute right-0 left-0 h-[3px] bg-[#5c5fd6]" />
-        {[0, 100].map((l) => (
-          <span key={l} style={{ top: y(2) - 3.5, left: `calc(${l}% - 3.5px)` }} className="absolute h-[7px] w-[7px] rounded-full bg-[#5c5fd6]" />
-        ))}
+        {live && vals.length ? (
+          <LivePositions series={live.series} days={live.days} ticks={ticks.map(Number)} y={y} />
+        ) : (
+          <>
+            <span style={{ top: y(2) - 1.5 }} className="absolute right-0 left-0 h-[3px] bg-[#5c5fd6]" />
+            {[0, 100].map((l) => (
+              <span key={l} style={{ top: y(2) - 3.5, left: `calc(${l}% - 3.5px)` }} className="absolute h-[7px] w-[7px] rounded-full bg-[#5c5fd6]" />
+            ))}
+          </>
+        )}
         {days.map((d, i) => (
-          <span key={d} style={{ left: `${(i * 100) / 6}%`, top: 261 }} className="absolute -translate-x-1/2 text-[12px] leading-[18px] whitespace-nowrap text-rk-muted">
+          <span key={d} style={{ left: `${(i * 100) / (days.length - 1)}%`, top: 261 }} className="absolute -translate-x-1/2 text-[12px] leading-[18px] whitespace-nowrap text-rk-muted">
             {d}
           </span>
         ))}
       </div>
       <div className="absolute top-[302px] left-[51px] flex items-center text-[14px] leading-5">
         <Checkbox checked color="#5c5fd6" label={project.domain} className="!gap-[4px]" />
-        <span className="ml-[32px] text-rk-muted">100</span>
+        <span className="ml-[32px] text-rk-muted">{live ? (live.first ?? "-") : 100}</span>
         <span className="mx-[6px] text-rk-muted">→</span>
-        <span>100</span>
+        <span>{live ? (live.last ?? "-") : 100}</span>
       </div>
     </div>
   );
 }
 
-function Row({ k, cs, period }: { k: Kw; cs: Col[]; period: string }) {
+function Row({ k, cs, period, live }: { k: Kw; cs: Col[]; period: string; live?: TrackingLive | null }) {
+  const l = live?.kws[k.keyword];
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -254,13 +336,13 @@ function Row({ k, cs, period }: { k: Kw; cs: Col[]; period: string }) {
                 style={{ width: c.w }}
                 className={`flex shrink-0 items-start px-2 pt-[11.5px] text-[14px] leading-5 whitespace-nowrap ${alignCls(c.align)} ${c.sep ? "border-l border-[#edefef]" : ""}`}
               >
-                {cell(k, c.key)}
+                {l ? liveCell(k, l, c.key) : cell(k, c.key)}
               </div>
             ))}
           </div>
         </div>
       </div>
-      {open && <PositionsChart period={period} />}
+      {open && <PositionsChart period={period} live={l && live ? { series: l.series.slice(-live.days.length), days: live.days, first: l.first, last: l.last } : undefined} />}
     </>
   );
 }
@@ -312,12 +394,12 @@ function KeywordHead({ shaded }: { shaded: boolean }) {
 }
 
 export function RankingsTable() {
-  const { latest, begin, end } = useTracking();
+  const { latest, live } = useTracking();
   const [pot, setPot] = useState<PotMetric>(latest ? "Potential Visibility" : "Potential Traffic");
-  const cs = latest ? latestCols : cols;
+  const cs = live ? liveCols(latest ? latestCols : cols, live) : latest ? latestCols : cols;
   const total = width(cs);
-  const rows: Kw[] = latest ? latestKeywords : trackedKeywords;
-  const period = periodLabel(begin, "–", end);
+  const rows: Kw[] = latest ? latestKeywords : live ? [...trackedKeywords].sort((a, b) => (live.kws[a.keyword].last ?? 999) - (live.kws[b.keyword].last ?? 999)) : trackedKeywords;
+  const period = usePeriodLabel("–");
   const [sx, setSx] = useState(0);
   const [viewport, setViewport] = useState(794);
   const vpRef = useRef<HTMLDivElement>(null);
@@ -377,7 +459,7 @@ export function RankingsTable() {
           </div>
         </div>
         {rows.map((k) => (
-          <Row key={k.keyword} k={k} cs={cs} period={period} />
+          <Row key={k.keyword} k={k} cs={cs} period={period} live={live} />
         ))}
       </div>
       <div className="flex h-[66px] items-center gap-[8px] border-t border-[#edefef] px-5 pb-[5px] text-[14px] text-rk-text">

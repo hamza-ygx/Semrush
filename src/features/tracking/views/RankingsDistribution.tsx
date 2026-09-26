@@ -4,6 +4,29 @@ import { FilterBar } from "../FilterBar";
 import { DomainChip, Segmented, Select, SearchInput } from "../controls";
 import { DomainTable, type DomainCol } from "../DomainTable";
 import { serpOptions, volumeOptions } from "./Overview";
+import { fmtPct, signed, signedInt, type TrackingLive } from "../live";
+import type { ReactNode } from "react";
+
+const diffCls = (v: number) => (v > 0 ? "text-rk-success" : v < 0 ? "text-rk-danger" : "");
+const d = (v: number, text: string): ReactNode => (v ? <span className={diffCls(v)}>{text}</span> : "0");
+
+function withValues(cs: DomainCol[], values: ReactNode[], fill: number): DomainCol[] {
+  return cs.map((c, i) => ({ ...c, value: values[i], fill: c.bar ? fill : undefined }));
+}
+
+function liveOverview(cs: DomainCol[], l: TrackingLive) {
+  const b = l.buckets;
+  return withValues(
+    cs,
+    [fmtPct(l.vis), d(l.vis - l.prevVis, signed(l.vis - l.prevVis)), String(l.traffic), d(l.traffic - l.prevTraffic, signedInt(l.traffic - l.prevTraffic)), String(b[3].now), String(b[10].now), String(b[20].now), String(b[100].now)],
+    l.vis > 0 ? 100 : 0,
+  );
+}
+
+function liveTop(cs: DomainCol[], l: TrackingLive, n: 3 | 10 | 20 | 100) {
+  const b = l.buckets[n];
+  return withValues(cs, [String(b.now), d(b.now - b.prev, signedInt(b.now - b.prev)), String(b.gained), String(b.improved), String(b.lost), String(b.declined)], b.now > 0 ? 100 : 0);
+}
 
 const overviewCols: DomainCol[] = [
   { label: "Visibility", w: 120.6, sorted: true, bar: true },
@@ -30,6 +53,7 @@ function AddDomain() {
 }
 
 export function RankingsDistributionView(snap: Snap) {
+  const { live } = snap;
   return (
     <TrackingPage tab="rankingsDistribution" {...snap}>
       <div className="px-8 pt-[17px]">
@@ -54,11 +78,11 @@ export function RankingsDistributionView(snap: Snap) {
           }
         />
         <div className="mt-[15px] flex flex-col gap-4">
-          <DomainTable title="Rankings Overview" count="1-1 (1)" cols={overviewCols} />
-          <DomainTable title="Rankings in TOP 3" cols={topCols(3, 152.8)} />
-          <DomainTable title="Rankings in TOP 10" cols={topCols(10, 158)} />
-          <DomainTable title="Rankings in TOP 20" cols={topCols(20, 160)} />
-          <DomainTable title="Rankings in TOP 100" cols={topCols(100, 166)} />
+          <DomainTable title="Rankings Overview" count="1-1 (1)" cols={live ? liveOverview(overviewCols, live) : overviewCols} />
+          <DomainTable title="Rankings in TOP 3" cols={live ? liveTop(topCols(3, 152.8), live, 3) : topCols(3, 152.8)} />
+          <DomainTable title="Rankings in TOP 10" cols={live ? liveTop(topCols(10, 158), live, 10) : topCols(10, 158)} />
+          <DomainTable title="Rankings in TOP 20" cols={live ? liveTop(topCols(20, 160), live, 20) : topCols(20, 160)} />
+          <DomainTable title="Rankings in TOP 100" cols={live ? liveTop(topCols(100, 166), live, 100) : topCols(100, 166)} />
         </div>
       </div>
     </TrackingPage>

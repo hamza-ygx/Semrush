@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, type ReactNode } from "react";
+import { rangeLabel, type TrackingLive } from "./live";
 
 export const currentBegin = "20260918";
 const latestBegin = "20260919";
@@ -30,18 +31,23 @@ export function periodLabel(begin: string, dash = "-", end?: string) {
   return `${m(a)} ${a.getUTCDate()} - ${m(b)} ${b.getUTCDate()}, ${b.getUTCFullYear()}`;
 }
 
-type Ctx = { begin: string; end?: string; setBegin: (v: string) => void; fresh: boolean; latest: boolean; hours?: number };
+type Ctx = { begin: string; end?: string; setBegin: (v: string) => void; fresh: boolean; latest: boolean; hours?: number; live?: TrackingLive | null; demo?: boolean };
 
 const TrackingCtx = createContext<Ctx>({ begin: defaultBegin, setBegin: () => {}, fresh: false, latest: false });
 
-export type Snap = { begin?: string; end?: string; fresh?: boolean; hours?: number };
+export type Snap = { begin?: string; end?: string; fresh?: boolean; hours?: number; live?: TrackingLive | null; demo?: boolean };
 
-export function TrackingProvider({ begin, end, fresh = false, hours, children }: Snap & { children: ReactNode }) {
+export function TrackingProvider({ begin, end, fresh = false, hours, live, demo, children }: Snap & { children: ReactNode }) {
   const [cur, setCur] = useState({ begin: begin === "latest" ? latestBegin : begin && /^\d{8}$/.test(begin) ? begin : defaultBegin, end });
   const setBegin = (v: string) => setCur({ begin: v, end: undefined });
   return (
-    <TrackingCtx.Provider value={{ begin: cur.begin, end: cur.end, setBegin, fresh, hours, latest: cur.begin === latestBegin }}>{children}</TrackingCtx.Provider>
+    <TrackingCtx.Provider value={{ begin: cur.begin, end: cur.end, setBegin, fresh, hours, latest: cur.begin === latestBegin, live, demo }}>{children}</TrackingCtx.Provider>
   );
 }
 
 export const useTracking = () => useContext(TrackingCtx);
+
+export function usePeriodLabel(dash = "-") {
+  const { begin, end, live } = useTracking();
+  return live ? rangeLabel(live.from, live.to, dash) : periodLabel(begin, dash, end);
+}

@@ -5,7 +5,7 @@ import { TrackingPage } from "../TrackingPage";
 import { FilterBar } from "../FilterBar";
 import { Segmented, Select, SearchInput } from "../controls";
 import { SortIcon } from "../icons";
-import { ExtLink, Info, Panel } from "../ui";
+import { DemoTag, ExtLink, Info, Panel } from "../ui";
 import { competitors } from "../data";
 import { serpOptions, volumeOptions } from "./Overview";
 
@@ -20,9 +20,16 @@ const cols = [
   { label: "Avg. Pos.", w: 109 },
 ];
 
-function CompetitorsTable({ total }: { total: string }) {
+function CompetitorsTable({ total, demo }: { total: string; demo?: boolean }) {
   return (
-    <Panel title="Competitors" count={`1-10 (${total})`} className="mt-4" headerClassName="h-[41px]" divider={false}>
+    <Panel
+      title={
+        <>
+          Competitors
+          {demo && <DemoTag className="order-last !ml-[4px]" />}
+        </>
+      }
+      count={`1-10 (${total})`} className="mt-4" headerClassName="h-[41px]" divider={false}>
       <div className="flex h-[40px] border-y border-[#edefef] bg-[#f7f8f9] text-[12px] leading-4 text-rk-text">
         <span className="w-[44px]" />
         <span className="flex flex-1 items-center pl-[10px]">Domain</span>
@@ -113,7 +120,7 @@ export function CompetitorsDiscoveryView(snap: Snap) {
         <div className="mt-[15px]">
           <CompetitionMap />
         </div>
-        <CompetitorsTable total={snap.end === "20260925" ? "2,936" : "2,901"} />
+        <CompetitorsTable total={snap.end === "20260925" ? "2,936" : "2,901"} demo={!!snap.live} />
       </div>
     </TrackingPage>
   );

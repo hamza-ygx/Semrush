@@ -4,7 +4,7 @@ import { useState, type ReactNode } from "react";
 import { MenuItem, Popover } from "@/components/ui/Popover";
 import { CheckIcon, SearchIcon } from "@/components/ui/icons";
 import { CalendarIcon, ChevronBold, XBoldIcon } from "./icons";
-import { periodLabel, useTracking } from "./context";
+import { usePeriodLabel } from "./context";
 import { DatePickerPanel } from "./DatePicker";
 import { Tip } from "./Tip";
 
@@ -156,7 +156,7 @@ export function DomainChip({ domain = "www.rkjh.se", size = "m" }: { domain?: st
 }
 
 export function DateRange({ label, className = "" }: { label?: string; className?: string }) {
-  const { begin, end } = useTracking();
+  const period = usePeriodLabel();
   return (
     <Popover
       align="right"
@@ -171,7 +171,7 @@ export function DateRange({ label, className = "" }: { label?: string; className
           className={`flex h-7 items-center gap-[8px] rounded-md border bg-white pr-[9px] pl-[10px] text-[14px] text-rk-text hover:bg-rk-bg ${open ? "border-[#8e9ff0]" : "border-rk-border-strong"}`}
         >
           <CalendarIcon width={16} height={16} />
-          {label ?? periodLabel(begin, "-", end)}
+          {label ?? period}
         </button>
       )}
     >

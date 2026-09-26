@@ -10,6 +10,8 @@ import { ChevronBold, EyeIcon, NoteIcon, SparkleIcon } from "./icons";
 import { Info } from "./ui";
 import { Tip } from "./Tip";
 import { project } from "./data";
+import { useTracking } from "./context";
+import { dayLabel, fmtPct, niceMax, signed, type TrackingLive } from "./live";
 
 export type ChartMode = "ca" | "pg";
 
@@ -184,9 +186,63 @@ function CompetitiveChart({ metric, current: cur, latest, nine, k }: { metric: (
   );
 }
 
+function LiveChart({ live, metric, w }: { live: TrackingLive; metric: (typeof metrics)[number]; w: number }) {
+  const n = live.chartDays.length;
+  const x0 = 77;
+  const right = Math.max(x0 + 100, w - 45);
+  const x = (i: number) => x0 + (i * (right - x0)) / Math.max(1, n - 1);
+  const y = (i: number) => 191.6 + i * 43.4;
+  const pos = metric === "Avg. Position";
+  const values = pos ? live.chart.avgPos : metric === "Est. Traffic" ? live.chart.traffic : metric === "Visibility" ? live.chart.vis : live.chart.sov;
+  const top = pos ? 100 : niceMax(Math.max(...values));
+  const pct = metric === "Visibility" || metric === "Share of Voice";
+  const ticks = [0, 1, 2, 3, 4].map((i) => (pos ? (i * top) / 4 : top - (i * top) / 4)).map((v) => `${+v.toFixed(2)}${pct ? "%" : ""}`);
+  const vy = (v: number) => (pos ? y(0) + (v / 100) * (y(4) - y(0)) : y(4) - (v / top) * (y(4) - y(0)));
+  const shade = x(n - live.days.length);
+  const pts = values.map((v, i) => `${x(i).toFixed(1)},${vy(v).toFixed(1)}`);
+  return (
+    <svg width="100%" height={418} className="pointer-events-none absolute top-0 left-0 overflow-visible">
+      <rect x={shade} y={y(0)} width={right - shade} height={y(4) - y(0)} fill="#f0f1f2" />
+      <line x1={shade} x2={shade} y1={y(0)} y2={y(4)} stroke="#d6d8d7" strokeDasharray="3 3" />
+      <text transform={`translate(${shade - 7} ${y(2)}) rotate(-90)`} textAnchor="middle" fontSize={12} fill="#484a49">
+        Last {live.days.length} days
+      </text>
+      {ticks.map((t, i) => (
+        <g key={i}>
+          <line x1={x0} x2={right} y1={y(i)} y2={y(i)} stroke={i === 4 ? "#d6d8d7" : "#e7e8e8"} />
+          <text x={57} y={y(i) + 4} textAnchor="end" fontSize={12} fill="#6a6c6a">
+            {t}
+          </text>
+        </g>
+      ))}
+      {live.chartDays.map((d, i) =>
+        (n - 1 - i) % 4 === 0 ? (
+          <text key={d} x={x(i)} y={y(4) + 27} textAnchor={i === n - 1 ? "end" : "middle"} fontSize={12} fill="#6a6c6a">
+            {dayLabel(d)}
+          </text>
+        ) : null,
+      )}
+      <path d={`M${pts.join("L")}`} fill="none" stroke="#5c5fd6" strokeWidth={3} strokeLinejoin="round" />
+      <circle cx={x(0)} cy={vy(values[0])} r={3.5} fill="#5c5fd6" />
+      <circle cx={x(n - 1)} cy={vy(values[n - 1])} r={3.5} fill="#5c5fd6" />
+    </svg>
+  );
+}
+
+function liveHeadline(live: TrackingLive, metric: (typeof metrics)[number]) {
+  const last = (a: number[]) => a[a.length - 1];
+  const at = (a: number[]) => a[a.length - live.days.length];
+  if (metric === "Est. Traffic") return [String(live.traffic), signed(live.traffic - live.prevTraffic)];
+  if (metric === "Avg. Position") return [live.avgPos.toFixed(2), signed(live.prevAvgPos - live.avgPos)];
+  if (metric === "Share of Voice") return [fmtPct(last(live.chart.sov)), signed(last(live.chart.sov) - at(live.chart.sov))];
+  return [fmtPct(live.vis), signed(live.vis - live.prevVis)];
+}
+
 function GrowthChart() {
+  const { live } = useTracking();
   const x = (d: number) => 78 + d * 16.25;
-  const ticks = ["0.6%", "0.46%", "0.32%", "0.18%", "0.04%"];
+  const ticks = [0.6, 0.46, 0.32, 0.18, 0.04].map((t) => `${+(t + (live?.vis ?? 0)).toFixed(2)}%`);
+  const labels = live ? pgLabels.map((_, i) => dayLabel(live.chartDays[Math.min(live.chartDays.length - 1, 1 + i * 4)])) : pgLabels;
   const y = (i: number) => 119 + i * 56.75;
   const base = 364;
   const curve = "M549 364C600 356 680 260 717 132";
@@ -208,7 +264,7 @@ function GrowthChart() {
       ))}
       <line x1={78} x2={717} y1={base} y2={base} stroke="#e7e8e8" />
       <line x1={549} x2={549} y1={y(0)} y2={base} stroke="#e0e2e1" strokeDasharray="3 3" />
-      {pgLabels.map((l, i) => (
+      {labels.map((l, i) => (
         <text key={l} x={x(1 + i * 4)} y={base + 26} textAnchor="middle" fontSize={12} fill="#6a6c6a">
           {l}
         </text>
@@ -228,6 +284,7 @@ function GrowthChart() {
 }
 
 function GrowthSide() {
+  const { live } = useTracking();
   return (
     <div className="absolute top-[64px] left-[739px] w-[300px] text-[14px] leading-5 text-rk-text">
       <div className="flex">
@@ -236,7 +293,7 @@ function GrowthSide() {
             <span className="h-[10px] w-[10px] rounded-full bg-[#6167eb]" />
             {project.domain}
           </div>
-          <div className="mt-[4px] text-[24px] leading-8 font-semibold">0%</div>
+          <div className="mt-[4px] text-[24px] leading-8 font-semibold">{live ? fmtPct(live.vis) : "0%"}</div>
         </div>
         <div>
           <div className="flex items-center gap-[7px]">
@@ -244,7 +301,7 @@ function GrowthSide() {
             Pot. Visibility
             <Info />
           </div>
-          <div className="mt-[4px] text-[24px] leading-8 font-semibold">0.57%</div>
+          <div className="mt-[4px] text-[24px] leading-8 font-semibold">{live ? fmtPct(live.vis + 0.57) : "0.57%"}</div>
         </div>
       </div>
       <div className="mt-[20px] flex items-center gap-[6px]">
@@ -293,12 +350,18 @@ export function OverviewChartCard({
 }) {
   const [metric, setMetric] = useState<(typeof metrics)[number]>("Visibility");
   const [k, setK] = useState(1);
+  const [w, setW] = useState(1063);
   const ref = useRef<HTMLElement>(null);
   const pg = mode === "pg";
+  const { live } = useTracking();
+  const head = live ? liveHeadline(live, metric) : ["0", "0"];
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const ro = new ResizeObserver(() => setK(Math.max(1, (el.offsetWidth - 45 - 77) / (1018 - 77))));
+    const ro = new ResizeObserver(() => {
+      setK(Math.max(1, (el.offsetWidth - 45 - 77) / (1018 - 77)));
+      setW(el.offsetWidth);
+    });
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
@@ -327,8 +390,8 @@ export function OverviewChartCard({
         <>
           <div className="absolute top-[64px] left-5 text-[14px] leading-5 text-rk-text">{project.domain}</div>
           <div className="absolute top-[86px] left-5 flex items-baseline gap-[8px]">
-            <span className="text-[24px] leading-8 font-semibold text-[#6a6c6a]">0</span>
-            <span className="text-[12px] text-rk-muted">0</span>
+            <span className="text-[24px] leading-8 font-semibold text-[#6a6c6a]">{head[0]}</span>
+            <span className="text-[12px] text-rk-muted">{head[1]}</span>
           </div>
           <div className="absolute top-[136px] left-5">
             <Checkbox checked color="#5c5fd6" label={<span className="text-[14px] text-rk-text">{project.domain}</span>} className="!gap-[6px]" />
@@ -338,7 +401,7 @@ export function OverviewChartCard({
             <span className="mx-[16px] h-[22px] border-l border-[#e0e2e1]" />
             {(!current || latest) && <Notes />}
           </div>
-          <CompetitiveChart metric={metric} current={current} latest={latest} nine={nine} k={k} />
+          {live ? <LiveChart live={live} metric={metric} w={w} /> : <CompetitiveChart metric={metric} current={current} latest={latest} nine={nine} k={k} />}
         </>
       )}
     </section>

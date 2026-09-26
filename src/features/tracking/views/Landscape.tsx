@@ -12,6 +12,9 @@ import { DarkButton, GrayButton, Info, Panel } from "../ui";
 import { days, project, serpFeatureBars, trackedKeywords } from "../data";
 import { SerpFeatureIcon } from "../serpIcons";
 import { CompetitorGrowth, SummaryPeriod } from "../period";
+import { dayLabel, fmtPct, niceMax, signed, signedInt, type TrackingLive } from "../live";
+
+type Live = { live?: TrackingLive | null };
 
 function PotentialSpark() {
   return (
@@ -55,7 +58,9 @@ function MetricBlock({ label, value, sub, delta, grey, first, sparkLeft }: { lab
   );
 }
 
-function SummaryCard() {
+function SummaryCard({ live }: Live) {
+  const d = live ? live.vis - live.prevVis : 0;
+  const trend = !live || Math.abs(d) < 0.01 ? "was stable" : d > 0 ? "improved" : "declined";
   return (
     <Panel
       title="Summary"
@@ -72,7 +77,7 @@ function SummaryCard() {
       <div className="pt-[24px] pr-5 pl-6 text-[14px] leading-5 text-rk-text">
         <p>
           Traffic performance of <b className="font-semibold">{project.domain}</b>{" "}
-          <ExternalLinkIcon className="-mt-[3px] inline text-[#a9abaa]" /> for the Sweden (Google) • Swedish (Desktop) target was stable between <SummaryPeriod />.
+          <ExternalLinkIcon className="-mt-[3px] inline text-[#a9abaa]" /> for the Sweden (Google) • Swedish (Desktop) target {trend} between <SummaryPeriod />.
         </p>
         <ul className="mt-[12px] flex flex-col gap-[8px]">
           <li className="relative pl-[23px]">
@@ -102,8 +107,11 @@ const rdLegend = [
   { label: "# 21-100", color: "#c9d3ff" },
 ];
 
-function RankingsDistributionCard() {
-  const y = (v: number) => 111.5 + (4 - v) * 83;
+function RankingsDistributionCard({ live }: Live) {
+  const top = live ? niceMax(Math.max(...live.dist.map((d) => d[0] + d[1] + d[2] + d[3]))) : 4;
+  const y = (v: number) => 111.5 + (4 - (v * 4) / top) * 83;
+  const ticks = [4, 3, 2, 1, 0].map((i) => (i * top) / 4);
+  const labels = live ? live.days.map(dayLabel) : days;
   return (
     <Panel title="Rankings Distribution" className="h-[490px]">
       <div className="relative">
@@ -114,7 +122,7 @@ function RankingsDistributionCard() {
           <Checkbox label="Out of top 100" size={16} className="!gap-[4px]" />
         </div>
         <svg height={430} className="absolute top-0 left-0 w-[calc(100%-41px)] overflow-visible">
-          {[4, 3, 2, 1, 0].map((v) => (
+          {ticks.map((v) => (
             <g key={v}>
               <line x1={87} x2="100%" y1={y(v) - 40} y2={y(v) - 40} stroke="#e7e8e8" />
               <text x={74} y={y(v) - 36} textAnchor="end" fontSize={12} fill="#6a6c6a">
@@ -122,10 +130,22 @@ function RankingsDistributionCard() {
               </text>
             </g>
           ))}
-          <text transform={`translate(33 ${y(2) - 40}) rotate(-90)`} textAnchor="middle" fontSize={12} fill="#6a6c6a">
+          <text transform={`translate(33 ${y(top / 2) - 40}) rotate(-90)`} textAnchor="middle" fontSize={12} fill="#6a6c6a">
             Keywords
           </text>
-          {days.map((d, i) => (
+          {live?.dist.map((d, i) => {
+            let acc = 0;
+            return (
+              <svg key={i} x={`${((122 + i * 72.5) / 6.62).toFixed(3)}%`} overflow="visible">
+                {d.map((n, j) => {
+                  const y0 = y(acc) - 40;
+                  acc += n;
+                  return n > 0 && <rect key={j} x={-14} width={28} y={y(acc) - 40} height={y0 - (y(acc) - 40)} fill={rdLegend[j].color} />;
+                })}
+              </svg>
+            );
+          })}
+          {labels.map((d, i) => (
             <text key={d} x={`${((122 + i * 72.5) / 6.62).toFixed(3)}%`} y={426} textAnchor="middle" fontSize={12} fill="#6a6c6a">
               {d}
             </text>
@@ -136,47 +156,79 @@ function RankingsDistributionCard() {
   );
 }
 
-function KeywordsBlock({ label, first }: { label: string; first?: boolean }) {
+function Spark({ values }: { values: number[] }) {
+  const max = Math.max(1, ...values);
+  const pts = values.map((v, i) => `${((i * 100) / Math.max(1, values.length - 1)).toFixed(2)},${(12 - (v / max) * 11).toFixed(2)}`);
+  return (
+    <svg viewBox="0 0 100 12" preserveAspectRatio="none" className="block h-[12px] w-full overflow-visible">
+      <path d={`M0,12L${pts.join("L")}L100,12Z`} fill="#e1e0f9" />
+      <path d={`M${pts.join("L")}`} fill="none" stroke="#5c5fd6" strokeWidth={1} vectorEffect="non-scaling-stroke" />
+    </svg>
+  );
+}
+
+function KeywordsBlock({ label, first, value = 0, gained = 0, lost = 0, spark }: { label: string; first?: boolean; value?: number; gained?: number; lost?: number; spark?: number[] }) {
   return (
     <div className={`relative h-[84.6px] ${first ? "" : "border-t border-[#e0e2e1]"}`}>
       <div className="absolute top-[15px] left-0 text-[14px] leading-5 text-rk-text">{label}</div>
       <div className="absolute top-[35px] left-[1px] flex items-center gap-[9px]">
         <span className="h-[23px] w-[23px] rounded-full border-[3px] border-[#eeeff2]" />
-        <span className="text-[24px] leading-8 font-semibold text-rk-number">0</span>
+        <span className="text-[24px] leading-8 font-semibold text-rk-number">{value}</span>
       </div>
       <div className="absolute top-[34px] left-[92px] text-[12px] leading-[17px] text-rk-text">
         New
-        <div className="text-rk-muted">0</div>
+        <div className="text-rk-muted">{gained}</div>
       </div>
       <div className="absolute top-[34px] left-[130px] text-[12px] leading-[17px] text-rk-text">
         Lost
-        <div className="text-rk-muted">0</div>
+        <div className="text-rk-muted">{lost}</div>
       </div>
       <div className="absolute top-[46px] right-[5px] left-[164px]">
-        <div className="h-[12px] border-t border-[#5c5fd6] bg-[#e1e0f9]" />
+        {spark ? <Spark values={spark} /> : <div className="h-[12px] border-t border-[#5c5fd6] bg-[#e1e0f9]" />}
         <span className="absolute -top-[4px] -right-[3px] h-[7px] w-[7px] rounded-full bg-[#a9abaa]" />
       </div>
     </div>
   );
 }
 
-function KeywordsCard() {
+function Gauge({ up, down }: { up: number; down: number }) {
+  const f = up + down ? up / (up + down) : 1;
+  const px = (25 - 20 * Math.cos(Math.PI * f)).toFixed(2);
+  const py = (25 - 20 * Math.sin(Math.PI * f)).toFixed(2);
+  return (
+    <svg width={50} height={25} viewBox="0 0 50 25">
+      {f > 0 && <path d={`M5 25A20 20 0 0 1 ${px} ${py}`} fill="none" stroke="#01a87c" strokeWidth={10} />}
+      {f < 1 && <path d={`M${px} ${py}A20 20 0 0 1 45 25`} fill="none" stroke="#ff4953" strokeWidth={10} />}
+    </svg>
+  );
+}
+
+function KeywordsCard({ live }: Live) {
+  const b = (n: 3 | 10 | 20 | 100) => (live ? { value: live.buckets[n].now, gained: live.buckets[n].gained, lost: live.buckets[n].lost, spark: live.buckets[n].daily } : {});
   return (
     <Panel title="Keywords" className="h-[490px]">
       <div className="px-5 pt-[3px]">
-        <KeywordsBlock label="Top 3" first />
-        <KeywordsBlock label="Top 10" />
-        <KeywordsBlock label="Top 20" />
-        <KeywordsBlock label="Top 100" />
+        <KeywordsBlock label="Top 3" first {...b(3)} />
+        <KeywordsBlock label="Top 10" {...b(10)} />
+        <KeywordsBlock label="Top 20" {...b(20)} />
+        <KeywordsBlock label="Top 100" {...b(100)} />
         <div className="relative h-[84px] border-t border-[#e0e2e1]">
           <div className="absolute top-[15px] left-0 text-[14px] leading-5 text-rk-text">Improved vs. declined</div>
-          <div className="absolute top-[36px] -left-[1px] flex items-center gap-[13px] text-[24px] leading-8 font-semibold text-[#a9abaa]">
-            0
-            <svg width={50} height={25} viewBox="0 0 50 25">
-              <path d="M5 25a20 20 0 0 1 40 0" fill="none" stroke="#01a87c" strokeWidth={10} />
-            </svg>
-            0
-          </div>
+          {live ? (
+            <div className="absolute top-[36px] -left-[1px] flex items-center gap-[13px] text-[24px] leading-8 font-semibold">
+              <span className={live.improved ? "text-rk-number" : "text-[#a9abaa]"}>{live.improved}</span>
+              <Gauge up={live.improved} down={live.declined} />
+              <span className={live.declined ? "text-rk-number" : "text-[#a9abaa]"}>{live.declined}</span>
+            </div>
+          ) : (
+            <div className="absolute top-[36px] -left-[1px] flex items-center gap-[13px] text-[24px] leading-8 font-semibold text-[#a9abaa]">
+              0
+              <svg width={50} height={25} viewBox="0 0 50 25">
+                <path d="M5 25a20 20 0 0 1 40 0" fill="none" stroke="#01a87c" strokeWidth={10} />
+              </svg>
+              0
+            </div>
+          )}
         </div>
       </div>
     </Panel>
@@ -225,7 +277,52 @@ function BrandPresence() {
   );
 }
 
-function TopKeywords() {
+const diffCls = (v: number) => (v > 0 ? "text-rk-success" : v < 0 ? "text-rk-danger" : "text-rk-muted");
+
+function LiveKeywordRows({ live, rows, last }: { live: TrackingLive; rows: string[]; last: string }) {
+  return (
+    <>
+      <div className="flex border-b border-[#e0e2e1] pb-[6px] text-[12px] leading-4 text-rk-text">
+        <span className="w-[166px]">Keyword</span>
+        <span className="flex-1">Pos.</span>
+        <span className="w-[76px] text-right whitespace-nowrap">{last}</span>
+      </div>
+      {rows.map((kw) => {
+        const k = live.kws[kw];
+        const d = k.first != null && k.last != null ? k.first - k.last : 0;
+        const v = last === "Visibility" ? fmtPct(k.vis) : signed(k.vis - k.prevVis);
+        return (
+          <div key={kw} className="flex border-b border-[#e0e2e1] py-[8px] text-[14px] leading-5">
+            <Link href={`${routes.keywordOverview}?q=${encodeURIComponent(kw)}&db=se`} className="w-[140px] shrink-0 truncate pr-2 text-rk-link hover:text-rk-link-hover">
+              {kw}
+            </Link>
+            <span className="w-[12px] shrink-0" />
+            <span className="self-center pt-[2px] whitespace-nowrap text-rk-text">
+              {k.last ?? "-"} &nbsp;<span className={diffCls(d)}>{d ? signedInt(d) : "-"}</span>
+            </span>
+            <span className="flex-1" />
+            <span className={`w-[76px] shrink-0 text-right ${last === "Visibility" ? "text-rk-text" : diffCls(k.vis - k.prevVis)}`}>{v}</span>
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
+const byPos = (live: TrackingLive) => (a: string, b: string) => (live.kws[a].last ?? 999) - (live.kws[b].last ?? 999) || a.localeCompare(b, "sv");
+
+function TopKeywords({ live }: Live) {
+  if (live)
+    return (
+      <Panel title="Top Keywords" className="h-[427px]">
+        <div className="px-5 pt-[30px]">
+          <LiveKeywordRows live={live} rows={trackedKeywords.map((k) => k.keyword).sort(byPos(live)).slice(0, 5)} last="Visibility" />
+          <Link href={routes.tracking.overview} className="mt-[22px] inline-flex h-7 items-center rounded-md bg-rk-btn-dark px-[9px] text-[14px] font-medium text-white hover:bg-[#2b2e38]">
+            View all {project.keywords} keywords
+          </Link>
+        </div>
+      </Panel>
+    );
   return (
     <Panel title="Top Keywords" className="h-[427px]">
       <div className="px-5 pt-[30px]">
@@ -248,6 +345,24 @@ function TopKeywords() {
         <Link href={routes.tracking.overview} className="mt-[22px] inline-flex h-7 items-center rounded-md bg-rk-btn-dark px-[9px] text-[14px] font-medium text-white hover:bg-[#2b2e38]">
           View all {project.keywords} keywords
         </Link>
+      </div>
+    </Panel>
+  );
+}
+
+function ImpactCard({ title, live, sign }: Live & { title: string; sign: 1 | -1 }) {
+  const rows = live
+    ? trackedKeywords
+        .map((k) => k.keyword)
+        .filter((k) => sign * (live.kws[k].vis - live.kws[k].prevVis) > 0)
+        .sort((a, b) => sign * (live.kws[b].vis - live.kws[b].prevVis - (live.kws[a].vis - live.kws[a].prevVis)))
+        .slice(0, 5)
+    : [];
+  if (!live || !rows.length) return <NoDataCard title={title} />;
+  return (
+    <Panel title={title} className="h-[427px]">
+      <div className="px-5 pt-[30px]">
+        <LiveKeywordRows live={live} rows={rows} last="Visibility diff" />
       </div>
     </Panel>
   );
@@ -363,15 +478,37 @@ function SerpFeaturesCard() {
   );
 }
 
-function PagesCard() {
+function PagesCard({ live }: Live) {
+  const pages = live?.pages.filter((p) => p.kws.length).slice(0, 5) ?? [];
   return (
     <Panel title="Pages" className="h-[396px]">
       <div className="px-5 pt-[21px]">
         <Segmented items={["Top", "Improved", "Declined"] as const} value="Top" className="[&>button]:h-[27px] [&>button]:px-[8px] [&>button]:text-[14px]" />
+        {pages.length > 0 ? (
+          <div className="pt-[20px]">
+            <div className="flex border-b border-[#e0e2e1] pb-[6px] text-[12px] leading-4 text-rk-text">
+              <span className="flex-1">URL</span>
+              <span className="w-[100px] text-right">Keywords</span>
+              <span className="w-[100px] text-right">Est. Traffic</span>
+              <span className="w-[100px] text-right">Avg. Pos.</span>
+            </div>
+            {pages.map((p) => (
+              <div key={p.url} className="flex border-b border-[#e0e2e1] py-[8px] text-[14px] leading-5 text-rk-text">
+                <a href={p.url} target="_blank" rel="noreferrer" className="min-w-0 flex-1 truncate pr-2 text-rk-link hover:text-rk-link-hover">
+                  {p.url.replace(/^https?:\/\//, "")}
+                </a>
+                <span className="w-[100px] text-right">{p.kws.length}</span>
+                <span className="w-[100px] text-right">{p.traffic}</span>
+                <span className="w-[100px] text-right">{p.avgPos.toFixed(1)}</span>
+              </div>
+            ))}
+          </div>
+        ) : (
         <div className="pt-[159px] text-center">
           <div className="text-[16px] leading-6 font-semibold text-rk-text-2">We have no data to show</div>
           <p className="mx-auto mt-[2px] w-[360px] text-[14px] leading-[20px] text-rk-text-2">Try selecting a different date or changing your filter settings.</p>
         </div>
+        )}
       </div>
     </Panel>
   );
@@ -401,7 +538,9 @@ export function CannibalizationHealthCard({
   buttons,
   nine,
   className = "h-[331px]",
+  liveDays,
 }: {
+  liveDays?: string[];
   nine?: boolean;
   header?: ReactNode;
   x0?: number;
@@ -411,8 +550,8 @@ export function CannibalizationHealthCard({
   className?: string;
 }) {
   const W = x1 - x0;
-  const E = nine ? 0.797 : dataEnd;
-  const labels = nine ? [...days, "Sep 25"] : days;
+  const E = liveDays ? 1 : nine ? 0.797 : dataEnd;
+  const labels = liveDays ? liveDays.map(dayLabel) : nine ? [...days, "Sep 25"] : days;
   return (
     <Panel title="Cannibalization Health" headerClassName="h-[45px]" right={header} className={className}>
       <div className="relative h-[280px] px-5">
@@ -467,18 +606,29 @@ export function CannibalizationHealthCard({
 }
 
 export function LandscapeView(snap: Snap) {
+  const { live } = snap;
+  const m = live
+    ? {
+        vis: fmtPct(live.vis),
+        visSub: signed(live.vis - live.prevVis),
+        tr: String(live.traffic),
+        trSub: signed(live.traffic - live.prevTraffic),
+        pos: live.avgPos.toFixed(2),
+        posSub: signed(live.prevAvgPos - live.avgPos),
+      }
+    : { vis: "0%", visSub: "0.00", tr: "0", trSub: "0.00", pos: "100.00", posSub: "0" };
   return (
     <TrackingPage tab="landscape" {...snap}>
       <div className="px-8 pt-[17px]">
         <FilterBar top={<DomainChip />} />
         <div className="mt-[15px] flex gap-4">
           <section className="h-[331px] min-w-0 flex-[1_1_425px] rounded-md border border-[#e5e6e6] bg-white px-5 shadow-[0_1px_2px_rgba(25,27,35,0.05)]">
-            <MetricBlock first label="Visibility" value="0%" sub="0.00" delta="+0.57%" sparkLeft={145} />
-            <MetricBlock label="Estimated Traffic" value="0" sub="0.00" grey delta="+1.38" sparkLeft={152} />
+            <MetricBlock first label="Visibility" value={m.vis} sub={m.visSub} delta="+0.57%" sparkLeft={145} />
+            <MetricBlock label="Estimated Traffic" value={m.tr} sub={m.trSub} grey={!live?.traffic} delta="+1.38" sparkLeft={152} />
             <MetricBlock
               label="Average Position"
-              value="100.00"
-              sub="0"
+              value={m.pos}
+              sub={m.posSub}
               sparkLeft={152}
               delta={
                 <>
@@ -487,27 +637,27 @@ export function LandscapeView(snap: Snap) {
               }
             />
           </section>
-          <SummaryCard />
+          <SummaryCard live={live} />
         </div>
         <div className="mt-4 grid grid-cols-[703fr_344fr] gap-4">
-          <RankingsDistributionCard />
-          <KeywordsCard />
+          <RankingsDistributionCard live={live} />
+          <KeywordsCard live={live} />
         </div>
         <div className="mt-4">
           <BrandPresence />
         </div>
         <div className="mt-4 grid grid-cols-3 gap-4">
-          <TopKeywords />
-          <NoDataCard title="Positive Impact" />
-          <NoDataCard title="Negative Impact" />
+          <TopKeywords live={live} />
+          <ImpactCard title="Positive Impact" live={live} sign={1} />
+          <ImpactCard title="Negative Impact" live={live} sign={-1} />
         </div>
         <div className="mt-4 flex flex-col gap-4">
           <TagsCard />
           <MarketTraffic />
           <SerpFeaturesCard />
-          <PagesCard />
+          <PagesCard live={live} />
           <VisibilityByLocations />
-          <CannibalizationHealthCard x0={242.5} x1={1001.7} />
+          <CannibalizationHealthCard x0={242.5} x1={1001.7} liveDays={live?.days} />
         </div>
       </div>
     </TrackingPage>
