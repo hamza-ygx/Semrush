@@ -1,0 +1,33 @@
+{
+ "report": "resource_organic",
+ "toolkit": "organic_research",
+ "params": {
+  "target": "rkjh.se",
+  "database": "se",
+  "display_limit": 1000,
+  "display_positions": "rise",
+  "export_columns": [
+   "keyword",
+   "position",
+   "previous_position",
+   "position_difference",
+   "volume",
+   "keyword_difficulty",
+   "cpc",
+   "url",
+   "traffic",
+   "traffic_share",
+   "intent",
+   "timestamp"
+  ]
+ },
+ "fetched_at": "2026-09-30T18:39:56+00:00",
+ "source": "semrush-mcp",
+ "data": null,
+ "metadata": {
+  "code": "internal",
+  "message": "get domain_organic: ERROR 50 :: NOTHING FOUND",
+  "retryable": false,
+  "trace_id": "84d5aa14112c22c5e8a4df6ca5b61669"
+ }
+}

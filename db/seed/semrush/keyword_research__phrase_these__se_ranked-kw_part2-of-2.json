@@ -1,0 +1,218 @@
+{
+ "report": "phrase_these",
+ "toolkit": "keyword_research",
+ "params": {
+  "database": "se",
+  "export_columns": [
+   "keyword",
+   "volume",
+   "cpc",
+   "competitive_density",
+   "results",
+   "trend",
+   "intent",
+   "keyword_difficulty"
+  ],
+  "phrase": "kassa och bank årsredovisning;business legal advice;jhm revision;bolagsskatt utdelning;hur sparar man pengar på mat;ekonomibyrån halmstad;frukost på jobbet förmån;hållbar utveckling björneloo;konsult halmstad;exempel fasta kostnader;being audited;business audit;hur mycket behövs för att gå i pension;hägglunds tak;göra bokslut själv;hur miljövänlig är jag;beräkning av bilförmån;f skatt hobbyverksamhet;hur mycket måste utsläppen minska"
+ },
+ "fetched_at": "2026-09-30T18:39:56+00:00",
+ "source": "semrush-mcp",
+ "data": [
+  {
+   "Keyword": "kassa och bank årsredovisning",
+   "Search Volume": "30",
+   "CPC": "1.49",
+   "Competition": "0.21",
+   "Number of Results": "116",
+   "Trends": "0.25,0.75,1.00,0.50,0.50,1.00,1.00,0.50,0.25,0.25,0.25,0.25",
+   "Intent": "1",
+   "Keyword Difficulty Index": "17"
+  },
+  {
+   "Keyword": "business legal advice",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "135",
+   "Trends": "0.14,0.14,0.71,1.00,0.14,1.00,1.00,0.29,0.14,0.43,0.14,0.14",
+   "Intent": "1",
+   "Keyword Difficulty Index": "25"
+  },
+  {
+   "Keyword": "jhm revision",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.03",
+   "Number of Results": "0",
+   "Trends": "0.56,0.11,0.56,0.11,0.22,1.00,0.33,0.11,0.11,0.78,0.11,0.11",
+   "Intent": "",
+   "Keyword Difficulty Index": "0"
+  },
+  {
+   "Keyword": "bolagsskatt utdelning",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.2",
+   "Number of Results": "109",
+   "Trends": "0.11,0.11,0.56,0.44,0.22,0.44,1.00,0.22,0.22,0.78,0.11,0.11",
+   "Intent": "1",
+   "Keyword Difficulty Index": "25"
+  },
+  {
+   "Keyword": "hur sparar man pengar på mat",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.08",
+   "Number of Results": "124",
+   "Trends": "0.11,0.56,0.11,0.33,0.11,0.33,0.22,0.11,1.00,0.11,0.22,0.11",
+   "Intent": "1",
+   "Keyword Difficulty Index": "8"
+  },
+  {
+   "Keyword": "ekonomibyrån halmstad",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.41",
+   "Number of Results": "107",
+   "Trends": "0.14,0.14,0.43,0.14,0.57,1.00,1.00,0.14,0.29,0.29,0.43,0.57",
+   "Intent": "1",
+   "Keyword Difficulty Index": "23"
+  },
+  {
+   "Keyword": "frukost på jobbet förmån",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "105",
+   "Trends": "0.14,0.57,0.14,0.43,1.00,0.14,0.14,0.57,0.14,0.71,0.14,0.14",
+   "Intent": "1",
+   "Keyword Difficulty Index": "10"
+  },
+  {
+   "Keyword": "hållbar utveckling björneloo",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "127",
+   "Trends": "0.11,0.11,0.56,0.11,0.11,0.11,0.22,0.56,1.00,0.22,0.22,0.11",
+   "Intent": "1",
+   "Keyword Difficulty Index": "12"
+  },
+  {
+   "Keyword": "konsult halmstad",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.24",
+   "Number of Results": "0",
+   "Trends": "0.19,0.05,1.00,0.05,0.05,0.05,0.14,0.10,0.05,0.05,0.05,0.05",
+   "Intent": "",
+   "Keyword Difficulty Index": "0"
+  },
+  {
+   "Keyword": "exempel fasta kostnader",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "106",
+   "Trends": "0.11,0.11,0.56,0.44,0.11,0.44,0.11,0.11,1.00,0.11,0.11,0.11",
+   "Intent": "1",
+   "Keyword Difficulty Index": "11"
+  },
+  {
+   "Keyword": "being audited",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "131",
+   "Trends": "0.44,0.22,0.22,0.22,0.11,0.11,0.11,1.00,0.11,1.00,0.11,0.11",
+   "Intent": "1",
+   "Keyword Difficulty Index": "32"
+  },
+  {
+   "Keyword": "business audit",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "131",
+   "Trends": "0.11,0.11,0.11,0.22,0.11,0.56,0.11,0.44,0.56,0.11,1.00,0.22",
+   "Intent": "1",
+   "Keyword Difficulty Index": "19"
+  },
+  {
+   "Keyword": "hur mycket behövs för att gå i pension",
+   "Search Volume": "30",
+   "CPC": "0.54",
+   "Competition": "0.35",
+   "Number of Results": "111",
+   "Trends": "0.14,0.14,0.14,0.57,1.00,1.00,0.14,0.14,0.14,0.43,0.43,0.14",
+   "Intent": "1",
+   "Keyword Difficulty Index": "20"
+  },
+  {
+   "Keyword": "hägglunds tak",
+   "Search Volume": "20",
+   "CPC": "3.52",
+   "Competition": "0.7",
+   "Number of Results": "0",
+   "Trends": "0.11,0.22,0.22,1.00,0.56,0.11,0.11,0.11,0.22,0.11,0.22,0.11",
+   "Intent": "",
+   "Keyword Difficulty Index": "0"
+  },
+  {
+   "Keyword": "göra bokslut själv",
+   "Search Volume": "30",
+   "CPC": "2.21",
+   "Competition": "0.7",
+   "Number of Results": "123",
+   "Trends": "0.06,0.41,1.00,0.06,0.06,0.06,0.29,0.06,0.12,0.12,0.06,0.06",
+   "Intent": "1",
+   "Keyword Difficulty Index": "13"
+  },
+  {
+   "Keyword": "hur miljövänlig är jag",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.57",
+   "Number of Results": "107",
+   "Trends": "1.00,0.33,0.78,0.44,0.11,0.22,0.11,0.11,0.11,0.11,0.11,0.33",
+   "Intent": "1",
+   "Keyword Difficulty Index": "43"
+  },
+  {
+   "Keyword": "beräkning av bilförmån",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "101",
+   "Trends": "0.11,1.00,0.11,0.33,0.22,0.11,0.11,0.11,1.00,0.11,0.11,0.11",
+   "Intent": "1",
+   "Keyword Difficulty Index": "27"
+  },
+  {
+   "Keyword": "f skatt hobbyverksamhet",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.16",
+   "Number of Results": "0",
+   "Trends": "1.00,0.14,0.14,0.14,0.14,0.14,0.14,0.14,0.57,0.14,1.00,0.57",
+   "Intent": "",
+   "Keyword Difficulty Index": "0"
+  },
+  {
+   "Keyword": "hur mycket måste utsläppen minska",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "142",
+   "Trends": "0.20,1.00,1.00,0.40,0.20,0.60,0.20,0.20,0.20,0.60,1.00,0.40",
+   "Intent": "1",
+   "Keyword Difficulty Index": "0"
+  }
+ ],
+ "metadata": {
+  "format": "csv",
+  "usage": {
+   "api_units": 1190
+  }
+ }
+}

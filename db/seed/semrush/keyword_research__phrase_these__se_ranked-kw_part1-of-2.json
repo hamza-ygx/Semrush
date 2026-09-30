@@ -1,0 +1,1028 @@
+{
+ "report": "phrase_these",
+ "toolkit": "keyword_research",
+ "params": {
+  "database": "se",
+  "export_columns": [
+   "keyword",
+   "volume",
+   "cpc",
+   "competitive_density",
+   "results",
+   "trend",
+   "intent",
+   "keyword_difficulty"
+  ],
+  "phrase": "företagsvärdering;hållbar utveckling;entrepreneur;outsourcing redovisning;redovisningskonsult halmstad;vad är hållbar utveckling;redovisningsbyrå halmstad;kostförmån;vad betyder hållbar utveckling;hantlangare;fastighetsredovisning;hållbar affärsutveckling;risk management;beräkna bilförmån;hållbar utveckling företag;miljöpåverkan;vad är en hållbarhetsrapport;vad kan länder göra för att minska växthuseffekten;vad innebär hållbar utveckling;vad innebär en hållbar utveckling;bokföring halmstad;räkna ut förmånsvärde bil;vad menas med hållbar utveckling;skatt på vinst i aktiebolag;företagsledningen;vad är förvärvsinkomst;hur man gör bokslut;bokslut hur gör man;hur gör man bokslut;hur man gör ett bokslut;hur gör man ett bokslut;kostavdrag;hur mycket pengar behöver man för att gå i pension;inkomst hobbyverksamhet;baker tilly halmstad;hållbar verksamhetsutveckling;förmånsbil beräkning;hobby verksamhet;definition av hållbar utveckling;vad är hantverkare;vad är en hantverkare;räkna förmånsbil;vad är utpressning;deklarera hobbyverksamhet;kostförmån skatteverket;förmånsbeskattning lunch exempel;hjälp med bokslut;vad räknas som hobbyverksamhet;vad är kostförmån;steninge glasblåsning;rådgivning affärsjuridik;förmånsberäkning bil;hobbyverksamhet eller enskild firma;fast kostnad;hållbar utveckling betyder;personalvårdsförmån;deklaration hobbyverksamhet;revisor halmstad;starta eget luleå;hur mycket behöver man för att gå i pension;livsmedel spar;hur kan man minska växthuseffekten;akridi halmstad;göra bokslut;varför gör man bokslut;hur läser man årsredovisning;bolagsskatt aktiebolag;hur man läser en årsredovisning;iso 18541;begränsad miljöpåverkan;f tax;strategisk affärsutveckling;tax advisor;företagsekonomi för jurister redovisning räkenskapsanalys och kalkylering;hur påverkar jag miljön;ansvarspyramiden;redovisning halmstad;häggblom sverige;beräkna förmånsbeskattning bil;revision halmstad;executive level;betala skatt aktiebolag;bokföra övertidsmat;att tänka på vid bokslut;direktpension företag;company audit;fastställd förvärvsinkomst betyder;group risk management;handla ekonomiskt;hobbyverksamhet skattefri;föreningen cancerhjälpen;begränsad klimatpåverkan;business law firm;hur gör jag bokslut;hobbyjobb;hr consultant;fasta kostnader företag;f tax sweden;klimatkompensera privatperson;hur många miljoner behöver man för att gå i pension"
+ },
+ "fetched_at": "2026-09-30T18:39:56+00:00",
+ "source": "semrush-mcp",
+ "data": [
+  {
+   "Keyword": "företagsvärdering",
+   "Search Volume": "3600",
+   "CPC": "5.19",
+   "Competition": "0.4",
+   "Number of Results": "104",
+   "Trends": "0.36,0.19,0.36,1.00,0.55,0.36,0.24,0.36,0.36,0.24,0.24,0.24",
+   "Intent": "1",
+   "Keyword Difficulty Index": "34"
+  },
+  {
+   "Keyword": "hållbar utveckling",
+   "Search Volume": "3600",
+   "CPC": "1.42",
+   "Competition": "0.07",
+   "Number of Results": "129",
+   "Trends": "0.07,0.36,1.00,0.82,0.82,0.44,0.55,0.67,0.67,0.67,0.67,0.20",
+   "Intent": "1",
+   "Keyword Difficulty Index": "39"
+  },
+  {
+   "Keyword": "entrepreneur",
+   "Search Volume": "2400",
+   "CPC": "1.89",
+   "Competition": "0.01",
+   "Number of Results": "131",
+   "Trends": "0.83,1.00,0.83,1.00,0.83,0.83,0.66,0.55,0.83,1.00,0.83,0.83",
+   "Intent": "1",
+   "Keyword Difficulty Index": "72"
+  },
+  {
+   "Keyword": "outsourcing redovisning",
+   "Search Volume": "1600",
+   "CPC": "6.39",
+   "Competition": "0.31",
+   "Number of Results": "109",
+   "Trends": "0.01,0.02,0.02,0.01,0.01,0.55,0.19,0.10,1.00,0.05,0.01,0.03",
+   "Intent": "1",
+   "Keyword Difficulty Index": "15"
+  },
+  {
+   "Keyword": "redovisningskonsult halmstad",
+   "Search Volume": "1000",
+   "CPC": "10",
+   "Competition": "0.76",
+   "Number of Results": "106",
+   "Trends": "0.13,0.03,0.23,0.43,1.00,0.03,0.06,0.03,0.06,0.43,0.13,0.03",
+   "Intent": "0",
+   "Keyword Difficulty Index": "10"
+  },
+  {
+   "Keyword": "vad är hållbar utveckling",
+   "Search Volume": "880",
+   "CPC": "1.31",
+   "Competition": "0.07",
+   "Number of Results": "128",
+   "Trends": "0.04,0.37,1.00,1.00,1.00,0.55,0.77,0.77,1.00,0.77,1.00,0.16",
+   "Intent": "1",
+   "Keyword Difficulty Index": "33"
+  },
+  {
+   "Keyword": "redovisningsbyrå halmstad",
+   "Search Volume": "880",
+   "CPC": "6.01",
+   "Competition": "0.61",
+   "Number of Results": "107",
+   "Trends": "0.79,0.54,0.20,0.09,0.07,0.11,1.00,0.25,0.11,0.16,0.16,0.13",
+   "Intent": "0",
+   "Keyword Difficulty Index": "16"
+  },
+  {
+   "Keyword": "kostförmån",
+   "Search Volume": "480",
+   "CPC": "0.42",
+   "Competition": "0.05",
+   "Number of Results": "103",
+   "Trends": "0.44,0.54,1.00,1.00,1.00,0.81,0.66,0.66,1.00,0.81,0.66,0.66",
+   "Intent": "1",
+   "Keyword Difficulty Index": "15"
+  },
+  {
+   "Keyword": "vad betyder hållbar utveckling",
+   "Search Volume": "480",
+   "CPC": "1.38",
+   "Competition": "0.03",
+   "Number of Results": "127",
+   "Trends": "0.02,0.24,0.67,0.67,0.82,0.44,0.44,0.44,0.67,0.44,1.00,0.10",
+   "Intent": "1",
+   "Keyword Difficulty Index": "28"
+  },
+  {
+   "Keyword": "hantlangare",
+   "Search Volume": "480",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "107",
+   "Trends": "0.39,0.39,0.32,0.59,1.00,0.88,0.32,0.26,0.32,0.26,0.88,0.59",
+   "Intent": "1",
+   "Keyword Difficulty Index": "15"
+  },
+  {
+   "Keyword": "fastighetsredovisning",
+   "Search Volume": "390",
+   "CPC": "4.03",
+   "Competition": "0.53",
+   "Number of Results": "106",
+   "Trends": "0.88,0.26,0.26,0.26,0.26,1.00,0.26,0.26,0.59,0.26,0.21,0.17",
+   "Intent": "1",
+   "Keyword Difficulty Index": "13"
+  },
+  {
+   "Keyword": "hållbar affärsutveckling",
+   "Search Volume": "390",
+   "CPC": "1.03",
+   "Competition": "0.19",
+   "Number of Results": "114",
+   "Trends": "0.62,0.30,0.09,0.03,0.13,1.00,0.09,0.07,0.07,0.16,0.16,0.20",
+   "Intent": "1",
+   "Keyword Difficulty Index": "13"
+  },
+  {
+   "Keyword": "risk management",
+   "Search Volume": "390",
+   "CPC": "3.8",
+   "Competition": "0.31",
+   "Number of Results": "128",
+   "Trends": "0.36,0.66,1.00,0.81,0.81,0.54,0.66,0.66,0.66,0.66,0.54,0.44",
+   "Intent": "1",
+   "Keyword Difficulty Index": "62"
+  },
+  {
+   "Keyword": "beräkna bilförmån",
+   "Search Volume": "320",
+   "CPC": "0",
+   "Competition": "0.02",
+   "Number of Results": "19",
+   "Trends": "0.29,0.44,0.44,0.44,0.36,0.36,1.00,0.44,0.36,0.29,0.29,0.36",
+   "Intent": "1",
+   "Keyword Difficulty Index": "33"
+  },
+  {
+   "Keyword": "hållbar utveckling företag",
+   "Search Volume": "320",
+   "CPC": "2.57",
+   "Competition": "0.19",
+   "Number of Results": "133",
+   "Trends": "1.00,0.14,0.14,0.59,0.14,0.14,0.32,0.14,0.59,0.48,0.14,0.14",
+   "Intent": "1",
+   "Keyword Difficulty Index": "19"
+  },
+  {
+   "Keyword": "miljöpåverkan",
+   "Search Volume": "320",
+   "CPC": "0",
+   "Competition": "0.01",
+   "Number of Results": "138",
+   "Trends": "0.15,0.23,0.81,0.81,0.81,0.81,0.67,0.67,1.00,0.67,1.00,0.44",
+   "Intent": "1",
+   "Keyword Difficulty Index": "31"
+  },
+  {
+   "Keyword": "vad är en hållbarhetsrapport",
+   "Search Volume": "260",
+   "CPC": "1.34",
+   "Competition": "0.3",
+   "Number of Results": "102",
+   "Trends": "0.44,0.19,0.19,0.19,0.19,0.19,0.19,0.19,1.00,0.19,0.67,0.19",
+   "Intent": "1",
+   "Keyword Difficulty Index": "20"
+  },
+  {
+   "Keyword": "vad kan länder göra för att minska växthuseffekten",
+   "Search Volume": "260",
+   "CPC": "0",
+   "Competition": "0.04",
+   "Number of Results": "134",
+   "Trends": "0.04,1.00,0.05,0.02,0.02,0.02,0.03,0.05,0.03,0.03,0.03,0.02",
+   "Intent": "1",
+   "Keyword Difficulty Index": "31"
+  },
+  {
+   "Keyword": "vad innebär hållbar utveckling",
+   "Search Volume": "260",
+   "CPC": "1.51",
+   "Competition": "0.08",
+   "Number of Results": "128",
+   "Trends": "0.02,0.23,1.00,1.00,0.67,0.44,0.67,0.44,0.67,0.67,0.67,0.10",
+   "Intent": "1",
+   "Keyword Difficulty Index": "29"
+  },
+  {
+   "Keyword": "vad innebär en hållbar utveckling",
+   "Search Volume": "260",
+   "CPC": "1.51",
+   "Competition": "0.08",
+   "Number of Results": "133",
+   "Trends": "0.02,0.23,1.00,1.00,0.67,0.44,0.67,0.44,0.67,0.67,0.67,0.10",
+   "Intent": "1",
+   "Keyword Difficulty Index": "30"
+  },
+  {
+   "Keyword": "bokföring halmstad",
+   "Search Volume": "260",
+   "CPC": "3.17",
+   "Competition": "0.41",
+   "Number of Results": "109",
+   "Trends": "0.24,0.24,0.24,0.24,0.44,0.24,0.24,1.00,0.67,0.24,0.24,0.24",
+   "Intent": "0",
+   "Keyword Difficulty Index": "10"
+  },
+  {
+   "Keyword": "räkna ut förmånsvärde bil",
+   "Search Volume": "210",
+   "CPC": "0.44",
+   "Competition": "0.15",
+   "Number of Results": "99",
+   "Trends": "0.15,0.23,0.29,0.29,0.19,0.44,0.81,0.81,1.00,0.81,0.81,0.81",
+   "Intent": "1,3",
+   "Keyword Difficulty Index": "27"
+  },
+  {
+   "Keyword": "vad menas med hållbar utveckling",
+   "Search Volume": "260",
+   "CPC": "1.24",
+   "Competition": "0.06",
+   "Number of Results": "133",
+   "Trends": "0.02,0.35,0.81,1.00,0.81,0.54,0.67,0.67,0.81,0.67,0.67,0.10",
+   "Intent": "1",
+   "Keyword Difficulty Index": "28"
+  },
+  {
+   "Keyword": "skatt på vinst i aktiebolag",
+   "Search Volume": "260",
+   "CPC": "0.35",
+   "Competition": "0.27",
+   "Number of Results": "110",
+   "Trends": "0.67,0.54,0.67,0.67,0.82,1.00,0.82,0.82,0.82,0.54,0.54,0.44",
+   "Intent": "1",
+   "Keyword Difficulty Index": "26"
+  },
+  {
+   "Keyword": "företagsledningen",
+   "Search Volume": "260",
+   "CPC": "0",
+   "Competition": "0.01",
+   "Number of Results": "160000",
+   "Trends": "0.04,0.07,0.07,0.11,0.06,0.05,1.00,0.05,0.05,0.07,0.09,0.05",
+   "Intent": "1",
+   "Keyword Difficulty Index": "13"
+  },
+  {
+   "Keyword": "vad är förvärvsinkomst",
+   "Search Volume": "210",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "107",
+   "Trends": "0.24,0.29,0.29,0.36,0.29,0.29,0.36,0.36,1.00,0.54,0.29,0.29",
+   "Intent": "1",
+   "Keyword Difficulty Index": "19"
+  },
+  {
+   "Keyword": "hur man gör bokslut",
+   "Search Volume": "170",
+   "CPC": "2.55",
+   "Competition": "0.54",
+   "Number of Results": "121",
+   "Trends": "0.23,0.18,1.00,0.36,0.36,0.36,0.54,0.44,0.67,0.36,0.44,0.13",
+   "Intent": "1",
+   "Keyword Difficulty Index": "16"
+  },
+  {
+   "Keyword": "bokslut hur gör man",
+   "Search Volume": "170",
+   "CPC": "2.55",
+   "Competition": "0.54",
+   "Number of Results": "119",
+   "Trends": "0.23,0.18,1.00,0.36,0.36,0.36,0.54,0.44,0.67,0.36,0.44,0.13",
+   "Intent": "1",
+   "Keyword Difficulty Index": "11"
+  },
+  {
+   "Keyword": "hur gör man bokslut",
+   "Search Volume": "170",
+   "CPC": "2.34",
+   "Competition": "0.52",
+   "Number of Results": "115",
+   "Trends": "0.23,0.18,1.00,0.36,0.36,0.36,0.54,0.44,0.67,0.36,0.44,0.13",
+   "Intent": "1",
+   "Keyword Difficulty Index": "15"
+  },
+  {
+   "Keyword": "hur man gör ett bokslut",
+   "Search Volume": "170",
+   "CPC": "2.55",
+   "Competition": "0.54",
+   "Number of Results": "118",
+   "Trends": "0.23,0.18,1.00,0.36,0.36,0.36,0.54,0.44,0.67,0.36,0.44,0.13",
+   "Intent": "1",
+   "Keyword Difficulty Index": "15"
+  },
+  {
+   "Keyword": "hur gör man ett bokslut",
+   "Search Volume": "170",
+   "CPC": "2.55",
+   "Competition": "0.54",
+   "Number of Results": "123",
+   "Trends": "0.23,0.18,1.00,0.36,0.36,0.36,0.54,0.44,0.67,0.36,0.44,0.28",
+   "Intent": "1",
+   "Keyword Difficulty Index": "18"
+  },
+  {
+   "Keyword": "kostavdrag",
+   "Search Volume": "170",
+   "CPC": "0.49",
+   "Competition": "0.02",
+   "Number of Results": "112",
+   "Trends": "0.67,0.52,1.00,1.00,0.81,0.67,0.67,0.52,0.81,0.81,0.81,0.52",
+   "Intent": "1",
+   "Keyword Difficulty Index": "13"
+  },
+  {
+   "Keyword": "hur mycket pengar behöver man för att gå i pension",
+   "Search Volume": "140",
+   "CPC": "0.73",
+   "Competition": "0.17",
+   "Number of Results": "125",
+   "Trends": "0.65,1.00,0.81,0.65,0.54,0.42,0.65,0.65,0.42,0.35,0.54,0.42",
+   "Intent": "1",
+   "Keyword Difficulty Index": "23"
+  },
+  {
+   "Keyword": "inkomst hobbyverksamhet",
+   "Search Volume": "140",
+   "CPC": "0.19",
+   "Competition": "0.26",
+   "Number of Results": "101",
+   "Trends": "0.65,0.53,1.00,0.65,0.65,1.00,0.82,0.82,0.82,1.00,1.00,0.41",
+   "Intent": "1",
+   "Keyword Difficulty Index": "27"
+  },
+  {
+   "Keyword": "baker tilly halmstad",
+   "Search Volume": "140",
+   "CPC": "2.01",
+   "Competition": "0.1",
+   "Number of Results": "107",
+   "Trends": "0.41,0.65,1.00,1.00,0.82,0.65,0.82,0.65,0.82,0.82,0.65,0.65",
+   "Intent": "2",
+   "Keyword Difficulty Index": "15"
+  },
+  {
+   "Keyword": "hållbar verksamhetsutveckling",
+   "Search Volume": "140",
+   "CPC": "0",
+   "Competition": "0.05",
+   "Number of Results": "117",
+   "Trends": "0.54,1.00,0.54,0.54,0.54,0.54,0.54,0.54,0.54,0.54,0.54,0.35",
+   "Intent": "1",
+   "Keyword Difficulty Index": "13"
+  },
+  {
+   "Keyword": "förmånsbil beräkning",
+   "Search Volume": "140",
+   "CPC": "0.62",
+   "Competition": "0.18",
+   "Number of Results": "104",
+   "Trends": "0.52,1.00,1.00,0.81,0.67,0.43,0.67,0.52,0.52,0.52,0.52,0.33",
+   "Intent": "1",
+   "Keyword Difficulty Index": "29"
+  },
+  {
+   "Keyword": "hobby verksamhet",
+   "Search Volume": "140",
+   "CPC": "0.23",
+   "Competition": "0.18",
+   "Number of Results": "127",
+   "Trends": "0.19,0.01,0.08,0.01,0.01,0.16,0.03,0.44,0.01,0.01,1.00,0.12",
+   "Intent": "1",
+   "Keyword Difficulty Index": "23"
+  },
+  {
+   "Keyword": "definition av hållbar utveckling",
+   "Search Volume": "140",
+   "CPC": "2.86",
+   "Competition": "0.06",
+   "Number of Results": "127",
+   "Trends": "0.09,0.22,1.00,0.66,0.44,0.22,0.34,0.34,0.53,0.44,0.53,0.16",
+   "Intent": "1",
+   "Keyword Difficulty Index": "32"
+  },
+  {
+   "Keyword": "vad är hantverkare",
+   "Search Volume": "110",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "110",
+   "Trends": "0.24,0.53,0.65,0.82,0.82,0.53,0.82,0.53,1.00,0.65,0.82,0.41",
+   "Intent": "1",
+   "Keyword Difficulty Index": "25"
+  },
+  {
+   "Keyword": "vad är en hantverkare",
+   "Search Volume": "110",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "107",
+   "Trends": "0.24,0.53,0.65,0.82,0.82,0.53,0.82,0.53,1.00,0.65,0.82,0.41",
+   "Intent": "1",
+   "Keyword Difficulty Index": "23"
+  },
+  {
+   "Keyword": "räkna förmånsbil",
+   "Search Volume": "110",
+   "CPC": "0.6",
+   "Competition": "0.15",
+   "Number of Results": "106",
+   "Trends": "0.41,1.00,0.82,1.00,0.82,0.65,0.82,0.53,0.41,0.29,0.24,0.18",
+   "Intent": "0",
+   "Keyword Difficulty Index": "29"
+  },
+  {
+   "Keyword": "vad är utpressning",
+   "Search Volume": "90",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "108",
+   "Trends": "0.01,0.01,1.00,0.01,0.01,0.06,0.03,0.01,0.01,0.01,0.02,0.01",
+   "Intent": "1",
+   "Keyword Difficulty Index": "12"
+  },
+  {
+   "Keyword": "deklarera hobbyverksamhet",
+   "Search Volume": "40",
+   "CPC": "0.3",
+   "Competition": "0.33",
+   "Number of Results": "101",
+   "Trends": "0.01,0.01,0.01,0.05,0.01,0.01,0.01,0.02,0.12,1.00,0.01,0.01",
+   "Intent": "1",
+   "Keyword Difficulty Index": "28"
+  },
+  {
+   "Keyword": "kostförmån skatteverket",
+   "Search Volume": "90",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "107",
+   "Trends": "0.36,0.50,0.64,1.00,1.00,0.79,0.79,0.64,0.64,0.79,0.64,0.50",
+   "Intent": "2,3",
+   "Keyword Difficulty Index": "25"
+  },
+  {
+   "Keyword": "förmånsbeskattning lunch exempel",
+   "Search Volume": "90",
+   "CPC": "0",
+   "Competition": "0.01",
+   "Number of Results": "109",
+   "Trends": "0.03,1.00,0.53,0.81,0.03,0.03,0.03,0.12,0.03,0.03,0.16,0.03",
+   "Intent": "1",
+   "Keyword Difficulty Index": "15"
+  },
+  {
+   "Keyword": "hjälp med bokslut",
+   "Search Volume": "110",
+   "CPC": "17.89",
+   "Competition": "0.99",
+   "Number of Results": "134",
+   "Trends": "0.02,0.02,0.54,0.02,0.04,0.02,0.02,0.06,1.00,0.02,0.04,0.02",
+   "Intent": "1",
+   "Keyword Difficulty Index": "14"
+  },
+  {
+   "Keyword": "vad räknas som hobbyverksamhet",
+   "Search Volume": "70",
+   "CPC": "0.21",
+   "Competition": "0.12",
+   "Number of Results": "105",
+   "Trends": "0.03,0.03,0.10,0.67,0.03,0.13,0.03,0.03,1.00,0.13,0.13,0.03",
+   "Intent": "1",
+   "Keyword Difficulty Index": "21"
+  },
+  {
+   "Keyword": "vad är kostförmån",
+   "Search Volume": "70",
+   "CPC": "0",
+   "Competition": "0.02",
+   "Number of Results": "105",
+   "Trends": "0.24,0.24,0.24,0.24,1.00,0.24,0.24,0.24,0.24,0.24,0.24,0.52",
+   "Intent": "1",
+   "Keyword Difficulty Index": "14"
+  },
+  {
+   "Keyword": "steninge glasblåsning",
+   "Search Volume": "90",
+   "CPC": "0",
+   "Competition": "0.02",
+   "Number of Results": "107",
+   "Trends": "0.67,1.00,0.02,0.02,0.02,0.02,0.08,0.02,0.02,0.02,0.02,0.02",
+   "Intent": "2",
+   "Keyword Difficulty Index": "15"
+  },
+  {
+   "Keyword": "rådgivning affärsjuridik",
+   "Search Volume": "70",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "118",
+   "Trends": "0.06,0.06,0.65,1.00,0.82,0.65,0.82,0.24,0.29,0.06,0.06,0.06",
+   "Intent": "1",
+   "Keyword Difficulty Index": "18"
+  },
+  {
+   "Keyword": "förmånsberäkning bil",
+   "Search Volume": "50",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "156",
+   "Trends": "0.05,0.08,0.13,0.03,0.03,0.03,1.00,0.03,0.03,0.08,0.03,0.05",
+   "Intent": "0",
+   "Keyword Difficulty Index": "29"
+  },
+  {
+   "Keyword": "hobbyverksamhet eller enskild firma",
+   "Search Volume": "40",
+   "CPC": "0.44",
+   "Competition": "0.39",
+   "Number of Results": "114",
+   "Trends": "0.65,0.65,1.00,0.06,0.06,0.12,0.18,0.06,0.06,0.06,0.18,0.53",
+   "Intent": "1",
+   "Keyword Difficulty Index": "21"
+  },
+  {
+   "Keyword": "fast kostnad",
+   "Search Volume": "50",
+   "CPC": "0",
+   "Competition": "0",
+   "Number of Results": "110",
+   "Trends": "0.03,1.00,0.34,0.03,0.03,0.03,0.03,0.03,0.06,0.03,0.03,0.12",
+   "Intent": "1",
+   "Keyword Difficulty Index": "18"
+  },
+  {
+   "Keyword": "hållbar utveckling betyder",
+   "Search Volume": "50",
+   "CPC": "1.88",
+   "Competition": "0.1",
+   "Number of Results": "121",
+   "Trends": "0.03,0.03,1.00,0.05,0.18,0.03,0.03,0.03,0.03,0.13,0.05,0.18",
+   "Intent": "1",
+   "Keyword Difficulty Index": "29"
+  },
+  {
+   "Keyword": "personalvårdsförmån",
+   "Search Volume": "50",
+   "CPC": "0.53",
+   "Competition": "0.06",
+   "Number of Results": "113",
+   "Trends": "0.28,0.05,0.03,0.03,0.03,0.03,0.03,0.08,1.00,0.18,0.03,0.03",
+   "Intent": "1",
+   "Keyword Difficulty Index": "14"
+  },
+  {
+   "Keyword": "deklaration hobbyverksamhet",
+   "Search Volume": "110",
+   "CPC": "0.18",
+   "Competition": "0.16",
+   "Number of Results": "125",
+   "Trends": "0.08,0.03,0.03,0.05,0.10,0.05,0.03,0.03,0.28,1.00,0.03,0.05",
+   "Intent": "1",
+   "Keyword Difficulty Index": "28"
+  },
+  {
+   "Keyword": "revisor halmstad",
+   "Search Volume": "40",
+   "CPC": "7.06",
+   "Competition": "0.6",
+   "Number of Results": "105",
+   "Trends": "0.07,0.07,1.00,0.79,0.07,0.36,0.07,0.07,0.07,0.36,0.14,0.64",
+   "Intent": "0",
+   "Keyword Difficulty Index": "8"
+  },
+  {
+   "Keyword": "starta eget luleå",
+   "Search Volume": "40",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "116",
+   "Trends": "0.56,0.11,0.11,0.33,1.00,0.44,0.22,1.00,0.22,0.11,0.11,0.56",
+   "Intent": "2",
+   "Keyword Difficulty Index": "24"
+  },
+  {
+   "Keyword": "hur mycket behöver man för att gå i pension",
+   "Search Volume": "40",
+   "CPC": "0.58",
+   "Competition": "0.36",
+   "Number of Results": "107",
+   "Trends": "0.14,0.21,0.07,0.07,0.50,0.07,0.07,0.07,0.07,0.07,0.64,1.00",
+   "Intent": "1",
+   "Keyword Difficulty Index": "19"
+  },
+  {
+   "Keyword": "livsmedel spar",
+   "Search Volume": "40",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "0",
+   "Trends": "0.11,0.78,0.22,0.11,0.44,0.11,0.11,0.33,1.00,0.11,0.56,0.78",
+   "Intent": "",
+   "Keyword Difficulty Index": "0"
+  },
+  {
+   "Keyword": "hur kan man minska växthuseffekten",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.06",
+   "Number of Results": "138",
+   "Trends": "0.29,0.14,0.29,0.71,0.71,0.14,0.14,0.71,0.14,0.57,0.43,1.00",
+   "Intent": "1",
+   "Keyword Difficulty Index": "27"
+  },
+  {
+   "Keyword": "akridi halmstad",
+   "Search Volume": "30",
+   "CPC": "1.81",
+   "Competition": "0.37",
+   "Number of Results": "109",
+   "Trends": "1.00,0.22,0.11,0.11,0.11,0.11,0.11,0.78,0.22,1.00,0.33,0.78",
+   "Intent": "2",
+   "Keyword Difficulty Index": "20"
+  },
+  {
+   "Keyword": "göra bokslut",
+   "Search Volume": "40",
+   "CPC": "5.79",
+   "Competition": "0.73",
+   "Number of Results": "133",
+   "Trends": "0.10,0.10,1.00,0.19,0.05,0.05,0.10,0.05,0.33,0.05,0.05,0.05",
+   "Intent": "1",
+   "Keyword Difficulty Index": "18"
+  },
+  {
+   "Keyword": "varför gör man bokslut",
+   "Search Volume": "40",
+   "CPC": "0",
+   "Competition": "0.21",
+   "Number of Results": "131",
+   "Trends": "0.03,0.03,1.00,0.03,0.06,0.03,0.03,0.09,0.03,0.03,0.03,0.03",
+   "Intent": "1",
+   "Keyword Difficulty Index": "8"
+  },
+  {
+   "Keyword": "hur läser man årsredovisning",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.18",
+   "Number of Results": "127",
+   "Trends": "1.00,0.11,0.22,0.11,0.33,0.11,0.22,0.22,0.56,0.22,0.78,0.11",
+   "Intent": "1",
+   "Keyword Difficulty Index": "10"
+  },
+  {
+   "Keyword": "bolagsskatt aktiebolag",
+   "Search Volume": "30",
+   "CPC": "1.56",
+   "Competition": "0.45",
+   "Number of Results": "117",
+   "Trends": "0.29,0.14,0.14,0.71,1.00,0.14,0.29,0.14,0.14,0.14,1.00,0.29",
+   "Intent": "1",
+   "Keyword Difficulty Index": "20"
+  },
+  {
+   "Keyword": "hur man läser en årsredovisning",
+   "Search Volume": "20",
+   "CPC": "0.81",
+   "Competition": "0.27",
+   "Number of Results": "0",
+   "Trends": "0.14,0.14,0.14,0.14,0.43,0.29,1.00,0.14,0.43,0.14,0.14,0.14",
+   "Intent": "",
+   "Keyword Difficulty Index": "0"
+  },
+  {
+   "Keyword": "iso 18541",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "0",
+   "Trends": "1.00,0.11,0.11,0.11,0.44,0.11,0.33,0.11,0.11,0.56,0.33,0.56",
+   "Intent": "",
+   "Keyword Difficulty Index": "0"
+  },
+  {
+   "Keyword": "begränsad miljöpåverkan",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "0",
+   "Trends": "0.20,0.20,0.20,0.80,1.00,0.20,0.80,0.60,0.20,1.00,0.20,0.60",
+   "Intent": "",
+   "Keyword Difficulty Index": "0"
+  },
+  {
+   "Keyword": "f tax",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.09",
+   "Number of Results": "107",
+   "Trends": "0.29,0.57,0.43,0.29,0.43,1.00,0.14,0.14,0.14,0.57,0.71,0.14",
+   "Intent": "1",
+   "Keyword Difficulty Index": "16"
+  },
+  {
+   "Keyword": "strategisk affärsutveckling",
+   "Search Volume": "30",
+   "CPC": "0.85",
+   "Competition": "0.34",
+   "Number of Results": "121",
+   "Trends": "0.14,1.00,0.14,1.00,0.14,0.71,0.14,0.14,0.14,0.14,0.71,0.14",
+   "Intent": "1",
+   "Keyword Difficulty Index": "8"
+  },
+  {
+   "Keyword": "tax advisor",
+   "Search Volume": "30",
+   "CPC": "2.3",
+   "Competition": "0.26",
+   "Number of Results": "0",
+   "Trends": "0.78,0.11,0.11,0.22,0.44,0.11,0.11,0.11,0.33,0.22,0.11,1.00",
+   "Intent": "",
+   "Keyword Difficulty Index": "0"
+  },
+  {
+   "Keyword": "företagsekonomi för jurister redovisning räkenskapsanalys och kalkylering",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0",
+   "Number of Results": "618",
+   "Trends": "0.33,1.00,0.11,0.56,0.11,0.11,0.00,0.22,0.22,1.00,0.00,0.00",
+   "Intent": "1",
+   "Keyword Difficulty Index": "8"
+  },
+  {
+   "Keyword": "hur påverkar jag miljön",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.1",
+   "Number of Results": "0",
+   "Trends": "0.14,0.57,0.14,0.14,0.29,0.29,0.14,0.57,0.14,0.71,1.00,0.43",
+   "Intent": "",
+   "Keyword Difficulty Index": "0"
+  },
+  {
+   "Keyword": "ansvarspyramiden",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.01",
+   "Number of Results": "476",
+   "Trends": "0.00,0.07,0.14,0.21,0.21,0.50,0.07,0.14,0.07,0.07,0.07,1.00",
+   "Intent": "1",
+   "Keyword Difficulty Index": "13"
+  },
+  {
+   "Keyword": "redovisning halmstad",
+   "Search Volume": "30",
+   "CPC": "6.63",
+   "Competition": "0.99",
+   "Number of Results": "104",
+   "Trends": "0.07,0.36,1.00,0.07,0.29,0.07,0.07,0.14,0.07,0.36,0.07,0.07",
+   "Intent": "0",
+   "Keyword Difficulty Index": "19"
+  },
+  {
+   "Keyword": "häggblom sverige",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "108",
+   "Trends": "1.00,0.11,0.11,0.11,0.11,0.78,0.11,0.11,0.11,0.33,0.78,0.11",
+   "Intent": "1",
+   "Keyword Difficulty Index": "17"
+  },
+  {
+   "Keyword": "beräkna förmånsbeskattning bil",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.06",
+   "Number of Results": "44",
+   "Trends": "0.11,0.11,0.78,0.11,0.11,0.22,0.33,0.44,0.11,1.00,0.11,0.22",
+   "Intent": "0",
+   "Keyword Difficulty Index": "27"
+  },
+  {
+   "Keyword": "revision halmstad",
+   "Search Volume": "30",
+   "CPC": "2.34",
+   "Competition": "0.73",
+   "Number of Results": "108",
+   "Trends": "0.11,0.11,0.11,0.11,0.22,0.78,0.11,0.44,0.56,1.00,0.22,0.44",
+   "Intent": "0",
+   "Keyword Difficulty Index": "12"
+  },
+  {
+   "Keyword": "executive level",
+   "Search Volume": "70",
+   "CPC": "2.53",
+   "Competition": "0.66",
+   "Number of Results": "137",
+   "Trends": "0.29,0.07,0.07,1.00,0.21,0.07,0.21,0.07,0.07,0.07,0.14,0.07",
+   "Intent": "1",
+   "Keyword Difficulty Index": "23"
+  },
+  {
+   "Keyword": "betala skatt aktiebolag",
+   "Search Volume": "30",
+   "CPC": "0.36",
+   "Competition": "0.2",
+   "Number of Results": "104",
+   "Trends": "1.00,0.14,1.00,0.43,0.14,0.14,0.14,0.14,0.14,0.57,0.71,0.14",
+   "Intent": "1",
+   "Keyword Difficulty Index": "24"
+  },
+  {
+   "Keyword": "bokföra övertidsmat",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.05",
+   "Number of Results": "134",
+   "Trends": "1.00,0.57,0.71,0.43,0.71,0.29,0.14,0.14,0.14,1.00,0.14,0.14",
+   "Intent": "1",
+   "Keyword Difficulty Index": "12"
+  },
+  {
+   "Keyword": "att tänka på vid bokslut",
+   "Search Volume": "30",
+   "CPC": "0.36",
+   "Competition": "1",
+   "Number of Results": "135",
+   "Trends": "0.22,0.33,1.00,0.44,0.11,0.11,1.00,0.11,0.11,0.11,0.11,0.11",
+   "Intent": "1,0",
+   "Keyword Difficulty Index": "9"
+  },
+  {
+   "Keyword": "direktpension företag",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.75",
+   "Number of Results": "0",
+   "Trends": "0.14,0.14,0.14,0.71,0.14,0.14,0.14,1.00,1.00,0.29,0.29,0.14",
+   "Intent": "",
+   "Keyword Difficulty Index": "0"
+  },
+  {
+   "Keyword": "company audit",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.14",
+   "Number of Results": "35",
+   "Trends": "0.14,0.29,0.29,0.14,0.43,0.57,0.57,0.14,1.00,0.57,0.14,0.43",
+   "Intent": "1",
+   "Keyword Difficulty Index": "31"
+  },
+  {
+   "Keyword": "fastställd förvärvsinkomst betyder",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "109",
+   "Trends": "0.11,0.78,1.00,0.44,0.11,0.11,0.22,0.11,0.11,0.11,0.11,0.33",
+   "Intent": "1",
+   "Keyword Difficulty Index": "14"
+  },
+  {
+   "Keyword": "group risk management",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.36",
+   "Number of Results": "0",
+   "Trends": "0.71,0.57,0.71,0.14,0.14,0.14,0.14,0.14,0.29,0.14,0.14,1.00",
+   "Intent": "",
+   "Keyword Difficulty Index": "0"
+  },
+  {
+   "Keyword": "handla ekonomiskt",
+   "Search Volume": "30",
+   "CPC": "0.52",
+   "Competition": "0.24",
+   "Number of Results": "122",
+   "Trends": "0.33,0.11,0.11,0.11,0.11,0.11,0.44,0.22,0.33,0.44,1.00,0.44",
+   "Intent": "1",
+   "Keyword Difficulty Index": "0"
+  },
+  {
+   "Keyword": "hobbyverksamhet skattefri",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.48",
+   "Number of Results": "105",
+   "Trends": "0.14,0.14,1.00,0.14,1.00,0.71,0.14,0.14,0.43,0.14,0.14,0.29",
+   "Intent": "1",
+   "Keyword Difficulty Index": "22"
+  },
+  {
+   "Keyword": "föreningen cancerhjälpen",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.29",
+   "Number of Results": "0",
+   "Trends": "0.20,0.80,0.60,0.20,0.20,0.60,0.40,0.60,1.00,0.20,0.40,0.80",
+   "Intent": "",
+   "Keyword Difficulty Index": "0"
+  },
+  {
+   "Keyword": "begränsad klimatpåverkan",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.33",
+   "Number of Results": "178",
+   "Trends": "0.14,0.14,0.14,1.00,0.29,0.14,0.14,0.71,0.43,1.00,0.14,0.14",
+   "Intent": "1,2",
+   "Keyword Difficulty Index": "24"
+  },
+  {
+   "Keyword": "business law firm",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.67",
+   "Number of Results": "0",
+   "Trends": "0.14,0.14,0.14,0.14,0.14,0.43,0.29,1.00,0.14,0.14,1.00,0.57",
+   "Intent": "",
+   "Keyword Difficulty Index": "0"
+  },
+  {
+   "Keyword": "hur gör jag bokslut",
+   "Search Volume": "30",
+   "CPC": "3.73",
+   "Competition": "0.74",
+   "Number of Results": "126",
+   "Trends": "1.00,0.11,0.78,0.78,0.11,0.11,0.11,0.11,0.22,1.00,0.11,0.11",
+   "Intent": "1",
+   "Keyword Difficulty Index": "14"
+  },
+  {
+   "Keyword": "hobbyjobb",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.43",
+   "Number of Results": "146",
+   "Trends": "0.57,0.29,0.29,0.14,0.57,0.14,0.14,0.14,0.71,1.00,0.43,0.14",
+   "Intent": "1",
+   "Keyword Difficulty Index": "18"
+  },
+  {
+   "Keyword": "hr consultant",
+   "Search Volume": "20",
+   "CPC": "2.71",
+   "Competition": "0.48",
+   "Number of Results": "0",
+   "Trends": "0.14,0.29,0.14,0.14,1.00,0.14,0.57,0.57,0.29,0.29,0.14,0.14",
+   "Intent": "",
+   "Keyword Difficulty Index": "0"
+  },
+  {
+   "Keyword": "fasta kostnader företag",
+   "Search Volume": "30",
+   "CPC": "0",
+   "Competition": "0.06",
+   "Number of Results": "0",
+   "Trends": "0.14,0.71,0.14,0.14,0.43,0.71,0.14,1.00,0.14,1.00,0.29,0.14",
+   "Intent": "",
+   "Keyword Difficulty Index": "0"
+  },
+  {
+   "Keyword": "f tax sweden",
+   "Search Volume": "30",
+   "CPC": "1.04",
+   "Competition": "0.13",
+   "Number of Results": "115",
+   "Trends": "0.44,0.11,0.56,1.00,0.78,0.22,0.22,0.22,0.11,0.11,0.22,0.22",
+   "Intent": "1",
+   "Keyword Difficulty Index": "9"
+  },
+  {
+   "Keyword": "klimatkompensera privatperson",
+   "Search Volume": "20",
+   "CPC": "1.21",
+   "Competition": "0.62",
+   "Number of Results": "0",
+   "Trends": "0.14,0.14,0.14,0.14,0.43,0.14,1.00,0.57,0.14,0.14,0.14,0.14",
+   "Intent": "",
+   "Keyword Difficulty Index": "0"
+  },
+  {
+   "Keyword": "hur många miljoner behöver man för att gå i pension",
+   "Search Volume": "30",
+   "CPC": "0.59",
+   "Competition": "0.33",
+   "Number of Results": "121",
+   "Trends": "0.14,0.14,1.00,0.14,0.14,0.43,0.71,0.71,0.14,0.43,0.29,0.57",
+   "Intent": "1",
+   "Keyword Difficulty Index": "18"
+  }
+ ],
+ "metadata": {
+  "format": "csv",
+  "usage": {
+   "api_units": 1190
+  }
+ }
+}

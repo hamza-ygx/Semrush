@@ -109,3 +109,23 @@ create table if not exists users (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+create table if not exists semrush_data (
+  project_id uuid not null references projects(id) on delete cascade,
+  dataset text not null,
+  database text not null default 'se',
+  fetched_at timestamptz not null,
+  source text not null,
+  rows jsonb not null,
+  primary key (project_id, dataset, database, fetched_at)
+);
+
+create table if not exists semrush_syncs (
+  id bigint generated always as identity primary key,
+  project_id uuid not null references projects(id) on delete cascade,
+  synced_at timestamptz not null default now(),
+  datasets int not null default 0,
+  units int,
+  error text,
+  synced_by text
+);

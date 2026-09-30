@@ -1,0 +1,18 @@
+{
+ "report": "resource_adwords",
+ "toolkit": "paid_search_research",
+ "params": {
+  "target": "rkjh.se",
+  "database": "se",
+  "display_limit": 100
+ },
+ "fetched_at": "2026-09-30T18:39:56+00:00",
+ "source": "semrush-mcp",
+ "data": null,
+ "metadata": {
+  "code": "internal",
+  "message": "403 ERROR 132 :: API UNITS BALANCE IS ZERO",
+  "retryable": false,
+  "trace_id": "652218b2d7ae6466ab68499e25ed54ef"
+ }
+}

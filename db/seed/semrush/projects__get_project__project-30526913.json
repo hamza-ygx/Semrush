@@ -1,0 +1,16 @@
+{
+ "report": "get_project",
+ "toolkit": "projects",
+ "params": {
+  "id": 30526913
+ },
+ "fetched_at": "2026-09-30T18:39:56+00:00",
+ "source": "semrush-mcp",
+ "data": null,
+ "metadata": {
+  "code": "internal",
+  "message": "projects API error 132: API units balance is zero",
+  "retryable": false,
+  "trace_id": "8d20e029ed0d05715372bac6511014f0"
+ }
+}

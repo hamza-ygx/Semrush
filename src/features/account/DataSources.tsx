@@ -13,6 +13,7 @@ export type ProjectStatus = {
   crawl_limit: number;
   crawl: { status: string; started_at: string; finished_at: string | null; pages_crawled: number; health: number | null; errors: number; warnings: number; notices: number; error: string | null } | null;
   sync: { synced_at: string; rows: number; error: string | null; start_date: string; end_date: string } | null;
+  semrush: { fetched_at: string | null; source: string | null; error: string | null } | null;
 };
 
 export type StaffUser = { id: string; email: string; name: string; is_admin: boolean; must_change: boolean; locked: boolean; last_login_at: string | null };
@@ -21,17 +22,25 @@ const when = (iso: string | null | undefined) => (iso ? `${iso.slice(0, 16).repl
 const card = "rounded-lg border border-rk-border bg-white p-6";
 const btn = "h-8 rounded-md border border-rk-border-strong bg-white px-3 text-[14px] text-rk-text hover:bg-rk-bg disabled:opacity-50";
 
-function ProjectRow({ p }: { p: ProjectStatus }) {
+function ProjectRow({ p, semrushApi }: { p: ProjectStatus; semrushApi: boolean }) {
   const router = useRouter();
-  const [busy, setBusy] = useState<"crawl" | "sync" | null>(null);
+  const [busy, setBusy] = useState<"crawl" | "sync" | "semrush" | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
-  const run = async (kind: "crawl" | "sync") => {
+  const run = async (kind: "crawl" | "sync" | "semrush") => {
     setBusy(kind);
     setMsg(null);
     try {
-      const res = await fetch(kind === "crawl" ? "/api/seo/crawl" : "/api/seo/gsc-sync", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ projectId: p.id }) });
+      const res = await fetch(kind === "crawl" ? "/api/seo/crawl" : kind === "sync" ? "/api/seo/gsc-sync" : "/api/seo/semrush-sync", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ projectId: p.id }) });
       const json = await res.json().catch(() => ({}));
-      setMsg(res.ok ? (kind === "crawl" ? `Crawled ${json.pages_crawled} pages, health ${json.health}%${json.truncated ? " (time limit reached, partial crawl)" : ""}` : `Synced ${json.rows} rows (${json.from} – ${json.to})`) : (json.error ?? `Failed (${res.status})`));
+      setMsg(
+        res.ok
+          ? kind === "crawl"
+            ? `Crawled ${json.pages_crawled} pages, health ${json.health}%${json.truncated ? " (time limit reached, partial crawl)" : ""}`
+            : kind === "sync"
+              ? `Synced ${json.rows} rows (${json.from} – ${json.to})`
+              : `Updated ${json.datasets} Semrush datasets (${json.keywords} keywords, ${json.backlinks} backlinks)`
+          : (json.error ?? `Failed (${res.status})`),
+      );
       router.refresh();
     } finally {
       setBusy(null);
@@ -56,14 +65,23 @@ function ProjectRow({ p }: { p: ProjectStatus }) {
         <div>{when(p.sync?.synced_at)}</div>
         {p.sync && (p.sync.error ? <div className="text-rk-danger">{p.sync.error}</div> : <div className="text-rk-muted">{p.sync.rows} rows · {p.sync.start_date} – {p.sync.end_date}</div>)}
       </td>
+      <td className="py-3 pr-4 text-[13px]">
+        <div>{when(p.semrush?.fetched_at)}</div>
+        {p.semrush?.error ? <div className="text-rk-danger">{p.semrush.error}</div> : p.semrush?.source && <div className="text-rk-muted">{p.semrush.source === "semrush-api" ? "Semrush API" : "Imported snapshot"}</div>}
+      </td>
       <td className="py-3 text-right whitespace-nowrap">
-        <div className="flex justify-end gap-2">
+        <div className="flex flex-wrap justify-end gap-2">
           <button type="button" disabled={!!busy} onClick={() => run("crawl")} className={btn}>
             {busy === "crawl" ? "Crawling…" : "Run crawl"}
           </button>
           <button type="button" disabled={!!busy} onClick={() => run("sync")} className={btn}>
             {busy === "sync" ? "Syncing…" : "Sync Search Console"}
           </button>
+          {semrushApi && (
+            <button type="button" disabled={!!busy} onClick={() => window.confirm("A Semrush sync uses roughly 20,000–30,000 API units. Continue?") && run("semrush")} className={btn}>
+              {busy === "semrush" ? "Syncing…" : "Sync Semrush"}
+            </button>
+          )}
         </div>
         {msg && <div className="mt-2 max-w-[320px] text-left text-[13px] whitespace-normal text-rk-text-2" role="status">{msg}</div>}
       </td>
@@ -182,7 +200,7 @@ function UsersSection({ users, me }: { users: StaffUser[]; me: string }) {
   );
 }
 
-export function DataSources({ email, gsc, projects, users, me }: { email: string | null; gsc: { configured: boolean; serviceAccount: string | null }; projects: ProjectStatus[]; users: StaffUser[] | null; me: string }) {
+export function DataSources({ email, gsc, semrushApi, projects, users, me }: { email: string | null; gsc: { configured: boolean; serviceAccount: string | null }; semrushApi: boolean; projects: ProjectStatus[]; users: StaffUser[] | null; me: string }) {
   const [error, action, pending] = useActionState(addProject, null);
   return (
     <AccountShell active="dataSources" search>
@@ -199,6 +217,14 @@ export function DataSources({ email, gsc, projects, users, me }: { email: string
           )}
         </section>
         <section className={card}>
+          <h2 className="text-[16px] font-semibold">Semrush</h2>
+          <p className="mt-2 text-rk-text-2">
+            {semrushApi
+              ? "Connected with an API key. Use Sync Semrush on a project to refresh keywords, backlinks and competitors (uses your Semrush API units)."
+              : "Showing the imported snapshot. To refresh it, add your Semrush API key as the SEMRUSH_API_KEY environment variable in Vercel and redeploy."}
+          </p>
+        </section>
+        <section className={card}>
           <h2 className="text-[16px] font-semibold">Projects</h2>
           <p className="mt-1 text-rk-muted">Site Audit uses the latest crawl. Organic Rankings, Position Tracking and Domain Overview use Search Console data.</p>
           <table className="mt-4 w-full text-left">
@@ -207,16 +233,17 @@ export function DataSources({ email, gsc, projects, users, me }: { email: string
                 <th className="pb-2 font-medium">Domain</th>
                 <th className="pb-2 font-medium">Last crawl</th>
                 <th className="pb-2 font-medium">Last Search Console sync</th>
+                <th className="pb-2 font-medium">Semrush data</th>
                 <th className="pb-2" />
               </tr>
             </thead>
             <tbody>
               {projects.map((p) => (
-                <ProjectRow key={p.id} p={p} />
+                <ProjectRow key={p.id} p={p} semrushApi={semrushApi} />
               ))}
               {!projects.length && (
                 <tr>
-                  <td colSpan={4} className="border-t border-rk-border py-6 text-center text-rk-muted">No projects yet</td>
+                  <td colSpan={5} className="border-t border-rk-border py-6 text-center text-rk-muted">No projects yet</td>
                 </tr>
               )}
             </tbody>

@@ -1,5 +1,5 @@
 import { randomBytes, scryptSync } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import postgres from "postgres";
 
 const url = process.env.DATABASE_URL;
@@ -12,6 +12,21 @@ const sql = postgres(url, { max: 1, prepare: false, ssl: local ? false : "requir
 try {
   await sql.unsafe(readFileSync(new URL("../db/schema.sql", import.meta.url), "utf8"));
   console.log("migrate: schema up to date");
+  const seed = new URL("../db/seed/semrush.json", import.meta.url);
+  if (existsSync(seed)) {
+    const s = JSON.parse(readFileSync(seed, "utf8"));
+    const [project] = await sql`select id from projects where domain = ${s.domain}`;
+    if (project) {
+      let added = 0;
+      for (const [dataset, d] of Object.entries(s.datasets)) {
+        const r = await sql`insert into semrush_data (project_id, dataset, database, fetched_at, source, rows)
+          values (${project.id}, ${dataset}, ${s.database}, ${d.fetched_at}, ${s.source}, ${sql.json(d.rows)})
+          on conflict do nothing returning dataset`;
+        added += r.length;
+      }
+      console.log(`migrate: semrush seed ${added} new datasets`);
+    }
+  }
   const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
   const password = process.env.ADMIN_INITIAL_PASSWORD;
   if (email && password) {

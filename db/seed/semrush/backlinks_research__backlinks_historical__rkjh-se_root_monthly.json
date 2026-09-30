@@ -1,0 +1,820 @@
+{
+ "report": "backlinks_historical",
+ "toolkit": "backlinks_research",
+ "params": {
+  "target": "rkjh.se",
+  "target_type": "root_domain",
+  "display_limit": 500
+ },
+ "fetched_at": "2026-09-30T18:39:56+00:00",
+ "source": "semrush-mcp",
+ "data": [
+  {
+   "date": "1788235200",
+   "backlinks_num": "396",
+   "domains_num": "280",
+   "score": "8"
+  },
+  {
+   "date": "1785556800",
+   "backlinks_num": "314",
+   "domains_num": "198",
+   "score": "8"
+  },
+  {
+   "date": "1782878400",
+   "backlinks_num": "279",
+   "domains_num": "169",
+   "score": "9"
+  },
+  {
+   "date": "1780286400",
+   "backlinks_num": "307",
+   "domains_num": "167",
+   "score": "8"
+  },
+  {
+   "date": "1777608000",
+   "backlinks_num": "321",
+   "domains_num": "162",
+   "score": "8"
+  },
+  {
+   "date": "1775016000",
+   "backlinks_num": "319",
+   "domains_num": "159",
+   "score": "7"
+  },
+  {
+   "date": "1772341200",
+   "backlinks_num": "302",
+   "domains_num": "155",
+   "score": "7"
+  },
+  {
+   "date": "1769922000",
+   "backlinks_num": "275",
+   "domains_num": "147",
+   "score": "7"
+  },
+  {
+   "date": "1767243600",
+   "backlinks_num": "281",
+   "domains_num": "170",
+   "score": "7"
+  },
+  {
+   "date": "1764565200",
+   "backlinks_num": "264",
+   "domains_num": "162",
+   "score": "7"
+  },
+  {
+   "date": "1761969600",
+   "backlinks_num": "232",
+   "domains_num": "153",
+   "score": "6"
+  },
+  {
+   "date": "1759291200",
+   "backlinks_num": "210",
+   "domains_num": "160",
+   "score": "7"
+  },
+  {
+   "date": "1756699200",
+   "backlinks_num": "171",
+   "domains_num": "140",
+   "score": "7"
+  },
+  {
+   "date": "1754020800",
+   "backlinks_num": "175",
+   "domains_num": "144",
+   "score": "10"
+  },
+  {
+   "date": "1751342400",
+   "backlinks_num": "179",
+   "domains_num": "147",
+   "score": "9"
+  },
+  {
+   "date": "1748750400",
+   "backlinks_num": "172",
+   "domains_num": "144",
+   "score": "9"
+  },
+  {
+   "date": "1746072000",
+   "backlinks_num": "178",
+   "domains_num": "149",
+   "score": "9"
+  },
+  {
+   "date": "1743480000",
+   "backlinks_num": "174",
+   "domains_num": "141",
+   "score": "9"
+  },
+  {
+   "date": "1740805200",
+   "backlinks_num": "160",
+   "domains_num": "121",
+   "score": "9"
+  },
+  {
+   "date": "1738386000",
+   "backlinks_num": "195",
+   "domains_num": "145",
+   "score": "9"
+  },
+  {
+   "date": "1735707600",
+   "backlinks_num": "235",
+   "domains_num": "161",
+   "score": "9"
+  },
+  {
+   "date": "1733029200",
+   "backlinks_num": "247",
+   "domains_num": "161",
+   "score": "9"
+  },
+  {
+   "date": "1730433600",
+   "backlinks_num": "264",
+   "domains_num": "166",
+   "score": "8"
+  },
+  {
+   "date": "1727755200",
+   "backlinks_num": "290",
+   "domains_num": "176",
+   "score": "9"
+  },
+  {
+   "date": "1725163200",
+   "backlinks_num": "326",
+   "domains_num": "188",
+   "score": "9"
+  },
+  {
+   "date": "1722484800",
+   "backlinks_num": "359",
+   "domains_num": "204",
+   "score": "10"
+  },
+  {
+   "date": "1719806400",
+   "backlinks_num": "362",
+   "domains_num": "209",
+   "score": "7"
+  },
+  {
+   "date": "1717214400",
+   "backlinks_num": "351",
+   "domains_num": "200",
+   "score": "7"
+  },
+  {
+   "date": "1714536000",
+   "backlinks_num": "343",
+   "domains_num": "192",
+   "score": "6"
+  },
+  {
+   "date": "1711944000",
+   "backlinks_num": "324",
+   "domains_num": "185",
+   "score": "11"
+  },
+  {
+   "date": "1709269200",
+   "backlinks_num": "309",
+   "domains_num": "178",
+   "score": "9"
+  },
+  {
+   "date": "1706763600",
+   "backlinks_num": "266",
+   "domains_num": "165",
+   "score": "7"
+  },
+  {
+   "date": "1704085200",
+   "backlinks_num": "218",
+   "domains_num": "145",
+   "score": "8"
+  },
+  {
+   "date": "1701406800",
+   "backlinks_num": "186",
+   "domains_num": "130",
+   "score": "8"
+  },
+  {
+   "date": "1698811200",
+   "backlinks_num": "178",
+   "domains_num": "128",
+   "score": "8"
+  },
+  {
+   "date": "1696132800",
+   "backlinks_num": "161",
+   "domains_num": "116",
+   "score": "8"
+  },
+  {
+   "date": "1693540800",
+   "backlinks_num": "155",
+   "domains_num": "100",
+   "score": "9"
+  },
+  {
+   "date": "1690862400",
+   "backlinks_num": "145",
+   "domains_num": "92",
+   "score": "8"
+  },
+  {
+   "date": "1688184000",
+   "backlinks_num": "146",
+   "domains_num": "89",
+   "score": "7"
+  },
+  {
+   "date": "1685592000",
+   "backlinks_num": "156",
+   "domains_num": "89",
+   "score": "7"
+  },
+  {
+   "date": "1682913600",
+   "backlinks_num": "167",
+   "domains_num": "94",
+   "score": "8"
+  },
+  {
+   "date": "1680321600",
+   "backlinks_num": "164",
+   "domains_num": "89",
+   "score": "9"
+  },
+  {
+   "date": "1677646800",
+   "backlinks_num": "174",
+   "domains_num": "92",
+   "score": "9"
+  },
+  {
+   "date": "1675227600",
+   "backlinks_num": "172",
+   "domains_num": "85",
+   "score": "10"
+  },
+  {
+   "date": "1672549200",
+   "backlinks_num": "163",
+   "domains_num": "83",
+   "score": "10"
+  },
+  {
+   "date": "1669870800",
+   "backlinks_num": "154",
+   "domains_num": "78",
+   "score": "14"
+  },
+  {
+   "date": "1667275200",
+   "backlinks_num": "140",
+   "domains_num": "68",
+   "score": "14"
+  },
+  {
+   "date": "1664596800",
+   "backlinks_num": "139",
+   "domains_num": "75",
+   "score": "14"
+  },
+  {
+   "date": "1662004800",
+   "backlinks_num": "129",
+   "domains_num": "73",
+   "score": "14"
+  },
+  {
+   "date": "1659326400",
+   "backlinks_num": "119",
+   "domains_num": "70",
+   "score": "14"
+  },
+  {
+   "date": "1656648000",
+   "backlinks_num": "155",
+   "domains_num": "65",
+   "score": "14"
+  },
+  {
+   "date": "1654056000",
+   "backlinks_num": "147",
+   "domains_num": "61",
+   "score": "14"
+  },
+  {
+   "date": "1651377600",
+   "backlinks_num": "150",
+   "domains_num": "63",
+   "score": "14"
+  },
+  {
+   "date": "1648785600",
+   "backlinks_num": "147",
+   "domains_num": "62",
+   "score": "14"
+  },
+  {
+   "date": "1646110800",
+   "backlinks_num": "141",
+   "domains_num": "58",
+   "score": "14"
+  },
+  {
+   "date": "1643691600",
+   "backlinks_num": "144",
+   "domains_num": "60",
+   "score": "15"
+  },
+  {
+   "date": "1641013200",
+   "backlinks_num": "143",
+   "domains_num": "57",
+   "score": "15"
+  },
+  {
+   "date": "1638334800",
+   "backlinks_num": "115",
+   "domains_num": "58",
+   "score": "16"
+  },
+  {
+   "date": "1635739200",
+   "backlinks_num": "146",
+   "domains_num": "55",
+   "score": "15"
+  },
+  {
+   "date": "1633060800",
+   "backlinks_num": "149",
+   "domains_num": "54",
+   "score": "15"
+  },
+  {
+   "date": "1630468800",
+   "backlinks_num": "155",
+   "domains_num": "55",
+   "score": "15"
+  },
+  {
+   "date": "1627790400",
+   "backlinks_num": "151",
+   "domains_num": "53",
+   "score": "15"
+  },
+  {
+   "date": "1625112000",
+   "backlinks_num": "147",
+   "domains_num": "50",
+   "score": "15"
+  },
+  {
+   "date": "1622520000",
+   "backlinks_num": "143",
+   "domains_num": "48",
+   "score": "14"
+  },
+  {
+   "date": "1619841600",
+   "backlinks_num": "136",
+   "domains_num": "40",
+   "score": "15"
+  },
+  {
+   "date": "1617249600",
+   "backlinks_num": "142",
+   "domains_num": "40",
+   "score": "15"
+  },
+  {
+   "date": "1614574800",
+   "backlinks_num": "131",
+   "domains_num": "41",
+   "score": "15"
+  },
+  {
+   "date": "1612155600",
+   "backlinks_num": "127",
+   "domains_num": "38",
+   "score": "15"
+  },
+  {
+   "date": "1609477200",
+   "backlinks_num": "125",
+   "domains_num": "36",
+   "score": "15"
+  },
+  {
+   "date": "1606798800",
+   "backlinks_num": "64",
+   "domains_num": "34",
+   "score": "15"
+  },
+  {
+   "date": "1604203200",
+   "backlinks_num": "68",
+   "domains_num": "37",
+   "score": "16"
+  },
+  {
+   "date": "1601524800",
+   "backlinks_num": "70",
+   "domains_num": "38",
+   "score": "15"
+  },
+  {
+   "date": "1598932800",
+   "backlinks_num": "67",
+   "domains_num": "36",
+   "score": "11"
+  },
+  {
+   "date": "1596254400",
+   "backlinks_num": "50",
+   "domains_num": "18",
+   "score": "10"
+  },
+  {
+   "date": "1593576000",
+   "backlinks_num": "55",
+   "domains_num": "19",
+   "score": "10"
+  },
+  {
+   "date": "1590984000",
+   "backlinks_num": "117",
+   "domains_num": "19",
+   "score": "11"
+  },
+  {
+   "date": "1588305600",
+   "backlinks_num": "122",
+   "domains_num": "18",
+   "score": "13"
+  },
+  {
+   "date": "1585713600",
+   "backlinks_num": "123",
+   "domains_num": "20",
+   "score": "12"
+  },
+  {
+   "date": "1583038800",
+   "backlinks_num": "125",
+   "domains_num": "19",
+   "score": "10"
+  },
+  {
+   "date": "1580533200",
+   "backlinks_num": "131",
+   "domains_num": "19",
+   "score": "11"
+  },
+  {
+   "date": "1577854800",
+   "backlinks_num": "132",
+   "domains_num": "18",
+   "score": "11"
+  },
+  {
+   "date": "1575176400",
+   "backlinks_num": "132",
+   "domains_num": "19",
+   "score": "11"
+  },
+  {
+   "date": "1572580800",
+   "backlinks_num": "199",
+   "domains_num": "21",
+   "score": "11"
+  },
+  {
+   "date": "1569902400",
+   "backlinks_num": "200",
+   "domains_num": "22",
+   "score": "11"
+  },
+  {
+   "date": "1567310400",
+   "backlinks_num": "212",
+   "domains_num": "21",
+   "score": "11"
+  },
+  {
+   "date": "1564632000",
+   "backlinks_num": "203",
+   "domains_num": "20",
+   "score": "14"
+  },
+  {
+   "date": "1561953600",
+   "backlinks_num": "199",
+   "domains_num": "17",
+   "score": "14"
+  },
+  {
+   "date": "1559361600",
+   "backlinks_num": "199",
+   "domains_num": "17",
+   "score": "13"
+  },
+  {
+   "date": "1556683200",
+   "backlinks_num": "198",
+   "domains_num": "16",
+   "score": "13"
+  },
+  {
+   "date": "1554091200",
+   "backlinks_num": "192",
+   "domains_num": "15",
+   "score": "13"
+  },
+  {
+   "date": "1551416400",
+   "backlinks_num": "158",
+   "domains_num": "14",
+   "score": "12"
+  },
+  {
+   "date": "1548997200",
+   "backlinks_num": "127",
+   "domains_num": "13",
+   "score": "12"
+  },
+  {
+   "date": "1546318800",
+   "backlinks_num": "130",
+   "domains_num": "14",
+   "score": "12"
+  },
+  {
+   "date": "1543640400",
+   "backlinks_num": "128",
+   "domains_num": "14",
+   "score": "12"
+  },
+  {
+   "date": "1541044800",
+   "backlinks_num": "128",
+   "domains_num": "13",
+   "score": "14"
+  },
+  {
+   "date": "1538366400",
+   "backlinks_num": "124",
+   "domains_num": "12",
+   "score": "14"
+  },
+  {
+   "date": "1535774400",
+   "backlinks_num": "121",
+   "domains_num": "12",
+   "score": "15"
+  },
+  {
+   "date": "1533096000",
+   "backlinks_num": "120",
+   "domains_num": "13",
+   "score": "15"
+  },
+  {
+   "date": "1530417600",
+   "backlinks_num": "119",
+   "domains_num": "13",
+   "score": "15"
+  },
+  {
+   "date": "1527825600",
+   "backlinks_num": "118",
+   "domains_num": "13",
+   "score": "15"
+  },
+  {
+   "date": "1525147200",
+   "backlinks_num": "110",
+   "domains_num": "12",
+   "score": "13"
+  },
+  {
+   "date": "1522555200",
+   "backlinks_num": "106",
+   "domains_num": "10",
+   "score": "15"
+  },
+  {
+   "date": "1519880400",
+   "backlinks_num": "106",
+   "domains_num": "10",
+   "score": "15"
+  },
+  {
+   "date": "1517461200",
+   "backlinks_num": "103",
+   "domains_num": "9",
+   "score": "15"
+  },
+  {
+   "date": "1514782800",
+   "backlinks_num": "100",
+   "domains_num": "8",
+   "score": "15"
+  },
+  {
+   "date": "1512104400",
+   "backlinks_num": "97",
+   "domains_num": "8",
+   "score": "15"
+  },
+  {
+   "date": "1509508800",
+   "backlinks_num": "90",
+   "domains_num": "8",
+   "score": "15"
+  },
+  {
+   "date": "1506830400",
+   "backlinks_num": "86",
+   "domains_num": "6",
+   "score": "15"
+  },
+  {
+   "date": "1504238400",
+   "backlinks_num": "84",
+   "domains_num": "5",
+   "score": "15"
+  },
+  {
+   "date": "1501560000",
+   "backlinks_num": "84",
+   "domains_num": "5",
+   "score": "15"
+  },
+  {
+   "date": "1498881600",
+   "backlinks_num": "83",
+   "domains_num": "5",
+   "score": "15"
+  },
+  {
+   "date": "1496289600",
+   "backlinks_num": "82",
+   "domains_num": "4",
+   "score": "15"
+  },
+  {
+   "date": "1493611200",
+   "backlinks_num": "79",
+   "domains_num": "4",
+   "score": "15"
+  },
+  {
+   "date": "1491019200",
+   "backlinks_num": "79",
+   "domains_num": "4",
+   "score": "15"
+  },
+  {
+   "date": "1488344400",
+   "backlinks_num": "79",
+   "domains_num": "4",
+   "score": "15"
+  },
+  {
+   "date": "1485925200",
+   "backlinks_num": "79",
+   "domains_num": "4",
+   "score": "15"
+  },
+  {
+   "date": "1483246800",
+   "backlinks_num": "81",
+   "domains_num": "5",
+   "score": "15"
+  },
+  {
+   "date": "1480568400",
+   "backlinks_num": "81",
+   "domains_num": "5",
+   "score": "15"
+  },
+  {
+   "date": "1477972800",
+   "backlinks_num": "76",
+   "domains_num": "4",
+   "score": "15"
+  },
+  {
+   "date": "1475294400",
+   "backlinks_num": "76",
+   "domains_num": "4",
+   "score": "15"
+  },
+  {
+   "date": "1472702400",
+   "backlinks_num": "75",
+   "domains_num": "3",
+   "score": "15"
+  },
+  {
+   "date": "1470024000",
+   "backlinks_num": "75",
+   "domains_num": "3",
+   "score": "15"
+  },
+  {
+   "date": "1467345600",
+   "backlinks_num": "72",
+   "domains_num": "3",
+   "score": "15"
+  },
+  {
+   "date": "1464753600",
+   "backlinks_num": "72",
+   "domains_num": "3",
+   "score": "15"
+  },
+  {
+   "date": "1462075200",
+   "backlinks_num": "69",
+   "domains_num": "2",
+   "score": "15"
+  },
+  {
+   "date": "1459483200",
+   "backlinks_num": "68",
+   "domains_num": "3",
+   "score": "15"
+  },
+  {
+   "date": "1456808400",
+   "backlinks_num": "67",
+   "domains_num": "3",
+   "score": "15"
+  },
+  {
+   "date": "1454302800",
+   "backlinks_num": "67",
+   "domains_num": "3",
+   "score": "15"
+  },
+  {
+   "date": "1451624400",
+   "backlinks_num": "62",
+   "domains_num": "3",
+   "score": "15"
+  },
+  {
+   "date": "1448946000",
+   "backlinks_num": "54",
+   "domains_num": "3",
+   "score": "15"
+  },
+  {
+   "date": "1446350400",
+   "backlinks_num": "54",
+   "domains_num": "3",
+   "score": "15"
+  },
+  {
+   "date": "1443672000",
+   "backlinks_num": "54",
+   "domains_num": "3",
+   "score": "15"
+  },
+  {
+   "date": "1441080000",
+   "backlinks_num": "52",
+   "domains_num": "1",
+   "score": "15"
+  }
+ ],
+ "metadata": {
+  "format": "csv",
+  "pagination": {
+   "limit": 500
+  },
+  "usage": {
+   "api_units": 5320
+  }
+ }
+}

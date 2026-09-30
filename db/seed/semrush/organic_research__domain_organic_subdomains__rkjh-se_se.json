@@ -1,0 +1,38 @@
+{
+ "report": "domain_organic_subdomains",
+ "toolkit": "organic_research",
+ "params": {
+  "domain": "rkjh.se",
+  "database": "se",
+  "display_limit": 100,
+  "export_columns": [
+   "url",
+   "keywords_count",
+   "traffic",
+   "traffic_share",
+   "serp_features_keywords",
+   "serp_features_traffic"
+  ]
+ },
+ "fetched_at": "2026-09-30T18:39:56+00:00",
+ "source": "semrush-mcp",
+ "data": [
+  {
+   "Url": "rkjh.se",
+   "Number of Keywords": "132",
+   "Traffic": "59",
+   "Traffic (%)": "100.00",
+   "SERP Features Positions": "1",
+   "SERP Features Traffic": "1"
+  }
+ ],
+ "metadata": {
+  "format": "csv",
+  "pagination": {
+   "limit": 100
+  },
+  "usage": {
+   "api_units": 20010
+  }
+ }
+}

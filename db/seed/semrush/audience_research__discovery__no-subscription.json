@@ -1,0 +1,14 @@
+{
+ "report": "discovery",
+ "toolkit": "audience_research",
+ "params": {},
+ "fetched_at": "2026-09-30T18:39:56+00:00",
+ "source": "semrush-mcp",
+ "data": null,
+ "metadata": {
+  "code": "no_subscription",
+  "message": "The user does not have a Semrush plan that includes MCP access.",
+  "retryable": false,
+  "trace_id": "6e6a965af72547e3c3ac15f502d7ab00"
+ }
+}

@@ -1,0 +1,16 @@
+{
+ "report": "campaigns",
+ "toolkit": "position_tracking",
+ "params": {
+  "project_id": 30526913
+ },
+ "fetched_at": "2026-09-30T18:39:56+00:00",
+ "source": "semrush-mcp",
+ "data": null,
+ "metadata": {
+  "code": "internal",
+  "message": "tracking API error 0: not enough api units to perform this action",
+  "retryable": false,
+  "trace_id": "0db59a2414b5590d2ca082a00f40bad0"
+ }
+}

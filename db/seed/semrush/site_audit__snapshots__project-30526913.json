@@ -1,0 +1,16 @@
+{
+ "report": "snapshots",
+ "toolkit": "site_audit",
+ "params": {
+  "id": 30526913
+ },
+ "fetched_at": "2026-09-30T18:39:56+00:00",
+ "source": "semrush-mcp",
+ "data": null,
+ "metadata": {
+  "code": "internal",
+  "message": "site audit API error 0: Api units balance is zero",
+  "retryable": false,
+  "trace_id": "f4e5087eae94d6fb9d9c6ed04f49145d"
+ }
+}

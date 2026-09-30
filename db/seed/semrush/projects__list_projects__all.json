@@ -1,0 +1,38 @@
+{
+ "report": "list_projects",
+ "toolkit": "projects",
+ "params": {
+  "filter": "all"
+ },
+ "fetched_at": "2026-09-30T18:39:56+00:00",
+ "source": "semrush-mcp",
+ "data": [
+  {
+   "project_id": 30526913,
+   "project_name": "www.rkjh.se",
+   "url": "www.rkjh.se",
+   "domain_unicode": "www.rkjh.se",
+   "tools": [
+    {
+     "tool": "siteaudit"
+    },
+    {
+     "tool": "tracking"
+    }
+   ],
+   "owner_id": 30190638,
+   "permission": [
+    "OWNER"
+   ]
+  }
+ ],
+ "metadata": {
+  "format": "json",
+  "pagination": {
+   "count": 1
+  },
+  "usage": {
+   "api_units": 2600
+  }
+ }
+}

@@ -1,0 +1,18 @@
+{
+ "report": "backlinks_competitors",
+ "toolkit": "competitors_research",
+ "params": {
+  "target": "rkjh.se",
+  "target_type": "root_domain",
+  "display_limit": 100
+ },
+ "fetched_at": "2026-09-30T18:39:56+00:00",
+ "source": "semrush-mcp",
+ "data": null,
+ "metadata": {
+  "code": "internal",
+  "message": "get backlinks_competitors: ERROR 50 :: NOTHING FOUND",
+  "retryable": false,
+  "trace_id": "1206069151679246df37c337a7f43214"
+ }
+}

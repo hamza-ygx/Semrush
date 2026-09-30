@@ -1,0 +1,54 @@
+{
+ "report": "backlinks_overview",
+ "toolkit": "backlinks_research",
+ "params": {
+  "target": "rkjh.se",
+  "target_type": "root_domain",
+  "export_columns": [
+   "authority_score",
+   "total",
+   "domains_num",
+   "urls_num",
+   "ips_num",
+   "referring_ips_class_c",
+   "follows_num",
+   "nofollows_num",
+   "sponsored_num",
+   "ugc_backlinks",
+   "texts_num",
+   "images_num",
+   "forms_num",
+   "frames_num",
+   "score",
+   "trust_score"
+  ]
+ },
+ "fetched_at": "2026-09-30T18:39:56+00:00",
+ "source": "semrush-mcp",
+ "data": [
+  {
+   "ascore": "8",
+   "total": "396",
+   "domains_num": "280",
+   "urls_num": "371",
+   "ips_num": "197",
+   "ipclassc_num": "137",
+   "follows_num": "296",
+   "nofollows_num": "96",
+   "sponsored_num": "0",
+   "ugc_num": "0",
+   "texts_num": "364",
+   "images_num": "5",
+   "forms_num": "0",
+   "frames_num": "0",
+   "score": "8",
+   "trust_score": "8"
+  }
+ ],
+ "metadata": {
+  "format": "csv",
+  "usage": {
+   "api_units": 5360
+  }
+ }
+}

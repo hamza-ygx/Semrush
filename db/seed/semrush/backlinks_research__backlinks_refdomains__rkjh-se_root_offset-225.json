@@ -1,0 +1,31 @@
+{
+ "report": "backlinks_refdomains",
+ "toolkit": "backlinks_research",
+ "params": {
+  "target": "rkjh.se",
+  "target_type": "root_domain",
+  "display_limit": 1000,
+  "display_offset": 225,
+  "display_sort": "domain_authority_score_desc",
+  "export_columns": [
+   "domain_authority_score",
+   "domain_score",
+   "domain",
+   "backlinks_num",
+   "domain_trust_score",
+   "ip",
+   "country",
+   "first_seen",
+   "last_seen"
+  ]
+ },
+ "fetched_at": "2026-09-30T18:39:56+00:00",
+ "source": "semrush-mcp",
+ "data": null,
+ "metadata": {
+  "code": "internal",
+  "message": "get backlinks_refdomains: 403 ERROR 132 :: API UNITS BALANCE IS ZERO",
+  "retryable": false,
+  "trace_id": "9d8d3ffc7acea203c80ab9c33debab46"
+ }
+}

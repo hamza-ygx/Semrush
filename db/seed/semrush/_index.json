@@ -1,0 +1,727 @@
+{
+ "source": "semrush-mcp",
+ "target": "rkjh.se (project 30526913 = www.rkjh.se)",
+ "main_database": "se",
+ "generated_at": "2026-09-30T18:39:56+00:00",
+ "api_units_reported_sum": 104290,
+ "api_units_caveat": "sum of metadata.usage.api_units per call; values looked like balance deltas under parallel calls (one was negative), so treat as approximate. Account balance reached zero during backlinks_refdomains.",
+ "files": [
+  {
+   "file": "audience_research__discovery__no-subscription.json",
+   "report": "discovery",
+   "toolkit": "audience_research",
+   "params": {},
+   "rows": 0,
+   "note": "error: no_subscription (plan lacks Traffic/Trends API); no reports available",
+   "api_units": null
+  },
+  {
+   "file": "backlinks_research__backlinks__rkjh-se_root_all-columns.json",
+   "report": "backlinks",
+   "toolkit": "backlinks_research",
+   "params": {
+    "target": "rkjh.se",
+    "target_type": "root_domain",
+    "display_limit": 1000,
+    "display_sort": "page_authority_score_desc",
+    "export_columns": [
+     "page_authority_score",
+     "page_score",
+     "response_code",
+     "source_size",
+     "external_num",
+     "internal_num",
+     "redirect_url",
+     "source_url",
+     "source_title",
+     "image_url",
+     "target_url",
+     "target_title",
+     "anchor",
+     "image_alt",
+     "last_seen",
+     "first_seen",
+     "nofollow",
+     "form",
+     "frame",
+     "image",
+     "sitewide",
+     "newlink",
+     "lostlink"
+    ]
+   },
+   "rows": 385,
+   "note": "ok, single page (385 rows < limit 1000; overview total=396)",
+   "api_units": 15400
+  },
+  {
+   "file": "backlinks_research__backlinks_historical__rkjh-se_root_monthly.json",
+   "report": "backlinks_historical",
+   "toolkit": "backlinks_research",
+   "params": {
+    "target": "rkjh.se",
+    "target_type": "root_domain",
+    "display_limit": 500
+   },
+   "rows": 133,
+   "note": "ok (date = unix timestamp, monthly, 2015-09 .. 2026-09)",
+   "api_units": 5320
+  },
+  {
+   "file": "backlinks_research__backlinks_overview__rkjh-se_root.json",
+   "report": "backlinks_overview",
+   "toolkit": "backlinks_research",
+   "params": {
+    "target": "rkjh.se",
+    "target_type": "root_domain",
+    "export_columns": [
+     "authority_score",
+     "total",
+     "domains_num",
+     "urls_num",
+     "ips_num",
+     "referring_ips_class_c",
+     "follows_num",
+     "nofollows_num",
+     "sponsored_num",
+     "ugc_backlinks",
+     "texts_num",
+     "images_num",
+     "forms_num",
+     "frames_num",
+     "score",
+     "trust_score"
+    ]
+   },
+   "rows": 1,
+   "note": "ok",
+   "api_units": 5360
+  },
+  {
+   "file": "backlinks_research__backlinks_refdomains__rkjh-se_root.json",
+   "report": "backlinks_refdomains",
+   "toolkit": "backlinks_research",
+   "params": {
+    "target": "rkjh.se",
+    "target_type": "root_domain",
+    "display_limit": 1000,
+    "display_sort": "domain_authority_score_desc",
+    "export_columns": [
+     "domain_authority_score",
+     "domain_score",
+     "domain",
+     "backlinks_num",
+     "domain_trust_score",
+     "ip",
+     "country",
+     "first_seen",
+     "last_seen"
+    ]
+   },
+   "rows": 225,
+   "note": "partial: 225 of 280 referring domains (API unit balance ran out during this call; page 2 at offset 225 failed with API UNITS BALANCE IS ZERO)",
+   "api_units": 9000
+  },
+  {
+   "file": "backlinks_research__backlinks_refdomains__rkjh-se_root_offset-225.json",
+   "report": "backlinks_refdomains",
+   "toolkit": "backlinks_research",
+   "params": {
+    "target": "rkjh.se",
+    "target_type": "root_domain",
+    "display_limit": 1000,
+    "display_offset": 225,
+    "display_sort": "domain_authority_score_desc",
+    "export_columns": [
+     "domain_authority_score",
+     "domain_score",
+     "domain",
+     "backlinks_num",
+     "domain_trust_score",
+     "ip",
+     "country",
+     "first_seen",
+     "last_seen"
+    ]
+   },
+   "rows": 0,
+   "note": "error: API UNITS BALANCE IS ZERO (403 ERROR 132)",
+   "api_units": null
+  },
+  {
+   "file": "competitors_research__backlinks_competitors__rkjh-se_root.json",
+   "report": "backlinks_competitors",
+   "toolkit": "competitors_research",
+   "params": {
+    "target": "rkjh.se",
+    "target_type": "root_domain",
+    "display_limit": 100
+   },
+   "rows": 0,
+   "note": "empty (API: ERROR 50 NOTHING FOUND)",
+   "api_units": null
+  },
+  {
+   "file": "competitors_research__domain_domains__rkjh-se_vs_top3_union_se.json",
+   "report": "domain_domains",
+   "toolkit": "competitors_research",
+   "params": {
+    "database": "se",
+    "domains": [
+     {
+      "domain": "rkjh.se",
+      "sign": "+",
+      "type": "organic"
+     },
+     {
+      "domain": "ellox.se",
+      "sign": "+",
+      "type": "organic"
+     },
+     {
+      "domain": "jbekonomi.com",
+      "sign": "+",
+      "type": "organic"
+     },
+     {
+      "domain": "ek3hjartan.se",
+      "sign": "+",
+      "type": "organic"
+     }
+    ],
+    "display_limit": 500,
+    "display_sort": "volume_desc"
+   },
+   "rows": 137,
+   "note": "ok (union of all 4 domains' keywords; position 0 = not ranking)",
+   "api_units": 10960
+  },
+  {
+   "file": "competitors_research__domain_organic_organic__rkjh-se_se.json",
+   "report": "domain_organic_organic",
+   "toolkit": "competitors_research",
+   "params": {
+    "domain": "rkjh.se",
+    "database": "se",
+    "display_limit": 100,
+    "export_columns": [
+     "domain",
+     "competition_level",
+     "common_keywords",
+     "organic_keywords",
+     "organic_traffic",
+     "organic_traffic_cost",
+     "paid_keywords",
+     "serp_features_keywords",
+     "serp_features_traffic",
+     "serp_features_traffic_cost"
+    ]
+   },
+   "rows": 100,
+   "note": "ok (limit 100; more competitors may exist)",
+   "api_units": 4000
+  },
+  {
+   "file": "domain_overview__domain_rank__rkjh-se_se.json",
+   "report": "domain_rank",
+   "toolkit": "domain_overview",
+   "params": {
+    "target": "rkjh.se",
+    "database": "se",
+    "export_columns": [
+     "domain",
+     "rank",
+     "organic_keywords",
+     "positions_1_3",
+     "positions_4_10",
+     "positions_11_20",
+     "positions_21_30",
+     "positions_31_40",
+     "positions_41_50",
+     "positions_51_60",
+     "positions_61_70",
+     "positions_71_80",
+     "positions_81_90",
+     "positions_91_100",
+     "organic_traffic",
+     "organic_traffic_cost",
+     "paid_keywords",
+     "paid_traffic",
+     "paid_traffic_cost",
+     "positions_intent_commercial",
+     "positions_intent_informational",
+     "positions_intent_navigational",
+     "positions_intent_transactional",
+     "positions_intent_unknown",
+     "traffic_intent_commercial",
+     "traffic_intent_informational",
+     "traffic_intent_navigational",
+     "traffic_intent_transactional",
+     "traffic_intent_unknown",
+     "serp_features_keywords",
+     "serp_features_traffic",
+     "serp_features_new_keywords",
+     "serp_features_lost_keywords",
+     "serp_ai_overview_keywords",
+     "serp_people_also_ask_keywords",
+     "serp_local_pack_keywords",
+     "serp_sitelinks_keywords",
+     "serp_image_pack_keywords",
+     "serp_video_keywords",
+     "serp_featured_snippet_keywords"
+    ]
+   },
+   "rows": 1,
+   "note": "ok",
+   "api_units": 1880
+  },
+  {
+   "file": "domain_overview__domain_ranks__rkjh-se_all-databases.json",
+   "report": "domain_ranks",
+   "toolkit": "domain_overview",
+   "params": {
+    "target": "rkjh.se"
+   },
+   "rows": 24,
+   "note": "ok",
+   "api_units": 2350
+  },
+  {
+   "file": "domain_overview__resource_rank_history__rkjh-se_se_monthly.json",
+   "report": "resource_rank_history",
+   "toolkit": "domain_overview",
+   "params": {
+    "target": "rkjh.se",
+    "database": "se",
+    "display_limit": 200,
+    "display_sort": "date_asc",
+    "export_columns": [
+     "date",
+     "rank",
+     "organic_keywords",
+     "positions_1_3",
+     "positions_4_10",
+     "positions_11_20",
+     "positions_21_30",
+     "positions_31_40",
+     "positions_41_50",
+     "positions_51_60",
+     "positions_61_70",
+     "positions_71_80",
+     "positions_81_90",
+     "positions_91_100",
+     "organic_traffic",
+     "organic_traffic_cost",
+     "paid_keywords",
+     "paid_traffic",
+     "paid_traffic_cost",
+     "serp_features_keywords",
+     "serp_features_traffic"
+    ]
+   },
+   "rows": 153,
+   "note": "ok",
+   "api_units": 1880
+  },
+  {
+   "file": "keyword_research__phrase_these__se_ranked-kw_part1-of-2.json",
+   "report": "phrase_these",
+   "toolkit": "keyword_research",
+   "params": {
+    "database": "se",
+    "export_columns": [
+     "keyword",
+     "volume",
+     "cpc",
+     "competitive_density",
+     "results",
+     "trend",
+     "intent",
+     "keyword_difficulty"
+    ],
+    "phrase": "företagsvärdering;hållbar utveckling;entrepreneur;outsourcing redovisning;redovisningskonsult halmstad;vad är hållbar utveckling;redovisningsbyrå halmstad;kostförmån;vad betyder hållbar utveckling;hantlangare;fastighetsredovisning;hållbar affärsutveckling;risk management;beräkna bilförmån;hållbar utveckling företag;miljöpåverkan;vad är en hållbarhetsrapport;vad kan länder göra för att minska växthuseffekten;vad innebär hållbar utveckling;vad innebär en hållbar utveckling;bokföring halmstad;räkna ut förmånsvärde bil;vad menas med hållbar utveckling;skatt på vinst i aktiebolag;företagsledningen;vad är förvärvsinkomst;hur man gör bokslut;bokslut hur gör man;hur gör man bokslut;hur man gör ett bokslut;hur gör man ett bokslut;kostavdrag;hur mycket pengar behöver man för att gå i pension;inkomst hobbyverksamhet;baker tilly halmstad;hållbar verksamhetsutveckling;förmånsbil beräkning;hobby verksamhet;definition av hållbar utveckling;vad är hantverkare;vad är en hantverkare;räkna förmånsbil;vad är utpressning;deklarera hobbyverksamhet;kostförmån skatteverket;förmånsbeskattning lunch exempel;hjälp med bokslut;vad räknas som hobbyverksamhet;vad är kostförmån;steninge glasblåsning;rådgivning affärsjuridik;förmånsberäkning bil;hobbyverksamhet eller enskild firma;fast kostnad;hållbar utveckling betyder;personalvårdsförmån;deklaration hobbyverksamhet;revisor halmstad;starta eget luleå;hur mycket behöver man för att gå i pension;livsmedel spar;hur kan man minska växthuseffekten;akridi halmstad;göra bokslut;varför gör man bokslut;hur läser man årsredovisning;bolagsskatt aktiebolag;hur man läser en årsredovisning;iso 18541;begränsad miljöpåverkan;f tax;strategisk affärsutveckling;tax advisor;företagsekonomi för jurister redovisning räkenskapsanalys och kalkylering;hur påverkar jag miljön;ansvarspyramiden;redovisning halmstad;häggblom sverige;beräkna förmånsbeskattning bil;revision halmstad;executive level;betala skatt aktiebolag;bokföra övertidsmat;att tänka på vid bokslut;direktpension företag;company audit;fastställd förvärvsinkomst betyder;group risk management;handla ekonomiskt;hobbyverksamhet skattefri;föreningen cancerhjälpen;begränsad klimatpåverkan;business law firm;hur gör jag bokslut;hobbyjobb;hr consultant;fasta kostnader företag;f tax sweden;klimatkompensera privatperson;hur många miljoner behöver man för att gå i pension"
+   },
+   "rows": 100,
+   "note": "ok; batch 1/2 of all 119 distinct ranked keywords (volume desc)",
+   "api_units": 1190
+  },
+  {
+   "file": "keyword_research__phrase_these__se_ranked-kw_part2-of-2.json",
+   "report": "phrase_these",
+   "toolkit": "keyword_research",
+   "params": {
+    "database": "se",
+    "export_columns": [
+     "keyword",
+     "volume",
+     "cpc",
+     "competitive_density",
+     "results",
+     "trend",
+     "intent",
+     "keyword_difficulty"
+    ],
+    "phrase": "kassa och bank årsredovisning;business legal advice;jhm revision;bolagsskatt utdelning;hur sparar man pengar på mat;ekonomibyrån halmstad;frukost på jobbet förmån;hållbar utveckling björneloo;konsult halmstad;exempel fasta kostnader;being audited;business audit;hur mycket behövs för att gå i pension;hägglunds tak;göra bokslut själv;hur miljövänlig är jag;beräkning av bilförmån;f skatt hobbyverksamhet;hur mycket måste utsläppen minska"
+   },
+   "rows": 19,
+   "note": "ok; batch 2/2 of all 119 distinct ranked keywords (volume desc)",
+   "api_units": 1190
+  },
+  {
+   "file": "organic_research__domain_organic_subdomains__rkjh-se_se.json",
+   "report": "domain_organic_subdomains",
+   "toolkit": "organic_research",
+   "params": {
+    "domain": "rkjh.se",
+    "database": "se",
+    "display_limit": 100,
+    "export_columns": [
+     "url",
+     "keywords_count",
+     "traffic",
+     "traffic_share",
+     "serp_features_keywords",
+     "serp_features_traffic"
+    ]
+   },
+   "rows": 1,
+   "note": "ok",
+   "api_units": 20010
+  },
+  {
+   "file": "organic_research__resource_organic__rkjh-se_se_all.json",
+   "report": "resource_organic",
+   "toolkit": "organic_research",
+   "params": {
+    "target": "rkjh.se",
+    "database": "se",
+    "display_limit": 1000,
+    "display_sort": "volume_desc",
+    "export_columns": [
+     "keyword",
+     "position",
+     "previous_position",
+     "position_difference",
+     "volume",
+     "keyword_difficulty",
+     "cpc",
+     "url",
+     "traffic",
+     "traffic_share",
+     "traffic_cost_share",
+     "competitive_density",
+     "results",
+     "trend",
+     "intent",
+     "domain_serp_features",
+     "triggered_serp_features",
+     "position_type",
+     "timestamp"
+    ]
+   },
+   "rows": 131,
+   "note": "ok, single page (131 organic rows < limit 1000; domain counter says 132 incl. 1 SERP-feature position on http://rkjh.se/)",
+   "api_units": 11320
+  },
+  {
+   "file": "organic_research__resource_organic__rkjh-se_se_positions-fall.json",
+   "report": "resource_organic",
+   "toolkit": "organic_research",
+   "params": {
+    "target": "rkjh.se",
+    "database": "se",
+    "display_limit": 1000,
+    "display_positions": "fall",
+    "export_columns": [
+     "keyword",
+     "position",
+     "previous_position",
+     "position_difference",
+     "volume",
+     "keyword_difficulty",
+     "cpc",
+     "url",
+     "traffic",
+     "traffic_share",
+     "intent",
+     "timestamp"
+    ]
+   },
+   "rows": 1,
+   "note": "ok (declined keywords)",
+   "api_units": 30010
+  },
+  {
+   "file": "organic_research__resource_organic__rkjh-se_se_positions-lost.json",
+   "report": "resource_organic",
+   "toolkit": "organic_research",
+   "params": {
+    "target": "rkjh.se",
+    "database": "se",
+    "display_limit": 1000,
+    "display_positions": "lost",
+    "export_columns": [
+     "keyword",
+     "position",
+     "previous_position",
+     "position_difference",
+     "volume",
+     "keyword_difficulty",
+     "cpc",
+     "url",
+     "traffic",
+     "traffic_share",
+     "intent",
+     "timestamp"
+    ]
+   },
+   "rows": 1,
+   "note": "ok (lost keywords); api_units value negative (balance-delta artifact of parallel calls)",
+   "api_units": -19970
+  },
+  {
+   "file": "organic_research__resource_organic__rkjh-se_se_positions-new.json",
+   "report": "resource_organic",
+   "toolkit": "organic_research",
+   "params": {
+    "target": "rkjh.se",
+    "database": "se",
+    "display_limit": 1000,
+    "display_positions": "new",
+    "export_columns": [
+     "keyword",
+     "position",
+     "previous_position",
+     "position_difference",
+     "volume",
+     "keyword_difficulty",
+     "cpc",
+     "url",
+     "traffic",
+     "traffic_share",
+     "intent",
+     "timestamp"
+    ]
+   },
+   "rows": 1,
+   "note": "ok (new keywords this month)",
+   "api_units": 20
+  },
+  {
+   "file": "organic_research__resource_organic__rkjh-se_se_positions-rise.json",
+   "report": "resource_organic",
+   "toolkit": "organic_research",
+   "params": {
+    "target": "rkjh.se",
+    "database": "se",
+    "display_limit": 1000,
+    "display_positions": "rise",
+    "export_columns": [
+     "keyword",
+     "position",
+     "previous_position",
+     "position_difference",
+     "volume",
+     "keyword_difficulty",
+     "cpc",
+     "url",
+     "traffic",
+     "traffic_share",
+     "intent",
+     "timestamp"
+    ]
+   },
+   "rows": 0,
+   "note": "empty (API: ERROR 50 NOTHING FOUND - no improved keywords)",
+   "api_units": null
+  },
+  {
+   "file": "organic_research__resource_organic_unique__rkjh-se_se_pages.json",
+   "report": "resource_organic_unique",
+   "toolkit": "organic_research",
+   "params": {
+    "target": "rkjh.se",
+    "database": "se",
+    "display_limit": 1000,
+    "display_sort": "traffic_desc",
+    "export_columns": [
+     "url",
+     "keywords_count",
+     "traffic",
+     "traffic_share",
+     "positions_intent_unknown",
+     "positions_intent_commercial",
+     "positions_intent_informational",
+     "positions_intent_navigational",
+     "positions_intent_transactional",
+     "traffic_intent_unknown",
+     "traffic_intent_commercial",
+     "traffic_intent_informational",
+     "traffic_intent_navigational",
+     "traffic_intent_transactional",
+     "serp_features_keywords",
+     "serp_features_traffic"
+    ]
+   },
+   "rows": 45,
+   "note": "ok",
+   "api_units": 1770
+  },
+  {
+   "file": "paid_search_research__resource_adwords__rkjh-se_se.json",
+   "report": "resource_adwords",
+   "toolkit": "paid_search_research",
+   "params": {
+    "target": "rkjh.se",
+    "database": "se",
+    "display_limit": 100
+   },
+   "rows": 0,
+   "note": "error: no API units (balance zero) - 403 ERROR 132 :: API UNITS BALANCE IS ZERO",
+   "api_units": null
+  },
+  {
+   "file": "position_tracking__campaigns__project-30526913.json",
+   "report": "campaigns",
+   "toolkit": "position_tracking",
+   "params": {
+    "project_id": 30526913
+   },
+   "rows": 0,
+   "note": "error: no API units (balance zero) - tracking API error 0: not enough api units to perform this action",
+   "api_units": null
+  },
+  {
+   "file": "projects__get_project__project-30526913.json",
+   "report": "get_project",
+   "toolkit": "projects",
+   "params": {
+    "id": 30526913
+   },
+   "rows": 0,
+   "note": "error: no API units (balance zero) - projects API error 132: API units balance is zero",
+   "api_units": null
+  },
+  {
+   "file": "projects__list_projects__all.json",
+   "report": "list_projects",
+   "toolkit": "projects",
+   "params": {
+    "filter": "all"
+   },
+   "rows": 1,
+   "note": "ok",
+   "api_units": 2600
+  },
+  {
+   "file": "site_audit__info__project-30526913.json",
+   "report": "info",
+   "toolkit": "site_audit",
+   "params": {
+    "id": 30526913
+   },
+   "rows": 0,
+   "note": "error: no API units (balance zero) - site audit API error 0: Api units balance is zero",
+   "api_units": null
+  },
+  {
+   "file": "site_audit__snapshots__project-30526913.json",
+   "report": "snapshots",
+   "toolkit": "site_audit",
+   "params": {
+    "id": 30526913
+   },
+   "rows": 0,
+   "note": "error: no API units (balance zero) - site audit API error 0: Api units balance is zero",
+   "api_units": null
+  },
+  {
+   "file": "traffic_overview__discovery__no-subscription.json",
+   "report": "discovery",
+   "toolkit": "traffic_overview",
+   "params": {},
+   "rows": 0,
+   "note": "error: no_subscription (plan lacks Traffic/Trends API); no reports available",
+   "api_units": null
+  }
+ ],
+ "not_fetched": [
+  {
+   "toolkit": "backlinks_research",
+   "reports": [
+    "backlinks_anchors",
+    "backlinks_tld",
+    "backlinks_geo",
+    "backlinks_categories",
+    "backlinks_categories_profile",
+    "backlinks_pages",
+    "backlinks_ascore_profile",
+    "backlinks_refips"
+   ],
+   "reason": "not called: API unit balance reached zero during backlinks_refdomains"
+  },
+  {
+   "toolkit": "position_tracking",
+   "reports": [
+    "tracking_position_organic",
+    "tracking_overview_organic",
+    "tracking_visibility_organic",
+    "tracking_landing_pages_organic",
+    "tracking_competitors_organic",
+    "tracking_campaign_dates"
+   ],
+   "reason": "not called: campaigns call failed (no API units), no campaign id"
+  },
+  {
+   "toolkit": "site_audit",
+   "reports": [
+    "history",
+    "snapshot",
+    "meta_issues",
+    "issue_details",
+    "page_list",
+    "page_info"
+   ],
+   "reason": "not called: snapshots/info failed (no API units)"
+  },
+  {
+   "toolkit": "paid_search_research",
+   "reports": [
+    "resource_adwords_unique",
+    "domain_adwords_historical"
+   ],
+   "reason": "not called: no API units; domain_ranks already shows 0 Adwords keywords in all databases"
+  },
+  {
+   "toolkit": "shopping_research",
+   "reports": [
+    "domain_shopping",
+    "domain_shopping_unique"
+   ],
+   "reason": "not called: no API units; domain_ranks shows 0 PLA keywords"
+  },
+  {
+   "toolkit": "competitors_research",
+   "reports": [
+    "domain_adwords_adwords",
+    "domain_shopping_shopping",
+    "backlinks_comparison"
+   ],
+   "reason": "not called: out of scope/no API units"
+  },
+  {
+   "toolkit": "traffic_overview",
+   "reports": [
+    "*"
+   ],
+   "reason": "no_subscription (plan lacks Traffic & Market / Trends API)"
+  },
+  {
+   "toolkit": "audience_research",
+   "reports": [
+    "*"
+   ],
+   "reason": "no_subscription (plan lacks Traffic & Market / Trends API)"
+  }
+ ]
+}
