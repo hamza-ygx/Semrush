@@ -154,13 +154,16 @@ export function Checkbox({ checked, onChange, color, label, className = "" }: { 
   );
 }
 
-export function SearchBox({ placeholder, width = 260 }: { placeholder: string; width?: number }) {
+export function SearchBox({ placeholder, width = 260, onChange }: { placeholder: string; width?: number; onChange?: (v: string) => void }) {
   const [v, setV] = useState("");
   return (
     <form className="flex" onSubmit={(e) => e.preventDefault()}>
       <input
         value={v}
-        onChange={(e) => setV(e.target.value)}
+        onChange={(e) => {
+          setV(e.target.value);
+          onChange?.(e.target.value);
+        }}
         placeholder={placeholder}
         style={{ width }}
         className="h-7 rounded-l-md border border-[#d6d8d7] bg-white px-[8px] text-[14px] outline-none placeholder:text-[#8a8d99] focus:border-[#7a86f2]"
@@ -172,7 +175,7 @@ export function SearchBox({ placeholder, width = 260 }: { placeholder: string; w
   );
 }
 
-export function Seg<T extends string>({ options, initial }: { options: readonly T[]; initial?: T }) {
+export function Seg<T extends string>({ options, initial, onChange }: { options: readonly T[]; initial?: T; onChange?: (v: T) => void }) {
   const [v, setV] = useState<T>(initial ?? options[0]);
   return (
     <div className="inline-flex">
@@ -182,7 +185,10 @@ export function Seg<T extends string>({ options, initial }: { options: readonly 
           <button
             key={o}
             type="button"
-            onClick={() => setV(o)}
+            onClick={() => {
+              setV(o);
+              onChange?.(o);
+            }}
             className={`relative h-7 border px-[8px] text-[14px] whitespace-nowrap ${i === 0 ? "rounded-l-md" : "-ml-px"} ${i === options.length - 1 ? "rounded-r-md" : ""} ${
               on ? "z-10 border-[#8f9cea] bg-[#eef2fd] text-rk-text" : "border-[#d6d8d7] bg-white text-rk-text hover:bg-rk-bg"
             }`}
@@ -270,7 +276,7 @@ export function AddFilter({ onPick, options = filterOptions, width = 168 }: { on
   );
 }
 
-export function FilterSelect({ label, options, defaultOpen = false }: { label: string; options: string[]; defaultOpen?: boolean }) {
+export function FilterSelect({ label, options, defaultOpen = false, onChange }: { label: string; options: string[]; defaultOpen?: boolean; onChange?: (v: string) => void }) {
   const [open, setOpen] = useState(defaultOpen);
   const [val, setVal] = useState<string | null>(null);
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
@@ -293,6 +299,7 @@ export function FilterSelect({ label, options, defaultOpen = false }: { label: s
               onClick={() => {
                 setVal(o);
                 setOpen(false);
+                onChange?.(o);
               }}
               className={`block h-8 w-full px-[8px] text-left text-[14px] text-rk-text hover:bg-rk-bg ${o === val ? "bg-[#e9f7ff]" : ""}`}
             >
@@ -305,9 +312,13 @@ export function FilterSelect({ label, options, defaultOpen = false }: { label: s
   );
 }
 
-export function Pager({ pages }: { pages: number }) {
+export function Pager({ pages, onChange }: { pages: number; onChange?: (p: number) => void }) {
   const [p, setP] = useState(1);
-  const go = (n: number) => setP(Math.min(Math.max(1, n), pages));
+  const go = (n: number) => {
+    const v = Math.min(Math.max(1, n), pages);
+    setP(v);
+    onChange?.(v);
+  };
   const single = pages === 1;
   const dis = "border border-[#e4e5e9] bg-[#f7f7f8] text-[#b9bbc4]";
   return (
@@ -365,7 +376,7 @@ export function Th({ children, align = "left", sorted, className = "", style }: 
   );
 }
 
-export function AsSelect({ value }: { value: number }) {
+export function AsSelect({ value }: { value: number | string }) {
   const [open, setOpen] = useState(false);
   const ref = useOutsideClose<HTMLSpanElement>(open, () => setOpen(false));
   return (
@@ -499,6 +510,12 @@ const flagPaths: Record<string, ReactNode> = {
     <>
       <rect width="16" height="12" fill="#aa151b" />
       <rect y="3" width="16" height="6" fill="#f1bf00" />
+    </>
+  ),
+  FI: (
+    <>
+      <rect width="16" height="12" fill="#fff" />
+      <path d="M4.5 0h2.6v12H4.5zM0 4.7h16v2.6H0z" fill="#002f6c" />
     </>
   ),
   GB: (

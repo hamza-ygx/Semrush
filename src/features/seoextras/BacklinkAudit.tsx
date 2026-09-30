@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { account, brand } from "@/config/brand";
 import { GearIcon } from "@/components/ui/icons";
+import { DemoTag } from "@/features/tracking/ui";
 import { Bullets, DomainForm, Faq, LandingCard, LandingPage } from "./landing";
 import { baFaq, baFeatures, baKeyFeatures } from "./data";
 
@@ -517,11 +518,14 @@ function FeatureRow({ i }: { i: number }) {
   );
 }
 
-export function BacklinkAudit() {
+export function BacklinkAudit({ demo = false }: { demo?: boolean }) {
   return (
     <LandingPage>
       <LandingCard className="h-[228px] pt-[35px] text-center">
-        <h1 className="text-[36px] leading-[48px] font-bold text-rk-text">Backlink Audit</h1>
+        <h1 className="text-[36px] leading-[48px] font-bold text-rk-text">
+          Backlink Audit
+          {demo && <DemoTag className="align-middle" />}
+        </h1>
         <p className="mt-[9px] text-[16px] leading-6 text-rk-text">Keep your backlink profile healthy!</p>
         <DomainForm button="Start Backlink Audit" className="mt-[32px]" />
       </LandingCard>

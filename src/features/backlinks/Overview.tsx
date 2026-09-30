@@ -29,6 +29,7 @@ import {
   weeks,
 } from "./data";
 import { GraphSvg } from "./Graph";
+import type { AxisLabel, NewLost, OverviewLive } from "./live";
 import { AuthorityTrend, OrganicDbSelect, ScopeSelect, SuspiciousBadge } from "./OverviewPopups";
 import { DarkBtn, ExtLink, Flag } from "./ui";
 
@@ -73,10 +74,10 @@ const summaryHref: Record<string, string> = {
   "Outbound Domains": tabHref("outboundDomains"),
 };
 
-function SummaryBar() {
+function SummaryBar({ items = summary, dbs }: { items?: OverviewLive["summary"]; dbs?: OverviewLive["organicDbs"] }) {
   return (
     <section className="mt-[16px] flex h-[92px] rounded-lg bg-white px-5 pt-[19px] shadow-card">
-      {summary.map((m, i) => {
+      {items.map((m, i) => {
         const value = (
           <span className="flex items-center gap-[2px] text-[24px] leading-[30px] font-semibold text-rk-number">
             <span className={m.chevron ? "group-hover:underline" : ""}>{m.value}</span>
@@ -92,7 +93,7 @@ function SummaryBar() {
             </div>
             <div className="mt-[2px] flex items-baseline gap-1">
               {m.chevron ? (
-                <OrganicDbSelect value={value} />
+                <OrganicDbSelect value={value} items={dbs} />
               ) : href ? (
                 <Link href={href} className="hover:opacity-80">
                   {value}
@@ -100,7 +101,7 @@ function SummaryBar() {
               ) : (
                 value
               )}
-              {m.delta && <span className="text-[12px] text-rk-success">{m.delta}</span>}
+              {m.delta && <span className={`text-[12px] ${m.delta.startsWith("-") ? "text-[#d1002f]" : "text-rk-success"}`}>{m.delta}</span>}
             </div>
           </div>
         );
@@ -178,7 +179,21 @@ function PeriodToggle({ value, onChange }: { value: "1Y" | "All Time"; onChange:
   );
 }
 
-function TrendWidget({ title, oneYear, all, testid }: { title: string; oneYear: { data: number[]; ticks: string[] }; all: { data: number[]; ticks: string[] }; testid?: string }) {
+function TrendWidget({
+  title,
+  oneYear,
+  all,
+  testid,
+  labels1y = trendLabels,
+  labelsAll = allTimeLabels,
+}: {
+  title: string;
+  oneYear: { data: number[]; ticks: string[] };
+  all: { data: number[]; ticks: string[] };
+  testid?: string;
+  labels1y?: AxisLabel[];
+  labelsAll?: AxisLabel[];
+}) {
   const [p, setP] = useState<"1Y" | "All Time">("1Y");
   const d = p === "1Y" ? oneYear : all;
   const span = +d.ticks[0] - +d.ticks[d.ticks.length - 1];
@@ -186,15 +201,15 @@ function TrendWidget({ title, oneYear, all, testid }: { title: string; oneYear: 
   return (
     <W title={title} className="h-[319px]" testid={testid}>
       <PeriodToggle value={p} onChange={setP} />
-      <AreaChart data={d.data} ticks={d.ticks} labels={p === "1Y" ? trendLabels : allTimeLabels} base={199} ppu={tickPx / span} />
+      <AreaChart data={d.data} ticks={d.ticks} labels={p === "1Y" ? labels1y : labelsAll} base={199} ppu={tickPx / span} />
     </W>
   );
 }
 
-function NewLostWidget({ title, d, href }: { title: string; d: typeof newLostRd; href: string }) {
+function NewLostWidget({ title, d, href, labels = weeks }: { title: string; d: NewLost; href: string; labels?: string[] }) {
   return (
     <W title={title} className="h-[347px]" body="px-5 pt-[20px]">
-      <NewLostChart newV={d.newV} lostV={d.lostV} max={d.max} ticks={d.ticks} labels={weeks} every={4} left={90} right={40} zero={174} unit={101 / d.max} />
+      <NewLostChart newV={d.newV} lostV={d.lostV} max={d.max} ticks={d.ticks} labels={labels} every={4} left={90} right={40} zero={174} unit={101 / d.max} />
       <div className="absolute top-[259px] left-5">
         <DarkBtn href={href}>View full report</DarkBtn>
       </div>
@@ -242,10 +257,10 @@ function CategoriesWidget() {
   );
 }
 
-function AnchorsWidget() {
+function AnchorsWidget({ items = cloud }: { items?: OverviewLive["cloud"] }) {
   return (
     <W title="Top Anchors" className="h-[440px]">
-      {cloud.map((c) => (
+      {(items ?? cloud).map((c) => (
         <Link
           key={c.text}
           href={tabHref("anchors")}
@@ -262,10 +277,10 @@ function AnchorsWidget() {
   );
 }
 
-function AuthorityWidget() {
+function AuthorityWidget({ items = authorityBuckets }: { items?: OverviewLive["authorityBuckets"] }) {
   return (
     <W title="Referring Domains by Authority Score" className="h-[432px]" body="px-5 pt-[13px]">
-      {authorityBuckets.map((b) => (
+      {(items ?? authorityBuckets).map((b) => (
         <div key={b.label} className="flex h-[32px] items-center text-[14px]">
           <span className="w-[68px]">{b.label}</span>
           <Bar w={b.w} color={b.color} />
@@ -280,7 +295,7 @@ function AuthorityWidget() {
   );
 }
 
-function TypesWidget() {
+function TypesWidget({ types = backlinkTypes, attrs = linkAttributes }: { types?: OverviewLive["backlinkTypes"]; attrs?: OverviewLive["linkAttributes"] }) {
   const row = (r: { label: string; pct: string; w: number; count: number; color?: string }, lw: number) => (
     <div key={r.label} className="flex h-[40px] items-center text-[14px]">
       <span style={{ width: lw }}>{r.label}</span>
@@ -300,16 +315,16 @@ function TypesWidget() {
       <header className="flex h-[40px] shrink-0 items-center border-b border-[#ecedf0] px-5">
         <h3 className="text-[16px] leading-6 font-bold">Backlink Types</h3>
       </header>
-      <div className="px-5 pt-[9px] pb-[8px]">{backlinkTypes.map((r) => row(r, 76))}</div>
+      <div className="px-5 pt-[9px] pb-[8px]">{(types ?? backlinkTypes).map((r) => row(r, 76))}</div>
       <header className="flex h-[40px] shrink-0 items-center border-y border-[#ecedf0] px-5">
         <h3 className="text-[16px] leading-6 font-bold">Link Attributes</h3>
       </header>
-      <div className="px-5 pt-[8px]">{linkAttributes.map((r) => row(r, 87))}</div>
+      <div className="px-5 pt-[8px]">{(attrs ?? linkAttributes).map((r) => row(r, 87))}</div>
     </section>
   );
 }
 
-function Donut() {
+function Donut({ tlds }: { tlds: { label: string; v: number; color: string }[] }) {
   const total = tlds.reduce((a, t) => a + t.v, 0);
   const R = 76;
   const C = 2 * Math.PI * R;
@@ -325,10 +340,11 @@ function Donut() {
   );
 }
 
-function TldWidget() {
+function TldWidget({ items = tlds }: { items?: OverviewLive["tlds"] }) {
+  const list = items ?? tlds;
   return (
     <W title="TLD Distribution" className="h-[334px]" body="flex px-5 pt-[20px]">
-      <Donut />
+      <Donut tlds={list} />
       <table className="ml-[24px] h-fit flex-1 text-[14px]">
         <thead>
           <tr className="h-[32px] border-b border-[#e1e3e5] text-[12px] text-rk-text">
@@ -339,7 +355,7 @@ function TldWidget() {
           </tr>
         </thead>
         <tbody>
-          {tlds.map((t) => (
+          {list.map((t) => (
             <tr key={t.label} className="h-[37px] border-b border-[#eeeff1] last:border-0">
               <td className="pl-[8px]">
                 <span className="flex items-center gap-[6px]">
@@ -359,7 +375,7 @@ function TldWidget() {
   );
 }
 
-function CountriesWidget() {
+function CountriesWidget({ items = countries }: { items?: OverviewLive["countries"] }) {
   return (
     <W title="Top Countries" className="h-[334px]" body="pt-[20px]">
       <table className="w-full text-[14px]">
@@ -372,7 +388,7 @@ function CountriesWidget() {
           </tr>
         </thead>
         <tbody>
-          {countries.map((c) => (
+          {(items ?? countries).map((c) => (
             <tr key={c.name} className="h-[37px] border-b border-[#eeeff1] last:border-0">
               <td className="pl-5">
                 <span className="flex items-center gap-[4px]">
@@ -397,11 +413,11 @@ function CountriesWidget() {
   );
 }
 
-function ProfileWidget() {
+function ProfileWidget({ live }: { live?: OverviewLive["profile"] }) {
   const rows: { label: string; v: number; dark?: boolean }[] = [
-    { label: "Ref. Domains", v: 263 },
-    { label: "Ref. IPs", v: 181 },
-    { label: "Ref. Subnets", v: 138, dark: true },
+    { label: "Ref. Domains", v: live ? live.domains : 263 },
+    { label: "Ref. IPs", v: live ? live.ips : 181 },
+    { label: "Ref. Subnets", v: live ? live.subnets : 138, dark: true },
   ];
   const bars = [
     { l: 159, w: 344, t: 21, color: "#6167e6" },
@@ -457,7 +473,7 @@ function SimilarWidget() {
   );
 }
 
-function TopPagesWidget() {
+function TopPagesWidget({ items = topPages }: { items?: OverviewLive["topPages"] }) {
   return (
     <W title="Top Pages" className="h-[350px]" body="pt-[20px]">
       <table className="w-full text-[14px]">
@@ -468,7 +484,7 @@ function TopPagesWidget() {
           </tr>
         </thead>
         <tbody>
-          {topPages.map((p) => (
+          {(items ?? topPages).map((p) => (
             <tr key={p.url} className="h-[37px] border-b border-[#eeeff1] last:border-0">
               <td className="pl-5">
                 <span className="inline-flex items-center gap-[4px]">
@@ -536,21 +552,22 @@ function SuggestCard() {
   );
 }
 
-export function OverviewBody() {
+export function OverviewBody({ live = null }: { live?: OverviewLive | null }) {
+  const wk = live?.weekly;
   return (
     <>
       <CompareBar />
-      <SummaryBar />
+      <SummaryBar items={live?.summary} dbs={live?.organicDbs} />
       <div className="mt-[17px] grid grid-cols-3 gap-4">
         <W title="Authority Score" className="h-[369px]" body="pt-[16px]">
           <div className="flex items-center gap-[8px] px-5">
-            <span className="text-[20px] leading-6 font-bold">8</span>
-            <span className="rounded-full bg-[#e7e5fb] px-[9px] text-[12px] leading-[20px] text-[#5a50c8]">Low authority</span>
+            <span className="text-[20px] leading-6 font-bold">{live ? (live.ascore ?? "n/a") : 8}</span>
+            <span className="rounded-full bg-[#e7e5fb] px-[9px] text-[12px] leading-[20px] text-[#5a50c8]">{live ? live.ascoreLabel : "Low authority"}</span>
           </div>
           <Radar />
         </W>
         <W title="Authority Score Trend" className="h-[369px]">
-          <AuthorityTrend />
+          <AuthorityTrend live={live?.asTrend} />
         </W>
         <W title="Network Graph" className="h-[369px]" body="px-5 pt-[19px]">
           <SuspiciousBadge />
@@ -561,19 +578,26 @@ export function OverviewBody() {
         </W>
       </div>
       <div className="mt-4 grid grid-cols-2 gap-4">
-        <TrendWidget title="Referring Domains" oneYear={rdTrend} all={rdAllTime} testid="w-rd" />
-        <TrendWidget title="Backlinks" oneYear={blTrend} all={blAllTime} />
-        <NewLostWidget title="New and Lost Referring Domains" d={newLostRd} href={routes.referringDomains} />
-        <NewLostWidget title="New and Lost Backlinks" d={newLostBl} href={tabHref("backlinks")} />
+        <TrendWidget
+          title="Referring Domains"
+          oneYear={live?.rd1y ?? rdTrend}
+          all={live?.rdAll ?? rdAllTime}
+          labels1y={live?.rd1y ? live.labels1y : undefined}
+          labelsAll={live?.rdAll ? live.labelsAll : undefined}
+          testid="w-rd"
+        />
+        <TrendWidget title="Backlinks" oneYear={live?.bl1y ?? blTrend} all={live?.blAll ?? blAllTime} labels1y={live?.bl1y ? live.labels1y : undefined} labelsAll={live?.blAll ? live.labelsAll : undefined} />
+        <NewLostWidget title="New and Lost Referring Domains" d={wk?.rd ?? newLostRd} labels={wk?.weeks} href={routes.referringDomains} />
+        <NewLostWidget title="New and Lost Backlinks" d={wk?.bl ?? newLostBl} labels={wk?.weeks} href={tabHref("backlinks")} />
         <CategoriesWidget />
-        <AnchorsWidget />
-        <AuthorityWidget />
-        <TypesWidget />
-        <TldWidget />
-        <CountriesWidget />
-        <ProfileWidget />
+        <AnchorsWidget items={live?.cloud} />
+        <AuthorityWidget items={live?.authorityBuckets} />
+        <TypesWidget types={live?.backlinkTypes} attrs={live?.linkAttributes} />
+        <TldWidget items={live?.tlds} />
+        <CountriesWidget items={live?.countries} />
+        <ProfileWidget live={live?.profile} />
         <SimilarWidget />
-        <TopPagesWidget />
+        <TopPagesWidget items={live?.topPages} />
         <div className="flex flex-col gap-[18px]">
           <CourseCard />
           <SuggestCard />

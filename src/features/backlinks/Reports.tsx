@@ -1,23 +1,43 @@
 "use client";
 
 import Link from "next/link";
-import { Fragment, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { useOutsideClose } from "@/components/ui/Popover";
 import { CloseIcon } from "@/components/ui/icons";
 import { Info } from "@/components/ui/primitives";
 import { routes } from "@/config/routes";
 import { tabHref } from "./BacklinksPage";
 import { anchorsRows, bulk, domain, ipRows, outRows, pageRows } from "./data";
+import type { AnchorRow, BulkLive, PageRowLive } from "./live";
 import { AsSelect, Card, CardHead, Checkbox, Chevron, ChevronRightSm, Chip, DarkBtn, ExportBtn, ExtLink, Flag, Pager, SearchBox, SelectBtn, Th, ext } from "./ui";
 
 const blLink = "text-rk-link hover:text-rk-link-hover";
 
-export function AnchorsReport() {
+const PER = 100;
+
+const countText = (page: number, shown: number, total: number) => (total ? `${(page - 1) * PER + 1} - ${(page - 1) * PER + shown} (${total.toLocaleString("en-US")})` : "(0)");
+
+export function AnchorsReport({ live = null }: { live?: AnchorRow[] | null }) {
+  const [q, setQ] = useState("");
+  const [page, setPage] = useState(1);
+  const filtered = useMemo(() => (live ? live.filter((r) => r.a.toLowerCase().includes(q.trim().toLowerCase())) : null), [live, q]);
+  const rows = filtered ? filtered.slice((page - 1) * PER, page * PER) : anchorsRows;
   return (
     <Card>
-      <CardHead title="Anchors" count="1 - 23 (23)" right={<ExportBtn />} />
+      <CardHead title="Anchors" count={filtered ? countText(page, rows.length, filtered.length) : "1 - 23 (23)"} right={<ExportBtn />} />
       <div className="flex h-[68px] items-center px-5">
-        <SearchBox placeholder="Filter by anchor" width={260} />
+        <SearchBox
+          placeholder="Filter by anchor"
+          width={260}
+          onChange={
+            live
+              ? (v) => {
+                  setQ(v);
+                  setPage(1);
+                }
+              : undefined
+          }
+        />
       </div>
       <table className="w-full table-fixed text-[14px] leading-5 text-rk-text">
         <colgroup>
@@ -41,7 +61,7 @@ export function AnchorsReport() {
           </tr>
         </thead>
         <tbody>
-          {anchorsRows.map((r) => (
+          {rows.map((r) => (
             <tr key={r.a} className="h-[45px] border-b border-[#f0f0f2] hover:bg-[#fafafb]">
               <td className={`truncate pr-[12px] pl-5 ${r.empty ? "text-rk-muted italic" : ""}`}>{r.a}</td>
               <td className="px-3 text-right">
@@ -56,19 +76,29 @@ export function AnchorsReport() {
           ))}
         </tbody>
       </table>
-      <Pager pages={1} />
+      <Pager key={q} pages={filtered ? Math.max(1, Math.ceil(filtered.length / PER)) : 1} onChange={live ? setPage : undefined} />
     </Card>
   );
 }
 
-export function PagesReport() {
+export function PagesReport({ live = null }: { live?: PageRowLive[] | null }) {
   const [broken, setBroken] = useState(false);
-  const rows = broken ? pageRows.filter((r) => r.e404) : pageRows;
+  const [page, setPage] = useState(1);
+  const src: PageRowLive[] = live ?? pageRows;
+  const all = broken ? src.filter((r) => r.e404) : src;
+  const rows = live ? all.slice((page - 1) * PER, page * PER) : all;
   return (
     <Card>
-      <CardHead title="Indexed Pages" count="1 - 100 (~6,211)" right={<ExportBtn />} />
+      <CardHead title="Indexed Pages" count={live ? countText(page, rows.length, all.length) : "1 - 100 (~6,211)"} right={<ExportBtn />} />
       <div className="flex h-[59px] items-center gap-[7px] px-5">
-        <Checkbox checked={broken} onChange={() => setBroken(!broken)} label="Broken Pages" />
+        <Checkbox
+          checked={broken}
+          onChange={() => {
+            setBroken(!broken);
+            setPage(1);
+          }}
+          label="Broken Pages"
+        />
         <Info />
       </div>
       <table className="w-full table-fixed text-[14px] leading-5 text-rk-text">
@@ -121,14 +151,14 @@ export function PagesReport() {
                   {r.d}
                 </Link>
               </td>
-              <td className="px-3 pt-[12px] text-right">{r.ext}</td>
-              <td className="px-3 pt-[12px] text-right">{r.int}</td>
+              <td className={`px-3 pt-[12px] text-right ${typeof r.ext === "string" ? "text-rk-muted" : ""}`}>{r.ext}</td>
+              <td className={`px-3 pt-[12px] text-right ${typeof r.int === "string" ? "text-rk-muted" : ""}`}>{r.int}</td>
               <td className="pt-[12px] pr-5 pl-3 text-right whitespace-nowrap">{r.last}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      <Pager pages={63} />
+      <Pager key={String(broken)} pages={live ? Math.max(1, Math.ceil(all.length / PER)) : 63} onChange={live ? setPage : undefined} />
     </Card>
   );
 }
@@ -315,7 +345,8 @@ const cols: { label: string; w?: number; align?: "right" }[] = [
   { label: "Info", w: 87 },
 ];
 
-export function BulkAnalysis() {
+export function BulkAnalysis({ live = null }: { live?: BulkLive | null }) {
+  const b = live ?? bulk;
   const [lines, setLines] = useState(domain);
   const [scope, setScope] = useState("Auto");
   const [scopeOpen, setScopeOpen] = useState(false);
@@ -402,50 +433,50 @@ export function BulkAnalysis() {
                 <span className="block text-[12px] leading-4 text-rk-muted">root domain</span>
               </td>
               <td className="px-3 text-right align-top pt-[9px]">
-                <AsSelect value={bulk.as} />
+                <AsSelect value={b.as} />
               </td>
               <td className="px-3 pt-[9px] text-right align-top">
                 <Link href={tabHref("backlinks")} className={blLink}>
-                  {bulk.bl}
+                  {b.bl}
                 </Link>
               </td>
               <td className="px-3 pt-[9px] text-right align-top">
                 <Link href={routes.referringDomains} className={blLink}>
-                  {bulk.d}
+                  {b.d}
                 </Link>
               </td>
-              <td className="px-3 pt-[9px] text-right align-top text-rk-muted">{bulk.visits}</td>
+              <td className="px-3 pt-[9px] text-right align-top text-rk-muted">{b.visits}</td>
               <td className="pt-[9px] pr-[30px] pl-3 text-right align-top">
                 <Link href={tabHref("backlinks")} className={blLink}>
-                  {bulk.follow}
+                  {b.follow}
                 </Link>{" "}
                 /{" "}
                 <Link href={tabHref("backlinks")} className={blLink}>
-                  {bulk.nofollow}
+                  {b.nofollow}
                 </Link>
                 <span className={pct}>
-                  {bulk.fPct} / {bulk.nPct}
+                  {b.fPct} / {b.nPct}
                 </span>
               </td>
               <td className="px-3 pt-[9px] text-right align-top">
                 <Link href={tabHref("backlinks")} className={blLink}>
-                  {bulk.text}
+                  {b.text}
                 </Link>
-                <span className={pct}>{bulk.tPct}</span>
+                <span className={pct}>{b.tPct}</span>
               </td>
               <td className="px-3 pt-[9px] text-right align-top">
                 <Link href={tabHref("backlinks")} className={blLink}>
-                  {bulk.image}
+                  {b.image}
                 </Link>
-                <span className={pct}>{bulk.iPct}</span>
+                <span className={pct}>{b.iPct}</span>
               </td>
               <td className="px-3 pt-[9px] text-right align-top text-rk-muted">
-                {bulk.form}
-                <span className={pct}>0%</span>
+                {b.form}
+                <span className={pct}>{live ? live.fmPct : "0%"}</span>
               </td>
               <td className="px-3 pt-[9px] text-right align-top text-rk-muted">
-                {bulk.frame}
-                <span className={pct}>0%</span>
+                {b.frame}
+                <span className={pct}>{live ? live.frPct : "0%"}</span>
               </td>
               <td ref={moreRef} className="relative px-3 pt-[9px] align-top">
                 <button type="button" onClick={() => setMore(!more)} className="inline-flex items-center gap-[4px] text-rk-link hover:text-rk-link-hover">
@@ -454,12 +485,14 @@ export function BulkAnalysis() {
                 </button>
                 {more && (
                   <div className="absolute top-[36px] right-3 z-30 w-[200px] rounded-md bg-white py-2 text-[13px] shadow-popover">
-                    {[
-                      ["Ref. IPs", "181"],
-                      ["Ref. Subnets", "138"],
-                      ["Outbound Domains", "34"],
-                      ["Organic Traffic", "60"],
-                    ].map(([k, v]) => (
+                    {(
+                      live?.more ?? [
+                        ["Ref. IPs", "181"],
+                        ["Ref. Subnets", "138"],
+                        ["Outbound Domains", "34"],
+                        ["Organic Traffic", "60"],
+                      ]
+                    ).map(([k, v]) => (
                       <div key={k} className="flex justify-between px-3 py-[4px]">
                         <span className="text-rk-muted">{k}</span>
                         {v}

@@ -5,6 +5,7 @@ import { useOutsideClose } from "@/components/ui/Popover";
 import { SearchIcon } from "@/components/ui/icons";
 import { Plot, Stroke, VBW, linePath, type Pt } from "@/features/domain/charts";
 import { authorityTrend, organicDbs, trendMonths } from "./data";
+import type { OverviewLive } from "./live";
 import { Chevron, Flag } from "./ui";
 
 const scopes = ["Root Domain", "URL", "Subdomain", "Subfolder"] as const;
@@ -52,11 +53,11 @@ export function ScopeSelect({ testid }: { testid?: string }) {
   );
 }
 
-export function OrganicDbSelect({ value }: { value: ReactNode }) {
+export function OrganicDbSelect({ value, items }: { value: ReactNode; items?: OverviewLive["organicDbs"] }) {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
-  const list = organicDbs.filter((c) => c.name.toLowerCase().includes(q.toLowerCase()));
+  const list = (items?.length ? items : organicDbs).filter((c) => c.name.toLowerCase().includes(q.toLowerCase()));
   return (
     <div ref={ref} className="relative">
       <button type="button" data-testid="organic-traffic-db" onClick={() => setOpen(!open)} className="group block">
@@ -107,9 +108,11 @@ const step = 0.0888;
 const at = (i: number) => 0.02 + step * i;
 const FLAG = 9;
 
-export function AuthorityTrend() {
+export function AuthorityTrend({ live }: { live?: OverviewLive["asTrend"] }) {
   const [hi, setHi] = useState<number | null>(null);
-  const p: Pt[] = authorityTrend.map((v, i) => [at(i) * VBW, H - (v / 100) * H]);
+  const values = live?.values ?? authorityTrend;
+  const monthsOf = live?.months ?? trendMonths;
+  const p: Pt[] = values.map((v, i) => [at(i) * VBW, H - (v / 100) * H]);
   const last = p[p.length - 1];
   const hp = hi === null ? null : p[hi];
   return (
@@ -126,15 +129,17 @@ export function AuthorityTrend() {
         xGap={9}
         bottomH={26}
         baseColor="#e7e8e8"
-        x={[
-          { at: 0.02, label: "Oct 2025" },
-          { at: 0.375, label: "Feb 2026" },
-          { at: 0.725, label: "May 2026" },
-        ]}
+        x={
+          live?.labels ?? [
+            { at: 0.02, label: "Oct 2025" },
+            { at: 0.375, label: "Feb 2026" },
+            { at: 0.725, label: "May 2026" },
+          ]
+        }
         labelClass="text-[12px] leading-4 text-rk-text-2"
         overlay={
           <>
-            {hi === FLAG ? (
+            {live ? null : hi === FLAG ? (
               <span className="absolute -bottom-[9px] flex h-[15px] w-[17px] -translate-x-[8px] items-center justify-center rounded-[2px] bg-[#ff4953] text-[11px] leading-none font-bold text-white" style={{ left: `${at(FLAG) * 100}%` }}>
                 !
               </span>
@@ -151,15 +156,15 @@ export function AuthorityTrend() {
                   className="pointer-events-none absolute top-[178px] z-20 w-[173px] rounded-md bg-white px-[12px] pt-[11px] pb-[12px] text-[12px] leading-4 whitespace-nowrap shadow-popover"
                   style={at(hi) > 0.5 ? { right: `calc(${(1 - at(hi)) * 100}% + 9px)` } : { left: `calc(${at(hi) * 100}% + 9px)` }}
                 >
-                  <div className="text-[12px] leading-4 text-rk-text-2">{trendMonths[hi]}</div>
+                  <div className="text-[12px] leading-4 text-rk-text-2">{monthsOf[hi]}</div>
                   <div className="mt-[9px] flex items-center">
                     <span className="mr-[8px] h-[8px] w-[8px] rounded-full bg-[#6167e6]" />
                     <span className="flex-1">Authority Score</span>
-                    <span className="font-bold">{authorityTrend[hi]}</span>
-                    {hi > 0 && authorityTrend[hi] !== authorityTrend[hi - 1] && (
-                      <span className={`ml-[8px] ${authorityTrend[hi] > authorityTrend[hi - 1] ? "text-rk-success" : "text-[#d1002f]"}`}>
-                        {authorityTrend[hi] > authorityTrend[hi - 1] ? "+" : "−"}
-                        {Math.abs(authorityTrend[hi] - authorityTrend[hi - 1])}
+                    <span className="font-bold">{values[hi]}</span>
+                    {hi > 0 && values[hi] !== values[hi - 1] && (
+                      <span className={`ml-[8px] ${values[hi] > values[hi - 1] ? "text-rk-success" : "text-[#d1002f]"}`}>
+                        {values[hi] > values[hi - 1] ? "+" : "−"}
+                        {Math.abs(values[hi] - values[hi - 1])}
                       </span>
                     )}
                   </div>
@@ -167,7 +172,7 @@ export function AuthorityTrend() {
               </>
             )}
             <div className="absolute inset-x-0 top-0 -bottom-[14px]" onMouseLeave={() => setHi(null)}>
-              {authorityTrend.map((_, i) => (
+              {values.map((_, i) => (
                 <div
                   key={i}
                   data-testid={`as-trend-slot-${i}`}

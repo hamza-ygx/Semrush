@@ -19,7 +19,7 @@ const CalIcon = () => (
 const fmt = (d: Date) => `${monthNames[d.getMonth()].slice(0, 3)} ${d.getDate()}, ${d.getFullYear()}`;
 const same = (a: Date, b: Date) => a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
 
-function Month({ y, m, sel, onPick }: { y: number; m: number; sel: Date; onPick: (d: Date) => void }) {
+function Month({ y, m, sel, onPick, max = today }: { y: number; m: number; sel: Date; onPick: (d: Date) => void; max?: Date }) {
   const first = new Date(y, m, 1).getDay();
   const days = new Date(y, m + 1, 0).getDate();
   const cells = [...Array(first).fill(null), ...Array.from({ length: days }, (_, i) => i + 1)];
@@ -34,7 +34,7 @@ function Month({ y, m, sel, onPick }: { y: number; m: number; sel: Date; onPick:
         {cells.map((d, i) => {
           if (d === null) return <span key={i} />;
           const date = new Date(y, m, d);
-          const future = date > today;
+          const future = date > max;
           const on = same(date, sel);
           return (
             <button
@@ -53,11 +53,14 @@ function Month({ y, m, sel, onPick }: { y: number; m: number; sel: Date; onPick:
   );
 }
 
-export function DateChip({ onClear }: { onClear?: () => void }) {
+const isoDay = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
+export function DateChip({ onClear, day, onApply }: { onClear?: () => void; day?: string; onApply?: (iso: string) => void }) {
+  const base = day ? new Date(+day.slice(0, 4), +day.slice(5, 7) - 1, +day.slice(8, 10)) : today;
   const [open, setOpen] = useState(false);
-  const [sel, setSel] = useState(today);
-  const [view, setView] = useState(new Date(2026, 8, 1));
-  const [applied, setApplied] = useState(today);
+  const [sel, setSel] = useState(base);
+  const [view, setView] = useState(new Date(base.getFullYear(), base.getMonth(), 1));
+  const [applied, setApplied] = useState(base);
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
   const next = new Date(view.getFullYear(), view.getMonth() + 1, 1);
   return (
@@ -90,13 +93,13 @@ export function DateChip({ onClear }: { onClear?: () => void }) {
                 <div className="mb-[16px] text-center text-[14px] leading-5 text-rk-text">
                   {monthNames[d.getMonth()]} {d.getFullYear()}
                 </div>
-                <Month y={d.getFullYear()} m={d.getMonth()} sel={sel} onPick={setSel} />
+                <Month y={d.getFullYear()} m={d.getMonth()} sel={sel} onPick={setSel} max={base} />
               </div>
             ))}
           </div>
           <div className="relative ml-auto w-[153px] border-l border-[#dfdfdf] pt-[16px] pl-[26px]">
             {presets.map((p) => (
-              <button key={p} type="button" onClick={() => setSel(today)} className="block h-7 text-left text-[14px] leading-5 text-[#6a6c6a] hover:text-rk-text">
+              <button key={p} type="button" onClick={() => setSel(base)} className="block h-7 text-left text-[14px] leading-5 text-[#6a6c6a] hover:text-rk-text">
                 {p}
               </button>
             ))}
@@ -106,6 +109,7 @@ export function DateChip({ onClear }: { onClear?: () => void }) {
                 onClick={() => {
                   setApplied(sel);
                   setOpen(false);
+                  onApply?.(isoDay(sel));
                 }}
                 className="h-7 rounded-md bg-rk-btn-dark px-[9px] text-[14px] font-semibold text-white hover:bg-[#2b2e38]"
               >
@@ -114,8 +118,8 @@ export function DateChip({ onClear }: { onClear?: () => void }) {
               <button
                 type="button"
                 onClick={() => {
-                  setSel(today);
-                  setView(new Date(2026, 8, 1));
+                  setSel(base);
+                  setView(new Date(base.getFullYear(), base.getMonth(), 1));
                 }}
                 className="text-[14px] text-[#6a6c6a] hover:text-rk-text"
               >

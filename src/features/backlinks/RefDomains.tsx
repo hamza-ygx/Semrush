@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Fragment, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { useOutsideClose } from "@/components/ui/Popover";
 import { AppShell } from "@/components/shell/AppShell";
 import { HeaderLink, PageHeader, SendFeedback } from "@/components/shell/PageHeader";
@@ -10,6 +10,7 @@ import { AnalyticsFooter } from "@/features/domain/AnalyticsFooter";
 import { ExportPdf, ReportTitle, UserManual } from "@/features/domain/DomainHeader";
 import { NewLostChart } from "./charts";
 import { asMetrics, domain, newLostRd, rdPages, rdRows, weekRanges, weeks, type RdRow } from "./data";
+import { filterRefDomains, type RdPageLive, type RdRowLive, type RefDomainsLive } from "./live";
 import { AddFilter, BrokenIcon, ItalicInfo, Card, CardHead, Chevron, ChevronRightSm, Chip, ExportBtn, ExtIcon, ExtLink, Flag, MegaphoneIcon, Pager, SearchBox, Seg, SortIcon, Th, ext } from "./ui";
 
 const rdFilters = ["Authority Score", "Category", "IP address", "Zones (by TLD)", "Countries"];
@@ -34,10 +35,12 @@ function UrlText({ url, className = "" }: { url: string; className?: string }) {
   );
 }
 
-function AsCell({ d, as }: { d: string; as: number }) {
+const naMetrics = { backlinks: "n/a", refDomains: "n/a", visits: "n/a", organic: "n/a", outbound: "n/a" };
+
+function AsCell({ d, as, live = false }: { d: string; as: number; live?: boolean }) {
   const [open, setOpen] = useState(false);
   const ref = useOutsideClose<HTMLSpanElement>(open, () => setOpen(false));
-  const m = asMetrics(d, as);
+  const m = live ? naMetrics : asMetrics(d, as);
   const rows = [
     { l: "Backlinks", v: m.backlinks },
     { l: "Referring Domains", v: m.refDomains },
@@ -69,12 +72,13 @@ function AsCell({ d, as }: { d: string; as: number }) {
   );
 }
 
-function RowBacklinks({ r, onHide }: { r: RdRow; onHide: () => void }) {
+function RowBacklinks({ r, onHide, livePages }: { r: RdRow | RdRowLive; onHide: () => void; livePages?: RdPageLive[] }) {
   const [shown, setShown] = useState(5);
-  const pages = rdPages(r.d, r.bl);
+  const pages = livePages ?? rdPages(r.d, r.bl);
   const starts = pages.map((_, i) => pages.slice(0, i).reduce((a, p) => a + p.links.length, 0));
   const visible = pages.filter((_, i) => starts[i] < shown);
-  const more = Math.min(5, r.bl - Math.min(shown, r.bl));
+  const total = livePages ? pages.reduce((a, p) => a + p.links.length, 0) : r.bl;
+  const more = Math.min(5, total - Math.min(shown, total));
   const th = "h-[45px] border-b border-[#f0f0f2] pb-[8px] pl-[8px] align-bottom text-[12px] leading-4 font-normal text-left";
   const td = "pt-[11px] pb-[13px] pl-[8px] align-top";
   return (
@@ -145,7 +149,7 @@ function RowBacklinks({ r, onHide }: { r: RdRow; onHide: () => void }) {
                       </div>
                       {l.lost && (
                         <Chip tone="red" className="mt-[3px]">
-                          Lost: Page redirect
+                          {(l as { lostLabel?: string }).lostLabel || "Lost: Page redirect"}
                         </Chip>
                       )}
                     </td>
@@ -179,16 +183,35 @@ function RowBacklinks({ r, onHide }: { r: RdRow; onHide: () => void }) {
   );
 }
 
-function RefDomainsTable() {
+const PER = 100;
+
+function RefDomainsTable({ live = null }: { live?: RefDomainsLive | null }) {
   const [open, setOpen] = useState<string | null>(null);
+  const [q, setQ] = useState("");
+  const [status, setStatus] = useState("All");
+  const [attr, setAttr] = useState("All");
+  const [page, setPage] = useState(1);
   const widths = open ? [85, 150, 160, 150, 151] : [83, 148, 171, 148, 149];
+  const filtered = useMemo(() => (live ? filterRefDomains(live.rows, { q, status, attr }) : null), [live, q, status, attr]);
+  const rows: (RdRow | RdRowLive)[] = filtered ? filtered.slice((page - 1) * PER, page * PER) : rdRows;
+  const pristine = !q && status === "All" && attr === "All";
+  const count = filtered
+    ? filtered.length
+      ? `${(page - 1) * PER + 1} - ${(page - 1) * PER + rows.length} (${(pristine ? live!.total : filtered.length).toLocaleString("en-US")})`
+      : "(0)"
+    : "1 - 100 (263)";
+  const reset = (set: (v: string) => void) => (v: string) => {
+    set(v);
+    setPage(1);
+    setOpen(null);
+  };
   return (
     <Card className="mt-[17px]">
-      <CardHead title="Referring Domains" count="1 - 100 (263)" right={<ExportBtn />} />
+      <CardHead title="Referring Domains" count={count} right={<ExportBtn />} />
       <div className="flex h-[68px] items-center gap-[8px] px-5">
-        <SearchBox placeholder="Filter by referring domain" width={260} />
-        <Seg options={["All", "Active", "New", "Lost"]} />
-        <Seg options={["All", "Follow", "Nofollow"]} />
+        <SearchBox placeholder="Filter by referring domain" width={260} onChange={live ? reset(setQ) : undefined} />
+        <Seg options={["All", "Active", "New", "Lost"]} onChange={live ? reset(setStatus) : undefined} />
+        <Seg options={["All", "Follow", "Nofollow"]} onChange={live ? reset(setAttr) : undefined} />
         <div className="-ml-[2px]">
           <AddFilter options={rdFilters} width={119} />
         </div>
@@ -214,13 +237,13 @@ function RefDomainsTable() {
           </tr>
         </thead>
         <tbody>
-          {rdRows.map((r) => {
+          {rows.map((r) => {
             const on = open === r.d;
             return (
               <Fragment key={r.d}>
                 <tr className={`border-b border-[#f0f0f2] align-top ${on ? "bg-[#f9f9f9]" : "hover:bg-[#f9f9f9]"}`}>
                   <td className="px-3 pt-[11px] text-right">
-                    <AsCell d={r.d} as={r.as} />
+                    <AsCell d={r.d} as={r.as} live={!!live} />
                   </td>
                   <td className="px-3 pt-[11px] pb-[12px]">
                     <div className="flex items-center gap-[4px]">
@@ -229,7 +252,7 @@ function RefDomainsTable() {
                       </a>
                       <ExtLink href={r.d} />
                     </div>
-                    {r.c && <div className="text-rk-text-2">{r.c}</div>}
+                    {"c" in r && r.c && <div className="text-rk-text-2">{r.c}</div>}
                     {r.tags && (
                       <div className="mt-[5px] flex gap-[4px]">
                         {r.tags.map((t) => (
@@ -255,20 +278,25 @@ function RefDomainsTable() {
                   <td className={`px-3 pt-[11px] text-right ${r.firstNew ? "text-[#009f81]" : ""}`}>{r.first}</td>
                   <td className="px-3 pt-[11px] text-right">{r.last}</td>
                 </tr>
-                {on && <RowBacklinks r={r} onHide={() => setOpen(null)} />}
+                {on && <RowBacklinks r={r} onHide={() => setOpen(null)} livePages={live ? (live.pages[r.d] ?? []) : undefined} />}
               </Fragment>
             );
           })}
         </tbody>
       </table>
-      <Pager pages={3} />
+      <Pager key={`${q}|${status}|${attr}`} pages={filtered ? Math.max(1, Math.ceil(filtered.length / PER)) : 3} onChange={live ? (p) => {
+        setPage(p);
+        setOpen(null);
+      } : undefined} />
     </Card>
   );
 }
 
-export function RefDomainsPage() {
+export function RefDomainsPage({ live = null, demo = false, name }: { live?: RefDomainsLive | null; demo?: boolean; name?: string }) {
+  const wk = live?.weekly;
+  const chart = wk?.rd ?? newLostRd;
   return (
-    <AppShell section="seo" search={{ kind: "analyze", value: domain, scope: true }} footer={false}>
+    <AppShell section="seo" search={{ kind: "analyze", value: name ?? domain, scope: true }} footer={false}>
       <PageHeader
         crumbs={[{ label: "Home", href: routes.home }, { label: "SEO", href: routes.seoDashboard }, { label: "Referring Domains" }]}
         links={
@@ -278,7 +306,7 @@ export function RefDomainsPage() {
             <SendFeedback />
           </div>
         }
-        title={<ReportTitle label="Referring Domains" />}
+        title={<ReportTitle label="Referring Domains" name={name} demo={demo} />}
         actions={<ExportPdf />}
         meta={<span>Category: Accounting &amp; Auditing</span>}
         border={false}
@@ -290,10 +318,22 @@ export function RefDomainsPage() {
             <h2 className="text-[16px] leading-6 font-bold">New and Lost Referring Domains</h2>
           </header>
           <div className="relative px-5 pt-[20px]">
-            <NewLostChart newV={newLostRd.newV} lostV={newLostRd.lostV} max={newLostRd.max} ticks={newLostRd.ticks} labels={weeks} every={2} left={93} right={44} zero={173} unit={101 / newLostRd.max} tips={weekRanges} />
+            <NewLostChart
+              newV={chart.newV}
+              lostV={chart.lostV}
+              max={chart.max}
+              ticks={chart.ticks}
+              labels={wk?.weeks ?? weeks}
+              every={2}
+              left={93}
+              right={44}
+              zero={173}
+              unit={101 / chart.max}
+              tips={wk?.ranges ?? weekRanges}
+            />
           </div>
         </Card>
-        <RefDomainsTable />
+        <RefDomainsTable live={live} />
       </div>
       <AnalyticsFooter gap={234} />
     </AppShell>

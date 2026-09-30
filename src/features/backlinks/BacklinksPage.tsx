@@ -11,6 +11,7 @@ import { routes } from "@/config/routes";
 import { AnalyticsFooter } from "@/features/domain/AnalyticsFooter";
 import { ExportPdf, ReportTitle, UserManual } from "@/features/domain/DomainHeader";
 import { domain } from "./data";
+import type { HeadLive } from "./live";
 import { MegaphoneIcon } from "./ui";
 
 const bt = routes.backlinksToolkit;
@@ -34,7 +35,11 @@ const extra: { key: BacklinksTab; label: string }[] = [
 
 export const tabHref = (k: BacklinksTab) => `${bt[k]}?q=${domain}&searchType=domain`;
 
-const liveHref = `${tabHref("backlinks")}&ba_mt=new&ba_date=${encodeURIComponent('["2026-9-25","2026-9-25"]')}&sort_field=firsttime&sort_type=desc`;
+const dayParam = (iso: string) => iso.split("-").map(Number).join("-");
+
+const newHref = (day = "2026-9-25") => `${tabHref("backlinks")}&ba_mt=new&ba_date=${encodeURIComponent(`["${day}","${day}"]`)}&sort_field=firsttime&sort_type=desc`;
+
+const liveHref = newHref();
 
 function MoreMenu({ items }: { items: { key: BacklinksTab; label: string }[] }) {
   const [open, setOpen] = useState(false);
@@ -103,9 +108,23 @@ function BacklinkTabs({ active }: { active: BacklinksTab }) {
   );
 }
 
-export function BacklinksPage({ tab, children, bodyClassName = "px-8 pt-4" }: { tab: BacklinksTab; children: ReactNode; bodyClassName?: string }) {
+export function BacklinksPage({
+  tab,
+  children,
+  bodyClassName = "px-8 pt-4",
+  head = null,
+  demo = false,
+  name,
+}: {
+  tab: BacklinksTab;
+  children: ReactNode;
+  bodyClassName?: string;
+  head?: HeadLive | null;
+  demo?: boolean;
+  name?: string;
+}) {
   return (
-    <AppShell section="seo" search={{ kind: "analyze", value: domain, scope: true }} footer={false}>
+    <AppShell section="seo" search={{ kind: "analyze", value: name ?? domain, scope: true }} footer={false}>
       <PageHeader
         crumbs={[{ label: "Home", href: routes.home }, { label: "SEO", href: routes.seoDashboard }, { label: "Backlink Analytics" }]}
         links={
@@ -115,14 +134,14 @@ export function BacklinksPage({ tab, children, bodyClassName = "px-8 pt-4" }: { 
             <SendFeedback />
           </div>
         }
-        title={<ReportTitle label="Backlinks" />}
+        title={<ReportTitle label="Backlinks" name={name} demo={demo} />}
         actions={<ExportPdf />}
         meta={
           <>
             <span className="flex items-center gap-1">
               Live Update:
-              <Link href={liveHref} data-testid="live-update-link" className="text-rk-link hover:text-rk-link-hover">
-                2 backlinks
+              <Link href={head ? newHref(dayParam(head.day)) : liveHref} data-testid="live-update-link" className="text-rk-link hover:text-rk-link-hover">
+                {head ? `${head.today} backlink${head.today === 1 ? "" : "s"}` : "2 backlinks"}
               </Link>
               found today
               <LiveInfo />

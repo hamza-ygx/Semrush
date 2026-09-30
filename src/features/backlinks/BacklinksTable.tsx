@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { tabHref } from "./BacklinksPage";
 import { backlinkRows, newBacklinkRows } from "./data";
 import { DateChip } from "./DateRange";
+import { filterBacklinks, type TableLive } from "./live";
 import { AddFilter, BrokenIcon, FilterSelect, Card, CardHead, Checkbox, Chip, ExportBtn, ExtLink, Pager, SearchBox, Seg, Th, ext } from "./ui";
 
 const tiles = [
@@ -27,22 +28,61 @@ const placementOptions: Record<string, string[]> = {
   "Ref. page platform": ["Blog", "CMS", "Forum", "Wiki", "Message board"],
 };
 
+const liveFilterOptions: Record<string, string[]> = {
+  "Link type": ["Text", "Image"],
+  "Lost issues": ["Page not found", "Redirected"],
+};
+
+const PER = 100;
+
 const cols = [40, 95, 0, 80, 80, 212, 118, 118];
 const newCols = [40, 95, 328, 80, 80, 220, 110, 110];
 
-export function BacklinksTable({ mode }: { mode?: "new" }) {
+const hrefOf = (r: { url: string; href?: string }) => r.href ?? ext(r.url);
+const targetOf = (r: { target: string; targetHref?: string }) => r.targetHref ?? ext(r.target);
+
+export function BacklinksTable({ mode, live = null }: { mode?: "new"; live?: TableLive | null }) {
   const isNew = mode === "new";
   const pt = isNew ? "pt-[12px]" : "pt-[10px]";
-  const rows = isNew ? newBacklinkRows : backlinkRows;
+  const [q, setQ] = useState("");
+  const [status, setStatus] = useState(isNew ? "New" : "All");
+  const [attr, setAttr] = useState("All");
+  const [picks, setPicks] = useState<Record<string, string>>({});
+  const [day, setDay] = useState<string | null>(isNew && live ? live.day : null);
+  const [page, setPage] = useState(1);
+  const [sel, setSel] = useState<Set<number>>(new Set());
+  const [filters, setFilters] = useState<string[]>([]);
   const cardRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!isNew || !cardRef.current) return;
     window.scrollTo(0, cardRef.current.getBoundingClientRect().top + window.scrollY - 14);
   }, [isNew]);
   const [tile, setTile] = useState("all");
-  const [sel, setSel] = useState<Set<number>>(new Set());
-  const [filters, setFilters] = useState<string[]>([]);
+  const filtered = useMemo(() => {
+    if (!live) return null;
+    const list = filterBacklinks(live.rows, { tile, q, status, attr, picks, day });
+    return isNew ? [...list].sort((a, b) => b.firstTs - a.firstTs) : list;
+  }, [live, tile, q, status, attr, picks, day, isNew]);
+  const pages = filtered ? Math.max(1, Math.ceil(filtered.length / PER)) : isNew ? 1 : 4;
+  const rows = filtered ? filtered.slice((page - 1) * PER, page * PER) : isNew ? newBacklinkRows : backlinkRows;
+  const pristine = !q && status === (isNew ? "New" : "All") && attr === "All" && !Object.keys(picks).length && tile === "all" && !isNew;
+  const shownTotal = filtered ? (pristine ? live!.total : filtered.length) : 0;
+  const countLabel = filtered
+    ? filtered.length
+      ? `${(page - 1) * PER + 1} - ${(page - 1) * PER + rows.length} (${shownTotal.toLocaleString("en-US")})`
+      : "(0)"
+    : isNew
+      ? "1 - 2 (2)"
+      : "1 - 100 (375)";
+  const pagerKey = `${tile}|${q}|${status}|${attr}|${JSON.stringify(picks)}|${day}`;
+  const reset = <T,>(set: (v: T) => void) => (v: T) => {
+    set(v);
+    setPage(1);
+    setSel(new Set());
+  };
+  const tileCount = (k: string, mock: number) => (!live ? mock : k === "all" ? live.counts.all : k === "best" ? live.counts.best : k === "new" ? live.counts.isNew : live.counts.lost);
   const addFilter = (o: string) => !filters.includes(o) && setFilters([...filters, o]);
+  const pickFilter = (label: string) => (v: string) => reset(setPicks)({ ...picks, [label]: v });
   const toggle = (i: number) => {
     const n = new Set(sel);
     if (n.has(i)) n.delete(i);
@@ -58,13 +98,13 @@ export function BacklinksTable({ mode }: { mode?: "new" }) {
             <button
               key={t.key}
               type="button"
-              onClick={() => setTile(t.key)}
+              onClick={() => (live ? reset(setTile)(t.key) : setTile(t.key))}
               className={`relative flex flex-1 flex-col items-start justify-start px-5 pt-[12px] text-left ${i ? "border-l border-[#d5d9e2]" : ""} ${i === 0 ? "rounded-l-md" : ""} ${i === 3 ? "rounded-r-md" : ""} ${on ? "bg-[#ebedf6] outline outline-1 -outline-offset-1 outline-[#a3abcc]" : "hover:bg-[#f7f8fa]"}`}
             >
               <span className="flex items-center gap-[8px] text-[16px] leading-6 font-medium text-rk-text">
                 {t.fire && <Fire />}
                 {t.title}
-                <span className="-ml-[1px] font-normal text-rk-muted">{t.count}</span>
+                <span className="-ml-[1px] font-normal text-rk-muted">{tileCount(t.key, t.count)}</span>
               </span>
               {t.sub && <span className="mt-[2px] block text-[14px] leading-5 text-rk-muted">{t.sub}</span>}
             </button>
@@ -73,14 +113,14 @@ export function BacklinksTable({ mode }: { mode?: "new" }) {
       </div>
       <div ref={cardRef} className="mt-4">
       <Card>
-        <CardHead title="Backlinks" count={isNew ? "1 - 2 (2)" : "1 - 100 (375)"} right={<ExportBtn />} />
+        <CardHead title="Backlinks" count={countLabel} right={<ExportBtn />} />
         <div className={`flex flex-wrap items-center gap-x-[8px] ${isNew ? "gap-y-[12px] pt-[19px] pb-[20px]" : `gap-y-[13px] pt-[21px] ${filters.length ? "pb-[20px]" : "pb-[21px]"}`} px-5`}>
-          <SearchBox placeholder="Filter by title or URL" width={260} />
-          <Seg options={["All", "Active", "New", "Lost"]} initial={isNew ? "New" : undefined} />
-          {isNew && <DateChip />}
-          <Seg options={["All", "Follow", "Nofollow", "Sponsored", "UGC"]} />
+          <SearchBox placeholder="Filter by title or URL" width={260} onChange={live ? reset(setQ) : undefined} />
+          <Seg options={["All", "Active", "New", "Lost"]} initial={isNew ? "New" : undefined} onChange={live ? reset(setStatus) : undefined} />
+          {isNew && <DateChip day={live?.day} onApply={live ? (d) => reset(setDay)(d) : undefined} onClear={live ? () => reset(setDay)(null) : undefined} />}
+          <Seg options={["All", "Follow", "Nofollow", "Sponsored", "UGC"]} onChange={live ? reset(setAttr) : undefined} />
           {filters.map((f) => (
-            <FilterSelect key={f} label={f} options={placementOptions[f] ?? ["Yes", "No"]} defaultOpen />
+            <FilterSelect key={f} label={f} options={(live && liveFilterOptions[f]) || placementOptions[f] || ["Yes", "No"]} defaultOpen onChange={live ? pickFilter(f) : undefined} />
           ))}
           <div className={`-ml-[1px] ${filters.length || isNew ? "flex basis-full items-center justify-between" : ""}`}>
             <div className="inline-block">
@@ -129,7 +169,7 @@ export function BacklinksTable({ mode }: { mode?: "new" }) {
                   <div className="truncate">{r.title}</div>
                   <div className="break-all">
                     {r.broken && <BrokenIcon className="mr-[4px] inline-block align-[-3px] text-[#a9abaa]" />}
-                    <a href={ext(r.url)} target="_blank" rel="noreferrer" className={`${isNew ? "" : "tracking-[0.2px]"} text-rk-link hover:text-rk-link-hover`}>
+                    <a href={hrefOf(r)} target="_blank" rel="noreferrer" className={`${isNew ? "" : "tracking-[0.2px]"} text-rk-link hover:text-rk-link-hover`}>
                       {isNew
                         ? r.url.split("-").map((part, k) => (
                             <span key={k}>
@@ -139,9 +179,9 @@ export function BacklinksTable({ mode }: { mode?: "new" }) {
                           ))
                         : r.url}
                     </a>
-                    <ExtLink href={r.url} className="ml-[4px]" />
+                    <ExtLink href={hrefOf(r)} className="ml-[4px]" />
                   </div>
-                  <div className="mt-[5px] flex flex-wrap gap-x-[4px] gap-y-[5px]">
+                  <div className={`${r.tags.length ? "mt-[5px]" : ""} flex flex-wrap gap-x-[4px] gap-y-[5px]`}>
                     {r.tags.map((t) => (
                       <Chip key={t}>{t}</Chip>
                     ))}
@@ -150,13 +190,13 @@ export function BacklinksTable({ mode }: { mode?: "new" }) {
                 <td className={`px-3 ${pt}`}>{r.ext}</td>
                 <td className={`px-3 ${pt}`}>{r.int}</td>
                 <td className={`px-3 ${pt} pb-[12px]`}>
-                  <div className="truncate">{r.anchor}</div>
+                  <div className="truncate">{r.anchor || (live ? <span className="text-rk-muted italic">Empty Anchor</span> : r.anchor)}</div>
                   <div>
                     {r.targetBroken && <BrokenIcon className="mr-[4px] inline-block align-[-3px] text-[#a9abaa]" />}
-                    <a href={ext(r.target)} target="_blank" rel="noreferrer" className="text-rk-link hover:text-rk-link-hover">
+                    <a href={targetOf(r)} target="_blank" rel="noreferrer" className="text-rk-link hover:text-rk-link-hover">
                       {r.target}
                     </a>
-                    <ExtLink href={r.target} className="ml-[4px]" />
+                    <ExtLink href={targetOf(r)} className="ml-[4px]" />
                   </div>
                   <div className="mt-[5px] flex flex-wrap gap-x-[4px] gap-y-[5px]">
                     {r.ltags.map((t) => (
@@ -172,7 +212,7 @@ export function BacklinksTable({ mode }: { mode?: "new" }) {
             ))}
           </tbody>
         </table>
-        <Pager pages={isNew ? 1 : 4} />
+        <Pager key={pagerKey} pages={pages} onChange={live ? setPage : undefined} />
       </Card>
       </div>
     </>
