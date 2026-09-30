@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, type ReactNode } from "react";
 import { rangeLabel, type TrackingLive } from "./live";
+import type { KwMetrics } from "@/features/keywords/live";
 
 export const currentBegin = "20260918";
 const latestBegin = "20260919";
@@ -31,17 +32,17 @@ export function periodLabel(begin: string, dash = "-", end?: string) {
   return `${m(a)} ${a.getUTCDate()} - ${m(b)} ${b.getUTCDate()}, ${b.getUTCFullYear()}`;
 }
 
-type Ctx = { begin: string; end?: string; setBegin: (v: string) => void; fresh: boolean; latest: boolean; hours?: number; live?: TrackingLive | null; demo?: boolean };
+type Ctx = { begin: string; end?: string; setBegin: (v: string) => void; fresh: boolean; latest: boolean; hours?: number; live?: TrackingLive | null; demo?: boolean; metrics?: KwMetrics | null };
 
 const TrackingCtx = createContext<Ctx>({ begin: defaultBegin, setBegin: () => {}, fresh: false, latest: false });
 
-export type Snap = { begin?: string; end?: string; fresh?: boolean; hours?: number; live?: TrackingLive | null; demo?: boolean };
+export type Snap = { begin?: string; end?: string; fresh?: boolean; hours?: number; live?: TrackingLive | null; demo?: boolean; metrics?: KwMetrics | null };
 
-export function TrackingProvider({ begin, end, fresh = false, hours, live, demo, children }: Snap & { children: ReactNode }) {
+export function TrackingProvider({ begin, end, fresh = false, hours, live, demo, metrics, children }: Snap & { children: ReactNode }) {
   const [cur, setCur] = useState({ begin: begin === "latest" ? latestBegin : begin && /^\d{8}$/.test(begin) ? begin : defaultBegin, end });
   const setBegin = (v: string) => setCur({ begin: v, end: undefined });
   return (
-    <TrackingCtx.Provider value={{ begin: cur.begin, end: cur.end, setBegin, fresh, hours, latest: cur.begin === latestBegin, live, demo }}>{children}</TrackingCtx.Provider>
+    <TrackingCtx.Provider value={{ begin: cur.begin, end: cur.end, setBegin, fresh, hours, latest: cur.begin === latestBegin, live, demo, metrics }}>{children}</TrackingCtx.Provider>
   );
 }
 

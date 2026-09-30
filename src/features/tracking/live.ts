@@ -1,4 +1,6 @@
 import type { LiveSearch } from "@/lib/seo/live";
+import { metricFor, type KwMetrics } from "@/features/keywords/live";
+import type { Intent, TrackedKeyword } from "./data";
 
 export type RankHistory = Map<string, Map<string, number | null>>;
 
@@ -38,6 +40,18 @@ export type TrackingLive = {
   chart: { vis: number[]; sov: number[]; traffic: number[]; avgPos: number[] };
   pages: LivePage[];
 };
+
+export function withKwMetrics<T extends TrackedKeyword>(k: T, metrics: KwMetrics | null | undefined): T & { cpc?: number } {
+  const m = metricFor(metrics, k.keyword);
+  if (!m) return k;
+  return {
+    ...k,
+    intent: (m.intents[0] as Intent | undefined) ?? k.intent,
+    kd: m.kd != null ? Math.round(m.kd) : k.kd,
+    volume: m.volume ?? k.volume,
+    cpc: m.cpc ?? undefined,
+  };
+}
 
 const ctrCurve = [0.3, 0.15, 0.1, 0.07, 0.05, 0.04, 0.03, 0.025, 0.02, 0.018];
 

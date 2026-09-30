@@ -15,6 +15,7 @@ import { KmtTable } from "./kmt/Table";
 import { SparkleLg, Tip, useWide } from "./kmt/ui";
 import type { Currency } from "./kmt/data";
 import { kmtDataset } from "./kmt/dataset";
+import { kmtWithMetrics, type KwMetrics } from "./live";
 
 type Mode = "topics" | "groups";
 type Type = "all" | "questions";
@@ -64,7 +65,7 @@ function Toolbar({ type, setType, currency }: { type: Type; setType: (t: Type) =
   );
 }
 
-export function KeywordMagic({ q, initialMode, initialType }: { q: string; initialMode: Mode; initialType: Type }) {
+export function KeywordMagic({ q, initialMode, initialType, metrics, demo }: { q: string; initialMode: Mode; initialType: Type; metrics?: KwMetrics | null; demo?: boolean }) {
   const [mode, setModeState] = useState<Mode>(initialMode);
   const [type, setTypeState] = useState<Type>(initialType);
   const [tip, setTip] = useState(initialMode === "topics");
@@ -72,7 +73,7 @@ export function KeywordMagic({ q, initialMode, initialType }: { q: string; initi
   const [group, setGroup] = useState<number | string>(0);
   const [currency, setCurrency] = useState<Currency>("USD");
   const [quick, setQuick] = useState<KwRow | null>(null);
-  const data = useMemo(() => kmtDataset(q), [q]);
+  const data = useMemo(() => kmtWithMetrics(kmtDataset(q), metrics), [q, metrics]);
 
   const rowsFor = (m: Mode, t: Type) =>
     t === "questions" ? (m === "topics" ? data.topicQuestionRows : data.questionRows) : m === "topics" ? data.topicRows : data.groupRows;
@@ -116,6 +117,7 @@ export function KeywordMagic({ q, initialMode, initialType }: { q: string; initi
       <KwHeader
         tool="Keyword Magic Tool"
         subject={q}
+        demo={demo}
         right={
           <Link href="#" className="flex items-center gap-[5px] hover:text-rk-link-hover">
             <FeedbackIcon />

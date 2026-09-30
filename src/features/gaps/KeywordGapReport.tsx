@@ -8,9 +8,10 @@ import { Breadcrumbs } from "@/components/ui/primitives";
 import { LinkSelect } from "@/components/ui/Popover";
 import { DesktopIcon, ExportIcon, FlagSE, PlusIcon, SearchIcon } from "@/components/ui/icons";
 import { HeaderLink, SendFeedback } from "@/components/shell/PageHeader";
-import { D1, D2, Dot, DomainField, DomainPicker, ScopeSelect, Segmented, SelectButton, YouTag } from "./common";
+import { D1, D2, DemoTag, Dot, DomainField, DomainPicker, ScopeSelect, Segmented, SelectButton, YouTag } from "./common";
 import { kgOther, kgShared, kgTabs, rival, you, type KgRow, type KgTab } from "./data";
 import { KeywordOverlap, TopOpportunities } from "./Opportunities";
+import type { GapLive } from "./live";
 
 const colors = [D1, D2, "#ff8e29", "#ff6b70", "#b58af2"];
 
@@ -101,10 +102,12 @@ const kgTips: Record<KgTab, string> = {
 
 const kdColor = (kd: number) => (kd < 15 ? "#009f81" : kd < 30 ? "#3fe0b0" : kd < 50 ? "#fdc23c" : "#ff8e29");
 
-function KeywordTable() {
+function KeywordTable({ live }: { live?: GapLive | null }) {
   const [tab, setTab] = useState<KgTab>("shared");
   const [sel, setSel] = useState<Set<string>>(new Set());
-  const rows: KgRow[] = tab === "shared" ? kgShared : kgOther[tab];
+  const rows: KgRow[] = live ? live.rows[tab] : tab === "shared" ? kgShared : kgOther[tab];
+  const doms = live ? [live.you, ...live.rivals] : [you, rival];
+  const extra = Math.max(0, doms.length - 2);
   const all = rows.length > 0 && rows.every((r) => sel.has(r.keyword));
   const toggle = (k: string) =>
     setSel((s) => {
@@ -131,7 +134,7 @@ function KeywordTable() {
     <div className="rounded-lg bg-white pb-5 shadow-card">
       <div className="flex h-[44px] items-center gap-2 border-b border-[#e8e9ec] px-5">
         <h3 className="text-[16px] leading-6 font-bold">All keyword details for:</h3>
-        <DomainPicker domains={[you, rival]} testId="kg-details-for" />
+        <DomainPicker domains={doms} testId="kg-details-for" />
         <YouTag />
       </div>
       <div className="flex h-[68px] items-center justify-between px-5">
@@ -141,7 +144,7 @@ function KeywordTable() {
             label: (
               <>
                 {t.label}
-                <span className="ml-[2px] text-rk-muted">{t.count}</span>
+                <span className="ml-[2px] text-rk-muted">{live ? live.counts[t.key] : t.count}</span>
               </>
             ),
             tip: kgTips[t.key],
@@ -166,13 +169,14 @@ function KeywordTable() {
         </div>
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[1063px] table-fixed text-[14px]">
+        <table className="w-full table-fixed text-[14px]" style={{ minWidth: 1063 + extra * 120 }}>
           <colgroup>
             <col style={{ width: 56 }} />
             <col style={{ width: 226 }} />
             <col style={{ width: 70 }} />
-            <col style={{ width: 120 }} />
-            <col style={{ width: 120 }} />
+            {doms.map((d) => (
+              <col key={d} style={{ width: 120 }} />
+            ))}
             <col style={{ width: 120 }} />
             <col style={{ width: 84 }} />
             <col style={{ width: 103 }} />
@@ -184,18 +188,14 @@ function KeywordTable() {
               <th className="pl-4 font-normal">{box(all, () => setSel(all ? new Set() : new Set(rows.map((r) => r.keyword))))}</th>
               <th className="text-left font-normal">Keyword</th>
               <th className="pr-[28px] text-right font-normal">Intent</th>
-              <th className="pl-2 text-left font-normal">
-                <span className="flex items-center gap-[5px]">
-                  <Dot color={D1} size={11} />
-                  {you}
-                </span>
-              </th>
-              <th className="pl-2 text-left font-normal">
-                <span className="flex items-center gap-[5px]">
-                  <Dot color={D2} size={11} />
-                  {rival}
-                </span>
-              </th>
+              {doms.map((d, i) => (
+                <th key={d} className="pl-2 text-left font-normal">
+                  <span className="flex items-center gap-[5px]">
+                    <Dot color={colors[i]} size={11} />
+                    {d}
+                  </span>
+                </th>
+              ))}
               <th className="bg-[#e8e9ea] pr-4 text-right font-normal">
                 <span className="inline-flex items-center gap-[5px]">
                   Volume
@@ -212,8 +212,8 @@ function KeywordTable() {
           </thead>
           <tbody>
             {rows.map((r) => {
-              const aBest = r.a > 0 && (r.b === 0 || r.a < r.b);
-              const bBest = r.b > 0 && (r.a === 0 || r.b < r.a);
+              const pos = r.pos ?? [r.a, r.b];
+              const best = pos.map((p, i) => p > 0 && pos.every((q, j) => j === i || q === 0 || p < q));
               return (
                 <tr key={r.keyword} className="border-b border-[#ecedf0] align-top">
                   <td className="pt-[14px] pl-4">{box(sel.has(r.keyword), () => toggle(r.keyword))}</td>
@@ -243,8 +243,11 @@ function KeywordTable() {
                       </span>
                     ))}
                   </td>
-                  <td className={`py-[12px] pr-3 text-right ${aBest ? "bg-[#dcfdf8]" : ""}`}>{r.a}</td>
-                  <td className={`py-[12px] pr-2 text-right ${bBest ? "bg-[#dcfdf8]" : ""}`}>{r.b}</td>
+                  {pos.map((p, i) => (
+                    <td key={i} className={`py-[12px] ${i ? "pr-2" : "pr-3"} text-right ${best[i] ? "bg-[#dcfdf8]" : ""}`}>
+                      {p}
+                    </td>
+                  ))}
                   <td className="py-[12px] pr-2 text-right">{r.volume}</td>
                   <td className="py-[12px] pr-[11px] text-right">
                     <span className="inline-flex items-center gap-[6px]">
@@ -265,7 +268,7 @@ function KeywordTable() {
   );
 }
 
-export function KeywordGapReport({ q, competitors }: { q: string; competitors: string[] }) {
+export function KeywordGapReport({ q, competitors, live, demo }: { q: string; competitors: string[]; live?: GapLive | null; demo?: boolean }) {
   const router = useRouter();
   const [domains, setDomains] = useState<string[]>(() => [q, ...competitors, "", "", ""].slice(0, 5));
   const [kwType, setKwType] = useState<"organic" | "paid" | "pla">("organic");
@@ -289,7 +292,10 @@ export function KeywordGapReport({ q, competitors }: { q: string; competitors: s
           </div>
         </div>
         <div className="mt-[9px] flex items-start justify-between">
-          <h1 className="text-[20px] leading-7 font-semibold">Keyword Gap</h1>
+          <h1 className={`${demo ? "flex items-center " : ""}text-[20px] leading-7 font-semibold`}>
+            Keyword Gap
+            {demo && <DemoTag />}
+          </h1>
           <button
             type="button"
             className="flex h-7 items-center gap-[6px] rounded-md border border-[#d6d8d8] bg-[#e9ebeb] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover"
@@ -306,7 +312,7 @@ export function KeywordGapReport({ q, competitors }: { q: string; competitors: s
             <LinkSelect value="Desktop" options={["Desktop", "Mobile"]} icon={<DesktopIcon />} />
           </Meta>
           <Meta label="Date:">
-            <LinkSelect value="Sep 23, 2026" options={["Sep 23, 2026", "Sep 15, 2026", "Aug 15, 2026"]} />
+            <LinkSelect value={live?.date ?? "Sep 23, 2026"} options={[live?.date ?? "Sep 23, 2026", "Sep 15, 2026", "Aug 15, 2026"]} />
           </Meta>
           <Meta label="Currency:">
             <LinkSelect value="USD" options={["USD", "EUR", "SEK"]} />
@@ -369,13 +375,13 @@ export function KeywordGapReport({ q, competitors }: { q: string; competitors: s
 
         <div className="mt-[3px] flex gap-4">
           <div className="w-[318px] shrink-0">
-            <TopOpportunities variant="kg" height={394} />
+            <TopOpportunities variant="kg" height={394} live={live} />
           </div>
-          <KeywordOverlap height={394} venn={{ cx: 156, cy: 214 }} legendLeft={388} legendRight={116} />
+          <KeywordOverlap height={394} venn={{ cx: 156, cy: 214 }} legendLeft={388} legendRight={116} live={live} />
         </div>
 
         <div className="mt-4">
-          <KeywordTable />
+          <KeywordTable live={live} />
         </div>
       </div>
     </div>

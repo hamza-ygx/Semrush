@@ -116,7 +116,22 @@ export function kmtDataset(q: string): KmtDataset {
   return seed === captured.seed ? captured : generate(seed || captured.seed);
 }
 
+const intentName: Record<string, string> = { C: "Commercial", I: "Informational", N: "Navigational", T: "Transactional" };
+
 export function quickViewFor(row: KwRow): QuickViewData {
+  const base = mockQuickView(row);
+  if (!row.live) return base;
+  return {
+    ...base,
+    countries: base.countries.map((c) => (c.code === "SE" ? { ...c, value: row.volume } : c)),
+    kd: row.kd ?? base.kd,
+    intent: intentName[row.intents[0]] ?? base.intent,
+    cpc: row.cpc,
+    trend: row.trend ?? base.trend,
+  };
+}
+
+function mockQuickView(row: KwRow): QuickViewData {
   const known = quickViews[row.keyword];
   if (known) return known;
   const h = hash(row.keyword);

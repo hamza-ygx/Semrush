@@ -8,6 +8,7 @@ import { LinkSelect } from "@/components/ui/Popover";
 import { ChevronRight, DesktopIcon, FeedbackIcon, FlagSE, RefreshIcon } from "@/components/ui/icons";
 import { ExtIcon, KdDot, KwHeader, PinIcon, SparkleIcon } from "./common";
 import { koSummary, koVariations, serpRanges, serpRows } from "./data";
+import type { KoLive, KoSummary } from "./live";
 import { AddToList, LocationSelect } from "./kmt/KoPopovers";
 import { CountryFlag } from "./flags";
 
@@ -29,10 +30,12 @@ function KoTabs({ active, q }: { active: "overview" | "bulk"; q: string }) {
   );
 }
 
-export function KoHeader({ q, active }: { q: string; active: "overview" | "bulk" }) {
+export function KoHeader({ q, active, date, demo }: { q: string; active: "overview" | "bulk"; date?: string | null; demo?: boolean }) {
+  const day = date ?? "Sep 24, 2026";
   return (
     <KwHeader
       tool="Keyword Overview"
+      demo={demo}
       subject={
         <span className="flex items-center gap-2">
           {q}
@@ -51,7 +54,7 @@ export function KoHeader({ q, active }: { q: string; active: "overview" | "bulk"
           {active === "overview" && (
             <>
               <LinkSelect value="Desktop" options={["Desktop", "Mobile"] as const} icon={<DesktopIcon />} />
-              <LinkSelect value="Sep 24, 2026" options={["Sep 24, 2026", "Aug 2026", "Jul 2026", "Jun 2026"] as const} />
+              <LinkSelect value={day} options={[day, "Aug 2026", "Jul 2026", "Jun 2026"]} />
             </>
           )}
           <LinkSelect value="USD" options={["USD", "EUR", "SEK"] as const} />
@@ -90,8 +93,14 @@ function KdRing({ value }: { value: number }) {
   );
 }
 
-function TopCards() {
-  const s = koSummary;
+const intentChip: Record<string, string> = {
+  Commercial: "bg-[#ffdc7e] text-[#8c6408]",
+  Informational: "bg-[#c4d8fd] text-[#2b53b8]",
+  Navigational: "bg-[#e7d3fb] text-[#8a3fcf]",
+  Transactional: "bg-[#9ef2c9] text-[#00785f]",
+};
+
+function TopCards({ s }: { s: KoSummary }) {
   const max = Math.max(...s.countries.map((c) => c.value));
   return (
     <div className="grid h-[293px] grid-cols-4 gap-4">
@@ -134,7 +143,11 @@ function TopCards() {
       <div className="flex flex-col gap-4">
         <Card className="h-[92px] rounded-xl px-5 pt-5">
           <Label>Intent</Label>
-          <span className="mt-[3px] inline-flex h-7 items-center rounded-full bg-[#ffdc7e] px-[10px] text-[14px] text-[#8c6408]">{s.intent}</span>
+          {(s.intents ?? [s.intent]).map((it) => (
+            <span key={it} className={`mt-[3px] mr-1 inline-flex h-7 items-center rounded-full px-[10px] text-[14px] ${intentChip[it] ?? intentChip.Commercial}`}>
+              {it}
+            </span>
+          ))}
         </Card>
         <Card className="flex-1 rounded-xl px-5 pt-5">
           <Label>Trend</Label>
@@ -167,7 +180,7 @@ function NoData({ className = "" }: { className?: string }) {
   return <div className={`text-center text-[14px] text-rk-muted ${className}`}>We have no data to show.</div>;
 }
 
-function KeywordIdeas() {
+function KeywordIdeas({ variations, total }: { variations: { keyword: string; volume: string; kd: number }[]; total: string }) {
   return (
     <Card className="mt-4 rounded-xl">
       <div className="flex h-11 items-center border-b border-[#eeeff1] px-5 text-[16px] font-bold">Keyword ideas</div>
@@ -177,7 +190,7 @@ function KeywordIdeas() {
           <div className="mt-[5px] flex items-baseline gap-1">
             <span className="text-[24px] leading-8 font-bold text-rk-number">1</span>
             <span className="text-[14px]">
-              Total Volume: <b>880</b>
+              Total Volume: <b>{total}</b>
             </span>
           </div>
           <table className="-ml-5 mt-[15px] w-[calc(100%+38px)] text-[14px]">
@@ -189,7 +202,7 @@ function KeywordIdeas() {
               </tr>
             </thead>
             <tbody>
-              {koVariations.map((v) => (
+              {variations.map((v) => (
                 <tr key={v.keyword} className="h-9 border-b border-[#eeeff1]">
                   <td className="pl-5">
                     <Link href={`${routes.keywordOverview}?q=${encodeURIComponent(v.keyword)}&db=se`} className="text-rk-link hover:text-rk-link-hover">
@@ -207,7 +220,7 @@ function KeywordIdeas() {
               ))}
             </tbody>
           </table>
-          <Link href={`${routes.keywordMagic}?db=se&q=${encodeURIComponent(koVariations[0].keyword)}`} className="mt-[18px] inline-flex h-7 items-center rounded-md border border-rk-border-strong bg-[#f5f6f6] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
+          <Link href={`${routes.keywordMagic}?db=se&q=${encodeURIComponent(variations[0].keyword)}`} className="mt-[18px] inline-flex h-7 items-center rounded-md border border-rk-border-strong bg-[#f5f6f6] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
             View all 1 keywords
           </Link>
         </div>
@@ -245,7 +258,7 @@ function TrendBanner() {
   );
 }
 
-function SerpAnalysis() {
+function SerpAnalysis({ results }: { results: string }) {
   const [mode, setMode] = useState<"Domain" | "URL">("URL");
   const [range, setRange] = useState("1-10");
   const [open, setOpen] = useState<Record<number, boolean>>({});
@@ -272,7 +285,7 @@ function SerpAnalysis() {
         <div className="flex">
           <div className="border-r border-rk-border pr-6">
             <Label>Results</Label>
-            <Big>107</Big>
+            <Big>{results}</Big>
           </div>
           <div className="pl-6">
             <Label>SERP Features</Label>
@@ -359,10 +372,10 @@ function EmptyCard({ title }: { title: string }) {
   );
 }
 
-export function KoReport({ q }: { q: string }) {
+export function KoReport({ q, live, demo }: { q: string; live?: KoLive | null; demo?: boolean }) {
   return (
     <>
-      <KoHeader q={q} active="overview" />
+      <KoHeader q={q} active="overview" date={live?.date} demo={demo} />
       <div className="px-8 pt-4">
         <div className="flex w-[1093px] items-center gap-2">
           <DomainInput />
@@ -374,11 +387,11 @@ export function KoReport({ q }: { q: string }) {
           </button>
         </div>
         <div className="mt-4">
-          <TopCards />
+          <TopCards s={live?.summary ?? koSummary} />
         </div>
-        <KeywordIdeas />
+        <KeywordIdeas variations={live?.variations ?? koVariations} total={live?.totalVolume ?? "880"} />
         <TrendBanner />
-        <SerpAnalysis />
+        <SerpAnalysis results={live?.results ?? "107"} />
         <div className="mt-4 grid grid-cols-2 gap-4">
           <EmptyCard title="PLA Copies" />
           <EmptyCard title="Ad Copies" />

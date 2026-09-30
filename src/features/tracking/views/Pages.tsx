@@ -6,16 +6,21 @@ import { SortIcon } from "../icons";
 import { NothingFound, Panel } from "../ui";
 import { intentOptions, volumeOptions } from "./Overview";
 import { latestKeywords, trackedKeywords } from "../data";
-import { dayLabel, signed, signedInt, type LivePage, type TrackingLive } from "../live";
+import { dayLabel, signed, signedInt, withKwMetrics, type LivePage, type TrackingLive } from "../live";
+import type { KwMetrics } from "@/features/keywords/live";
 
 const diffCls = (v: number) => (v > 0 ? "text-rk-success" : v < 0 ? "text-rk-danger" : "text-rk-muted");
 const meta = new Map([...trackedKeywords, ...latestKeywords].map((k) => [k.keyword, k]));
 const intentColors: Record<string, string> = { I: "#3d47c8", N: "#8e92ec", C: "#ffb400", T: "#009f81", "n/a": "#d6d8d7" };
 
-function LivePageRow({ p }: { p: LivePage }) {
-  const vol = (ks: string[]) => ks.reduce((s, k) => s + (meta.get(k)?.volume ?? 0), 0);
+function LivePageRow({ p, metrics }: { p: LivePage; metrics?: KwMetrics | null }) {
+  const info = (k: string) => {
+    const m = meta.get(k);
+    return m && withKwMetrics(m, metrics);
+  };
+  const vol = (ks: string[]) => ks.reduce((s, k) => s + (info(k)?.volume ?? 0), 0);
   const volume = vol(p.kws);
-  const intents = p.kws.map((k) => meta.get(k)?.intent ?? "n/a");
+  const intents = p.kws.map((k) => info(k)?.intent ?? "n/a");
   const cells: [string, number, string][] = [
     [String(p.kws.length), p.kws.length - p.prevKws.length, signedInt(p.kws.length - p.prevKws.length)],
     [String(p.traffic), p.traffic - p.prevTraffic, signedInt(p.traffic - p.prevTraffic)],
@@ -60,7 +65,7 @@ const groups = [
   { label: "Total volume", w: 131, sub: true },
 ];
 
-function PagesTable({ day, live }: { day: string; live?: TrackingLive | null }) {
+function PagesTable({ day, live, metrics }: { day: string; live?: TrackingLive | null; metrics?: KwMetrics | null }) {
   const pages = live?.pages.filter((p) => p.kws.length) ?? [];
   return (
     <Panel title="Pages" count={`${pages.length} (${pages.length})`} headerClassName="h-[41px]" divider={false} className={`mt-[15px] ${pages.length ? "" : "h-[379px]"}`}>
@@ -80,7 +85,7 @@ function PagesTable({ day, live }: { day: string; live?: TrackingLive | null }) 
           </div>
         ))}
       </div>
-      {pages.length ? pages.map((p) => <LivePageRow key={p.url} p={p} />) : <NothingFound className="pt-[32px]" />}
+      {pages.length ? pages.map((p) => <LivePageRow key={p.url} p={p} metrics={metrics} />) : <NothingFound className="pt-[32px]" />}
     </Panel>
   );
 }
@@ -109,7 +114,7 @@ export function PagesView(snap: Snap) {
             </>
           }
         />
-        <PagesTable day={live ? dayLabel(live.to) : snap.end === "20260925" ? "Sep 25" : "Sep 24"} live={live} />
+        <PagesTable day={live ? dayLabel(live.to) : snap.end === "20260925" ? "Sep 25" : "Sep 24"} live={live} metrics={snap.metrics} />
       </div>
     </TrackingPage>
   );

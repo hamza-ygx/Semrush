@@ -9,10 +9,13 @@ import { Breadcrumbs } from "@/components/ui/primitives";
 import { MenuItem, Popover, LinkSelect } from "@/components/ui/Popover";
 import { ChevronDown, DesktopIcon, DotsIcon, ExportIcon, ExternalIcon, FlagSE, FlagUK, FlagUS } from "@/components/ui/icons";
 import { SendFeedback } from "@/components/shell/PageHeader";
-import { Checkbox, D1, D2, Dot, DomainField, ScopeSelect, Segmented } from "./common";
+import { Checkbox, D1, D2, DemoTag, Dot, DomainField, ScopeSelect, Segmented } from "./common";
 import { backlinksTrend, cdRows, organicTraffic, paidTraffic, rival, trafficMonths, trafficShare, you, type CdRow } from "./data";
 import { KeywordOverlap, TopOpportunities } from "./Opportunities";
 import { TrendChart } from "./TrendChart";
+import { niceTicks, type CdLive } from "./live";
+
+const palette = [D1, D2, "#ff8e29", "#ff6b70", "#b58af2"];
 
 const WorldIcon = () => (
   <svg viewBox="0 0 16 16" width={16} height={16}>
@@ -168,22 +171,26 @@ function SmallCard({ title, children }: { title: string; children: ReactNode }) 
   );
 }
 
-function TrafficShare() {
+function TrafficShare({ share = trafficShare }: { share?: { domain: string; pct: number }[] }) {
   const r = 29;
   const c = 2 * Math.PI * r;
-  const a = (trafficShare[0].pct / 100) * c;
+  const a = (share[0].pct / 100) * c;
+  const starts = share.map((_, i) => share.slice(0, i).reduce((s, t) => s + (t.pct / 100) * c, 0));
   return (
     <div className="flex items-center pt-[16px] pl-5">
       <svg width={70} height={70} className="-rotate-90">
         <circle cx={35} cy={35} r={r} fill="none" stroke={D2} strokeWidth={12} />
+        {share.slice(2).map((t, j) => (
+          <circle key={t.domain} cx={35} cy={35} r={r} fill="none" stroke={palette[j + 2]} strokeWidth={12} strokeDasharray={`${(t.pct / 100) * c} ${c}`} strokeDashoffset={-starts[j + 2]} />
+        ))}
         <circle cx={35} cy={35} r={r} fill="none" stroke={D1} strokeWidth={12} strokeDasharray={`${a} ${c}`} />
         <circle cx={35} cy={35} r={r} fill="none" stroke="#fff" strokeWidth={12} strokeDasharray={`1.5 ${a - 1.5} 1.5 ${c}`} strokeDashoffset={0.75} />
       </svg>
       <div className="ml-[20px] flex flex-1 flex-col gap-2 pr-[73px] text-[12px]">
-        {trafficShare.map((t, i) => (
+        {share.map((t, i) => (
           <div key={t.domain} className="flex h-5 items-center justify-between">
             <span className="flex items-center gap-[9px]">
-              <Dot color={i ? D2 : D1} size={11} />
+              <Dot color={palette[i]} size={11} />
               {t.domain}
             </span>
             <span className="text-rk-muted">{t.pct}%</span>
@@ -201,7 +208,9 @@ function SplitBars({
   pctW = 36,
   barW = 125,
   gap = 12,
+  domains = [you, rival],
 }: {
+  domains?: string[];
   left: string[];
   right: string[];
   color: string;
@@ -211,7 +220,7 @@ function SplitBars({
 }) {
   return (
     <div className="flex flex-col gap-2 pt-[18px] pr-5 pl-5 text-[12px]">
-      {[you, rival].map((d, i) => (
+      {domains.map((d, i) => (
         <div key={d} className="flex h-5 items-center">
           <span className="w-[98px] shrink-0">{d}</span>
           <span className="shrink-0 text-right text-rk-muted" style={{ width: pctW }}>
@@ -233,17 +242,25 @@ function SplitBars({
   );
 }
 
-function TrafficChart() {
+const seriesColors = [D1, "#3ee0b5", "#ff8e29", "#ff6b70", "#b58af2"];
+
+function TrafficChart({ live }: { live?: CdLive | null }) {
   const [tab, setTab] = useState<"organic" | "paid" | "backlinks">("organic");
   const [period, setPeriod] = useState<"days" | "months">("months");
-  const [on, setOn] = useState({ a: true, b: true });
-  const data = tab === "organic" ? organicTraffic : tab === "paid" ? paidTraffic : backlinksTrend;
-  const ticks = tab === "organic" ? [0, 115, 230, 345, 460] : tab === "paid" ? [0, 1, 2, 3, 4] : [0, 75, 150, 225, 300];
-  const title = tab === "organic" ? "Organic Traffic" : tab === "paid" ? "Paid Traffic" : "Backlinks";
-  const series = [on.a && { color: D1, data: data[you] }, on.b && { color: "#3ee0b5", data: data[rival] }].filter(Boolean) as {
+  const domains = live ? live.rows.map((r) => r.domain) : [you, rival];
+  const [on, setOn] = useState<boolean[]>(() => domains.map(() => true));
+  const mock: Record<string, number[]> = tab === "organic" ? organicTraffic : tab === "paid" ? paidTraffic : backlinksTrend;
+  const real = live ? (tab === "organic" ? live.organic : tab === "paid" ? live.paid : live.backlinks) : {};
+  const data = domains.map((d) => real[d] ?? mock[d]);
+  const series = domains
+    .map((_, i) => on[i] && data[i] && { color: seriesColors[i], data: data[i] })
+    .filter(Boolean) as {
     color: string;
     data: number[];
   }[];
+  const fixed = tab === "organic" ? [0, 115, 230, 345, 460] : tab === "paid" ? [0, 1, 2, 3, 4] : [0, 75, 150, 225, 300];
+  const ticks = live ? niceTicks(Math.max(0, ...data.flatMap((d) => d ?? []))) : fixed;
+  const title = tab === "organic" ? "Organic Traffic" : tab === "paid" ? "Paid Traffic" : "Backlinks";
   return (
     <div className="rounded-lg bg-white shadow-card">
       <div className="flex h-[44px] items-center justify-between border-b border-[#e8e9ec] px-5">
@@ -276,7 +293,7 @@ function TrafficChart() {
             <svg viewBox="0 0 16 16" width={16} height={16}>
               <path d="M2.5 3.5h11v10h-11zM2.5 6.5h11M5.5 2v3M10.5 2v3" fill="none" stroke="#484a49" strokeWidth={1.4} />
             </svg>
-            Sep 2025 <span className="mr-[2px] ml-[4px]">–</span> Sep 2026
+            {live?.range[0] ?? "Sep 2025"} <span className="mr-[2px] ml-[4px]">–</span> {live?.range[1] ?? "Sep 2026"}
           </button>
           <button
             type="button"
@@ -290,13 +307,14 @@ function TrafficChart() {
       <div className="px-5 pt-[19px] pb-[50px]">
         <h3 className="text-[16px] leading-6 font-bold">{title}</h3>
         <div className="mt-[21px] flex gap-4">
-          <Checkbox color={D1} checked={on.a} onChange={() => setOn((o) => ({ ...o, a: !o.a }))} label={you} />
-          <Checkbox color={D2} checked={on.b} onChange={() => setOn((o) => ({ ...o, b: !o.b }))} label={rival} />
+          {domains.map((d, i) => (
+            <Checkbox key={d} color={palette[i]} checked={on[i]} onChange={() => setOn((o) => o.map((x, j) => (j === i ? !x : x)))} label={d} />
+          ))}
         </div>
         <div className="mt-[30px]">
           <TrendChart
             series={series}
-            labels={trafficMonths}
+            labels={live?.months ?? trafficMonths}
             ticks={ticks}
             width={1023}
             height={194}
@@ -311,11 +329,12 @@ function TrafficChart() {
   );
 }
 
-export function CompareDomainsReport({ competitors }: { competitors: string[] }) {
+export function CompareDomainsReport({ competitors, live, demo }: { competitors: string[]; live?: CdLive | null; demo?: boolean }) {
   const router = useRouter();
   const [domains, setDomains] = useState<string[]>(() => [you, ...competitors, "", "", ""].slice(0, 5));
   const set = (i: number, v: string) => setDomains((d) => d.map((x, j) => (j === i ? v : x)));
-  const rows = cdRows.filter((r) => r.domain === you || competitors.includes(r.domain));
+  const rows = live ? live.rows : cdRows.filter((r) => r.domain === you || competitors.includes(r.domain));
+  const names = live ? live.rows.map((r) => r.domain) : undefined;
   const colors = [D1, D2, "#ff8e29", "#ff6b70", "#b58af2"];
   return (
     <div>
@@ -336,11 +355,12 @@ export function CompareDomainsReport({ competitors }: { competitors: string[] })
           <a href={`https://${you}`} target="_blank" rel="noreferrer" className="text-[#a9abaa] hover:text-rk-link">
             <ExternalIcon />
           </a>
+          {demo && <DemoTag className="ml-[3px]!" />}
         </h1>
         <div className="mt-[4px] flex items-center gap-[26px]">
           <DbTabs />
           <LinkSelect value="Desktop" options={["Desktop", "Mobile"]} icon={<DesktopIcon />} />
-          <LinkSelect value="Sep 23, 2026" options={["Sep 23, 2026", "Sep 15, 2026", "Aug 15, 2026", "Jul 15, 2026"]} />
+          <LinkSelect value={live?.date ?? "Sep 23, 2026"} options={[live?.date ?? "Sep 23, 2026", "Sep 15, 2026", "Aug 15, 2026", "Jul 15, 2026"]} />
           <LinkSelect value="USD" options={["USD", "EUR", "SEK"]} />
         </div>
       </div>
@@ -379,25 +399,25 @@ export function CompareDomainsReport({ competitors }: { competitors: string[] })
 
         <div className="mt-4 flex gap-4">
           <SmallCard title="Traffic share">
-            <TrafficShare />
+            <TrafficShare share={live?.share} />
           </SmallCard>
           <SmallCard title="Non-branded / Branded">
-            <SplitBars left={["100%", "100%"]} right={["0%", "0%"]} color="#6167e6" />
+            <SplitBars left={names ? names.map(() => "100%") : ["100%", "100%"]} right={names ? names.map(() => "0%") : ["0%", "0%"]} color="#6167e6" domains={names} />
           </SmallCard>
           <SmallCard title="Paid / Organic">
-            <SplitBars left={["0%", "0%"]} right={["100%", "100%"]} color="#8ef5dc" pctW={23} barW={127} gap={11} />
+            <SplitBars left={live?.paidOrganic.left ?? ["0%", "0%"]} right={live?.paidOrganic.right ?? ["100%", "100%"]} color="#8ef5dc" pctW={23} barW={127} gap={11} domains={names} />
           </SmallCard>
         </div>
 
         <div className="mt-4">
-          <TrafficChart />
+          <TrafficChart live={live} />
         </div>
 
         <div className="mt-[17px] flex gap-4">
           <div className="w-[401px] shrink-0">
-            <TopOpportunities variant="cd" height={455} />
+            <TopOpportunities variant="cd" height={455} live={live?.gap} />
           </div>
-          <KeywordOverlap height={455} venn={{ cx: 157, cy: 234 }} legendLeft={381} legendRight={20} mutedValues />
+          <KeywordOverlap height={455} venn={{ cx: 157, cy: 234 }} legendLeft={381} legendRight={20} mutedValues live={live?.gap} />
         </div>
 
         <div className="mt-4 flex h-[232px] flex-col items-center justify-center rounded-lg bg-white text-center shadow-card">

@@ -58,6 +58,9 @@ export type KwRow = {
   added?: boolean;
   results?: string;
   sfList?: SfKind[];
+  trend?: number[];
+  com?: number;
+  live?: boolean;
 };
 
 const r = (keyword: string, intents: string, volume: string, kd: number | null, cpc: string, sf: number | null, sfIcon = false, relevance = 71): KwRow => ({

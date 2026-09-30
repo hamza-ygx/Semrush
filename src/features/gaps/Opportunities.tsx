@@ -5,10 +5,15 @@ import { useState } from "react";
 import { routes } from "@/config/routes";
 import { Checkbox, D1, D2, Dot, Segmented, SerpIcon, YouTag } from "./common";
 import { overlap, rival, topOpportunities, weakOpportunities, you } from "./data";
+import type { GapLive } from "./live";
 
-export function TopOpportunities({ variant, height }: { variant: "cd" | "kg"; height: number }) {
+const dotColors = [D1, D2, "#ff8e29", "#ff6b70", "#b58af2"];
+
+export function TopOpportunities({ variant, height, live }: { variant: "cd" | "kg"; height: number; live?: GapLive | null }) {
   const [tab, setTab] = useState<"missing" | "weak">("missing");
-  const rows = tab === "missing" ? topOpportunities : weakOpportunities;
+  const rows = tab === "missing" ? (live?.top ?? topOpportunities) : (live?.weak ?? weakOpportunities);
+  const me = live?.you ?? you;
+  const others = live?.rivals ?? [rival];
   return (
     <div className="flex flex-col rounded-lg bg-white shadow-card" style={{ height }}>
       <div className="flex h-[40px] items-center gap-2 border-b border-[#e8e9ec] px-5">
@@ -27,7 +32,7 @@ export function TopOpportunities({ variant, height }: { variant: "cd" | "kg"; he
         {variant === "cd" && (
           <div className="mt-[19px] flex items-center gap-[5px] text-[14px] leading-5">
             <Dot color={D1} size={11} />
-            {you}
+            {me}
           </div>
         )}
       </div>
@@ -48,7 +53,7 @@ export function TopOpportunities({ variant, height }: { variant: "cd" | "kg"; he
           </div>
         ))}
         <Link
-          href={`${routes.keywordGap}?q=${you}&compareWith=${rival}`}
+          href={`${routes.keywordGap}?q=${me}&compareWith=${others.join(",")}`}
           className="mx-5 mt-5 inline-flex h-[26px] items-center rounded-[5px] bg-[#191b1c] px-[9px] text-[14px] font-medium text-white hover:bg-[#2b2e38]"
         >
           View details
@@ -64,14 +69,20 @@ export function KeywordOverlap({
   legendLeft,
   legendRight,
   mutedValues,
+  live,
 }: {
+  live?: GapLive | null;
   height: number;
   venn: { cx: number; cy: number };
   legendLeft: number;
   legendRight: number;
   mutedValues?: boolean;
 }) {
-  const [on, setOn] = useState({ a: true, b: true });
+  const items = live ? live.overlap.map((o) => ({ name: o.domain, v: o.count })) : [
+    { name: you, v: overlap[you] },
+    { name: rival, v: overlap[rival] },
+  ];
+  const [on, setOn] = useState<boolean[]>(() => items.map(() => true));
   const r1 = 126;
   const r2 = 55;
   const d = 139;
@@ -82,12 +93,9 @@ export function KeywordOverlap({
         <h3 className="text-[16px] leading-6 font-bold">Keyword Overlap</h3>
       </div>
       <div className="absolute top-[61px] flex flex-col gap-2" style={{ left: legendLeft, right: legendRight }}>
-        {[
-          { k: "a" as const, c: D1, name: you, v: overlap[you] },
-          { k: "b" as const, c: D2, name: rival, v: overlap[rival] },
-        ].map((it) => (
-          <div key={it.k} className="flex h-5 items-center justify-between">
-            <Checkbox color={it.c} checked={on[it.k]} onChange={() => setOn((o) => ({ ...o, [it.k]: !o[it.k] }))} label={it.name} />
+        {items.map((it, i) => (
+          <div key={it.name} className="flex h-5 items-center justify-between">
+            <Checkbox color={dotColors[i]} checked={on[i]} onChange={() => setOn((o) => o.map((x, j) => (j === i ? !x : x)))} label={it.name} />
             <span className={`text-[14px] ${mutedValues ? "text-rk-muted" : "text-rk-text"}`}>{it.v}</span>
           </div>
         ))}
@@ -98,10 +106,10 @@ export function KeywordOverlap({
             <circle cx={venn.cx} cy={venn.cy} r={r1} />
           </clipPath>
         </defs>
-        {on.a && <circle cx={venn.cx} cy={venn.cy} r={r1} fill="#b1b3ec" />}
-        {on.b && <circle cx={cx2} cy={venn.cy} r={r2} fill="#9befd9" />}
-        {on.a && on.b && <circle cx={cx2} cy={venn.cy} r={r2} fill="#75c9d2" clipPath={`url(#vc-${height})`} />}
-        {on.a && on.b && (
+        {on[0] && <circle cx={venn.cx} cy={venn.cy} r={r1} fill="#b1b3ec" />}
+        {on[1] && <circle cx={cx2} cy={venn.cy} r={r2} fill="#9befd9" />}
+        {on[0] && on[1] && <circle cx={cx2} cy={venn.cy} r={r2} fill="#75c9d2" clipPath={`url(#vc-${height})`} />}
+        {on[0] && on[1] && (
           <>
             <circle cx={venn.cx} cy={venn.cy} r={r1} fill="none" stroke="#fff" strokeWidth={2} clipPath={`url(#vc2-${height})`} />
             <clipPath id={`vc2-${height}`}>

@@ -67,6 +67,10 @@ export const Dot = ({ color, size = 10, className = "" }: { color: string; size?
   <span className={`inline-block shrink-0 rounded-full ${className}`} style={{ width: size, height: size, background: color }} />
 );
 
+export function DemoTag({ className = "" }: { className?: string }) {
+  return <span className={`ml-[10px] inline-flex h-5 items-center rounded-[4px] bg-[#f0f1f1] px-[6px] text-[12px] leading-4 font-normal text-rk-muted ${className}`}>Demo data</span>;
+}
+
 export const YouTag = ({ className = "" }: { className?: string }) => (
   <span className={`inline-flex h-5 items-center rounded-full bg-[#e7e4fb] px-2 text-[12px] leading-4 text-[#5a50c8] ${className}`}>You</span>
 );

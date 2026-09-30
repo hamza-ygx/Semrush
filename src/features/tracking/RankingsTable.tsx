@@ -11,7 +11,7 @@ import { TipBox } from "./Tip";
 import { ActionsMenu, PotMetricSelect, SfCount, TableSettingsMenu, type PotMetric } from "./RankingsMenus";
 import { usePeriodLabel, useTracking } from "./context";
 import { kdColor, latestKeywords, onSerp, project, trackedKeywords, type TrackedKeyword } from "./data";
-import { dayLabel, fmtPct, signed, signedInt, type LiveKw, type TrackingLive } from "./live";
+import { dayLabel, fmtPct, signed, signedInt, withKwMetrics, type LiveKw, type TrackingLive } from "./live";
 
 type Col = {
   key: string;
@@ -127,7 +127,7 @@ const dash = <span className="text-[#d6d8d7]">—</span>;
 const serpHref = (kw: string) =>
   `${routes.tracking.serp(kw)}?source_type=tracking&campaign_id=30526913_5175527&date_begin=20260925&domain=${project.domain}&location=Sweden%252C%2520desktop&type=organic&device_group=desktop`;
 
-type Kw = TrackedKeyword & { potVis?: number };
+type Kw = TrackedKeyword & { potVis?: number; cpc?: number };
 
 const diffCls = (v: number) => (v > 0 ? "text-rk-success" : v < 0 ? "text-rk-danger" : "text-rk-muted");
 const pos = (p: number | null) => (p == null ? dash : <span className="text-rk-text">{p}</span>);
@@ -204,7 +204,7 @@ function cell(k: Kw, key: string): ReactNode {
     case "vol":
       return <span className="text-rk-text">{k.volume.toLocaleString("en-US")}</span>;
     case "cpc":
-      return <span className="text-rk-muted">0.00</span>;
+      return k.cpc ? <span className="text-rk-text">{k.cpc.toFixed(2)}</span> : <span className="text-rk-muted">0.00</span>;
     case "url":
       return dash;
     default:
@@ -394,11 +394,12 @@ function KeywordHead({ shaded }: { shaded: boolean }) {
 }
 
 export function RankingsTable() {
-  const { latest, live } = useTracking();
+  const { latest, live, metrics } = useTracking();
   const [pot, setPot] = useState<PotMetric>(latest ? "Potential Visibility" : "Potential Traffic");
   const cs = live ? liveCols(latest ? latestCols : cols, live) : latest ? latestCols : cols;
   const total = width(cs);
-  const rows: Kw[] = latest ? latestKeywords : live ? [...trackedKeywords].sort((a, b) => (live.kws[a.keyword].last ?? 999) - (live.kws[b.keyword].last ?? 999)) : trackedKeywords;
+  const base: Kw[] = latest ? latestKeywords : live ? [...trackedKeywords].sort((a, b) => (live.kws[a.keyword].last ?? 999) - (live.kws[b.keyword].last ?? 999)) : trackedKeywords;
+  const rows: Kw[] = metrics ? base.map((k) => withKwMetrics(k, metrics)) : base;
   const period = usePeriodLabel("–");
   const [sx, setSx] = useState(0);
   const [viewport, setViewport] = useState(794);

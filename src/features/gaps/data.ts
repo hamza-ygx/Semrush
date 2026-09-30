@@ -7,7 +7,7 @@ export const cdLanding = {
 
 export type CdRow = {
   domain: string;
-  as: number;
+  as: number | string;
   rank: string;
   rankDelta?: "up" | "down";
   traffic: string;
@@ -94,6 +94,7 @@ export type KgRow = {
   cpc: string;
   com: string;
   results: string;
+  pos?: number[];
 };
 
 export const kgTabs = [

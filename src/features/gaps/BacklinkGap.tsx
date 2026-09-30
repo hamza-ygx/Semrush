@@ -10,7 +10,7 @@ import { ChevronDown, ChevronRight, ChevronsLeft, CloseIcon, ExportIcon, Externa
 import { HeaderLink, SendFeedback } from "@/components/shell/PageHeader";
 import { Info } from "@/components/ui/primitives";
 import { useWide } from "@/features/keywords/kmt/ui";
-import { Checkbox, D1, D2, Dot, DomainField, DomainPicker, OPEN_BORDER, Opt, ScopeSelect, Segmented, SelectButton, YouTag } from "./common";
+import { Checkbox, D1, D2, DemoTag, Dot, DomainField, DomainPicker, OPEN_BORDER, Opt, ScopeSelect, Segmented, SelectButton, YouTag } from "./common";
 import { bgAuthority, bgBacklinkFor, bgMonthLabels, bgRefDomains, bgRows, bgTabs, rival, you, type BgRow, type BgTab } from "./data";
 import { useStuck } from "./KeywordGapReport";
 import { TrendChart } from "./TrendChart";
@@ -444,7 +444,7 @@ function Prospects() {
   );
 }
 
-export function BacklinkGap({ q, competitors, chartsOpen }: { q: string; competitors: string[]; chartsOpen: boolean }) {
+export function BacklinkGap({ q, competitors, chartsOpen, demo }: { q: string; competitors: string[]; chartsOpen: boolean; demo?: boolean }) {
   const router = useRouter();
   const wide = useWide();
   const [domains, setDomains] = useState<string[]>(() => [q, ...competitors, "", "", ""].slice(0, 5));
@@ -461,7 +461,10 @@ export function BacklinkGap({ q, competitors, chartsOpen }: { q: string; competi
             <SendFeedback />
           </div>
         </div>
-        <h1 className="mt-[5px] text-[20px] leading-7 font-semibold">Backlink Gap</h1>
+        <h1 className={`mt-[5px] ${demo ? "flex items-center " : ""}text-[20px] leading-7 font-semibold`}>
+          Backlink Gap
+          {demo && <DemoTag />}
+        </h1>
       </div>
 
       <div className="px-8 pt-[17px]">

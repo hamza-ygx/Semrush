@@ -100,12 +100,12 @@ function SfCount({ row }: { row: KwRow }) {
   );
 }
 
-function Trend({ seed }: { seed: string }) {
+function Trend({ seed, values }: { seed: string; values?: number[] }) {
   const h = [...seed].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
   return (
     <span className="inline-flex h-4 items-end gap-px">
       {Array.from({ length: 12 }, (_, i) => (
-        <span key={i} className="w-[3px] bg-[#8f9bf0]" style={{ height: 3 + ((h >>> i) % 13) }} />
+        <span key={i} className="w-[3px] bg-[#8f9bf0]" style={{ height: values ? 3 + Math.round(values[i] * 12) : 3 + ((h >>> i) % 13) }} />
       ))}
     </span>
   );
@@ -178,7 +178,7 @@ function Row({
       <td className={`${td} pr-2 text-right`}>{wide ? fullVolume(row.volume) : row.volume}</td>
       {cols.includes("trend") && (
         <td className={`${td} pl-4`}>
-          <Trend seed={row.keyword} />
+          <Trend seed={row.keyword} values={row.trend} />
         </td>
       )}
       {cols.includes("kd") && (
@@ -196,7 +196,7 @@ function Row({
         </td>
       )}
       {cols.includes("cpc") && <td className={`${td} pr-2 text-right`}>{(parseFloat(row.cpc) * rate).toFixed(2)}</td>}
-      {cols.includes("density") && <td className={`${td} pr-2 text-right`}>{noData ? "n/a" : ((row.keyword.length % 9) / 10 + 0.1).toFixed(2)}</td>}
+      {cols.includes("density") && <td className={`${td} pr-2 text-right`}>{row.com != null ? row.com.toFixed(2) : noData ? "n/a" : ((row.keyword.length % 9) / 10 + 0.1).toFixed(2)}</td>}
       {merged && (
         <td colSpan={tailCols.length} className={`${td} pr-5 text-right whitespace-nowrap`}>
           <span className="inline-flex items-center gap-[6px] text-rk-text-2">
@@ -222,7 +222,7 @@ function Row({
           )}
         </td>
       )}
-      {!merged && cols.includes("results") && <td className={`${td} pr-5 text-right`}>{noData ? "n/a" : `${(((row.keyword.length * 37) % 90) / 10 + 0.4).toFixed(1)}M`}</td>}
+      {!merged && cols.includes("results") && <td className={`${td} pr-5 text-right`}>{row.live && row.results ? row.results : noData ? "n/a" : `${(((row.keyword.length * 37) % 90) / 10 + 0.4).toFixed(1)}M`}</td>}
       {!merged && cols.includes("updated") && (
         <td className={`${td} pr-5 text-right whitespace-nowrap`}>
           <span className="inline-flex items-center gap-[6px]">

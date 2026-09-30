@@ -65,6 +65,10 @@ const ManualIcon = (p: P) => (
   </svg>
 );
 
+export function DemoTag({ className = "" }: { className?: string }) {
+  return <span className={`ml-[2px] inline-flex h-5 items-center rounded-[4px] bg-[#f0f1f1] px-[6px] text-[12px] leading-4 font-normal text-rk-muted ${className}`}>Demo data</span>;
+}
+
 export function KwHeader({
   tool,
   subject,
@@ -72,8 +76,10 @@ export function KwHeader({
   tabs,
   right,
   titleRight,
+  demo,
 }: {
   tool: string;
+  demo?: boolean;
   titleRight?: ReactNode;
   subject?: ReactNode;
   meta?: ReactNode;
@@ -99,6 +105,7 @@ export function KwHeader({
       <div className="mt-2 flex h-7 items-center justify-between">
         <h1 className="flex items-center gap-2 text-[20px] leading-7 font-semibold">
           {tool}:<span className="text-rk-muted">{subject}</span>
+          {demo && <DemoTag />}
         </h1>
         {titleRight}
       </div>
