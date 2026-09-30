@@ -4,7 +4,7 @@ import { readSession } from "@/lib/auth/read";
 
 const changePassword = "/change-password";
 
-const publicPaths = ["/login", "/auth/"];
+const publicPaths = ["/login", "/auth/", "/api/cron/"];
 
 export function proxy(request: NextRequest) {
   if (!authEnabled) return NextResponse.next();
