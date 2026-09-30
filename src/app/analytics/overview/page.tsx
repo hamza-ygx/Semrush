@@ -27,7 +27,7 @@ export default async function DomainOverviewPage({ searchParams }: { searchParam
         <MarketTrends />
         <OrganicResearch live={live} />
         <AdvertisingResearch />
-        <BacklinksSection />
+        <BacklinksSection live={live?.backlinks} />
       </div>
       <AnalyticsFooter gap={136} bottom={44} />
     </AppShell>

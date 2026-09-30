@@ -8,12 +8,13 @@ import { dates, domain, moreDatabases } from "@/features/domain/data";
 import { TopPagesReport } from "@/features/domain/TopPages";
 import { DatabaseSelector } from "@/features/domain/ui";
 import { buildDomainLive, buildTopPagesLive } from "@/features/domain/live";
-import { loadOrganicLive, qOf, type SearchParams } from "@/features/organic/load";
+import { loadOrganicLive, loadSemrush, qOf, type SearchParams } from "@/features/organic/load";
 
 export default async function TopPagesPage({ searchParams }: { searchParams: SearchParams }) {
-  const { live, demo } = await loadOrganicLive(qOf((await searchParams).q), "wide");
-  const head = live && buildDomainLive(live);
-  const report = live && buildTopPagesLive(live);
+  const sp = await searchParams;
+  const [{ live, demo }, sem] = await Promise.all([loadOrganicLive(qOf(sp.q), "wide", qOf(sp.db)), loadSemrush(qOf(sp.q), qOf(sp.db))]);
+  const head = live && buildDomainLive(live, sem);
+  const report = live && buildTopPagesLive(live, sem);
   return (
     <AppShell section="seo" search={{ kind: "analyze", value: live?.domain ?? domain, scope: true }} footer={false}>
       <PageHeader

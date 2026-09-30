@@ -21,7 +21,9 @@ function MiniArc() {
   );
 }
 
-function ShareDonut() {
+type Share = readonly { domain: string; color: string; pct: number; traffic: number }[];
+
+function ShareDonut({ trafficShare }: { trafficShare: Share }) {
   const r = 9;
   const c = 2 * Math.PI * r;
   const starts = trafficShare.map((_, i) => trafficShare.slice(0, i).reduce((a, d) => a + d.pct, 0) / 100);
@@ -34,10 +36,10 @@ function ShareDonut() {
   );
 }
 
-function ShareTooltip() {
+function ShareTooltip({ trafficShare }: { trafficShare: Share }) {
   return (
     <span className="group relative flex" data-testid="traffic-share">
-      <ShareDonut />
+      <ShareDonut trafficShare={trafficShare} />
       <span className="pointer-events-none absolute bottom-[calc(100%+11px)] left-1/2 z-30 hidden w-[220px] -translate-x-1/2 rounded-md bg-white pt-[9px] pr-[11px] pb-[9px] pl-[13px] shadow-popover group-hover:block">
         <span className="flex h-5 items-center justify-between text-[12px] text-rk-muted">
           <span>Domains</span>
@@ -114,7 +116,9 @@ export function AiSearchCard() {
 export function SeoCard({ worldwide = false, live = null }: { worldwide?: boolean; live?: DomainLive | null }) {
   const cols = worldwide ? ["w-[152px]", "w-[188px]", "w-[171px]", "flex-1"] : ["w-[153px]", "w-[179px]", "w-[172px]", "flex-1"];
   const base: SeoMetric[] = worldwide ? seoSummaryWorldwide : seoSummary;
-  const data = live ? base.map((m) => (m.label === "Organic Traffic" ? { ...m, ...live.seo.traffic } : m.label === "Organic Keywords" ? { ...m, ...live.seo.keywords } : m)) : base;
+  const over = live ? (worldwide ? live.seoWorld : live.seo) : null;
+  const data = over ? base.map((m) => (over[m.label] ? { ...m, ...over[m.label] } : m)) : base;
+  const share = live?.share ?? trafficShare;
   const rows = [data.slice(0, 4), data.slice(4)];
   return (
     <section className="relative h-[219px] rounded-lg bg-white shadow-card">
@@ -136,7 +140,7 @@ export function SeoCard({ worldwide = false, live = null }: { worldwide?: boolea
                     {m.flag && <Flag code={m.flag} width={15} height={11} className="ml-[2px]" />}
                   </div>
                   <div className="mt-1 flex items-center gap-[6px]">
-                    {m.share && <ShareTooltip />}
+                    {m.share && <ShareTooltip trafficShare={share} />}
                     {m.href ? (
                       <Link href={m.href} className="hover:opacity-80">
                         {value}

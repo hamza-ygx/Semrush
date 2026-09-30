@@ -109,7 +109,7 @@ export function RankedUrls({ r }: { r: PositionRow }) {
       </div>
       <div className="mx-5 flex h-[63px] items-center border-t pt-[11px] border-rk-border text-[14px] leading-5 text-rk-text-2">
         SERP Features on SERP:
-        {features.default.map((f, i) => (
+        {(r.features ?? features.default).map((f, i) => (
           <span key={f.label} className={`flex items-center gap-1 text-rk-text ${i ? "ml-[10px]" : "ml-[17px]"}`}>
             <span className="text-[#8a8d99]">
               <SerpIcon name={f.icon} />

@@ -372,6 +372,7 @@ export type PositionRow = {
   kd: number | null;
   url: string;
   updated: string;
+  features?: { icon: string; label: string }[];
 };
 
 const r = (keyword: string, intent: Intent, position: number, sf: number, traffic: number, pct: string, volume: string, kd: number, url: string, updated: string, local = false): PositionRow => ({
@@ -511,6 +512,7 @@ export type ChangeRow = {
   cpc: string;
   url: string;
   cells?: { pct: string; change: string };
+  com?: string;
 };
 
 export const changeRows: ChangeRow[] = [

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { brand } from "@/config/brand";
 import { routes } from "@/config/routes";
-import { growthCharts, growthLabels, growthPositions, growthRow, growthSummary, topPositionChanges, trafficByCountry } from "../data";
+import { growthCharts, growthLabels, growthPositions as mockPositions, growthRow, growthSummary, topPositionChanges as mockTopChanges, trafficByCountry } from "../data";
 import { Plot, VBW, areaUnder, linePath, pts, smoothPath, Stroke } from "../charts";
 import { DarkButton, Dot, ExportButton, Flag, Seg, WorldIcon } from "../ui";
 import { WorldMap } from "../WorldMap";
@@ -113,6 +113,13 @@ function GrowthChart({ c, labels = growthLabels }: { c: ChartDef; labels?: strin
   );
 }
 
+function tone(v: string | undefined, inverse = false) {
+  if (v === undefined) return "text-rk-success";
+  if (v.startsWith("-")) return inverse ? "text-rk-success" : "text-rk-danger";
+  if (v.startsWith("+")) return inverse ? "text-rk-danger" : "text-rk-success";
+  return "text-rk-muted";
+}
+
 function SummaryTable({ live }: { live: GrowthLive | null }) {
   const th = "h-8 text-[12px] font-normal text-rk-text-2";
   const cols = [`${brand.name} Rank`, "Org. Traffic", "Backlinks", "Ref. Domains", "Paid Traffic"];
@@ -130,7 +137,7 @@ function SummaryTable({ live }: { live: GrowthLive | null }) {
           </tr>
         </thead>
         <tbody>
-          {(live ? growthSummary.map((r, i) => ({ ...r, period: live.periods[i], traffic: i ? live.summary.b : live.summary.a })) : growthSummary).map((r) => (
+          {(live ? growthSummary.map((r, i) => ({ ...r, ...live.rows?.[i], period: live.periods[i], traffic: i ? live.summary.b : live.summary.a })) : growthSummary).map((r) => (
             <tr key={r.period} className="h-[37px] border-b border-rk-border">
               <td className="pl-5">
                 <span className="flex items-center gap-[8px]">
@@ -147,11 +154,11 @@ function SummaryTable({ live }: { live: GrowthLive | null }) {
           ))}
           <tr className="h-[37px]">
             <td className="pl-5">Growth</td>
-            <td className="text-right text-rk-success">{growthRow.rank}</td>
+            <td className={`text-right ${tone(live?.growth?.rank, true)}`}>{live?.growth?.rank ?? growthRow.rank}</td>
             <td className={`text-right ${live && live.summary.growth.startsWith("-") ? "text-rk-danger" : "text-rk-success"}`}>{live ? live.summary.growth : growthRow.traffic}</td>
-            <td className="text-right text-rk-success">{growthRow.backlinks}</td>
-            <td className="text-right text-rk-success">{growthRow.refDomains}</td>
-            <td className="pr-5 text-right text-rk-muted">{growthRow.paid}</td>
+            <td className={`text-right ${tone(live?.growth?.backlinks)}`}>{live?.growth?.backlinks ?? growthRow.backlinks}</td>
+            <td className={`text-right ${tone(live?.growth?.refDomains)}`}>{live?.growth?.refDomains ?? growthRow.refDomains}</td>
+            <td className={`pr-5 text-right ${live?.growth ? tone(live.growth.paid) : "text-rk-muted"}`}>{live?.growth?.paid ?? growthRow.paid}</td>
           </tr>
         </tbody>
       </table>
@@ -161,8 +168,10 @@ function SummaryTable({ live }: { live: GrowthLive | null }) {
 
 function ChartsCard({ live }: { live: GrowthLive | null }) {
   const [tab, setTab] = useState<"Organic" | "Paid" | "Backlinks">("Organic");
-  const organicList = live ? organic.map((c, i) => (i === 0 ? { ...c, ...live.traffic } : c)) : organic;
-  const list = tab === "Organic" ? organicList : tab === "Paid" ? paid : backlinks;
+  const organicList = live ? organic.map((c, i) => ({ ...c, ...[live.traffic, live.keywords, live.cost][i] })) : organic;
+  const paidList = live?.paid ? paid.map((c, i) => ({ ...c, ...live.paid![i] })) : paid;
+  const backlinksList = live?.backlinks ? backlinks.map((c, i) => ({ ...c, ...live.backlinks![i] })) : backlinks;
+  const list = tab === "Organic" ? organicList : tab === "Paid" ? paidList : backlinksList;
   return (
     <section className="mt-[17px] rounded-lg bg-white shadow-card">
       <header className="flex h-[44px] items-center justify-between border-b border-rk-border px-5">
@@ -203,18 +212,24 @@ function ChartsCard({ live }: { live: GrowthLive | null }) {
   );
 }
 
-function BottomCard() {
+function BottomCard({ live }: { live: GrowthLive | null }) {
   const H = 139;
-  const ticks = [0, 20, 40, 60, 80, 100, 120, 140];
+  const bottom = live?.bottom;
+  const top = bottom?.max ?? 140;
+  const ticks = Array.from({ length: 8 }, (_, i) => (top * i) / 7);
+  const [aName, bName] = live ? live.months : ["March", "September"];
+  const [aVal, bVal] = bottom ? bottom.nonBranded : ["7", "59"];
+  const topPositionChanges = bottom?.top ?? mockTopChanges;
+  const growthPositions = bottom?.positions ?? mockPositions;
   return (
     <section className="mt-[16px] grid h-[263px] grid-cols-[245px_246px_1fr] gap-x-[41px] rounded-lg bg-white px-5 pt-5 shadow-card">
       <div>
         <h4 className="text-[16px] leading-6 font-bold">Non-branded Traffic</h4>
         {[
-          ["March", A, "7", "border-b border-rk-border pb-[23px]"],
-          ["September", B, "59", "pt-[22px]"],
-        ].map(([label, color, v, cls]) => (
-          <div key={label} className={`${cls} ${label === "March" ? "mt-[18px]" : ""}`}>
+          [aName, A, aVal, "border-b border-rk-border pb-[23px]"],
+          [bName, B, bVal, "pt-[22px]"],
+        ].map(([label, color, v, cls], i) => (
+          <div key={i} className={`${cls} ${i === 0 ? "mt-[18px]" : ""}`}>
             <div className="text-[14px] leading-5">{label}</div>
             <div className="mt-[8px] h-4" style={{ background: color }} />
             <div className="mt-[7px] grid grid-cols-[52px_1fr_52px] text-[13px] leading-4">
@@ -233,7 +248,7 @@ function BottomCard() {
         <div className="mt-[19px]">
           {topPositionChanges.map((r) => {
             const tone = r.delta.startsWith("+") ? "text-rk-success" : r.delta.startsWith("-") ? "text-rk-danger" : "text-rk-muted";
-            const max = 10;
+            const max = bottom ? Math.max(1, ...r.data) * 1.25 : 10;
             const p = pts(r.data, max, 14);
             return (
               <div key={r.label} className="h-[60px]">
@@ -258,18 +273,18 @@ function BottomCard() {
           <div className="flex gap-[18px] text-[14px]">
             <span className="flex items-center gap-[6px]">
               <Dot color={A} />
-              March
+              {aName}
             </span>
             <span className="flex items-center gap-[6px]">
               <Dot color={B} />
-              September
+              {bName}
             </span>
           </div>
         </div>
         <Plot
           className="mt-[29px]"
           height={H}
-          ticks={ticks.map((t) => t / 140)}
+          ticks={ticks.map((t) => t / top)}
           right={ticks.map(String)}
           rightW={54}
           gap={15}
@@ -278,8 +293,8 @@ function BottomCard() {
           x={growthPositions.map((g, i) => ({ at: 0.129 + i * 0.184, label: g.label }))}
           labelClass="text-[13px] leading-4 text-rk-muted"
           overlay={growthPositions.flatMap((g, i) => [
-            <span key={`a${i}`} className="absolute bottom-0 w-[12px] -translate-x-[13px]" style={{ left: `${(0.129 + i * 0.184) * 100}%`, height: `${(g.a / 140) * 100}%`, background: A }} />,
-            <span key={`b${i}`} className="absolute bottom-0 w-[12px] translate-x-[1px]" style={{ left: `${(0.129 + i * 0.184) * 100}%`, height: `${(g.b / 140) * 100}%`, background: B }} />,
+            <span key={`a${i}`} className="absolute bottom-0 w-[12px] -translate-x-[13px]" style={{ left: `${(0.129 + i * 0.184) * 100}%`, height: `${(g.a / top) * 100}%`, background: A }} />,
+            <span key={`b${i}`} className="absolute bottom-0 w-[12px] translate-x-[1px]" style={{ left: `${(0.129 + i * 0.184) * 100}%`, height: `${(g.b / top) * 100}%`, background: B }} />,
           ])}
         />
       </div>
@@ -353,7 +368,7 @@ export function GrowthReport({ live = null }: { live?: GrowthLive | null }) {
     <>
       <SummaryTable live={live} />
       <ChartsCard live={live} />
-      <BottomCard />
+      <BottomCard live={live} />
       <CountryCard />
     </>
   );

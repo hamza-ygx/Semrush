@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { routes } from "@/config/routes";
-import { competitors, domain, intents, positionDistribution as mockDistribution, selfPoint, topKeywords } from "../data";
+import { competitors as mockCompetitors, domain, intents as mockIntents, positionDistribution as mockDistribution, selfPoint as mockSelf, topKeywords } from "../data";
 import { Plot, VBW } from "../charts";
 import { DarkButton, Dot, ExtLink, IntentBadge, LocalPinIcon, SerpIcon, SortIcon, SparkleIcon, Widget } from "../ui";
 import type { DomainLive } from "../live";
@@ -30,7 +30,7 @@ function TopKeywords({ live }: { live: DomainLive | null }) {
         </thead>
         <tbody>
           {rows.map((k, i) => (
-            <tr key={k.keyword} className={`${row} last:border-b`}>
+            <tr key={`${k.keyword}-${i}`} className={`${row} last:border-b`}>
               <td className="pl-5">
                 <span className="flex items-center gap-[6px]">
                   <Link href={routes.keywordOverview} className={`${i ? "max-w-[121px]" : "max-w-[146px]"} truncate text-rk-link hover:text-rk-link-hover`}>
@@ -57,7 +57,7 @@ function TopKeywords({ live }: { live: DomainLive | null }) {
   );
 }
 
-function KeyTopics() {
+function KeyTopics({ name = domain }: { name?: string }) {
   const blur = (w: number) => <span className="block h-[10px] rounded bg-[#c9cde6] blur-[2px]" style={{ width: w }} />;
   return (
     <Widget
@@ -81,7 +81,7 @@ function KeyTopics() {
         </div>
         <div className="absolute inset-0 flex flex-col items-center justify-center pb-[8px]">
           <div className="text-[16px] leading-6">
-            View <b>{domain}</b> key topics
+            View <b>{name}</b> key topics
           </div>
           <Link href={routes.organic.topics} className="mt-[12px] flex h-7 items-center rounded-md bg-[#8f44e8] px-[9px] text-[14px] font-semibold text-white hover:bg-[#7a32d4]">
             Get topics
@@ -92,7 +92,8 @@ function KeyTopics() {
   );
 }
 
-function KeywordsByIntent() {
+function KeywordsByIntent({ live }: { live: DomainLive | null }) {
+  const intents = live?.intents ?? mockIntents;
   return (
     <Widget title="Keywords by Intent" className="h-[353px]" bodyClassName="flex flex-col pt-[17px]">
       <div className="flex h-[14px] gap-[2px] px-5">
@@ -163,9 +164,10 @@ function PositionDistribution({ live }: { live: DomainLive | null }) {
   );
 }
 
-function Competitors() {
+function Competitors({ live }: { live: DomainLive | null }) {
+  const competitors = live?.competitors?.rows ?? mockCompetitors;
   return (
-    <Widget title="Main Organic Competitors" count="249" className="h-[344px]" bodyClassName="flex flex-col pt-[18px]">
+    <Widget title="Main Organic Competitors" count={live?.competitors ? String(live.competitors.total) : "249"} className="h-[344px]" bodyClassName="flex flex-col pt-[18px]">
       <table className="w-full table-fixed text-[14px] leading-5">
         <thead>
           <tr className={th}>
@@ -223,10 +225,15 @@ const Cross = ({ color }: { color: string }) => (
   </svg>
 );
 
-function PositioningMap() {
+const trimNum = (v: number) => String(+v.toFixed(1));
+
+function PositioningMap({ live }: { live: DomainLive | null }) {
   const H = 139;
-  const maxX = 160;
-  const maxY = 424.6;
+  const lc = live?.competitors ?? null;
+  const competitors = lc ? lc.rows : mockCompetitors;
+  const selfPoint = lc ? lc.self : mockSelf;
+  const maxX = lc ? lc.maxX : 160;
+  const maxY = lc ? lc.maxY : 424.6;
   const all = [...competitors.map((c) => ({ ...c, short: c.domain.length > 16 ? `${c.domain.slice(0, 12)}...` : c.domain })), { ...selfPoint, short: selfPoint.domain }];
   return (
     <Widget title="Competitive Positioning Map" className="h-[344px]" bodyClassName="px-5 pt-[20px]">
@@ -245,16 +252,16 @@ function PositioningMap() {
         <Plot
           height={H}
           ticks={[0, 1 / 3, 2 / 3, 1]}
-          left={["0", "141.5", "283.1", "424.6"]}
+          left={lc ? [0, 1, 2, 3].map((i) => trimNum((maxY * i) / 3)) : ["0", "141.5", "283.1", "424.6"]}
           gap={14}
           bottomH={52}
           xGap={10}
-          x={[0, 20, 40, 60, 80, 100, 120, 140, 160].map((v) => ({ at: v / maxX, label: String(v) }))}
+          x={[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => (maxX * i) / 8).map((v) => ({ at: v / maxX, label: trimNum(v) }))}
           labelClass="text-[12px] leading-4 text-rk-muted"
           baseColor="#d6d8d7"
           overlay={
             <>
-              {[20, 40, 60, 80, 100, 120, 140, 160].map((v) => (
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (maxX * i) / 8).map((v) => (
                 <div key={v} className="absolute top-0 bottom-0 border-l border-[#e7e8e8]" style={{ left: `${(v / maxX) * 100}%` }} />
               ))}
               {all.map((c) => (
@@ -282,11 +289,11 @@ export function OrganicResearch({ live = null }: { live?: DomainLive | null }) {
       <h2 className="mt-[22px] text-[20px] leading-7 font-semibold">Organic Research</h2>
       <div className="mt-[15px] grid grid-cols-2 gap-4">
         <TopKeywords live={live} />
-        <KeyTopics />
-        <KeywordsByIntent />
+        <KeyTopics name={live?.domain} />
+        <KeywordsByIntent live={live} />
         <PositionDistribution live={live} />
-        <Competitors />
-        <PositioningMap />
+        <Competitors live={live} />
+        <PositioningMap live={live} />
       </div>
     </>
   );

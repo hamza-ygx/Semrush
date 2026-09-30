@@ -228,7 +228,7 @@ function SummaryCard() {
             onClick={() => show("keywords")}
             tip="This trend displays changes in the number of keywords over the last 12 months. Click it to view all changes."
           >
-            <KwSpark className="h-[20px]" />
+            <KwSpark className="h-[20px]" data={liveAll?.keywordSpark} />
           </SparkButton>
         </Metric>
         <div className="mx-6 mt-[2px] h-[51px] w-px shrink-0 bg-rk-border" />
@@ -243,7 +243,7 @@ function SummaryCard() {
           </SparkButton>
         </Metric>
         <div className="mx-6 mt-[2px] h-[51px] w-px shrink-0 bg-rk-border" />
-        <Metric label="Traffic Cost" {...latest.cost} />
+        <Metric label="Traffic Cost" {...(liveAll?.summary.cost ?? latest.cost)} />
       </div>
       {open ? (
         <div className="px-5 pt-[20px] pb-[11px]">
@@ -265,7 +265,7 @@ function SummaryCard() {
                 <NotesMenu />
               </span>
             </div>
-            <TimeRange value="1M" />
+            <TimeRange value={liveAll?.source === "semrush" && live ? "1Y" : "1M"} />
           </div>
           <div className="-mx-5 mt-[19px]">{view === "keywords" ? t.chart : <TrafficArea />}</div>
         </div>
@@ -555,7 +555,7 @@ function Row({ r, checked, toggle, vis }: { r: PositionRow; checked: boolean; to
         {vis("SERP Features") && (
           <td className={`${cell} pl-4`}>
             <span className={line}>
-              <SerpCell count={r.sf} href={serpHref(r)} features={sfList.slice(0, r.sf ?? 0)} />
+              <SerpCell count={r.sf} href={serpHref(r)} features={r.features ?? sfList.slice(0, r.sf ?? 0)} />
             </span>
           </td>
         )}

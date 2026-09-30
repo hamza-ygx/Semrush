@@ -1,6 +1,6 @@
 import type { LiveQuery, LiveSearch } from "@/lib/seo/live";
 import { topKeywords as domainTopKeywords } from "@/features/domain/data";
-import { changeRows, forvarvKeywords, positionRows, topicKeywords, type ChangeRow, type Intent, type MetricChange, type PositionRow } from "./data";
+import { changeRows, forvarvKeywords, positionRows, topicKeywords, type ChangeRow, type Intent, type MetricChange, type PositionRow, type SerpFeature } from "./data";
 
 export type RankHistory = Map<string, Map<string, number | null>>;
 
@@ -19,6 +19,8 @@ export type LivePage = {
   pct: string;
   keywords: number;
   keyword: string | null;
+  intent?: Intent | null;
+  href?: string;
   isNew: boolean;
   lost: boolean;
 };
@@ -74,8 +76,22 @@ export type LiveMoves = {
   label: string;
 };
 
+export type LiveIntent = { key: Intent; label: string; pct: string; keywords: number; traffic: number; share: number; color: string };
+
+export type LiveCompetitor = { domain: string; level: number; common: number; se: string; traffic: string; costs: string; paid: string };
+
+export type LiveBubble = { domain: string; color: string; keywords: number; traffic: number; r: number; kx: number; cr: number };
+
+export type LiveCompetitors = {
+  rows: LiveCompetitor[];
+  total: number;
+  bubbles: LiveBubble[];
+  map: { xMax: number; yMax: number; xTicks: number[]; yTicks: number[] };
+};
+
 export type OrganicLive = {
   domain: string;
+  source?: "semrush" | "gsc";
   from: string;
   to: string;
   date: string;
@@ -83,8 +99,8 @@ export type OrganicLive = {
   prevKeywords: number;
   traffic: number;
   prevTraffic: number;
-  summary: Record<"keywords" | "traffic" | "branded" | "nonBranded", Delta>;
-  tips: Record<"keywords" | "traffic" | "branded" | "nonBranded", MetricChange>;
+  summary: Record<"keywords" | "traffic" | "branded" | "nonBranded", Delta> & { cost?: Delta };
+  tips: Record<"keywords" | "traffic" | "branded" | "nonBranded", MetricChange> & { cost?: MetricChange };
   months: { current: string; previous: string };
   rows: PositionRow[];
   pages: LivePage[];
@@ -98,6 +114,11 @@ export type OrganicLive = {
   trend: LiveTrend | null;
   moves: LiveMoves | null;
   dbCounts: Record<string, number>;
+  keywordSpark?: number[];
+  overviewTrend?: { bars: number[][]; labels: string[]; titles: string[] } | null;
+  intents?: LiveIntent[] | null;
+  serp?: { linking: SerpFeature[]; notLinking: SerpFeature[] } | null;
+  competitors?: LiveCompetitors | null;
 };
 
 const DAY = 864e5;
@@ -332,6 +353,10 @@ const iso3: Record<string, [string, string]> = {
   khm: ["KH", "Cambodia"],
 };
 
+const byCode = new Map(Object.values(iso3));
+
+export const countryByCode = (code: string) => byCode.get(code.toUpperCase()) ?? null;
+
 export function countryOf(code: string) {
   const c = code.toLowerCase();
   const hit = iso3[c];
@@ -403,7 +428,7 @@ export function previousOf(cur: LiveQuery | undefined, wide: LiveQuery | undefin
   };
 }
 
-function brandRoot(domain: string) {
+export function brandRoot(domain: string) {
   const host = hostOf(domain).replace(/^www\./, "");
   const root = host.split(".").slice(0, -1).join(".") || host;
   return root.toLowerCase();
@@ -645,6 +670,7 @@ export function buildOrganicLive({ cur, wide = null, history = null }: { cur: Li
 
   return {
     domain: hostOf(cur.project.domain),
+    source: "gsc",
     from,
     to,
     date: fullDate(to),
@@ -692,7 +718,7 @@ export function buildOrganicLive({ cur, wide = null, history = null }: { cur: Li
   };
 }
 
-export type OrganicView = "overview" | "positions" | "changes" | "subdomains" | "header";
+export type OrganicView = "overview" | "positions" | "changes" | "subdomains" | "competitors" | "header";
 
 export function forView(live: OrganicLive, view: OrganicView): OrganicLive {
   const keepRows = view === "positions" ? live.rows : view === "overview" ? live.rows.slice(0, 5) : [];
@@ -713,5 +739,10 @@ export function forView(live: OrganicLive, view: OrganicView): OrganicLive {
             }
           : null),
     trend: view === "positions" ? live.trend : null,
+    overviewTrend: view === "overview" ? live.overviewTrend : null,
+    intents: view === "overview" ? live.intents : null,
+    serp: view === "overview" ? live.serp : null,
+    competitors:
+      live.competitors && (view === "competitors" ? live.competitors : view === "overview" ? { ...live.competitors, rows: live.competitors.rows.slice(0, 5) } : null),
   };
 }

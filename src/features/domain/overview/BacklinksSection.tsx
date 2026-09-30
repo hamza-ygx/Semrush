@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { routes } from "@/config/routes";
-import { anchors, backlinkRows, backlinkTypes, followSplit, indexedPages, refDomains } from "../data";
+import { anchors as mockAnchors, backlinkRows as mockRows, backlinkTypes as mockTypes, followSplit as mockFollow, indexedPages as mockPages, refDomains as mockRefDomains } from "../data";
+import type { DomainBacklinks } from "../live";
 import { DarkButton, Dot, ExportButton, ExtLink, Flag, SortIcon, Widget, WorldIcon } from "../ui";
 
 const th = "h-[33px] border-b border-rk-border text-[12px] font-normal text-rk-text-2";
@@ -12,7 +13,10 @@ const CalendarIcon = () => (
   </svg>
 );
 
-function BacklinksTable() {
+type B = { bl: DomainBacklinks | null };
+
+function BacklinksTable({ bl }: B) {
+  const backlinkRows = bl?.rows.length ? bl.rows : mockRows;
   return (
     <Widget title="Backlinks" right={<ExportButton className="-mr-[2px]" />} className="h-[479px]" bodyClassName="flex flex-col pt-[25px]">
       <table className="w-full table-fixed text-[14px] leading-5">
@@ -52,7 +56,8 @@ function BacklinksTable() {
   );
 }
 
-function FollowCard() {
+function FollowCard({ bl }: B) {
+  const followSplit = bl?.follow ?? mockFollow;
   const total = followSplit.follow + followSplit.nofollow;
   const r = 41;
   const c = 2 * Math.PI * r;
@@ -85,7 +90,8 @@ function FollowCard() {
   );
 }
 
-function TypesCard() {
+function TypesCard({ bl }: B) {
+  const backlinkTypes = bl?.types ?? mockTypes;
   return (
     <Widget title="Backlink Types" className="h-[287px]" bodyClassName="px-5 pt-[20px]">
       {backlinkTypes.map((t) => (
@@ -107,7 +113,8 @@ function TypesCard() {
   );
 }
 
-function AnchorsCard() {
+function AnchorsCard({ bl }: B) {
+  const anchors: readonly { anchor: string; domains: number; backlinks: number; empty?: boolean }[] = bl?.anchors.length ? bl.anchors : mockAnchors;
   return (
     <Widget title="Top Anchors" right={<ExportButton />} className="h-[350px]" bodyClassName="flex flex-col pt-[23px]">
       <table className="w-full table-fixed text-[14px] leading-5">
@@ -142,7 +149,8 @@ function AnchorsCard() {
   );
 }
 
-function RefDomainsCard() {
+function RefDomainsCard({ bl }: B) {
+  const refDomains = bl?.refDomains ?? mockRefDomains;
   return (
     <Widget title="Referring Domains" right={<ExportButton />} className="h-[350px]" bodyClassName="flex flex-col pt-[23px]">
       <table className="w-full table-fixed text-[14px] leading-5">
@@ -182,7 +190,8 @@ function RefDomainsCard() {
   );
 }
 
-function IndexedPagesCard() {
+function IndexedPagesCard({ bl }: B) {
+  const indexedPages = bl?.pages.length ? bl.pages : mockPages;
   return (
     <Widget title="Indexed Pages" right={<ExportButton />} className="mt-4 h-[469px]" bodyClassName="flex flex-col pt-[23px]">
       <table className="w-full table-fixed text-[14px] leading-5">
@@ -228,7 +237,8 @@ function IndexedPagesCard() {
   );
 }
 
-export function BacklinksSection() {
+export function BacklinksSection({ live = null }: { live?: DomainBacklinks | null }) {
+  const bl = live;
   return (
     <>
       <div className="mt-[22px] flex items-center gap-[10px]">
@@ -243,17 +253,17 @@ export function BacklinksSection() {
         </span>
       </div>
       <div className="mt-[15px] grid grid-cols-[minmax(0,1fr)_399px] gap-4">
-        <BacklinksTable />
+        <BacklinksTable bl={bl} />
         <div className="flex flex-col gap-4">
-          <FollowCard />
-          <TypesCard />
+          <FollowCard bl={bl} />
+          <TypesCard bl={bl} />
         </div>
       </div>
       <div className="mt-4 grid grid-cols-2 gap-4">
-        <AnchorsCard />
-        <RefDomainsCard />
+        <AnchorsCard bl={bl} />
+        <RefDomainsCard bl={bl} />
       </div>
-      <IndexedPagesCard />
+      <IndexedPagesCard bl={bl} />
     </>
   );
 }

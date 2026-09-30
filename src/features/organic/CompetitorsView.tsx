@@ -8,6 +8,7 @@ import { BubbleMap } from "./charts";
 import { bubbles, competitors, latest } from "./data";
 import { BubbleLegend, Delta } from "./OverviewView";
 import { CardTitle, ExtLink, Pagination, SortIcon, domainHref } from "./ui";
+import { useOrganicLive } from "./context";
 
 const Q = "&db=se&searchType=domain";
 
@@ -35,7 +36,11 @@ const num = (v: string | number) => {
 
 export function CompetitorsView() {
   const [sort, setSort] = useState<{ key: Key; dir: 1 | -1 }>({ key: "level", dir: -1 });
-  const rows = sort.key === "level" && sort.dir === -1 ? competitors : [...competitors].sort((a, b) => (num(a[sort.key]) - num(b[sort.key])) * sort.dir);
+  const live = useOrganicLive();
+  const lc = live?.competitors;
+  const source = lc ? lc.rows : competitors;
+  const name = live?.domain ?? "rkjh.se";
+  const rows = sort.key === "level" && sort.dir === -1 ? source : [...source].sort((a, b) => (num(a[sort.key]) - num(b[sort.key])) * sort.dir);
   const onSort = (k: Key) => setSort((s) => (s.key === k ? { key: k, dir: s.dir === 1 ? -1 : 1 } : { key: k, dir: -1 }));
   const th = (k: Key, label: string, cls = "text-right") => (
     <th className={`text-[12px] font-normal ${cls} ${sort.key === k ? "bg-[#ececf0]" : ""}`}>
@@ -48,23 +53,27 @@ export function CompetitorsView() {
   return (
     <div className="flex flex-col gap-4 px-8 pt-4">
       <div className="flex h-[91px] rounded-lg bg-white px-5 pt-[19px] shadow-card">
-        <Metric label="Keywords" {...latest.keywords} className="w-[89px]" />
+        <Metric label="Keywords" {...(live?.summary.keywords ?? latest.keywords)} className="w-[89px]" />
         <Sep />
-        <Metric label="Traffic" {...latest.traffic} className="w-[81px]" />
+        <Metric label="Traffic" {...(live?.summary.traffic ?? latest.traffic)} className="w-[81px]" />
         <Sep />
-        <Metric label="Traffic Cost" {...latest.cost} />
+        <Metric label="Traffic Cost" {...(live?.summary.cost ?? latest.cost)} />
       </div>
       <div className="h-[324px] rounded-lg bg-white shadow-card">
         <CardTitle>Competitive Positioning Map</CardTitle>
-        <BubbleLegend className="px-5 pt-[19px]" gap={15} />
+        <BubbleLegend className="px-5 pt-[19px]" gap={15} items={lc?.bubbles} />
         <div className="mt-[10px]">
-          <BubbleMap items={bubbles.map((b) => ({ ...b, keywords: b.kx, r: b.cr }))} height={212} pad={{ top: 57, right: 20, bottom: 43, left: 99 }} xMax={144.3} yMax={400} tickGap={16} labelGap={65} />
+          {lc ? (
+            <BubbleMap items={lc.bubbles.map((b) => ({ ...b, keywords: b.kx, r: b.cr }))} height={212} pad={{ top: 57, right: 20, bottom: 43, left: 99 }} xMax={lc.map.xMax} yMax={lc.map.yMax} xTicks={lc.map.xTicks} yTicks={lc.map.yTicks} tickGap={16} labelGap={65} />
+          ) : (
+            <BubbleMap items={bubbles.map((b) => ({ ...b, keywords: b.kx, r: b.cr }))} height={212} pad={{ top: 57, right: 20, bottom: 43, left: 99 }} xMax={144.3} yMax={400} tickGap={16} labelGap={65} />
+          )}
         </div>
       </div>
       <div className="rounded-lg bg-white shadow-card">
         <div className="flex h-11 items-center justify-between px-5">
           <h2 className="text-[16px] leading-6 font-semibold">
-            Organic Competitors <span className="font-normal text-rk-muted">249</span>
+            Organic Competitors <span className="font-normal text-rk-muted">{lc ? lc.total : 249}</span>
           </h2>
           <button type="button" className="flex h-[26px] items-center gap-[6px] rounded-md border border-rk-border-strong bg-[#f5f6f6] px-2 text-[14px] text-rk-text-2 hover:bg-rk-hover">
             <ExportIcon />
@@ -116,7 +125,7 @@ export function CompetitorsView() {
                   </span>
                 </td>
                 <td className="text-right">
-                  <Link href={`${routes.keywordGap}?q=rkjh.se&compareWith=${c.domain}${Q}`} className="text-rk-link hover:text-rk-link-hover">
+                  <Link href={`${routes.keywordGap}?q=${name}&compareWith=${c.domain}${Q}`} className="text-rk-link hover:text-rk-link-hover">
                     {c.common}
                   </Link>
                 </td>
@@ -131,7 +140,7 @@ export function CompetitorsView() {
                   {c.paid === "0" ? (
                     c.paid
                   ) : (
-                    <Link href={`${routes.compareDomains}?q=rkjh.se,${c.domain}${Q}`} className="text-rk-link hover:text-rk-link-hover">
+                    <Link href={`${routes.compareDomains}?q=${name},${c.domain}${Q}`} className="text-rk-link hover:text-rk-link-hover">
                       {c.paid}
                     </Link>
                   )}
@@ -141,7 +150,7 @@ export function CompetitorsView() {
           </tbody>
         </table>
         <div className="px-5 pt-[20px] pb-[21px]">
-          <Pagination pages={3} />
+          <Pagination pages={lc ? Math.max(1, Math.ceil(lc.total / 100)) : 3} />
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@ import {
   bubbles,
   competitorsTop,
   googleUpdates,
-  intents,
+  intents as mockIntents,
   keywordsSpark,
   metricChanges,
   type MetricChange,
@@ -35,6 +35,7 @@ import {
 } from "./data";
 import { SerpIcon } from "./serpIcons";
 import { useOrganicLive, useOrganicQ } from "./context";
+import { niceTop, ticksFor } from "./live";
 import { CardTitle, DarkButton, ExtLink, HoverTip, KeywordLink, LegendCheck, NotesMenu, PinIcon, Segmented, SortIcon, TimeRange, domainHref } from "./ui";
 
 const Q = "?db=se&q=rkjh.se&searchType=domain";
@@ -92,12 +93,13 @@ function MetricBlock({ id, label, value, delta, tip, children, className = "", o
   );
 }
 
-export function KwSpark({ className = "mt-[3px]" }: { className?: string }) {
-  const max = Math.max(...keywordsSpark);
+export function KwSpark({ className = "mt-[3px]", data }: { className?: string; data?: number[] }) {
+  const values = data && data.length > 1 ? data : keywordsSpark;
+  const max = Math.max(...values) || 1;
   return (
     <div className={`flex h-[19px] w-[160px] items-end gap-px ${className}`}>
-      {keywordsSpark.map((v, i) => (
-        <div key={i} className="flex-1" style={{ height: `${(v / max) * 100}%`, background: i === keywordsSpark.length - 1 ? "#6d72e0" : "#b3c1f8" }} />
+      {values.map((v, i) => (
+        <div key={i} className="flex-1" style={{ height: `${(v / max) * 100}%`, background: i === values.length - 1 ? "#6d72e0" : "#b3c1f8" }} />
       ))}
     </div>
   );
@@ -144,6 +146,10 @@ function TrendTip({ title, values, keys, colors = trendColors }: { title: string
 }
 
 const MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const liveTicks = (bars: number[][]) => {
+  const peak = Math.max(1, ...bars.map((b) => b.reduce((a, v) => a + v, 0)));
+  return { ticks: ticksFor(peak, 2), max: niceTop(peak, 2) * 1.25 };
+};
 const monthOf = (i: number, n: number) => {
   const m = 2026 * 12 + 8 - (n - 1 - i);
   return `${MONTH_NAMES[m % 12]} ${Math.floor(m / 12)}`;
@@ -223,29 +229,32 @@ export function useTrendChart({ data, labels, ticks, max, height, pad, notes, go
 }
 
 function SummaryCard() {
+  const live = useOrganicLive();
+  const lt = live?.overviewTrend;
+  const scale = lt ? liveTicks(lt.bars) : null;
+  const n = lt ? lt.bars.length : overviewTrend.length;
   const t = useTrendChart({
-    data: overviewTrend,
-    labels: overviewTrend.map((_, i) => (i % 12 === 0 ? overviewTrendLabels[i / 12] : "")),
-    ticks: [0, 200, 400],
-    max: 500,
+    data: lt ? lt.bars : overviewTrend,
+    labels: lt ? lt.labels : overviewTrend.map((_, i) => (i % 12 === 0 ? overviewTrendLabels[i / 12] : "")),
+    ticks: scale ? scale.ticks : [0, 200, 400],
+    max: scale ? scale.max : 500,
     height: 205,
     pad: { top: 10, right: 21, bottom: 36, left: 72 },
-    notes: overviewNotes,
-    googles: googleUpdates,
-    flags: redFlags,
+    notes: lt ? overviewNotes.filter((x) => x.index < n) : overviewNotes,
+    googles: lt ? googleUpdates.filter((x) => x < n) : googleUpdates,
+    flags: lt ? redFlags.filter((x) => x < n) : redFlags,
     barRatio: 0.55,
-    tipTitle: (i) => monthOf(i, overviewTrend.length),
+    tipTitle: lt ? (i) => lt.titles[i] : (i) => monthOf(i, overviewTrend.length),
     testId: "trend-chart",
   });
   const [open, setOpen] = useState(true);
-  const live = useOrganicLive();
   const sum = live ? { ...summary, ...live.summary } : summary;
   const tips = live ? { ...metricChanges, ...live.tips } : metricChanges;
   return (
     <Card>
       <div className={`relative flex h-[115px] px-5 pt-[19px] ${open ? "border-b border-rk-border" : ""}`}>
         <MetricBlock id="keywords" label="Keywords" {...sum.keywords} tip={tips.keywords} className="w-[161px]" onClick={() => setOpen(true)}>
-          <KwSpark />
+          <KwSpark data={live?.keywordSpark} />
         </MetricBlock>
         <Sep />
         <MetricBlock id="traffic" label="Traffic" {...sum.traffic} tip={tips.traffic} className="w-[160px]">
@@ -348,6 +357,7 @@ function TopKeywordsCard() {
 }
 
 function IntentCard() {
+  const intents = useOrganicLive()?.intents ?? mockIntents;
   return (
     <Card className="h-[416px]">
       <CardTitle>Keywords by Intent</CardTitle>
@@ -626,17 +636,18 @@ function FeatureGrid({ items, linked }: { items: SerpFeature[]; linked: boolean 
 }
 
 function SerpFeaturesCard() {
+  const serp = useOrganicLive()?.serp;
   return (
     <Card className="h-[892px]">
       <CardTitle>SERP Features</CardTitle>
       <div className="pt-[18px] pr-1 pl-5">
         <h3 className="text-[14px] leading-6 font-semibold">Linking to domain</h3>
         <div className="mt-[13px]">
-          <FeatureGrid items={linkingFeatures} linked />
+          <FeatureGrid items={serp?.linking ?? linkingFeatures} linked />
         </div>
         <h3 className="mt-[23px] text-[14px] leading-6 font-semibold">Not linking to domain</h3>
         <div className="mt-[13px]">
-          <FeatureGrid items={notLinkingFeatures} linked={false} />
+          <FeatureGrid items={serp?.notLinking ?? notLinkingFeatures} linked={false} />
         </div>
       </div>
     </Card>
@@ -668,8 +679,8 @@ function TopPagesCard() {
           </tr>
         </thead>
         <tbody>
-          {pages.map((p) => (
-            <tr key={p.url} className="h-[37px] border-b border-rk-border">
+          {pages.map((p, i) => (
+            <tr key={`${p.url}-${i}`} className="h-[37px] border-b border-rk-border">
               <td className="pl-5">
                 <span className="flex items-center gap-1">
                   <Link href={`${routes.organic.positions}${q}&url=${encodeURIComponent(p.url)}`} className="truncate text-rk-link hover:text-rk-link-hover">
@@ -740,6 +751,10 @@ function TopSubdomainsCard() {
 }
 
 function CompetitorsCard() {
+  const live = useOrganicLive();
+  const q = useOrganicQ();
+  const list = live?.competitors ? live.competitors.rows.slice(0, 5) : competitorsTop;
+  const name = live?.domain ?? "rkjh.se";
   return (
     <Card className="h-[351px]">
       <CardTitle>Main Organic Competitors</CardTitle>
@@ -763,7 +778,7 @@ function CompetitorsCard() {
           </tr>
         </thead>
         <tbody>
-          {competitorsTop.map((c) => (
+          {list.map((c) => (
             <tr key={c.domain} className="h-[37px] border-b border-rk-border">
               <td className="pl-5">
                 <span className="flex items-center gap-1">
@@ -774,7 +789,7 @@ function CompetitorsCard() {
                 </span>
               </td>
               <td className="pr-[1px] text-right">
-                <Link href={`${routes.keywordGap}?db=se&q=rkjh.se&compareWith=${c.domain}`} className="hover:text-rk-link">
+                <Link href={`${routes.keywordGap}?db=se&q=${name}&compareWith=${c.domain}`} className="hover:text-rk-link">
                   {c.common}
                 </Link>
               </td>
@@ -791,16 +806,16 @@ function CompetitorsCard() {
         </tbody>
       </table>
       <div className="px-5 pt-[17px]">
-        <DarkButton href={routes.organic.competitors + Q}>View all 249 competitors</DarkButton>
+        <DarkButton href={routes.organic.competitors + (live ? q : Q)}>View all {live?.competitors ? live.competitors.total : 249} competitors</DarkButton>
       </div>
     </Card>
   );
 }
 
-export function BubbleLegend({ className = "", gap = 18 }: { className?: string; gap?: number }) {
+export function BubbleLegend({ className = "", gap = 18, items = bubbles }: { className?: string; gap?: number; items?: readonly { domain: string; color: string }[] }) {
   return (
     <div className={`flex flex-wrap gap-y-[9px] text-[14px] ${className}`} style={{ columnGap: gap }}>
-      {bubbles.map((b) => (
+      {items.map((b) => (
         <Link key={b.domain} href={domainHref(b.domain)} className="flex items-center gap-[6px] hover:text-rk-link">
           <span className="h-3 w-3 rounded-full" style={{ background: b.color }} />
           {b.domain}
@@ -811,12 +826,17 @@ export function BubbleLegend({ className = "", gap = 18 }: { className?: string;
 }
 
 function MapCard() {
+  const c = useOrganicLive()?.competitors;
   return (
     <Card className="h-[351px]">
       <CardTitle>Competitive Positioning Map</CardTitle>
-      <BubbleLegend className="px-5 pt-[20px] pr-8" />
+      <BubbleLegend className="px-5 pt-[20px] pr-8" items={c?.bubbles} />
       <div className="mt-[22px]">
-        <BubbleMap items={bubbles} height={201} pad={{ top: 42, right: 18, bottom: 47, left: 99 }} xMax={145} yMax={400} tickGap={14} labelGap={63} />
+        {c ? (
+          <BubbleMap items={c.bubbles} height={201} pad={{ top: 42, right: 18, bottom: 47, left: 99 }} xMax={c.map.xMax} yMax={c.map.yMax} xTicks={c.map.xTicks} yTicks={c.map.yTicks} tickGap={14} labelGap={63} />
+        ) : (
+          <BubbleMap items={bubbles} height={201} pad={{ top: 42, right: 18, bottom: 47, left: 99 }} xMax={145} yMax={400} tickGap={14} labelGap={63} />
+        )}
       </div>
     </Card>
   );

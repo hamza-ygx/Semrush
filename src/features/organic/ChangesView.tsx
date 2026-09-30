@@ -479,7 +479,7 @@ function ChangeRowView({ r, checked, toggle }: { r: ChangeRow; checked: boolean;
           <span className={`${line} justify-end`}>{r.results ?? (r.volume === "30" ? "1.2M" : "4.6M")}</span>
         </td>
         <td className={`${td} pr-5`}>
-          <span className={`${line} justify-end`}>{r.kd == null ? "n/a" : `0.0${r.kd % 9}`}</span>
+          <span className={`${line} justify-end`}>{r.com ?? (r.kd == null ? "n/a" : `0.0${r.kd % 9}`)}</span>
         </td>
       </tr>
       {open && (

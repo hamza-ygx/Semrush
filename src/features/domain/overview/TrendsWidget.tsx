@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { routes } from "@/config/routes";
-import { aiCountries, aiCountriesWorldwide, googleCountries, googleMarkers, keywordLegend, serpDistribution } from "../data";
+import { aiCountries, aiCountriesWorldwide, googleCountries, googleMarkers, keywordLegend, serpDistribution as mockSerpDistribution } from "../data";
 import { kwLow, kwMid, kwTop, trafficDaily } from "../series";
 import { Plot, VBW, areaUnder, linePath, pts, smoothPath, stepPath, Stroke } from "../charts";
 import { Check, Dot, Flag, GoogleG, Seg } from "../ui";
@@ -205,13 +205,7 @@ function TrafficChart({ range, gran, hover, onHover, live, end }: { range: Range
   );
 }
 
-function KeywordsChart({ range, hover, onHover, end }: { range: Range; end: number } & HoverProps) {
-  const [kind, setKind] = useState<"Organic" | "Paid">("Organic");
-  const [on, setOn] = useState<Record<string, boolean>>(Object.fromEntries(keywordLegend.map((l) => [l.label, true])));
-  const H = 167;
-  const max = 383;
-  const days = rangeDays[range];
-  const paid = kind === "Paid";
+function mockKeywordSeries(days: number, paid: boolean) {
   const top = slice(kwTop, days).map((v) => (paid ? 0 : v));
   const mid = slice(kwMid, days).map((v) => (paid ? 0 : v));
   const low = slice(kwLow, days).map((v) => (paid ? 0 : v));
@@ -225,7 +219,31 @@ function KeywordsChart({ range, hover, onHover, end }: { range: Range; end: numb
     "AI Overviews": top.map(() => 0),
     "Other SERP Features": serp,
   };
-  const P = (a: number[]) => pts(a, max, H);
+  return series;
+}
+
+function liveKeywordSeries(kt: NonNullable<DomainLive["kwTrend"]>, days: number, paid: boolean) {
+  const cut = (a: number[]) => a.slice(Math.max(0, a.length - (days + 1))).map((v) => (paid ? 0 : v));
+  const series: Record<string, number[]> = Object.fromEntries(Object.entries(kt.bands).map(([k, v]) => [k, cut(v)]));
+  const zeros = series["Top 3"].map(() => 0);
+  series["AI Overviews"] = zeros;
+  series["Other SERP Features"] = zeros;
+  return series;
+}
+
+function KeywordsChart({ range, hover, onHover, end, live }: { range: Range; end: number; live: DomainLive | null } & HoverProps) {
+  const [kind, setKind] = useState<"Organic" | "Paid">("Organic");
+  const [on, setOn] = useState<Record<string, boolean>>(Object.fromEntries(keywordLegend.map((l) => [l.label, true])));
+  const H = 167;
+  const kt = live?.kwTrend ?? null;
+  const max = kt ? kt.max : 383;
+  const days = rangeDays[range];
+  const paid = kind === "Paid";
+  const series = kt ? liveKeywordSeries(kt, days, paid) : mockKeywordSeries(days, paid);
+  const low = series["51-100"];
+  const serp = series["Other SERP Features"];
+  const from = kt ? Math.max(0, 1 - (low.length - 1) / days) : 0;
+  const P = (a: number[]) => pts(a, max, H, from);
   const topP = P(series["Top 3"]);
   const lowP = P(low);
   return (
@@ -242,7 +260,7 @@ function KeywordsChart({ range, hover, onHover, end }: { range: Range; end: numb
         className="mt-[27px]"
         height={H}
         ticks={[0, 0.25, 0.5, 0.75, 1]}
-        right={["0", "96", "192", "287", "383"]}
+        right={kt ? ticksFor(kt.max, 4).map((t) => compact(t)) : ["0", "96", "192", "287", "383"]}
         rightW={70}
         gap={14}
         bottomH={27}
@@ -303,7 +321,7 @@ function KeywordsTip({ f, days, end, series, on, H, max }: { f: number; days: nu
   );
 }
 
-function SerpDonut() {
+function SerpDonut({ serpDistribution }: { serpDistribution: readonly { label: string; value: number; color: string }[] }) {
   const r = 32;
   const c = 2 * Math.PI * r;
   const lens = serpDistribution.map((s) => (s.value / 100) * c);
@@ -397,6 +415,7 @@ function GoogleDistribution({ worldwide, live }: { worldwide: boolean; live: Dom
 }
 
 export function TrendsWidget({ worldwide = false, live = null }: { worldwide?: boolean; live?: DomainLive | null }) {
+  const serpDistribution = live?.serpDistribution ?? mockSerpDistribution;
   const end = live ? Date.parse(`${live.to}T00:00:00Z`) : END;
   const [source, setSource] = useState<"AI Search" | "Google Search">("AI Search");
   const [range, setRange] = useState<Range>("2Y");
@@ -413,7 +432,7 @@ export function TrendsWidget({ worldwide = false, live = null }: { worldwide?: b
         <div className={`flex items-center justify-center pb-[18px] pl-[19px] text-[14px] text-rk-muted ${source === "AI Search" ? "h-[173px]" : "h-[136px]"}`}>We have no data to show.</div>
         <h3 className="px-5 text-[16px] leading-6 font-bold">Google SERP Positions Distribution</h3>
         <div className="mt-[16px] flex items-center pl-5">
-          <SerpDonut />
+          <SerpDonut serpDistribution={serpDistribution} />
           <div className="ml-[21px] flex-1">
             {serpDistribution.map((s) => (
               <div key={s.label} className="flex h-7 items-center text-[14px] leading-5">
@@ -446,7 +465,7 @@ export function TrendsWidget({ worldwide = false, live = null }: { worldwide?: b
           <TrafficChart range={range} gran={gran} hover={hover} onHover={setHover} live={live} end={end} />
         </div>
         <div className="mt-[21px]">
-          <KeywordsChart range={range} hover={hover} onHover={setHover} end={end} />
+          <KeywordsChart range={range} hover={hover} onHover={setHover} end={end} live={live} />
         </div>
       </div>
     </section>
