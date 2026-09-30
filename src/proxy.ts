@@ -1,14 +1,21 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { entra, sessionCookie } from "@/lib/auth/config";
+import { authEnabled, sessionCookie } from "@/lib/auth/config";
 import { readSession } from "@/lib/auth/read";
+
+const changePassword = "/change-password";
 
 const publicPaths = ["/login", "/auth/"];
 
 export function proxy(request: NextRequest) {
-  if (!entra) return NextResponse.next();
+  if (!authEnabled) return NextResponse.next();
   const { pathname, search } = request.nextUrl;
   if (publicPaths.some((p) => pathname === p || pathname.startsWith(p))) return NextResponse.next();
-  if (readSession(request.cookies.get(sessionCookie)?.value)) return NextResponse.next();
+  const session = readSession(request.cookies.get(sessionCookie)?.value);
+  if (session) {
+    if (!session.mustChange || pathname === changePassword) return NextResponse.next();
+    if (pathname.startsWith("/api/")) return NextResponse.json({ error: "Password change required" }, { status: 403 });
+    return NextResponse.redirect(new URL(changePassword, request.url));
+  }
   if (pathname.startsWith("/api/")) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const login = request.nextUrl.clone();
   login.pathname = "/login";

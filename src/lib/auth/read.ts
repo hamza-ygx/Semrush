@@ -1,10 +1,10 @@
-import { entra, isStaffEmail } from "./config";
+import { authSecret, isStaffEmail } from "./config";
 import { verify } from "./token";
 
-export type Session = { email: string; name: string; exp: number };
+export type Session = { uid: string; email: string; name: string; admin: boolean; mustChange: boolean; exp: number };
 
 export function readSession(value: string | undefined): Session | null {
-  if (!entra) return null;
-  const s = verify<Session>(value, entra.secret);
-  return s && isStaffEmail(s.email) ? s : null;
+  if (!authSecret) return null;
+  const s = verify<Session>(value, authSecret);
+  return s && typeof s.uid === "string" && isStaffEmail(s.email) ? s : null;
 }

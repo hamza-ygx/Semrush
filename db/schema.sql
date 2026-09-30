@@ -94,3 +94,18 @@ create table if not exists gsc_syncs (
 create index if not exists gsc_syncs_project on gsc_syncs (project_id, synced_at desc);
 
 insert into projects (domain, name, gsc_property) values ('www.rkjh.se', 'www.rkjh.se', 'sc-domain:rkjh.se') on conflict (domain) do nothing;
+
+create table if not exists users (
+  id uuid primary key default gen_random_uuid(),
+  email text not null unique check (email = lower(email) and email like '%@rkjh.se'),
+  name text not null default '',
+  password_hash text not null,
+  is_admin boolean not null default false,
+  must_change boolean not null default true,
+  failed_attempts int not null default 0,
+  locked_until timestamptz,
+  last_login_at timestamptz,
+  created_by text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);

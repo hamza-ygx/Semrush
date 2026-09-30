@@ -5,6 +5,7 @@ const PT = "/tracking";
 const PT_ID = "30526913_5175527";
 
 export const routes = {
+  changePassword: "/change-password",
   home: "/",
   seoDashboard: "/seo",
 

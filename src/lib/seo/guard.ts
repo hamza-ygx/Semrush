@@ -19,5 +19,5 @@ export async function staffRequest(request: NextRequest): Promise<{ db: Sql; pro
 
 export function errorResponse(e: unknown) {
   const message = e instanceof Error ? e.message : "Request failed";
-  return NextResponse.json({ error: message }, { status: /already running/.test(message) ? 409 : 500 });
+  return NextResponse.json({ error: message }, { status: /already running/.test(message) ? 409 : /not found/i.test(message) ? 404 : 500 });
 }

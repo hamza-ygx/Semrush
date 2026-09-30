@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useActionState, useState } from "react";
 import { routes } from "@/config/routes";
-import { addProject } from "@/app/accounts/data-sources/actions";
+import { addProject, addUser, removeUser, resetUserPassword } from "@/app/accounts/data-sources/actions";
 import { AccountShell, PageTop } from "./AccountShell";
 
 export type ProjectStatus = {
@@ -14,6 +14,8 @@ export type ProjectStatus = {
   crawl: { status: string; started_at: string; finished_at: string | null; pages_crawled: number; health: number | null; errors: number; warnings: number; notices: number; error: string | null } | null;
   sync: { synced_at: string; rows: number; error: string | null; start_date: string; end_date: string } | null;
 };
+
+export type StaffUser = { id: string; email: string; name: string; is_admin: boolean; must_change: boolean; locked: boolean; last_login_at: string | null };
 
 const when = (iso: string | null | undefined) => (iso ? `${iso.slice(0, 16).replace("T", " ")} UTC` : "Never");
 const card = "rounded-lg border border-rk-border bg-white p-6";
@@ -69,7 +71,118 @@ function ProjectRow({ p }: { p: ProjectStatus }) {
   );
 }
 
-export function DataSources({ email, gsc, projects }: { email: string | null; gsc: { configured: boolean; serviceAccount: string | null }; projects: ProjectStatus[] }) {
+const field = "h-8 rounded-md border border-rk-border-strong px-3 text-[14px] text-rk-text outline-none focus:border-rk-accent";
+
+function UserRow({ u, me }: { u: StaffUser; me: string }) {
+  const router = useRouter();
+  const [reset, setReset] = useState(false);
+  const [temp, setTemp] = useState("");
+  const [msg, setMsg] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const act = async (fn: () => Promise<string | null>, done: string) => {
+    setBusy(true);
+    const err = await fn();
+    setBusy(false);
+    setMsg(err ?? done);
+    if (!err) {
+      setReset(false);
+      setTemp("");
+      router.refresh();
+    }
+  };
+  return (
+    <tr className="border-t border-rk-border align-top">
+      <td className="py-3 pr-4">
+        <div className="font-medium">{u.name}</div>
+        <div className="text-[13px] text-rk-muted">{u.email}</div>
+      </td>
+      <td className="py-3 pr-4 text-[13px] text-rk-text-2">
+        {u.is_admin ? "Administrator" : "Staff"}
+        {u.must_change && <div className="text-rk-muted">Must change password</div>}
+        {u.locked && <div className="text-rk-danger">Locked (too many attempts)</div>}
+      </td>
+      <td className="py-3 pr-4 text-[13px] text-rk-text-2">{when(u.last_login_at)}</td>
+      <td className="py-3 text-right">
+        {reset ? (
+          <div className="flex justify-end gap-2">
+            <input type="text" value={temp} onChange={(e) => setTemp(e.target.value)} placeholder="Temporary password" autoComplete="off" className={`${field} w-[200px]`} />
+            <button type="button" disabled={busy} onClick={() => act(() => resetUserPassword(u.id, temp), "Password reset. Share it with the user securely.")} className={btn}>
+              Save
+            </button>
+            <button type="button" onClick={() => setReset(false)} className={btn}>
+              Cancel
+            </button>
+          </div>
+        ) : (
+          <div className="flex justify-end gap-2">
+            <button type="button" onClick={() => setReset(true)} className={btn}>
+              Reset password
+            </button>
+            {u.id !== me && (
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => window.confirm(`Remove ${u.email}? They will no longer be able to log in.`) && act(() => removeUser(u.id), "User removed.")}
+                className={`${btn} text-rk-danger`}
+              >
+                Remove
+              </button>
+            )}
+          </div>
+        )}
+        {msg && <div className="mt-2 text-left text-[13px] text-rk-text-2" role="status">{msg}</div>}
+      </td>
+    </tr>
+  );
+}
+
+function UsersSection({ users, me }: { users: StaffUser[]; me: string }) {
+  const [error, action, pending] = useActionState(addUser, null);
+  return (
+    <section className={card}>
+      <h2 className="text-[16px] font-semibold">Users</h2>
+      <p className="mt-1 text-rk-muted">Only @rkjh.se addresses. New users get a temporary password and must choose their own at first login.</p>
+      <table className="mt-4 w-full text-left">
+        <thead className="text-[13px] text-rk-muted">
+          <tr>
+            <th className="pb-2 font-medium">User</th>
+            <th className="pb-2 font-medium">Role</th>
+            <th className="pb-2 font-medium">Last login</th>
+            <th className="pb-2" />
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((u) => (
+            <UserRow key={u.id} u={u} me={me} />
+          ))}
+        </tbody>
+      </table>
+      <form action={action} className="mt-5 flex flex-wrap items-end gap-3 border-t border-rk-border pt-5">
+        <label className="flex flex-col gap-1 text-[13px] text-rk-text-2">
+          Email
+          <input name="email" type="email" required placeholder="name@rkjh.se" className={`${field} w-[220px]`} />
+        </label>
+        <label className="flex flex-col gap-1 text-[13px] text-rk-text-2">
+          Name
+          <input name="name" placeholder="Full name" className={`${field} w-[180px]`} />
+        </label>
+        <label className="flex flex-col gap-1 text-[13px] text-rk-text-2">
+          Temporary password
+          <input name="password" type="text" required minLength={12} autoComplete="off" className={`${field} w-[200px]`} />
+        </label>
+        <label className="flex h-8 items-center gap-2 text-[13px] text-rk-text-2">
+          <input name="admin" type="checkbox" /> Administrator
+        </label>
+        <button type="submit" disabled={pending} className="h-8 rounded-md bg-rk-btn-dark px-3 text-[14px] font-medium text-white disabled:opacity-60">
+          {pending ? "Adding…" : "Add user"}
+        </button>
+        {error && <span role="alert" className="text-[13px] text-rk-danger">{error}</span>}
+      </form>
+    </section>
+  );
+}
+
+export function DataSources({ email, gsc, projects, users, me }: { email: string | null; gsc: { configured: boolean; serviceAccount: string | null }; projects: ProjectStatus[]; users: StaffUser[] | null; me: string }) {
   const [error, action, pending] = useActionState(addProject, null);
   return (
     <AccountShell active="dataSources" search>
@@ -123,9 +236,17 @@ export function DataSources({ email, gsc, projects }: { email: string | null; gs
             {error && <span role="alert" className="text-[13px] text-rk-danger">{error}</span>}
           </form>
         </section>
-        <form method="post" action={routes.signOut}>
-          <button type="submit" className={btn}>Log out</button>
-        </form>
+        {users && <UsersSection users={users} me={me} />}
+        <div className="flex gap-2">
+          <a href={routes.changePassword} className={`${btn} inline-flex items-center`}>
+            Change password
+          </a>
+          <form method="post" action={routes.signOut}>
+            <button type="submit" className={btn}>
+              Log out
+            </button>
+          </form>
+        </div>
       </div>
     </AccountShell>
   );
