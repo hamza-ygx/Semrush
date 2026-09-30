@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { liveRankHistory, liveSearch } from "@/lib/seo/live";
-import { supabaseEnv } from "@/lib/supabase/env";
+import { backendEnabled } from "@/lib/auth/config";
 import { buildOrganicLive, forView, type OrganicLive, type OrganicView, type RankHistory } from "./live";
 
 export type OrganicLiveProps = { live: OrganicLive | null; demo: boolean };
@@ -21,7 +21,7 @@ async function historyFor(keywords: string[], domain: string | null, days: numbe
 }
 
 export const loadOrganicLive = cache(async (q: string | null | undefined, need: OrganicNeed = "base"): Promise<OrganicLiveProps> => {
-  if (!supabaseEnv) return { live: null, demo: false };
+  if (!backendEnabled) return { live: null, demo: false };
   try {
     const domain = q?.trim() || null;
     const [cur, wide] = await Promise.all([liveSearch(domain), need === "base" ? null : liveSearch(domain, 56)]);
@@ -40,5 +40,5 @@ export const qOf = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0
 
 export async function organicProps(searchParams: SearchParams, need: OrganicNeed, view: OrganicView): Promise<OrganicLiveProps> {
   const { live, demo } = await loadOrganicLive(qOf((await searchParams).q), need);
-  return { live: live && forView(live, view), demo: demo || (view === "header" && !!supabaseEnv) };
+  return { live: live && forView(live, view), demo: demo || (view === "header" && !!backendEnabled) };
 }

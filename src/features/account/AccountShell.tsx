@@ -9,10 +9,9 @@ import { HelpButtonAndPanel } from "@/components/shell/HelpPanel";
 import { CenteredFooter } from "@/features/gaps/common";
 import { ArrowLeft, ChevronRight, PlusIcon } from "@/components/ui/icons";
 import { routes } from "@/config/routes";
-import { supabaseEnv } from "@/lib/supabase/env";
 import { accountRoutes, sideItems, type SideKey } from "./data";
 
-const navItems = supabaseEnv ? [...sideItems, { key: "dataSources" as const, label: "Data sources", href: accountRoutes.dataSources }] : sideItems;
+const navItems = process.env.NEXT_PUBLIC_BACKEND === "1" ? [...sideItems, { key: "dataSources" as const, label: "Data sources", href: accountRoutes.dataSources }] : sideItems;
 
 function Sidebar({ active }: { active: SideKey }) {
   const [beta, setBeta] = useState(false);

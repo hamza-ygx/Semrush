@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
   if (ctx instanceof NextResponse) return ctx;
   if (!gscConfigured()) return NextResponse.json({ error: "Google Search Console is not connected (GOOGLE_SERVICE_ACCOUNT_JSON missing)" }, { status: 503 });
   try {
-    return NextResponse.json(await syncSearchConsole(ctx.db, ctx.projectId));
+    return NextResponse.json(await syncSearchConsole(ctx.db, ctx.projectId, ctx.email));
   } catch (e) {
     return errorResponse(e);
   }

@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
   const ctx = await staffRequest(request);
   if (ctx instanceof NextResponse) return ctx;
   try {
-    return NextResponse.json(await runCrawl(ctx.db, ctx.projectId, 45_000));
+    return NextResponse.json(await runCrawl(ctx.db, ctx.projectId, 45_000, ctx.email));
   } catch (e) {
     return errorResponse(e);
   }

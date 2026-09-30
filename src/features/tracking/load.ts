@@ -1,13 +1,13 @@
 import { cache } from "react";
 import { liveRankHistory, liveSearch } from "@/lib/seo/live";
-import { supabaseEnv } from "@/lib/supabase/env";
+import { backendEnabled } from "@/lib/auth/config";
 import { latestKeywords, project, trackedKeywords } from "./data";
 import { buildTrackingLive, type TrackingLive } from "./live";
 
 export type TrackingLiveProps = { live: TrackingLive | null; demo: boolean };
 
 export const loadTrackingLive = cache(async (): Promise<TrackingLiveProps> => {
-  if (!supabaseEnv) return { live: null, demo: false };
+  if (!backendEnabled) return { live: null, demo: false };
   try {
     const tracked = trackedKeywords.map((k) => k.keyword);
     const extra = latestKeywords.map((k) => k.keyword).filter((k) => !tracked.includes(k));
