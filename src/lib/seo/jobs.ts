@@ -5,10 +5,10 @@ import { searchAnalytics, searchAnalyticsAll } from "./gsc";
 const day = 86_400_000;
 const iso = (d: Date) => d.toISOString().slice(0, 10);
 
-export type ProjectRow = { id: string; domain: string; name: string; gsc_property: string | null; crawl_limit: number };
+export type ProjectRow = { id: string; domain: string; name: string; gsc_property: string | null; ga4_property: string | null; crawl_limit: number };
 
 export async function getProject(db: Sql, projectId: string) {
-  const [p] = await db<ProjectRow[]>`select id, domain, name, gsc_property, crawl_limit from projects where id = ${projectId}`;
+  const [p] = await db<ProjectRow[]>`select id, domain, name, gsc_property, ga4_property, crawl_limit from projects where id = ${projectId}`;
   if (!p) throw new Error("Project not found");
   return p;
 }

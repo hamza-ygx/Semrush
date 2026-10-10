@@ -129,3 +129,25 @@ create table if not exists semrush_syncs (
   error text,
   synced_by text
 );
+
+alter table projects add column if not exists ga4_property text;
+
+create table if not exists source_data (
+  project_id uuid not null references projects(id) on delete cascade,
+  source text not null check (source in ('ga4','psi','bing')),
+  dataset text not null,
+  fetched_at timestamptz not null,
+  rows jsonb not null,
+  primary key (project_id, source, dataset, fetched_at)
+);
+
+create table if not exists source_syncs (
+  id bigint generated always as identity primary key,
+  project_id uuid not null references projects(id) on delete cascade,
+  source text not null,
+  synced_at timestamptz not null default now(),
+  datasets int not null default 0,
+  error text,
+  synced_by text
+);
+create index if not exists source_syncs_project on source_syncs (project_id, source, synced_at desc);

@@ -16,15 +16,16 @@ function serviceAccount(): ServiceAccount | null {
 export const gscConfigured = () => serviceAccount() !== null;
 export const gscAccountEmail = () => serviceAccount()?.client_email ?? null;
 
-let cached: { token: string; exp: number } | null = null;
+const cache = new Map<string, { token: string; exp: number }>();
 
-async function accessToken() {
+export async function googleAccessToken(scope: string) {
+  const cached = cache.get(scope);
   if (cached && cached.exp - 60 > Date.now() / 1000) return cached.token;
   const sa = serviceAccount();
   if (!sa) throw new Error("GOOGLE_SERVICE_ACCOUNT_JSON is not set");
   const now = Math.floor(Date.now() / 1000);
   const b64 = (o: object) => Buffer.from(JSON.stringify(o)).toString("base64url");
-  const unsigned = `${b64({ alg: "RS256", typ: "JWT" })}.${b64({ iss: sa.client_email, scope: "https://www.googleapis.com/auth/webmasters.readonly", aud: "https://oauth2.googleapis.com/token", iat: now, exp: now + 3600 })}`;
+  const unsigned = `${b64({ alg: "RS256", typ: "JWT" })}.${b64({ iss: sa.client_email, scope, aud: "https://oauth2.googleapis.com/token", iat: now, exp: now + 3600 })}`;
   const signature = createSign("RSA-SHA256").update(unsigned).sign(sa.private_key, "base64url");
   const res = await fetch("https://oauth2.googleapis.com/token", {
     method: "POST",
@@ -34,14 +35,14 @@ async function accessToken() {
   });
   if (!res.ok) throw new Error(`Google token request failed (${res.status})`);
   const json = (await res.json()) as { access_token: string; expires_in: number };
-  cached = { token: json.access_token, exp: now + json.expires_in };
+  cache.set(scope, { token: json.access_token, exp: now + json.expires_in });
   return json.access_token;
 }
 
 async function gscFetch<T>(path: string, body?: object): Promise<T> {
   const res = await fetch(`https://searchconsole.googleapis.com/webmasters/v3/${path}`, {
     method: body ? "POST" : "GET",
-    headers: { authorization: `Bearer ${await accessToken()}`, "content-type": "application/json" },
+    headers: { authorization: `Bearer ${await googleAccessToken("https://www.googleapis.com/auth/webmasters.readonly")}`, "content-type": "application/json" },
     body: body ? JSON.stringify(body) : undefined,
     signal: AbortSignal.timeout(30000),
   });

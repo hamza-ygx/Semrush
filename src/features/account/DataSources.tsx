@@ -14,7 +14,53 @@ export type ProjectStatus = {
   crawl: { status: string; started_at: string; finished_at: string | null; pages_crawled: number; health: number | null; errors: number; warnings: number; notices: number; error: string | null } | null;
   sync: { synced_at: string; rows: number; error: string | null; start_date: string; end_date: string } | null;
   semrush: { fetched_at: string | null; source: string | null; error: string | null } | null;
+  sources: { source: string; synced_at: string; error: string | null }[];
 };
+
+export type OtherSources = { ga4: boolean; bing: boolean; psiKey: boolean };
+
+const sourceInfo = [
+  { key: "ga4", label: "Google Analytics 4", route: "/api/seo/ga4-sync", button: "Sync Analytics" },
+  { key: "psi", label: "PageSpeed / Core Web Vitals", route: "/api/seo/psi-run", button: "Run PageSpeed" },
+  { key: "bing", label: "Bing Webmaster", route: "/api/seo/bing-sync", button: "Sync Bing" },
+] as const;
+
+function SourceRow({ p, info, enabled }: { p: ProjectStatus; info: (typeof sourceInfo)[number]; enabled: boolean }) {
+  const router = useRouter();
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<string | null>(null);
+  const last = p.sources.find((s) => s.source === info.key);
+  const run = async () => {
+    setBusy(true);
+    setMsg(null);
+    try {
+      const res = await fetch(info.route, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ projectId: p.id }) });
+      const json = await res.json().catch(() => ({}));
+      setMsg(res.ok ? `Updated ${json.datasets} datasets` : (json.error ?? `Failed (${res.status})`));
+      router.refresh();
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <tr className="border-t border-rk-border align-top">
+      <td className="py-3 pr-4">
+        <div className="font-medium">{info.label}</div>
+        <div className="text-[13px] text-rk-muted">{p.domain}</div>
+      </td>
+      <td className="py-3 pr-4 text-[13px]">
+        <div>{when(last?.synced_at)}</div>
+        {last?.error ? <div className="text-rk-danger">{last.error}</div> : !enabled && <div className="text-rk-muted">Not connected</div>}
+      </td>
+      <td className="py-3 text-right">
+        <button type="button" disabled={busy || !enabled} onClick={run} className={btn}>
+          {busy ? "Working…" : info.button}
+        </button>
+        {msg && <div className="mt-2 text-left text-[13px] text-rk-text-2" role="status">{msg}</div>}
+      </td>
+    </tr>
+  );
+}
 
 export type StaffUser = { id: string; email: string; name: string; is_admin: boolean; must_change: boolean; locked: boolean; last_login_at: string | null };
 
@@ -200,7 +246,7 @@ function UsersSection({ users, me }: { users: StaffUser[]; me: string }) {
   );
 }
 
-export function DataSources({ email, gsc, semrushApi, projects, users, me }: { email: string | null; gsc: { configured: boolean; serviceAccount: string | null }; semrushApi: boolean; projects: ProjectStatus[]; users: StaffUser[] | null; me: string }) {
+export function DataSources({ email, gsc, semrushApi, other, projects, users, me }: { email: string | null; gsc: { configured: boolean; serviceAccount: string | null }; semrushApi: boolean; other: OtherSources; projects: ProjectStatus[]; users: StaffUser[] | null; me: string }) {
   const [error, action, pending] = useActionState(addProject, null);
   return (
     <AccountShell active="dataSources" search>
@@ -262,6 +308,17 @@ export function DataSources({ email, gsc, semrushApi, projects, users, me }: { e
             </button>
             {error && <span role="alert" className="text-[13px] text-rk-danger">{error}</span>}
           </form>
+        </section>
+        <section className={card}>
+          <h2 className="text-[16px] font-semibold">Free data sources</h2>
+          <p className="mt-1 text-rk-muted">
+            Google Analytics needs GA4_PROPERTY_ID and the Google service account added as a Viewer in GA4. Bing needs BING_WEBMASTER_API_KEY. PageSpeed works without a key{other.psiKey ? " (API key set)" : "; add PAGESPEED_API_KEY for a higher quota"}. All three also run in the daily job (Bing on Mondays).
+          </p>
+          <table className="mt-4 w-full text-left">
+            <tbody>
+              {projects.flatMap((p) => sourceInfo.map((info) => <SourceRow key={`${p.id}-${info.key}`} p={p} info={info} enabled={info.key === "psi" ? true : other[info.key]} />))}
+            </tbody>
+          </table>
         </section>
         {users && <UsersSection users={users} me={me} />}
         <div className="flex gap-2">
