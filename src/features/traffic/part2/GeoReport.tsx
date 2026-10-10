@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useOutsideClose } from "@/components/ui/Popover";
 import { fmtCount, fmtDur, fmtPpv, fmtRate, type TrafficLive } from "../ga4Live";
 import { TrafficFrame, domainColors, liveDomains, sampleDomains, withRange } from "../TrafficFrame";
@@ -145,6 +145,15 @@ function TrendCard({ kind, live }: { kind: Kind; live?: GeoTrend }) {
   const scale = metric === "Visits" || base.uv ? 1 : 0.46;
   const t = metric === "Unique Visitors" && base.uv ? base.uv : base;
   const series = t.series.filter((s) => !off[s.name]).map((s) => ({ ...s, data: s.data.map((v) => v * scale) }));
+  const box = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(1196);
+  useEffect(() => {
+    const el = box.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => setWidth(Math.min(1196, Math.floor(el.clientWidth) || 1196)));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
   return (
     <SampleCard title="Traffic Trend" bodyClassName="px-5 pt-5 pb-[31px]">
       <div className="flex items-center gap-4">
@@ -184,8 +193,8 @@ function TrendCard({ kind, live }: { kind: Kind; live?: GeoTrend }) {
         </div>
         <SegTabs items={["Visits", "Unique Visitors"] as const} onChange={setMetric} />
       </div>
-      <div className="mt-[17px]">
-        <TrendLines series={series} width={1196} plotH={213} ticks={t.ticks} labels={base.labels ?? months} />
+      <div ref={box} className="mt-[17px]">
+        <TrendLines series={series} width={width} plotH={213} ticks={t.ticks} labels={base.labels ?? months} />
       </div>
     </SampleCard>
   );
