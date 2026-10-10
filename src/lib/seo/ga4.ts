@@ -31,16 +31,18 @@ const dims = (...names: string[]) => names.map((name) => ({ name }));
 export async function fetchGa4(property: string) {
   const id = property.replace(/^properties\//, "");
   if (!/^\d+$/.test(id)) throw new Error("GA4 property ID must be a number");
-  const [daily, channels, monthlyChannels, countries, pages, landing, devices, sources] = await Promise.all([
+  const [daily, channels, monthlyChannels, countries, pages, landing, devices, sources, countryDevices, monthlyCountries] = await Promise.all([
     runReport(id, { dateRanges: [{ startDate: "485daysAgo", endDate: "yesterday" }], dimensions: dims("date"), metrics: core, orderBys: [{ dimension: { dimensionName: "date" } }], limit: 1000 }),
     runReport(id, { dateRanges: range28, dimensions: dims("sessionDefaultChannelGroup"), metrics: core, limit: 100 }),
     runReport(id, { dateRanges: [{ startDate: "395daysAgo", endDate: "yesterday" }], dimensions: dims("yearMonth", "sessionDefaultChannelGroup"), metrics: dims("sessions", "totalUsers"), limit: 1000 }),
     runReport(id, { dateRanges: range28, dimensions: dims("country", "countryId"), metrics: core, orderBys: [{ metric: { metricName: "sessions" }, desc: true }], limit: 250 }),
-    runReport(id, { dateRanges: range28, dimensions: dims("pagePath", "pageTitle"), metrics: dims("screenPageViews", "totalUsers", "averageSessionDuration", "engagementRate"), orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }], limit: 500 }),
+    runReport(id, { dateRanges: range28, dimensions: dims("hostName", "pagePath", "pageTitle"), metrics: dims("screenPageViews", "totalUsers", "averageSessionDuration", "engagementRate"), orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }], limit: 500 }),
     runReport(id, { dateRanges: range28, dimensions: dims("landingPage"), metrics: core, orderBys: [{ metric: { metricName: "sessions" }, desc: true }], limit: 500 }),
     runReport(id, { dateRanges: range28, dimensions: dims("deviceCategory"), metrics: core, limit: 10 }),
     runReport(id, { dateRanges: range28, dimensions: dims("sessionSource", "sessionMedium"), metrics: core, orderBys: [{ metric: { metricName: "sessions" }, desc: true }], limit: 250 }),
+    runReport(id, { dateRanges: [range28[0]], dimensions: dims("countryId", "deviceCategory"), metrics: dims("sessions", "totalUsers"), limit: 1000 }),
+    runReport(id, { dateRanges: [{ startDate: "395daysAgo", endDate: "yesterday" }], dimensions: dims("yearMonth", "countryId"), metrics: dims("sessions", "totalUsers"), limit: 5000 }),
   ]);
   const fixDate = (rows: Record<string, unknown>[]) => rows.map((r) => ({ ...r, date: typeof r.date === "string" ? `${r.date.slice(0, 4)}-${r.date.slice(4, 6)}-${r.date.slice(6, 8)}` : r.date }));
-  return { daily: fixDate(daily), channels, monthlyChannels, countries, pages, landing, devices, sources };
+  return { daily: fixDate(daily), channels, monthlyChannels, countries, pages, landing, devices, sources, countryDevices, monthlyCountries };
 }
