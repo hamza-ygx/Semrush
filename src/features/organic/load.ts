@@ -59,6 +59,6 @@ export const qOf = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0
 export async function organicProps(searchParams: SearchParams, need: OrganicNeed, view: OrganicView): Promise<OrganicLiveProps> {
   const sp = await searchParams;
   const { live, demo } = await loadOrganicLive(qOf(sp.q), need, qOf(sp.db));
-  const mock = view === "header" || (view === "competitors" && !live?.competitors);
+  const mock = view === "header" || (view === "competitors" && !live?.competitors) || (view === "changes" && !live?.moves);
   return { live: live && forView(live, view), demo: demo || (mock && !!backendEnabled) };
 }

@@ -8,6 +8,7 @@ import { Plot, VBW, areaUnder, linePath, pts, smoothPath, Stroke } from "../char
 import { DarkButton, Dot, ExportButton, Flag, Seg, WorldIcon } from "../ui";
 import { WorldMap } from "../WorldMap";
 import type { GrowthLive } from "../live";
+import { DemoMark, DemoTag } from "@/features/organic/ui";
 
 const A = "#a55ff2";
 const B = "#6167e6";
@@ -123,6 +124,7 @@ function tone(v: string | undefined, inverse = false) {
 function SummaryTable({ live }: { live: GrowthLive | null }) {
   const th = "h-8 text-[12px] font-normal text-rk-text-2";
   const cols = [`${brand.name} Rank`, "Org. Traffic", "Backlinks", "Ref. Domains", "Paid Traffic"];
+  const mock = !!live && !live.rows;
   return (
     <section className="mt-[15px] overflow-hidden rounded-lg bg-white shadow-card">
       <table className="w-full table-fixed text-[14px] leading-5">
@@ -132,6 +134,7 @@ function SummaryTable({ live }: { live: GrowthLive | null }) {
             {cols.map((c, i) => (
               <th key={c} className={`${th} text-right ${i === cols.length - 1 ? "w-[180px] pr-5" : "w-[160px]"}`}>
                 {c}
+                {mock && i !== 1 && <DemoMark />}
               </th>
             ))}
           </tr>
@@ -172,6 +175,7 @@ function ChartsCard({ live }: { live: GrowthLive | null }) {
   const paidList = live?.paid ? paid.map((c, i) => ({ ...c, ...live.paid![i] })) : paid;
   const backlinksList = live?.backlinks ? backlinks.map((c, i) => ({ ...c, ...live.backlinks![i] })) : backlinks;
   const list = tab === "Organic" ? organicList : tab === "Paid" ? paidList : backlinksList;
+  const mock = !!live && (tab === "Organic" ? !live.keywords || !live.cost : tab === "Paid" ? !live.paid : !live.backlinks);
   return (
     <section className="mt-[17px] rounded-lg bg-white shadow-card">
       <header className="flex h-[44px] items-center justify-between border-b border-rk-border px-5">
@@ -187,6 +191,7 @@ function ChartsCard({ live }: { live: GrowthLive | null }) {
             </>
           )}
         />
+        {mock && <DemoTag className="mr-auto" />}
         <ExportButton />
       </header>
       <div className="px-5 pt-[20px] pb-[20px]">
@@ -221,10 +226,14 @@ function BottomCard({ live }: { live: GrowthLive | null }) {
   const [aVal, bVal] = bottom ? bottom.nonBranded : ["7", "59"];
   const topPositionChanges = bottom?.top ?? mockTopChanges;
   const growthPositions = bottom?.positions ?? mockPositions;
+  const mock = !!live && !bottom;
   return (
     <section className="mt-[16px] grid h-[263px] grid-cols-[245px_246px_1fr] gap-x-[41px] rounded-lg bg-white px-5 pt-5 shadow-card">
       <div>
-        <h4 className="text-[16px] leading-6 font-bold">Non-branded Traffic</h4>
+        <h4 className={`${mock ? "flex items-center " : ""}text-[16px] leading-6 font-bold`}>
+          Non-branded Traffic
+          {mock && <DemoMark />}
+        </h4>
         {[
           [aName, A, aVal, "border-b border-rk-border pb-[23px]"],
           [bName, B, bVal, "pt-[22px]"],
@@ -244,7 +253,10 @@ function BottomCard({ live }: { live: GrowthLive | null }) {
         ))}
       </div>
       <div>
-        <h4 className="text-[16px] leading-6 font-bold">Top Positions Changes</h4>
+        <h4 className={`${mock ? "flex items-center " : ""}text-[16px] leading-6 font-bold`}>
+          Top Positions Changes
+          {mock && <DemoMark />}
+        </h4>
         <div className="mt-[19px]">
           {topPositionChanges.map((r) => {
             const tone = r.delta.startsWith("+") ? "text-rk-success" : r.delta.startsWith("-") ? "text-rk-danger" : "text-rk-muted";
@@ -269,7 +281,10 @@ function BottomCard({ live }: { live: GrowthLive | null }) {
       </div>
       <div>
         <div className="flex items-center justify-between pr-[14px]">
-          <h4 className="text-[16px] leading-6 font-bold">Positions Distribution</h4>
+          <h4 className={`${mock ? "flex items-center " : ""}text-[16px] leading-6 font-bold`}>
+            Positions Distribution
+            {mock && <DemoMark />}
+          </h4>
           <div className="flex gap-[18px] text-[14px]">
             <span className="flex items-center gap-[6px]">
               <Dot color={A} />
@@ -302,12 +317,15 @@ function BottomCard({ live }: { live: GrowthLive | null }) {
   );
 }
 
-function CountryCard() {
+function CountryCard({ demo = false }: { demo?: boolean }) {
   const [period, setPeriod] = useState<"March" | "September">("September");
   return (
     <section className="mt-[17px] h-[442px] rounded-lg bg-white shadow-card">
       <header className="flex h-[42px] items-center justify-between border-b border-rk-border px-5">
-        <h3 className="text-[16px] leading-6 font-bold">Organic Traffic by Country</h3>
+        <h3 className={`${demo ? "flex items-center " : ""}text-[16px] leading-6 font-bold`}>
+          Organic Traffic by Country
+          {demo && <DemoTag />}
+        </h3>
         <Seg
           items={["March", "September"] as const}
           value={period}
@@ -369,7 +387,7 @@ export function GrowthReport({ live = null }: { live?: GrowthLive | null }) {
       <SummaryTable live={live} />
       <ChartsCard live={live} />
       <BottomCard live={live} />
-      <CountryCard />
+      <CountryCard demo={!!live} />
     </>
   );
 }

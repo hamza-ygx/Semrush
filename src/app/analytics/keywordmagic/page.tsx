@@ -15,12 +15,14 @@ export default async function KeywordMagicPage({ searchParams }: { searchParams:
   const mode = one(sp.mode) === "1" ? "groups" : "topics";
   const type = one(sp.questions) === "true" ? "questions" : "all";
   const all = await loadKwMetrics();
-  const metrics = all ? pickMetrics(all, kmtKeywords(kmtDataset(q))) : null;
+  const keywords = kmtKeywords(kmtDataset(q));
+  const metrics = all ? pickMetrics(all, keywords) : null;
   const real = !!metrics && Object.keys(metrics).length > 0;
+  const full = real && Object.keys(metrics).length >= keywords.length;
   return (
     <WidePage>
       <AppShell section="seo" search={{ kind: "analyze", value: q }} footer={false}>
-        <KeywordMagic key={`${q}-${mode}-${type}`} q={q} initialMode={mode} initialType={type} metrics={real ? metrics : null} demo={!!backendEnabled && !real} />
+        <KeywordMagic key={`${q}-${mode}-${type}`} q={q} initialMode={mode} initialType={type} metrics={real ? metrics : null} demo={!!backendEnabled && !full} />
         <CenteredFooter />
       </AppShell>
     </WidePage>

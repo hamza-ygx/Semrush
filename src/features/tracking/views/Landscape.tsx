@@ -8,7 +8,8 @@ import { FilterBar } from "../FilterBar";
 import { Checkbox, DomainChip, Segmented } from "../controls";
 import { CopyIcon, ExternalLinkIcon, SparkleIcon } from "../icons";
 import { EmptyTable, WorldMapCard } from "../illustrations";
-import { DarkButton, GrayButton, Info, Panel } from "../ui";
+import { DarkButton, DemoTag, GrayButton, Info, Panel } from "../ui";
+import { DemoMark } from "@/features/organic/ui";
 import { days, project, serpFeatureBars, trackedKeywords } from "../data";
 import { SerpFeatureIcon } from "../serpIcons";
 import { CompetitorGrowth, SummaryPeriod } from "../period";
@@ -32,7 +33,7 @@ function PotentialSpark() {
   );
 }
 
-function MetricBlock({ label, value, sub, delta, grey, first, sparkLeft }: { label: string; value: string; sub: string; delta: ReactNode; grey?: boolean; first?: boolean; sparkLeft: number }) {
+function MetricBlock({ label, value, sub, delta, grey, first, sparkLeft, demo = false }: { label: string; value: string; sub: string; delta: ReactNode; grey?: boolean; first?: boolean; sparkLeft: number; demo?: boolean }) {
   const o = first ? -6 : 0;
   return (
     <div className={`relative ${first ? "h-[107px]" : "h-[113px] border-t-2 border-[#e7e8e8]"}`}>
@@ -45,6 +46,7 @@ function MetricBlock({ label, value, sub, delta, grey, first, sparkLeft }: { lab
         <span className="text-[12px] text-rk-muted">{sub}</span>
       </div>
       <div style={{ top: 21 + o }} className="absolute -right-[1px] flex items-center gap-[4px]">
+        {demo && <DemoMark className="!ml-0" />}
         <span className="flex items-center text-[12px] text-[#8a3fcf]">{delta}</span>
         <button type="button" className="h-[21px] rounded-full bg-[#f3d4ff] px-[8px] text-[13px] leading-[21px] text-[#8a3fcf] hover:bg-[#ebc0fb]">
           See potential
@@ -89,7 +91,7 @@ function SummaryCard({ live }: Live) {
           </li>
           <li className="relative pl-[23px]">
             <span className="absolute top-[8px] left-[3px] h-[5px] w-[5px] rounded-full bg-rk-muted" />
-            You have a potential competitor verksamt.se. Their Visibility has grown by <CompetitorGrowth />.{" "}
+            You have a potential competitor verksamt.se. Their Visibility has grown by <CompetitorGrowth />.{live && <DemoMark className="!ml-[4px]" />}{" "}
             <Link href={routes.tracking.competitorsDiscovery} className="text-rk-link hover:text-rk-link-hover">
               View report
             </Link>
@@ -235,7 +237,7 @@ function KeywordsCard({ live }: Live) {
   );
 }
 
-function BrandPresence() {
+function BrandPresence({ demo = false }: { demo?: boolean }) {
   return (
     <section className="h-[136px] overflow-hidden rounded-md border border-[#c9d6f8] bg-white">
       <div className="flex h-[44px] items-center gap-[12px] bg-[#ebf1ff] pr-[17px] pl-[23px]">
@@ -247,6 +249,7 @@ function BrandPresence() {
         <span className="ml-[3px] flex items-center gap-[6px] border-l border-[#d6d8d7] pl-[9px] text-[14px] text-rk-muted">
           Domain: <span className="blur-[3px] select-none">rkjh.se</span>
         </span>
+        {demo && <DemoTag className="!ml-0" />}
         <button type="button" aria-label="Close" className="ml-auto flex h-6 w-6 items-center justify-center rounded text-rk-text-2 hover:bg-[#d6e2ff]">
           <CloseIcon width={14} height={14} />
         </button>
@@ -391,12 +394,12 @@ function TagsCard() {
   );
 }
 
-function MarketTraffic() {
+function MarketTraffic({ demo = false }: { demo?: boolean }) {
   const xs = [180, 200, 220, 240, 260];
   const px = (v: number) => 179 + ((v - 180) / 20) * 77.75 - 32;
   const py = (v: number) => 2204 + ((v - 20) / 20) * 65.5 - 2089;
   return (
-    <Panel title="Market Traffic vs Selected Domains Trends" className="h-[364px]">
+    <Panel title="Market Traffic vs Selected Domains Trends" demo={demo} className="h-[364px]">
       <div className="relative h-[323px]">
         <svg width={560} height={323} className="absolute top-0 left-0 overflow-visible">
           <line x1={80} x2={486} y1={259} y2={259} stroke="#d6d8d7" />
@@ -440,11 +443,11 @@ function MarketTraffic() {
   );
 }
 
-function SerpFeaturesCard() {
+function SerpFeaturesCard({ demo = false }: { demo?: boolean }) {
   const y = (v: number) => 28 + (100 - v) * 1.864;
   const x = (i: number) => 145 - 32 + i * 38.6;
   return (
-    <Panel title="SERP Features" className="h-[340px]">
+    <Panel title="SERP Features" demo={demo} className="h-[340px]">
       <div className="relative h-[300px]">
         <svg width="100%" height={300} className="absolute top-0 left-0 overflow-visible">
           {[100, 75, 50, 25, 0].map((v) => (
@@ -553,7 +556,7 @@ export function CannibalizationHealthCard({
   const E = liveDays ? 1 : nine ? 0.797 : dataEnd;
   const labels = liveDays ? liveDays.map(dayLabel) : nine ? [...days, "Sep 25"] : days;
   return (
-    <Panel title="Cannibalization Health" headerClassName="h-[45px]" right={header} className={className}>
+    <Panel title="Cannibalization Health" demo={!!liveDays} headerClassName="h-[45px]" right={header} className={className}>
       <div className="relative h-[280px] px-5">
         <div className="flex pt-[20px]">
           <div className="border-r border-[#e0e2e1] pr-[23px]">
@@ -623,9 +626,10 @@ export function LandscapeView(snap: Snap) {
         <FilterBar top={<DomainChip />} />
         <div className="mt-[15px] flex gap-4">
           <section className="h-[331px] min-w-0 flex-[1_1_425px] rounded-md border border-[#e5e6e6] bg-white px-5 shadow-[0_1px_2px_rgba(25,27,35,0.05)]">
-            <MetricBlock first label="Visibility" value={m.vis} sub={m.visSub} delta="+0.57%" sparkLeft={145} />
-            <MetricBlock label="Estimated Traffic" value={m.tr} sub={m.trSub} grey={!live?.traffic} delta="+1.38" sparkLeft={152} />
+            <MetricBlock first label="Visibility" value={m.vis} sub={m.visSub} delta="+0.57%" sparkLeft={145} demo={!!live} />
+            <MetricBlock label="Estimated Traffic" value={m.tr} sub={m.trSub} grey={!live?.traffic} delta="+1.38" sparkLeft={152} demo={!!live} />
             <MetricBlock
+              demo={!!live}
               label="Average Position"
               value={m.pos}
               sub={m.posSub}
@@ -644,7 +648,7 @@ export function LandscapeView(snap: Snap) {
           <KeywordsCard live={live} />
         </div>
         <div className="mt-4">
-          <BrandPresence />
+          <BrandPresence demo={!!live} />
         </div>
         <div className="mt-4 grid grid-cols-3 gap-4">
           <TopKeywords live={live} />
@@ -653,8 +657,8 @@ export function LandscapeView(snap: Snap) {
         </div>
         <div className="mt-4 flex flex-col gap-4">
           <TagsCard />
-          <MarketTraffic />
-          <SerpFeaturesCard />
+          <MarketTraffic demo={!!live} />
+          <SerpFeaturesCard demo={!!live} />
           <PagesCard live={live} />
           <VisibilityByLocations />
           <CannibalizationHealthCard x0={242.5} x1={1001.7} liveDays={live?.days} />

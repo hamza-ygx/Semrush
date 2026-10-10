@@ -3,7 +3,7 @@ import { TrackingPage } from "../TrackingPage";
 import { FilterBar } from "../FilterBar";
 import { Checkbox, DomainChip, Select, SearchInput } from "../controls";
 import { SortAscIcon } from "../icons";
-import { Info } from "../ui";
+import { DemoTag, Info } from "../ui";
 import { volumeOptions } from "./Overview";
 import { FeaturedTiles } from "../FeaturedTiles";
 
@@ -13,12 +13,13 @@ function Bar({ color, w }: { color: string; w: number }) {
   return <div style={{ width: w, background: color }} className="mt-[4px] h-[7px] rounded-full" />;
 }
 
-function SummaryCard() {
+function SummaryCard({ demo = false }: { demo?: boolean }) {
   return (
     <section className={`${card} relative h-[233px] w-[560px]`}>
       <div className="flex h-[63px] items-start border-b-2 border-[#edefef] px-5 pt-[8px]">
         <h2 className="flex items-center gap-[6px] text-[16px] leading-6 font-semibold text-rk-text">
           0 keywords with Featured snippets on SERP <Info className="ml-[1px]" />
+          {demo && <DemoTag className="!ml-[4px]" />}
         </h2>
       </div>
       <div className="absolute top-[92px] left-5 text-[12px] leading-4 text-rk-text">Keywords</div>
@@ -54,12 +55,13 @@ function SummaryCard() {
   );
 }
 
-function TrendCard({ days }: { days: number }) {
+function TrendCard({ days, demo = false }: { days: number; demo?: boolean }) {
   return (
     <section className={`${card} relative h-[233px] w-[415.6px]`}>
       <div className="h-[63px] border-b-2 border-[#edefef] px-5 pt-[8px]">
         <h2 className="flex items-center gap-[6px] text-[16px] leading-6 font-semibold text-rk-text">
           Featured snippets trend <Info className="ml-[1px]" />
+          {demo && <DemoTag className="!ml-[4px]" />}
         </h2>
         <div className="mt-[4px] text-[14px] leading-5 text-rk-muted">over last {days} days</div>
       </div>
@@ -132,8 +134,8 @@ export function FeaturedSnippetsView(snap: Snap) {
           }
         />
         <div className="mt-[15px] flex gap-3">
-          <SummaryCard />
-          <TrendCard days={snap.end === "20260925" ? 9 : 8} />
+          <SummaryCard demo={!!snap.live} />
+          <TrendCard days={snap.end === "20260925" ? 9 : 8} demo={!!snap.live} />
         </div>
         <SnippetsTable />
       </div>

@@ -10,6 +10,7 @@ import { tpCited, tpPages, tpTraffic } from "./series";
 import { Plot, linePath, pts, smoothPath, Stroke, VBW } from "./charts";
 import { Check, ExtIcon, IntentBadge, Seg, SerpIcon, SortIcon } from "./ui";
 import { addDays } from "@/features/organic/live";
+import { DemoMark } from "@/features/organic/ui";
 import type { TopPagesLive } from "./live";
 
 const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -32,10 +33,13 @@ const Chevrons = ({ open }: { open: boolean }) => (
   </svg>
 );
 
-function Metric({ label, value, delta, tone = "danger", className = "" }: { label: string; value: string; delta: string; tone?: "danger" | "muted"; className?: string }) {
+function Metric({ label, value, delta, tone = "danger", className = "", demo = false }: { label: string; value: string; delta: string; tone?: "danger" | "muted"; className?: string; demo?: boolean }) {
   return (
     <div className={className}>
-      <div className="text-[14px] leading-5">{label}</div>
+      <div className="text-[14px] leading-5">
+        {label}
+        {demo && <DemoMark />}
+      </div>
       <div className="mt-[4.5px] flex items-baseline gap-[6px]">
         <span className="text-[24px] leading-[30px] font-bold">{value}</span>
         <span className={`text-[12px] ${tone === "danger" ? "text-rk-danger" : "text-rk-muted"}`}>{delta}</span>
@@ -74,7 +78,7 @@ function Summary({ live }: { live: TopPagesLive | null }) {
           <div className="flex">
             <Metric label="Organic Traffic" value={live?.traffic.value ?? "59"} delta={live?.traffic.delta ?? "-9.23%"} tone={live && !live.traffic.delta.startsWith("-") ? "muted" : "danger"} className="w-[122px]" />
             <Metric label="Organic Pages" value={live?.pages.value ?? "45"} delta={live?.pages.delta ?? "-18.18%"} tone={live && !live.pages.delta.startsWith("-") ? "muted" : "danger"} className="w-[146px] border-l border-rk-border pl-[25px]" />
-            <Metric label="Cited Pages" value="1" delta="no changes" tone="muted" className="border-l border-rk-border pl-[25px]" />
+            <Metric label="Cited Pages" value="1" delta="no changes" tone="muted" className="border-l border-rk-border pl-[25px]" demo={!!live} />
           </div>
           <div className="mt-[23.5px] flex items-center justify-between">
             <div className="flex gap-[15px]">
@@ -297,7 +301,10 @@ function AllPages({ live }: { live: TopPagesLive | null }) {
                 <th className={thr}>Traffic Diff.</th>
                 <th className={thr}>Traffic %</th>
                 <th className={thr}>Keywords</th>
-                <th className={thr}>LLM Prompts</th>
+                <th className={thr}>
+                  LLM Prompts
+                  {live && <DemoMark className="!ml-[3px]" />}
+                </th>
                 <th className={thr}>Ref. Domains</th>
                 <th className={`${th} pl-3 text-left`}>Top Keyword</th>
                 <th className={`${th} pl-3 text-left`}>Intent</th>

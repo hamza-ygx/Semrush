@@ -12,6 +12,11 @@ export function OrganicLiveProvider({ live, demo, children }: { live: OrganicLiv
 export const useOrganicLive = () => useContext(Ctx).live;
 export const useOrganicDemo = () => useContext(Ctx).demo;
 
+export function useOrganicMark() {
+  const { live, demo } = useContext(Ctx);
+  return !!live && !demo;
+}
+
 export function useOrganicQ() {
   const live = useContext(Ctx).live;
   return `?db=se&q=${live ? encodeURIComponent(live.domain) : "rkjh.se"}&searchType=domain`;

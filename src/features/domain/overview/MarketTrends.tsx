@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CloseIcon } from "@/components/ui/icons";
 import { marketChannels } from "../data";
 import { DarkButton, ExtIcon, SparkleIcon } from "../ui";
+import { DemoTag } from "@/features/organic/ui";
 
 const BarsIcon = () => (
   <svg viewBox="0 0 20 20" width={20} height={20}>
@@ -12,7 +13,7 @@ const BarsIcon = () => (
   </svg>
 );
 
-export function MarketTrends() {
+export function MarketTrends({ demo = false }: { demo?: boolean }) {
   const [open, setOpen] = useState(true);
   if (!open) return null;
   return (
@@ -24,6 +25,7 @@ export function MarketTrends() {
           <span className="h-5 border-l border-[#a9abaa]" />
           <span className="text-rk-muted">Top market player:</span>
           <span className="blur-[3px] select-none text-rk-muted">search</span>
+          {demo && <DemoTag className="!ml-[4px]" />}
         </div>
         <button type="button" aria-label="Close" onClick={() => setOpen(false)} className="text-rk-text-2 hover:text-rk-text">
           <CloseIcon width={14} height={14} />

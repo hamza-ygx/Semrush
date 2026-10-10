@@ -14,6 +14,7 @@ import { backlinksTrend, cdRows, organicTraffic, paidTraffic, rival, trafficMont
 import { KeywordOverlap, TopOpportunities } from "./Opportunities";
 import { TrendChart } from "./TrendChart";
 import { niceTicks, type CdLive } from "./live";
+import { DemoMark } from "@/features/organic/ui";
 
 const palette = [D1, D2, "#ff8e29", "#ff6b70", "#b58af2"];
 
@@ -141,6 +142,7 @@ function CompareTable({ rows }: { rows: CdRow[] }) {
                   <Link href={routes.domainOverview} className="truncate text-rk-link hover:text-rk-link-hover">
                     {r.domain}
                   </Link>
+                  {r.demo && <DemoMark className="!-ml-[5px]" />}
                 </span>
               </td>
               {cols.map((c, i) => (
@@ -160,11 +162,12 @@ function CompareTable({ rows }: { rows: CdRow[] }) {
   );
 }
 
-function SmallCard({ title, children }: { title: string; children: ReactNode }) {
+function SmallCard({ title, children, demo = false }: { title: string; children: ReactNode; demo?: boolean }) {
   return (
     <div className="h-[150px] min-w-0 flex-1 rounded-lg bg-white shadow-card">
       <div className="flex h-[40px] items-center border-b border-[#e8e9ec] px-5">
         <h3 className="text-[16px] leading-6 font-bold">{title}</h3>
+        {demo && <DemoTag />}
       </div>
       {children}
     </div>
@@ -261,6 +264,7 @@ function TrafficChart({ live }: { live?: CdLive | null }) {
   const fixed = tab === "organic" ? [0, 115, 230, 345, 460] : tab === "paid" ? [0, 1, 2, 3, 4] : [0, 75, 150, 225, 300];
   const ticks = live ? niceTicks(Math.max(0, ...data.flatMap((d) => d ?? []))) : fixed;
   const title = tab === "organic" ? "Organic Traffic" : tab === "paid" ? "Paid Traffic" : "Backlinks";
+  const demo = !!live && domains.some((d) => !real[d] && !!mock[d]);
   return (
     <div className="rounded-lg bg-white shadow-card">
       <div className="flex h-[44px] items-center justify-between border-b border-[#e8e9ec] px-5">
@@ -305,7 +309,10 @@ function TrafficChart({ live }: { live?: CdLive | null }) {
         </div>
       </div>
       <div className="px-5 pt-[19px] pb-[50px]">
-        <h3 className="text-[16px] leading-6 font-bold">{title}</h3>
+        <h3 className={`${demo ? "flex items-center " : ""}text-[16px] leading-6 font-bold`}>
+          {title}
+          {demo && <DemoTag />}
+        </h3>
         <div className="mt-[21px] flex gap-4">
           {domains.map((d, i) => (
             <Checkbox key={d} color={palette[i]} checked={on[i]} onChange={() => setOn((o) => o.map((x, j) => (j === i ? !x : x)))} label={d} />
@@ -401,7 +408,7 @@ export function CompareDomainsReport({ competitors, live, demo }: { competitors:
           <SmallCard title="Traffic share">
             <TrafficShare share={live?.share} />
           </SmallCard>
-          <SmallCard title="Non-branded / Branded">
+          <SmallCard title="Non-branded / Branded" demo={!!live}>
             <SplitBars left={names ? names.map(() => "100%") : ["100%", "100%"]} right={names ? names.map(() => "0%") : ["0%", "0%"]} color="#6167e6" domains={names} />
           </SmallCard>
           <SmallCard title="Paid / Organic">

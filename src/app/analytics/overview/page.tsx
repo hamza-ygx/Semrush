@@ -20,14 +20,14 @@ export default async function DomainOverviewPage({ searchParams }: { searchParam
       <DomainHeader tab="overview" db={db ? db.toUpperCase() : "Worldwide"} live={live} demo={demo} />
       <div className="px-8 pt-[15.5px]">
         <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-4">
-          <AiSearchCard />
+          <AiSearchCard demo={!!live} />
           <SeoCard worldwide={worldwide} live={live} />
         </div>
         <TrendsWidget worldwide={worldwide} live={live} />
-        <MarketTrends />
+        <MarketTrends demo={!!live} />
         <OrganicResearch live={live} />
         <AdvertisingResearch />
-        <BacklinksSection live={live?.backlinks} />
+        <BacklinksSection live={live?.backlinks} demo={!!live} />
       </div>
       <AnalyticsFooter gap={136} bottom={44} />
     </AppShell>

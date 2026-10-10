@@ -18,7 +18,8 @@ export type CdRow = {
   refDomains: string;
   paidKeywords: string;
   paidCost: string;
-  best: (keyof Omit<CdRow, "domain" | "best">)[];
+  best: (keyof Omit<CdRow, "domain" | "best" | "demo">)[];
+  demo?: boolean;
 };
 
 export const cdRows: CdRow[] = [

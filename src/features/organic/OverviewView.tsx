@@ -34,9 +34,9 @@ import {
   type TrendKey,
 } from "./data";
 import { SerpIcon } from "./serpIcons";
-import { useOrganicLive, useOrganicQ } from "./context";
+import { useOrganicLive, useOrganicMark, useOrganicQ } from "./context";
 import { niceTop, ticksFor } from "./live";
-import { CardTitle, DarkButton, ExtLink, HoverTip, KeywordLink, LegendCheck, NotesMenu, PinIcon, Segmented, SortIcon, TimeRange, domainHref } from "./ui";
+import { CardTitle, DarkButton, DemoMark, DemoTag, ExtLink, HoverTip, KeywordLink, LegendCheck, NotesMenu, PinIcon, Segmented, SortIcon, TimeRange, domainHref } from "./ui";
 
 const Q = "?db=se&q=rkjh.se&searchType=domain";
 
@@ -70,10 +70,13 @@ function ChangeTip({ tip, delta }: { tip: MetricChange; delta: string }) {
   );
 }
 
-function MetricBlock({ id, label, value, delta, tip, children, className = "", onClick }: { id: string; label: string; value: string; delta: string; tip: MetricChange; children?: ReactNode; className?: string; onClick?: () => void }) {
+function MetricBlock({ id, label, value, delta, tip, children, className = "", onClick, demo = false }: { id: string; label: string; value: string; delta: string; tip: MetricChange; children?: ReactNode; className?: string; onClick?: () => void; demo?: boolean }) {
   return (
     <div className={`shrink-0 whitespace-nowrap ${className}`}>
-      <div className="text-[14px] leading-5 text-rk-text">{label}</div>
+      <div className="text-[14px] leading-5 text-rk-text">
+        {label}
+        {demo && <DemoMark />}
+      </div>
       <div className="mt-[2px] flex items-baseline">
         {onClick ? (
           <button type="button" onClick={onClick} className="text-[24px] leading-8 font-bold text-rk-text">
@@ -230,6 +233,7 @@ export function useTrendChart({ data, labels, ticks, max, height, pad, notes, go
 
 function SummaryCard() {
   const live = useOrganicLive();
+  const mark = useOrganicMark();
   const lt = live?.overviewTrend;
   const scale = lt ? liveTicks(lt.bars) : null;
   const n = lt ? lt.bars.length : overviewTrend.length;
@@ -261,7 +265,7 @@ function SummaryCard() {
           <TrafficSpark data={live?.trafficSpark} />
         </MetricBlock>
         <Sep />
-        <MetricBlock id="cost" label="Traffic Cost" value={sum.cost.value} delta={sum.cost.delta} tip={tips.cost} className="w-[131px]" />
+        <MetricBlock id="cost" label="Traffic Cost" value={sum.cost.value} delta={sum.cost.delta} tip={tips.cost} className="w-[131px]" demo={mark && !live?.summary.cost} />
         <Sep />
         <MetricBlock id="branded" label="Branded Traffic" value={sum.branded.value} delta={sum.branded.delta} tip={tips.branded} className="w-[103px]" />
         <Sep />
@@ -271,7 +275,10 @@ function SummaryCard() {
       {open ? (
         <div className="px-5 pt-[19px] pb-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-[16px] leading-6 font-semibold">Organic Keywords Trend</h2>
+            <h2 className={`${mark && !lt ? "flex items-center " : ""}text-[16px] leading-6 font-semibold`}>
+              Organic Keywords Trend
+              {mark && !lt && <DemoTag />}
+            </h2>
             <button type="button" aria-label="Close" data-testid="trend-close" onClick={() => setOpen(false)} className="-mr-[2px] text-rk-muted hover:text-rk-text">
               <CloseIcon width={14} height={14} />
             </button>
@@ -357,10 +364,12 @@ function TopKeywordsCard() {
 }
 
 function IntentCard() {
-  const intents = useOrganicLive()?.intents ?? mockIntents;
+  const live = useOrganicLive()?.intents;
+  const intents = live ?? mockIntents;
+  const mark = useOrganicMark();
   return (
     <Card className="h-[416px]">
-      <CardTitle>Keywords by Intent</CardTitle>
+      <CardTitle demo={mark && !live}>Keywords by Intent</CardTitle>
       <div className="flex h-[15px] gap-[2px] px-5" style={{ marginTop: 21 }}>
         {intents.map((it, i) => (
           <div key={it.key} title={`${it.label} ${it.pct}`} className={`h-full ${i === intents.length - 1 ? "rounded-r-sm" : ""} ${i === 0 ? "rounded-l-sm" : ""}`} style={{ width: `${it.share}%`, background: it.color }} />
@@ -433,9 +442,10 @@ function ChangesCard() {
   const live = useOrganicLive();
   const q = useOrganicQ();
   const rows: readonly { keyword: string; previous: number | null; current: number | null; volume: string; traffic: string }[] = live?.moves ? live.moves.top[tab] : topChanges[tab];
+  const mark = useOrganicMark();
   return (
     <Card className="h-[335px]">
-      <CardTitle>Top Position Changes in Organic</CardTitle>
+      <CardTitle demo={mark && !live?.moves}>Top Position Changes in Organic</CardTitle>
       <div className="px-5 pt-4">
         <Segmented options={["New", "Lost", "Improved", "Declined"] as const} value={tab} onChange={setTab} size="s" />
       </div>
@@ -503,6 +513,7 @@ function SerpChangesCard() {
 
 function BrandPresence() {
   const [open, setOpen] = useState(true);
+  const mark = useOrganicMark();
   if (!open) return null;
   return (
     <div className="h-[137px] overflow-hidden rounded-lg border border-[#d4dafc] bg-white shadow-card">
@@ -517,6 +528,7 @@ function BrandPresence() {
           <span className="mx-[9px] h-5 w-px bg-[#d6d8d7]" />
           <span className="text-[14px] text-rk-muted">Domain:</span>
           <span className="ml-1 text-[14px] text-rk-muted blur-[4px] select-none">rkjh</span>
+          {mark && <DemoTag />}
         </div>
         <button type="button" aria-label="Close" onClick={() => setOpen(false)} className="text-rk-text-2 hover:text-rk-text">
           <CloseIcon width={14} height={14} />
@@ -556,9 +568,10 @@ function BrandPresence() {
 function SerpTrendCard() {
   const [on, setOn] = useState({ imagePack: true, paa: true, localPack: true });
   const data = serpTrend.map(([a, b, c]) => [on.imagePack ? a : 0, on.paa ? b : 0, on.localPack ? c : 0]);
+  const mark = useOrganicMark();
   return (
     <Card className="h-[387px]">
-      <CardTitle>SERP Features Trend</CardTitle>
+      <CardTitle demo={mark}>SERP Features Trend</CardTitle>
       <div className="flex items-center justify-between px-5 pt-[21px]">
         <div className="flex items-center gap-4">
           <LegendCheck color={serpTrendColors.imagePack} label="Image pack" checked={on.imagePack} onChange={() => setOn((o) => ({ ...o, imagePack: !o.imagePack }))} />
@@ -637,9 +650,10 @@ function FeatureGrid({ items, linked }: { items: SerpFeature[]; linked: boolean 
 
 function SerpFeaturesCard() {
   const serp = useOrganicLive()?.serp;
+  const mark = useOrganicMark();
   return (
     <Card className="h-[892px]">
-      <CardTitle>SERP Features</CardTitle>
+      <CardTitle demo={mark && !serp}>SERP Features</CardTitle>
       <div className="pt-[18px] pr-1 pl-5">
         <h3 className="text-[14px] leading-6 font-semibold">Linking to domain</h3>
         <div className="mt-[13px]">
@@ -755,9 +769,10 @@ function CompetitorsCard() {
   const q = useOrganicQ();
   const list = live?.competitors ? live.competitors.rows.slice(0, 5) : competitorsTop;
   const name = live?.domain ?? "rkjh.se";
+  const mark = useOrganicMark();
   return (
     <Card className="h-[351px]">
-      <CardTitle>Main Organic Competitors</CardTitle>
+      <CardTitle demo={mark && !live?.competitors}>Main Organic Competitors</CardTitle>
       <table className="mt-[21px] w-full table-fixed text-[14px]">
         <colgroup>
           <col />
@@ -827,9 +842,10 @@ export function BubbleLegend({ className = "", gap = 18, items = bubbles }: { cl
 
 function MapCard() {
   const c = useOrganicLive()?.competitors;
+  const mark = useOrganicMark();
   return (
     <Card className="h-[351px]">
-      <CardTitle>Competitive Positioning Map</CardTitle>
+      <CardTitle demo={mark && !c}>Competitive Positioning Map</CardTitle>
       <BubbleLegend className="px-5 pt-[20px] pr-8" items={c?.bubbles} />
       <div className="mt-[22px]">
         {c ? (

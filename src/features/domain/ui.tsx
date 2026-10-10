@@ -7,6 +7,7 @@ import { useOutsideClose } from "@/components/ui/Popover";
 import { DotsIcon, ExportIcon, GlobeIcon, FlagSE, FlagUK, FlagUS, SearchIcon } from "@/components/ui/icons";
 import { CountryFlag, allCountries, topCountries } from "./countries";
 import type { Intent } from "./data";
+import { DemoTag } from "@/features/organic/ui";
 
 export function Seg<T extends string>({
   items,
@@ -53,6 +54,7 @@ export function Widget({
   children,
   className = "",
   bodyClassName = "",
+  demo = false,
 }: {
   title: ReactNode;
   count?: ReactNode;
@@ -60,6 +62,7 @@ export function Widget({
   children: ReactNode;
   className?: string;
   bodyClassName?: string;
+  demo?: boolean;
 }) {
   return (
     <section className={`flex flex-col rounded-lg bg-white shadow-card ${className}`}>
@@ -67,6 +70,7 @@ export function Widget({
         <h3 className="flex items-center gap-[6px] text-[16px] leading-6 font-bold text-rk-text">
           {title}
           {count != null && <span className="font-normal text-rk-muted">{count}</span>}
+          {demo && <DemoTag className="!ml-[4px]" />}
         </h3>
         {right}
       </header>

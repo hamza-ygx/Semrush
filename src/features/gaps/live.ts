@@ -243,6 +243,7 @@ export function buildCdLive({
       paidKeywords: c ? count(c.adKeywords) : (old?.paidKeywords ?? "n/a"),
       paidCost: c && c.adKeywords === 0 ? "$0" : (old?.paidCost ?? "n/a"),
       best: [],
+      demo: !!old,
     };
   });
   const rows = [youRow, ...rivalRows];

@@ -312,8 +312,16 @@ export function SerpCell({ count, href, features }: { count?: number | null; hre
   );
 }
 
-export function DemoTag({ className = "" }: { className?: string }) {
-  return <span className={`ml-[10px] inline-flex h-5 items-center rounded-[4px] bg-[#f0f1f1] px-[6px] text-[12px] leading-4 font-normal text-rk-muted ${className}`}>Demo data</span>;
+export function DemoTag({ className = "", children = "Demo data" }: { className?: string; children?: ReactNode }) {
+  return <span className={`ml-[10px] inline-flex h-5 items-center rounded-[4px] bg-[#f0f1f1] px-[6px] text-[12px] leading-4 font-normal text-rk-muted ${className}`}>{children}</span>;
+}
+
+export function DemoMark({ className = "" }: { className?: string }) {
+  return (
+    <span title="Demo data" className={`mt-px ml-[6px] inline-flex h-[18px] shrink-0 items-center rounded-[4px] bg-[#f0f1f1] px-[5px] align-top text-[11px] leading-4 font-normal whitespace-nowrap text-rk-muted ${className}`}>
+      Demo
+    </span>
+  );
 }
 
 export function PinIcon({ className = "" }: { className?: string }) {
@@ -578,17 +586,20 @@ export function CardTitle({
   children,
   right,
   className = "",
+  demo = false,
 }: {
   children: ReactNode;
   right?: ReactNode;
   className?: string;
+  demo?: boolean;
 }) {
   return (
     <div
       className={`flex h-10 items-center justify-between border-b border-rk-border px-5 ${className}`}
     >
-      <h2 className="text-[16px] leading-6 font-semibold text-rk-text">
+      <h2 className={`${demo ? "flex items-center " : ""}text-[16px] leading-6 font-semibold text-rk-text`}>
         {children}
+        {demo && <DemoTag />}
       </h2>
       {right}
     </div>

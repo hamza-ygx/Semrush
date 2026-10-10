@@ -6,7 +6,7 @@ import { routes } from "@/config/routes";
 import { Card } from "@/components/ui/primitives";
 import { LinkSelect } from "@/components/ui/Popover";
 import { ChevronRight, DesktopIcon, FeedbackIcon, FlagSE, RefreshIcon } from "@/components/ui/icons";
-import { ExtIcon, KdDot, KwHeader, PinIcon, SparkleIcon } from "./common";
+import { DemoTag, ExtIcon, KdDot, KwHeader, PinIcon, SparkleIcon } from "./common";
 import { koSummary, koVariations, serpRanges, serpRows } from "./data";
 import type { KoLive, KoSummary } from "./live";
 import { AddToList, LocationSelect } from "./kmt/KoPopovers";
@@ -100,7 +100,7 @@ const intentChip: Record<string, string> = {
   Transactional: "bg-[#9ef2c9] text-[#00785f]",
 };
 
-function TopCards({ s }: { s: KoSummary }) {
+function TopCards({ s, demo = false }: { s: KoSummary; demo?: boolean }) {
   const max = Math.max(...s.countries.map((c) => c.value));
   return (
     <div className="grid h-[293px] grid-cols-4 gap-4">
@@ -122,7 +122,10 @@ function TopCards({ s }: { s: KoSummary }) {
         <p className="mt-3 text-[12px] leading-4 text-rk-muted">{s.kdText}</p>
       </Card>
       <Card className="rounded-xl px-5 pt-5 pb-5">
-        <Label>Global Volume</Label>
+        <Label>
+          Global Volume
+          {demo && <DemoTag className="!ml-[8px] align-top" />}
+        </Label>
         <Big>{s.globalVolume}</Big>
         <div className="mt-[10px] flex flex-col gap-2">
           {s.countries.map((c) => (
@@ -258,7 +261,7 @@ function TrendBanner() {
   );
 }
 
-function SerpAnalysis({ results }: { results: string }) {
+function SerpAnalysis({ results, demo = false }: { results: string; demo?: boolean }) {
   const [mode, setMode] = useState<"Domain" | "URL">("URL");
   const [range, setRange] = useState("1-10");
   const [open, setOpen] = useState<Record<number, boolean>>({});
@@ -266,6 +269,7 @@ function SerpAnalysis({ results }: { results: string }) {
     <Card className="mt-4 rounded-xl">
       <div className="flex h-11 items-center gap-2 border-b border-[#eeeff1] px-5">
         <span className="text-[16px] font-bold">SERP Analysis</span>
+        {demo && <DemoTag className="!ml-0" />}
         <div className="flex">
           {(["Domain", "URL"] as const).map((m, i) => (
             <button
@@ -387,11 +391,11 @@ export function KoReport({ q, live, demo }: { q: string; live?: KoLive | null; d
           </button>
         </div>
         <div className="mt-4">
-          <TopCards s={live?.summary ?? koSummary} />
+          <TopCards s={live?.summary ?? koSummary} demo={!!live} />
         </div>
         <KeywordIdeas variations={live?.variations ?? koVariations} total={live?.totalVolume ?? "880"} />
         <TrendBanner />
-        <SerpAnalysis results={live?.results ?? "107"} />
+        <SerpAnalysis results={live?.results ?? "107"} demo={!!live} />
         <div className="mt-4 grid grid-cols-2 gap-4">
           <EmptyCard title="PLA Copies" />
           <EmptyCard title="Ad Copies" />

@@ -4,6 +4,7 @@ import { ChatGptIcon, GeminiIcon, GoogleIcon } from "@/components/ui/icons";
 import { aiSummary, seoSummary, seoSummaryWorldwide, trafficShare } from "../data";
 import { Flag, WorldIcon } from "../ui";
 import type { DomainLive } from "../live";
+import { DemoTag } from "@/features/organic/ui";
 
 type SeoMetric = { label: string; value: string; href?: string; badge?: string; delta?: string; up?: boolean; globe?: boolean; share?: boolean; flag?: string };
 
@@ -66,10 +67,11 @@ const aiIcons = {
   gemini: <GeminiIcon width={17} height={17} />,
 };
 
-export function AiSearchCard() {
+export function AiSearchCard({ demo = false }: { demo?: boolean }) {
   return (
     <section className="relative h-[219px] rounded-lg bg-white shadow-card">
       <CardTag className="bg-[#f3d6fa] text-[#8a3fcf]">AI Search</CardTag>
+      {demo && <DemoTag className="absolute top-[4px] right-4 !ml-0" />}
       <div className="grid grid-cols-[108px_78px_1fr] px-5 pt-[48px]">
         <div>
           <div className="text-[14px] leading-5">AI Visibility</div>
@@ -120,9 +122,11 @@ export function SeoCard({ worldwide = false, live = null }: { worldwide?: boolea
   const data = over ? base.map((m) => (over[m.label] ? { ...m, ...over[m.label] } : m)) : base;
   const share = live?.share ?? trafficShare;
   const rows = [data.slice(0, 4), data.slice(4)];
+  const mock = over ? base.some((m) => !over[m.label]) : false;
   return (
     <section className="relative h-[219px] rounded-lg bg-white shadow-card">
       <CardTag className="bg-[#e7e3fd] text-[#5a50c8]">SEO</CardTag>
+      {mock && <DemoTag className="absolute top-[4px] right-4 !ml-0">* Demo data</DemoTag>}
       <div className="px-5 pt-[47.5px]">
         {rows.map((row, ri) => (
           <div key={ri} className={`flex ${ri ? "mt-[34.5px]" : ""}`}>
@@ -138,6 +142,7 @@ export function SeoCard({ worldwide = false, live = null }: { worldwide?: boolea
                     {m.label}
                     {m.globe && <WorldIcon className="text-[#a9abaa]" />}
                     {m.flag && <Flag code={m.flag} width={15} height={11} className="ml-[2px]" />}
+                    {over && !over[m.label] && <span className="-ml-[2px] text-rk-muted">*</span>}
                   </div>
                   <div className="mt-1 flex items-center gap-[6px]">
                     {m.share && <ShareTooltip trafficShare={share} />}

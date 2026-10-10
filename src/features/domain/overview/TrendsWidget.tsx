@@ -10,6 +10,7 @@ import { Check, Dot, Flag, GoogleG, Seg } from "../ui";
 import { ExportDropdown, NotesMenu } from "./menus";
 import { compact, ticksFor } from "@/features/organic/live";
 import type { DomainLive } from "../live";
+import { DemoMark, DemoTag } from "@/features/organic/ui";
 
 const SPAN_DAYS = 730;
 const END = Date.UTC(2026, 8, 23);
@@ -248,7 +249,10 @@ function KeywordsChart({ range, hover, onHover, end, live }: { range: Range; end
   const lowP = P(low);
   return (
     <div>
-      <h3 className="text-[16px] leading-6 font-bold">Keywords</h3>
+      <h3 className={`${live && !kt ? "flex items-center " : ""}text-[16px] leading-6 font-bold`}>
+        Keywords
+        {live && !kt && <DemoTag />}
+      </h3>
       <Seg items={["Organic", "Paid"] as const} value={kind} onChange={setKind} className="mt-[13px]" itemClassName="px-[8px]" />
       <div className="mt-[18px] flex flex-wrap items-center gap-x-[15px] gap-y-2">
         {keywordLegend.map((l) => (
@@ -336,11 +340,14 @@ function SerpDonut({ serpDistribution }: { serpDistribution: readonly { label: s
   );
 }
 
-function AiDistribution({ worldwide }: { worldwide: boolean }) {
+function AiDistribution({ worldwide, demo }: { worldwide: boolean; demo: boolean }) {
   const sel = worldwide ? "Worldwide" : "SE";
   return (
     <>
-      <h3 className="px-5 text-[16px] leading-6 font-bold">Distribution by Country</h3>
+      <h3 className={`${demo ? "flex items-center " : ""}px-5 text-[16px] leading-6 font-bold`}>
+        Distribution by Country
+        {demo && <DemoTag />}
+      </h3>
       <table className="mt-[11px] w-full text-[14px] leading-5">
         <thead>
           <tr className="h-[33px] border-b border-rk-border text-[12px] text-rk-text-2">
@@ -427,10 +434,13 @@ export function TrendsWidget({ worldwide = false, live = null }: { worldwide?: b
         <div className="px-5">
           <Seg items={["AI Search", "Google Search"] as const} value={source} onChange={setSource} itemClassName="px-[8px]" />
         </div>
-        <div className="mt-[20px]">{source === "AI Search" ? <AiDistribution worldwide={worldwide} /> : <GoogleDistribution worldwide={worldwide} live={live} />}</div>
+        <div className="mt-[20px]">{source === "AI Search" ? <AiDistribution worldwide={worldwide} demo={!!live} /> : <GoogleDistribution worldwide={worldwide} live={live} />}</div>
         <h3 className="mt-[17px] px-5 text-[16px] leading-6 font-bold">Top Cited Sources</h3>
         <div className={`flex items-center justify-center pb-[18px] pl-[19px] text-[14px] text-rk-muted ${source === "AI Search" ? "h-[173px]" : "h-[136px]"}`}>We have no data to show.</div>
-        <h3 className="px-5 text-[16px] leading-6 font-bold">Google SERP Positions Distribution</h3>
+        <h3 className={`${live && !live.serpDistribution ? "flex items-center whitespace-nowrap " : ""}px-5 text-[16px] leading-6 font-bold`}>
+          Google SERP Positions Distribution
+          {live && !live.serpDistribution && <DemoMark className="!ml-[4px]" />}
+        </h3>
         <div className="mt-[16px] flex items-center pl-5">
           <SerpDonut serpDistribution={serpDistribution} />
           <div className="ml-[21px] flex-1">

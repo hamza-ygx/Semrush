@@ -54,7 +54,7 @@ export function CannibalizationView(snap: Snap) {
           }
         />
         <CannibalizationHealthCard header={<HealthActions />} x0={244} x1={1002} dataEnd={0.891} nine={snap.end === "20260925"} liveDays={snap.live?.days} buttons={false} className="mt-[15px] h-[282px]" />
-        <Panel title="Cannibalization" count="0 (0)" info={false} className="mt-[15px] h-[428px]" headerClassName="h-[41px]">
+        <Panel title="Cannibalization" count="0 (0)" info={false} demo={!!snap.live} className="mt-[15px] h-[428px]" headerClassName="h-[41px]">
           <div className="px-5 pt-[20px] pb-[20px]">
             <Segmented items={["Pages", "Keywords"] as const} value="Pages" />
           </div>

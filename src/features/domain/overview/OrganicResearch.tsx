@@ -95,7 +95,7 @@ function KeyTopics({ name = domain }: { name?: string }) {
 function KeywordsByIntent({ live }: { live: DomainLive | null }) {
   const intents = live?.intents ?? mockIntents;
   return (
-    <Widget title="Keywords by Intent" className="h-[353px]" bodyClassName="flex flex-col pt-[17px]">
+    <Widget title="Keywords by Intent" demo={!!live && !live.intents} className="h-[353px]" bodyClassName="flex flex-col pt-[17px]">
       <div className="flex h-[14px] gap-[2px] px-5">
         {intents.map((i) => (
           <div key={i.label} className="h-full first:rounded-l-sm last:rounded-r-sm" style={{ width: `${i.share}%`, background: i.color }} />
@@ -167,7 +167,7 @@ function PositionDistribution({ live }: { live: DomainLive | null }) {
 function Competitors({ live }: { live: DomainLive | null }) {
   const competitors = live?.competitors?.rows ?? mockCompetitors;
   return (
-    <Widget title="Main Organic Competitors" count={live?.competitors ? String(live.competitors.total) : "249"} className="h-[344px]" bodyClassName="flex flex-col pt-[18px]">
+    <Widget title="Main Organic Competitors" demo={!!live && !live.competitors} count={live?.competitors ? String(live.competitors.total) : "249"} className="h-[344px]" bodyClassName="flex flex-col pt-[18px]">
       <table className="w-full table-fixed text-[14px] leading-5">
         <thead>
           <tr className={th}>
@@ -236,7 +236,7 @@ function PositioningMap({ live }: { live: DomainLive | null }) {
   const maxY = lc ? lc.maxY : 424.6;
   const all = [...competitors.map((c) => ({ ...c, short: c.domain.length > 16 ? `${c.domain.slice(0, 12)}...` : c.domain })), { ...selfPoint, short: selfPoint.domain }];
   return (
-    <Widget title="Competitive Positioning Map" className="h-[344px]" bodyClassName="px-5 pt-[20px]">
+    <Widget title="Competitive Positioning Map" demo={!!live && !lc} className="h-[344px]" bodyClassName="px-5 pt-[20px]">
       <div className="flex flex-wrap gap-x-[20px] gap-y-[7px] text-[14px] leading-5">
         {all.map((c) => (
           <span key={c.domain} className="flex items-center gap-[6px]">

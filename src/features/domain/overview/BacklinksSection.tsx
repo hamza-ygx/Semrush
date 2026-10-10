@@ -13,12 +13,12 @@ const CalendarIcon = () => (
   </svg>
 );
 
-type B = { bl: DomainBacklinks | null };
+type B = { bl: DomainBacklinks | null; mark: boolean };
 
-function BacklinksTable({ bl }: B) {
+function BacklinksTable({ bl, mark }: B) {
   const backlinkRows = bl?.rows.length ? bl.rows : mockRows;
   return (
-    <Widget title="Backlinks" right={<ExportButton className="-mr-[2px]" />} className="h-[479px]" bodyClassName="flex flex-col pt-[25px]">
+    <Widget title="Backlinks" demo={mark && !bl?.rows.length} right={<ExportButton className="-mr-[2px]" />} className="h-[479px]" bodyClassName="flex flex-col pt-[25px]">
       <table className="w-full table-fixed text-[14px] leading-5">
         <thead>
           <tr className={th}>
@@ -56,13 +56,13 @@ function BacklinksTable({ bl }: B) {
   );
 }
 
-function FollowCard({ bl }: B) {
+function FollowCard({ bl, mark }: B) {
   const followSplit = bl?.follow ?? mockFollow;
   const total = followSplit.follow + followSplit.nofollow;
   const r = 41;
   const c = 2 * Math.PI * r;
   return (
-    <Widget title="Follow vs Nofollow" className="h-[175px]" bodyClassName="flex items-start px-5 pt-[23px]">
+    <Widget title="Follow vs Nofollow" demo={mark && !bl?.follow} className="h-[175px]" bodyClassName="flex items-start px-5 pt-[23px]">
       <svg viewBox="0 0 90 90" width={90} height={90} className="-rotate-90">
         <circle cx="45" cy="45" r={r} fill="none" stroke="#e3d5fb" strokeWidth={8} />
         <circle cx="45" cy="45" r={r} fill="none" stroke="#a55ff2" strokeWidth={8} strokeDasharray={`${(followSplit.follow / total) * c} ${c}`} />
@@ -90,10 +90,10 @@ function FollowCard({ bl }: B) {
   );
 }
 
-function TypesCard({ bl }: B) {
+function TypesCard({ bl, mark }: B) {
   const backlinkTypes = bl?.types ?? mockTypes;
   return (
-    <Widget title="Backlink Types" className="h-[287px]" bodyClassName="px-5 pt-[20px]">
+    <Widget title="Backlink Types" demo={mark && !bl?.types} className="h-[287px]" bodyClassName="px-5 pt-[20px]">
       {backlinkTypes.map((t) => (
         <div key={t.label} className="flex h-[41.8px] items-center text-[14px] leading-5">
           <span className="w-[72px]">{t.label}</span>
@@ -113,10 +113,10 @@ function TypesCard({ bl }: B) {
   );
 }
 
-function AnchorsCard({ bl }: B) {
+function AnchorsCard({ bl, mark }: B) {
   const anchors: readonly { anchor: string; domains: number; backlinks: number; empty?: boolean }[] = bl?.anchors.length ? bl.anchors : mockAnchors;
   return (
-    <Widget title="Top Anchors" right={<ExportButton />} className="h-[350px]" bodyClassName="flex flex-col pt-[23px]">
+    <Widget title="Top Anchors" demo={mark && !bl?.anchors.length} right={<ExportButton />} className="h-[350px]" bodyClassName="flex flex-col pt-[23px]">
       <table className="w-full table-fixed text-[14px] leading-5">
         <thead>
           <tr className={th}>
@@ -149,10 +149,10 @@ function AnchorsCard({ bl }: B) {
   );
 }
 
-function RefDomainsCard({ bl }: B) {
+function RefDomainsCard({ bl, mark }: B) {
   const refDomains = bl?.refDomains ?? mockRefDomains;
   return (
-    <Widget title="Referring Domains" right={<ExportButton />} className="h-[350px]" bodyClassName="flex flex-col pt-[23px]">
+    <Widget title="Referring Domains" demo={mark && !bl?.refDomains} right={<ExportButton />} className="h-[350px]" bodyClassName="flex flex-col pt-[23px]">
       <table className="w-full table-fixed text-[14px] leading-5">
         <thead>
           <tr className={th}>
@@ -190,10 +190,10 @@ function RefDomainsCard({ bl }: B) {
   );
 }
 
-function IndexedPagesCard({ bl }: B) {
+function IndexedPagesCard({ bl, mark }: B) {
   const indexedPages = bl?.pages.length ? bl.pages : mockPages;
   return (
-    <Widget title="Indexed Pages" right={<ExportButton />} className="mt-4 h-[469px]" bodyClassName="flex flex-col pt-[23px]">
+    <Widget title="Indexed Pages" demo={mark && !bl?.pages.length} right={<ExportButton />} className="mt-4 h-[469px]" bodyClassName="flex flex-col pt-[23px]">
       <table className="w-full table-fixed text-[14px] leading-5">
         <thead>
           <tr className={th}>
@@ -237,7 +237,7 @@ function IndexedPagesCard({ bl }: B) {
   );
 }
 
-export function BacklinksSection({ live = null }: { live?: DomainBacklinks | null }) {
+export function BacklinksSection({ live = null, demo: mark = false }: { live?: DomainBacklinks | null; demo?: boolean }) {
   const bl = live;
   return (
     <>
@@ -253,17 +253,17 @@ export function BacklinksSection({ live = null }: { live?: DomainBacklinks | nul
         </span>
       </div>
       <div className="mt-[15px] grid grid-cols-[minmax(0,1fr)_399px] gap-4">
-        <BacklinksTable bl={bl} />
+        <BacklinksTable bl={bl} mark={mark} />
         <div className="flex flex-col gap-4">
-          <FollowCard bl={bl} />
-          <TypesCard bl={bl} />
+          <FollowCard bl={bl} mark={mark} />
+          <TypesCard bl={bl} mark={mark} />
         </div>
       </div>
       <div className="mt-4 grid grid-cols-2 gap-4">
-        <AnchorsCard bl={bl} />
-        <RefDomainsCard bl={bl} />
+        <AnchorsCard bl={bl} mark={mark} />
+        <RefDomainsCard bl={bl} mark={mark} />
       </div>
-      <IndexedPagesCard bl={bl} />
+      <IndexedPagesCard bl={bl} mark={mark} />
     </>
   );
 }

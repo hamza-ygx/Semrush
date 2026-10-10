@@ -9,7 +9,7 @@ import { useTracking } from "./context";
 const diffCls = (d: string) => (d.startsWith("-") ? "text-rk-danger" : "text-rk-success");
 
 export function CompetitionMap() {
-  const { end } = useTracking();
+  const { end, live } = useTracking();
   const list = end === "20260925" ? lateCompetitors : competitors;
   const ref = useRef<HTMLDivElement>(null);
   const [w, setW] = useState(0);
@@ -30,7 +30,7 @@ export function CompetitionMap() {
   const ticks = wide ? [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60] : [10, 20, 30, 40, 50, 60];
   return (
     <div ref={ref}>
-      <Panel title="Competition Map" className="relative h-[433px]" headerClassName="h-[42px]">
+      <Panel title="Competition Map" demo={!!live} className="relative h-[433px]" headerClassName="h-[42px]">
         <div className="absolute top-[67px] left-5">
           <Checkbox label={<span className="text-[14px] text-rk-text">Smart zoom</span>} className="!gap-[8px]" />
         </div>

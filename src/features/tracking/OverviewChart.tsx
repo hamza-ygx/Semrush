@@ -7,7 +7,7 @@ import { PlusIcon } from "@/components/ui/icons";
 import { Box } from "./FilterPanels";
 import { Checkbox, Segmented } from "./controls";
 import { ChevronBold, EyeIcon, NoteIcon, SparkleIcon } from "./icons";
-import { Info } from "./ui";
+import { DemoTag, Info } from "./ui";
 import { Tip } from "./Tip";
 import { project } from "./data";
 import { useTracking } from "./context";
@@ -307,6 +307,7 @@ function GrowthSide() {
       <div className="mt-[20px] flex items-center gap-[6px]">
         Potential Growth
         <Info />
+        {live && <DemoTag className="!ml-[4px]" />}
       </div>
       <div className="mt-[1px] flex items-center">
         <span className="text-[24px] leading-8 font-semibold text-[#7a3ce6]">+0.57%</span>

@@ -8,18 +8,21 @@ import { MenuItem, Popover } from "@/components/ui/Popover";
 import { dayLabels, latest, positionRows, positionsTraffic, positionsTrend, type PositionRow } from "./data";
 import { useWidth } from "./charts";
 import { Delta, KwSpark, TrafficSpark, useTrendChart } from "./OverviewView";
-import { Checkbox, ExtLink, HoverTip, IntentBadge, Kd, KeywordLink, NotesMenu, Pagination, PinIcon, Segmented, SerpCell, SortIcon, TimeRange, ext } from "./ui";
+import { Checkbox, DemoMark, DemoTag, ExtLink, HoverTip, IntentBadge, Kd, KeywordLink, NotesMenu, Pagination, PinIcon, Segmented, SerpCell, SortIcon, TimeRange, ext } from "./ui";
 import { FilterBar, useStuck } from "./FilterBar";
 import { AdvancedFilters, CheckFilter, ExportPopover, RangeFilter, SerpFeaturesFilter } from "./filters";
 import { RankedUrls } from "./RankedUrls";
 import { useDbLoading } from "./dbLoading";
-import { useOrganicLive } from "./context";
+import { useOrganicLive, useOrganicMark } from "./context";
 import { niceTop, ticksFor } from "./live";
 
-function Metric({ label, value, delta, children }: { label: string; value: string; delta: string; children?: ReactNode }) {
+function Metric({ label, value, delta, children, demo = false }: { label: string; value: string; delta: string; children?: ReactNode; demo?: boolean }) {
   return (
     <div className="shrink-0 whitespace-nowrap">
-      <div className="text-[14px] leading-5">{label}</div>
+      <div className="text-[14px] leading-5">
+        {label}
+        {demo && <DemoMark />}
+      </div>
       <div className="mt-[2px] flex items-end">
         <span className="text-[24px] leading-8 font-bold">{value}</span>
         <span className="mb-[3px]">
@@ -194,6 +197,7 @@ function SummarySkeleton({ view }: { view: TrendView }) {
 function SummaryCard() {
   const liveAll = useOrganicLive();
   const live = liveAll?.trend;
+  const mark = useOrganicMark();
   const peak = live ? Math.max(1, ...live.bars.map((b) => b.reduce((a, v) => a + v, 0))) : 0;
   const t = useTrendChart({
     data: live ? live.bars : positionsTrend,
@@ -243,12 +247,15 @@ function SummaryCard() {
           </SparkButton>
         </Metric>
         <div className="mx-6 mt-[2px] h-[51px] w-px shrink-0 bg-rk-border" />
-        <Metric label="Traffic Cost" {...(liveAll?.summary.cost ?? latest.cost)} />
+        <Metric label="Traffic Cost" {...(liveAll?.summary.cost ?? latest.cost)} demo={mark && !liveAll?.summary.cost} />
       </div>
       {open ? (
         <div className="px-5 pt-[20px] pb-[11px]">
           <div className="flex items-center justify-between">
-            <h2 className="text-[16px] leading-6 font-semibold">{view === "keywords" ? "Organic Keywords Trend" : "Estimated Traffic Trend"}</h2>
+            <h2 className={`${mark && !live ? "flex items-center " : ""}text-[16px] leading-6 font-semibold`}>
+              {view === "keywords" ? "Organic Keywords Trend" : "Estimated Traffic Trend"}
+              {mark && !live && <DemoTag />}
+            </h2>
             <button type="button" aria-label="Close" onClick={() => setOpen(false)} className="-mr-[2px] text-rk-muted hover:text-rk-text">
               <CloseIcon width={14} height={14} />
             </button>

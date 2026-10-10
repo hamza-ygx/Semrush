@@ -20,6 +20,7 @@ export function Panel({
   className = "",
   headerClassName = "h-10",
   divider = true,
+  demo = false,
 }: {
   title: ReactNode;
   count?: ReactNode;
@@ -29,6 +30,7 @@ export function Panel({
   className?: string;
   headerClassName?: string;
   divider?: boolean;
+  demo?: boolean;
 }) {
   return (
     <section className={`rounded-md border border-[#e5e6e6] bg-white shadow-[0_1px_2px_rgba(25,27,35,0.05)] ${className}`}>
@@ -37,6 +39,7 @@ export function Panel({
           {title}
           {count && <span className="-mr-[4px] -ml-[2px] font-normal text-rk-muted">{count}</span>}
           {info && <Info className="ml-[1px]" />}
+          {demo && <DemoTag className="!ml-[4px]" />}
         </h2>
         {right}
       </div>
