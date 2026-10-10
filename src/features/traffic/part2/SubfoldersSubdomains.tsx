@@ -20,8 +20,8 @@ function liveRows(live: TrafficLive) {
     bounce: fmtRate(f.bounce),
     children: f.children,
   }));
-  const pct = (v: number) => `${+(v * 100).toFixed(2)}%`;
-  const subs = [{ name: live.domain, visits: fmtCount(live.totals.sessions), desktop: pct(live.device.desktop), mobile: pct(live.device.mobile), ppv: fmtPpv(live.totals.ppv), dur: fmtDur(live.totals.dur) }];
+  const pct = (v: number | null) => (v == null ? "n/a" : `${+(v * 100).toFixed(2)}%`);
+  const subs = live.subdomains.map((s) => ({ name: s.name, visits: fmtCount(s.visits), desktop: pct(s.desktop), mobile: pct(s.desktop == null ? null : 1 - s.desktop), ppv: fmtPpv(s.ppv), dur: fmtDur(s.dur) }));
   return { folders, subs };
 }
 

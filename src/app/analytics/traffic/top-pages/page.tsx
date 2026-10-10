@@ -3,7 +3,7 @@ import { trafficLiveFor } from "@/features/traffic/load";
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ q?: string; lid?: string }> }) {
   const { q, lid } = await searchParams;
-  const live = q || lid ? await trafficLiveFor({ q, lid }) : null;
+  const live = await trafficLiveFor({ q, lid });
   if (live) return <TopPagesLive live={live} />;
   return lid ? <TopPagesLocked /> : <TopPagesSample />;
 }

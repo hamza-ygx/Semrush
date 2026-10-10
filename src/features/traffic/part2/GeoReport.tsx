@@ -191,12 +191,15 @@ function TrendCard({ kind, live }: { kind: Kind; live?: GeoTrend }) {
   );
 }
 
+const seriesColors = ["#5d62de", "#16c79a", "#f7a3a1", "#da3fda", "#f6b80f"];
+
 function liveGeo(live: TrafficLive) {
-  const series = (data: number[]) => [{ name: live.domain, color: domainColors.zara, data }];
+  const ct = live.countryTrend;
+  const color = (i: number) => (ct.byCountry ? seriesColors[i % seriesColors.length] : domainColors.zara);
   const trend: GeoTrend = {
-    ticks: live.countryTrend.visitTicks,
-    series: series(live.countryTrend.visits),
-    uv: { ticks: live.countryTrend.userTicks, series: series(live.countryTrend.users) },
+    ticks: ct.visitTicks,
+    series: ct.series.map((s, i) => ({ name: s.name, color: color(i), data: s.visits })),
+    uv: { ticks: ct.userTicks, series: ct.series.map((s, i) => ({ name: s.name, color: color(i), data: s.users })) },
     labels: live.months,
   };
   const rows: GeoRow[] = live.countries.map((c) => ({
@@ -205,7 +208,7 @@ function liveGeo(live: TrafficLive) {
     share: c.share,
     visits: fmtCount(c.sessions),
     uv: fmtCount(c.users),
-    desktop: NaN,
+    desktop: c.desktop ?? NaN,
     ppv: fmtPpv(c.ppv),
     dur: fmtDur(c.dur),
     bounce: fmtRate(c.bounce),

@@ -16,8 +16,8 @@ export function trafficDomain({ q, lid }: TrafficParams) {
   return lid === rkjhList.id ? rkjhList.domains[0] : null;
 }
 
-export const loadTrafficLive = cache(async (domain: string | null): Promise<TrafficLive | null> => {
-  if (!backendEnabled || !domain) return null;
+export const loadTrafficLive = cache(async (domain: string | null, project = false): Promise<TrafficLive | null> => {
+  if (!backendEnabled || (!domain && !project)) return null;
   try {
     return buildTrafficLive(await liveSource<Ga4Sets>("ga4", domain));
   } catch {
@@ -25,4 +25,4 @@ export const loadTrafficLive = cache(async (domain: string | null): Promise<Traf
   }
 });
 
-export const trafficLiveFor = (p: TrafficParams) => loadTrafficLive(trafficDomain(p));
+export const trafficLiveFor = (p: TrafficParams) => (p.q?.trim() || p.lid ? loadTrafficLive(trafficDomain(p)) : loadTrafficLive(null, true));

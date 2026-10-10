@@ -5,7 +5,7 @@ import { trafficLiveFor } from "@/features/traffic/load";
 export default async function Page({ searchParams }: { searchParams: Promise<{ q?: string; sample?: string; lid?: string }> }) {
   const { q, sample, lid } = await searchParams;
   if (sample) return <TrafficAnalyticsSample />;
-  const live = q || lid ? await trafficLiveFor({ q, lid }) : null;
+  const live = await trafficLiveFor({ q, lid });
   if (live) return <TrafficAnalyticsLive live={live} />;
   if (lid && q) return <TrafficAnalyticsLocked />;
   if (lid) return <TrafficAnalyticsSample />;

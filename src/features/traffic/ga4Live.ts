@@ -17,10 +17,12 @@ export type Ga4Sets = {
   channels: (Metrics & Ranged & { sessionDefaultChannelGroup: string })[];
   monthlyChannels: { yearMonth: string; sessionDefaultChannelGroup: string; sessions: number; totalUsers: number }[];
   countries: (Metrics & Ranged & { country: string; countryId: string })[];
-  pages: (Ranged & { pagePath: string; pageTitle: string; screenPageViews: number; totalUsers: number; averageSessionDuration: number; engagementRate: number })[];
+  pages: (Ranged & { hostName?: string; pagePath: string; pageTitle: string; screenPageViews: number; totalUsers: number; averageSessionDuration: number; engagementRate: number })[];
   landing: (Metrics & Ranged & { landingPage: string })[];
   devices: (Metrics & Ranged & { deviceCategory: string })[];
   sources: (Metrics & Ranged & { sessionSource: string; sessionMedium: string })[];
+  countryDevices: (Ranged & { countryId: string; deviceCategory: string; sessions: number; totalUsers: number })[];
+  monthlyCountries: { yearMonth: string; countryId: string; sessions: number; totalUsers: number }[];
 };
 
 export type Ga4Source = LiveSource<Ga4Sets>;
@@ -32,7 +34,9 @@ export type LiveChart = { data: number[]; ticks: number[]; kind: ChartKind; tip:
 export type LiveFlow = { name: string; channel: string; sessions: number; share: number; up: boolean };
 export type LivePage = { path: string; label: string; title: string; views: number; prevViews: number; users: number; visits: number | null; share: number; dur: number; bounce: number };
 export type LiveFolder = { path: string; share: number; views: number; users: number; visits: number; ppv: number; dur: number; bounce: number; children: string[] };
-export type LiveCountry = { name: string; mapName: string; code: string; sessions: number; users: number; share: number; ppv: number; dur: number; bounce: number; up: boolean };
+export type LiveCountry = { name: string; mapName: string; code: string; sessions: number; users: number; share: number; desktop: number | null; ppv: number; dur: number; bounce: number; up: boolean };
+export type LiveSubdomain = { name: string; visits: number; views: number; desktop: number | null; ppv: number; dur: number };
+export type CountrySeries = { name: string; code: string; visits: number[]; users: number[] };
 export type Totals = { sessions: number; users: number; views: number; ppv: number; dur: number; bounce: number };
 
 export type TrafficLive = {
@@ -54,8 +58,9 @@ export type TrafficLive = {
   landingCount: number;
   pages: LivePage[];
   folders: LiveFolder[];
+  subdomains: LiveSubdomain[];
   countries: LiveCountry[];
-  countryTrend: { visits: number[]; users: number[]; visitTicks: number[]; userTicks: number[] };
+  countryTrend: { byCountry: boolean; series: CountrySeries[]; visitTicks: number[]; userTicks: number[] };
 };
 
 export const channelLabels = ["Direct", "AI Traffic", "Referral", "Organic Search", "Google AI Mode", "Paid Search", "Organic Social", "Paid Social", "Email", "Display Ads"];
@@ -371,8 +376,15 @@ export function buildTrafficLive(src: Ga4Source | null | undefined, monthsBack =
     .sort((a, b) => b[1] - a[1])
     .map(([p, s]) => ({ name: pageLabel(domain, p), channel: "", sessions: s, share: (s / total) * 100, up: s >= (landPrevMap.get(p) ?? 0) }));
 
-  const pagesCur = cur(src.pages?.rows).filter((r) => r.pagePath && r.pagePath !== "(not set)");
-  const pagesPrev = prev(src.pages?.rows);
+  const hostOf = (r: { hostName?: string }) => (r.hostName ?? "").trim().toLowerCase();
+  const onMain = (r: { hostName?: string }) => {
+    const h = hostOf(r);
+    return !h || h === "(not set)" || h.replace(/^www\./, "") === domain;
+  };
+  const pagesAll = cur(src.pages?.rows).filter((r) => r.pagePath && r.pagePath !== "(not set)");
+  const mainOnly = pagesAll.some(onMain);
+  const pagesCur = mainOnly ? pagesAll.filter(onMain) : pagesAll;
+  const pagesPrev = mainOnly ? prev(src.pages?.rows).filter(onMain) : prev(src.pages?.rows);
   const pAgg = new Map<string, { views: number; users: number; durW: number; engW: number; title: string; top: number }>();
   for (const r of pagesCur) {
     const a = pAgg.get(r.pagePath) ?? { views: 0, users: 0, durW: 0, engW: 0, title: "", top: -1 };
@@ -436,27 +448,74 @@ export function buildTrafficLive(src: Ga4Source | null | undefined, monthsBack =
     })
     .sort((a, b) => b.views - a.views);
 
+  const hostViews = new Map<string, { views: number; durW: number }>();
+  for (const r of pagesAll) {
+    const h = hostOf(r);
+    if (!h || h === "(not set)" || (h !== domain && !h.endsWith(`.${domain}`))) continue;
+    const a = hostViews.get(h) ?? { views: 0, durW: 0 };
+    a.views += r.screenPageViews;
+    a.durW += r.averageSessionDuration * r.screenPageViews;
+    hostViews.set(h, a);
+  }
+  const allViews = sum(pagesAll, (r) => r.screenPageViews) || 1;
+  const subdomains: LiveSubdomain[] =
+    hostViews.size > 1
+      ? [...hostViews.entries()]
+          .map(([name, a]) => {
+            const visits = Math.max(1, Math.round((totals.sessions * a.views) / allViews));
+            return { name, visits, views: a.views, desktop: null, ppv: a.views / visits, dur: a.views ? a.durW / a.views : 0 };
+          })
+          .sort((a, b) => b.visits - a.visits || b.views - a.views)
+      : [{ name: [...hostViews.keys()][0] ?? domain, visits: totals.sessions, views: totals.views, desktop: devSessions ? desktop : null, ppv: totals.ppv, dur: totals.dur }];
+
+  const ctDev = new Map<string, { all: number; desk: number }>();
+  for (const r of cur(src.countryDevices?.rows)) {
+    const k = (r.countryId || "").toUpperCase();
+    const a = ctDev.get(k) ?? { all: 0, desk: 0 };
+    a.all += r.sessions;
+    if (r.deviceCategory === "desktop") a.desk += r.sessions;
+    ctDev.set(k, a);
+  }
   const ctCur = cur(src.countries?.rows).filter((r) => r.country && r.country !== "(not set)");
   const ctPrev = new Map<string, number>();
   for (const r of prev(src.countries?.rows)) ctPrev.set(r.countryId || r.country, (ctPrev.get(r.countryId || r.country) ?? 0) + r.sessions);
   const ctTotal = sum(cur(src.countries?.rows), (r) => r.sessions) || total;
   const countries: LiveCountry[] = ctCur
-    .map((r) => ({
-      name: r.country,
-      mapName: mapAlias[r.country] ?? r.country,
-      code: (r.countryId || "").toUpperCase(),
-      sessions: r.sessions,
-      users: r.totalUsers,
-      share: +((r.sessions / ctTotal) * 100).toFixed(2),
-      ppv: r.sessions ? r.screenPageViews / r.sessions : 0,
-      dur: r.averageSessionDuration,
-      bounce: r.bounceRate,
-      up: r.sessions >= (ctPrev.get(r.countryId || r.country) ?? 0),
-    }))
+    .map((r) => {
+      const code = (r.countryId || "").toUpperCase();
+      const dev = ctDev.get(code);
+      return {
+        name: r.country,
+        mapName: mapAlias[r.country] ?? r.country,
+        code,
+        sessions: r.sessions,
+        users: r.totalUsers,
+        share: +((r.sessions / ctTotal) * 100).toFixed(2),
+        desktop: dev?.all ? +((dev.desk / dev.all) * 100).toFixed(2) : null,
+        ppv: r.sessions ? r.screenPageViews / r.sessions : 0,
+        dur: r.averageSessionDuration,
+        bounce: r.bounceRate,
+        up: r.sessions >= (ctPrev.get(r.countryId || r.country) ?? 0),
+      };
+    })
     .sort((a, b) => b.sessions - a.sessions);
-  const visits = trend.Visits.data;
-  const users = trend["Unique Visitors"].data;
-  const countryTrend = { visits, users, visitTicks: niceTicks(Math.max(...visits) * 1.05), userTicks: niceTicks(Math.max(...users) * 1.05) };
+  const mCt = new Map<string, { s: number; u: number }>();
+  for (const r of src.monthlyCountries?.rows ?? []) {
+    const k = `${(r.countryId || "").toUpperCase()}|${r.yearMonth}`;
+    const a = mCt.get(k) ?? { s: 0, u: 0 };
+    a.s += r.sessions;
+    a.u += r.totalUsers;
+    mCt.set(k, a);
+  }
+  const byCountry = mCt.size > 0;
+  const series: CountrySeries[] = byCountry
+    ? countries
+        .filter((c) => c.code)
+        .slice(0, 5)
+        .map((c) => ({ name: c.name, code: c.code, visits: shown.map((m) => mCt.get(`${c.code}|${m.ym}`)?.s ?? 0), users: shown.map((m) => mCt.get(`${c.code}|${m.ym}`)?.u ?? 0) }))
+    : [{ name: domain, code: "", visits: trend.Visits.data, users: trend["Unique Visitors"].data }];
+  const peak = (k: "visits" | "users") => Math.max(0, ...series.flatMap((s) => s[k]));
+  const countryTrend = { byCountry, series, visitTicks: niceTicks(peak("visits") * 1.05), userTicks: niceTicks(peak("users") * 1.05) };
 
   return {
     domain,
@@ -477,6 +536,7 @@ export function buildTrafficLive(src: Ga4Source | null | undefined, monthsBack =
     landingCount: landMap.size,
     pages,
     folders,
+    subdomains,
     countries,
     countryTrend,
   };
