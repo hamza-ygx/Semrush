@@ -8,7 +8,7 @@ import { ProjectsList } from "@/features/siteaudit/part1/ProjectsList";
 export const dynamic = "force-dynamic";
 
 export default async function SiteAuditProjects() {
-  const { live, demo, projectId } = await loadSiteAudit();
+  const { live, demo, projectId, psi } = await loadSiteAudit();
   return (
     <AppShell section="seo">
       <PageHeader
@@ -23,7 +23,7 @@ export default async function SiteAuditProjects() {
         className="[&>div:nth-child(2)]:mt-[6px]"
       />
       <div className="-mt-[2px] px-8">
-        <ProjectsList live={live?.project} projectId={projectId} />
+        <ProjectsList live={live?.project} projectId={projectId} scores={psi?.scores} />
       </div>
     </AppShell>
   );

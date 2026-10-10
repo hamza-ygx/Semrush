@@ -10,7 +10,7 @@ export default async function SiteAuditOverviewPage() {
   return (
     <AppShell section="seo">
       <SiteAuditHeader tab="overview" exportReport="Crawled Pages with all Issues" head={headOf(ctx)} />
-      <Overview live={ctx.live?.overview} />
+      <Overview live={ctx.live?.overview} scores={ctx.psi?.scores} />
     </AppShell>
   );
 }

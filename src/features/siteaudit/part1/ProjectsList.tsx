@@ -107,11 +107,16 @@ function GearMenu({ onRerun }: { onRerun?: () => void }) {
   );
 }
 
-export function ProjectsList({ live, projectId }: { live?: ProjectLive | null; projectId?: string | null }) {
+export function ProjectsList({ live, projectId, scores }: { live?: ProjectLive | null; projectId?: string | null; scores?: { webVitals?: number; performance?: number } }) {
   const ref = useRef<HTMLDivElement>(null);
   const rerun = useRerun(projectId);
   const domain = live?.domain ?? "www.rkjh.se";
-  const row = { ...projectRow, ...live?.row };
+  const row: Record<string, [string, string]> = {
+    ...projectRow,
+    ...live?.row,
+    ...(scores?.performance != null ? { perf: [`${scores.performance}%`, "0%"] } : {}),
+    ...(scores?.webVitals != null ? { cwv: [`${scores.webVitals}%`, "0%"] } : {}),
+  };
   const full = live ? live.limit != null && live.pages >= live.limit : true;
   const [sl, setSl] = useState(0);
   const [track, setTrack] = useState(TRACK);

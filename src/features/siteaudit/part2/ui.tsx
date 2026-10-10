@@ -322,7 +322,21 @@ export const LearnMore = ({
 
 const sevColor = { Errors: "#ff6b70", Warnings: "#ea8e0e", Notices: "#b0bbf5" };
 
-export function IssuesCard({ title, groups, info = false, className = "", counts }: { title: string; groups: IssueGroup[]; info?: boolean; className?: string; counts?: Record<string, number> }) {
+export function IssuesCard({
+  title,
+  groups,
+  info = false,
+  className = "",
+  counts,
+  extra,
+}: {
+  title: string;
+  groups: IssueGroup[];
+  info?: boolean;
+  className?: string;
+  counts?: Record<string, number>;
+  extra?: Record<string, { note: string; value: string }>;
+}) {
   return (
     <div className={`rounded-md bg-white pb-3 shadow-card ${className}`}>
       <div className="flex h-10 items-center gap-2 border-b border-rk-border px-5">
@@ -335,8 +349,17 @@ export function IssuesCard({ title, groups, info = false, className = "", counts
             <div className={`col-span-3 px-5 pb-[9px] text-[14px] leading-5 font-semibold ${gi ? "pt-[17px]" : "pt-[7px]"}`}>{g.severity}</div>
             <div className="col-span-3 h-[3px]" style={{ background: sevColor[g.severity] }} />
             {g.items.map((name, i) => {
+              const x = extra?.[name];
               const na = !!counts && !(name in counts);
               const n = (counts ?? issueCounts)[name] ?? 0;
+              if (x)
+                return (
+                  <div key={name} className={`col-span-3 grid min-h-[45px] grid-cols-subgrid items-center px-5 py-[12px] ${i < g.items.length - 1 ? "border-b border-rk-border" : ""}`}>
+                    <span className="min-w-0 pr-6 text-[14px] leading-5">{name}</span>
+                    <span className="justify-self-start text-[14px] leading-5 whitespace-nowrap text-rk-muted">{x.note}</span>
+                    <span className="text-right text-[14px] whitespace-nowrap text-rk-text-2">{x.value}</span>
+                  </div>
+                );
               return (
                 <div key={name} className={`col-span-3 grid min-h-[45px] grid-cols-subgrid items-center px-5 py-[12px] ${i < g.items.length - 1 ? "border-b border-rk-border" : ""}`}>
                   <span className="min-w-0 pr-6 text-[14px] leading-5">{name}</span>

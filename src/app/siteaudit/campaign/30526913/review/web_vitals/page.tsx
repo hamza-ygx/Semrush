@@ -5,5 +5,6 @@ export const dynamic = "force-dynamic";
 
 export default async function Page() {
   const ctx = await loadSiteAudit();
-  return <WebVitals head={headOf(ctx)} demo={ctx.env} />;
+  const vitals = ctx.psi?.vitals ?? null;
+  return <WebVitals head={headOf(ctx)} demo={ctx.env && !vitals} live={vitals} />;
 }

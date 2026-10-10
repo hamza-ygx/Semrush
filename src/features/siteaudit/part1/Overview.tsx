@@ -441,7 +441,7 @@ function BrandPresence() {
   );
 }
 
-export function Overview({ live }: { live?: OverviewLive | null }) {
+export function Overview({ live, scores }: { live?: OverviewLive | null; scores?: Record<string, number> }) {
   return (
     <div className="px-8 pt-4 pb-[149px]">
       <div className="grid grid-cols-2 gap-4">
@@ -452,7 +452,7 @@ export function Overview({ live }: { live?: OverviewLive | null }) {
         <CountsCard live={live} />
         <IssuesCard live={live} />
       </div>
-      <Thematic scores={live?.scores} />
+      <Thematic scores={scores ? { ...live?.scores, ...scores } : live?.scores} />
       <BrandPresence />
     </div>
   );

@@ -3,6 +3,7 @@
 import { Fragment, useLayoutEffect, useRef, useState } from "react";
 import { ChevronRight, ExternalIcon } from "@/components/ui/icons";
 import type { SiteAuditHead } from "../load";
+import type { DataSource, Strategy, Tone, VitalsLive, VitalsStatus } from "../psiLive";
 import { ThematicPage, SubCard } from "./Thematic";
 import { Dot, InfoI, LearnMore, Ring } from "./ui";
 import { C, vitalsMetrics, vitalsPages, vitalsStatus, type VitalsRow } from "./data";
@@ -21,7 +22,11 @@ const LighthouseIcon = () => (
   </svg>
 );
 
-const statusColor = { Poor: C.red, "To Improve": C.orange, Good: C.green };
+const statusColor: Record<VitalsStatus, string> = { Poor: C.red, "To Improve": C.orange, Good: C.green, "n/a": C.silver };
+
+const toneClass: Record<Tone, string> = { bad: "text-rk-danger", mid: "text-[#c9820a]", good: "text-rk-success", na: "text-rk-muted" };
+
+const sourceLabel: Record<DataSource, string> = { url: "Field data for this URL", origin: "Field data for the whole origin", lab: "Lighthouse lab data", none: "No data" };
 
 function tone(kind: "lcp" | "tbt" | "cls", v: string) {
   const n = parseFloat(v);
@@ -30,7 +35,19 @@ function tone(kind: "lcp" | "tbt" | "cls", v: string) {
   return bad ? "text-rk-danger" : mid ? "text-[#c9820a]" : "text-rk-success";
 }
 
-function PageRow({ r }: { r: VitalsRow }) {
+type Row = { url: string; status: VitalsStatus; cells: { text: string; cls: string; detail?: string }[]; source?: DataSource };
+
+const mockRow = (r: VitalsRow): Row => ({
+  url: r.url,
+  status: r.status,
+  cells: [
+    { text: r.lcp, cls: tone("lcp", r.lcp) },
+    { text: r.tbt, cls: tone("tbt", r.tbt) },
+    { text: r.cls, cls: tone("cls", r.cls) },
+  ],
+});
+
+function PageRow({ r, cols }: { r: Row; cols: string[] }) {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -48,25 +65,32 @@ function PageRow({ r }: { r: VitalsRow }) {
           <Dot color={statusColor[r.status]} />
           {r.status}
         </div>
-        <div className={`text-right ${tone("lcp", r.lcp)}`}>{r.lcp}</div>
-        <div className={`text-right ${tone("tbt", r.tbt)}`}>{r.tbt}</div>
-        <div className={`pr-5 text-right ${tone("cls", r.cls)}`}>{r.cls}</div>
+        {r.cells.map((c, i) => (
+          <div key={cols[i]} className={`text-right ${i === 2 ? "pr-5 " : ""}${c.cls}`}>
+            {c.text}
+          </div>
+        ))}
       </div>
       {open && (
         <div className="grid grid-cols-3 gap-6 border-b border-rk-border bg-[#f9f9fb] px-[46px] py-4 text-[14px]">
-          {(["LCP", "TBT", "CLS"] as const).map((k) => (
+          {cols.map((k, i) => (
             <div key={k}>
               <div className="font-semibold">{k}</div>
-              <div className="text-rk-muted">{k === "LCP" ? r.lcp : k === "TBT" ? r.tbt : r.cls}</div>
+              <div className="text-rk-muted">{r.cells[i].detail ?? r.cells[i].text}</div>
             </div>
           ))}
+          {r.source && <div className="col-span-3 -mt-3 text-rk-muted">{sourceLabel[r.source]}</div>}
         </div>
       )}
     </>
   );
 }
 
-function StackedChart() {
+type Chart = { day: string; values: number[]; max: number; ticks: number[] };
+
+const mockChart: Chart = { day: "Jul 22", values: [1, 7, 2], max: 10, ticks: [0, 5, 10] };
+
+function StackedChart({ chart = mockChart }: { chart?: Chart }) {
   const ref = useRef<HTMLDivElement>(null);
   const [cw, setCw] = useState(698);
   useLayoutEffect(() => {
@@ -81,12 +105,13 @@ function StackedChart() {
   const top = 12;
   const H = 247;
   const W = cw - 75;
-  const y = (v: number) => top + H - (v / 10) * H;
+  const y = (v: number) => top + H - (v / chart.max) * H;
   const x = left + W / 2 - 40;
+  const [g, m, p] = chart.values;
   return (
     <div ref={ref} className="w-full">
       <svg width={cw} height={295} className="block">
-        {[0, 5, 10].map((t) => (
+        {chart.ticks.map((t) => (
           <g key={t}>
             <line x1={left} x2={left + W} y1={y(t)} y2={y(t)} stroke="#e0e2e1" />
             <text x={left - 16} y={y(t) + 4} textAnchor="end" fontSize={12} fill="#6a6c6a">
@@ -97,30 +122,56 @@ function StackedChart() {
         <text transform={`translate(${left - 40} ${top + H / 2}) rotate(-90)`} textAnchor="middle" fontSize={12} fill="#6a6c6a">
           Pages
         </text>
-        <rect x={x} y={y(1)} width={80} height={y(0) - y(1)} fill={C.green} />
-        <rect x={x} y={y(8)} width={80} height={y(1) - y(8)} fill={C.orange} />
-        <rect x={x} y={y(10)} width={80} height={y(8) - y(10)} fill={C.red} />
+        <rect x={x} y={y(g)} width={80} height={y(0) - y(g)} fill={C.green} />
+        <rect x={x} y={y(g + m)} width={80} height={y(g) - y(g + m)} fill={C.orange} />
+        <rect x={x} y={y(g + m + p)} width={80} height={y(g + m) - y(g + m + p)} fill={C.red} />
         <text x={x + 40} y={y(0) + 29} textAnchor="middle" fontSize={12} fill="#6a6c6a">
-          Jul 22
+          {chart.day}
         </text>
       </svg>
     </div>
   );
 }
 
-export function WebVitals({ head, demo }: { head?: SiteAuditHead; demo?: boolean }) {
+const cap = (s: Strategy) => s[0].toUpperCase() + s.slice(1);
+
+export function WebVitals({ head, demo, live }: { head?: SiteAuditHead; demo?: boolean; live?: VitalsLive | null }) {
+  const [strategy, setStrategy] = useState<Strategy>(live?.initial ?? "desktop");
+  const v = live?.views[strategy] ?? null;
+  const other: Strategy = strategy === "desktop" ? "mobile" : "desktop";
+  const canSwitch = !!live?.views[other];
+  const status = v?.status ?? vitalsStatus;
+  const metrics = v?.metrics ?? vitalsMetrics;
+  const cols = v?.cols ?? ["LCP", "TBT", "CLS"];
+  const rows: Row[] = v
+    ? v.rows.map((r) => ({
+        url: r.url,
+        status: r.status,
+        source: r.source,
+        cells: r.cells.map((c) => ({ text: c.text, cls: toneClass[c.tone], detail: c.status === "n/a" ? c.text : `${c.text} · ${c.status}` })),
+      }))
+    : vitalsPages.map(mockRow);
+  const score = v?.score ?? 10;
   return (
-    <ThematicPage title="Core Web Vitals" score={10} info pdf head={head} demo={demo}>
+    <ThematicPage title="Core Web Vitals" score={score} info pdf head={head} demo={demo}>
       <div className="rounded-md bg-white pt-[19px] shadow-card">
         <div className="flex items-center gap-2 px-5 text-[14px] leading-5">
           <LighthouseIcon />
-          <span className="-ml-[5px]">Powered by Lighthouse</span>
+          <span className="-ml-[5px]">{v?.mode === "field" ? "Powered by Chrome UX Report and Lighthouse" : "Powered by Lighthouse"}</span>
           <InfoI />
           <span className="mx-[2px] h-5 w-px bg-rk-border" />
-          <span>Device emulated: Desktop</span>
+          <span>
+            {v?.mode === "field" ? "Device" : "Device emulated"}: {v ? cap(strategy) : "Desktop"}
+          </span>
           <InfoI />
           <span className="mx-[2px] h-5 w-px bg-rk-border" />
-          <LearnMore>How to change to mobile</LearnMore>
+          {canSwitch ? (
+            <button type="button" onClick={() => setStrategy(other)} className="dotted-underline text-[14px] leading-5 text-rk-muted hover:text-rk-text">
+              Switch to {other}
+            </button>
+          ) : (
+            <LearnMore>How to change to mobile</LearnMore>
+          )}
         </div>
         <div className="mt-[20px] grid grid-cols-[280px_1fr] gap-6 px-5">
           <SubCard className="h-[401px] px-5 pt-[20px]">
@@ -128,13 +179,13 @@ export function WebVitals({ head, demo }: { head?: SiteAuditHead; demo?: boolean
               Page Status <InfoI />
             </h3>
             <div className="mt-[22px] flex">
-              <Ring segments={vitalsStatus} size={180} thickness={30} sep={false}>
-                <span className="text-[24px] leading-7 font-semibold">10</span>
-                <span className="text-[12px] leading-4 text-rk-muted">Pages</span>
+              <Ring segments={status} size={180} thickness={30} sep={false}>
+                <span className="text-[24px] leading-7 font-semibold">{v?.pages ?? 10}</span>
+                <span className="text-[12px] leading-4 text-rk-muted">{v?.pages === 1 ? "Page" : "Pages"}</span>
               </Ring>
             </div>
             <div className="mt-[24px] space-y-2 text-[14px] leading-5">
-              {vitalsStatus.map((s) => (
+              {status.map((s) => (
                 <div key={s.label} className="flex items-center">
                   <Dot color={s.color} className="mr-2" />
                   <span className="w-[89px]">{s.label}</span>
@@ -148,7 +199,7 @@ export function WebVitals({ head, demo }: { head?: SiteAuditHead; demo?: boolean
               Historical Data <InfoI />
             </h3>
             <div className="mt-[9px] flex gap-4 text-[14px] leading-5">
-              {vitalsStatus.map((s) => (
+              {status.map((s) => (
                 <span key={s.label} className="flex items-center gap-1">
                   <Dot color={s.color} />
                   {s.label}
@@ -156,23 +207,24 @@ export function WebVitals({ head, demo }: { head?: SiteAuditHead; demo?: boolean
               ))}
             </div>
             <div className="-ml-5 mt-[15px]">
-              <StackedChart />
+              <StackedChart chart={v?.chart} />
             </div>
           </SubCard>
         </div>
         <div className="mx-5 mt-[25px] rounded-md border border-[#ebebeb] px-5 pt-[20px] pb-[19px]">
           <h3 className="text-[20px] leading-7 font-medium">Metrics</h3>
           <p className="mt-[3px] text-[14px] leading-5 text-rk-muted">A breakdown of pages by their status for each of the Core Web Vitals metrics, plus optimization tips.</p>
+          {v?.note && <p className="mt-[3px] text-[14px] leading-5 text-rk-muted">{v.note}</p>}
           <div className="mt-[24px] grid grid-cols-3 gap-10">
-            {vitalsMetrics.map((m) => (
+            {metrics.map((m) => (
               <div key={m.title}>
                 <h4 className="flex items-center gap-2 text-[16px] leading-6 font-medium">
                   {m.title} <InfoI />
                 </h4>
                 <div className="mt-[15px] flex items-start gap-4">
-                  <Ring segments={m.values.map((v, i) => ({ value: v, color: vitalsStatus[i].color }))} size={80} thickness={20} sep={false} />
+                  <Ring segments={m.values.map((val, i) => ({ value: val, color: status[i].color }))} size={80} thickness={20} sep={false} />
                   <div className="w-[120px] space-y-2 text-[14px] leading-5">
-                    {vitalsStatus.map((s, i) => (
+                    {status.map((s, i) => (
                       <div key={s.label} className="flex items-center">
                         <Dot color={s.color} className="mr-2" />
                         <span className="flex-1">{s.label}</span>
@@ -215,13 +267,13 @@ export function WebVitals({ head, demo }: { head?: SiteAuditHead; demo?: boolean
             <span className="flex h-full items-center gap-1 bg-[#ececec] pl-3">
               Status <SortIcon />
             </span>
-            <span className="text-right">LCP</span>
-            <span className="text-right">TBT</span>
-            <span className="pr-5 text-right">CLS</span>
+            <span className="text-right">{cols[0]}</span>
+            <span className="text-right">{cols[1]}</span>
+            <span className="pr-5 text-right">{cols[2]}</span>
           </div>
-          {vitalsPages.map((r) => (
-            <Fragment key={r.url}>
-              <PageRow r={r} />
+          {rows.map((r) => (
+            <Fragment key={`${strategy}:${r.url}`}>
+              <PageRow r={r} cols={cols} />
             </Fragment>
           ))}
         </div>
