@@ -1,6 +1,8 @@
 import { cache } from "react";
 import { backendEnabled } from "@/lib/auth/config";
 import { liveSemrush } from "@/lib/seo/semrush";
+import { liveSource } from "@/lib/seo/sources";
+import { mergeBing, type BingDatasets } from "./bingLive";
 import { buildBacklinksLive, forView, type BacklinksLive, type BacklinksView } from "./live";
 
 export type BacklinksLiveProps = { live: BacklinksLive | null; demo: boolean; name?: string };
@@ -8,8 +10,9 @@ export type BacklinksLiveProps = { live: BacklinksLive | null; demo: boolean; na
 export const loadBacklinksLive = cache(async (q: string | null): Promise<{ live: BacklinksLive | null; demo: boolean }> => {
   if (!backendEnabled) return { live: null, demo: false };
   try {
-    const sem = await liveSemrush(q);
-    const live = sem && buildBacklinksLive(sem);
+    const [sem, bing] = await Promise.all([liveSemrush(q), liveSource<BingDatasets>("bing", q).catch(() => null)]);
+    const src = mergeBing(sem, bing);
+    const live = src && buildBacklinksLive(src);
     return live ? { live, demo: false } : { live: null, demo: true };
   } catch {
     return { live: null, demo: true };

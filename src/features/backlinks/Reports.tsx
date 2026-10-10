@@ -147,7 +147,7 @@ export function PagesReport({ live = null }: { live?: PageRowLive[] | null }) {
                 </Link>
               </td>
               <td className="px-3 pt-[12px] text-right">
-                <Link href={routes.referringDomains} className={r.d ? blLink : "pointer-events-none text-rk-muted"}>
+                <Link href={routes.referringDomains} className={typeof r.d === "number" && r.d ? blLink : "pointer-events-none text-rk-muted"}>
                   {r.d}
                 </Link>
               </td>

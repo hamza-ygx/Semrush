@@ -11,6 +11,7 @@ export type BacklinksSource = {
   backlinksHistory?: Ds<SemBacklinksHistory>;
   overview?: Ds<SemOverview>;
   overviewAll?: Ds<SemOverview>;
+  linkCounts?: Ds<{ targetUrl: string; links: number }>;
 };
 
 export type LTag = { label: string; tone: Tone };
@@ -46,14 +47,14 @@ export type OverviewLive = {
 };
 
 export type BlRow = {
-  as: number;
+  as: number | null;
   title?: string;
   url: string;
   href: string;
   broken?: boolean;
   tags: string[];
-  ext: number;
-  int: number;
+  ext: number | string;
+  int: number | string;
   anchor: string;
   target: string;
   targetHref: string;
@@ -74,9 +75,9 @@ export type BlRow = {
 export type TableLive = { rows: BlRow[]; total: number; counts: { all: number; best: number; isNew: number; lost: number }; day: string };
 
 export type RdLinkLive = { target: string; lost?: boolean; lostLabel?: string; broken?: boolean; first: string; last: string; lastLost?: boolean; code?: string };
-export type RdPageLive = { as: number; url: string; ext: number; int: number; tag?: string; links: RdLinkLive[] };
+export type RdPageLive = { as: number | null; url: string; ext: number | string; int: number | string; tag?: string; links: RdLinkLive[] };
 export type RdRowLive = {
-  as: number;
+  as: number | null;
   d: string;
   tags?: LTag[];
   bl: number;
@@ -92,7 +93,7 @@ export type RdRowLive = {
 export type RefDomainsLive = { rows: RdRowLive[]; total: number; pages: Record<string, RdPageLive[]>; weekly: Weekly | null };
 
 export type AnchorRow = { a: string; empty?: boolean; bl: number; d: number; first: string; last: string };
-export type PageRowLive = { title?: string; url: string; bl: number; d: number; ext: number | string; int: number | string; last: string; e404?: boolean };
+export type PageRowLive = { title?: string; url: string; bl: number; d: number | string; ext: number | string; int: number | string; last: string; e404?: boolean };
 
 export type BulkLive = {
   as: number | string;
@@ -173,6 +174,17 @@ export function hostOf(u: string) {
     return stripProto(u).split("/")[0].toLowerCase().replace(/^www\./, "");
   }
 }
+
+export function urlKey(u: string) {
+  const s = u.trim().replace(/#.*$/, "");
+  const m = s.match(/^(?:[a-z][a-z0-9+.-]*:\/\/)?([^/?]+)(.*)$/i);
+  if (!m) return s.toLowerCase();
+  return m[1].toLowerCase().replace(/^www\./, "").replace(/:(80|443)$/, "") + m[2].replace(/\/+$/, "");
+}
+
+const asKey = (v: number | null) => v ?? -1;
+
+const na = (v: number | null) => v ?? "n/a";
 
 export function rootOf(host: string, roots: Set<string>) {
   const parts = host.split(".");
@@ -361,19 +373,31 @@ export function buildCloud(anchors: AnchorRow[]) {
   });
 }
 
-export function buildPages(backlinks: SemBacklink[], now: number): PageRowLive[] {
-  const m = new Map<string, { bl: number; hosts: Set<string>; last: number }>();
+export function buildPages(backlinks: SemBacklink[], now: number, counts?: BacklinksSource["linkCounts"]): PageRowLive[] {
+  const m = new Map<string, { url: string; bl: number; hosts: Set<string>; last: number }>();
+  const entry = (url: string) => {
+    const k = urlKey(url);
+    const e = m.get(k) ?? { url, bl: 0, hosts: new Set<string>(), last: -Infinity };
+    m.set(k, e);
+    return e;
+  };
   for (const b of backlinks) {
-    const e = m.get(b.targetUrl) ?? { bl: 0, hosts: new Set<string>(), last: -Infinity };
+    const e = entry(b.targetUrl);
     e.bl++;
     e.hosts.add(hostOf(b.sourceUrl));
     const l = toMs(b.lastSeen);
     if (l > e.last) e.last = l;
-    m.set(b.targetUrl, e);
   }
-  return [...m.entries()]
-    .map(([url, e]) => ({ url, bl: e.bl, d: e.hosts.size, ext: "n/a", int: "n/a", last: Number.isFinite(e.last) ? rel(new Date(e.last).toISOString(), now) : "n/a" }))
-    .sort((a, b) => b.d - a.d || b.bl - a.bl || a.url.localeCompare(b.url));
+  const at = toMs(counts?.fetchedAt);
+  for (const c of counts?.rows ?? []) {
+    if (!c.targetUrl || !(c.links > 0)) continue;
+    const e = entry(c.targetUrl);
+    e.bl = Math.max(e.bl, c.links);
+    if (at > e.last) e.last = at;
+  }
+  return [...m.values()]
+    .map((e) => ({ url: e.url, bl: e.bl, d: e.hosts.size ? e.hosts.size : "n/a", ext: "n/a", int: "n/a", last: Number.isFinite(e.last) ? rel(new Date(e.last).toISOString(), now) : "n/a" }))
+    .sort((a, b) => (typeof b.d === "number" ? b.d : -1) - (typeof a.d === "number" ? a.d : -1) || b.bl - a.bl || a.url.localeCompare(b.url));
 }
 
 function linkTags(b: SemBacklink): LTag[] {
@@ -392,14 +416,14 @@ export function buildTable(src: BacklinksSource, now: number): TableLive | null 
     .map((b) => {
       const f = toMs(b.firstSeen);
       return {
-        as: b.pageAscore ?? 0,
+        as: b.pageAscore,
         title: b.sourceTitle || undefined,
         url: stripProto(b.sourceUrl),
         href: b.sourceUrl,
         broken: b.responseCode !== null && b.responseCode >= 400 ? true : undefined,
         tags: [],
-        ext: b.externalLinks ?? 0,
-        int: b.internalLinks ?? 0,
+        ext: na(b.externalLinks),
+        int: na(b.internalLinks),
         anchor: b.anchor,
         target: stripProto(b.targetUrl),
         targetHref: b.targetUrl,
@@ -416,7 +440,7 @@ export function buildTable(src: BacklinksSource, now: number): TableLive | null 
         firstTs: Number.isFinite(f) ? f : 0,
       };
     })
-    .sort((a, b) => b.as - a.as || b.firstTs - a.firstTs);
+    .sort((a, b) => asKey(b.as) - asKey(a.as) || b.firstTs - a.firstTs);
   const ov = src.backlinksOverview?.rows[0];
   return {
     rows: out,
@@ -446,10 +470,10 @@ function pagesOf(links: SemBacklink[], now: number): RdPageLive[] {
       const b = ls[0];
       const redirect = b.responseCode !== null && b.responseCode >= 300 && b.responseCode < 400;
       return {
-        as: b.pageAscore ?? 0,
+        as: b.pageAscore,
         url: stripProto(b.sourceUrl),
-        ext: b.externalLinks ?? 0,
-        int: b.internalLinks ?? 0,
+        ext: na(b.externalLinks),
+        int: na(b.internalLinks),
         tag: redirect ? "Redirect" : undefined,
         links: ls.map((l) => ({
           code: redirect ? String(l.responseCode) : undefined,
@@ -463,7 +487,7 @@ function pagesOf(links: SemBacklink[], now: number): RdPageLive[] {
         })),
       };
     })
-    .sort((a, b) => b.as - a.as);
+    .sort((a, b) => asKey(b.as) - asKey(a.as));
 }
 
 const lostLabel = (links: SemBacklink[]) => links.length > 0 && links.every((l) => l.lostLink);
@@ -487,7 +511,7 @@ export function buildRefDomains(src: BacklinksSource, now: number, weekly: Weekl
       if (lost) tags.push({ label: "Lost", tone: "red" });
       if (nofollow) tags.push({ label: "Nofollow", tone: "orange" });
       return {
-        as: r.ascore ?? 0,
+        as: r.ascore,
         d,
         tags: tags.length ? tags : undefined,
         bl: r.backlinks ?? links.length,
@@ -501,7 +525,7 @@ export function buildRefDomains(src: BacklinksSource, now: number, weekly: Weekl
         nofollow,
       };
     })
-    .sort((a, b) => b.bl - a.bl || b.as - a.as || a.d.localeCompare(b.d));
+    .sort((a, b) => b.bl - a.bl || asKey(b.as) - asKey(a.as) || a.d.localeCompare(b.d));
   return { rows: out, total: src.backlinksOverview?.rows[0]?.domains ?? out.length, pages, weekly };
 }
 
@@ -580,10 +604,11 @@ export function buildOverview(src: BacklinksSource, now: number, weekly: Weekly 
   const series = (list: SemBacklinksHistory[], k: "domains" | "backlinks") => list.map((h) => h[k] ?? 0);
   const trend = (data: number[], zero: boolean): Trend | null => (data.length > 1 ? { data, ticks: zero ? zeroTicks(data) : linearTicks(data) } : null);
   const aTotal = rds.length;
-  const authorityBuckets = aTotal
+  const scored = rds.filter((r) => r.ascore != null);
+  const authorityBuckets = scored.length
     ? asBucketDefs.map((b) => {
-        const count = rds.filter((r) => (r.ascore ?? 0) >= b.lo && (r.ascore ?? 0) <= b.hi).length;
-        return { label: b.label, pct: pct(count, aTotal), w: barW(count, aTotal), count, color: b.color };
+        const count = scored.filter((r) => r.ascore! >= b.lo && r.ascore! <= b.hi).length;
+        return { label: b.label, pct: pct(count, scored.length), w: barW(count, scored.length), count, color: b.color };
       })
     : null;
   const typesTotal = ov ? (ov.texts ?? 0) + (ov.images ?? 0) + (ov.forms ?? 0) + (ov.frames ?? 0) : 0;
@@ -635,10 +660,15 @@ export function buildOverview(src: BacklinksSource, now: number, weekly: Weekly 
   }
   let topPages: OverviewLive["topPages"] = null;
   if (bls.length) {
-    const m = new Map<string, Set<string>>();
-    for (const b of bls) m.set(b.targetUrl, (m.get(b.targetUrl) ?? new Set()).add(hostOf(b.sourceUrl)));
-    topPages = [...m.entries()]
-      .map(([url, s]) => ({ url, v: s.size }))
+    const m = new Map<string, { url: string; hosts: Set<string> }>();
+    for (const b of bls) {
+      const k = urlKey(b.targetUrl);
+      const e = m.get(k) ?? { url: b.targetUrl, hosts: new Set<string>() };
+      e.hosts.add(hostOf(b.sourceUrl));
+      m.set(k, e);
+    }
+    topPages = [...m.values()]
+      .map((e) => ({ url: e.url, v: e.hosts.size }))
       .sort((a, b) => b.v - a.v || a.url.localeCompare(b.url))
       .slice(0, 5);
   }
@@ -704,10 +734,12 @@ export function buildBulk(src: BacklinksSource): BulkLive | null {
   };
 }
 
+export const snapshotAt = (src: BacklinksSource) => toMs(src.backlinks?.fetchedAt ?? src.backlinksOverview?.fetchedAt ?? src.refdomains?.fetchedAt ?? src.backlinksHistory?.fetchedAt);
+
 export function buildBacklinksLive(src: BacklinksSource): BacklinksLive | null {
-  const has = src.backlinksOverview?.rows.length || src.backlinks?.rows.length || src.refdomains?.rows.length || src.backlinksHistory?.rows.length;
+  const has = src.backlinksOverview?.rows.length || src.backlinks?.rows.length || src.refdomains?.rows.length || src.backlinksHistory?.rows.length || src.linkCounts?.rows.length;
   if (!has) return null;
-  const now = toMs(src.backlinks?.fetchedAt ?? src.backlinksOverview?.fetchedAt ?? src.refdomains?.fetchedAt ?? src.backlinksHistory?.fetchedAt);
+  const now = Math.max(...[snapshotAt(src), toMs(src.linkCounts?.fetchedAt)].filter(Number.isFinite));
   const at = Number.isFinite(now) ? now : Date.now();
   const bls = src.backlinks?.rows ?? [];
   const weekly = buildWeekly(src, at);
@@ -720,7 +752,7 @@ export function buildBacklinksLive(src: BacklinksSource): BacklinksLive | null {
     table: buildTable(src, at),
     refdomains: buildRefDomains(src, at, weekly),
     anchors,
-    pages: bls.length ? buildPages(bls, at) : null,
+    pages: bls.length || src.linkCounts?.rows.length ? buildPages(bls, at, src.linkCounts) : null,
     bulk: buildBulk(src),
   };
 }

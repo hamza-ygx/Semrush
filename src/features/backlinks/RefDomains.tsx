@@ -37,9 +37,10 @@ function UrlText({ url, className = "" }: { url: string; className?: string }) {
 
 const naMetrics = { backlinks: "n/a", refDomains: "n/a", visits: "n/a", organic: "n/a", outbound: "n/a" };
 
-function AsCell({ d, as, live = false }: { d: string; as: number; live?: boolean }) {
+function AsCell({ d, as, live = false }: { d: string; as: number | null; live?: boolean }) {
   const [open, setOpen] = useState(false);
   const ref = useOutsideClose<HTMLSpanElement>(open, () => setOpen(false));
+  if (as == null) return <span className="text-rk-muted">n/a</span>;
   const m = live ? naMetrics : asMetrics(d, as);
   const rows = [
     { l: "Backlinks", v: m.backlinks },
@@ -120,7 +121,7 @@ function RowBacklinks({ r, onHide, livePages }: { r: RdRow | RdRowLive; onHide: 
                     {k === 0 && (
                       <>
                         <td rowSpan={p.links.length} className={`${td} border-b border-[#f0f0f2] !pl-0 pr-[10px] text-right`}>
-                          {p.as}
+                          {p.as ?? <span className="text-rk-muted">n/a</span>}
                         </td>
                         <td rowSpan={p.links.length} className={`${td} border-b border-[#f0f0f2] pr-[13px]`}>
                           <div className="break-all">

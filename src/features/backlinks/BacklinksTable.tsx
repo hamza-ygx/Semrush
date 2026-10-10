@@ -164,7 +164,7 @@ export function BacklinksTable({ mode, live = null }: { mode?: "new"; live?: Tab
                 <td className={`${isNew ? "pt-[14px]" : "pt-[12px]"} pl-3`}>
                   <Checkbox checked={sel.has(i)} onChange={() => toggle(i)} />
                 </td>
-                <td className={`px-3 ${pt} text-right`}>{r.as}</td>
+                <td className={`px-3 ${pt} text-right ${r.as == null ? "text-rk-muted" : ""}`}>{r.as ?? "n/a"}</td>
                 <td className={`${isNew ? "pr-[10px] pl-3" : "px-3"} ${pt} pb-[12px]`}>
                   <div className="truncate">{r.title}</div>
                   <div className="break-all">
@@ -187,8 +187,8 @@ export function BacklinksTable({ mode, live = null }: { mode?: "new"; live?: Tab
                     ))}
                   </div>
                 </td>
-                <td className={`px-3 ${pt}`}>{r.ext}</td>
-                <td className={`px-3 ${pt}`}>{r.int}</td>
+                <td className={`px-3 ${pt} ${typeof r.ext === "string" ? "text-rk-muted" : ""}`}>{r.ext}</td>
+                <td className={`px-3 ${pt} ${typeof r.int === "string" ? "text-rk-muted" : ""}`}>{r.int}</td>
                 <td className={`px-3 ${pt} pb-[12px]`}>
                   <div className="truncate">{r.anchor || (live ? <span className="text-rk-muted italic">Empty Anchor</span> : r.anchor)}</div>
                   <div>
