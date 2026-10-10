@@ -5,6 +5,7 @@ import { useState, type ReactNode } from "react";
 import { routes } from "@/config/routes";
 import { ChatGptIcon, CheckIcon, ChevronDown, CloseIcon, GeminiIcon, GoogleIcon, WarningIcon } from "@/components/ui/icons";
 import { Info } from "@/components/ui/primitives";
+import { DemoTag } from "@/features/tracking/ui";
 import type { OverviewLive } from "../live";
 import { bots, crawledStatus, industries, overviewIssues, thematic, type Bot } from "./data";
 import { dashedCls, FixPopover } from "./FixPopover";
@@ -248,11 +249,11 @@ function HowItWorks() {
   );
 }
 
-function AiCard({ pages = 100 }: { pages?: number }) {
+function AiCard({ pages = 100, demo = false }: { pages?: number; demo?: boolean }) {
   return (
     <div className="flex min-h-[277px] rounded-lg bg-white shadow-card">
       <div className="flex w-1/2 shrink-0 flex-col border-r border-rk-border px-5 pt-[11px] pb-[20px]">
-        <CardTitle extra={<span className="rounded-[6px] bg-[#e65a00] px-1 text-[10px] leading-[14px] font-medium text-white">beta</span>}>AI Search Health</CardTitle>
+        <CardTitle extra={<><span className="rounded-[6px] bg-[#e65a00] px-1 text-[10px] leading-[14px] font-medium text-white">beta</span>{demo && <DemoTag className="!ml-0" />}</>}>AI Search Health</CardTitle>
         <div className="mt-[30px]">
           <SegGauge value={91} marker={80} color="#3ae0b2">
             <span className="text-[24px] leading-7 font-bold text-[#009f81]">91%</span>
@@ -268,7 +269,7 @@ function AiCard({ pages = 100 }: { pages?: number }) {
         </div>
       </div>
       <div className="flex min-w-0 flex-1 flex-col px-5 pt-[11px] pb-[20px]">
-        <CardTitle>Blocked from AI Search</CardTitle>
+        <CardTitle extra={demo ? <DemoTag className="!ml-0" /> : undefined}>Blocked from AI Search</CardTitle>
         <div className="mt-[12px] text-[14px] text-rk-muted">Pages crawled: {pages}</div>
         <div className="mt-[16px]">
           {bots.slice(0, 4).map((b) => (
@@ -391,7 +392,7 @@ function Thematic({ scores }: { scores?: Record<string, number> }) {
   );
 }
 
-function BrandPresence() {
+function BrandPresence({ demo = false }: { demo?: boolean }) {
   const [open, setOpen] = useState(true);
   if (!open) return null;
   return (
@@ -422,7 +423,7 @@ function BrandPresence() {
         </div>
         <div className="h-[54px] w-px bg-rk-border" />
         <div className="px-6">
-          <div>Areas for Improvement</div>
+          <div>Areas for Improvement{demo && <DemoTag className="ml-2" />}</div>
           <div className="mt-[4px] pl-[2px] text-[20px] leading-7 font-bold">5</div>
         </div>
         <div className="h-[54px] w-px bg-rk-border" />
@@ -446,14 +447,14 @@ export function Overview({ live, scores }: { live?: OverviewLive | null; scores?
     <div className="px-8 pt-4 pb-[149px]">
       <div className="grid grid-cols-2 gap-4">
         <HealthCard live={live} />
-        <AiCard pages={live?.pages} />
+        <AiCard pages={live?.pages} demo={!!live} />
       </div>
       <div className="mt-[17px] flex gap-4">
         <CountsCard live={live} />
         <IssuesCard live={live} />
       </div>
       <Thematic scores={scores ? { ...live?.scores, ...scores } : live?.scores} />
-      <BrandPresence />
+      <BrandPresence demo={!!live} />
     </div>
   );
 }
