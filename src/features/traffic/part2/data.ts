@@ -224,7 +224,7 @@ export const channelReports: Record<"organicSocial" | "paidSocial" | "email" | "
   },
 };
 
-export type FlowRow = { domain: string; note?: string; cat: string; channel?: string; split: number[] };
+export type FlowRow = { domain: string; note?: string; cat: string; channel?: string; split: number[]; share?: number };
 
 const r = (domain: string, cat: string, channel: string, split: number[], note?: string): FlowRow => ({ domain, cat, channel, split, note });
 

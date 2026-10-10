@@ -8,7 +8,11 @@ import { routes } from "@/config/routes";
 import { WorldMap } from "@/features/domain/WorldMap";
 import { GroupedBars, TrafficLineChart, shortMonths } from "../charts";
 import { LockedArea, Skel } from "../Paywall";
-import { DomainDot, TrafficFrame } from "../TrafficFrame";
+import { DemoTag } from "../demo";
+import { fmtChart, fmtCount, pageLabel, type TrafficLive, type TrendMetric } from "../ga4Live";
+import { DomainDot, TrafficFrame, domainColors, liveDomains, withRange, type TrafficDomain } from "../TrafficFrame";
+import { Flag as IsoFlag } from "../part2/flags";
+import { worldCountries } from "../part2/geo";
 import { Delta, DomainLegend, DomainSwitch, OutlineButton, SampleCard, SegTabs } from "../ui";
 import { Flag } from "./flags";
 import {
@@ -38,7 +42,9 @@ function SortIcon() {
   );
 }
 
-function SummarySample() {
+type SummaryRow = { name: string; color: string; cells: { v: string; up: boolean; bold?: boolean; none?: boolean }[] };
+
+function SummarySample({ rows = summaryRows }: { rows?: SummaryRow[] }) {
   return (
     <SampleCard title="Summary" bodyClassName="">
       <table className="w-[1228px] table-fixed text-[14px] leading-5">
@@ -59,8 +65,8 @@ function SummarySample() {
           </tr>
         </thead>
         <tbody>
-          {summaryRows.map((r, i) => (
-            <tr key={r.name} className={`h-[37px] ${i < 2 ? "border-b border-[#eef0f2]" : ""}`}>
+          {rows.map((r, i) => (
+            <tr key={r.name} className={`h-[37px] ${i < rows.length - 1 ? "border-b border-[#eef0f2]" : ""}`}>
               <td className="pl-5">
                 <span className="flex items-center gap-[10px] text-rk-text">
                   <DomainDot color={r.color} />
@@ -71,7 +77,7 @@ function SummarySample() {
                 <td key={j} className="text-right">
                   <span className={`inline-flex items-center gap-[4px] ${c.bold ? "font-semibold" : ""} text-rk-text`}>
                     {c.v}
-                    <Delta up={c.up} />
+                    {!c.none && <Delta up={c.up} />}
                   </span>
                 </td>
               ))}
@@ -241,30 +247,34 @@ function ChannelSelect() {
   );
 }
 
-function JourneyCard() {
+type JourneyData = { sources: JRow[]; dest: JRow[]; target: string; srcOut: string; dstOut: string; dstTitle: string; domains?: TrafficDomain[] };
+
+const mockJourney: JourneyData = { sources: journeySources, dest: journeyDest, target: "zara.com", srcOut: "2.5K", dstOut: "1.8K", dstTitle: "Top Destinations" };
+
+function JourneyCard({ data = mockJourney }: { data?: JourneyData }) {
   return (
     <SampleCard title="Traffic Journey" info bodyClassName="px-5 pt-[21px] pb-[21px]">
-      <DomainSwitch />
+      <DomainSwitch domains={data.domains} />
       <div className="relative -mr-5 mt-[20px] h-[66px] overflow-hidden">
         <div className="absolute top-[5px] right-[calc(100%-139px)] text-right">
           <div className="text-[14px] leading-5 font-bold text-rk-text">Top Sources</div>
-          <div className="text-[12px] leading-4 text-rk-muted">Out of 2.5K</div>
+          <div className="text-[12px] leading-4 text-rk-muted">Out of {data.srcOut}</div>
         </div>
         <div className="absolute top-[1px] left-[156px]">
           <ChannelSelect />
         </div>
         <div className="absolute top-[5px] left-[1070px]">
-          <div className="text-[14px] leading-5 font-bold text-rk-text">Top Destinations</div>
-          <div className="text-[12px] leading-4 text-rk-muted">Out of 1.8K</div>
+          <div className="text-[14px] leading-5 font-bold text-rk-text">{data.dstTitle}</div>
+          <div className="text-[12px] leading-4 text-rk-muted">Out of {data.dstOut}</div>
         </div>
       </div>
       <div className="relative -mr-5 h-[330px] overflow-hidden">
-        <JourneyColumn rows={journeySources} side="left" x={148} bandTo={803} />
-        <JourneyColumn rows={journeyDest} side="right" x={1180} bandTo={1055} />
+        <JourneyColumn rows={data.sources} side="left" x={148} bandTo={803} />
+        <JourneyColumn rows={data.dest} side="right" x={1180} bandTo={1055} />
         <svg viewBox="0 0 14 14" width={14} height={14} className="absolute top-[214px] left-[781px] text-[#6167e6]">
           <path d="M1.5 7h11M8.5 3l4 4-4 4" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        <div className="absolute top-[193px] left-[804px] flex h-[55px] w-[231px] items-center justify-center rounded-[3px] bg-[#6167e6] text-[14px] text-white">zara.com</div>
+        <div className="absolute top-[193px] left-[804px] flex h-[55px] w-[231px] items-center justify-center rounded-[3px] bg-[#6167e6] text-[14px] text-white">{data.target}</div>
         <svg viewBox="0 0 14 14" width={14} height={14} className="absolute top-[214px] left-[1048px] text-[#6a6c6a]">
           <path d="M1.5 7h11M8.5 3l4 4-4 4" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
         </svg>
@@ -274,9 +284,9 @@ function JourneyCard() {
   );
 }
 
-function TopPagesCard() {
+function TopPagesCard({ data = topPagesData, domains }: { data?: typeof topPagesData; domains?: TrafficDomain[] }) {
   const [tab, setTab] = useState<(typeof topPagesTabs)[number]>("Top Pages");
-  const rows = topPagesData[tab];
+  const rows = data[tab];
   return (
     <SampleCard header={false} bodyClassName="">
       <div className="flex h-[43px] items-end border-b border-[#f0f0f0] px-5">
@@ -295,7 +305,7 @@ function TopPagesCard() {
         </div>
       </div>
       <div className="px-5 pt-[18px] pb-[21px]">
-        <DomainSwitch />
+        <DomainSwitch domains={domains} />
         <table className="mt-[20px] w-[1196px] table-fixed text-[14px] leading-5">
           <colgroup>
             <col />
@@ -367,11 +377,13 @@ function GeoMap() {
   );
 }
 
-function GeoCard() {
+type GeoLine = { flag: string; country: string; share: string; value: string; desktop: string; mobile: string; bold?: boolean };
+
+function GeoCard({ rows = geoRows, domains, map, iso = false }: { rows?: GeoLine[]; domains?: TrafficDomain[]; map?: ReactNode; iso?: boolean }) {
   return (
     <SampleCard title="Geo Distribution" bodyClassName="px-5 pt-[19px] pb-[20px]">
       <div className="flex items-center gap-[16px]">
-        <DomainSwitch />
+        <DomainSwitch domains={domains} />
         <SegTabs items={["Visits", "Unique Visitors"]} />
         <Popover
           trigger={({ toggle }) => (
@@ -416,17 +428,17 @@ function GeoCard() {
               </tr>
             </thead>
             <tbody>
-              {geoRows.map((r) => (
+              {rows.map((r) => (
                 <tr key={r.country} className="h-[37px] border-b border-[#eef0f2]">
                   <td className="pl-2">
                     <span className="flex items-center gap-[4px] text-rk-text">
-                      <Flag code={r.flag} />
+                      {iso ? <IsoFlag code={r.flag} className="mx-px" /> : <Flag code={r.flag} />}
                       {r.country}
                     </span>
                   </td>
                   <td className="pr-[8px] text-right">
                     <span className="mr-[32px] text-rk-muted">{r.share}</span>
-                    <span className={`inline-block w-[36px] ${r.bold ? "font-semibold" : ""} text-rk-text`}>{r.value}</span>
+                    <span className={`inline-block ${iso ? "min-w-[36px]" : "w-[36px]"} ${r.bold ? "font-semibold" : ""} text-rk-text`}>{r.value}</span>
                   </td>
                   <td className="pr-[8px] text-right text-rk-text">{r.desktop}</td>
                   <td className="pr-[8px] text-right text-rk-text">{r.mobile}</td>
@@ -436,9 +448,7 @@ function GeoCard() {
           </table>
           <OutlineButton className="mt-[21px]">View details</OutlineButton>
         </div>
-        <div className="mt-[22px] ml-[146px]">
-          <GeoMap />
-        </div>
+        <div className="mt-[22px] ml-[146px]">{map ?? <GeoMap />}</div>
       </div>
     </SampleCard>
   );
@@ -453,7 +463,7 @@ function Gauge() {
   );
 }
 
-function BrandCard() {
+function BrandCard({ domain = "zara.com", demo = false }: { domain?: string; demo?: boolean }) {
   const mentions: { icon: ReactNode; label: string; v: string }[] = [
     { icon: <ChatGptIcon width={16} height={16} className="text-rk-muted" />, label: "ChatGPT", v: "109K" },
     { icon: <GoogleIcon width={16} height={16} />, label: "AI Overview", v: "34.1K" },
@@ -471,7 +481,8 @@ function BrandCard() {
         <span className="ml-[9px] text-[16px] leading-6 font-semibold text-rk-text">Brand Presence in AI Platforms</span>
         <span className="mx-[8px] h-5 w-px bg-[#d6d8d7]" />
         <span className="text-[14px] text-rk-muted">Domain:</span>
-        <span className="ml-1 text-[14px] text-rk-text">zara.com</span>
+        <span className="ml-1 text-[14px] text-rk-text">{domain}</span>
+        {demo && <DemoTag className="ml-[10px]" />}
       </div>
       <div className="flex px-[16px] pt-[21px]">
         <div className="pr-[27px]">
@@ -641,3 +652,173 @@ export function TrafficAnalyticsLocked() {
   );
 }
 
+
+const liveTabs = ["Visits", "Unique Visitors", "Pages / Visit", "Avg. Visit Duration", "Bounce Rate"] as const;
+
+function LiveTip({ live, tab, i }: { live: TrafficLive; tab: TrendMetric; i: number }) {
+  const c = live.trend[tab];
+  const d = c.delta[i];
+  return (
+    <div className="text-[12px] leading-4">
+      <div className="text-[#8b8d8c]">{live.months[i]}</div>
+      <div className="mt-[4px] grid grid-cols-[auto_auto_auto] items-center gap-x-[10px]">
+        <span className="flex h-6 items-center gap-[7px] text-rk-text">
+          <DomainDot color={domainColors.zara} size={8} />
+          {live.domain}
+        </span>
+        <span className="text-right font-bold text-rk-text">{c.tip[i]}</span>
+        <span className={d == null ? "text-rk-muted" : d >= 0 ? "text-[#007c65]" : "text-[#e0304a]"}>{d == null ? "n/a" : `${d >= 0 ? "↑" : "↓"}${Math.abs(d).toFixed(2)}%`}</span>
+      </div>
+    </div>
+  );
+}
+
+function LiveTrendCard({ live }: { live: TrafficLive }) {
+  const [tab, setTab] = useState<TrendMetric>("Visits");
+  const [hidden, setHidden] = useState<Record<string, boolean>>({});
+  const c = live.trend[tab];
+  const domains = liveDomains(live.domain);
+  return (
+    <SampleCard title="Traffic Trend" bodyClassName="px-5 pt-[22px] pb-[21px]">
+      <SegTabs items={liveTabs} onChange={setTab} />
+      <div className="mt-[16px]">
+        <TrafficLineChart
+          width={1196}
+          plotLeft={50}
+          plotHeight={208}
+          ticks={c.ticks}
+          months={live.months}
+          partialLast={live.partialLast}
+          fmt={(v) => fmtChart(c.kind, v)}
+          series={[{ name: live.domain, color: domainColors.zara, data: c.data }]}
+          hidden={hidden}
+          hoverId="trend-hover"
+          tooltip={(i) => <LiveTip live={live} tab={tab} i={i} />}
+        />
+      </div>
+      <DomainLegend domains={domains} className="mt-[10px]" onChange={(v) => setHidden(Object.fromEntries(Object.entries(v).map(([k, x]) => [k, !x])))} />
+    </SampleCard>
+  );
+}
+
+function LiveChannelDistCard({ live }: { live: TrafficLive }) {
+  const [hidden, setHidden] = useState<Record<string, boolean>>({});
+  const gw = (1196 - 76) / channels.length;
+  return (
+    <SampleCard title="Traffic Channel Distribution" bodyClassName="px-5 pt-[36px] pb-[21px]">
+      <div className="relative">
+        <GroupedBars
+          width={1196}
+          plotLeft={76}
+          plotHeight={153}
+          ticks={live.channelTicks}
+          groups={channels.map((c) => c.label)}
+          series={[{ name: live.domain, color: domainColors.zara, data: channels.map((c) => live.channels.find((x) => x.label === c.label)?.sessions ?? 0) }]}
+          hidden={hidden}
+          labelColor="transparent"
+        />
+        {channels.map((c, i) => {
+          const style = { left: 76 + gw * i, width: gw, top: 169 };
+          return c.href ? (
+            <Link key={c.label} href={c.href} className="absolute text-center text-[12px] leading-4 text-rk-link hover:underline" style={style}>
+              {c.label}
+            </Link>
+          ) : (
+            <span key={c.label} className="absolute text-center text-[12px] leading-4 text-rk-muted" style={style}>
+              {c.label}
+            </span>
+          );
+        })}
+      </div>
+      <DomainLegend domains={liveDomains(live.domain)} className="mt-[17px]" onChange={(v) => setHidden(Object.fromEntries(Object.entries(v).map(([k, x]) => [k, !x])))} />
+    </SampleCard>
+  );
+}
+
+function LiveChannelTrendCard({ live }: { live: TrafficLive }) {
+  const [tab, setTab] = useState("Direct");
+  const [hidden, setHidden] = useState<Record<string, boolean>>({});
+  const t = live.channelTrend[tab] ?? live.channelTrend.Direct;
+  return (
+    <SampleCard title="Traffic Channel Trend" bodyClassName="px-5 pt-[22px] pb-[21px]">
+      <SegTabs items={channels.map((c) => c.label)} onChange={setTab} />
+      <div className="mt-[16px]">
+        <TrafficLineChart
+          width={1196}
+          plotLeft={46}
+          plotHeight={152}
+          ticks={t.ticks}
+          months={live.months}
+          partialLast={live.partialLast}
+          series={[{ name: live.domain, color: domainColors.zara, data: t.data }]}
+          hidden={hidden}
+        />
+      </div>
+      <DomainLegend domains={liveDomains(live.domain)} className="mt-[10px]" onChange={(v) => setHidden(Object.fromEntries(Object.entries(v).map(([k, x]) => [k, !x])))} />
+    </SampleCard>
+  );
+}
+
+const journeyRows = (rows: TrafficLive["sources"]): JRow[] => {
+  const top = rows[0]?.share || 1;
+  return rows.slice(0, 5).map((r, i) => {
+    const h = i ? 58 : 88;
+    return { name: r.name, pct: `${+r.share.toFixed(2)}%`, up: r.up, h, bw: Math.min(h, Math.max(10, Math.round((88 * r.share) / top))) };
+  });
+};
+
+const geoFill = (share: number | undefined) => (!share ? "#dcdddf" : share >= 20 ? "#b9c6fb" : share >= 5 ? "#dce3fd" : "#e6ebfd");
+
+function LiveGeoMap({ live }: { live: TrafficLive }) {
+  const share = Object.fromEntries(live.countries.map((c) => [c.mapName, c.share]));
+  return (
+    <div className="relative h-[190px] w-[340px]">
+      <svg viewBox="128 200 744 444" className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet">
+        {worldCountries.map((c) => (
+          <path key={c.name} d={c.d} fill={geoFill(share[c.name])} stroke="#fff" strokeWidth={0.8} strokeLinejoin="round" />
+        ))}
+      </svg>
+    </div>
+  );
+}
+
+export function liveTopPages(live: TrafficLive): typeof topPagesData {
+  return {
+    "Top Pages": live.pages.slice(0, 5).map((p, i) => ({ page: pageLabel(live.domain, p.path), share: `${p.share}%`, views: fmtCount(p.views), visitors: fmtCount(p.users), bold: i === 0 })),
+    "Top Subfolders": live.folders.slice(0, 5).map((f, i) => ({ page: `${live.domain}${f.path}`, share: `${f.share}%`, views: fmtCount(f.views), visitors: fmtCount(f.users), bold: i === 0 })),
+    "Top Subdomains": [{ page: live.domain, share: "100%", views: fmtCount(live.totals.views), visitors: fmtCount(live.totals.users), bold: true }],
+  };
+}
+
+export function TrafficAnalyticsLive({ live }: { live: TrafficLive }) {
+  const domains = liveDomains(live.domain);
+  return (
+    <TrafficFrame title="Traffic Analytics" pdf listView demo={false} domains={domains} filters={withRange(["geo", "date", "granularity", "device"], live.range.label)}>
+      <div className="flex w-[1236px] flex-col gap-4">
+        <SummarySample rows={[{ name: live.domain, color: domainColors.zara, cells: live.summary }]} />
+        <LiveTrendCard live={live} />
+        <LiveChannelDistCard live={live} />
+        <LiveChannelTrendCard live={live} />
+        <JourneyCard
+          data={{
+            sources: journeyRows(live.sources),
+            dest: journeyRows(live.landing),
+            target: live.domain,
+            srcOut: fmtCount(live.sourceCount),
+            dstOut: fmtCount(live.landingCount),
+            dstTitle: "Top Landing Pages",
+            domains,
+          }}
+        />
+        <TopPagesCard data={liveTopPages(live)} domains={domains} />
+        <GeoCard
+          iso
+          domains={domains}
+          map={<LiveGeoMap live={live} />}
+          rows={live.countries.slice(0, 5).map((c, i) => ({ flag: c.code, country: c.name, share: `${c.share}%`, value: fmtCount(c.sessions), desktop: "n/a", mobile: "n/a", bold: i === 0 }))}
+        />
+        <BrandCard domain={live.domain} demo />
+      </div>
+    </TrafficFrame>
+  );
+}

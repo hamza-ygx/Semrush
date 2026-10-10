@@ -71,13 +71,15 @@ export function SplitBar({ split, colors, width = 178 }: { split: number[]; colo
   );
 }
 
-export function DomainLink({ name, extra }: { name: string; extra?: ReactNode }) {
+export function DomainLink({ name, extra, base = "zara.com" }: { name: string; extra?: ReactNode; base?: string }) {
   return (
     <span className="flex items-center text-[14px] leading-5 text-rk-text">
       {name}
-      <a href={name.startsWith("/") ? `https://zara.com${name}` : `https://${name}`} target="_blank" rel="noopener noreferrer" aria-label={`Open ${name}`} className="ml-[5px] text-[#a9abaa] hover:text-rk-link">
-        <ExternalIcon width={16} height={16} />
-      </a>
+      {(name.startsWith("/") || name.includes(".")) && (
+        <a href={name.startsWith("/") ? `https://${base}${name}` : `https://${name}`} target="_blank" rel="noopener noreferrer" aria-label={`Open ${name}`} className="ml-[5px] text-[#a9abaa] hover:text-rk-link">
+          <ExternalIcon width={16} height={16} />
+        </a>
+      )}
       {extra && <span className="text-[12px] text-[#6a6c6a]">{extra}</span>}
     </span>
   );

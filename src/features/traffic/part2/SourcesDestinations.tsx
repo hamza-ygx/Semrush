@@ -2,13 +2,18 @@
 
 import { useState } from "react";
 import { useOutsideClose } from "@/components/ui/Popover";
-import { TrafficFrame, sampleDomains } from "../TrafficFrame";
+import { DemoTag } from "../demo";
+import type { TrafficLive } from "../ga4Live";
+import { TrafficFrame, liveDomains, sampleDomains, withRange } from "../TrafficFrame";
 import { categories, destinationRows, moreChannels, sourceChannels, sourceRows, type FlowRow } from "./data";
-import { CardTabs, CatIcons, DomainLink, Pagination, SelectBox, SplitBar } from "./table";
+import { CardTabs, CatIcons, DomainLink, Pagination, SelectBox, ShareCell, SplitBar } from "./table";
 
 const colors = sampleDomains.map((d) => d.color);
 
-function ChannelFilter({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+type Counts = { main: [string, string][]; more: [string, string][] };
+
+function ChannelFilter({ value, onChange, counts = { main: sourceChannels, more: moreChannels } }: { value: string; onChange: (v: string) => void; counts?: Counts }) {
+  const { main: sourceChannels, more: moreChannels } = counts;
   const [more, setMore] = useState(false);
   const ref = useOutsideClose<HTMLDivElement>(more, () => setMore(false));
   const all = [...sourceChannels, ...(moreChannels.some(([n]) => n === value) ? moreChannels.filter(([n]) => n === value) : [])];
@@ -64,7 +69,8 @@ function ChannelFilter({ value, onChange }: { value: string; onChange: (v: strin
   );
 }
 
-function FlowTable({ rows, sources, pages }: { rows: FlowRow[]; sources: boolean; pages: number }) {
+function FlowTable({ rows, sources, pages, base }: { rows: FlowRow[]; sources: boolean; pages: number; base?: string }) {
+  const shares = rows.some((r) => r.share != null);
   const first = sources ? "w-[556px]" : "w-[726px]";
   return (
     <div>
@@ -72,19 +78,25 @@ function FlowTable({ rows, sources, pages }: { rows: FlowRow[]; sources: boolean
         <div className={`${first} shrink-0 pl-[12px]`}>{sources ? "Source" : "Destination"}</div>
         <div className="w-[140px] shrink-0 pl-[12px]">Category</div>
         {sources && <div className="w-[170px] shrink-0 pl-[12px]">Channel</div>}
-        <div className="w-[202px] shrink-0 pr-[12px] text-right">Group Traffic Split</div>
+        <div className="w-[202px] shrink-0 pr-[12px] text-right">{shares ? "Traffic Share" : "Group Traffic Split"}</div>
       </div>
       {rows.map((r) => (
         <div key={`${r.domain}|${r.channel}`} className="flex h-[45px] items-center border-b border-[#f0f0f0] hover:bg-[#f9f9f9]">
           <div className={`${first} shrink-0 pl-[12px]`}>
-            <DomainLink name={r.domain} extra={r.note} />
+            <DomainLink name={r.domain} extra={r.note} base={base} />
           </div>
           <div className="w-[140px] shrink-0 pl-[12px]">
             <CatIcons codes={r.cat} />
           </div>
           {sources && <div className="w-[170px] shrink-0 pl-[12px] text-[14px] text-rk-text">{r.channel}</div>}
           <div className="flex w-[202px] shrink-0 justify-end pr-[12px]">
-            <SplitBar split={r.split} colors={colors} />
+            {r.share != null ? (
+              <span className="w-[178px]">
+                <ShareCell pct={r.share} label={r.share < 0.01 ? "< 0.01%" : `${+r.share.toFixed(2)}%`} />
+              </span>
+            ) : (
+              <SplitBar split={r.split} colors={colors} />
+            )}
           </div>
         </div>
       ))}
@@ -95,20 +107,46 @@ function FlowTable({ rows, sources, pages }: { rows: FlowRow[]; sources: boolean
   );
 }
 
-export function SourcesDestinations() {
+const fmtInt = (n: number) => n.toLocaleString("en-US");
+
+function liveFlows(live: TrafficLive) {
+  const rows: FlowRow[] = live.sources.map((r) => ({ domain: r.name, cat: "", channel: r.channel, split: [1], share: r.share }));
+  const count = (c: string): [string, string] => [c, fmtInt(rows.filter((r) => r.channel === c).length)];
+  const counts: Counts = {
+    main: [["Total", fmtInt(rows.length)], ...["AI Traffic", "Referral", "Organic Search", "Google AI Mode", "Paid Search", "Organic Social"].map(count)],
+    more: ["Paid Social", "Email", "Display Ads", "Direct"].map(count),
+  };
+  return { rows, counts };
+}
+
+export function SourcesDestinations({ live }: { live?: TrafficLive | null }) {
   const [tab, setTab] = useState<"Sources" | "Destinations">("Sources");
   const [channel, setChannel] = useState("Total");
-  const rows = channel === "Total" ? sourceRows : sourceRows.filter((r) => r.channel === channel);
+  const lv = live ? liveFlows(live) : null;
+  const all = lv?.rows ?? sourceRows;
+  const rows = channel === "Total" ? all : all.filter((r) => r.channel === channel);
+  const pageCount = (n: number) => Math.max(1, Math.ceil(n / 50));
   return (
-    <TrafficFrame title="Sources & Destinations" filters={["geo", "date", "device"]}>
+    <TrafficFrame
+      title="Sources & Destinations"
+      filters={live ? withRange(["geo", "date", "device"], live.range.label) : ["geo", "date", "device"]}
+      listView={!!live}
+      demo={live ? false : undefined}
+      domains={live ? liveDomains(live.domain) : undefined}
+    >
       <section className="rounded-lg bg-white shadow-card">
         <CardTabs items={["Sources", "Destinations"] as const} value={tab} onChange={setTab} />
         <div className="flex items-center gap-[8px] px-5 pt-[21px] pb-[19px]">
           <SelectBox label="Category" options={categories} />
-          {tab === "Sources" && <ChannelFilter value={channel} onChange={setChannel} />}
+          {tab === "Sources" && <ChannelFilter value={channel} onChange={setChannel} counts={lv?.counts} />}
+          {tab === "Destinations" && live && <DemoTag className="ml-[8px]" />}
         </div>
         {tab === "Sources" ? (
-          <FlowTable key={`sources-${channel}`} rows={rows} sources pages={channel === "Total" ? 95 : Math.max(1, Math.ceil(rows.length / 50))} />
+          lv ? (
+            <FlowTable key={`sources-${channel}`} rows={rows.slice(0, 50)} sources pages={pageCount(rows.length)} base={live?.domain} />
+          ) : (
+            <FlowTable key={`sources-${channel}`} rows={rows} sources pages={channel === "Total" ? 95 : pageCount(rows.length)} />
+          )
         ) : (
           <FlowTable key="destinations" rows={destinationRows} sources={false} pages={41} />
         )}

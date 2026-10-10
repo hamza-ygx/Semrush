@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useOutsideClose } from "@/components/ui/Popover";
-import { TrafficFrame, sampleDomains } from "../TrafficFrame";
+import { fmtCount, fmtDur, fmtPpv, fmtRate, type TrafficLive } from "../ga4Live";
+import { TrafficFrame, domainColors, liveDomains, sampleDomains, withRange } from "../TrafficFrame";
 import { ExportButton, SampleCard, SegTabs } from "../ui";
 import { TrendLines } from "./charts";
 import { businessRows, businessShare, countryRows, countryShareByMap, geoTrend, greyBusiness, greyCountries, months, regionRows, usStateRows, type GeoRow } from "./data";
@@ -30,7 +31,16 @@ const W_S = 0.8796;
 const W_TX = 532.7 - 500 * W_S - 32;
 const W_TY = 641 - 500 * W_S - 280;
 
-function WorldPaths({ kind }: { kind: Kind }) {
+function WorldPaths({ kind, live }: { kind: Kind; live?: Record<string, number> }) {
+  if (live) {
+    return (
+      <>
+        {worldCountries.map((c) => (
+          <path key={c.name} d={c.d} fill={fills[live[c.name] ? Math.max(1, cls(live[c.name])) : 0]} />
+        ))}
+      </>
+    );
+  }
   if (kind === "countries") {
     return (
       <>
@@ -64,7 +74,7 @@ function WorldPaths({ kind }: { kind: Kind }) {
   );
 }
 
-function MapCard({ kind }: { kind: Kind }) {
+function MapCard({ kind, live }: { kind: Kind; live?: Record<string, number> }) {
   const [metric, setMetric] = useState<"Visits" | "Unique Visitors">("Visits");
   const [hover, setHover] = useState<string | null>(null);
   const caShare = Object.fromEntries(usStateRows.map((r) => [r.name, r.share]));
@@ -107,7 +117,7 @@ function MapCard({ kind }: { kind: Kind }) {
               <path d={worldOutline} />
             </clipPath>
             <g clipPath={`url(#clip-${kind})`} stroke="#fff" strokeWidth={0.9} strokeLinejoin="round">
-              <WorldPaths kind={kind} />
+              <WorldPaths kind={kind} live={live} />
             </g>
           </g>
         )}
@@ -124,13 +134,16 @@ function MapCard({ kind }: { kind: Kind }) {
   );
 }
 
-function TrendCard({ kind }: { kind: Kind }) {
-  const t = geoTrend[cfg[kind].trend];
+type GeoTrend = { ticks: number[]; series: { name: string; color: string; data: number[] }[]; uv?: { ticks: number[]; series: { name: string; color: string; data: number[] }[] }; labels?: string[] };
+
+function TrendCard({ kind, live }: { kind: Kind; live?: GeoTrend }) {
+  const base: GeoTrend = live ?? geoTrend[cfg[kind].trend];
   const [off, setOff] = useState<Record<string, boolean>>({});
   const [open, setOpen] = useState(false);
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
   const [metric, setMetric] = useState<"Visits" | "Unique Visitors">("Visits");
-  const scale = metric === "Visits" ? 1 : 0.46;
+  const scale = metric === "Visits" || base.uv ? 1 : 0.46;
+  const t = metric === "Unique Visitors" && base.uv ? base.uv : base;
   const series = t.series.filter((s) => !off[s.name]).map((s) => ({ ...s, data: s.data.map((v) => v * scale) }));
   return (
     <SampleCard title="Traffic Trend" bodyClassName="px-5 pt-5 pb-[31px]">
@@ -172,20 +185,51 @@ function TrendCard({ kind }: { kind: Kind }) {
         <SegTabs items={["Visits", "Unique Visitors"] as const} onChange={setMetric} />
       </div>
       <div className="mt-[17px]">
-        <TrendLines series={series} width={1196} plotH={213} ticks={t.ticks} labels={months} />
+        <TrendLines series={series} width={1196} plotH={213} ticks={t.ticks} labels={base.labels ?? months} />
       </div>
     </SampleCard>
   );
 }
 
-export function GeoReport({ kind }: { kind: Kind }) {
-  const c = cfg[kind];
+function liveGeo(live: TrafficLive) {
+  const series = (data: number[]) => [{ name: live.domain, color: domainColors.zara, data }];
+  const trend: GeoTrend = {
+    ticks: live.countryTrend.visitTicks,
+    series: series(live.countryTrend.visits),
+    uv: { ticks: live.countryTrend.userTicks, series: series(live.countryTrend.users) },
+    labels: live.months,
+  };
+  const rows: GeoRow[] = live.countries.map((c) => ({
+    name: c.name,
+    code: c.code,
+    share: c.share,
+    visits: fmtCount(c.sessions),
+    uv: fmtCount(c.users),
+    desktop: NaN,
+    ppv: fmtPpv(c.ppv),
+    dur: fmtDur(c.dur),
+    bounce: fmtRate(c.bounce),
+  }));
+  return { trend, rows, share: Object.fromEntries(live.countries.map((c) => [c.mapName, c.share])) };
+}
+
+export function GeoReport({ kind, live }: { kind: Kind; live?: TrafficLive | null }) {
+  const lv = live && kind === "countries" ? liveGeo(live) : null;
+  const c = lv ? { ...cfg[kind], rows: lv.rows, total: lv.rows.length, pages: lv.rows.length > 50 ? Math.ceil(lv.rows.length / 50) : undefined } : cfg[kind];
   const withFlags = kind === "countries";
+  const pct = (v: number) => (Number.isNaN(v) ? "n/a" : `${v}%`);
   return (
-    <TrafficFrame title={c.title} filters={["date", "granularity", "device"]} chips="select" domains={sampleDomains}>
+    <TrafficFrame
+      title={c.title}
+      filters={live && lv ? withRange(["date", "granularity", "device"], live.range.label) : ["date", "granularity", "device"]}
+      chips="select"
+      domains={live && lv ? liveDomains(live.domain) : sampleDomains}
+      listView={!!lv}
+      demo={lv ? false : undefined}
+    >
       <div className="-mt-[2px] flex flex-col gap-4">
-        <MapCard kind={kind} />
-        <TrendCard kind={kind} />
+        <MapCard kind={kind} live={lv?.share} />
+        <TrendCard kind={kind} live={lv?.trend} />
         <section className="overflow-clip rounded-lg bg-white shadow-card">
           <div className="flex h-[44px] items-center gap-[8px] border-b border-[#f0f0f0] px-5">
             <h2 className="text-[16px] leading-6 font-bold text-rk-text">{c.card}</h2>
@@ -207,7 +251,7 @@ export function GeoReport({ kind }: { kind: Kind }) {
               { label: "Bounce Rate", width: 120 },
             ]}
             thumb={[200, 815]}
-            rows={c.rows.map((r) => ({
+            rows={(lv ? c.rows.slice(0, 50) : c.rows).map((r) => ({
               key: r.name,
               first: withFlags && r.code ? (
                 <span className="flex items-center gap-[6px]">
@@ -221,8 +265,8 @@ export function GeoReport({ kind }: { kind: Kind }) {
                 <ShareCell key="s" pct={r.share} label={r.share < 0.01 ? "< 0.01%" : `${r.share}%`} />,
                 r.visits,
                 r.uv,
-                `${r.desktop}%`,
-                `${+(100 - r.desktop).toFixed(2)}%`,
+                pct(r.desktop),
+                pct(+(100 - r.desktop).toFixed(2)),
                 r.ppv,
                 r.dur,
                 r.bounce,

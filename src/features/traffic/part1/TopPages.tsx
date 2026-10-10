@@ -5,7 +5,8 @@ import { ChevronRight, ExternalIcon, SearchIcon } from "@/components/ui/icons";
 import { routes } from "@/config/routes";
 import { TrendingCards, type TrendingPage } from "../charts";
 import { LockedArea, Skel } from "../Paywall";
-import { TrafficFrame, domainColors } from "../TrafficFrame";
+import { fmtCount, fmtDur, fmtRate, trendingPages, type TrafficLive } from "../ga4Live";
+import { TrafficFrame, domainColors, liveDomains, withRange } from "../TrafficFrame";
 import { SampleCard, SegTabs } from "../ui";
 
 const filters = ["geo" as const, "date" as const, "device" as const];
@@ -36,6 +37,8 @@ const trending: Record<string, TrendingPage[]> = {
 };
 
 type Row = { page: string; share: number; views: string; visitors: string; visits: string; dur: string };
+
+type TableRow = Row & { idx: number; bounce?: string; trend?: [number, number]; href?: string };
 
 const head: Row[] = [
   { page: "Home page", share: 11.71, views: "8.1M", visitors: "6.2M", visits: "7.5M", dur: "05:12" },
@@ -72,7 +75,7 @@ const tail: Row[] = [
 
 const k = (v: number) => (v >= 1000 ? `${+(v / 1000).toFixed(1)}M` : `${+v.toFixed(1)}K`);
 
-const rows: (Row & { idx: number })[] = [
+const rows: TableRow[] = [
   ...head,
   ...mid.map((p, i) => {
     const visits = 248 - i * 5.5;
@@ -95,6 +98,18 @@ function Spark({ seed }: { seed: number }) {
   );
 }
 
+function TwoSpark({ a, b }: { a: number; b: number }) {
+  const max = Math.max(a, b, 1);
+  const y = (v: number) => (20 - (v / max) * 18).toFixed(1);
+  const d = `M0 ${y(a)}L86 ${y(b)}`;
+  return (
+    <svg width={86} height={21} className="block">
+      <path d={`${d}L86 21L0 21Z`} fill="#e0e0f8" />
+      <path d={d} fill="none" stroke="#7b80e8" strokeWidth={1} />
+    </svg>
+  );
+}
+
 function SortIcon() {
   return (
     <svg viewBox="0 0 16 16" width={14} height={14}>
@@ -103,10 +118,10 @@ function SortIcon() {
   );
 }
 
-function TopPagesTable() {
+function TopPagesTable({ data = rows, pages = 941, trendLabel = "1Y Trend" }: { data?: TableRow[]; pages?: number; trendLabel?: string }) {
   const [q, setQ] = useState("");
   const [open, setOpen] = useState<Record<string, boolean>>({});
-  const list = useMemo(() => rows.filter((r) => r.page.toLowerCase().includes(q.toLowerCase())), [q]);
+  const list = useMemo(() => data.filter((r) => r.page.toLowerCase().includes(q.toLowerCase())), [q, data]);
   const th = "text-[12px] font-normal text-rk-text";
   return (
     <SampleCard title="Top Pages" bodyClassName="pt-[21px]">
@@ -135,7 +150,7 @@ function TopPagesTable() {
                   <SortIcon />
                 </span>
               </th>
-              <th className={`${th} text-right`}>1Y Trend</th>
+              <th className={`${th} text-right`}>{trendLabel}</th>
               <th className={`${th} text-right`}>Unique Pageviews</th>
               <th className={`${th} text-right`}>Unique Visitors</th>
               <th className={`${th} text-right`}>Visits</th>
@@ -157,7 +172,13 @@ function TopPagesTable() {
                       <ChevronRight width={16} height={16} className={open[r.page] ? "rotate-90" : ""} />
                     </button>
                     <span className="truncate">{r.page}</span>
-                    <ExternalIcon width={15} height={15} className="shrink-0 text-rk-faint" />
+                    {r.href ? (
+                      <a href={r.href} target="_blank" rel="noopener noreferrer" aria-label={`Open ${r.page}`} className="shrink-0 text-rk-faint hover:text-rk-link">
+                        <ExternalIcon width={15} height={15} />
+                      </a>
+                    ) : (
+                      <ExternalIcon width={15} height={15} className="shrink-0 text-rk-faint" />
+                    )}
                   </span>
                 </td>
                 <td className="pr-[26px] pl-3">
@@ -168,14 +189,12 @@ function TopPagesTable() {
                     <span className="text-rk-muted">{r.share}%</span>
                   </span>
                 </td>
-                <td className="pl-3">
-                  <Spark seed={r.idx * 1.37} />
-                </td>
+                <td className="pl-3">{r.trend ? <TwoSpark a={r.trend[0]} b={r.trend[1]} /> : <Spark seed={r.idx * 1.37} />}</td>
                 <td className="text-right text-rk-text">{r.views}</td>
                 <td className="text-right text-rk-text">{r.visitors}</td>
                 <td className="text-right text-rk-text">{r.visits}</td>
                 <td className="text-right text-rk-text">{r.dur}</td>
-                <td className="pl-8 text-rk-text">{(38 + ((r.idx * 13) % 20)).toFixed(2)}%</td>
+                <td className="pl-8 text-rk-text">{r.bounce ?? `${(38 + ((r.idx * 13) % 20)).toFixed(2)}%`}</td>
               </tr>
             ))}
           </tbody>
@@ -197,7 +216,7 @@ function TopPagesTable() {
         <span className="ml-[8px]">Page:</span>
         <input defaultValue="1" className="h-7 w-[68px] rounded-[6px] border border-[#d8dad9] px-[8px] outline-none" />
         <span className="ml-[1px]">
-          of <span className="text-rk-link">941</span>
+          of <span className="text-rk-link">{pages}</span>
         </span>
       </div>
     </SampleCard>
@@ -217,15 +236,44 @@ export function TopPagesSample() {
   );
 }
 
-function TrendingTabs() {
+function TrendingTabs({ data = trending }: { data?: Record<string, TrendingPage[]> }) {
   const [tab, setTab] = useState("Growing");
   return (
     <>
       <SegTabs items={["Growing", "Declining", "Newly Detected"]} onChange={setTab} />
       <div className="mt-[22px]">
-        <TrendingCards pages={trending[tab]} color="#00b386" fill="#c8f5ea" />
+        {data[tab].length ? (
+          <TrendingCards pages={data[tab]} color="#00b386" fill="#c8f5ea" />
+        ) : (
+          <div className="flex h-[145px] items-center text-[14px] leading-5 text-rk-muted">No pages in this group for the selected period</div>
+        )}
       </div>
     </>
+  );
+}
+
+export function TopPagesLive({ live }: { live: TrafficLive }) {
+  const data: TableRow[] = live.pages.slice(0, 50).map((p, idx) => ({
+    idx,
+    page: p.label,
+    share: p.share,
+    views: fmtCount(p.views),
+    visitors: fmtCount(p.users),
+    visits: p.visits == null ? "n/a" : fmtCount(p.visits),
+    dur: fmtDur(p.dur),
+    bounce: fmtRate(p.bounce),
+    trend: [p.prevViews, p.views],
+    href: `https://${live.domain}${p.path}`,
+  }));
+  return (
+    <TrafficFrame title="Top Pages" filters={withRange(filters, live.range.label)} chips="select" listView demo={false} domains={liveDomains(live.domain)}>
+      <div className="flex w-[1236px] flex-col gap-4">
+        <SampleCard title="Trending Pages" info bodyClassName="px-5 pt-[21px] pb-[21px]">
+          <TrendingTabs data={trendingPages(live)} />
+        </SampleCard>
+        <TopPagesTable data={data} pages={Math.max(1, Math.ceil(live.pages.length / 50))} trendLabel="56D Trend" />
+      </div>
+    </TrafficFrame>
   );
 }
 

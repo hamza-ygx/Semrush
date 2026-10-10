@@ -9,6 +9,7 @@ import { routes } from "@/config/routes";
 import { DevicePanel, GeoPanel, GranularityPanel, MonthRangePanel } from "./part1/filterPanels";
 import { ListDomains, listsFor, rkjhList, type SavedList } from "./part8/lists";
 import { ListSettings } from "./part8/ListSettings";
+import { DemoTag, useTrafficDemo } from "./demo";
 import { BellOffIcon, CalendarIcon, DevicesIcon, DownloadIcon, GeoIcon, ManualIcon, SmallChevron, TrendIcon } from "./icons";
 
 export type TrafficDomain = { name: string; color: string };
@@ -23,6 +24,8 @@ export const sampleDomains: TrafficDomain[] = [
 
 const lockedDomains: TrafficDomain[] = [{ name: "rkjh.se", color: domainColors.zara }];
 
+export const liveDomains = (name: string): TrafficDomain[] => [{ name, color: domainColors.zara }];
+
 export type TrafficFilterKey = "geo" | "date" | "granularity" | "device";
 
 export type TrafficFilterSpec = {
@@ -36,6 +39,8 @@ export type TrafficFilterSpec = {
 export type TrafficFilter = TrafficFilterKey | TrafficFilterSpec;
 
 type ChipsVariant = "dots" | "plain" | "select";
+
+export const withRange = (filters: TrafficFilter[], label: string): TrafficFilter[] => filters.map((f) => (f === "date" ? { key: "date", value: label } : f));
 
 const builtin: Record<TrafficFilterKey, { icon: ReactNode; value: string; options: string[] }> = {
   geo: { icon: <GeoIcon />, value: "Worldwide", options: ["Worldwide", "United States", "United Kingdom", "Germany", "France", "Spain", "Sweden"] },
@@ -254,7 +259,7 @@ function SampleBanner() {
   );
 }
 
-function StickyLockedBar({ filters }: { filters: TrafficFilter[] }) {
+function StickyLockedBar({ filters, locked = true }: { filters: TrafficFilter[]; locked?: boolean }) {
   const [show, setShow] = useState(false);
   useEffect(() => {
     const on = () => setShow(window.scrollY > 209);
@@ -266,7 +271,7 @@ function StickyLockedBar({ filters }: { filters: TrafficFilter[] }) {
   return (
     <div className="fixed top-0 right-0 left-0 z-30 flex h-[45px] items-center gap-[30px] border-b border-[#e6e8e8] bg-rk-bg pl-[37px]">
       <BellOffIcon className="text-rk-muted" />
-      <FilterRow filters={filters} locked />
+      <FilterRow filters={filters} locked={locked} />
     </div>
   );
 }
@@ -278,6 +283,8 @@ export function TrafficFrame({
   chips = "dots",
   domains,
   locked = false,
+  listView = false,
+  demo,
   minWidth = 1300,
   bottomGap = 100,
   titleExtra,
@@ -289,19 +296,24 @@ export function TrafficFrame({
   chips?: ChipsVariant;
   domains?: TrafficDomain[];
   locked?: boolean;
+  listView?: boolean;
+  demo?: boolean;
   minWidth?: number;
   bottomGap?: number;
   titleExtra?: ReactNode;
   children: ReactNode;
 }) {
-  const ds = domains ?? (locked ? lockedDomains : sampleDomains);
+  const head = locked || listView;
+  const ds = domains ?? (head ? lockedDomains : sampleDomains);
+  const ctxDemo = useTrafficDemo();
+  const showDemo = (demo ?? ctxDemo) && !locked;
   return (
     <div style={{ minWidth }}>
       <AppShell section="traffic" search={{ kind: "none" }}>
         <div className="relative">
-          {locked ? (
+          {head ? (
             <>
-              <StickyLockedBar filters={filters} />
+              <StickyLockedBar filters={filters} locked={locked} />
               <div className="border-b border-[#e6e8e8] pt-[18px] pb-[20px]">
                 <ListHeader />
                 <div className="mt-[15px] pl-[28px]">
@@ -331,6 +343,7 @@ export function TrafficFrame({
                   </button>
                 )}
                 {titleExtra}
+                {showDemo && <DemoTag />}
               </div>
               <button type="button" className="flex items-center gap-[5px] text-[14px] leading-5 text-rk-muted hover:text-rk-link">
                 <ManualIcon />

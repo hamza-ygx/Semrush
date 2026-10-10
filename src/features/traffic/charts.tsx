@@ -205,7 +205,7 @@ export function GroupedBars({
   );
 }
 
-export type TrendingPage = { kind: "Spiked" | "Trending up"; pct: string; url: string; value: string };
+export type TrendingPage = { kind: "Spiked" | "Trending up" | "Trending down"; pct: string; url: string; value: string };
 
 function TrendIconSpike() {
   return (
@@ -215,9 +215,9 @@ function TrendIconSpike() {
   );
 }
 
-function TrendIconUp() {
+function TrendIconUp({ down = false }: { down?: boolean }) {
   return (
-    <svg viewBox="0 0 16 16" width={16} height={16} className="text-[#007c65]">
+    <svg viewBox="0 0 16 16" width={16} height={16} className={down ? "rotate-180 text-[#d1002f]" : "text-[#007c65]"}>
       <path d="M8 14V2.5M3.5 7 8 2.5 12.5 7" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
@@ -226,12 +226,15 @@ function TrendIconUp() {
 export function TrendingCards({ pages, color = "#6167e6", fill = "#e3e3fa", cardWidth = 251 }: { pages: TrendingPage[]; color?: string; fill?: string; cardWidth?: number }) {
   return (
     <div className="-mr-5 flex gap-[15px] overflow-hidden pr-5">
-      {pages.map((p) => (
+      {pages.map((p) => {
+        const down = p.kind === "Trending down";
+        const w = cardWidth - 33;
+        return (
         <div key={p.url + p.pct} className="h-[145px] shrink-0 rounded-[6px] border border-[#dcdde2] bg-white px-4 pt-[17px]" style={{ width: cardWidth }}>
           <div className="flex h-4 items-center gap-[5px] text-[12px] leading-4">
-            {p.kind === "Spiked" ? <TrendIconSpike /> : <TrendIconUp />}
+            {p.kind === "Spiked" ? <TrendIconSpike /> : <TrendIconUp down={down} />}
             <span className="-ml-[1px] font-semibold text-rk-text">{p.kind}</span>
-            <span className="font-medium text-[#007c65]">{p.pct}</span>
+            <span className={`font-medium ${down ? "text-[#d1002f]" : "text-[#007c65]"}`}>{p.pct}</span>
           </div>
           <div
             className={`mt-[10px] h-[28px] items-center rounded-full bg-[#e8e8ea] pr-[6px] pl-[9px] text-[14px] leading-5 text-rk-muted ${p.url.includes("...") ? "flex w-full justify-between gap-[4px]" : "inline-flex gap-[5px]"}`}
@@ -241,14 +244,15 @@ export function TrendingCards({ pages, color = "#6167e6", fill = "#e3e3fa", card
           </div>
           <div className="mt-[2px] flex items-center gap-[7px]">
             <span className="text-[24px] leading-8 font-semibold text-rk-text">{p.value}</span>
-            <Delta up className="mt-[4px]" />
+            <Delta up={!down} className="mt-[4px]" />
           </div>
-          <svg width={cardWidth - 33} height={20} className="mt-[3px] block">
-            <path d={`M0 19.5 L${cardWidth - 33} 1 L${cardWidth - 33} 20 L0 20Z`} fill={fill} />
-            <path d={`M0 19.5 L${(cardWidth - 33) * 0.5} 11.5 L${cardWidth - 33} 1`} fill="none" stroke={color} strokeWidth={1} />
+          <svg width={w} height={20} className={`mt-[3px] block ${down ? "-scale-x-100" : ""}`}>
+            <path d={`M0 19.5 L${w} 1 L${w} 20 L0 20Z`} fill={down ? "#fde2e6" : fill} />
+            <path d={`M0 19.5 L${w * 0.5} 11.5 L${w} 1`} fill="none" stroke={down ? "#e0304a" : color} strokeWidth={1} />
           </svg>
         </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
