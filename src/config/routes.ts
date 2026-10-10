@@ -250,9 +250,7 @@ export const routes = {
   },
 };
 
-export const unbuiltRoutes = [
-  routes.seoquake,
-];
+export const unbuiltRoutes: string[] = [];
 
 export type NavItem = { label: string; href: string; match?: string[]; external?: boolean };
 export type NavGroup = { heading?: string; items: NavItem[] };
